@@ -1,10 +1,10 @@
 
 /usr/bin/aticonfig	--	gen_context(system_u:object_r:execmem_exec_t,s0)
-/usr/bin/compiz		--	gen_context(system_u:object_r:execmem_exec_t,s0)
+# /usr/bin/compiz		--	gen_context(system_u:object_r:execmem_exec_t,s0)
 /usr/bin/darcs 		--	gen_context(system_u:object_r:execmem_exec_t,s0)
 /usr/bin/haddock.*  	--	gen_context(system_u:object_r:execmem_exec_t,s0)
 /usr/bin/hasktags   	--	gen_context(system_u:object_r:execmem_exec_t,s0)
-/usr/bin/mutter   	--	gen_context(system_u:object_r:execmem_exec_t,s0)
+# /usr/bin/mutter   	--	gen_context(system_u:object_r:execmem_exec_t,s0)
 /usr/bin/runghc	   	--	gen_context(system_u:object_r:execmem_exec_t,s0)
 /usr/bin/runhaskell	--	gen_context(system_u:object_r:execmem_exec_t,s0)
 /usr/bin/sbcl	     	--	gen_context(system_u:object_r:execmem_exec_t,s0)
