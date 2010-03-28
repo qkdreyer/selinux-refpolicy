@@ -9,6 +9,7 @@
 #
 # /usr
 #
+/usr/Aptana[^/]*/AptanaStudio	--	gen_context(system_u:object_r:java_exec_t,s0)
 /usr/(.*/)?bin/java.* 	--	gen_context(system_u:object_r:java_exec_t,s0)
 /usr/bin/fastjar	--	gen_context(system_u:object_r:java_exec_t,s0)
 /usr/bin/frysk		--	gen_context(system_u:object_r:java_exec_t,s0)
@@ -30,5 +31,9 @@
 /usr/lib64/jvm/java(.*/)bin(/.*)? -- gen_context(system_u:object_r:java_exec_t,s0)
 
 /usr/local/matlab.*/bin.*/MATLAB.* -- gen_context(system_u:object_r:java_exec_t,s0)
-
 /usr/matlab.*/bin.*/MATLAB.* -- gen_context(system_u:object_r:java_exec_t,s0)
+
+/opt/ibm/lotus/Symphony/framework/rcp/eclipse/plugins(/.*)?	--	gen_context(system_u:object_r:java_exec_t,s0)
+
+/usr/java/eclipse[^/]*/eclipse	--	gen_context(system_u:object_r:java_exec_t,s0)
+

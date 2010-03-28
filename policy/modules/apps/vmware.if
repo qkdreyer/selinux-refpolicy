@@ -84,3 +84,22 @@ interface(`vmware_append_log',`
 	logging_search_logs($1)
 	append_files_pattern($1, vmware_log_t, vmware_log_t)
 ')
+
+########################################
+## <summary>
+##	Execute vmware host executables
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`vmware_exec_host',`
+	gen_require(`
+		type vmware_host_exec_t;
+	')
+
+	can_exec($1, vmware_host_exec_t)
+')
+

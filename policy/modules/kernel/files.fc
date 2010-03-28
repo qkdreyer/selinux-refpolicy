@@ -18,6 +18,7 @@ ifdef(`distro_redhat',`
 /fsckoptions 		--	gen_context(system_u:object_r:etc_runtime_t,s0)
 /halt			--	gen_context(system_u:object_r:etc_runtime_t,s0)
 /poweroff		--	gen_context(system_u:object_r:etc_runtime_t,s0)
+/[^/]+			--	gen_context(system_u:object_r:etc_runtime_t,s0)
 ')
 
 ifdef(`distro_suse',`
@@ -48,11 +49,13 @@ ifdef(`distro_suse',`
 /etc/.*				gen_context(system_u:object_r:etc_t,s0)
 /etc/\.fstab\.hal\..+	--	gen_context(system_u:object_r:etc_runtime_t,s0)
 /etc/blkid(/.*)?		gen_context(system_u:object_r:etc_runtime_t,s0)
+/etc/cmtab		--	gen_context(system_u:object_r:etc_runtime_t,s0)
 /etc/fstab\.REVOKE	--	gen_context(system_u:object_r:etc_runtime_t,s0)
 /etc/HOSTNAME		--	gen_context(system_u:object_r:etc_runtime_t,s0)
 /etc/ioctl\.save	--	gen_context(system_u:object_r:etc_runtime_t,s0)
 /etc/issue		--	gen_context(system_u:object_r:etc_runtime_t,s0)
 /etc/issue\.net		--	gen_context(system_u:object_r:etc_runtime_t,s0)
+/etc/killpower		--	gen_context(system_u:object_r:etc_runtime_t,s0)
 /etc/localtime		-l	gen_context(system_u:object_r:etc_t,s0)
 /etc/mtab		--	gen_context(system_u:object_r:etc_runtime_t,s0)
 /etc/mtab\.fuselock	--	gen_context(system_u:object_r:etc_runtime_t,s0)
@@ -61,6 +64,10 @@ ifdef(`distro_suse',`
 /etc/nologin.*		--	gen_context(system_u:object_r:etc_runtime_t,s0)
 /etc/reader\.conf	-- 	gen_context(system_u:object_r:etc_runtime_t,s0)
 /etc/smartd\.conf.*	--	gen_context(system_u:object_r:etc_runtime_t,s0)
+
+/etc/sysctl\.conf(\.old)?               --      gen_context(system_u:object_r:system_conf_t,s0)
+/etc/sysconfig/ip6?tables.*             --      gen_context(system_u:object_r:system_conf_t,s0)
+/etc/sysconfig/system-config-firewall.* --      gen_context(system_u:object_r:system_conf_t,s0)
 
 /etc/cups/client\.conf	--	gen_context(system_u:object_r:etc_t,s0)
 
@@ -93,7 +100,7 @@ ifdef(`distro_suse',`
 # HOME_ROOT
 # expanded by genhomedircon
 #
-HOME_ROOT		-d	gen_context(system_u:object_r:home_root_t,s0-mls_systemhigh)
+HOME_ROOT			gen_context(system_u:object_r:home_root_t,s0-mls_systemhigh)
 HOME_ROOT/\.journal		<<none>>
 HOME_ROOT/lost\+found	-d	gen_context(system_u:object_r:lost_found_t,mls_systemhigh)
 HOME_ROOT/lost\+found/.*		<<none>>
@@ -205,15 +212,19 @@ HOME_ROOT/lost\+found/.*		<<none>>
 /usr/local/lost\+found	-d	gen_context(system_u:object_r:lost_found_t,mls_systemhigh)
 /usr/local/lost\+found/.*	<<none>>
 
+ifndef(`distro_redhat',`
 /usr/local/src(/.*)?		gen_context(system_u:object_r:src_t,s0)
+')
 
 /usr/lost\+found		-d	gen_context(system_u:object_r:lost_found_t,mls_systemhigh)
 /usr/lost\+found/.*		<<none>>
 
 /usr/share/doc(/.*)?/README.*	gen_context(system_u:object_r:usr_t,s0)
 
+ifndef(`distro_redhat',`
 /usr/src(/.*)?			gen_context(system_u:object_r:src_t,s0)
 /usr/src/kernels/.+/lib(/.*)?	gen_context(system_u:object_r:usr_t,s0)
+')
 
 /usr/tmp			-d	gen_context(system_u:object_r:tmp_t,s0-mls_systemhigh)
 /usr/tmp/.*			<<none>>
@@ -228,6 +239,8 @@ HOME_ROOT/lost\+found/.*		<<none>>
 /var/db/.*\.db		--	gen_context(system_u:object_r:etc_t,s0)
 
 /var/ftp/etc(/.*)?		gen_context(system_u:object_r:etc_t,s0)
+
+/var/named/chroot/etc(/.*)? 	gen_context(system_u:object_r:etc_t,s0)
 
 /var/lib(/.*)?			gen_context(system_u:object_r:var_lib_t,s0)
 

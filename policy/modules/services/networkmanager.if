@@ -118,6 +118,24 @@ interface(`networkmanager_signal',`
 
 ########################################
 ## <summary>
+##	Execute NetworkManager scripts with an automatic domain transition to initrc.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`networkmanager_initrc_domtrans',`
+	gen_require(`
+		type NetworkManager_initrc_exec_t;
+	')
+
+	init_labeled_script_domtrans($1, NetworkManager_initrc_exec_t)
+')
+
+########################################
+## <summary>
 ##	Read NetworkManager PID files.
 ## </summary>
 ## <param name="domain">
@@ -134,3 +152,71 @@ interface(`networkmanager_read_pid_files',`
 	files_search_pids($1)
 	allow $1 NetworkManager_var_run_t:file read_file_perms;
 ')
+
+########################################
+## <summary>
+##	Read NetworkManager PID files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`networkmanager_read_var_lib_files',`
+	gen_require(`
+		type NetworkManager_var_lib_t;
+	')
+
+	files_search_var_lib($1)
+	list_dirs_pattern($1, NetworkManager_var_lib_t, NetworkManager_var_lib_t)
+	read_files_pattern($1, NetworkManager_var_lib_t, NetworkManager_var_lib_t)
+')
+
+########################################
+## <summary>
+##	Execute NetworkManager in the NetworkManager domain, and
+##	allow the specified role the NetworkManager domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+## <param name="role">
+##	<summary>
+##	The role to be allowed the NetworkManager domain.
+##	</summary>
+## </param>
+## <rolecap/>
+#
+interface(`networkmanager_run',`
+	gen_require(`
+		type NetworkManager_t, NetworkManager_exec_t;
+	')
+
+	networkmanager_domtrans($1)
+	role $2 types NetworkManager_t;
+')
+
+
+#######################################
+## <summary>
+## Allow caller to relabel tun_socket
+## </summary>
+## <param name="domain">
+## <summary>
+## Domain allowed access.
+## </summary>
+## </param>
+#
+interface(`networkmanager_attach_tun_iface',`
+	gen_require(`
+		type NetworkManager_t;
+	')
+
+	allow $1 NetworkManager_t:tun_socket relabelfrom;    
+	allow $1 self:tun_socket relabelto;
+')
+
+

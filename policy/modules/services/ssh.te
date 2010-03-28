@@ -114,6 +114,7 @@ fs_tmpfs_filetrans(ssh_t, ssh_tmpfs_t, { dir file lnk_file sock_file fifo_file }
 manage_dirs_pattern(ssh_t, ssh_home_t, ssh_home_t)
 manage_sock_files_pattern(ssh_t, ssh_home_t, ssh_home_t)
 userdom_user_home_dir_filetrans(ssh_t, ssh_home_t, { dir sock_file })
+userdom_stream_connect(ssh_t)
 
 # Allow the ssh program to communicate with ssh-agent.
 stream_connect_pattern(ssh_t, ssh_agent_tmp_t, ssh_agent_tmp_t, ssh_agent_type)
@@ -125,9 +126,10 @@ manage_files_pattern(ssh_t, ssh_home_t, ssh_home_t)
 read_lnk_files_pattern(ssh_t, ssh_home_t, ssh_home_t)
 
 # ssh servers can read the user keys and config
-allow ssh_server ssh_home_t:dir list_dir_perms;
-read_files_pattern(ssh_server, ssh_home_t, ssh_home_t)
-read_lnk_files_pattern(ssh_server, ssh_home_t, ssh_home_t)
+manage_dirs_pattern(ssh_server, ssh_home_t, ssh_home_t)
+manage_files_pattern(ssh_server, ssh_home_t, ssh_home_t)
+userdom_user_home_dir_filetrans(ssh_server, ssh_home_t, dir)
+userdom_admin_home_dir_filetrans(ssh_server, ssh_home_t, dir)
 
 kernel_read_kernel_sysctls(ssh_t)
 kernel_read_system_state(ssh_t)
@@ -139,6 +141,8 @@ corenet_tcp_sendrecv_generic_node(ssh_t)
 corenet_tcp_sendrecv_all_ports(ssh_t)
 corenet_tcp_connect_ssh_port(ssh_t)
 corenet_sendrecv_ssh_client_packets(ssh_t)
+corenet_tcp_bind_generic_node(ssh_t)
+corenet_tcp_bind_all_unreserved_ports(ssh_t)
 
 dev_read_urand(ssh_t)
 
@@ -170,8 +174,10 @@ userdom_dontaudit_list_user_home_dirs(ssh_t)
 userdom_search_user_home_dirs(ssh_t)
 # Write to the user domain tty.
 userdom_use_user_terminals(ssh_t)
-# needs to read krb tgt
+# needs to read krb/write tgt
 userdom_read_user_tmp_files(ssh_t)
+userdom_write_user_tmp_files(ssh_t)
+userdom_read_user_home_content_symlinks(ssh_t)
 
 tunable_policy(`allow_ssh_keysign',`
 	domain_auto_trans(ssh_t, ssh_keysign_exec_t, ssh_keysign_t)
@@ -282,6 +288,8 @@ optional_policy(`
 allow sshd_t self:netlink_route_socket r_netlink_socket_perms;
 allow sshd_t self:key { search link write };
 
+allow sshd_t self:process setcurrent;
+
 manage_dirs_pattern(sshd_t, sshd_tmp_t, sshd_tmp_t)
 manage_files_pattern(sshd_t, sshd_tmp_t, sshd_tmp_t)
 manage_sock_files_pattern(sshd_t, sshd_tmp_t, sshd_tmp_t)
@@ -292,22 +300,30 @@ kernel_link_key(sshd_t)
 
 term_use_all_ptys(sshd_t)
 term_setattr_all_ptys(sshd_t)
+term_setattr_all_ttys(sshd_t)
 term_relabelto_all_ptys(sshd_t)
 
 # for X forwarding
 corenet_tcp_bind_xserver_port(sshd_t)
 corenet_sendrecv_xserver_server_packets(sshd_t)
 
+userdom_read_user_home_content_files(sshd_t)
+userdom_read_user_home_content_symlinks(sshd_t)
+userdom_search_admin_dir(sshd_t)
+
 tunable_policy(`ssh_sysadm_login',`
 	# Relabel and access ptys created by sshd
 	# ioctl is necessary for logout() processing for utmp entry and for w to
 	# display the tty.
 	# some versions of sshd on the new SE Linux require setattr
-	userdom_spec_domtrans_all_users(sshd_t)
 	userdom_signal_all_users(sshd_t)
-',`
-	userdom_spec_domtrans_unpriv_users(sshd_t)
-	userdom_signal_unpriv_users(sshd_t)
+')
+
+userdom_spec_domtrans_unpriv_users(sshd_t)
+userdom_signal_unpriv_users(sshd_t)
+
+optional_policy(`
+	daemontools_service_domain(sshd_t, sshd_exec_t)
 ')
 
 optional_policy(`
@@ -315,11 +331,20 @@ optional_policy(`
 ')
 
 optional_policy(`
-	daemontools_service_domain(sshd_t, sshd_exec_t)
+	ftp_dyntransition_sftpd(sshd_t)
+	ftp_dyntransition_sftpd_anon(sshd_t)
+')
+
+optional_policy(`
+	gitosis_manage_lib_files(sshd_t)
 ')
 
 optional_policy(`
 	inetd_tcp_service_domain(sshd_t, sshd_exec_t)
+')
+
+optional_policy(`
+	nx_read_home_files(sshd_t)
 ')
 
 optional_policy(`
@@ -333,8 +358,16 @@ optional_policy(`
 ')
 
 optional_policy(`
-	unconfined_domain(sshd_t)
+	usermanage_domtrans_passwd(sshd_t)
+	usermanage_read_crack_db(sshd_t)
+')
+
+optional_policy(`
 	unconfined_shell_domtrans(sshd_t)
+')
+
+optional_policy(`
+	xserver_domtrans_xauth(sshd_t)
 ')
 
 ifdef(`TODO',`

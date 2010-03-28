@@ -1,0 +1,2 @@
+
+/usr/lib(64)?/chromium-browser/chrome-sandbox	--	gen_context(system_u:object_r:chrome_sandbox_exec_t,s0)

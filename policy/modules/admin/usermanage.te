@@ -209,6 +209,7 @@ domain_use_interactive_fds(groupadd_t)
 files_manage_etc_files(groupadd_t)
 files_relabel_etc_files(groupadd_t)
 files_read_etc_runtime_files(groupadd_t)
+files_read_usr_symlinks(groupadd_t)
 
 # Execute /usr/bin/{passwd, chfn, chsh} and /usr/sbin/{useradd, vipw}.
 corecmd_exec_bin(groupadd_t)
@@ -256,7 +257,7 @@ optional_policy(`
 # Passwd local policy
 #
 
-allow passwd_t self:capability { chown dac_override fsetid setuid setgid sys_resource };
+allow passwd_t self:capability { chown dac_override fsetid setuid setgid sys_nice sys_resource };
 allow passwd_t self:process ~{ ptrace setcurrent setexec setfscreate setrlimit execmem execstack execheap };
 allow passwd_t self:process { setrlimit setfscreate };
 allow passwd_t self:fd use;
@@ -303,6 +304,7 @@ auth_use_nsswitch(passwd_t)
 
 # allow checking if a shell is executable
 corecmd_check_exec_shell(passwd_t)
+corecmd_exec_bin(passwd_t)
 
 domain_use_interactive_fds(passwd_t)
 
@@ -333,6 +335,7 @@ userdom_read_user_tmp_files(passwd_t)
 # user generally runs this from their home directory, so do not audit a search
 # on user home dir
 userdom_dontaudit_search_user_home_content(passwd_t)
+userdom_stream_connect(passwd_t)
 
 optional_policy(`
 	nscd_domtrans(passwd_t)
@@ -427,7 +430,7 @@ optional_policy(`
 # Useradd local policy
 #
 
-allow useradd_t self:capability { dac_override chown kill fowner fsetid setuid sys_resource };
+allow useradd_t self:capability { dac_override chown kill fowner fsetid setuid sys_resource sys_ptrace };
 dontaudit useradd_t self:capability sys_tty_config;
 allow useradd_t self:process ~{ ptrace setcurrent setexec setfscreate setrlimit execmem execstack execheap };
 allow useradd_t self:process setfscreate;
@@ -450,6 +453,7 @@ corecmd_exec_shell(useradd_t)
 corecmd_exec_bin(useradd_t)
 
 domain_use_interactive_fds(useradd_t)
+domain_read_all_domains_state(useradd_t)
 
 files_manage_etc_files(useradd_t)
 files_search_var_lib(useradd_t)
@@ -498,12 +502,8 @@ seutil_domtrans_setfiles(useradd_t)
 
 userdom_use_unpriv_users_fds(useradd_t)
 # Add/remove user home directories
-userdom_manage_user_home_dirs(useradd_t)
 userdom_home_filetrans_user_home_dir(useradd_t)
-userdom_manage_user_home_content_dirs(useradd_t)
-userdom_manage_user_home_content_files(useradd_t)
-userdom_home_filetrans_user_home_dir(useradd_t)
-userdom_user_home_dir_filetrans_user_home_content(useradd_t, notdevfile_class_set)
+userdom_manage_home_role(system_r, useradd_t)
 
 mta_manage_spool(useradd_t)
 
@@ -524,6 +524,12 @@ optional_policy(`
 
 optional_policy(`
 	nscd_domtrans(useradd_t)
+')
+
+optional_policy(`
+	tunable_policy(`samba_domain_controller',`
+		samba_append_log(useradd_t)
+	')
 ')
 
 optional_policy(`

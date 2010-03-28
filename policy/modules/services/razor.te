@@ -6,6 +6,32 @@ policy_module(razor, 2.1.0)
 # Declarations
 #
 
+ifdef(`distro_redhat',`
+
+	gen_require(`
+		type spamc_t;
+		type spamc_exec_t;
+		type spamd_log_t;
+		type spamd_spool_t;
+		type spamd_var_lib_t;
+		type spamd_etc_t;
+		type spamc_home_t;
+		type spamc_tmp_t;
+	')
+
+	typealias spamc_t alias razor_t;
+	typealias spamc_exec_t alias razor_exec_t;
+	typealias spamd_log_t alias razor_log_t;
+	typealias spamd_var_lib_t alias razor_var_lib_t;
+	typealias spamd_etc_t alias razor_etc_t;
+	typealias spamc_home_t alias razor_home_t;
+	typealias spamc_home_t alias { user_razor_home_t staff_razor_home_t sysadm_razor_home_t };
+	typealias spamc_home_t alias { auditadm_razor_home_t secadm_razor_home_t };
+	typealias spamc_tmp_t alias { user_razor_tmp_t staff_razor_tmp_t sysadm_razor_tmp_t };
+	typealias spamc_tmp_t alias { auditadm_razor_tmp_t secadm_razor_tmp_t };
+
+',`
+
 type razor_exec_t;
 corecmd_executable_file(razor_exec_t)
 
@@ -102,6 +128,8 @@ manage_dirs_pattern(razor_t, razor_tmp_t, razor_tmp_t)
 manage_files_pattern(razor_t, razor_tmp_t, razor_tmp_t)
 files_tmp_filetrans(razor_t, razor_tmp_t, { file dir })
 
+auth_use_nsswitch(razor_t)
+
 logging_send_syslog_msg(razor_t)
 
 userdom_search_user_home_dirs(razor_t)
@@ -120,5 +148,7 @@ tunable_policy(`use_samba_home_dirs',`
 ')
 
 optional_policy(`
-	nscd_socket_use(razor_t)
+	milter_manage_spamass_state(razor_t)
+')
+
 ')

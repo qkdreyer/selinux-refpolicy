@@ -15,7 +15,7 @@ gen_tunable(xguest_mount_media, true)
 
 ## <desc>
 ## <p>
-## Allow xguest to configure Network Manager
+## Allow xguest to configure Network Manager and connect to apache ports
 ## </p>
 ## </desc>
 gen_tunable(xguest_connect_network, true)
@@ -30,12 +30,12 @@ gen_tunable(xguest_use_bluetooth, true)
 role xguest_r;
 
 userdom_restricted_xwindows_user_template(xguest)
+sysnet_dns_name_resolve(xguest_t)
 
 ########################################
 #
 # Local policy
 #
-
 ifndef(`enable_mls',`
 	fs_exec_noxattr(xguest_t)
 
@@ -48,6 +48,14 @@ ifndef(`enable_mls',`
 	',`
 		storage_raw_read_removable_device(xguest_t)
 	')
+')
+# Dontaudit fusermount
+mount_dontaudit_exec_fusermount(xguest_t)
+
+allow xguest_t self:process execmem;
+
+tunable_policy(`allow_execstack',`
+	allow xguest_t self:process execstack;
 ')
 
 # Allow mounting of file systems
@@ -63,10 +71,9 @@ optional_policy(`
 		fs_manage_noxattr_fs_dirs(xguest_t)
 		fs_getattr_noxattr_fs(xguest_t)
 		fs_read_noxattr_fs_symlinks(xguest_t)
+		fs_mount_fusefs(xguest_t)
 
 		auth_list_pam_console_data(xguest_t)
-
-		init_read_utmp(xguest_t)
 	')
 ')
 
@@ -81,19 +88,66 @@ optional_policy(`
 ')
 
 optional_policy(`
-	java_role(xguest_r, xguest_t)
+	apache_role(xguest_r, xguest_t)
 ')
 
 optional_policy(`
-	mozilla_role(xguest_r, xguest_t)
+	java_role_template(xguest, xguest_r, xguest_t)
+')
+
+optional_policy(`
+	mono_role_template(xguest, xguest_r, xguest_t)
+')
+
+optional_policy(`
+	nsplugin_role(xguest_r, xguest_t)
 ')
 
 optional_policy(`
 	tunable_policy(`xguest_connect_network',`
+		kernel_read_network_state(xguest_usertype)
+
 		networkmanager_dbus_chat(xguest_t)
-		corenet_tcp_connect_pulseaudio_port(xguest_t)
-		corenet_tcp_connect_ipp_port(xguest_t)
+		networkmanager_read_var_lib_files(xguest_t)
+		corenet_tcp_connect_pulseaudio_port(xguest_usertype)
+		corenet_all_recvfrom_unlabeled(xguest_usertype)
+		corenet_all_recvfrom_netlabel(xguest_usertype)
+		corenet_tcp_sendrecv_generic_if(xguest_usertype)
+		corenet_raw_sendrecv_generic_if(xguest_usertype)
+		corenet_tcp_sendrecv_generic_node(xguest_usertype)
+		corenet_raw_sendrecv_generic_node(xguest_usertype)
+		corenet_tcp_sendrecv_http_port(xguest_usertype)
+		corenet_tcp_sendrecv_http_cache_port(xguest_usertype)
+		corenet_tcp_sendrecv_ftp_port(xguest_usertype)
+		corenet_tcp_sendrecv_ipp_port(xguest_usertype)
+		corenet_tcp_connect_http_port(xguest_usertype)
+		corenet_tcp_connect_http_cache_port(xguest_usertype)
+		corenet_tcp_connect_flash_port(xguest_usertype)
+		corenet_tcp_connect_ftp_port(xguest_usertype)
+		corenet_tcp_connect_ipp_port(xguest_usertype)
+		corenet_tcp_connect_generic_port(xguest_usertype)
+		corenet_tcp_connect_soundd_port(xguest_usertype)
+		corenet_sendrecv_http_client_packets(xguest_usertype)
+		corenet_sendrecv_http_cache_client_packets(xguest_usertype)
+		corenet_sendrecv_ftp_client_packets(xguest_usertype)
+		corenet_sendrecv_ipp_client_packets(xguest_usertype)
+		corenet_sendrecv_generic_client_packets(xguest_usertype)
+		# Should not need other ports
+		corenet_dontaudit_tcp_sendrecv_generic_port(xguest_usertype)
+		corenet_dontaudit_tcp_bind_generic_port(xguest_usertype)
+		corenet_tcp_connect_speech_port(xguest_usertype)
+		corenet_tcp_sendrecv_transproxy_port(xguest_usertype)
+		corenet_tcp_connect_transproxy_port(xguest_usertype)
 	')
 ')
 
-#gen_user(xguest_u,, xguest_r, s0, s0)
+optional_policy(`
+	gen_require(`
+		type mozilla_t;
+	')
+
+	allow xguest_t mozilla_t:process transition;
+	role xguest_r types mozilla_t;
+')
+
+gen_user(xguest_u, user, xguest_r, s0, s0)

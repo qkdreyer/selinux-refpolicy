@@ -36,13 +36,6 @@ gen_tunable(virt_use_samba, false)
 
 ## <desc>
 ## <p>
-## Allow virt to manage device configuration, (pci)
-## </p>
-## </desc>
-gen_tunable(virt_use_sysfs, false)
-
-## <desc>
-## <p>
 ## Allow virt to use usb devices
 ## </p>
 ## </desc>
@@ -74,6 +67,7 @@ userdom_user_home_content(virt_content_t)
 
 type virt_log_t;
 logging_log_file(virt_log_t)
+mls_trusted_object(virt_log_t)
 
 type virt_var_run_t;
 files_pid_file(virt_var_run_t)
@@ -155,12 +149,9 @@ tunable_policy(`virt_use_samba',`
 	fs_manage_cifs_files(svirt_t)
 ')
 
-tunable_policy(`virt_use_sysfs',`
-	dev_rw_sysfs(svirt_t)
-')
-
 tunable_policy(`virt_use_usb',`
 	dev_rw_usbfs(svirt_t)
+	dev_read_sysfs(svirt_t)
 	fs_manage_dos_dirs(svirt_t)
 	fs_manage_dos_files(svirt_t)
 ')
@@ -205,6 +196,7 @@ filetrans_pattern(virtd_t, virt_etc_t, virt_etc_rw_t, dir)
 
 manage_files_pattern(virtd_t, virt_image_type, virt_image_type)
 manage_blk_files_pattern(virtd_t, virt_image_type, virt_image_type)
+manage_lnk_files_pattern(virtd_t, virt_image_type, virt_image_type)
 allow virtd_t virt_image_type:file { relabelfrom relabelto };
 allow virtd_t virt_image_type:blk_file { relabelfrom relabelto };
 
@@ -252,13 +244,18 @@ dev_rw_mtrr(virtd_t)
 # Init script handling
 domain_use_interactive_fds(virtd_t)
 domain_read_all_domains_state(virtd_t)
+domain_read_all_domains_state(virtd_t)
 
 files_read_usr_files(virtd_t)
 files_read_etc_files(virtd_t)
+files_read_usr_files(virtd_t)
 files_read_etc_runtime_files(virtd_t)
 files_search_all(virtd_t)
 files_read_kernel_modules(virtd_t)
 files_read_usr_src_files(virtd_t)
+	
+# Manages /etc/sysconfig/system-config-firewall
+files_manage_system_conf_files(virtd_t)
 files_manage_etc_files(virtd_t)
 
 fs_list_auto_mountpoints(virtd_t)
@@ -267,6 +264,14 @@ fs_rw_anon_inodefs_files(virtd_t)
 fs_list_inotifyfs(virtd_t)
 fs_manage_cgroup_dirs(virtd_t)
 fs_rw_cgroup_files(virtd_t)
+
+mls_fd_share_all_levels(virtd_t)
+mls_file_read_to_clearance(virtd_t)
+mls_file_write_to_clearance(virtd_t)
+mls_process_write_to_clearance(virtd_t)
+mls_net_write_within_range(virtd_t)
+mls_socket_write_to_clearance(virtd_t)
+mls_rangetrans_source(virtd_t)
 
 mcs_process_set_categories(virtd_t)
 
@@ -291,15 +296,22 @@ modutils_manage_module_config(virtd_t)
 
 logging_send_syslog_msg(virtd_t)
 
+selinux_validate_context(virtd_t)
+
+seutil_read_config(virtd_t)
 seutil_read_default_contexts(virtd_t)
+seutil_read_file_contexts(virtd_t)
 
 sysnet_domtrans_ifconfig(virtd_t)
 sysnet_read_config(virtd_t)
 
+userdom_list_admin_dir(virtd_t)
 userdom_getattr_all_users(virtd_t)
 userdom_list_user_home_content(virtd_t)
 userdom_read_all_users_state(virtd_t)
 userdom_read_user_home_content_files(virtd_t)
+userdom_relabel_user_home_files(virtd_t)
+userdom_setattr_user_home_content_files(virtd_t)
 
 tunable_policy(`virt_use_nfs',`
 	fs_manage_nfs_dirs(virtd_t)
@@ -445,6 +457,10 @@ files_search_all(virt_domain)
 fs_getattr_tmpfs(virt_domain)
 fs_rw_anon_inodefs_files(virt_domain)
 fs_rw_tmpfs_files(virt_domain)
+
+# I think we need these for now.
+miscfiles_read_public_files(virt_domain)
+storage_raw_read_removable_device(virt_domain)
 
 term_use_all_terms(virt_domain)
 term_getattr_pty_fs(virt_domain)

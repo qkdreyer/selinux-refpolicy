@@ -50,6 +50,8 @@ role system_r types qemu_t;
 #
 # qemu local policy
 #
+storage_raw_write_removable_device(qemu_t)
+storage_raw_read_removable_device(qemu_t)
 
 userdom_search_user_home_content(qemu_t)
 userdom_read_user_tmpfs_files(qemu_t)
@@ -100,6 +102,10 @@ optional_policy(`
 	xen_rw_image_files(qemu_t)
 ')
 
+optional_policy(`
+	xen_rw_image_files(qemu_t)
+')
+
 ########################################
 #
 # Unconfined qemu local policy
@@ -110,6 +116,9 @@ optional_policy(`
 	typealias unconfined_qemu_t alias qemu_unconfined_t;
 	application_type(unconfined_qemu_t)
 	unconfined_domain_noaudit(unconfined_qemu_t)
+	userdom_manage_tmpfs_role(unconfined_r, unconfined_qemu_t)
+	userdom_unpriv_usertype(unconfined, unconfined_qemu_t)
 
 	allow unconfined_qemu_t self:process { execstack execmem };
+	allow unconfined_qemu_t qemu_exec_t:file execmod;
 ')

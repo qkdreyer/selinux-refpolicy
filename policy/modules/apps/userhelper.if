@@ -260,3 +260,51 @@ interface(`userhelper_exec',`
 
 	can_exec($1, userhelper_exec_t)
 ')
+
+#######################################
+## <summary>
+##	The role template for the consolehelper module.
+## </summary>
+## <desc>
+##	<p>
+##	This template creates a derived domains which are used
+##	for consolehelper applications.
+##	</p>
+## </desc>
+## <param name="role_prefix">
+##	<summary>
+##	The prefix of the user domain (e.g., user
+##	is the prefix for user_t).
+##	</summary>
+## </param>
+## <param name="user_role">
+##	<summary>
+##	The role associated with the user domain.
+##	</summary>
+## </param>
+## <param name="user_domain">
+##	<summary>
+##	The type of the user domain.
+##	</summary>
+## </param>
+#
+template(`userhelper_console_role_template',`
+	gen_require(`
+		type consolehelper_exec_t;
+		attribute consolehelper_domain;
+	')
+
+	type $1_consolehelper_t, consolehelper_domain;
+	domain_type($1_consolehelper_t)
+	domain_entry_file($1_consolehelper_t, consolehelper_exec_t)
+	role $2 types $1_consolehelper_t;
+
+	domtrans_pattern($3, consolehelper_exec_t, $1_consolehelper_t)
+
+	auth_use_pam($1_consolehelper_t)
+
+	optional_policy(`
+		shutdown_run($1_consolehelper_t, $2)
+		shutdown_send_sigchld($3)
+	')
+')

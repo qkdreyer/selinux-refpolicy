@@ -1,9 +1,16 @@
 
-policy_module(nscd, 1.10.0)
+policy_module(nscd, 1.10.1)
 
 gen_require(`
 	class nscd all_nscd_perms;
 ')
+
+## <desc>
+## <p>
+## Allow confined applications to use nscd shared memory.
+## </p>
+## </desc>
+gen_tunable(nscd_use_shm, false)
 
 ########################################
 #
@@ -91,6 +98,7 @@ selinux_compute_create_context(nscd_t)
 selinux_compute_relabel_context(nscd_t)
 selinux_compute_user_contexts(nscd_t)
 domain_use_interactive_fds(nscd_t)
+domain_search_all_domains_state(nscd_t)
 
 files_read_etc_files(nscd_t)
 files_read_generic_tmp_symlinks(nscd_t)
@@ -113,6 +121,10 @@ userdom_dontaudit_use_unpriv_user_fds(nscd_t)
 userdom_dontaudit_search_user_home_dirs(nscd_t)
 
 optional_policy(`
+	accountsd_dontaudit_rw_fifo_file(nscd_t)
+')
+
+optional_policy(`
 	cron_read_system_job_tmp_files(nscd_t)
 ')
 
@@ -127,4 +139,17 @@ optional_policy(`
 optional_policy(`
 	xen_dontaudit_rw_unix_stream_sockets(nscd_t)
 	xen_append_log(nscd_t)
+')
+
+optional_policy(`
+	tunable_policy(`samba_domain_controller',`
+		samba_append_log(nscd_t)
+		samba_dontaudit_use_fds(nscd_t)
+	')
+	samba_read_config(nscd_t)
+	samba_read_var_files(nscd_t)
+')
+
+optional_policy(`
+	unconfined_dontaudit_rw_packet_sockets(nscd_t)
 ')

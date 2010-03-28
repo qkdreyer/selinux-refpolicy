@@ -1,0 +1,81 @@
+
+policy_module(boinc,1.0.0)
+
+########################################
+#
+# Declarations
+#
+
+type boinc_t;
+type boinc_exec_t;
+init_daemon_domain(boinc_t, boinc_exec_t)
+
+permissive boinc_t;
+
+type boinc_initrc_exec_t;
+init_script_file(boinc_initrc_exec_t)
+
+type boinc_tmpfs_t;
+files_tmpfs_file(boinc_tmpfs_t)
+
+type boinc_var_lib_t;
+files_type(boinc_var_lib_t)
+
+########################################
+#
+# boinc local policy
+#
+
+allow boinc_t self:capability { kill };
+allow boinc_t self:process { execmem fork setsched signal sigkill };
+
+allow boinc_t self:fifo_file rw_fifo_file_perms;
+allow boinc_t self:unix_stream_socket create_stream_socket_perms;
+allow boinc_t self:tcp_socket create_stream_socket_perms;
+allow boinc_t self:shm create_shm_perms;
+
+manage_files_pattern(boinc_t, boinc_tmpfs_t, boinc_tmpfs_t)
+fs_tmpfs_filetrans(boinc_t, boinc_tmpfs_t,file)
+
+exec_files_pattern(boinc_t, boinc_var_lib_t,  boinc_var_lib_t)
+manage_dirs_pattern(boinc_t, boinc_var_lib_t,  boinc_var_lib_t)
+manage_files_pattern(boinc_t, boinc_var_lib_t,  boinc_var_lib_t)
+files_var_lib_filetrans(boinc_t, boinc_var_lib_t, { file dir } )
+
+kernel_read_system_state(boinc_t)
+kernel_read_kernel_sysctls(boinc_t)
+
+corecmd_exec_bin(boinc_t)
+corecmd_exec_shell(boinc_t)
+
+corenet_all_recvfrom_unlabeled(boinc_t)
+corenet_all_recvfrom_netlabel(boinc_t)
+corenet_tcp_sendrecv_generic_if(boinc_t)
+corenet_udp_sendrecv_generic_if(boinc_t)
+corenet_tcp_sendrecv_generic_node(boinc_t)
+corenet_udp_sendrecv_generic_node(boinc_t)
+corenet_tcp_sendrecv_all_ports(boinc_t)
+corenet_udp_sendrecv_all_ports(boinc_t)
+corenet_tcp_bind_generic_node(boinc_t)
+corenet_udp_bind_generic_node(boinc_t)
+corenet_tcp_bind_boinc_port(boinc_t)
+corenet_tcp_connect_http_port(boinc_t)
+
+dev_read_urand(boinc_t)
+
+domain_read_all_domains_state(boinc_t)
+
+files_read_etc_files(boinc_t)
+files_read_usr_files(boinc_t)
+
+fs_getattr_all_fs(boinc_t)
+
+term_dontaudit_getattr_ptmx(boinc_t)
+
+miscfiles_read_localization(boinc_t)
+miscfiles_read_certs(boinc_t)
+
+logging_send_syslog_msg(boinc_t)
+
+sysnet_dns_name_resolve(boinc_t)
+

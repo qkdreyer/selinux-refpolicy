@@ -20,6 +20,7 @@ typealias gpg_t alias { user_gpg_t staff_gpg_t sysadm_gpg_t };
 typealias gpg_t alias { auditadm_gpg_t secadm_gpg_t };
 application_domain(gpg_t, gpg_exec_t)
 ubac_constrained(gpg_t)
+role system_r types gpg_t;
 
 type gpg_agent_t;
 type gpg_agent_exec_t;
@@ -45,6 +46,7 @@ typealias gpg_helper_t alias { user_gpg_helper_t staff_gpg_helper_t sysadm_gpg_h
 typealias gpg_helper_t alias { auditadm_gpg_helper_t secadm_gpg_helper_t };
 application_domain(gpg_helper_t, gpg_helper_exec_t)
 ubac_constrained(gpg_helper_t)
+role system_r types gpg_helper_t;
 
 type gpg_pinentry_t;
 type pinentry_exec_t;
@@ -59,7 +61,7 @@ ubac_constrained(gpg_pinentry_t)
 #
 
 allow gpg_t self:capability { ipc_lock setuid };
-# setrlimit is for ulimit -c 0
+#at setrlimit is for ulimit -c 0
 allow gpg_t self:process { signal setrlimit getcap setcap setpgid };
 
 allow gpg_t self:fifo_file rw_fifo_file_perms;
@@ -112,6 +114,7 @@ userdom_use_user_terminals(gpg_t)
 # sign/encrypt user files
 userdom_manage_user_tmp_files(gpg_t)
 userdom_manage_user_home_content_files(gpg_t)
+userdom_user_home_dir_filetrans_user_home_content(gpg_t, file)
 
 mta_write_config(gpg_t)
 
@@ -130,10 +133,10 @@ optional_policy(`
 	xserver_rw_xdm_pipes(gpg_t)
 ')
 
-optional_policy(`
-	cron_system_entry(gpg_t, gpg_exec_t)
-	cron_read_system_job_tmp_files(gpg_t)
-')
+#optional_policy(`
+#	cron_system_entry(gpg_t, gpg_exec_t)
+#	cron_read_system_job_tmp_files(gpg_t)
+#')
 
 ########################################
 #
@@ -184,6 +187,7 @@ tunable_policy(`use_samba_home_dirs',`
 #
 # GPG agent local policy
 #
+domtrans_pattern(gpg_t, gpg_agent_exec_t, gpg_agent_t)
 
 # rlimit: gpg-agent wants to prevent coredumps
 allow gpg_agent_t self:process setrlimit;

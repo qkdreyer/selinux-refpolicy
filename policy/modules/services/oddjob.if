@@ -44,6 +44,7 @@ interface(`oddjob_system_entry',`
 	')
 
 	domtrans_pattern(oddjob_t, $2, $1)
+	domain_user_exemption_target($1)
 ')
 
 ########################################

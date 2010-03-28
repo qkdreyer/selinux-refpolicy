@@ -28,8 +28,14 @@ files_lock_file(slapd_lock_t)
 type slapd_replog_t;
 files_type(slapd_replog_t)
 
+type slapd_log_t;
+logging_log_file(slapd_log_t)
+
 type slapd_tmp_t;
 files_tmp_file(slapd_tmp_t)
+
+type slapd_tmpfs_t;
+files_tmpfs_file(slapd_tmpfs_t)
 
 type slapd_var_run_t;
 files_pid_file(slapd_var_run_t)
@@ -68,9 +74,16 @@ manage_dirs_pattern(slapd_t, slapd_replog_t, slapd_replog_t)
 manage_files_pattern(slapd_t, slapd_replog_t, slapd_replog_t)
 manage_lnk_files_pattern(slapd_t, slapd_replog_t, slapd_replog_t)
 
+manage_dirs_pattern(slapd_t, slapd_log_t, slapd_log_t)
+manage_files_pattern(slapd_t, slapd_log_t, slapd_log_t)
+logging_log_filetrans(slapd_t, slapd_log_t, { file dir })
+
 manage_dirs_pattern(slapd_t, slapd_tmp_t, slapd_tmp_t)
 manage_files_pattern(slapd_t, slapd_tmp_t, slapd_tmp_t)
 files_tmp_filetrans(slapd_t, slapd_tmp_t, { file dir })
+
+manage_files_pattern(slapd_t, slapd_tmpfs_t, slapd_tmpfs_t)
+fs_tmpfs_filetrans(slapd_t, slapd_tmpfs_t,file)
 
 manage_files_pattern(slapd_t, slapd_var_run_t, slapd_var_run_t)
 manage_sock_files_pattern(slapd_t, slapd_var_run_t, slapd_var_run_t)

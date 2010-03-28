@@ -112,6 +112,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+	cobbler_dontaudit_rw_log(dhcpd_t)
+')
+
+optional_policy(`
 	dbus_system_bus_client(dhcpd_t)
 	dbus_connect_system_bus(dhcpd_t)
 ')

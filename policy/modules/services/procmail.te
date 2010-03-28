@@ -22,7 +22,7 @@ files_tmp_file(procmail_tmp_t)
 # Local policy
 #
 
-allow procmail_t self:capability { sys_nice chown setuid setgid dac_override };
+allow procmail_t self:capability { sys_nice chown fsetid setuid setgid dac_override };
 allow procmail_t self:process { setsched signal signull };
 allow procmail_t self:fifo_file rw_fifo_file_perms;
 allow procmail_t self:unix_stream_socket create_socket_perms;
@@ -77,6 +77,7 @@ files_search_pids(procmail_t)
 files_read_usr_files(procmail_t)
 
 logging_send_syslog_msg(procmail_t)
+logging_append_all_logs(procmail_t)
 
 miscfiles_read_localization(procmail_t)
 
@@ -92,6 +93,7 @@ userdom_user_home_dir_filetrans_user_home_content(procmail_t, { dir file lnk_fil
 userdom_dontaudit_search_user_home_dirs(procmail_t)
 
 mta_manage_spool(procmail_t)
+mta_read_queue(procmail_t)
 
 ifdef(`hide_broken_symptoms',`
 	mta_dontaudit_rw_queue(procmail_t)
@@ -128,6 +130,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+	nagios_search_spool(procmail_t)
+')
+
+optional_policy(`
 	pyzor_domtrans(procmail_t)
 	pyzor_signal(procmail_t)
 ')
@@ -136,8 +142,8 @@ optional_policy(`
 	mta_read_config(procmail_t)
 	sendmail_domtrans(procmail_t)
 	sendmail_signal(procmail_t)
-	sendmail_rw_tcp_sockets(procmail_t)
-	sendmail_rw_unix_stream_sockets(procmail_t)
+	sendmail_dontaudit_rw_tcp_sockets(procmail_t)
+	sendmail_dontaudit_rw_unix_stream_sockets(procmail_t)
 ')
 
 optional_policy(`

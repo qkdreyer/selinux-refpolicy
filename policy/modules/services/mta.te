@@ -63,6 +63,9 @@ allow system_mail_t mta_exec_type:file entrypoint;
 
 can_exec(system_mail_t, mta_exec_type)
 
+files_read_all_tmp_files(system_mail_t)
+files_read_usr_files(system_mail_t)
+
 kernel_read_system_state(system_mail_t)
 kernel_read_network_state(system_mail_t)
 kernel_request_load_module(system_mail_t)
@@ -75,20 +78,27 @@ fs_rw_anon_inodefs_files(system_mail_t)
 
 selinux_getattr_fs(system_mail_t)
 
+term_dontaudit_use_unallocated_ttys(system_mail_t)
+
 init_use_script_ptys(system_mail_t)
 
 userdom_use_user_terminals(system_mail_t)
 userdom_dontaudit_search_user_home_dirs(system_mail_t)
+userdom_dontaudit_list_admin_dir(system_mail_t)
+
+logging_append_all_logs(system_mail_t)
 
 optional_policy(`
 	apache_read_squirrelmail_data(system_mail_t)
 	apache_append_squirrelmail_data(system_mail_t)
+	apache_search_bugzilla_dirs(system_mail_t)
 
 	# apache should set close-on-exec
 	apache_dontaudit_append_log(system_mail_t)
 	apache_dontaudit_rw_stream_sockets(system_mail_t)
 	apache_dontaudit_rw_tcp_sockets(system_mail_t)
 	apache_dontaudit_rw_sys_script_stream_sockets(system_mail_t)
+	apache_dontaudit_rw_bugzilla_script_stream_sockets(system_mail_t)
 ')
 
 optional_policy(`
@@ -107,6 +117,7 @@ optional_policy(`
 optional_policy(`
 	cron_read_system_job_tmp_files(system_mail_t)
 	cron_dontaudit_write_pipes(system_mail_t)
+	cron_rw_system_job_stream_sockets(system_mail_t)
 ')
 
 optional_policy(`
@@ -126,6 +137,7 @@ optional_policy(`
 
 optional_policy(`
 	fail2ban_append_log(system_mail_t)
+	fail2ban_dontaudit_leaks(system_mail_t)
 ')
 
 optional_policy(`
@@ -139,6 +151,10 @@ optional_policy(`
 optional_policy(`
 	# newaliases runs as system_mail_t when the sendmail initscript does a restart
 	milter_getattr_all_sockets(system_mail_t)
+')
+
+optional_policy(`
+	munin_dontaudit_leaks(system_mail_t)
 ')
 
 optional_policy(`
@@ -185,6 +201,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+	spamd_stream_connect(system_mail_t)
+')
+
+optional_policy(`
 	smartmon_read_tmp_files(system_mail_t)
 ')
 
@@ -216,6 +236,7 @@ append_files_pattern(mailserver_delivery, mail_spool_t, mail_spool_t)
 create_lnk_files_pattern(mailserver_delivery, mail_spool_t, mail_spool_t)
 read_lnk_files_pattern(mailserver_delivery, mail_spool_t, mail_spool_t)
 
+userdom_search_admin_dir(mailserver_delivery)
 read_files_pattern(mailserver_delivery, mail_forward_t, mail_forward_t)
 
 read_files_pattern(mailserver_delivery, system_mail_tmp_t, system_mail_tmp_t)

@@ -139,6 +139,26 @@ interface(`devicekit_read_pid_files',`
 
 ########################################
 ## <summary>
+##	Manage devicekit var_run files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`devicekit_manage_var_run',`
+	gen_require(`
+		type devicekit_var_run_t;
+	')
+
+         manage_dirs_pattern($1,devicekit_var_run_t,devicekit_var_run_t)
+         manage_files_pattern($1,devicekit_var_run_t,devicekit_var_run_t)
+         manage_lnk_files_pattern($1,devicekit_var_run_t,devicekit_var_run_t)
+')
+
+########################################
+## <summary>
 ##	All of the rules required to administrate 
 ##	an devicekit environment
 ## </summary>
@@ -162,7 +182,7 @@ interface(`devicekit_read_pid_files',`
 interface(`devicekit_admin',`
 	gen_require(`
 		type devicekit_t, devicekit_disk_t, devicekit_power_t;
-		type devicekit_var_run_t;
+		type devicekit_var_lib_t, devicekit_var_run_t, devicekit_tmp_t;
 	')
 
 	allow $1 devicekit_t:process { ptrace signal_perms getattr };

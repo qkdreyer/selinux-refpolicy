@@ -30,7 +30,7 @@ role system_r types unconfined_sendmail_t;
 #
 
 allow sendmail_t self:capability { dac_override setuid setgid net_bind_service sys_nice chown sys_tty_config };
-allow sendmail_t self:process { setrlimit signal signull };
+allow sendmail_t self:process { setsched setpgid setrlimit signal signull };
 allow sendmail_t self:fifo_file rw_fifo_file_perms;
 allow sendmail_t self:unix_stream_socket create_stream_socket_perms;
 allow sendmail_t self:unix_dgram_socket create_socket_perms;
@@ -72,6 +72,7 @@ fs_search_auto_mountpoints(sendmail_t)
 fs_rw_anon_inodefs_files(sendmail_t)
 
 term_dontaudit_use_console(sendmail_t)
+term_dontaudit_use_generic_ptys(sendmail_t)
 
 # for piping mail to a command
 corecmd_exec_shell(sendmail_t)
@@ -84,12 +85,14 @@ files_read_usr_files(sendmail_t)
 files_search_spool(sendmail_t)
 # for piping mail to a command
 files_read_etc_runtime_files(sendmail_t)
+files_read_all_tmp_files(sendmail_t)
 
 init_use_fds(sendmail_t)
 init_use_script_ptys(sendmail_t)
 # sendmail wants to read /var/run/utmp if the controlling tty is /dev/console
 init_read_utmp(sendmail_t)
 init_dontaudit_write_utmp(sendmail_t)
+init_rw_script_tmp_files(sendmail_t)
 
 auth_use_nsswitch(sendmail_t)
 
@@ -103,7 +106,7 @@ miscfiles_read_certs(sendmail_t)
 miscfiles_read_localization(sendmail_t)
 
 userdom_dontaudit_use_unpriv_user_fds(sendmail_t)
-userdom_dontaudit_search_user_home_dirs(sendmail_t)
+userdom_read_user_home_content_files(sendmail_t)
 
 mta_read_config(sendmail_t)
 mta_etc_filetrans_aliases(sendmail_t)
@@ -133,6 +136,7 @@ optional_policy(`
 
 optional_policy(`
 	fail2ban_read_lib_files(sendmail_t)
+	fail2ban_rw_stream_sockets(sendmail_t)
 ')
 
 optional_policy(`
@@ -148,7 +152,9 @@ optional_policy(`
 ')
 
 optional_policy(`
+	postfix_domtrans_postdrop(sendmail_t)
 	postfix_domtrans_master(sendmail_t)
+	postfix_domtrans_postqueue(sendmail_t)
 	postfix_read_config(sendmail_t)
 	postfix_search_spool(sendmail_t)
 ')
@@ -167,6 +173,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+	spamd_stream_connect(sendmail_t)
+')
+
+optional_policy(`
 	udev_read_db(sendmail_t)
 ')
 
@@ -182,5 +192,6 @@ optional_policy(`
 
 optional_policy(`
 	mta_etc_filetrans_aliases(unconfined_sendmail_t)
-	unconfined_domain(unconfined_sendmail_t)
+	unconfined_domain_noaudit(unconfined_sendmail_t)
 ')
+

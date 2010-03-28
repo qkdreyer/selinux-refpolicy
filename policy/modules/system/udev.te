@@ -50,6 +50,7 @@ allow udev_t self:unix_dgram_socket sendto;
 allow udev_t self:unix_stream_socket connectto;
 allow udev_t self:netlink_kobject_uevent_socket create_socket_perms;
 allow udev_t self:rawip_socket create_socket_perms;
+allow udev_t self:netlink_socket create_socket_perms;
 
 allow udev_t udev_exec_t:file write;
 can_exec(udev_t, udev_exec_t)
@@ -211,6 +212,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+	consolekit_read_pid_files(udev_t)
+')
+
+optional_policy(`
 	consoletype_exec(udev_t)
 ')
 
@@ -265,6 +270,10 @@ optional_policy(`
 
 optional_policy(`
 	raid_domtrans_mdadm(udev_t)
+')
+
+optional_policy(`
+	usbmuxd_domtrans(udev_t)
 ')
 
 optional_policy(`

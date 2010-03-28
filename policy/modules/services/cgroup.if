@@ -1,0 +1,35 @@
+## <summary>Control group rules engine daemon.</summary>
+## <desc>
+##	<p>
+##		cgrulesengd is a daemon, which distributes processes
+##		to control groups. When any process changes its
+##		effective UID or GID, cgred inspects list of
+##		rules loaded from cgrules.conf file and moves the
+##		process to the appropriate control group.
+##	</p>
+##	<p>
+##		The list of rules is read during the daemon startup and
+##		are cached in daemons memory. The daemon reloads the
+##		list of rules when it receives SIGUSR2 signal.
+##	</p>
+## </desc>
+
+########################################
+## <summary>
+##	Read and write cgred sock file in /var/run.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`cgroup_stream_connect', `
+	gen_require(`
+		type cgred_var_run_t, cgred_t;
+	')
+
+	files_search_pids($1)
+	stream_connect_pattern($1, cgred_var_run_t, cgred_var_run_t, cgred_t)
+')
+

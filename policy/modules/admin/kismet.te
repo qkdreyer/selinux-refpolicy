@@ -45,6 +45,7 @@ allow kismet_t self:tcp_socket create_stream_socket_perms;
 manage_dirs_pattern(kismet_t, kismet_home_t, kismet_home_t)
 manage_files_pattern(kismet_t, kismet_home_t, kismet_home_t)
 manage_lnk_files_pattern(kismet_t, kismet_home_t, kismet_home_t)
+userdom_search_user_home_dirs(kismet_t)
 userdom_user_home_dir_filetrans(kismet_t, kismet_home_t, { file dir })
 
 manage_files_pattern(kismet_t, kismet_log_t, kismet_log_t)

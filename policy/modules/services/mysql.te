@@ -65,6 +65,7 @@ allow mysqld_t self:udp_socket create_socket_perms;
 
 manage_dirs_pattern(mysqld_t, mysqld_db_t, mysqld_db_t)
 manage_files_pattern(mysqld_t, mysqld_db_t, mysqld_db_t)
+manage_sock_files_pattern(mysqld_t, mysqld_db_t, mysqld_db_t)
 manage_lnk_files_pattern(mysqld_t, mysqld_db_t, mysqld_db_t)
 files_var_lib_filetrans(mysqld_t, mysqld_db_t, { dir file lnk_file })
 
@@ -157,6 +158,7 @@ optional_policy(`
 allow mysqld_safe_t self:capability { chown dac_override fowner kill };
 dontaudit mysqld_safe_t self:capability sys_ptrace;
 allow mysqld_safe_t self:fifo_file rw_fifo_file_perms;
+allow mysqld_safe_t self:process { setsched getsched };
 
 read_lnk_files_pattern(mysqld_safe_t, mysqld_db_t, mysqld_db_t)
 
@@ -176,6 +178,7 @@ dev_list_sysfs(mysqld_safe_t)
 
 domain_read_all_domains_state(mysqld_safe_t)
 
+files_dontaudit_search_all_mountpoints(mysqld_safe_t)
 files_read_etc_files(mysqld_safe_t)
 files_read_usr_files(mysqld_safe_t)
 files_dontaudit_getattr_all_dirs(mysqld_safe_t)

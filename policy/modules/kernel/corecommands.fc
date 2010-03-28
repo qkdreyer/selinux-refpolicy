@@ -147,6 +147,9 @@ ifdef(`distro_gentoo',`
 /opt/vmware/workstation/lib/lib/wrapper-gtk24\.sh -- gen_context(system_u:object_r:bin_t,s0)
 ')
 
+/opt/gutenprint/cups/lib/filter(/.*)?		gen_context(system_u:object_r:bin_t,s0)
+/opt/OpenPrinting-Gutenprint/cups/lib/filter(/.*)? gen_context(system_u:object_r:bin_t,s0)
+
 #
 # /usr
 #
@@ -217,10 +220,13 @@ ifdef(`distro_gentoo',`
 /usr/share/apr-0/build/[^/]+\.sh --	gen_context(system_u:object_r:bin_t,s0)
 /usr/share/apr-0/build/libtool --	gen_context(system_u:object_r:bin_t,s0)
 /usr/share/debconf/.+		--	gen_context(system_u:object_r:bin_t,s0)
+/usr/share/denyhosts/scripts(/.*)?	gen_context(system_u:object_r:bin_t,s0)
+/usr/share/denyhosts/plugins(/.*)?	gen_context(system_u:object_r:bin_t,s0)
 /usr/share/cluster/.*\.sh		gen_context(system_u:object_r:bin_t,s0)
 /usr/share/cluster/ocf-shellfuncs  --   gen_context(system_u:object_r:bin_t,s0)
 /usr/share/cluster/svclib_nfslock --	gen_context(system_u:object_r:bin_t,s0)
 /usr/share/e16/misc(/.*)?		gen_context(system_u:object_r:bin_t,s0)
+/usr/share/gedit-2/plugins/externaltools/tools(/.*)?  gen_context(system_u:object_r:bin_t,s0)
 /usr/share/gnucash/finance-quote-check -- gen_context(system_u:object_r:bin_t,s0)
 /usr/share/gnucash/finance-quote-helper -- gen_context(system_u:object_r:bin_t,s0)
 /usr/share/hal/device-manager/hal-device-manager -- gen_context(system_u:object_r:bin_t,s0)
@@ -331,3 +337,21 @@ ifdef(`distro_suse', `
 ifdef(`distro_suse',`
 /var/lib/samba/bin/.+			gen_context(system_u:object_r:bin_t,s0)
 ')
+
+/lib/security/pam_krb5/pam_krb5_storetmp -- gen_context(system_u:object_r:bin_t,s0)
+/lib64/security/pam_krb5/pam_krb5_storetmp -- gen_context(system_u:object_r:bin_t,s0)
+
+/usr/lib/oracle/xe/apps(/.*)?  gen_context(system_u:object_r:bin_t,s0)
+
+/usr/lib(64)?/pm-utils(/.*)?  gen_context(system_u:object_r:bin_t,s0)
+
+/usr/lib/wicd/monitor.py 	-- 	gen_context(system_u:object_r:bin_t, s0)
+
+/usr/lib(64)?/nspluginwrapper/np.*	gen_context(system_u:object_r:bin_t,s0)
+
+/usr/lib(64)?/rpm/rpmd		-- 	gen_context(system_u:object_r:bin_t,s0)
+/usr/lib(64)?/rpm/rpmq		-- 	gen_context(system_u:object_r:bin_t,s0)
+/usr/lib(64)?/rpm/rpmk		-- 	gen_context(system_u:object_r:bin_t,s0)
+/usr/lib(64)?/rpm/rpmv		-- 	gen_context(system_u:object_r:bin_t,s0)
+
+/usr/lib(64)?/gimp/.*/plug-ins(/.*)?  gen_context(system_u:object_r:bin_t,s0)

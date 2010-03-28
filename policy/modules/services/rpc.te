@@ -8,7 +8,7 @@ policy_module(rpc, 1.11.0)
 
 ## <desc>
 ## <p>
-## Allow gssd to read temp directory.  For access to kerberos tgt.
+## Allow gssd to read tep directory.  For access to kerberos tgt.
 ## </p>
 ## </desc>
 gen_tunable(allow_gssd_read_tmp, true)
@@ -37,7 +37,13 @@ files_pid_file(rpcd_var_run_t)
 # rpc_exec_t is the type of rpc daemon programs.
 rpc_domain_template(rpcd)
 
+type rpcd_initrc_exec_t;
+init_script_file(rpcd_initrc_exec_t);
+
 rpc_domain_template(nfsd)
+
+type nfsd_initrc_exec_t;
+init_script_file(nfsd_initrc_exec_t);
 
 type nfsd_rw_t;
 files_type(nfsd_rw_t)
@@ -53,7 +59,8 @@ files_mountpoint(var_lib_nfs_t)
 # RPC local policy
 #
 
-allow rpcd_t self:capability { chown dac_override setgid setuid };
+allow rpcd_t self:capability { sys_admin chown dac_override setgid setuid };
+allow rpcd_t self:process { getcap setcap };
 allow rpcd_t self:fifo_file rw_fifo_file_perms;
 
 allow rpcd_t rpcd_var_run_t:dir setattr;
@@ -67,12 +74,14 @@ kernel_read_system_state(rpcd_t)
 kernel_read_network_state(rpcd_t)
 # for rpc.rquotad
 kernel_read_sysctl(rpcd_t)
+kernel_request_load_module(gssd_t)	
 kernel_rw_fs_sysctls(rpcd_t)
 kernel_dontaudit_getattr_core_if(rpcd_t)
 kernel_signal(rpcd_t) 
 
 corecmd_exec_bin(rpcd_t)
 
+files_read_default_files(rpcd_t)
 files_manage_mounttab(rpcd_t)
 files_getattr_all_dirs(rpcd_t)
 
@@ -91,12 +100,24 @@ miscfiles_read_certs(rpcd_t)
 
 seutil_dontaudit_search_config(rpcd_t)
 
+userdom_signal_unpriv_users(rpcd_t)
+userdom_read_user_home_content_files(rpcd_t)
+
 optional_policy(`
 	automount_signal(rpcd_t)
+	automount_dontaudit_write_pipes(rpcd_t)
+')
+
+optional_policy(`
+	domain_unconfined_signal(rpcd_t)
 ')
 
 optional_policy(`
 	nis_read_ypserv_config(rpcd_t)
+')
+
+optional_policy(`
+	rgmanager_manage_tmp_files(rpcd_t)
 ')
 
 ########################################
@@ -127,6 +148,7 @@ files_search_pids(nfsd_t)
 files_getattr_tmp_dirs(nfsd_t) 
 # cjp: this should really have its own type
 files_manage_mounttab(nfsd_t)
+files_read_etc_runtime_files(nfsd_t)
 
 fs_mount_nfsd_fs(nfsd_t) 
 fs_search_nfsd_fs(nfsd_t) 
@@ -135,6 +157,7 @@ fs_getattr_all_dirs(nfsd_t)
 fs_rw_nfsd_fs(nfsd_t) 
 
 storage_dontaudit_read_fixed_disk(nfsd_t)
+storage_raw_read_removable_device(nfsd_t)
 
 # Read access to public_content_t and public_content_rw_t
 miscfiles_read_public_files(nfsd_t)
@@ -151,6 +174,7 @@ tunable_policy(`nfs_export_all_rw',`
 	fs_read_noxattr_fs_files(nfsd_t) 
 	auth_manage_all_files_except_shadow(nfsd_t)
 ')
+userdom_user_home_dir_filetrans_user_home_content(nfsd_t, { file dir })
 
 tunable_policy(`nfs_export_all_ro',`
 	dev_getattr_all_blk_files(nfsd_t)
@@ -182,6 +206,7 @@ kernel_read_system_state(gssd_t)
 kernel_read_network_state(gssd_t)
 kernel_read_network_state_symlinks(gssd_t)	
 kernel_search_network_sysctl(gssd_t)	
+kernel_signal(gssd_t)	
 
 corecmd_exec_bin(gssd_t)
 
@@ -189,8 +214,10 @@ fs_list_rpc(gssd_t)
 fs_rw_rpc_sockets(gssd_t) 
 fs_read_rpc_files(gssd_t) 
 
+fs_list_inotifyfs(gssd_t)
 files_list_tmp(gssd_t) 
 files_read_usr_symlinks(gssd_t) 
+files_dontaudit_write_var_dirs(gssd_t) 
 
 auth_use_nsswitch(gssd_t)
 auth_manage_cache(gssd_t) 
@@ -199,10 +226,14 @@ miscfiles_read_certs(gssd_t)
 
 mount_signal(gssd_t)
 
+userdom_signal_all_users(gssd_t)
+
 tunable_policy(`allow_gssd_read_tmp',`
 	userdom_list_user_tmp(gssd_t) 
 	userdom_read_user_tmp_files(gssd_t) 
 	userdom_read_user_tmp_symlinks(gssd_t) 
+	userdom_dontaudit_write_user_tmp_files(gssd_t) 
+	files_read_generic_tmp_files(gssd_t) 
 ')
 
 optional_policy(`

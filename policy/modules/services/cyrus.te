@@ -75,6 +75,7 @@ corenet_tcp_bind_generic_node(cyrus_t)
 corenet_tcp_bind_mail_port(cyrus_t)
 corenet_tcp_bind_lmtp_port(cyrus_t)
 corenet_tcp_bind_pop_port(cyrus_t)
+corenet_tcp_bind_sieve_port(cyrus_t)
 corenet_tcp_connect_all_ports(cyrus_t)
 corenet_sendrecv_mail_server_packets(cyrus_t)
 corenet_sendrecv_pop_server_packets(cyrus_t)
@@ -135,6 +136,7 @@ optional_policy(`
 ')
 
 optional_policy(`
+	files_dontaudit_write_usr_dirs(cyrus_t)
 	snmp_read_snmp_var_lib_files(cyrus_t)
 	snmp_dontaudit_write_snmp_var_lib_files(cyrus_t)
 	snmp_stream_connect(cyrus_t)

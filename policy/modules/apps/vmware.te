@@ -29,6 +29,10 @@ type vmware_host_t;
 type vmware_host_exec_t;
 init_daemon_domain(vmware_host_t, vmware_host_exec_t)
 
+type vmware_host_tmp_t;
+files_tmp_file(vmware_host_tmp_t)
+ubac_constrained(vmware_host_tmp_t)
+
 type vmware_host_pid_t alias vmware_var_run_t;
 files_pid_file(vmware_host_pid_t)
 
@@ -79,6 +83,12 @@ allow vmware_host_t self:tcp_socket create_socket_perms;
 
 # cjp: the ro and rw files should be split up
 manage_files_pattern(vmware_host_t, vmware_sys_conf_t, vmware_sys_conf_t)
+manage_lnk_files_pattern(vmware_host_t, vmware_sys_conf_t, vmware_sys_conf_t)
+
+manage_dirs_pattern(vmware_host_t, vmware_host_tmp_t, vmware_host_tmp_t)
+manage_files_pattern(vmware_host_t, vmware_host_tmp_t, vmware_host_tmp_t)
+manage_sock_files_pattern(vmware_host_t, vmware_host_tmp_t, vmware_host_tmp_t)
+files_tmp_filetrans(vmware_host_t, vmware_host_tmp_t, { file dir })
 
 manage_files_pattern(vmware_host_t, vmware_var_run_t, vmware_var_run_t)
 manage_sock_files_pattern(vmware_host_t, vmware_var_run_t, vmware_var_run_t)

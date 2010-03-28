@@ -33,6 +33,8 @@ logging_run_auditd(auditadm_t, auditadm_r)
 seutil_run_runinit(auditadm_t, auditadm_r)
 seutil_read_bin_policy(auditadm_t)
 
+userdom_dontaudit_search_admin_dir(auditadm_t)
+
 optional_policy(`
 	consoletype_exec(auditadm_t)
 ')

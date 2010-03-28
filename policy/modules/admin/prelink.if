@@ -21,6 +21,25 @@ interface(`prelink_domtrans',`
 
 ########################################
 ## <summary>
+##	Execute the prelink program in the current domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`prelink_exec',`
+	gen_require(`
+		type prelink_exec_t;
+	')
+
+	corecmd_search_bin($1)
+	can_exec($1, prelink_exec_t)
+')
+
+########################################
+## <summary>
 ##	Execute the prelink program in the prelink domain.
 ## </summary>
 ## <param name="domain">
@@ -151,11 +170,11 @@ interface(`prelink_manage_lib',`
 ##	</summary>
 ## </param>
 #
-interface(`prelink_relabelfrom_lib',`
+interface(`prelink_relabel_lib',`
 	gen_require(`
 		type prelink_var_lib_t;
 	')
 
 	files_search_var_lib($1)
-	relabelfrom_files_pattern($1, prelink_var_lib_t, prelink_var_lib_t)
+	relabel_files_pattern($1, prelink_var_lib_t, prelink_var_lib_t)
 ')

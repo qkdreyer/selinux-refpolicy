@@ -61,6 +61,7 @@ files_type(syslog_conf_t)
 type syslogd_t;
 type syslogd_exec_t;
 init_daemon_domain(syslogd_t, syslogd_exec_t)
+mls_trusted_object(syslogd_t)
 
 type syslogd_initrc_exec_t;
 init_script_file(syslogd_initrc_exec_t)
@@ -180,6 +181,8 @@ logging_send_syslog_msg(auditd_t)
 logging_domtrans_dispatcher(auditd_t)
 logging_signal_dispatcher(auditd_t)
 
+auth_use_nsswitch(auditd_t)
+
 miscfiles_read_localization(auditd_t)
 
 mls_file_read_all_levels(auditd_t)
@@ -235,7 +238,11 @@ domain_use_interactive_fds(audisp_t)
 files_read_etc_files(audisp_t)
 files_read_etc_runtime_files(audisp_t)
 
+mls_file_read_all_levels(audisp_t)
 mls_file_write_all_levels(audisp_t)
+mls_dbus_send_all_levels(audisp_t)
+
+auth_use_nsswitch(audisp_t)
 
 logging_send_syslog_msg(audisp_t)
 
@@ -245,6 +252,10 @@ sysnet_dns_name_resolve(audisp_t)
 
 optional_policy(`
 	dbus_system_bus_client(audisp_t)
+
+	optional_policy(`
+		setroubleshoot_dbus_chat(audisp_t)
+	')
 ')
 
 ########################################
@@ -267,6 +278,8 @@ corenet_sendrecv_audit_client_packets(audisp_remote_t)
 files_read_etc_files(audisp_remote_t)
 
 logging_send_syslog_msg(audisp_remote_t)
+
+auth_use_nsswitch(audisp_remote_t)
 
 miscfiles_read_localization(audisp_remote_t)
 
@@ -488,6 +501,10 @@ optional_policy(`
 
 optional_policy(`
 	seutil_sigchld_newrole(syslogd_t)
+')
+
+optional_policy(`
+    daemontools_search_svc_dir(syslogd_t)
 ')
 
 optional_policy(`

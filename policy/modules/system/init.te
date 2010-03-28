@@ -17,6 +17,20 @@ gen_require(`
 ## </desc>
 gen_tunable(init_upstart, false)
 
+## <desc>
+## <p>
+## Allow all daemons the ability to read/write terminals
+## </p>
+## </desc>
+gen_tunable(allow_daemons_use_tty, false)
+
+## <desc>
+## <p>
+## Allow all daemons to write corefiles to /
+## </p>
+## </desc>
+gen_tunable(allow_daemons_dump_core, false)
+
 # used for direct running of init scripts
 # by admin domains
 attribute direct_run_init;
@@ -26,6 +40,7 @@ attribute direct_init_entry;
 attribute init_script_domain_type;
 attribute init_script_file_type;
 attribute init_run_all_scripts_domain;
+attribute initrc_transition_domain;
 
 # Mark process types as daemons
 attribute daemon;
@@ -33,7 +48,7 @@ attribute daemon;
 #
 # init_t is the domain of the init process.
 #
-type init_t;
+type init_t, initrc_transition_domain;
 type init_exec_t;
 domain_type(init_t)
 domain_entry_file(init_t, init_exec_t)
@@ -64,6 +79,7 @@ role system_r types initrc_t;
 # of the below init_upstart tunable
 # but this has a typeattribute in it
 corecmd_shell_entry_type(initrc_t)
+corecmd_bin_entry_type(initrc_t)
 
 type initrc_devpts_t;
 term_pty(initrc_devpts_t)
@@ -88,7 +104,7 @@ ifdef(`enable_mls',`
 #
 
 # Use capabilities. old rule:
-allow init_t self:capability ~sys_module;
+allow init_t self:capability ~{ audit_control audit_write sys_module };
 # is ~sys_module really needed? observed: 
 # sys_boot
 # sys_tty_config
@@ -101,7 +117,9 @@ allow init_t self:fifo_file rw_fifo_file_perms;
 # Re-exec itself
 can_exec(init_t, init_exec_t)
 
-allow init_t initrc_t:unix_stream_socket connectto;
+allow init_t initrc_t:unix_stream_socket { connectto rw_stream_socket_perms };
+allow initrc_t init_t:unix_stream_socket { connectto rw_stream_socket_perms };
+allow initrc_t init_t:fifo_file rw_fifo_file_perms;
 
 # For /var/run/shutdown.pid.
 allow init_t init_var_run_t:file manage_file_perms;
@@ -169,6 +187,8 @@ seutil_read_config(init_t)
 
 miscfiles_read_localization(init_t)
 
+allow init_t self:process setsched;
+
 ifdef(`distro_gentoo',`
 	allow init_t self:process { getcap setcap };
 ')
@@ -192,7 +212,20 @@ optional_policy(`
 ')
 
 optional_policy(`
+	consolekit_manage_log(init_t)
+')
+
+optional_policy(`
+	dbus_connect_system_bus(init_t)
 	dbus_system_bus_client(init_t)
+')
+
+optional_policy(`
+	# /var/run/dovecot/login/ssl-parameters.dat is a hard link to
+	# /var/lib/dovecot/ssl-parameters.dat and init tries to clean up
+	# the directory. But we do not want to allow this.
+	# The master process of dovecot will manage this file.
+	dovecot_dontaudit_unlink_lib_files(initrc_t)
 ')
 
 optional_policy(`
@@ -213,7 +246,7 @@ optional_policy(`
 #
 
 allow initrc_t self:process { getpgid setsched setpgid setrlimit getsched };
-allow initrc_t self:capability ~{ sys_admin sys_module };
+allow initrc_t self:capability ~{ audit_control audit_write sys_admin sys_module };
 dontaudit initrc_t self:capability sys_module; # sysctl is triggering this
 allow initrc_t self:passwd rootok;
 allow initrc_t self:key manage_key_perms;
@@ -242,6 +275,7 @@ manage_fifo_files_pattern(initrc_t, initrc_state_t, initrc_state_t)
 
 allow initrc_t initrc_var_run_t:file manage_file_perms;
 files_pid_filetrans(initrc_t, initrc_var_run_t, file)
+files_manage_generic_pids_symlinks(initrc_t)
 
 can_exec(initrc_t, initrc_tmp_t)
 manage_files_pattern(initrc_t, initrc_tmp_t, initrc_tmp_t)
@@ -259,13 +293,19 @@ kernel_change_ring_buffer_level(initrc_t)
 kernel_clear_ring_buffer(initrc_t)
 kernel_get_sysvipc_info(initrc_t)
 kernel_read_all_sysctls(initrc_t)
+kernel_request_load_module(initrc_t)
 kernel_rw_all_sysctls(initrc_t)
 # for lsof which is used by alsa shutdown:
 kernel_dontaudit_getattr_message_if(initrc_t)
+kernel_stream_connect(initrc_t)
+files_read_kernel_modules(initrc_t)
+files_read_config_files(initrc_t)
+files_read_var_lib_symlinks(initrc_t)
+files_setattr_pid_dirs(initrc_t)
 
 files_read_kernel_symbol_table(initrc_t)
-
-corecmd_exec_all_executables(initrc_t)
+files_exec_etc_files(initrc_t)
+files_manage_etc_symlinks(initrc_t)
 
 corenet_all_recvfrom_unlabeled(initrc_t)
 corenet_all_recvfrom_netlabel(initrc_t)
@@ -299,6 +339,7 @@ dev_manage_generic_files(initrc_t)
 dev_delete_generic_symlinks(initrc_t)
 dev_getattr_all_blk_files(initrc_t)
 dev_getattr_all_chr_files(initrc_t)
+dev_rw_xserver_misc(initrc_t)
 
 corecmd_exec_all_executables(initrc_t)
 
@@ -325,8 +366,10 @@ files_getattr_all_symlinks(initrc_t)
 files_getattr_all_pipes(initrc_t)
 files_getattr_all_sockets(initrc_t)
 files_purge_tmp(initrc_t)
-files_delete_all_locks(initrc_t)
+files_manage_all_locks(initrc_t)
+files_manage_boot_files(initrc_t)
 files_read_all_pids(initrc_t)
+files_delete_root_file(initrc_t)
 files_delete_all_pids(initrc_t)
 files_delete_all_pid_dirs(initrc_t)
 files_read_etc_files(initrc_t)
@@ -342,6 +385,8 @@ files_list_isid_type_dirs(initrc_t)
 files_mounton_isid_type_dirs(initrc_t)
 files_list_default(initrc_t)
 files_mounton_default(initrc_t)
+files_manage_mnt_dirs(initrc_t)
+files_manage_mnt_files(initrc_t)
 
 fs_list_inotifyfs(initrc_t)
 fs_register_binary_executable_type(initrc_t)
@@ -352,6 +397,11 @@ fs_mount_all_fs(initrc_t)
 fs_unmount_all_fs(initrc_t)
 fs_remount_all_fs(initrc_t)
 fs_getattr_all_fs(initrc_t)
+fs_search_all(initrc_t)
+fs_getattr_nfsd_files(initrc_t)
+fs_rw_cgroup_files(initrc_t)
+fs_setattr_cgroup_files(initrc_t)
+fs_manage_cgroup_dirs(initrc_t)
 
 # initrc_t needs to do a pidof which requires ptrace
 mcs_ptrace_all(initrc_t)
@@ -395,15 +445,16 @@ logging_read_audit_config(initrc_t)
 
 miscfiles_read_localization(initrc_t)
 # slapd needs to read cert files from its initscript
-miscfiles_read_certs(initrc_t)
+miscfiles_manage_cert_files(initrc_t)
 
 modutils_read_module_config(initrc_t)
 modutils_domtrans_insmod(initrc_t)
 
 seutil_read_config(initrc_t)
 
+userdom_read_admin_home_files(initrc_t)
 userdom_read_user_home_content_files(initrc_t)
-# Allow access to the sysadm TTYs. Note that this will give access to the
+# Allow access to the sysadm TTYs. Note that this will give access to the 
 # TTYs to any process in the initrc_t domain. Therefore, daemons and such
 # started from init should be placed in their own domain.
 userdom_use_user_terminals(initrc_t)
@@ -471,7 +522,7 @@ ifdef(`distro_redhat',`
 
 	# Red Hat systems seem to have a stray
 	# fd open from the initrd
-	kernel_dontaudit_use_fds(initrc_t)
+	kernel_use_fds(initrc_t)
 	files_dontaudit_read_root_files(initrc_t)
 
 	# These seem to be from the initrd
@@ -517,6 +568,15 @@ ifdef(`distro_redhat',`
 	optional_policy(`
 		bind_manage_config_dirs(initrc_t)
 		bind_write_config(initrc_t)
+		bind_setattr_zone_dirs(initrc_t)
+	')
+
+	optional_policy(`
+		cgroup_stream_connect(initrc_t)
+	')
+
+	optional_policy(`
+		gnome_manage_gconf_config(initrc_t)
 	')
 
 	optional_policy(`
@@ -542,6 +602,34 @@ ifdef(`distro_suse',`
 	')
 ')
 
+domain_dontaudit_use_interactive_fds(daemon)
+
+userdom_dontaudit_list_admin_dir(daemon)
+userdom_dontaudit_search_user_tmp(daemon)
+
+tunable_policy(`allow_daemons_use_tty',`
+	term_use_unallocated_ttys(daemon)
+	term_use_generic_ptys(daemon)
+	term_use_all_ttys(daemon)
+	term_use_all_ptys(daemon)
+',`
+	term_dontaudit_use_unallocated_ttys(daemon)
+	term_dontaudit_use_generic_ptys(daemon)
+	term_dontaudit_use_all_ttys(daemon)
+	term_dontaudit_use_all_ptys(daemon)
+ ')
+ 
+# system-config-services causes avc messages that should be dontaudited
+tunable_policy(`allow_daemons_dump_core',`
+	files_manage_root_files(daemon)
+')
+
+optional_policy(`
+	unconfined_dontaudit_rw_pipes(daemon)
+	unconfined_dontaudit_rw_stream(daemon)
+	userdom_dontaudit_read_user_tmp_files(daemon)
+')
+ 
 optional_policy(`
 	amavis_search_lib(initrc_t)
 	amavis_setattr_pid_files(initrc_t)
@@ -554,6 +642,8 @@ optional_policy(`
 optional_policy(`
 	apache_read_config(initrc_t)
 	apache_list_modules(initrc_t)
+	# webmin seems to cause this.
+	apache_search_sys_content(daemon)
 ')
 
 optional_policy(`
@@ -594,6 +684,7 @@ optional_policy(`
 	dbus_connect_system_bus(initrc_t)
 	dbus_system_bus_client(initrc_t)
 	dbus_read_config(initrc_t)
+	dbus_manage_lib_files(initrc_t)
 
 	optional_policy(`
 		consolekit_dbus_chat(initrc_t)
@@ -647,11 +738,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	iscsi_stream_connect(initrc_t)
-	iscsi_read_lib_files(initrc_t)
-')
-
-optional_policy(`
 	kerberos_use(initrc_t)
 ')
 
@@ -690,12 +776,18 @@ optional_policy(`
 ')
 
 optional_policy(`
+	iscsi_stream_connect(initrc_t)
+	iscsi_read_lib_files(initrc_t)
+')
+
+optional_policy(`
 	mailman_list_data(initrc_t)
 	mailman_read_data_symlinks(initrc_t)
 ')
 
 optional_policy(`
 	mta_read_config(initrc_t)
+	mta_write_config(initrc_t)
 	mta_dontaudit_read_spool_symlinks(initrc_t)
 ')
 
@@ -715,6 +807,10 @@ optional_policy(`
 
 optional_policy(`
 	openvpn_read_config(initrc_t)
+')
+
+optional_policy(`
+	plymouthd_stream_connect(initrc_t)
 ')
 
 optional_policy(`
@@ -760,8 +856,6 @@ optional_policy(`
 	# bash tries ioctl for some reason
 	files_dontaudit_ioctl_all_pids(initrc_t)
 
-	# why is this needed:
-	rpm_manage_db(initrc_t)
 ')
 
 optional_policy(`
@@ -774,9 +868,11 @@ optional_policy(`
 	squid_manage_logs(initrc_t)
 ')
 
+ifdef(`enabled_mls',`
 optional_policy(`
 	# allow init scripts to su
 	su_restricted_domain_template(initrc, initrc_t, system_r)
+')
 ')
 
 optional_policy(`
@@ -790,6 +886,7 @@ optional_policy(`
 
 optional_policy(`
 	udev_rw_db(initrc_t)
+	udev_delete_db(initrc_t)
 	udev_manage_pid_files(initrc_t)
 ')
 
@@ -801,8 +898,15 @@ optional_policy(`
 	virt_manage_svirt_cache(initrc_t)
 ')
 
+# Cron jobs used to start and stop services
+optional_policy(`
+	cron_rw_pipes(daemon)
+	cron_rw_inherited_user_spool_files(daemon)
+')
+
 optional_policy(`
 	unconfined_domain(initrc_t)
+	domain_role_change_exemption(initrc_t)
 
 	ifdef(`distro_redhat',`
 		# system-config-services causes avc messages that should be dontaudited
@@ -812,6 +916,25 @@ optional_policy(`
 	optional_policy(`
 		mono_domtrans(initrc_t)
 	')
+
+	# Allow SELinux aware applications to request rpm_script_t execution
+	rpm_transition_script(initrc_t)
+
+	
+	optional_policy(`
+		gen_require(`
+			type unconfined_execmem_t, execmem_exec_t;		
+		')
+		init_system_domain(unconfined_execmem_t, execmem_exec_t)
+	')
+
+	optional_policy(`
+		rtkit_scheduled(initrc_t)
+	')
+')
+
+optional_policy(`
+	rpm_delete_db(initrc_t)
 ')
 
 optional_policy(`
@@ -836,4 +959,35 @@ optional_policy(`
 
 optional_policy(`
 	zebra_read_config(initrc_t)
+')
+
+# if I start an initrc script from an random director I can generate this avc
+files_dontaudit_search_all_dirs(daemon)
+
+userdom_inherit_append_user_home_content_files(daemon)
+userdom_inherit_append_user_tmp_files(daemon)
+userdom_dontaudit_rw_stream(daemon)
+
+logging_append_all_logs(daemon)
+
+optional_policy(`
+	# sudo service restart causes this 
+	unconfined_signull(daemon)
+')
+
+
+optional_policy(`
+	xserver_dontaudit_append_xdm_home_files(daemon)
+	tunable_policy(`use_nfs_home_dirs',`
+		fs_dontaudit_rw_nfs_files(daemon)
+	')
+	tunable_policy(`use_samba_home_dirs',`
+		fs_dontaudit_rw_cifs_files(daemon)
+	')
+')
+
+init_rw_script_stream_sockets(daemon)
+
+optional_policy(`
+	fail2ban_read_lib_files(daemon)
 ')

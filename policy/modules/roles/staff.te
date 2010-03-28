@@ -9,24 +9,51 @@ policy_module(staff, 2.0.1)
 role staff_r;
 
 userdom_unpriv_user_template(staff)
+fs_exec_noxattr(staff_t)
+
+# needed for sandbox
+allow staff_t self:process setexec;
 
 ########################################
 #
 # Local policy
 #
 
+kernel_read_ring_buffer(staff_t)
+kernel_getattr_core_if(staff_t)
+kernel_getattr_message_if(staff_t)
+kernel_read_software_raid_state(staff_t)
+
+auth_domtrans_pam_console(staff_t)
+
+seutil_read_module_store(staff_t)
+seutil_run_newrole(staff_t, staff_r)
+netutils_run_ping(staff_t, staff_r)
+
 optional_policy(`
 	apache_role(staff_r, staff_t)
 ')
 
+ifndef(`distro_redhat',`
+
 optional_policy(`
 	auth_role(staff_r, staff_t)
+')
 ')
 
 optional_policy(`
 	auditadm_role_change(staff_r)
 ')
 
+optional_policy(`
+	kerneloops_manage_tmp_files(staff_t)
+')
+
+optional_policy(`
+	logadm_role_change(staff_r)
+')
+
+ifndef(`distro_redhat',`
 optional_policy(`
 	bluetooth_role(staff_r, staff_t)
 ')
@@ -99,11 +126,17 @@ optional_policy(`
 	oident_manage_user_content(staff_t)
 	oident_relabel_user_content(staff_t)
 ')
+')
 
 optional_policy(`
 	postgresql_role(staff_r, staff_t)
 ')
 
+optional_policy(`
+	rtkit_scheduled(staff_t)
+')
+
+ifndef(`distro_redhat',`
 optional_policy(`
 	pyzor_role(staff_r, staff_t)
 ')
@@ -119,21 +152,26 @@ optional_policy(`
 optional_policy(`
 	screen_role_template(staff, staff_r, staff_t)
 ')
+')
 
 optional_policy(`
 	secadm_role_change(staff_r)
 ')
 
+ifndef(`distro_redhat',`
 optional_policy(`
 	spamassassin_role(staff_r, staff_t)
+')
 ')
 
 optional_policy(`
 	ssh_role_template(staff, staff_r, staff_t)
 ')
 
+ifndef(`distro_redhat',`
 optional_policy(`
 	su_role_template(staff, staff_r, staff_t)
+')
 ')
 
 optional_policy(`
@@ -145,6 +183,7 @@ optional_policy(`
 	userdom_dontaudit_use_user_terminals(staff_t)
 ')
 
+ifndef(`distro_redhat',`
 optional_policy(`
 	thunderbird_role(staff_r, staff_t)
 ')
@@ -169,6 +208,75 @@ optional_policy(`
 	wireshark_role(staff_r, staff_t)
 ')
 
+')
+
+optional_policy(`
+	unconfined_role_change(staff_r)
+')
+
+optional_policy(`
+	webadm_role_change(staff_r)
+')
+
 optional_policy(`
 	xserver_role(staff_r, staff_t)
 ')
+
+domain_read_all_domains_state(staff_usertype)
+domain_getattr_all_domains(staff_usertype)
+domain_obj_id_change_exemption(staff_t)
+
+files_read_kernel_modules(staff_usertype)
+
+kernel_read_fs_sysctls(staff_usertype)
+
+modutils_read_module_config(staff_usertype)
+modutils_read_module_deps(staff_usertype)
+
+miscfiles_read_hwdata(staff_usertype)
+
+term_use_unallocated_ttys(staff_usertype)
+
+optional_policy(`
+	accountsd_dbus_chat(staff_t)
+')
+
+optional_policy(`
+	gnomeclock_dbus_chat(staff_t)
+')
+
+optional_policy(`
+	firewallgui_dbus_chat(staff_t)
+')
+
+optional_policy(`
+	lpd_list_spool(staff_t)
+')
+
+optional_policy(`
+	kerneloops_dbus_chat(staff_t)
+')
+
+optional_policy(`
+	rpm_dbus_chat(staff_usertype)
+')
+
+optional_policy(`
+	sandbox_transition(staff_t, staff_r)
+')
+
+optional_policy(`
+	screen_role_template(staff, staff_r, staff_t)
+')
+
+optional_policy(`
+	setroubleshoot_stream_connect(staff_t)
+	setroubleshoot_dbus_chat(staff_t)
+	setroubleshoot_dbus_chat_fixit(staff_t)
+')
+
+optional_policy(`
+	virt_stream_connect(staff_t)
+')
+
+userhelper_console_role_template(staff, staff_t, staff_usertype)

@@ -21,6 +21,7 @@ template(`virt_domain_template',`
 	type $1_t, virt_domain;
 	domain_type($1_t)
 	domain_user_exemption_target($1_t)
+	mls_rangetrans_target($1_t)
 	role system_r types $1_t;
 
 	type $1_devpts_t;
@@ -35,9 +36,11 @@ template(`virt_domain_template',`
 	type $1_image_t, virt_image_type;
 	files_type($1_image_t)
 	dev_node($1_image_t)
+	dev_associate_sysfs($1_image_t)
 
 	type $1_var_run_t;
 	files_pid_file($1_var_run_t)
+	mls_trusted_object($1_var_run_t)
 
 	allow $1_t $1_devpts_t:chr_file { rw_chr_file_perms setattr };
 	term_create_pty($1_t, $1_devpts_t)
@@ -45,6 +48,7 @@ template(`virt_domain_template',`
 	manage_dirs_pattern($1_t, $1_image_t, $1_image_t)
 	manage_files_pattern($1_t, $1_image_t, $1_image_t)
 	read_lnk_files_pattern($1_t, $1_image_t, $1_image_t)
+	rw_chr_files_pattern($1_t, $1_image_t, $1_image_t)
 	rw_blk_files_pattern($1_t, $1_image_t, $1_image_t)
 
 	manage_dirs_pattern($1_t, $1_tmp_t, $1_tmp_t)
@@ -515,4 +519,33 @@ interface(`virt_admin',`
 	virt_manage_lib_files($1)
 
 	virt_manage_log($1)
+')
+
+########################################
+## <summary>
+##	Execute qemu in the svirt domain, and
+##	allow the specified role the svirt domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access
+##	</summary>
+## </param>
+## <param name="role">
+##	<summary>
+##	The role to be allowed the sandbox domain.
+##	</summary>
+## </param>
+#
+interface(`virt_transition_svirt',`
+	gen_require(`
+		type svirt_t;
+	')
+
+	allow $1 svirt_t:process transition;
+	role $2 types svirt_t;
+
+	optional_policy(`
+		ptchown_run(svirt_t, $2)
+	')
 ')

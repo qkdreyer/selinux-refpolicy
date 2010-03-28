@@ -213,8 +213,9 @@ interface(`xen_stream_connect',`
 interface(`xen_domtrans_xm',`
 	gen_require(`
 		type xm_t, xm_exec_t;
+		attribute xm_transition_domain;
 	')
-
+	typeattribute $1 xm_transition_domain;
 	domtrans_pattern($1, xm_exec_t, xm_t)
 ')
 

@@ -20,6 +20,9 @@ type dhcpc_exec_t;
 init_daemon_domain(dhcpc_t, dhcpc_exec_t)
 role system_r types dhcpc_t;
 
+type dhcpc_helper_exec_t;
+init_script_file(dhcpc_helper_exec_t)
+
 type dhcpc_state_t;
 files_type(dhcpc_state_t)
 
@@ -67,6 +70,8 @@ files_pid_filetrans(dhcpc_t, dhcpc_var_run_t, file)
 
 # Allow read/write to /etc/resolv.conf and /etc/ntp.conf. Note that any files
 # in /etc created by dhcpcd will be labelled net_conf_t.
+allow dhcpc_t net_conf_t:file manage_file_perms;
+allow dhcpc_t net_conf_t:file relabel_file_perms;
 sysnet_manage_config(dhcpc_t)
 files_etc_filetrans(dhcpc_t, net_conf_t, file)
 
@@ -111,6 +116,7 @@ dev_read_sysfs(dhcpc_t)
 # for SSP:
 dev_read_urand(dhcpc_t)
 
+domain_obj_id_change_exemption(dhcpc_t)
 domain_use_interactive_fds(dhcpc_t)
 domain_dontaudit_read_all_domains_state(dhcpc_t)
 
@@ -193,6 +199,12 @@ optional_policy(`
 ')
 
 optional_policy(`
+	networkmanager_domtrans(dhcpc_t)
+	networkmanager_read_pid_files(dhcpc_t)
+')
+
+optional_policy(`
+	nis_ypbind_initrc_domtrans(dhcpc_t)
 	nis_read_ypbind_pid(dhcpc_t)
 ')
 
@@ -214,6 +226,7 @@ optional_policy(`
 optional_policy(`
 	seutil_sigchld_newrole(dhcpc_t)
 	seutil_dontaudit_search_config(dhcpc_t)
+	seutil_domtrans_setfiles(dhcpc_t)
 ')
 
 optional_policy(`
@@ -277,6 +290,8 @@ dev_read_urand(ifconfig_t)
 
 domain_use_interactive_fds(ifconfig_t)
 
+read_files_pattern(ifconfig_t, dhcpc_state_t, dhcpc_state_t)
+
 files_read_etc_files(ifconfig_t)
 files_read_etc_runtime_files(ifconfig_t)
 
@@ -305,6 +320,8 @@ miscfiles_read_localization(ifconfig_t)
 modutils_domtrans_insmod(ifconfig_t)
 
 seutil_use_runinit_fds(ifconfig_t)
+
+sysnet_dns_name_resolve(ifconfig_t)
 
 userdom_use_user_terminals(ifconfig_t)
 userdom_use_all_users_fds(ifconfig_t)

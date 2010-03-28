@@ -12,6 +12,7 @@ attribute lockfile;
 attribute mountpoint;
 attribute pidfile;
 attribute configfile;
+attribute etcfile;
 
 # For labeling types that are to be polyinstantiated
 attribute polydir;
@@ -58,6 +59,15 @@ files_type(etc_t)
 # compatibility aliases for removed types:
 typealias etc_t alias automount_etc_t;
 typealias etc_t alias snmpd_etc_t;
+
+# system_conf_t is a new type of various
+# files in /etc/ that can be managed and
+# created by several domains.
+# 
+type system_conf_t, configfile;
+files_type(system_conf_t)
+# compatibility aliases for removed type:
+typealias system_conf_t alias iptables_conf_t;
 
 #
 # etc_runtime_t is the type of various
@@ -194,6 +204,7 @@ fs_associate(file_type)
 fs_associate_noxattr(file_type)
 fs_associate_tmpfs(file_type)
 fs_associate_ramfs(file_type)
+fs_associate_hugetlbfs(file_type)
 
 ########################################
 #

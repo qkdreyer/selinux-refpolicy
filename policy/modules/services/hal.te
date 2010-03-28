@@ -55,6 +55,9 @@ files_pid_file(hald_var_run_t)
 type hald_var_lib_t;
 files_type(hald_var_lib_t)
 
+typealias hald_log_t alias pmtools_log_t;
+typealias hald_var_run_t alias pmtools_var_run_t;
+
 ########################################
 #
 # Local policy
@@ -63,7 +66,7 @@ files_type(hald_var_lib_t)
 # execute openvt which needs setuid
 allow hald_t self:capability { chown setuid setgid kill net_admin sys_admin sys_nice dac_override dac_read_search mknod sys_rawio sys_tty_config };
 dontaudit hald_t self:capability {sys_ptrace sys_tty_config };
-allow hald_t self:process { getattr signal_perms };
+allow hald_t self:process { getsched getattr signal_perms };
 allow hald_t self:fifo_file rw_fifo_file_perms;
 allow hald_t self:unix_stream_socket { create_stream_socket_perms connectto };
 allow hald_t self:unix_dgram_socket create_socket_perms;
@@ -100,6 +103,7 @@ kernel_read_fs_sysctls(hald_t)
 kernel_rw_irq_sysctls(hald_t)
 kernel_rw_vm_sysctls(hald_t)
 kernel_write_proc_files(hald_t)
+kernel_search_network_sysctl(hald_t)
 kernel_setsched(hald_t)
 kernel_request_load_module(hald_t)
 
@@ -117,6 +121,7 @@ corenet_tcp_sendrecv_all_ports(hald_t)
 corenet_udp_sendrecv_all_ports(hald_t)
 
 dev_rw_usbfs(hald_t)
+dev_read_rand(hald_t)
 dev_read_urand(hald_t)
 dev_read_input(hald_t)
 dev_read_mouse(hald_t)
@@ -161,6 +166,7 @@ fs_mount_dos_fs(hald_t)
 fs_unmount_dos_fs(hald_t)
 fs_manage_dos_files(hald_t)
 fs_manage_fusefs_dirs(hald_t)
+fs_rw_removable_blk_files(hald_t)
 
 files_getattr_all_mountpoints(hald_t)
 
@@ -180,7 +186,7 @@ storage_raw_write_fixed_disk(hald_t)
 
 # hal_probe_serial causes these
 term_setattr_unallocated_ttys(hald_t)
-term_dontaudit_use_unallocated_ttys(hald_t)
+term_use_unallocated_ttys(hald_t)
 
 auth_use_nsswitch(hald_t)
 
@@ -266,6 +272,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+	gnome_read_config(hald_t)
+')
+
+optional_policy(`
 	gpm_dontaudit_getattr_gpmctl(hald_t)
 ')
 
@@ -295,6 +305,7 @@ optional_policy(`
 ')
 
 optional_policy(`
+	ppp_domtrans(hald_t)
 	ppp_read_rw_config(hald_t)
 ')
 
@@ -315,8 +326,16 @@ optional_policy(`
 ')
 
 optional_policy(`
+	shutdown_domtrans(hald_t)
+')    
+
+optional_policy(`
 	udev_domtrans(hald_t)
 	udev_read_db(hald_t)
+')
+
+optional_policy(`
+	usbmuxd_stream_connect(hald_t)
 ')
 
 optional_policy(`
@@ -329,6 +348,10 @@ optional_policy(`
 
 optional_policy(`
 	virt_manage_images(hald_t)
+')
+
+optional_policy(`
+	xserver_read_pid(hald_t)
 ')
 
 ########################################
@@ -351,6 +374,7 @@ files_search_var_lib(hald_acl_t)
 manage_dirs_pattern(hald_acl_t, hald_var_run_t, hald_var_run_t)
 manage_files_pattern(hald_acl_t, hald_var_run_t, hald_var_run_t)
 files_pid_filetrans(hald_acl_t, hald_var_run_t, { dir file })
+allow hald_t hald_var_run_t:dir mounton;
 
 corecmd_exec_bin(hald_acl_t)
 
@@ -462,6 +486,10 @@ files_read_etc_files(hald_keymap_t)
 files_read_usr_files(hald_keymap_t)
 
 miscfiles_read_localization(hald_keymap_t)
+
+# This is caused by a bug in hald and PolicyKit.  
+# Should be removed when this is fixed
+cron_read_system_job_lib_files(hald_t)
 
 ########################################
 #

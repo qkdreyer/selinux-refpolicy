@@ -934,6 +934,42 @@ interface(`dev_create_all_chr_files',`
 
 ########################################
 ## <summary>
+##	rw all inherited character device files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`dev_rw_all_inherited_chr_files',`
+	gen_require(`
+		attribute device_node;
+	')
+
+	allow $1 device_node:chr_file rw_inherited_chr_file_perms;
+')
+
+########################################
+## <summary>
+##	rw all inherited blk device files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`dev_rw_all_inherited_blk_files',`
+	gen_require(`
+		attribute device_node;
+	')
+
+	allow $1 device_node:blk_file rw_inherited_blk_file_perms;
+')
+
+########################################
+## <summary>
 ##	Delete all block device files.
 ## </summary>
 ## <param name="domain">
@@ -2597,6 +2633,7 @@ interface(`dev_dontaudit_write_mtrr',`
 		type mtrr_device_t;
 	')
 
+	dontaudit $1 mtrr_device_t:file write;
 	dontaudit $1 mtrr_device_t:chr_file write;
 ')
 
@@ -3440,6 +3477,24 @@ interface(`dev_manage_smartcard',`
 
 ########################################
 ## <summary>
+##	Associate a file to a sysfs filesystem.
+## </summary>
+## <param name="file_type">
+##	<summary>
+##	The type of the file to be associated to sysfs.
+##	</summary>
+## </param>
+#
+interface(`dev_associate_sysfs',`
+	gen_require(`
+		type sysfs_t;
+	')
+
+	allow $1 sysfs_t:filesystem associate;
+')
+
+########################################
+## <summary>
 ##	Get the attributes of sysfs directories.
 ## </summary>
 ## <param name="domain">
@@ -3729,6 +3784,24 @@ interface(`dev_rw_generic_usb_dev',`
 	')
 
 	rw_chr_files_pattern($1, device_t, usb_device_t)
+')
+
+########################################
+## <summary>
+##	Read USB monitor devices.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`dev_read_usbmon_dev',`
+	gen_require(`
+		type device_t, usbmon_device_t;
+	')
+
+	read_chr_files_pattern($1, device_t, usbmon_device_t)
 ')
 
 ########################################

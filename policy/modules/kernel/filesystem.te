@@ -53,6 +53,7 @@ type anon_inodefs_t;
 fs_type(anon_inodefs_t)
 files_mountpoint(anon_inodefs_t)
 genfscon anon_inodefs / gen_context(system_u:object_r:anon_inodefs_t,s0)
+mls_trusted_object(anon_inodefs_t)
 
 type bdev_t;
 fs_type(bdev_t)
@@ -172,6 +173,7 @@ files_poly_parent(tmpfs_t)
 fs_use_trans mqueue gen_context(system_u:object_r:tmpfs_t,s0);
 fs_use_trans shm gen_context(system_u:object_r:tmpfs_t,s0);
 fs_use_trans tmpfs gen_context(system_u:object_r:tmpfs_t,s0);
+fs_use_trans devtmpfs gen_context(system_u:object_r:tmpfs_t,s0);
 
 allow tmpfs_t noxattrfs:filesystem associate;
 
@@ -242,6 +244,7 @@ genfscon udf / gen_context(system_u:object_r:iso9660_t,s0)
 type removable_t;
 allow removable_t noxattrfs:filesystem associate;
 fs_noxattr_type(removable_t)
+files_type(removable_t)
 files_mountpoint(removable_t)
 
 #

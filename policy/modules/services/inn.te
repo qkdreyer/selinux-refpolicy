@@ -106,6 +106,7 @@ sysnet_read_config(innd_t)
 
 userdom_dontaudit_use_unpriv_user_fds(innd_t)
 userdom_dontaudit_search_user_home_dirs(innd_t)
+userdom_stream_connect(innd_t)
 
 mta_send_mail(innd_t)
 

@@ -57,6 +57,7 @@ logging_log_file(freshclam_var_log_t)
 #
 
 allow clamd_t self:capability { kill setgid setuid dac_override };
+dontaudit clamd_t self:capability sys_tty_config;  
 allow clamd_t self:fifo_file rw_fifo_file_perms;
 allow clamd_t self:unix_stream_socket { create_stream_socket_perms connectto };
 allow clamd_t self:unix_dgram_socket create_socket_perms;
@@ -189,9 +190,13 @@ files_read_etc_runtime_files(freshclam_t)
 
 auth_use_nsswitch(freshclam_t)
 
+logging_send_syslog_msg(freshclam_t)
+
 miscfiles_read_localization(freshclam_t)
 
 clamav_stream_connect(freshclam_t)
+
+userdom_stream_connect(freshclam_t)
 
 optional_policy(`
 	cron_system_entry(freshclam_t, freshclam_exec_t)

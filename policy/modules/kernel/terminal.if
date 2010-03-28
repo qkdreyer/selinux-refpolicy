@@ -292,9 +292,11 @@ interface(`term_use_console',`
 interface(`term_dontaudit_use_console',`
 	gen_require(`
 		type console_device_t;
+		type tty_device_t;
 	')
 
-	dontaudit $1 console_device_t:chr_file rw_chr_file_perms;
+	dontaudit $1 console_device_t:chr_file rw_inherited_chr_file_perms;
+	dontaudit $1 tty_device_t:chr_file rw_inherited_chr_file_perms;
 ')
 
 ########################################
@@ -672,6 +674,25 @@ interface(`term_use_ptmx',`
 
 ########################################
 ## <summary>
+##	Do not audit attempts to get attributes 
+##	on the pty multiplexor (/dev/ptmx).
+## </summary>
+## <param name="domain">
+##	<summary>
+##	The type of the process to not audit.
+##	</summary>
+## </param>
+#
+interface(`term_dontaudit_getattr_ptmx',`
+	gen_require(`
+		type ptmx_t;
+	')
+
+	dontaudit $1 ptmx_t:chr_file getattr;
+')
+
+########################################
+## <summary>
 ##	Do not audit attempts to read and
 ##	write the pty multiplexor (/dev/ptmx).
 ## </summary>
@@ -829,7 +850,7 @@ interface(`term_dontaudit_use_all_ptys',`
 		attribute ptynode;
 	')
 
-	dontaudit $1 ptynode:chr_file { rw_term_perms lock append };
+	dontaudit $1 ptynode:chr_file { rw_inherited_term_perms lock append };
 ')
 
 ########################################
@@ -1196,7 +1217,7 @@ interface(`term_dontaudit_use_unallocated_ttys',`
 		type tty_device_t;
 	')
 
-	dontaudit $1 tty_device_t:chr_file rw_chr_file_perms;
+	dontaudit $1 tty_device_t:chr_file rw_inherited_chr_file_perms;
 ')
 
 ########################################
@@ -1333,7 +1354,7 @@ interface(`term_dontaudit_use_all_ttys',`
 		attribute ttynode;
 	')
 
-	dontaudit $1 ttynode:chr_file rw_chr_file_perms;
+	dontaudit $1 ttynode:chr_file rw_inherited_chr_file_perms;
 ')
 
 ########################################

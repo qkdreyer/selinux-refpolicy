@@ -115,6 +115,44 @@ interface(`ftp_run_ftpdctl',`
 	role $2 types ftpdctl_t;
 ')
 
+#######################################
+## <summary>
+##  Allow domain dyntransition to sftpd domain.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`ftp_dyntransition_sftpd',`
+    gen_require(`
+        type sftpd_t;
+    ')
+
+	allow $1 sftpd_t:process dyntransition;
+	allow sftpd_t $1:process sigchld;
+')
+
+#######################################
+## <summary>
+##  Allow domain dyntransition to sftpd_anon domain.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`ftp_dyntransition_sftpd_anon',`
+    gen_require(`
+        type sftpd_anon_t;
+    ')
+
+	allow $1 sftpd_anon_t:process dyntransition;
+	allow sftpd_anon_t $1:process sigchld;
+')
+
 ########################################
 ## <summary>
 ##	All of the rules required to administrate 

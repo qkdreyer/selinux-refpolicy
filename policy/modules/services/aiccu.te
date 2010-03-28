@@ -1,0 +1,41 @@
+policy_module(aiccu,1.0.0)
+
+########################################
+#
+# Declarations
+#
+
+type aiccu_t;
+type aiccu_exec_t;
+init_daemon_domain(aiccu_t, aiccu_exec_t)
+
+permissive aiccu_t;
+
+type aiccu_initrc_exec_t;
+init_script_file(aiccu_initrc_exec_t)
+
+type aiccu_var_run_t;
+files_pid_file(aiccu_var_run_t)
+
+########################################
+#
+# aiccu local policy
+#
+
+allow aiccu_t self:capability { kill };
+allow aiccu_t self:process { fork signal };
+
+# Init script handling
+domain_use_interactive_fds(aiccu_t)
+
+# internal communication is often done using fifo and unix sockets.
+allow aiccu_t self:fifo_file rw_file_perms;
+allow aiccu_t self:unix_stream_socket create_stream_socket_perms;
+
+files_read_etc_files(aiccu_t)
+
+miscfiles_read_localization(aiccu_t)
+
+manage_dirs_pattern(aiccu_t, aiccu_var_run_t,  aiccu_var_run_t)
+manage_files_pattern(aiccu_t, aiccu_var_run_t,  aiccu_var_run_t)
+files_pid_filetrans(aiccu_t, aiccu_var_run_t, { file dir })

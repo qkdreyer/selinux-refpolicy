@@ -142,6 +142,11 @@ ifdef(`distro_redhat',`
 ')
 
 optional_policy(`
+	aisexec_stream_connect(clvmd_t)
+	corosync_stream_connect(clvmd_t)
+')
+
+optional_policy(`
 	ccs_stream_connect(clvmd_t)
 ')
 
@@ -171,6 +176,7 @@ dontaudit lvm_t self:capability sys_tty_config;
 allow lvm_t self:process { sigchld sigkill sigstop signull signal };
 # LVM will complain a lot if it cannot set its priority.
 allow lvm_t self:process setsched;
+allow lvm_t self:sem create_sem_perms;
 allow lvm_t self:file rw_file_perms;
 allow lvm_t self:fifo_file manage_fifo_file_perms;
 allow lvm_t self:unix_dgram_socket create_socket_perms;
@@ -218,6 +224,7 @@ kernel_read_kernel_sysctls(lvm_t)
 # it has no reason to need this
 kernel_dontaudit_getattr_core_if(lvm_t)
 kernel_use_fds(lvm_t)
+kernel_request_load_module(lvm_t)
 kernel_search_debugfs(lvm_t)
 
 corecmd_exec_bin(lvm_t)
@@ -244,6 +251,7 @@ dev_dontaudit_getattr_generic_chr_files(lvm_t)
 dev_dontaudit_getattr_generic_blk_files(lvm_t)
 dev_dontaudit_getattr_generic_pipes(lvm_t)
 dev_create_generic_dirs(lvm_t)
+dev_rw_generic_files(lvm_t)
 
 domain_use_interactive_fds(lvm_t)
 domain_read_all_domains_state(lvm_t)
@@ -253,8 +261,9 @@ files_read_etc_files(lvm_t)
 files_read_etc_runtime_files(lvm_t)
 # for when /usr is not mounted:
 files_dontaudit_search_isid_type_dirs(lvm_t)
+files_dontaudit_getattr_tmpfs_files(lvm_t)
 
-fs_getattr_xattr_fs(lvm_t)
+fs_getattr_all_fs(lvm_t)
 fs_search_auto_mountpoints(lvm_t)
 fs_list_tmpfs(lvm_t)
 fs_read_tmpfs_symlinks(lvm_t)
@@ -311,6 +320,11 @@ ifdef(`distro_redhat',`
 ')
 
 optional_policy(`
+	aisexec_stream_connect(lvm_t)
+	corosync_stream_connect(lvm_t)
+')
+
+optional_policy(`
 	bootloader_rw_tmp_files(lvm_t)
 ')
 
@@ -328,6 +342,10 @@ optional_policy(`
 	optional_policy(`
 		hal_dbus_chat(lvm_t)
 	')
+')
+
+optional_policy(`
+	livecd_rw_semaphores(lvm_t)
 ')
 
 optional_policy(`

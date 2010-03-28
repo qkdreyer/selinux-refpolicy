@@ -29,10 +29,10 @@ gen_tunable(user_direct_mouse, false)
 
 ## <desc>
 ## <p>
-## Allow users to read system messages.
+## Allow regular users direct dri device access
 ## </p>
 ## </desc>
-gen_tunable(user_dmesg, false)
+gen_tunable(user_direct_dri, false)
 
 ## <desc>
 ## <p>
@@ -54,11 +54,20 @@ attribute admindomain;
 # all user domains
 attribute userdomain;
 
+attribute userhomereader;
+attribute userhomewriter;
+
 # unprivileged user domains
 attribute unpriv_userdomain;
 
-attribute untrusted_content_type;
-attribute untrusted_content_tmp_type;
+# unprivileged user domains
+attribute user_home_type;
+
+type admin_home_t;
+files_type(admin_home_t)
+files_associate_tmp(admin_home_t)
+fs_associate_tmpfs(admin_home_t)
+files_mountpoint(admin_home_t)
 
 type user_home_dir_t alias { staff_home_dir_t sysadm_home_dir_t secadm_home_dir_t auditadm_home_dir_t unconfined_home_dir_t };
 fs_associate_tmpfs(user_home_dir_t)
@@ -72,6 +81,7 @@ ubac_constrained(user_home_dir_t)
 
 type user_home_t alias { staff_home_t sysadm_home_t secadm_home_t auditadm_home_t unconfined_home_t };
 typealias user_home_t alias { staff_untrusted_content_t sysadm_untrusted_content_t secadm_untrusted_content_t auditadm_untrusted_content_t unconfined_untrusted_content_t };
+typeattribute user_home_t user_home_type;
 userdom_user_home_content(user_home_t)
 fs_associate_tmpfs(user_home_t)
 files_associate_tmp(user_home_t)
@@ -97,3 +107,29 @@ userdom_user_home_content(user_tmpfs_t)
 type user_tty_device_t alias { staff_tty_device_t sysadm_tty_device_t secadm_tty_device_t auditadm_tty_device_t unconfined_tty_device_t };
 dev_node(user_tty_device_t)
 ubac_constrained(user_tty_device_t)
+
+type home_cert_t, user_home_type;
+files_type(home_cert_t)
+ubac_constrained(home_cert_t)
+
+tunable_policy(`allow_console_login',`
+	term_use_console(userdomain)
+')
+
+tunable_policy(`use_nfs_home_dirs',`
+	fs_list_nfs(userhomereader)
+	fs_read_nfs_files(userhomereader)
+	fs_read_nfs_symlinks(userhomereader)
+	fs_read_nfs_named_sockets(userhomereader)
+	fs_read_nfs_named_pipes(userhomereader)
+')
+
+tunable_policy(`use_samba_home_dirs',`
+	fs_list_cifs(userhomereader)
+	fs_read_cifs_files(userhomereader)
+	fs_read_cifs_symlinks(userhomereader)
+	fs_read_cifs_named_sockets(userhomereader)
+	fs_read_cifs_named_pipes(userhomereader)
+')
+
+allow userdomain userdomain:process signull;

@@ -54,7 +54,7 @@ template(`rpc_domain_template', `
 	allow $1_t self:unix_dgram_socket create_socket_perms;
 	allow $1_t self:unix_stream_socket create_stream_socket_perms;
 	allow $1_t self:tcp_socket create_stream_socket_perms;
-	allow $1_t self:udp_socket create_socket_perms;
+	allow $1_t self:udp_socket create_stream_socket_perms;
 
 	manage_dirs_pattern($1_t, var_lib_nfs_t, var_lib_nfs_t)
 	manage_files_pattern($1_t, var_lib_nfs_t, var_lib_nfs_t)
@@ -99,6 +99,7 @@ template(`rpc_domain_template', `
 	files_read_etc_runtime_files($1_t)
 	files_search_var($1_t)
 	files_search_var_lib($1_t)
+	files_list_home($1_t)
 
 	auth_use_nsswitch($1_t)
 
@@ -107,6 +108,10 @@ template(`rpc_domain_template', `
 	miscfiles_read_localization($1_t)
 
 	userdom_dontaudit_use_unpriv_user_fds($1_t)
+
+	optional_policy(`
+		rpcbind_stream_connect($1_t)
+	')
 
 	optional_policy(`
 		seutil_sigchld_newrole($1_t)
@@ -204,9 +209,27 @@ interface(`rpc_domtrans_nfsd',`
 	domtrans_pattern($1, nfsd_exec_t, nfsd_t)
 ')
 
-########################################
+#######################################
 ## <summary>
 ##	Execute domain in nfsd domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	The type of the process performing this action.
+##	</summary>
+## </param>
+#
+interface(`rpc_initrc_domtrans_nfsd',`
+        gen_require(`
+                type nfsd_initrc_exec_t;
+        ')
+
+        init_labeled_script_domtrans($1, nfsd_initrc_exec_t)
+')
+
+########################################
+## <summary>
+##	Execute domain in rpcd domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -221,6 +244,24 @@ interface(`rpc_domtrans_rpcd',`
 
 	domtrans_pattern($1, rpcd_exec_t, rpcd_t)
 	allow rpcd_t $1:process signal;
+')
+
+#######################################
+## <summary>
+##      Execute domain in rpcd domain.
+## </summary>
+## <param name="domain">
+##      <summary>
+##      The type of the process performing this action.
+##      </summary>
+## </param>
+#
+interface(`rpc_initrc_domtrans_rpcd',`
+        gen_require(`
+                type rpcd_initrc_exec_t;
+        ')
+
+        init_labeled_script_domtrans($1, rpcd_initrc_exec_t)
 ')
 
 ########################################
@@ -373,4 +414,5 @@ interface(`rpc_manage_nfs_state_data',`
 
 	files_search_var_lib($1)
 	manage_files_pattern($1, var_lib_nfs_t, var_lib_nfs_t)
+	allow $1 var_lib_nfs_t:file { relabelfrom relabelto };
 ')

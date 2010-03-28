@@ -42,3 +42,11 @@ allow djbdns_axfrdns_t djbdns_tinydns_conf_t:file read_file_perms;
 files_search_var(djbdns_axfrdns_t)
 
 ucspitcp_service_domain(djbdns_axfrdns_t, djbdns_axfrdns_exec_t)
+
+#####################################
+#
+# Local policy for djbdns_tinydns_t
+#
+
+init_dontaudit_use_script_fds(djbdns_tinydns_t)
+

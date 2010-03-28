@@ -108,6 +108,7 @@
 /dev/urandom		-c	gen_context(system_u:object_r:urandom_device_t,s0)
 /dev/ub[a-c]		-c	gen_context(system_u:object_r:usb_device_t,s0)
 /dev/usb.+		-c	gen_context(system_u:object_r:usb_device_t,s0)
+/dev/usbmon.+		-c	gen_context(system_u:object_r:usbmon_device_t,s0)
 /dev/usblp.*		-c	gen_context(system_u:object_r:printer_device_t,s0)
 ifdef(`distro_suse', `
 /dev/usbscanner		-c	gen_context(system_u:object_r:scanner_device_t,s0)

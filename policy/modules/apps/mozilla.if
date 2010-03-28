@@ -48,6 +48,12 @@ interface(`mozilla_role',`
 
 	mozilla_dbus_chat($2)
 
+	userdom_manage_tmp_role($1, mozilla_t)
+
+	optional_policy(`
+		nsplugin_role($1, mozilla_t)
+	')
+
 	optional_policy(`
 		pulseaudio_role($1, mozilla_t)
 	')
@@ -108,7 +114,7 @@ interface(`mozilla_dontaudit_rw_user_home_files',`
 		type mozilla_home_t;
 	')
 
-	dontaudit $1 mozilla_home_t:file rw_file_perms;
+	dontaudit $1 mozilla_home_t:file { read write };
 ')
 
 ########################################
@@ -185,4 +191,58 @@ interface(`mozilla_rw_tcp_sockets',`
 	')
 
 	allow $1 mozilla_t:tcp_socket rw_socket_perms;
+')
+
+########################################
+## <summary>
+##	Write mozilla home directory content
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`mozilla_execmod_user_home_files',`
+	gen_require(`
+		type mozilla_home_t;
+	')
+
+	allow $1 mozilla_home_t:file execmod;
+')
+
+########################################
+## <summary>
+##	Execute mozilla_exec_t 
+##	in the specified domain.
+## </summary>
+## <desc>
+##	<p>
+##	Execute a mozilla_exec_t
+##	in the specified domain.  
+##	</p>
+##	<p>
+##	No interprocess communication (signals, pipes,
+##	etc.) is provided by this interface since
+##	the domains are not owned by this module.
+##	</p>
+## </desc>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+## <param name="target_domain">
+##	<summary>
+##	The type of the new process.
+##	</summary>
+## </param>
+#
+interface(`mozilla_exec_domtrans',`
+	gen_require(`
+		type mozilla_exec_t;
+	')
+
+	allow $2 mozilla_exec_t:file entrypoint;
+	domtrans_pattern($1, mozilla_exec_t, $2)
 ')

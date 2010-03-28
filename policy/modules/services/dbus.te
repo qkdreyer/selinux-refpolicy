@@ -86,6 +86,7 @@ dev_read_urand(system_dbusd_t)
 dev_read_sysfs(system_dbusd_t)
 
 fs_getattr_all_fs(system_dbusd_t)
+fs_list_inotifyfs(system_dbusd_t)
 fs_search_auto_mountpoints(system_dbusd_t)
 fs_dontaudit_list_nfs(system_dbusd_t)
 
@@ -121,6 +122,8 @@ files_read_usr_files(system_dbusd_t)
 
 init_use_fds(system_dbusd_t)
 init_use_script_ptys(system_dbusd_t)
+init_bin_domtrans_spec(system_dbusd_t)
+init_domtrans_script(system_dbusd_t)
 
 logging_send_audit_msgs(system_dbusd_t)
 logging_send_syslog_msg(system_dbusd_t)
@@ -140,6 +143,15 @@ optional_policy(`
 ')
 
 optional_policy(`
+	gnome_exec_gconf(system_dbusd_t)
+')
+
+optional_policy(`
+	networkmanager_initrc_domtrans(system_dbusd_t)
+')
+
+optional_policy(`
+        policykit_dbus_chat(system_dbusd_t)
 	policykit_domtrans_auth(system_dbusd_t)
 	policykit_search_lib(system_dbusd_t)
 ')
@@ -156,5 +168,24 @@ optional_policy(`
 #
 # Unconfined access to this module
 #
+optional_policy(`
+	gen_require(`
+		type unconfined_dbusd_t;
+	')
+	unconfined_domain(unconfined_dbusd_t)
+	unconfined_execmem_domtrans(unconfined_dbusd_t)
+
+	optional_policy(`
+		xserver_rw_shm(unconfined_dbusd_t)
+	')
+')
 
 allow dbusd_unconfined session_bus_type:dbus all_dbus_perms;
+allow dbusd_unconfined dbusd_unconfined:dbus all_dbus_perms;
+allow session_bus_type dbusd_unconfined:dbus send_msg;
+
+optional_policy(`
+	xserver_use_xdm_fds(session_bus_type)
+	xserver_rw_xdm_pipes(session_bus_type)
+	xserver_append_xdm_home_files(session_bus_type)
+')

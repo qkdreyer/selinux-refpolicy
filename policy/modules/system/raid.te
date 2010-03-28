@@ -58,6 +58,7 @@ domain_use_interactive_fds(mdadm_t)
 
 files_read_etc_files(mdadm_t)
 files_read_etc_runtime_files(mdadm_t)
+files_dontaudit_getattr_tmpfs_files(mdadm_t)
 
 fs_search_auto_mountpoints(mdadm_t)
 fs_dontaudit_list_tmpfs(mdadm_t)

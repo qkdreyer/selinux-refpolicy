@@ -5,6 +5,7 @@ policy_module(xen, 1.9.2)
 #
 # Declarations
 #
+attribute xm_transition_domain;
 
 ## <desc>
 ## <p>
@@ -347,6 +348,7 @@ dev_read_sysfs(xenstored_t)
 
 files_read_usr_files(xenstored_t)
 
+fs_search_xenfs(xenstored_t)
 fs_manage_xenfs_files(xenstored_t)
 
 storage_raw_read_fixed_disk(xenstored_t)
@@ -438,6 +440,12 @@ optional_policy(`
 ')
 
 optional_policy(`
+	vhostmd_rw_tmpfs_files(xm_t)
+    	vhostmd_stream_connect(xm_t)
+	vhostmd_dontaudit_rw_stream_connect(xm_t)
+')
+
+optional_policy(`
 	virt_domtrans(xm_t)
 	virt_manage_images(xm_t)
 	virt_manage_config(xm_t)
@@ -454,10 +462,13 @@ optional_policy(`
 	kernel_read_xen_state(xm_ssh_t)
 	kernel_write_xen_state(xm_ssh_t)
 
+	dontaudit xm_ssh_t xm_transition_domain:fifo_file rw_inherited_fifo_file_perms;
 	files_search_tmp(xm_ssh_t)
 
 	fs_manage_xenfs_dirs(xm_ssh_t)
 	fs_manage_xenfs_files(xm_ssh_t)
+
+	userdom_search_admin_dir(xm_ssh_t)
 
 	#Should have a boolean wrapping these
 	fs_list_auto_mountpoints(xend_t)

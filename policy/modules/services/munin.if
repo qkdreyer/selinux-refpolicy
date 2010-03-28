@@ -43,6 +43,24 @@ interface(`munin_read_config',`
 	files_search_etc($1)
 ')
 
+######################################
+## <summary>
+##  dontaudit read and write an leaked file descriptors
+## </summary>
+## <param name="domain">
+##  <summary>
+##  The type of the process performing this action.
+##  </summary>
+## </param>
+#
+interface(`munin_dontaudit_leaks',`
+    gen_require(`
+        type munin_t;
+    ')
+
+    dontaudit $1 munin_t:tcp_socket { read write };
+')
+
 #######################################
 ## <summary>
 ##	Append to the munin log.
@@ -100,6 +118,54 @@ interface(`munin_dontaudit_search_lib',`
 	')
 
 	dontaudit $1 munin_var_lib_t:dir search_dir_perms;
+')
+
+######################################
+## <summary>
+##  Create a set of derived types for various
+##  munin plugins,
+## </summary>
+## <param name="plugins_group_name">
+##  <summary>
+##  The name to be used for deriving type names.
+##  </summary>
+## </param>
+#
+template(`munin_plugin_template',`
+
+	gen_require(`
+		type munin_t, munin_exec_t;
+		type munin_etc_t;
+	')
+
+	type munin_$1_plugin_t;
+	type munin_$1_plugin_exec_t;
+	application_domain(munin_$1_plugin_t, munin_$1_plugin_exec_t)
+	role system_r types munin_$1_plugin_t;
+
+	type munin_$1_plugin_tmp_t;
+	files_tmp_file(munin_$1_plugin_tmp_t)
+
+	allow munin_$1_plugin_t self:fifo_file rw_fifo_file_perms;
+
+	manage_files_pattern(munin_$1_plugin_t, munin_$1_plugin_tmp_t, munin_$1_plugin_tmp_t)
+	manage_dirs_pattern(munin_$1_plugin_t, munin_$1_plugin_tmp_t, munin_$1_plugin_tmp_t)
+	files_tmp_filetrans(munin_$1_plugin_t, munin_$1_plugin_tmp_t, { dir file })
+
+	# automatic transition rules from munin domain
+	# to specific munin plugin domain
+	domtrans_pattern(munin_t, munin_$1_plugin_exec_t, munin_$1_plugin_t)
+	
+	allow munin_$1_plugin_t munin_exec_t:file read_file_perms;
+	allow munin_$1_plugin_t munin_t:tcp_socket rw_socket_perms;
+	
+	read_lnk_files_pattern(munin_$1_plugin_t, munin_etc_t, munin_etc_t)
+
+	kernel_read_system_state(munin_$1_plugin_t)
+
+	corecmd_exec_bin(munin_$1_plugin_t)
+
+	miscfiles_read_localization(munin_$1_plugin_t)
 ')
 
 ########################################
