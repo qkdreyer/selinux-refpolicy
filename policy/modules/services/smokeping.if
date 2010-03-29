@@ -1,5 +1,4 @@
-
-## <summary>policy for smokeping</summary>
+## <summary>Smokeping network latency measurement.</summary>
 
 ########################################
 ## <summary>
@@ -19,14 +18,13 @@ interface(`smokeping_domtrans',`
 	domtrans_pattern($1, smokeping_exec_t, smokeping_t)
 ')
 
-
 ########################################
 ## <summary>
 ##	Execute smokeping server in the smokeping domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -59,7 +57,7 @@ interface(`smokeping_read_pid_files',`
 
 ########################################
 ## <summary>
-##	Manage smokeping var_run files.
+##	Manage smokeping PID files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -67,20 +65,18 @@ interface(`smokeping_read_pid_files',`
 ##	</summary>
 ## </param>
 #
-interface(`smokeping_manage_var_run',`
+interface(`smokeping_manage_pid_files',`
 	gen_require(`
 		type smokeping_var_run_t;
 	')
 
-         manage_dirs_pattern($1, smokeping_var_run_t, smokeping_var_run_t)
-         manage_files_pattern($1, smokeping_var_run_t, smokeping_var_run_t)
-         manage_lnk_files_pattern($1, smokeping_var_run_t, smokeping_var_run_t)
+	files_search_pids($1)
+	manage_files_pattern($1, smokeping_var_run_t, smokeping_var_run_t)
 ')
-
 
 ########################################
 ## <summary>
-##	Search smokeping lib directories.
+##	Get attributes of smokeping lib files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -118,8 +114,7 @@ interface(`smokeping_read_lib_files',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete
-##	smokeping lib files.
+##	Manage smokeping lib files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -133,33 +128,13 @@ interface(`smokeping_manage_lib_files',`
 	')
 
 	files_search_var_lib($1)
-    manage_files_pattern($1, smokeping_var_lib_t,  smokeping_var_lib_t)
+	manage_files_pattern($1, smokeping_var_lib_t, smokeping_var_lib_t)
 ')
 
 ########################################
 ## <summary>
-##	Manage smokeping var_lib files.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`smokeping_manage_var_lib',`
-	gen_require(`
-		type smokeping_var_lib_t;
-	')
-
-         manage_dirs_pattern($1, smokeping_var_lib_t, smokeping_var_lib_t)
-         manage_files_pattern($1, smokeping_var_lib_t, smokeping_var_lib_t)
-         manage_lnk_files_pattern($1, smokeping_var_lib_t, smokeping_var_lib_t)
-')
-
-########################################
-## <summary>
-##	All of the rules required to administrate 
-##	an smokeping environment
+##	All of the rules required to administrate
+##	a smokeping environment
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -178,16 +153,15 @@ interface(`smokeping_admin',`
 		type smokeping_t, smokeping_initrc_exec_t;
 	')
 
-	allow $1 smokeping_t:process { ptrace signal_perms getattr };
-	read_files_pattern($1, smokeping_t, smokeping_t)
+	allow $1 smokeping_t:process { ptrace signal_perms };
+	ps_process_pattern($1, smokeping_t)
 
 	smokeping_initrc_domtrans($1)
 	domain_system_change_exemption($1)
 	role_transition $2 smokeping_initrc_exec_t system_r;
 	allow $2 system_r;
 
-	smokeping_manage_var_run($1)
+	smokeping_manage_pid_files($1)
 
-	smokeping_manage_var_lib($1)
-
+	smokeping_manage_lib_files($1)
 ')

@@ -58,7 +58,7 @@ interface(`pulseaudio_domtrans',`
 		type pulseaudio_t, pulseaudio_exec_t;
 	')
 
-	domtrans_pattern($1,pulseaudio_exec_t,pulseaudio_t)
+	domtrans_pattern($1, pulseaudio_exec_t, pulseaudio_t)
 ')
 
 ########################################
@@ -88,7 +88,7 @@ interface(`pulseaudio_run',`
 
 ########################################
 ## <summary>
-##	Execute a pulseaudio in the current domain
+##	Execute a pulseaudio in the current domain.
 ## </summary>
 ## <param name="domain">
 ## <summary>
@@ -98,10 +98,32 @@ interface(`pulseaudio_run',`
 #
 interface(`pulseaudio_exec',`
 	gen_require(`
-                type pulseaudio_exec_t;
+		type pulseaudio_exec_t;
 	')
 
-	can_exec($1,pulseaudio_exec_t)
+	can_exec($1, pulseaudio_exec_t)
+')
+
+#####################################
+## <summary>
+##	Connect to pulseaudio over a unix domain
+##	stream socket.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`pulseaudio_stream_connect',`
+	gen_require(`
+		type pulseaudio_t, pulseaudio_var_run_t;
+	')
+
+	files_search_pids($1)
+	allow $1 pulseaudio_t:process signull;
+	allow pulseaudio_t $1:process signull;
+	stream_connect_pattern($1, pulseaudio_var_run_t, pulseaudio_var_run_t, pulseaudio_t)
 ')
 
 ########################################
@@ -127,55 +149,15 @@ interface(`pulseaudio_dbus_chat',`
 
 ########################################
 ## <summary>
-##	read pulseaudio homedir content 
+##	Set the attributes of the pulseaudio homedir.
 ## </summary>
 ## <param name="user_domain">
 ##	<summary>
-##	The type of the user domain.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
-template(`pulseaudio_read_home',`
-	gen_require(`
-		type pulseaudio_home_t;
-	')
-
-	list_dirs_pattern($1, pulseaudio_home_t, pulseaudio_home_t)
-	read_files_pattern($1, pulseaudio_home_t, pulseaudio_home_t)
-	read_lnk_files_pattern($1, pulseaudio_home_t, pulseaudio_home_t)
-')
-
-########################################
-## <summary>
-##	manage pulseaudio homedir content 
-## </summary>
-## <param name="user_domain">
-##	<summary>
-##	The type of the user domain.
-##	</summary>
-## </param>
-#
-template(`pulseaudio_manage_home',`
-	gen_require(`
-		type pulseaudio_home_t;
-	')
-
-	manage_dirs_pattern($1, pulseaudio_home_t, pulseaudio_home_t)
-	manage_files_pattern($1, pulseaudio_home_t, pulseaudio_home_t)
-	manage_lnk_files_pattern($1, pulseaudio_home_t, pulseaudio_home_t)
-')
-
-########################################
-## <summary>
-##	Allow domain to setattr on pulseaudio homedir
-## </summary>
-## <param name="user_domain">
-##	<summary>
-##	The type of the user domain.
-##	</summary>
-## </param>
-#
-template(`pulseaudio_setattr_home_dir',`
+interface(`pulseaudio_setattr_home_dir',`
 	gen_require(`
 		type pulseaudio_home_t;
 	')
@@ -183,24 +165,41 @@ template(`pulseaudio_setattr_home_dir',`
 	allow $1 pulseaudio_home_t:dir setattr;
 ')
 
-#####################################
+########################################
 ## <summary>
-##      Connect to pulseaudio over a unix domain
-##      stream socket.
+##	Read pulseaudio homedir files.
 ## </summary>
-## <param name="domain">
-##      <summary>
-##      Domain allowed access.
-##      </summary>
+## <param name="user_domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
 ## </param>
 #
-interface(`pulseaudio_stream_connect',`
-        gen_require(`
-                type pulseaudio_t, pulseaudio_var_run_t;
-        ')
+interface(`pulseaudio_read_home_files',`
+	gen_require(`
+		type pulseaudio_home_t;
+	')
 
-        files_search_pids($1)
-	allow $1 pulseaudio_t:process signull;
-	allow pulseaudio_t $1:process signull;
-        stream_connect_pattern($1, pulseaudio_var_run_t, pulseaudio_var_run_t, pulseaudio_t)
+	userdom_search_user_home_dirs($1)
+	read_files_pattern($1, pulseaudio_home_t, pulseaudio_home_t)
+')
+
+########################################
+## <summary>
+##	Create, read, write, and delete pulseaudio
+##	home directory files.
+## </summary>
+## <param name="user_domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`pulseaudio_manage_home_files',`
+	gen_require(`
+		type pulseaudio_home_t;
+	')
+
+	userdom_search_user_home_dirs($1)
+	manage_files_pattern($1, pulseaudio_home_t, pulseaudio_home_t)
 ')

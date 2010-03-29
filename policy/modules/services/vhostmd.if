@@ -1,5 +1,4 @@
-
-## <summary>policy for vhostmd</summary>
+## <summary>Virtual host metrics daemon</summary>
 
 ########################################
 ## <summary>
@@ -18,7 +17,6 @@ interface(`vhostmd_domtrans',`
 
 	domtrans_pattern($1, vhostmd_exec_t, vhostmd_t)
 ')
-
 
 ########################################
 ## <summary>
@@ -40,7 +38,26 @@ interface(`vhostmd_initrc_domtrans',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to read, 
+##	Allow domain to read, vhostmd tmpfs files
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain to not audit.
+##	</summary>
+## </param>
+#
+interface(`vhostmd_read_tmpfs_files',`
+	gen_require(`
+		type vhostmd_tmpfs_t;
+	')
+
+	allow $1 vhostmd_tmpfs_t:file read_file_perms;
+	files_search_tmp($1)
+')
+
+########################################
+## <summary>
+##	Do not audit attempts to read,
 ##	vhostmd tmpfs files
 ## </summary>
 ## <param name="domain">
@@ -57,46 +74,28 @@ interface(`vhostmd_dontaudit_read_tmpfs_files',`
 	dontaudit $1 vhostmd_tmpfs_t:file read_file_perms;
 ')
 
-########################################
+#######################################
 ## <summary>
-##	Allow domain to read, vhostmd tmpfs files
+##	Allow domain to read and write vhostmd tmpfs files
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain to not audit.
 ##	</summary>
-## </param>
-#
-interface(`vhostmd_read_tmpfs_files',`
-	gen_require(`
-		type vhostmd_tmpfs_t;
-	')
-
-	allow $1 vhostmd_tmpfs_t:file read_file_perms;
-')
-
-#######################################
-## <summary>
-##  Allow domain to read and write vhostmd tmpfs files
-## </summary>
-## <param name="domain">
-##  <summary>
-##  Domain to not audit.
-##  </summary>
 ## </param>
 #
 interface(`vhostmd_rw_tmpfs_files',`
-    gen_require(`
-        type vhostmd_tmpfs_t;
-    ')
+	gen_require(`
+		type vhostmd_tmpfs_t;
+	')
 
-    read_files_pattern($1, vhostmd_tmpfs_t, vhostmd_tmpfs_t)
-    write_files_pattern($1, vhostmd_tmpfs_t, vhostmd_tmpfs_t)
+	rw_files_pattern($1, vhostmd_tmpfs_t, vhostmd_tmpfs_t)
+	files_search_tmp($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow domain to manage vhostmd tmpfs files
+##	Create, read, write, and delete vhostmd tmpfs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -104,14 +103,13 @@ interface(`vhostmd_rw_tmpfs_files',`
 ##	</summary>
 ## </param>
 #
-interface(`vhostmd_manage_tmpfs',`
+interface(`vhostmd_manage_tmpfs_files',`
 	gen_require(`
 		type vhostmd_tmpfs_t;
 	')
 
-         manage_dirs_pattern($1, vhostmd_tmpfs_t, vhostmd_tmpfs_t)
-         manage_files_pattern($1, vhostmd_tmpfs_t, vhostmd_tmpfs_t)
-         manage_lnk_files_pattern($1, vhostmd_tmpfs_t, vhostmd_tmpfs_t)
+	manage_files_pattern($1, vhostmd_tmpfs_t, vhostmd_tmpfs_t)
+	files_search_tmp($1)
 ')
 
 ########################################
@@ -143,57 +141,55 @@ interface(`vhostmd_read_pid_files',`
 ##	</summary>
 ## </param>
 #
-interface(`vhostmd_manage_var_run',`
+interface(`vhostmd_manage_pid_files',`
 	gen_require(`
 		type vhostmd_var_run_t;
 	')
 
-         manage_dirs_pattern($1, vhostmd_var_run_t, vhostmd_var_run_t)
-         manage_files_pattern($1, vhostmd_var_run_t, vhostmd_var_run_t)
-         manage_lnk_files_pattern($1, vhostmd_var_run_t, vhostmd_var_run_t)
+	 manage_files_pattern($1, vhostmd_var_run_t, vhostmd_var_run_t)
 ')
 
 ########################################
 ## <summary>
-##      Connect to vhostmd over an unix domain stream socket.
+##	Connect to vhostmd over an unix domain stream socket.
 ## </summary>
 ## <param name="domain">
-##      <summary>
-##      Domain allowed access.
-##      </summary>
+##	<summary>
+##	Domain allowed access.
+##	</summary>
 ## </param>
 #
 interface(`vhostmd_stream_connect',`
-        gen_require(`
-                type vhostmd_t, vhostmd_var_run_t;
-        ')
+	gen_require(`
+		type vhostmd_t, vhostmd_var_run_t;
+	')
 
-        files_search_pids($1)
+	files_search_pids($1)
 	stream_connect_pattern($1, vhostmd_var_run_t, vhostmd_var_run_t, vhostmd_t)
 ')
 
 #######################################
 ## <summary>
-##      Dontaudit read and write to vhostmd 
+##	Dontaudit read and write to vhostmd
 ##	over an unix domain stream socket.
 ## </summary>
 ## <param name="domain">
-##      <summary>
-##      Domain allowed access.
-##      </summary>
+##	<summary>
+##	Domain allowed access.
+##	</summary>
 ## </param>
 #
 interface(`vhostmd_dontaudit_rw_stream_connect',`
 	gen_require(`
-                type vhostmd_t;
-        ')
+		type vhostmd_t;
+	')
 
 	dontaudit $1 vhostmd_t:unix_stream_socket { read write };
 ')
 
 ########################################
 ## <summary>
-##	All of the rules required to administrate 
+##	All of the rules required to administrate
 ##	an vhostmd environment
 ## </summary>
 ## <param name="domain">
@@ -221,8 +217,8 @@ interface(`vhostmd_admin',`
 	role_transition $2 vhostmd_initrc_exec_t system_r;
 	allow $2 system_r;
 
-	vhostmd_manage_tmpfs($1)
+	vhostmd_manage_tmpfs_files($1)
 
-	vhostmd_manage_var_run($1)
+	vhostmd_manage_pid_files($1)
 
 ')
