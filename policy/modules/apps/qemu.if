@@ -370,3 +370,23 @@ interface(`qemu_manage_tmp_files',`
 	manage_files_pattern($1, qemu_tmp_t, qemu_tmp_t)
 ')
 
+########################################
+## <summary>
+##     Make qemu_exec_t an entrypoint for
+##     the specified domain.
+## </summary>
+## <param name="domain">
+##     <summary>
+##     The domain for which qemu_exec_t is an entrypoint.
+##     </summary>
+## </param>
+#
+interface(`qemu_entry_type',`
+	gen_require(`
+		type qemu_exec_t;
+	')
+
+	domain_entry_file($1, qemu_exec_t)
+')
+
+

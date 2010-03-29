@@ -307,6 +307,8 @@ files_read_kernel_symbol_table(initrc_t)
 files_exec_etc_files(initrc_t)
 files_manage_etc_symlinks(initrc_t)
 
+fs_manage_tmpfs_dirs(initrc_t)
+
 corenet_all_recvfrom_unlabeled(initrc_t)
 corenet_all_recvfrom_netlabel(initrc_t)
 corenet_tcp_sendrecv_all_if(initrc_t)

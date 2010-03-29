@@ -6,6 +6,13 @@ policy_module(clamav, 1.7.1)
 # Declarations
 #
 
+## <desc>
+## <p>
+## Allow clamd to use JIT compiler
+## </p>
+## </desc>
+gen_tunable(clamd_use_jit, false)
+
 # Main clamd domain
 type clamd_t;
 type clamd_exec_t;
@@ -250,6 +257,12 @@ miscfiles_read_public_files(clamscan_t)
 clamav_stream_connect(clamscan_t)
 
 mta_send_mail(clamscan_t)
+
+tunable_policy(`clamd_use_jit',`
+       allow clamd_t self:process execmem;
+', ` 
+       dontaudit clamd_t self:process execmem;
+')
 
 optional_policy(`
 	amavis_read_spool_files(clamscan_t)

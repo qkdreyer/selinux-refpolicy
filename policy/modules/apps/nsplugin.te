@@ -137,6 +137,7 @@ libs_exec_ld_so(nsplugin_t)
 miscfiles_read_localization(nsplugin_t)
 miscfiles_read_fonts(nsplugin_t)
 miscfiles_dontaudit_write_fonts(nsplugin_t)
+miscfiles_setattr_fonts_cache_dirs(nsplugin_t)
 
 userdom_manage_user_tmp_dirs(nsplugin_t)
 userdom_manage_user_tmp_files(nsplugin_t)

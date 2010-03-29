@@ -28,6 +28,8 @@ files_var_lib_filetrans(accountsd_t, accountsd_var_lib_t, { file dir } )
 
 corecmd_exec_bin(accountsd_t)
 
+files_read_usr_files(accountsd_t)
+
 fs_list_inotifyfs(accountsd_t)
 
 auth_use_nsswitch(accountsd_t)

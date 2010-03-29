@@ -153,6 +153,7 @@ optional_policy(`
 
 	unconfined_domain_noaudit(unconfined_java_t)
 	unconfined_dbus_chat(unconfined_java_t)
+	userdom_unpriv_usertype(unconfined, unconfined_java_t)
 
 	optional_policy(`
 		rpm_domtrans(unconfined_java_t)

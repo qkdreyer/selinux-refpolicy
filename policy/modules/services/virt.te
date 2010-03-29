@@ -382,6 +382,7 @@ optional_policy(`
 	qemu_signal(virtd_t)
 	qemu_kill(virtd_t)
 	qemu_setsched(virtd_t)
+	qemu_entry_type(virt_domain)
 ')
 
 optional_policy(`

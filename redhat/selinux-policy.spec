@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.16
-Release: 1.1%{?dist}
+Release: 2.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,12 @@ exit 0
 %endif
 
 %changelog
+* Mon Mar 29 2010 Dominick Grift <dgrift@gmail.com> 3.7.16-2.1
+- Merge refpolicy.
+- Merge fedora.
+- Ignore .project.
+- Cleanup denyhosts_admin.
+
 * Sun Mar 28 2010 Dominick Grift <dgrift@gmail.com> 3.7.16-1.1
 - Import 3.7.16-1.
 - Fix spec to include patch for master branch.

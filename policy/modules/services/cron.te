@@ -670,7 +670,7 @@ userdom_manage_user_home_content_pipes(cronjob_t)
 userdom_manage_user_home_content_sockets(cronjob_t)
 #userdom_user_home_dir_filetrans_user_home_content(cronjob_t, notdevfile_class_set)
 
-list_dirs_pattern(crond_t, user_cron_spool_t, user_cron_spool_t)
+rw_dirs_pattern(crond_t, user_cron_spool_t, user_cron_spool_t)
 read_files_pattern(crond_t, user_cron_spool_t, user_cron_spool_t)
 
 tunable_policy(`fcron_crond', `
