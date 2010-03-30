@@ -284,8 +284,9 @@ can_exec(gpg_pinentry_t, pinentry_exec_t)
 # from the user.
 domtrans_pattern(gpg_agent_t, pinentry_exec_t, gpg_pinentry_t)
 
+manage_files_pattern(gpg_pinentry_t, gpg_pinentry_tmp_t, gpg_pinentry_tmp_t)
 manage_sock_files_pattern(gpg_pinentry_t, gpg_pinentry_tmp_t, gpg_pinentry_tmp_t)
-userdom_user_tmp_filetrans(gpg_pinentry_t, gpg_pinentry_tmp_t, sock_file)
+userdom_user_tmp_filetrans(gpg_pinentry_t, gpg_pinentry_tmp_t, { file sock_file })
 
 manage_dirs_pattern(gpg_pinentry_t, gpg_pinentry_tmpfs_t, gpg_pinentry_tmpfs_t)
 manage_files_pattern(gpg_pinentry_t, gpg_pinentry_tmpfs_t, gpg_pinentry_tmpfs_t)
@@ -318,6 +319,9 @@ logging_send_syslog_msg(gpg_pinentry_t)
 miscfiles_read_fonts(gpg_pinentry_t)
 miscfiles_read_localization(gpg_pinentry_t)
 
+term_dontaudit_use_all_ttys(gpg_pinentry_t)
+term_dontaudit_use_all_ptys(gpg_pinentry_t)
+
 # for .Xauthority
 userdom_read_user_home_content_files(gpg_pinentry_t)
 
@@ -325,6 +329,7 @@ userdom_read_user_tmpfs_files(gpg_pinentry_t)
 # Bug: user pulseaudio files need open,read and unlink:
 allow gpg_pinentry_t user_tmpfs_t:file unlink;
 userdom_signull_unpriv_users(gpg_pinentry_t)
+userdom_write_user_tmp_sockets(gpg_pinentry_t)
 
 tunable_policy(`use_nfs_home_dirs',`
 	fs_read_nfs_files(gpg_pinentry_t)

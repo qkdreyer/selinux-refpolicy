@@ -134,6 +134,7 @@ optional_policy(`
 ')
 
 optional_policy(`
+	seahorsed_delete_tmpfs_files(pulseaudio_t)
 	seahorsed_read_tmpfs_files(pulseaudio_t)
 ')
 
@@ -142,6 +143,7 @@ optional_policy(`
 ')
 
 optional_policy(`
+	vino_server_delete_tmpfs_files(pulseaudio_t)
 	vino_server_read_tmpfs_files(pulseaudio_t)
 ')
 

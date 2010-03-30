@@ -45,7 +45,9 @@ interface(`seahorsed_role',`
 	allow $2 seahorsed_t:process { ptrace signal_perms };
 	ps_process_pattern($2, seahorsed_t)
 
+	seahorsed_delete_tmpfs_files($2)
 	seahorsed_read_tmpfs_files($2)
+
 	seahorsed_stream_connect($2)
 
 	optional_policy(`
@@ -95,7 +97,7 @@ interface(`seahorsed_dbus_chat',`
 
 ########################################
 ## <summary>
-##	Read and unlink seahorsed tmpfs files.
+##	Read seahorsed tmpfs files.
 ## </summary>
 ## <param name="domain">
 ## 	<summary>
@@ -108,7 +110,25 @@ interface(`seahorsed_read_tmpfs_files',`
 		type seahorsed_tmpfs_t;
 	')
 
-	allow $1 seahorsed_tmpfs_t:file { read_file_perms unlink };
+	allow $1 seahorsed_tmpfs_t:file read_file_perms;
 	fs_search_tmpfs($1)
 ')
 
+########################################
+## <summary>
+##	Delete seahorsed tmpfs files.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`seahorsed_delete_tmpfs_files',`
+	gen_require(`
+		type seahorsed_tmpfs_t;
+	')
+
+	allow $1 seahorsed_tmpfs_t:file { getattr_file_perms unlink };
+	fs_search_tmpfs($1)
+')

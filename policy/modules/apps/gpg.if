@@ -54,6 +54,9 @@ interface(`gpg_role',`
 	manage_sock_files_pattern($2, gpg_pinentry_tmp_t, gpg_pinentry_tmp_t)
 	relabel_sock_files_pattern($2, gpg_pinentry_tmp_t, gpg_pinentry_tmp_t)
 
+	gpg_pinentry_delete_tmpfs_files($2)
+	gpg_pinentry_read_tmpfs_files($2)
+
 	optional_policy(`
 		gpg_pinentry_dbus_chat($2)
 	')
@@ -162,3 +165,40 @@ interface(`gpg_list_user_content_dirs',`
 	userdom_search_user_home_dirs($1)
 ')
 
+########################################
+## <summary>
+##	Read GPG Pinentry tmpfs files.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`gpg_pinentry_read_tmpfs_files', `
+	gen_require(`
+		type gpg_pinentry_tmpfs_t;
+	')
+
+	allow $1 gpg_pinentry_tmpfs_t:file read_file_perms;
+	fs_search_tmpfs($1)
+')
+
+########################################
+## <summary>
+##	Delete GPG Pinentry tmpfs files.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`gpg_pinentry_delete_tmpfs_files', `
+	gen_require(`
+		type gpg_pinentry_tmpfs_t;
+	')
+
+	allow $1 gpg_pinentry_tmpfs_t:file { getattr_file_perms unlink };
+	fs_search_tmpfs($1)
+')

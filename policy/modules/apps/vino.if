@@ -60,7 +60,9 @@ interface(`vino_role',`
 
 	relabel_sock_files_pattern($2, vino_server_tmp_t, vino_server_tmp_t) 
 
+	vino_server_delete_tmpfs_files($2)
 	vino_server_read_tmpfs_files($2)
+
 	vino_server_stream_connect($2)
 
 	optional_policy(`
@@ -123,9 +125,29 @@ interface(`vino_server_read_tmpfs_files', `
 		type vino_server_tmpfs_t;
 	')
 
-	allow $1 vino_server_tmpfs_t:file { read_file_perms unlink };
+	allow $1 vino_server_tmpfs_t:file read_file_perms;
 	fs_search_tmpfs($1)
 ')
+
+########################################
+## <summary>
+##	Delete Vino server tmpfs files.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`vino_server_delete_tmpfs_files', `
+	gen_require(`
+		type vino_server_tmpfs_t;
+	')
+
+	allow $1 vino_server_tmpfs_t:file { getattr_file_perms unlink };
+	fs_search_tmpfs($1)
+')
+
 
 ########################################
 ## <summary>
