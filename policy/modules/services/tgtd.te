@@ -38,7 +38,7 @@ allow tgtd_t self:udp_socket create_socket_perms;
 allow tgtd_t self:unix_dgram_socket create_socket_perms;
 
 manage_sock_files_pattern(tgtd_t, tgtd_tmp_t, tgtd_tmp_t)
-files_tmp_filetrans(tgtd_t, tgtd_tmp_t, { sock_file })
+files_tmp_filetrans(tgtd_t, tgtd_tmp_t, sock_file)
 
 manage_files_pattern(tgtd_t, tgtd_tmpfs_t, tgtd_tmpfs_t)
 fs_tmpfs_filetrans(tgtd_t, tgtd_tmpfs_t, file)
@@ -59,6 +59,8 @@ corenet_tcp_bind_iscsi_port(tgtd_t)
 corenet_sendrecv_iscsi_server_packets(tgtd_t)
 
 files_read_etc_files(tgtd_t)
+
+fs_read_anon_inodefs_files(tgtd_t)
 
 storage_manage_fixed_disk(tgtd_t)
 

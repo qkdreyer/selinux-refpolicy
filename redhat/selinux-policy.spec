@@ -19,8 +19,8 @@
 %define CHECKPOLICYVER 2.0.21-1
 Summary: SELinux policy configuration
 Name: selinux-policy
-Version: 3.7.16
-Release: 2.2%{?dist}
+Version: 3.7.17
+Release: 2.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,9 @@ exit 0
 %endif
 
 %changelog
+* Tue Mar 30 2010 Dominick Grift <dgrift@gmail.com> 3.7.17-2.1
+- Merge fedora branch (3.7.17-2)
+
 * Tue Mar 30 2010 Dominick Grift <dgrift@gmail.com> 3.7.16-2.2
 - Fixing syntax errors and other weird compiler issues in various modules.
 - Fix a string error on denyhosts_admin.

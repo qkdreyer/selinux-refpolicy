@@ -232,3 +232,14 @@ ifdef(`hide_broken_symptoms', `
 	dev_dontaudit_write_all_blk_files(abrt_helper_t)
 	fs_dontaudit_rw_anon_inodefs_files(abrt_helper_t)
 ')
+
+ifdef(`hide_broken_symptoms',`
+	gen_require(`
+		attribute domain;
+	')
+
+	allow abrt_t self:capability sys_resource;    
+	allow abrt_t domain:file write;
+	allow abrt_t domain:process setrlimit;
+')
+

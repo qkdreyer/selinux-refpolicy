@@ -25,6 +25,9 @@ files_config_file(openvpn_etc_t)
 type openvpn_etc_rw_t;
 files_config_file(openvpn_etc_rw_t)
 
+type openvpn_tmp_t;
+files_tmp_file(openvpn_tmp_t)
+
 type openvpn_initrc_exec_t;
 init_script_file(openvpn_initrc_exec_t)
 
@@ -58,6 +61,9 @@ read_lnk_files_pattern(openvpn_t, openvpn_etc_t, openvpn_etc_t)
 
 manage_files_pattern(openvpn_t, openvpn_etc_t, openvpn_etc_rw_t)
 filetrans_pattern(openvpn_t, openvpn_etc_t, openvpn_etc_rw_t, file)
+
+manage_files_pattern(openvpn_t, openvpn_tmp_t, openvpn_tmp_t)
+files_tmp_filetrans(openvpn_t, openvpn_tmp_t, file)
 
 allow openvpn_t openvpn_var_log_t:file manage_file_perms;
 logging_log_filetrans(openvpn_t, openvpn_var_log_t, file)

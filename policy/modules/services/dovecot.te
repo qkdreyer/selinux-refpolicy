@@ -9,6 +9,9 @@ type dovecot_t;
 type dovecot_exec_t;
 init_daemon_domain(dovecot_t, dovecot_exec_t)
 
+type dovecot_tmp_t;
+files_tmp_file(dovecot_tmp_t)
+
 type dovecot_auth_t;
 type dovecot_auth_exec_t;
 domain_type(dovecot_auth_t)
@@ -54,7 +57,7 @@ files_pid_file(dovecot_var_run_t)
 # dovecot local policy
 #
 
-allow dovecot_t self:capability { dac_override dac_read_search chown net_bind_service setgid setuid sys_chroot };
+allow dovecot_t self:capability { dac_override dac_read_search chown kill net_bind_service setgid setuid sys_chroot };
 dontaudit dovecot_t self:capability sys_tty_config;
 allow dovecot_t self:process { setrlimit signal_perms getcap setcap };
 allow dovecot_t self:fifo_file rw_fifo_file_perms;
@@ -63,6 +66,7 @@ allow dovecot_t self:unix_dgram_socket create_socket_perms;
 allow dovecot_t self:unix_stream_socket { create_stream_socket_perms connectto };
 
 domtrans_pattern(dovecot_t, dovecot_auth_exec_t, dovecot_auth_t)
+allow dovecot_t dovecot_auth_t:process signal;
 
 allow dovecot_t dovecot_cert_t:dir list_dir_perms;
 read_files_pattern(dovecot_t, dovecot_cert_t, dovecot_cert_t)
@@ -72,6 +76,10 @@ allow dovecot_t dovecot_etc_t:file read_file_perms;
 files_search_etc(dovecot_t)
 
 can_exec(dovecot_t, dovecot_exec_t)
+
+manage_dirs_pattern(dovecot_t, dovecot_tmp_t, dovecot_tmp_t)
+manage_files_pattern(dovecot_t, dovecot_tmp_t, dovecot_tmp_t)
+files_tmp_filetrans(dovecot_t, dovecot_tmp_t, { file dir })
 
 # Allow dovecot to create and read SSL parameters file
 manage_files_pattern(dovecot_t, dovecot_var_lib_t, dovecot_var_lib_t)
