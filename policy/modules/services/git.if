@@ -1,4 +1,4 @@
-## <summary>Git - Fast Version Control System.</summary>
+## <summary>Fast Version Control System.</summary>
 ## <desc>
 ##	<p>
 ##		A really simple TCP git daemon that normally listens on
@@ -26,6 +26,7 @@
 interface(`git_session_role',`
 	gen_require(`
 		type git_session_t, gitd_exec_t;
+		type git_session_content_t;
 	')
 
 	########################################
@@ -44,6 +45,13 @@ interface(`git_session_role',`
 
 	allow $2 git_session_t:process { ptrace signal_perms };
 	ps_process_pattern($2, git_session_t)
+
+	exec_files_pattern($2, git_session_content_t, git_session_content_t)
+	manage_dirs_pattern($2, git_session_content_t, git_session_content_t)
+	manage_files_pattern($2, git_session_content_t, git_session_content_t)
+
+	relabel_dirs_pattern($2, git_session_content_t, git_session_content_t)
+	relabel_files_pattern($2, git_session_content_t, git_session_content_t)
 ')
 
 ########################################
@@ -172,7 +180,7 @@ interface(`git_content_delegation',`
 	exec_files_pattern($1, $2, $2)
 	manage_dirs_pattern($1, $2, $2)
 	manage_files_pattern($1, $2, $2)
-	files_search_var($1)
+	files_search_var_lib($1)
 
 	tunable_policy(`git_system_use_cifs',`
 		fs_exec_cifs_files($1)
@@ -197,7 +205,6 @@ interface(`git_content_delegation',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`git_rwx_all_content',`
 	gen_require(`
@@ -208,7 +215,7 @@ interface(`git_rwx_all_content',`
 	manage_dirs_pattern($1, git_content, git_content)
 	manage_files_pattern($1, git_content, git_content)
 	userdom_search_user_home_dirs($1)
-	files_search_var($1)
+	files_search_var_lib($1)
 
 	tunable_policy(`use_nfs_home_dirs',`
 		fs_exec_nfs_files($1)
@@ -245,7 +252,6 @@ interface(`git_rwx_all_content',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`git_rwx_all_system_content',`
 	gen_require(`
@@ -255,7 +261,7 @@ interface(`git_rwx_all_system_content',`
 	exec_files_pattern($1, git_system_content, git_system_content)
 	manage_dirs_pattern($1, git_system_content, git_system_content)
 	manage_files_pattern($1, git_system_content, git_system_content)
-	files_search_var($1)
+	files_search_var_lib($1)
 
 	tunable_policy(`git_system_use_cifs',`
 		fs_exec_cifs_files($1)
@@ -280,7 +286,6 @@ interface(`git_rwx_all_system_content',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`git_rwx_generic_system_content',`
 	gen_require(`
@@ -290,7 +295,7 @@ interface(`git_rwx_generic_system_content',`
 	exec_files_pattern($1, git_system_content_t, git_system_content_t)
 	manage_dirs_pattern($1, git_system_content_t, git_system_content_t)
 	manage_files_pattern($1, git_system_content_t, git_system_content_t)
-	files_search_var($1)
+	files_search_var_lib($1)
 
 	tunable_policy(`git_system_use_cifs',`
 		fs_exec_cifs_files($1)
@@ -315,7 +320,6 @@ interface(`git_rwx_generic_system_content',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`git_read_all_content_files',`
 	gen_require(`
@@ -358,7 +362,6 @@ interface(`git_read_all_content_files',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`git_read_session_content_files',`
 	gen_require(`
@@ -390,7 +393,6 @@ interface(`git_read_session_content_files',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`git_read_all_system_content_files',`
 	gen_require(`
@@ -422,7 +424,6 @@ interface(`git_read_all_system_content_files',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`git_read_generic_system_content_files',`
 	gen_require(`
@@ -454,7 +455,6 @@ interface(`git_read_generic_system_content_files',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`git_relabel_all_content',`
 	gen_require(`
@@ -477,7 +477,6 @@ interface(`git_relabel_all_content',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`git_relabel_all_system_content',`
 	gen_require(`
@@ -499,7 +498,6 @@ interface(`git_relabel_all_system_content',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`git_relabel_generic_system_content',`
 	gen_require(`
@@ -521,7 +519,6 @@ interface(`git_relabel_generic_system_content',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`git_relabel_session_content',`
 	gen_require(`
