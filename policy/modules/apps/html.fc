@@ -1,0 +1,6 @@
+HOME_DIR/\.elinks(/.*)?		gen_context(system_u:object_r:elinks_home_t,s0)
+
+/etc/elinks\.conf		--	gen_context(system_u:object_r:elinks_etc_t,s0)
+
+/usr/bin/elinks			--	gen_context(system_u:object_r:elinks_exec_t,s0)
+

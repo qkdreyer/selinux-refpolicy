@@ -1,0 +1,71 @@
+## <summary>HTML browsers.</summary>
+## <desc>
+##	<p>
+##		Various HTML browsers.
+##	</p>
+## </desc>
+
+########################################
+## <summary>
+##	Role access for Elinks
+## </summary>
+## <param name="role">
+##	<summary>
+##	Role allowed access
+##	</summary>
+## </param>
+## <param name="domain">
+##	<summary>
+##	User domain for the role
+##	</summary>
+## </param>
+#
+interface(`elinks_role',`
+	gen_require(`
+		type elinks_t, elinks_exec_t, elinks_home_t;
+	')
+
+	########################################
+	#
+	# Elinks shared declarations.
+	#
+
+	role $1 types elinks_t;
+
+	########################################
+	#
+	# Elinks shared policy.
+	#
+
+	domtrans_pattern($2, elinks_exec_t, elinks_t)
+
+	allow $2 elinks_t:process { ptrace signal_perms };
+	ps_process_pattern($2, elinks_t)
+
+	manage_dirs_pattern($2, elinks_home_t, elinks_home_t)
+	manage_files_pattern($2, elinks_home_t, elinks_home_t)
+	manage_sock_files_pattern($2, elinks_home_t, elinks_home_t)
+
+	relabel_dirs_pattern($2, elinks_home_t, elinks_home_t)
+	relabel_files_pattern($2, elinks_home_t, elinks_home_t)
+	relabel_sock_files_pattern($2, elinks_home_t, elinks_home_t)
+')
+
+########################################
+## <summary>
+##	Domain transition to Elinks.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`elinks_domtrans', `
+	gen_require(`
+		type elinks_t, elinks_exec_t;
+	')
+
+	domtrans_pattern($1, elinks_exec_t, elinks_t)
+')
+
