@@ -104,6 +104,10 @@ miscfiles_read_localization(git_domains)
 sysnet_read_config(git_domains)
 
 optional_policy(`
+	automount_dontaudit_getattr_tmp_dirs(git_domains)
+')
+
+optional_policy(`
 	nis_use_ypbind(git_domains)
 ')
 
