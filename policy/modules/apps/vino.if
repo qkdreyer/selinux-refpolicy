@@ -34,7 +34,9 @@ interface(`vino_role',`
 	# Vino server shared declarations.
 	#
 
-	dbus_session_domain(vino_server_t, vino_server_exec_t)
+	optional_policy(`
+		dbus_session_domain(vino_server_t, vino_server_exec_t)
+	')
 
 	role $1 types vino_server_t;
 
@@ -58,10 +60,12 @@ interface(`vino_role',`
 
 	relabel_sock_files_pattern($2, vino_server_tmp_t, vino_server_tmp_t) 
 
-	vino_server_dbus_chat($2)
-
 	vino_server_read_tmpfs_files($2)
 	vino_server_stream_connect($2)
+
+	optional_policy(`
+		vino_server_dbus_chat($2)
+	')
 ')
 
 ########################################

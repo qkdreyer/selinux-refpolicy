@@ -55,7 +55,9 @@ interface(`telepathy_role',`
 	# Telepathy Butterfly shared declarations.
 	#
 
-	dbus_session_domain(tp_butterfly_t, tp_butterfly_exec_t)
+	optional_policy(`
+		dbus_session_domain(tp_butterfly_t, tp_butterfly_exec_t)
+	')
 
 	role $1 types tp_butterfly_t;
 
@@ -64,7 +66,9 @@ interface(`telepathy_role',`
 	# Telepathy Gabble shared declarations.
 	#
 
-	dbus_session_domain(tp_gabble_t, tp_gabble_exec_t)
+	optional_policy(`
+		dbus_session_domain(tp_gabble_t, tp_gabble_exec_t)
+	')
 
 	role $1 types tp_gabble_t;
 
@@ -73,7 +77,9 @@ interface(`telepathy_role',`
 	# Telepathy Haze shared declarations.
 	#
 
-	dbus_session_domain(tp_haze_t, tp_haze_exec_t)
+	optional_policy(`
+		dbus_session_domain(tp_haze_t, tp_haze_exec_t)
+	')
 
 	role $1 types tp_haze_t;
 
@@ -82,7 +88,9 @@ interface(`telepathy_role',`
 	# Telepathy Idle shared declarations.
 	#
 
-	dbus_session_domain(tp_idle_t, tp_idle_exec_t)
+	optional_policy(`
+		dbus_session_domain(tp_idle_t, tp_idle_exec_t)
+	')
 
 	role $1 types tp_idle_t;
 
@@ -91,7 +99,9 @@ interface(`telepathy_role',`
 	# Telepathy Mission-Control shared declarations.
 	#
 
-	dbus_session_domain(tp_mission_control_t, tp_mission_control_exec_t)
+	optional_policy(`
+		dbus_session_domain(tp_mission_control_t, tp_mission_control_exec_t)
+	')
 
 	role $1 types tp_mission_control_t;
 
@@ -100,7 +110,9 @@ interface(`telepathy_role',`
 	# Telepathy Salut shared declarations.
 	#
 
-	dbus_session_domain(tp_salut_t, tp_salut_exec_t)
+	optional_policy(`
+		dbus_session_domain(tp_salut_t, tp_salut_exec_t)
+	')
 
 	role $1 types tp_salut_t;
 
@@ -109,7 +121,9 @@ interface(`telepathy_role',`
 	# Telepathy Sofiasip shared declarations.
 	#
 
-	dbus_session_domain(tp_sofiasip_t, tp_sofiasip_exec_t)
+	optional_policy(`
+		dbus_session_domain(tp_sofiasip_t, tp_sofiasip_exec_t)
+	')
 
 	role $1 types tp_sofiasip_t;
 
@@ -118,7 +132,9 @@ interface(`telepathy_role',`
 	# Telepathy Stream-Engine shared declarations.
 	#
 
-	dbus_session_domain(tp_stream_engine_t, tp_stream_engine_exec_t)
+	optional_policy(`
+		dbus_session_domain(tp_stream_engine_t, tp_stream_engine_exec_t)
+	')
 
 	role $1 types tp_stream_engine_t;
 
@@ -127,7 +143,9 @@ interface(`telepathy_role',`
 	# Telepathy Sunshine shared declarations.
 	#
 
-	dbus_session_domain(tp_sunshine_t, tp_sunshine_exec_t)
+	optional_policy(`
+		dbus_session_domain(tp_sunshine_t, tp_sunshine_exec_t)
+	')
 
 	role $1 types tp_sunshine_t;
 
