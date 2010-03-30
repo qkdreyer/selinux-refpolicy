@@ -368,6 +368,25 @@ interface(`gnome_read_gconf_home_files',`
 
 ########################################
 ## <summary>
+##	search gconf homedir (.local)
+## </summary>
+## <param name="user_domain">
+##	<summary>
+##	The type of the domain.
+##	</summary>
+## </param>
+#
+interface(`gnome_search_gconf',`
+	gen_require(`
+		type gconf_home_t;
+	')
+
+	allow $1 gconf_home_t:dir search_dir_perms;
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
 ##	Append gconf home files
 ## </summary>
 ## <param name="domain">

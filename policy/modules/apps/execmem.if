@@ -67,9 +67,9 @@ ifdef(`hide_broken_symptoms', `
 ')
 	files_execmod_tmp($1_execmem_t)
 
-	optional_policy(`
-		chrome_role($2, $1_execmem_t)
-	')
+#	optional_policy(`
+#		chrome_role($2, $1_execmem_t)
+#	')
 
 	optional_policy(`
 		mozilla_execmod_user_home_files($1_execmem_t)
@@ -80,17 +80,17 @@ ifdef(`hide_broken_symptoms', `
 		nsplugin_rw_semaphores($1_execmem_t)
 	')
 
-	optional_policy(`
-		mozilla_exec_domtrans($3, $1_execmem_t)
-	')
+#	optional_policy(`
+#		mozilla_exec_domtrans($3, $1_execmem_t)
+#	')
 
-	optional_policy(`
-		mplayer_exec_domtrans($3, $1_execmem_t)
-	')
+#	optional_policy(`
+#		mplayer_exec_domtrans($3, $1_execmem_t)
+#	')
 
-	optional_policy(`
-		xserver_role($2, $1_execmem_t)
-	')
+#	optional_policy(`
+#		xserver_role($2, $1_execmem_t)
+#	')
 ')
 
 ########################################

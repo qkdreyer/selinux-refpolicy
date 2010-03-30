@@ -127,8 +127,8 @@ optional_policy(`
 
 optional_policy(`
 	# sound-event-cache
-	gnome_read_generic_cache(vino_server_t)
-	gnome_write_generic_cache(vino_server_t)
+	gnome_read_generic_cache_files(vino_server_t)
+	gnome_write_generic_cache_files(vino_server_t)
 ')
 
 optional_policy(`
@@ -138,7 +138,7 @@ optional_policy(`
 optional_policy(`
 	pulseaudio_exec(vino_server_t)
 	pulseaudio_rw_home_files(vino_server_t)
-	pulseaudio_setattr_home_dirs(vino_server_t)
+	pulseaudio_setattr_home_dir(vino_server_t)
 	pulseaudio_signull(vino_server_t)
 	pulseaudio_stream_connect(vino_server_t)
 ')

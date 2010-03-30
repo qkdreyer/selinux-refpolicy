@@ -12,12 +12,6 @@
 ## <summary>
 ##	Role access for Vino.
 ## </summary>
-## <param name="role_prefix">
-##	<summary>
-##	The prefix of the user role (e.g., user
-##	is the prefix for user_r).
-##	</summary>
-## </param>
 ## <param name="role">
 ##	<summary>
 ##	Role allowed access.
@@ -40,19 +34,19 @@ interface(`vino_role',`
 	# Vino server shared declarations.
 	#
 
-	dbus_session_domain($1, vino_server_t, vino_server_exec_t)
+	dbus_session_domain(vino_server_t, vino_server_exec_t)
 
-	role $2 types vino_server_t;
+	role $1 types vino_server_t;
 
 	########################################
 	#
 	# Vino server shared policy.
 	#
 
-	domtrans_pattern($3, vino_server_exec_t, vino_server_t)
+	domtrans_pattern($2, vino_server_exec_t, vino_server_t)
 
-	allow $3 vino_server_t:process { ptrace signal_perms };
-	ps_process_pattern($3, vino_server_t)
+	allow $2 vino_server_t:process { ptrace signal_perms };
+	ps_process_pattern($2, vino_server_t)
 
 	manage_dirs_pattern($2, vino_server_data_home_t, vino_server_data_home_t)
 	manage_files_pattern($2, vino_server_data_home_t, vino_server_data_home_t)
@@ -64,10 +58,10 @@ interface(`vino_role',`
 
 	relabel_sock_files_pattern($2, vino_server_tmp_t, vino_server_tmp_t) 
 
-	vino_server_dbus_chat($3)
+	vino_server_dbus_chat($2)
 
-	vino_server_read_tmpfs_files($3)
-	vino_server_stream_connect($3)
+	vino_server_read_tmpfs_files($2)
+	vino_server_stream_connect($2)
 ')
 
 ########################################

@@ -17,28 +17,22 @@
 ##	</p>
 ## </desc>
 
-#######################################
+########################################
 ## <summary>
-##	The role template for the Telepathy module.
+##	Role access for Telepathy.
 ## </summary>
-## <param name="role_prefix">
+## <param name="role">
 ##	<summary>
-##	The prefix of the user role (e.g., user
-##	is the prefix for user_r).
+##	Role allowed access.
 ##	</summary>
 ## </param>
-## <param name="user_role">
+## <param name="domain">
 ##	<summary>
-##	The role associated with the user domain.
-##	</summary>
-## </param>
-## <param name="user_domain">
-##	<summary>
-##	The type of the user domain.
+##	User domain for the role.
 ##	</summary>
 ## </param>
 #
-template(`telepathy_role_template',`
+interface(`telepathy_role',`
 	gen_require(`
 		attribute tp_domains;
 		type tp_butterfly_t, tp_gabble_t, tp_haze_t;
@@ -61,92 +55,92 @@ template(`telepathy_role_template',`
 	# Telepathy Butterfly shared declarations.
 	#
 
-	dbus_session_domain($1, tp_butterfly_t, tp_butterfly_exec_t)
+	dbus_session_domain(tp_butterfly_t, tp_butterfly_exec_t)
 
-	role $2 types tp_butterfly_t;
+	role $1 types tp_butterfly_t;
 
 	########################################
 	#
 	# Telepathy Gabble shared declarations.
 	#
 
-	dbus_session_domain($1, tp_gabble_t, tp_gabble_exec_t)
+	dbus_session_domain(tp_gabble_t, tp_gabble_exec_t)
 
-	role $2 types tp_gabble_t;
+	role $1 types tp_gabble_t;
 
 	########################################
 	#
 	# Telepathy Haze shared declarations.
 	#
 
-	dbus_session_domain($1, tp_haze_t, tp_haze_exec_t)
+	dbus_session_domain(tp_haze_t, tp_haze_exec_t)
 
-	role $2 types tp_haze_t;
+	role $1 types tp_haze_t;
 
 	########################################
 	#
 	# Telepathy Idle shared declarations.
 	#
 
-	dbus_session_domain($1, tp_idle_t, tp_idle_exec_t)
+	dbus_session_domain(tp_idle_t, tp_idle_exec_t)
 
-	role $2 types tp_idle_t;
+	role $1 types tp_idle_t;
 
 	########################################
 	#
 	# Telepathy Mission-Control shared declarations.
 	#
 
-	dbus_session_domain($1, tp_mission_control_t, tp_mission_control_exec_t)
+	dbus_session_domain(tp_mission_control_t, tp_mission_control_exec_t)
 
-	role $2 types tp_mission_control_t;
+	role $1 types tp_mission_control_t;
 
 	########################################
 	#
 	# Telepathy Salut shared declarations.
 	#
 
-	dbus_session_domain($1, tp_salut_t, tp_salut_exec_t)
+	dbus_session_domain(tp_salut_t, tp_salut_exec_t)
 
-	role $2 types tp_salut_t;
+	role $1 types tp_salut_t;
 
 	########################################
 	#
 	# Telepathy Sofiasip shared declarations.
 	#
 
-	dbus_session_domain($1, tp_sofiasip_t, tp_sofiasip_exec_t)
+	dbus_session_domain(tp_sofiasip_t, tp_sofiasip_exec_t)
 
-	role $2 types tp_sofiasip_t;
+	role $1 types tp_sofiasip_t;
 
 	########################################
 	#
 	# Telepathy Stream-Engine shared declarations.
 	#
 
-	dbus_session_domain($1, tp_stream_engine_t, tp_stream_engine_exec_t)
+	dbus_session_domain(tp_stream_engine_t, tp_stream_engine_exec_t)
 
-	role $2 types tp_stream_engine_t;
+	role $1 types tp_stream_engine_t;
 
 	########################################
 	#
 	# Telepathy Sunshine shared declarations.
 	#
 
-	dbus_session_domain($1, tp_sunshine_t, tp_sunshine_exec_t)
+	dbus_session_domain(tp_sunshine_t, tp_sunshine_exec_t)
 
-	role $2 types tp_sunshine_t;
+	role $1 types tp_sunshine_t;
 
 	########################################
 	#
 	# Telepathy global shared policy.
 	#
 
-	allow $3 tp_domains:process { ptrace signal_perms };
-	ps_process_pattern($3, tp_domains)
+	allow $2 tp_domains:process { ptrace signal_perms };
+	ps_process_pattern($2, tp_domains)
 
 	optional_policy(`
-		telepathy_dbus_chat($3)
+		telepathy_dbus_chat($2)
 	')
 
 	########################################
@@ -154,93 +148,93 @@ template(`telepathy_role_template',`
 	# Telepathy Butterfly shared policy.
 	#
 
-	domtrans_pattern($3, tp_butterfly_exec_t, tp_butterfly_t)
+	domtrans_pattern($2, tp_butterfly_exec_t, tp_butterfly_t)
 
-	manage_files_pattern($3, tp_butterfly_tmp_t, tp_butterfly_tmp_t)
+	manage_files_pattern($2, tp_butterfly_tmp_t, tp_butterfly_tmp_t)
 
-	relabel_files_pattern($3, tp_butterfly_tmp_t, tp_butterfly_tmp_t)
+	relabel_files_pattern($2, tp_butterfly_tmp_t, tp_butterfly_tmp_t)
 
-	libs_run_ldconfig(tp_butterfly_t, $2)
+	libs_run_ldconfig(tp_butterfly_t, $1)
 
 	########################################
 	#
 	# Telepathy Gabble shared policy.
 	#
 
-	domtrans_pattern($3, tp_gabble_exec_t, tp_gabble_t)
+	domtrans_pattern($2, tp_gabble_exec_t, tp_gabble_t)
 
-	manage_dirs_pattern($3, tp_gabble_tmp_t, tp_gabble_tmp_t)
-	manage_sock_files_pattern($3, tp_gabble_tmp_t, tp_gabble_tmp_t)
+	manage_dirs_pattern($2, tp_gabble_tmp_t, tp_gabble_tmp_t)
+	manage_sock_files_pattern($2, tp_gabble_tmp_t, tp_gabble_tmp_t)
 
-	relabel_dirs_pattern($3, tp_gabble_tmp_t, tp_gabble_tmp_t)
-	relabel_sock_files_pattern($3, tp_gabble_tmp_t, tp_gabble_tmp_t)
+	relabel_dirs_pattern($2, tp_gabble_tmp_t, tp_gabble_tmp_t)
+	relabel_sock_files_pattern($2, tp_gabble_tmp_t, tp_gabble_tmp_t)
 
-	telepathy_gabble_stream_connect($3)
+	telepathy_gabble_stream_connect($2)
 
 	########################################
 	#
 	# Telepathy Haze shared policy.
 	#
 
-	domtrans_pattern($3, tp_haze_exec_t, tp_haze_t)
+	domtrans_pattern($2, tp_haze_exec_t, tp_haze_t)
 
-	manage_dirs_pattern($3, tp_haze_tmp_t, tp_haze_tmp_t)
-	manage_files_pattern($3, tp_haze_tmp_t, tp_haze_tmp_t)
+	manage_dirs_pattern($2, tp_haze_tmp_t, tp_haze_tmp_t)
+	manage_files_pattern($2, tp_haze_tmp_t, tp_haze_tmp_t)
 
-	relabel_dirs_pattern($3, tp_haze_tmp_t, tp_haze_tmp_t)
-	relabel_files_pattern($3, tp_haze_tmp_t, tp_haze_tmp_t)
+	relabel_dirs_pattern($2, tp_haze_tmp_t, tp_haze_tmp_t)
+	relabel_files_pattern($2, tp_haze_tmp_t, tp_haze_tmp_t)
 
 	########################################
 	#
 	# Telepathy Idle shared policy.
 	#
 
-	domtrans_pattern($3, tp_idle_exec_t, tp_idle_t)
+	domtrans_pattern($2, tp_idle_exec_t, tp_idle_t)
 
 	########################################
 	#
 	# Telepathy Mission-Control shared policy.
 	#
 
-	domtrans_pattern($3, tp_mission_control_exec_t, tp_mission_control_t)
+	domtrans_pattern($2, tp_mission_control_exec_t, tp_mission_control_t)
 
 	########################################
 	#
 	# Telepathy Salut shared policy.
 	#
 
-	domtrans_pattern($3, tp_salut_exec_t, tp_salut_t)
+	domtrans_pattern($2, tp_salut_exec_t, tp_salut_t)
 
-	manage_sock_files_pattern($3, tp_salut_tmp_t, tp_salut_tmp_t)
+	manage_sock_files_pattern($2, tp_salut_tmp_t, tp_salut_tmp_t)
 
-	relabel_sock_files_pattern($3, tp_salut_tmp_t, tp_salut_tmp_t)
+	relabel_sock_files_pattern($2, tp_salut_tmp_t, tp_salut_tmp_t)
 
-	telepathy_salut_stream_connect($3)	
+	telepathy_salut_stream_connect($2)	
 
 	########################################
 	#
 	# Telepathy Sofiasip shared policy.
 	#
 
-	domtrans_pattern($3, tp_sofiasip_exec_t, tp_sofiasip_t)
+	domtrans_pattern($2, tp_sofiasip_exec_t, tp_sofiasip_t)
 
 	########################################
 	#
 	# Telepathy Stream-Engine shared policy.
 	#
 
-	domtrans_pattern($3, tp_stream_engine_exec_t, tp_stream_engine_t)
+	domtrans_pattern($2, tp_stream_engine_exec_t, tp_stream_engine_t)
 
 	########################################
 	#
 	# Telepathy Sunshine shared policy.
 	#
 
-	domtrans_pattern($3, tp_sunshine_exec_t, tp_sunshine_t)
+	domtrans_pattern($2, tp_sunshine_exec_t, tp_sunshine_t)
 
-	manage_files_pattern($3, tp_sunshine_tmp_t, tp_sunshine_tmp_t)
+	manage_files_pattern($2, tp_sunshine_tmp_t, tp_sunshine_tmp_t)
 
-	relabel_files_pattern($3, tp_sunshine_tmp_t, tp_sunshine_tmp_t)
+	relabel_files_pattern($2, tp_sunshine_tmp_t, tp_sunshine_tmp_t)
 ')
 
 ########################################

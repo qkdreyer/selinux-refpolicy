@@ -650,11 +650,11 @@ template(`userdom_common_user_template',`
 	')
 
 	optional_policy(`
-		elinks_role($1_r, $1_usertype)
+		elinks_role($1_r, $1_t)
 	')
 
 	optional_policy(`
-		git_session_role($1_r, $1_usertype)
+		git_session_role($1_r, $1_t)
 	')
 
 	optional_policy(`
@@ -669,7 +669,7 @@ template(`userdom_common_user_template',`
 	')
 
 	optional_policy(`
-		irc_role($1_r, $1_usertype)
+		irc_role($1_r, $1_t)
 	')
 
 	optional_policy(`
@@ -677,7 +677,7 @@ template(`userdom_common_user_template',`
 	')
 
 	optional_policy(`
-		mplayer_role($1_r, $1_usertype)
+		mplayer_role($1_r, $1_t)
 	')
 
 	# for running depmod as part of the kernel packaging process
@@ -691,7 +691,7 @@ template(`userdom_common_user_template',`
 	')
 
 	optional_policy(`
-		mutt_role($1_r, $1_usertype)
+		mutt_role($1_r, $1_t)
 	')
 
 	optional_policy(`
@@ -748,7 +748,7 @@ template(`userdom_common_user_template',`
 	')
 
 	optional_policy(`
-		seahorsed_role($1_r, $1_usertype)
+		seahorsed_role($1_r, $1_t)
 	')
 
 	optional_policy(`
@@ -760,11 +760,11 @@ template(`userdom_common_user_template',`
 	')
 
 	optional_policy(`
-		telepathy_role_template($1, $1_r, $1_usertype)
+		telepathy_role($1_r, $1_t)
 	')
 
 	optional_policy(`
-		vino_role($1, $1_r, $1_usertype)
+		vino_role($1_r, $1_t)
 	')
 ')
 

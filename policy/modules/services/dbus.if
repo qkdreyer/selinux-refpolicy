@@ -345,12 +345,6 @@ interface(`dbus_system_bus_unconfined',`
 ##	Allow a application domain to be started
 ##	by the session dbus.
 ## </summary>
-## <param name="role_prefix">
-##	<summary>
-##	The prefix of the user role (e.g., user
-##	is the prefix for user_r).
-##	</summary>
-## </param>
 ## <param name="domain">
 ##	<summary>
 ##	Type to be used as a domain.
@@ -365,19 +359,19 @@ interface(`dbus_system_bus_unconfined',`
 #
 interface(`dbus_session_domain',`
 	gen_require(`
-		type $1_dbusd_t;
+		attribute session_bus_type;
 	')
 
-	domtrans_pattern($1_dbusd_t, $3, $2)
+	domtrans_pattern(session_bus_type, $2, $1)
 
-	dbus_session_bus_client($2)
-	dbus_connect_session_bus($2)
+	dbus_session_bus_client($1)
+	dbus_connect_session_bus($1)
 
 	optional_policy(`
 		# If unconfined_t wants to start a dbus_session_domain.
 		# unconfined_dbusd_t should get implemented for F13.
 		# Can just remove this when it is.
-		unconfined_dbus_connect($2)
+		unconfined_dbus_connect($1)
 	')
 ')
 

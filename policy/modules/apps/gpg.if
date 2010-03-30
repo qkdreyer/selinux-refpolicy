@@ -54,7 +54,7 @@ interface(`gpg_role',`
 	manage_sock_files_pattern($2, gpg_pinentry_tmp_t, gpg_pinentry_tmp_t)
 	relabel_sock_files_pattern($2, gpg_pinentry_tmp_t, gpg_pinentry_tmp_t)
 
-	optional_policy(`)
+	optional_policy(`
 		gpg_pinentry_dbus_chat($2)
 	')
 

@@ -248,7 +248,7 @@ optional_policy(`
 optional_policy(`
 	pulseaudio_exec(mozilla_t)
 	pulseaudio_stream_connect(mozilla_t)
-	pulseaudio_manage_home(mozilla_t)
+	pulseaudio_manage_home_files(mozilla_t)
 ')
 
 optional_policy(`

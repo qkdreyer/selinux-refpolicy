@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.16
-Release: 2.1%{?dist}
+Release: 2.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,34 @@ exit 0
 %endif
 
 %changelog
+* Tue Mar 30 2010 Dominick Grift <dgrift@gmail.com> 3.7.16-2.2
+- Fixing syntax errors and other weird compiler issues in various modules.
+- Fix a string error on denyhosts_admin.
+- Fix vino_role call to include role prefix.
+- policy/modules/services/nagios.te:321: Warning: libs_use_lib_files(nagios_mail_plugin_t) has been deprecated, use libs_use_shared_libs() instead.
+- Integrate Seahorse policy and all dependencies.
+- Call seahorse_role for common users.
+- Install seahorse module.
+- Mplayer fixes.
+- Call mplayer_role for common users,
+- Integrate telepathy and vino policy and all its dependencies.
+- Call vino_role and telepathy_role_template for common users.
+- Install vino and telepathy modules.
+- Install oident module.
+- Allow oidentd to request the kernel to load a module.
+- All common users to manage and relabel oidentd user home content (~/.oidentd.conf).
+- Integrate elink policy into new html module.
+- Call elinks_role for common users.
+- Install html module.
+- Integrate my mutt policy into new mail module.
+- Call mutt_role for common users.
+- Allow gpg to sign and encrypt mutt e-mails.
+- Install mail module.
+- Integrate my irssi policy into irc module.
+- Modified git policy to support automount.
+- call irc_role and git_session_role for common users.
+- Integrate my git differences.
+
 * Mon Mar 29 2010 Dominick Grift <dgrift@gmail.com> 3.7.16-2.1
 - Merge refpolicy.
 - Merge fedora.

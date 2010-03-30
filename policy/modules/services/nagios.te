@@ -318,7 +318,7 @@ dev_read_urand(nagios_mail_plugin_t)
 
 files_read_etc_files(nagios_mail_plugin_t)
 
-libs_use_shared_lib_files(nagios_mail_plugin_t)
+libs_use_shared_libs(nagios_mail_plugin_t)
 libs_use_ld_so(nagios_mail_plugin_t) 
 
 logging_send_syslog_msg(nagios_mail_plugin_t)
