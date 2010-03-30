@@ -676,6 +676,10 @@ template(`userdom_common_user_template',`
 		locate_read_lib_files($1_usertype)
 	')
 
+	optional_policy(`
+		mplayer_role($1_r, $1_usertype)
+	')
+
 	# for running depmod as part of the kernel packaging process
 	optional_policy(`
 		modutils_read_module_config($1_usertype)
