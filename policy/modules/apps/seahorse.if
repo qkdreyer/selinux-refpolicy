@@ -1,0 +1,114 @@
+## <summary>Seahorse pass phrase caching agent.</summary>
+## <desc>
+##	<p>
+##		Seahorse is a GNOME application for managing encryption
+##		keys. This is the daemon program which provides
+##		services to other parts of Seahorse, and shares your
+##		keys over the network.
+##	</p>
+## </desc>
+
+########################################
+## <summary>
+##	Role access for Seahorse Daemon.
+## </summary>
+## <param name="role">
+##	<summary>
+##	Role allowed access.
+##	</summary>
+## </param>
+## <param name="domain">
+##	<summary>
+##	User domain for the role.
+##	</summary>
+## </param>
+#
+interface(`seahorsed_role',`
+	gen_require(`
+		type seahorsed_t, seahorsed_exec_t;
+	')
+
+	########################################
+	#
+	# Seahorse daemon shared declarations.
+	#
+
+	role $1 types seahorsed_t;
+
+	########################################
+	#
+	# Seahorse daemon shared policy.
+	#
+
+	domtrans_pattern($2, seahorsed_exec_t, seahorsed_t)
+
+	allow $2 seahorsed_t:process { ptrace signal_perms };
+	ps_process_pattern($2, seahorsed_t)
+
+	seahorsed_read_tmpfs_files($2)
+	seahorsed_stream_connect($2)
+
+	optional_policy(`
+		seahorsed_dbus_chat($2)
+	')
+')
+
+########################################
+## <summary>
+##	connect to Seahorse daemon by
+##	unix stream socket.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`seahorsed_stream_connect',`   
+	gen_require(`
+		type seahorsed_t;   
+	')   
+
+	allow $1 seahorsed_t:unix_stream_socket connectto;
+')
+
+########################################
+## <summary>
+##	Send and receive messages to and from
+##	Seahorse daemon.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`seahorsed_dbus_chat',`
+	gen_require(`
+		type seahorsed_t;
+		class dbus send_msg;
+	')
+
+	allow $1 seahorsed_t:dbus send_msg;
+	allow seahorsed_t $1:dbus send_msg;
+')
+
+########################################
+## <summary>
+##	Read and unlink seahorsed tmpfs files.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`seahorsed_read_tmpfs_files',`
+	gen_require(`
+		type seahorsed_tmpfs_t;
+	')
+
+	allow $1 seahorsed_tmpfs_t:file { read_file_perms unlink };
+	fs_search_tmpfs($1)
+')
+

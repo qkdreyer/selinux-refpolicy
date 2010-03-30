@@ -1,0 +1,123 @@
+
+policy_module(seahorse,1.0.0) 
+
+########################################
+#
+# Seahorse daemon personal declarations.
+#
+
+type seahorsed_t;
+type seahorsed_exec_t;
+application_domain(seahorsed_t, seahorsed_exec_t)
+ubac_constrained(seahorsed_t)
+
+type seahorsed_tmpfs_t;
+files_tmpfs_file(seahorsed_tmpfs_t)
+ubac_constrained(seahorsed_tmpfs_t)
+
+########################################
+#
+# Seahorse daemon personal policy.
+#
+
+allow seahorsed_t self:fifo_file rw_fifo_file_perms;
+allow seahorsed_t self:process { getsched setsched };
+allow seahorsed_t self:shm create_shm_perms;
+allow seahorsed_t self:tcp_socket create_stream_socket_perms;
+allow seahorsed_t self:unix_dgram_socket create_socket_perms;
+
+manage_files_pattern(seahorsed_t, seahorsed_tmpfs_t, seahorsed_tmpfs_t)
+fs_tmpfs_filetrans(seahorsed_t, seahorsed_tmpfs_t, file)
+
+corenet_all_recvfrom_netlabel(seahorsed_t)
+corenet_all_recvfrom_unlabeled(seahorsed_t)
+corenet_tcp_sendrecv_generic_if(seahorsed_t)
+corenet_tcp_sendrecv_generic_node(seahorsed_t)
+corenet_tcp_bind_generic_node(seahorsed_t)
+
+corecmd_exec_bin(seahorsed_t)
+
+kernel_read_system_state(seahorsed_t)
+
+dev_read_urand(seahorsed_t)
+
+files_read_etc_files(seahorsed_t)
+files_read_usr_files(seahorsed_t)
+
+fs_getattr_tmpfs(seahorsed_t)
+fs_list_inotifyfs(seahorsed_t)
+fs_search_auto_mountpoints(seahorsed_t)
+
+logging_send_syslog_msg(seahorsed_t)
+
+miscfiles_read_localization(seahorsed_t)
+
+userdom_list_user_tmp(seahorsed_t)
+userdom_read_user_tmpfs_files(seahorsed_t)
+# Bug: user pulseaudio files need open,read and unlink:
+allow seahorsed_t user_tmpfs_t:file unlink;
+
+userdom_setattr_user_tmp_dirs(seahorsed_t)
+userdom_stream_connect(seahorsed_t)
+userdom_signull_unpriv_users(seahorsed_t)
+userdom_use_user_terminals(seahorsed_t)
+userdom_write_user_tmp_sockets(seahorsed_t)
+
+# We need a non-generic type for ~/.icons
+userdom_dontaudit_read_user_home_content_files(seahorsed_t)
+
+tunable_policy(`use_nfs_home_dirs',`
+	fs_manage_nfs_dirs(seahorsed_t)
+	fs_manage_nfs_files(seahorsed_t)
+	fs_read_nfs_symlinks(seahorsed_t)
+')
+
+tunable_policy(`use_samba_home_dirs',`
+	fs_manage_cifs_dirs(seahorsed_t)
+	fs_manage_cifs_files(seahorsed_t)
+	fs_read_cifs_symlinks(seahorsed_t)
+')
+
+optional_policy(`
+	automount_dontaudit_getattr_tmp_dirs(seahorsed_t)
+')
+
+optional_policy(`
+	avahi_dbus_chat(seahorsed_t)
+')
+
+optional_policy(`
+	dbus_connect_session_bus(seahorsed_t)
+	dbus_session_bus_client(seahorsed_t)
+	dbus_system_bus_client(seahorsed_t)
+')
+
+optional_policy(`
+	gpg_domtrans(seahorsed_t)
+	gpg_list_user_content_dirs(seahorsed_t)
+')
+
+optional_policy(`
+	ssh_manage_user_home_files(seahorsed_t)
+	# deal with this
+	ssh_create_user_home_files(seahorsed_t)
+') 
+
+optional_policy(`
+	nis_use_ypbind(seahorsed_t)
+')
+
+optional_policy(`
+	pulseaudio_exec(seahorsed_t)
+	pulseaudio_signull(seahorsed_t)
+')
+
+optional_policy(`
+	vino_server_read_tmpfs_files(seahorsed_t)
+	vino_server_signull(seahorsed_t)
+')
+
+optional_policy(`
+	xserver_user_x_domain_template(seahorsed, seahorsed_t, seahorsed_tmpfs_t)
+')
+

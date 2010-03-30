@@ -21,6 +21,7 @@ interface(`gpg_role',`
 		type gpg_agent_t, gpg_agent_exec_t;
 		type gpg_agent_tmp_t;
 		type gpg_helper_t, gpg_pinentry_t;
+		type gpg_pinentry_tmp_t;
 	')
 
 	role $1 types { gpg_t gpg_agent_t gpg_helper_t gpg_pinentry_t };
@@ -49,6 +50,13 @@ interface(`gpg_role',`
 
 	# Transition from the user domain to the agent domain.
 	domtrans_pattern($2, gpg_agent_exec_t, gpg_agent_t)
+
+	manage_sock_files_pattern($2, gpg_pinentry_tmp_t, gpg_pinentry_tmp_t)
+	relabel_sock_files_pattern($2, gpg_pinentry_tmp_t, gpg_pinentry_tmp_t)
+
+	optional_policy(`)
+		gpg_pinentry_dbus_chat($2)
+	')
 
 	ifdef(`hide_broken_symptoms',`
 		#Leaked File Descriptors
@@ -92,3 +100,65 @@ interface(`gpg_signal',`
 
 	allow $1 gpg_t:process signal;
 ')
+
+########################################
+## <summary>
+##	Read and write GPG named pipes.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`gpg_agent_rw_named_pipes',`
+	# Just wants read/write could this be a leak?
+	gen_require(`
+		type gpg_agent_t;
+	')
+
+	allow $1 gpg_agent_t:fifo_file rw_fifo_file_perms;
+')
+
+########################################
+## <summary>
+##	Send messages to and from GPG
+##	Pinentry over DBUS.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`gpg_pinentry_dbus_chat',`
+	gen_require(`
+		type gpg_pinentry_t;
+		class dbus send_msg;
+	')
+
+	allow $1 gpg_pinentry_t:dbus send_msg;
+	allow gpg_pinentry_t $1:dbus send_msg;
+')
+
+
+########################################
+## <summary>
+##	List Gnu Privacy Guard user 
+##	content dirs.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`gpg_list_user_content_dirs',`
+	gen_require(`
+		type gpg_secret_t;
+	')
+
+	list_dirs_pattern($1, gpg_secret_t, gpg_secret_t)
+	userdom_search_user_home_dirs($1)
+')
+
