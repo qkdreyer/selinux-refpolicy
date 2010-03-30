@@ -1,0 +1,134 @@
+
+policy_module(mail,1.0.0) 
+
+########################################
+#
+# Mutt global declarations.
+#
+
+attribute mutt_domains;
+
+########################################
+#
+# Mutt personal declarations.
+#
+
+type mutt_t, mutt_domains;
+type mutt_exec_t;
+application_domain(mutt_t, mutt_exec_t)
+ubac_constrained(mutt_t)
+
+type mutt_etc_t;
+files_config_file(mutt_etc_t)
+
+type mutt_home_t;
+userdom_user_home_content(mutt_home_t)
+
+type mutt_tmp_t;
+files_tmp_file(mutt_tmp_t)
+ubac_constrained(mutt_tmp_t)
+
+########################################
+#
+# Mutt PGP ewrap personal declarations.
+#
+
+type mutt_pgpewrap_t, mutt_domains;
+type mutt_pgpewrap_exec_t;
+application_domain(mutt_pgpewrap_t, mutt_pgpewrap_exec_t)
+ubac_constrained(mutt_pgpewrap_t)
+
+########################################
+#
+# Mutt global policy.
+#
+
+dev_read_urand(mutt_domains)
+
+fs_search_auto_mountpoints(mutt_domains)
+
+miscfiles_read_localization(mutt_domains)
+
+userdom_use_user_terminals(mutt_domains)
+
+optional_policy(`
+	automount_dontaudit_getattr_tmp_dirs(mutt_domains)
+')
+
+optional_policy(`
+	gpg_domtrans(mutt_domains)
+')
+
+########################################
+#
+# Mutt personal policy.
+#
+
+allow mutt_t self:fifo_file rw_fifo_file_perms;
+allow mutt_t self:netlink_route_socket create_netlink_socket_perms;
+allow mutt_t self:process setrlimit;
+allow mutt_t self:tcp_socket create_socket_perms;
+allow mutt_t self:udp_socket create_socket_perms;
+
+read_files_pattern(mutt_t, mutt_etc_t, mutt_etc_t)
+
+manage_dirs_pattern(mutt_t, mutt_home_t, mutt_home_t)
+manage_files_pattern(mutt_t, mutt_home_t, mutt_home_t)
+userdom_user_home_dir_filetrans(mutt_t, mutt_home_t, { dir file })
+userdom_search_user_home_dirs(mutt_t)
+
+manage_dirs_pattern(mutt_t, mutt_tmp_t, mutt_tmp_t)
+manage_files_pattern(mutt_t, mutt_tmp_t, mutt_tmp_t)
+files_tmp_filetrans(mutt_t, mutt_tmp_t, { file dir })
+
+corecmd_exec_bin(mutt_t)
+corecmd_exec_shell(mutt_t)
+corecmd_read_bin_symlinks(mutt_t)
+
+corenet_all_recvfrom_netlabel(mutt_t)
+corenet_all_recvfrom_unlabeled(mutt_t)
+corenet_tcp_bind_generic_node(mutt_t)
+corenet_tcp_connect_pop_port(mutt_t)
+corenet_sendrecv_pop_client_packets(mutt_t)
+corenet_tcp_connect_smtp_port(mutt_t)
+corenet_sendrecv_smtp_client_packets(mutt_t)
+corenet_tcp_sendrecv_generic_if(mutt_t)
+corenet_tcp_sendrecv_generic_node(mutt_t)
+corenet_tcp_sendrecv_generic_port(mutt_t)
+
+kernel_read_system_state(mutt_t)
+
+dev_read_rand(mutt_t)
+
+files_read_etc_files(mutt_t)
+files_read_usr_files(mutt_t)
+
+sysnet_read_config(mutt_t)
+
+tunable_policy(`use_nfs_home_dirs', `
+	fs_manage_nfs_dirs(mutt_t)
+	fs_manage_nfs_files(mutt_t)
+')
+
+tunable_policy(`use_samba_home_dirs', `
+	fs_manage_cifs_dirs(mutt_t)
+	fs_manage_cifs_files(mutt_t)
+')
+
+optional_policy(`
+	nis_use_ypbind(mutt_t)
+')
+
+########################################
+#
+# Mutt PGP Ewrap personal policy
+#
+
+allow mutt_pgpewrap_t mutt_t:fifo_file read_fifo_file_perms;
+
+domtrans_pattern(mutt_t, mutt_pgpewrap_exec_t, mutt_pgpewrap_t)
+
+corecmd_search_bin(mutt_pgpewrap_t)
+
+mutt_rw_tmp_files(mutt_pgpewrap_t)
+
