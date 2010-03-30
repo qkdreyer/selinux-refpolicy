@@ -1,0 +1,5 @@
+HOME_DIR/\.local/share/vino(/.*)?		gen_context(system_u:object_r:vino_server_data_home_t,s0)
+
+/usr/bin/vino-preferences		--		gen_context(system_u:object_r:vino_server_exec_t,s0)
+/usr/libexec/vino-server		--		gen_context(system_u:object_r:vino_server_exec_t,s0)
+

@@ -751,6 +751,13 @@ template(`userdom_common_user_template',`
 		slrnpull_search_spool($1_usertype)
 	')
 
+	optional_policy(`
+		telepathy_role_template($1, $1_r, $1_usertype)
+	')
+
+	optional_policy(`
+		vino_role($1_r, $1_usertype)
+	')
 ')
 
 #######################################

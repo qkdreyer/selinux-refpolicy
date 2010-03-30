@@ -1,0 +1,444 @@
+
+policy_module(telepathy,1.0.0) 
+
+########################################
+#
+# Telepathy global personal declarations.
+#
+
+## <desc>
+## <p>
+##	Allow the Telepathy connection managers
+##	to connect to any generic TCP port.
+## </p>
+## </desc>
+gen_tunable(telepathy_tcp_connect_generic_network_ports, false)
+
+attribute tp_domains;
+
+########################################
+#
+# Telepathy Butterfly personal declarations.
+#
+
+type tp_butterfly_t, tp_domains;
+type tp_butterfly_exec_t;
+application_domain(tp_butterfly_t, tp_butterfly_exec_t)
+ubac_constrained(tp_butterfly_t)
+
+type tp_butterfly_tmp_t;
+files_tmp_file(tp_butterfly_tmp_t)
+ubac_constrained(tp_butterfly_tmp_t)
+
+########################################
+#
+# Telepathy Gabble personal declarations.
+#
+
+type tp_gabble_t, tp_domains;
+type tp_gabble_exec_t;
+application_domain(tp_gabble_t, tp_gabble_exec_t)
+ubac_constrained(tp_gabble_t)
+
+type tp_gabble_tmp_t;
+files_tmp_file(tp_gabble_tmp_t)
+ubac_constrained(tp_gabble_tmp_t)
+
+type tp_gabble_cache_home_t;
+userdom_user_home_content(tp_gabble_cache_home_t)
+
+########################################
+#
+# Telepathy Haze personal declarations.
+#
+
+type tp_haze_t, tp_domains;
+type tp_haze_exec_t;
+application_domain(tp_haze_t, tp_haze_exec_t)
+ubac_constrained(tp_haze_t)
+
+type tp_haze_tmp_t;
+files_tmp_file(tp_haze_tmp_t)
+ubac_constrained(tp_haze_tmp_t)
+
+########################################
+#
+# Telepathy Idle personal declarations.
+#
+
+type tp_idle_t, tp_domains;
+type tp_idle_exec_t;
+application_domain(tp_idle_t, tp_idle_exec_t)
+ubac_constrained(tp_idle_t)
+
+########################################
+#
+# Telepathy Mission-Control personal declarations.
+#
+
+type tp_mission_control_t, tp_domains;
+type tp_mission_control_exec_t;
+application_domain(tp_mission_control_t, tp_mission_control_exec_t)
+ubac_constrained(tp_mission_control_t)
+
+type tp_mission_control_home_t;
+userdom_user_home_content(tp_mission_control_home_t)
+
+type tp_mission_control_cache_home_t;
+userdom_user_home_content(tp_mission_control_cache_home_t)
+
+########################################
+#
+# Telepathy Salut personal declarations.
+#
+
+type tp_salut_t, tp_domains;
+type tp_salut_exec_t;
+application_domain(tp_salut_t, tp_salut_exec_t)
+ubac_constrained(tp_salut_t)
+
+type tp_salut_tmp_t;
+files_tmp_file(tp_salut_tmp_t)
+ubac_constrained(tp_salut_tmp_t)
+
+########################################
+#
+# Telepathy Sofiasip personal declarations.
+#
+
+type tp_sofiasip_t, tp_domains;
+type tp_sofiasip_exec_t;
+application_domain(tp_sofiasip_t, tp_sofiasip_exec_t)
+ubac_constrained(tp_sofiasip_t)
+
+########################################
+#
+# Telepathy Stream-Engine personal declarations.
+#
+
+type tp_stream_engine_t, tp_domains;
+type tp_stream_engine_exec_t;
+application_domain(tp_stream_engine_t, tp_stream_engine_exec_t)
+ubac_constrained(tp_stream_engine_t)
+
+########################################
+#
+# Telepathy Sunshine personal declarations.
+#
+
+type tp_sunshine_t, tp_domains;
+type tp_sunshine_exec_t;
+application_domain(tp_sunshine_t, tp_sunshine_exec_t)
+ubac_constrained(tp_sunshine_t)
+
+type tp_sunshine_tmp_t;
+files_tmp_file(tp_sunshine_tmp_t)
+ubac_constrained(tp_sunshine_tmp_t)
+
+########################################
+#
+# Telepathy global personal policy.
+#
+
+allow tp_domains self:process { getsched signal };
+allow tp_domains self:fifo_file rw_fifo_file_perms;
+
+corenet_all_recvfrom_netlabel(tp_domains)
+corenet_all_recvfrom_unlabeled(tp_domains)
+corenet_raw_bind_generic_node(tp_domains)
+corenet_raw_sendrecv_generic_if(tp_domains)
+corenet_raw_sendrecv_generic_node(tp_domains)
+corenet_tcp_bind_generic_node(tp_domains)
+corenet_tcp_sendrecv_generic_if(tp_domains)
+corenet_tcp_sendrecv_generic_node(tp_domains)
+corenet_udp_bind_generic_node(tp_domains)
+corenet_udp_sendrecv_generic_if(tp_domains)
+corenet_udp_sendrecv_generic_node(tp_domains)
+
+fs_search_auto_mountpoints(tp_domains)
+
+miscfiles_read_localization(tp_domains)
+
+userdom_stream_connect(tp_domains)
+userdom_use_user_terminals(tp_domains)
+
+tunable_policy(`telepathy_tcp_connect_generic_network_ports',`
+	corenet_tcp_connect_generic_port(tp_domains)
+	corenet_sendrecv_generic_client_packets(tp_domains)
+')
+
+optional_policy(`
+	automount_dontaudit_getattr_tmp_dirs(tp_domains)
+')
+
+optional_policy(`
+	nis_use_ypbind(tp_domains)
+')
+
+optional_policy(`
+	telepathy_dbus_chat(tp_domains)
+')
+
+optional_policy(`
+	xserver_rw_xdm_pipes(tp_domains)
+')
+
+########################################
+#
+# Telepathy Butterfly personal policy.
+#
+
+allow tp_butterfly_t self:netlink_route_socket create_netlink_socket_perms;
+allow tp_butterfly_t self:tcp_socket create_socket_perms;
+allow tp_butterfly_t self:udp_socket create_socket_perms;
+allow tp_butterfly_t self:unix_dgram_socket create_socket_perms;
+
+manage_files_pattern(tp_butterfly_t, tp_butterfly_tmp_t, tp_butterfly_tmp_t)
+exec_files_pattern(tp_butterfly_t, tp_butterfly_tmp_t, tp_butterfly_tmp_t)
+files_tmp_filetrans(tp_butterfly_t, tp_butterfly_tmp_t, file)
+
+corenet_sendrecv_http_client_packets(tp_butterfly_t)
+corenet_sendrecv_msnp_client_packets(tp_butterfly_t)
+
+corenet_tcp_connect_http_port(tp_butterfly_t)
+corenet_tcp_connect_msnp_port(tp_butterfly_t)
+
+corecmd_exec_bin(tp_butterfly_t)
+corecmd_exec_shell(tp_butterfly_t)
+corecmd_read_bin_symlinks(tp_butterfly_t)
+
+kernel_read_system_state(tp_butterfly_t)
+
+dev_read_urand(tp_butterfly_t)
+
+files_read_etc_files(tp_butterfly_t)
+
+logging_send_syslog_msg(tp_butterfly_t)
+
+sysnet_read_config(tp_butterfly_t)
+
+optional_policy(`
+	abrt_read_config(tp_butterfly_t)
+')
+
+optional_policy(`
+	gnome_read_gconf_home_files(tp_butterfly_t)
+')
+
+########################################
+#
+# Telepathy Gabble personal policy.
+#
+
+allow tp_gabble_t self:netlink_route_socket create_netlink_socket_perms;
+allow tp_gabble_t self:tcp_socket create_stream_socket_perms;
+allow tp_gabble_t self:udp_socket create_socket_perms;
+allow tp_gabble_t self:unix_dgram_socket { create_socket_perms sendto };
+
+manage_dirs_pattern(tp_gabble_t, tp_gabble_tmp_t, tp_gabble_tmp_t)
+manage_sock_files_pattern(tp_gabble_t, tp_gabble_tmp_t, tp_gabble_tmp_t)
+files_tmp_filetrans(tp_gabble_t, tp_gabble_tmp_t, { dir sock_file })
+
+# ~/.cache/gabble/caps-cache.db-journal.
+optional_policy(`
+	manage_dirs_pattern(tp_gabble_t, tp_gabble_cache_home_t, tp_gabble_cache_home_t)
+	manage_files_pattern(tp_gabble_t, tp_gabble_cache_home_t, tp_gabble_cache_home_t)
+	gnome_cache_filetrans(tp_gabble_t, tp_gabble_cache_home_t, { dir file })
+')
+
+corenet_sendrecv_jabber_client_client_packets(tp_gabble_t)
+corenet_tcp_connect_jabber_client_port(tp_gabble_t)
+
+corenet_sendrecv_http_client_packets(tp_gabble_t)
+corenet_tcp_connect_http_port(tp_gabble_t)
+
+corenet_sendrecv_vnc_client_packets(tp_gabble_t)
+corenet_tcp_connect_vnc_port(tp_gabble_t)
+
+corenet_sendrecv_commplex_client_packets(tp_gabble_t)
+corenet_tcp_connect_commplex_port(tp_gabble_t)
+
+dev_read_rand(tp_gabble_t)
+dev_read_urand(tp_gabble_t)
+
+files_read_etc_files(tp_gabble_t)
+
+miscfiles_read_certs(tp_gabble_t)
+
+sysnet_read_config(tp_gabble_t)
+
+optional_policy(`
+	dbus_system_bus_client(tp_gabble_t)
+')
+
+tunable_policy(`use_nfs_home_dirs',`
+	fs_manage_nfs_dirs(tp_gabble_t)
+	fs_manage_nfs_files(tp_gabble_t)
+')
+
+tunable_policy(`use_samba_home_dirs',`
+	fs_manage_cifs_dirs(tp_gabble_t)
+	fs_manage_cifs_files(tp_gabble_t)
+')
+
+########################################
+#
+# Telepathy Haze personal policy.
+#
+
+# There are two Telepathy connection managers that support MSN: 
+# Butterfly, which is an MSN-specific CM built on pymsn, and Haze,
+# which uses libpurple.
+
+# Prior to libpurple 2.5.0, Haze's MSN support was rudimentary, but
+# libpurple 2.5.0 and newer reduce the gap between Haze and Butterfly considerably.
+# Still, you will probably have a better experience if you use Butterfly.
+
+# semanage fcontext -a -t tp_butterfly_exec_t /usr/libexec/telepathy-haze. 
+
+allow tp_haze_t self:process setsched;
+allow tp_haze_t self:tcp_socket create_socket_perms;
+allow tp_haze_t self:udp_socket create_socket_perms;
+
+manage_dirs_pattern(tp_haze_t, tp_haze_tmp_t, tp_haze_tmp_t)
+manage_files_pattern(tp_haze_t, tp_haze_tmp_t, tp_haze_tmp_t)
+files_tmp_filetrans(tp_haze_t, tp_haze_tmp_t, { dir file })
+
+dev_read_urand(tp_haze_t)
+
+files_read_etc_files(tp_haze_t)
+files_read_usr_files(tp_haze_t)
+
+sysnet_read_config(tp_haze_t)
+
+optional_policy(`
+	dbus_system_bus_client(tp_haze_t)
+')
+
+########################################
+#
+# Telepathy Idle personal policy.
+#
+
+allow tp_idle_t self:netlink_route_socket create_netlink_socket_perms;
+allow tp_idle_t self:tcp_socket create_socket_perms;
+allow tp_idle_t self:udp_socket create_socket_perms;
+
+corenet_sendrecv_ircd_client_packets(tp_idle_t)
+corenet_tcp_connect_ircd_port(tp_idle_t)
+
+files_read_etc_files(tp_idle_t)
+
+sysnet_read_config(tp_idle_t)
+
+########################################
+#
+# Telepathy Mission-Control personal policy.
+#
+
+manage_dirs_pattern(tp_mission_control_t, tp_mission_control_home_t, tp_mission_control_home_t)
+manage_files_pattern(tp_mission_control_t, tp_mission_control_home_t, tp_mission_control_home_t)
+userdom_user_home_dir_filetrans(tp_mission_control_t, tp_mission_control_home_t, { dir file })
+userdom_search_user_home_dirs(tp_mission_control_t)
+
+# ~/.cache/.mc_connections.
+optional_policy(`
+	manage_files_pattern(tp_mission_control_t, tp_mission_control_cache_home_t, tp_mission_control_cache_home_t)
+	gnome_cache_filetrans(tp_mission_control_t, tp_mission_control_cache_home_t, file)
+')
+
+files_read_etc_files(tp_mission_control_t)
+files_read_usr_files(tp_mission_control_t)
+
+tunable_policy(`use_nfs_home_dirs',`
+	fs_manage_nfs_dirs(tp_mission_control_t)
+	fs_manage_nfs_files(tp_mission_control_t)
+')
+
+tunable_policy(`use_samba_home_dirs',`
+	fs_manage_cifs_dirs(tp_mission_control_t)
+	fs_manage_cifs_files(tp_mission_control_t)
+')
+
+optional_policy(`
+	gnome_read_gconf_home_files(tp_mission_control_t)
+	gnome_setattr_cache_home_dir(tp_mission_control_t)
+')
+
+########################################
+#
+# Telepathy Salut personal policy.
+#
+
+allow tp_salut_t self:netlink_route_socket create_netlink_socket_perms;
+allow tp_salut_t self:tcp_socket create_stream_socket_perms;
+allow tp_salut_t self:udp_socket create_socket_perms;
+
+manage_sock_files_pattern(tp_salut_t, tp_salut_tmp_t, tp_salut_tmp_t)
+files_tmp_filetrans(tp_salut_t, tp_salut_tmp_t, sock_file)
+
+corenet_sendrecv_presence_server_packets(tp_salut_t)
+corenet_tcp_bind_presence_port(tp_salut_t)
+corenet_tcp_connect_presence_port(tp_salut_t)
+
+dev_read_urand(tp_salut_t)
+
+files_read_etc_files(tp_salut_t)
+
+sysnet_read_config(tp_salut_t)
+
+optional_policy(`
+	dbus_system_bus_client(tp_salut_t)
+
+	optional_policy(`
+		avahi_dbus_chat(tp_salut_t)
+	')
+')
+
+########################################
+#
+# Telepathy Sofiasip personal policy.
+#
+
+allow tp_sofiasip_t self:netlink_route_socket create_netlink_socket_perms;
+allow tp_sofiasip_t self:rawip_socket create_stream_socket_perms;
+allow tp_sofiasip_t self:tcp_socket create_stream_socket_perms;
+allow tp_sofiasip_t self:udp_socket create_socket_perms;
+
+corenet_sendrecv_sip_client_packets(tp_sofiasip_t)
+corenet_tcp_connect_sip_port(tp_sofiasip_t)
+
+kernel_request_load_module(tp_sofiasip_t)
+
+dev_read_urand(tp_sofiasip_t)
+
+sysnet_read_config(tp_sofiasip_t)
+
+########################################
+#
+# Telepathy Stream-Engine personal policy.
+#
+
+########################################
+#
+# Telepathy Sunshine personal policy.
+#
+
+manage_files_pattern(tp_sunshine_t, tp_sunshine_tmp_t, tp_sunshine_tmp_t)
+exec_files_pattern(tp_sunshine_t, tp_sunshine_tmp_t, tp_sunshine_tmp_t)
+files_tmp_filetrans(tp_sunshine_t, tp_sunshine_tmp_t, file)
+
+corecmd_list_bin(tp_sunshine_t)
+
+kernel_read_system_state(tp_sunshine_t)
+
+dev_read_urand(tp_sunshine_t)
+
+files_read_etc_files(tp_sunshine_t)
+files_read_usr_files(tp_sunshine_t)
+
+optional_policy(`
+	xserver_read_xdm_pid(tp_sunshine_t)
+	xserver_stream_connect(tp_sunshine_t)
+')
+

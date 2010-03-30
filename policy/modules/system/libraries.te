@@ -149,5 +149,9 @@ optional_policy(`
 ')
 
 optional_policy(`
+	telepathy_butterfly_rw_tmp_files(ldconfig_t)
+')
+
+optional_policy(`
 	unconfined_domain(ldconfig_t)
 ')

@@ -1,0 +1,149 @@
+## <summary>Vino. The remote desktop project, Take 2.</summary>
+## <desc>
+##	<p>
+##		The primary goal of Vino was originally to provide a
+##		mechanism by which system administrators could remotely
+##		connect to a desktop machine and resolve basic problems
+##		for users.
+##	</p>
+## </desc>
+
+########################################
+## <summary>
+##	Role access for Vino.
+## </summary>
+## <param name="role_prefix">
+##	<summary>
+##	The prefix of the user role (e.g., user
+##	is the prefix for user_r).
+##	</summary>
+## </param>
+## <param name="role">
+##	<summary>
+##	Role allowed access.
+##	</summary>
+## </param>
+## <param name="domain">
+##	<summary>
+##	User domain for the role.
+##	</summary>
+## </param>
+#
+interface(`vino_role',`
+	gen_require(`
+		type vino_server_t, vino_server_exec_t;
+		type vino_server_data_home_t, vino_server_tmp_t;
+	')
+
+	########################################
+	#
+	# Vino server shared declarations.
+	#
+
+	dbus_session_domain($1, vino_server_t, vino_server_exec_t)
+
+	role $2 types vino_server_t;
+
+	########################################
+	#
+	# Vino server shared policy.
+	#
+
+	domtrans_pattern($3, vino_server_exec_t, vino_server_t)
+
+	allow $3 vino_server_t:process { ptrace signal_perms };
+	ps_process_pattern($3, vino_server_t)
+
+	manage_dirs_pattern($2, vino_server_data_home_t, vino_server_data_home_t)
+	manage_files_pattern($2, vino_server_data_home_t, vino_server_data_home_t)
+
+	relabel_dirs_pattern($2, vino_server_data_home_t, vino_server_data_home_t)
+	relabel_files_pattern($2, vino_server_data_home_t, vino_server_data_home_t)
+
+	manage_sock_files_pattern($2, vino_server_tmp_t, vino_server_tmp_t) 
+
+	relabel_sock_files_pattern($2, vino_server_tmp_t, vino_server_tmp_t) 
+
+	vino_server_dbus_chat($3)
+
+	vino_server_read_tmpfs_files($3)
+	vino_server_stream_connect($3)
+')
+
+########################################
+## <summary>
+##	Send DBus messages to and from
+##	Vino server.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`vino_server_dbus_chat',`
+	gen_require(`
+		type vino_server_t;
+		class dbus send_msg;
+	')
+
+	allow $1 vino_server_t:dbus send_msg;
+	allow vino_server_t $1:dbus send_msg;
+')
+
+########################################
+## <summary>
+##	Stream connect to Vino server.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`vino_server_stream_connect',`
+	gen_require(`
+		type vino_server_t, vino_server_tmp_t;
+	')
+
+	stream_connect_pattern($1, vino_server_tmp_t, vino_server_tmp_t, vino_server_t)
+	files_search_tmp($1)
+')
+
+########################################
+## <summary>
+##	Read Vino server tmpfs files.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`vino_server_read_tmpfs_files', `
+	gen_require(`
+		type vino_server_tmpfs_t;
+	')
+
+	allow $1 vino_server_tmpfs_t:file { read_file_perms unlink };
+	fs_search_tmpfs($1)
+')
+
+########################################
+## <summary>
+##	Send signull signal to Vino server.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`vino_server_signull',`
+	gen_require(`
+		type vino_server_t;
+	')
+
+	allow $1 vino_server_t:process signull;
+')
+

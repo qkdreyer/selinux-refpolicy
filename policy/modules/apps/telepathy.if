@@ -1,0 +1,345 @@
+## <summary>Telepathy framework.</summary>
+## <desc>
+##	<p>
+##		The Telepathy project is building a unified framework
+##		for many different kinds of real-time communications.
+##		It uses the D-Bus messaging system to provide a simple
+##		interface for client applications, allowing them to
+##		quickly take advantage of Telepathys benefits.
+##	</p>
+##	<p>
+##		Mission Control, or MC, is a Telepathy component
+##		providing a way for end-user applications to abstract
+##		some of the details of connection managers, to provide
+##		a simple way to manipulate a bunch of connection
+##		managers at once, and to remove the need to have in
+##		each program the account definitions and credentials.
+##	</p>
+## </desc>
+
+#######################################
+## <summary>
+##	The role template for the Telepathy module.
+## </summary>
+## <param name="role_prefix">
+##	<summary>
+##	The prefix of the user role (e.g., user
+##	is the prefix for user_r).
+##	</summary>
+## </param>
+## <param name="user_role">
+##	<summary>
+##	The role associated with the user domain.
+##	</summary>
+## </param>
+## <param name="user_domain">
+##	<summary>
+##	The type of the user domain.
+##	</summary>
+## </param>
+#
+template(`telepathy_role_template',`
+	gen_require(`
+		attribute tp_domains;
+		type tp_butterfly_t, tp_gabble_t, tp_haze_t;
+		type tp_idle_t, tp_mission_control_t, tp_salut_t;
+		type tp_sofiasip_t, tp_stream_engine_t, tp_sunshine_t;
+		type tp_butterfly_exec_t, tp_gabble_exec_t, tp_haze_exec_t;
+		type tp_idle_exec_t, tp_mission_control_exec_t, tp_salut_exec_t;
+		type tp_sofiasip_exec_t, tp_stream_engine_exec_t, tp_sunshine_exec_t;
+		type tp_butterfly_tmp_t, tp_haze_tmp_t, tp_sunshine_tmp_t;
+		type tp_salut_tmp_t, tp_gabble_tmp_t;
+	')
+
+	########################################
+	#
+	# Telepathy global shared declarations.
+	#
+
+	########################################
+	#
+	# Telepathy Butterfly shared declarations.
+	#
+
+	dbus_session_domain($1, tp_butterfly_t, tp_butterfly_exec_t)
+
+	role $2 types tp_butterfly_t;
+
+	########################################
+	#
+	# Telepathy Gabble shared declarations.
+	#
+
+	dbus_session_domain($1, tp_gabble_t, tp_gabble_exec_t)
+
+	role $2 types tp_gabble_t;
+
+	########################################
+	#
+	# Telepathy Haze shared declarations.
+	#
+
+	dbus_session_domain($1, tp_haze_t, tp_haze_exec_t)
+
+	role $2 types tp_haze_t;
+
+	########################################
+	#
+	# Telepathy Idle shared declarations.
+	#
+
+	dbus_session_domain($1, tp_idle_t, tp_idle_exec_t)
+
+	role $2 types tp_idle_t;
+
+	########################################
+	#
+	# Telepathy Mission-Control shared declarations.
+	#
+
+	dbus_session_domain($1, tp_mission_control_t, tp_mission_control_exec_t)
+
+	role $2 types tp_mission_control_t;
+
+	########################################
+	#
+	# Telepathy Salut shared declarations.
+	#
+
+	dbus_session_domain($1, tp_salut_t, tp_salut_exec_t)
+
+	role $2 types tp_salut_t;
+
+	########################################
+	#
+	# Telepathy Sofiasip shared declarations.
+	#
+
+	dbus_session_domain($1, tp_sofiasip_t, tp_sofiasip_exec_t)
+
+	role $2 types tp_sofiasip_t;
+
+	########################################
+	#
+	# Telepathy Stream-Engine shared declarations.
+	#
+
+	dbus_session_domain($1, tp_stream_engine_t, tp_stream_engine_exec_t)
+
+	role $2 types tp_stream_engine_t;
+
+	########################################
+	#
+	# Telepathy Sunshine shared declarations.
+	#
+
+	dbus_session_domain($1, tp_sunshine_t, tp_sunshine_exec_t)
+
+	role $2 types tp_sunshine_t;
+
+	########################################
+	#
+	# Telepathy global shared policy.
+	#
+
+	allow $3 tp_domains:process { ptrace signal_perms };
+	ps_process_pattern($3, tp_domains)
+
+	optional_policy(`
+		telepathy_dbus_chat($3)
+	')
+
+	########################################
+	#
+	# Telepathy Butterfly shared policy.
+	#
+
+	domtrans_pattern($3, tp_butterfly_exec_t, tp_butterfly_t)
+
+	manage_files_pattern($3, tp_butterfly_tmp_t, tp_butterfly_tmp_t)
+
+	relabel_files_pattern($3, tp_butterfly_tmp_t, tp_butterfly_tmp_t)
+
+	libs_run_ldconfig(tp_butterfly_t, $2)
+
+	########################################
+	#
+	# Telepathy Gabble shared policy.
+	#
+
+	domtrans_pattern($3, tp_gabble_exec_t, tp_gabble_t)
+
+	manage_dirs_pattern($3, tp_gabble_tmp_t, tp_gabble_tmp_t)
+	manage_sock_files_pattern($3, tp_gabble_tmp_t, tp_gabble_tmp_t)
+
+	relabel_dirs_pattern($3, tp_gabble_tmp_t, tp_gabble_tmp_t)
+	relabel_sock_files_pattern($3, tp_gabble_tmp_t, tp_gabble_tmp_t)
+
+	telepathy_gabble_stream_connect($3)
+
+	########################################
+	#
+	# Telepathy Haze shared policy.
+	#
+
+	domtrans_pattern($3, tp_haze_exec_t, tp_haze_t)
+
+	manage_dirs_pattern($3, tp_haze_tmp_t, tp_haze_tmp_t)
+	manage_files_pattern($3, tp_haze_tmp_t, tp_haze_tmp_t)
+
+	relabel_dirs_pattern($3, tp_haze_tmp_t, tp_haze_tmp_t)
+	relabel_files_pattern($3, tp_haze_tmp_t, tp_haze_tmp_t)
+
+	########################################
+	#
+	# Telepathy Idle shared policy.
+	#
+
+	domtrans_pattern($3, tp_idle_exec_t, tp_idle_t)
+
+	########################################
+	#
+	# Telepathy Mission-Control shared policy.
+	#
+
+	domtrans_pattern($3, tp_mission_control_exec_t, tp_mission_control_t)
+
+	########################################
+	#
+	# Telepathy Salut shared policy.
+	#
+
+	domtrans_pattern($3, tp_salut_exec_t, tp_salut_t)
+
+	manage_sock_files_pattern($3, tp_salut_tmp_t, tp_salut_tmp_t)
+
+	relabel_sock_files_pattern($3, tp_salut_tmp_t, tp_salut_tmp_t)
+
+	telepathy_salut_stream_connect($3)	
+
+	########################################
+	#
+	# Telepathy Sofiasip shared policy.
+	#
+
+	domtrans_pattern($3, tp_sofiasip_exec_t, tp_sofiasip_t)
+
+	########################################
+	#
+	# Telepathy Stream-Engine shared policy.
+	#
+
+	domtrans_pattern($3, tp_stream_engine_exec_t, tp_stream_engine_t)
+
+	########################################
+	#
+	# Telepathy Sunshine shared policy.
+	#
+
+	domtrans_pattern($3, tp_sunshine_exec_t, tp_sunshine_t)
+
+	manage_files_pattern($3, tp_sunshine_tmp_t, tp_sunshine_tmp_t)
+
+	relabel_files_pattern($3, tp_sunshine_tmp_t, tp_sunshine_tmp_t)
+')
+
+########################################
+## <summary>
+##	Send DBus messages to and from
+##	all Telepathy domains.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`telepathy_dbus_chat',`
+	gen_require(`
+		attribute tp_domains;
+		class dbus send_msg;
+	')
+
+	allow $1 tp_domains:dbus send_msg;
+	allow tp_domains $1:dbus send_msg;
+')
+
+########################################
+## <summary>
+##	Send DBus messages to and from
+##	Telepathy Gabble.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`telepathy_gabble_dbus_chat',`
+	gen_require(`
+		type tp_gabble_t;
+		class dbus send_msg;
+	')
+
+	allow $1 tp_gabble_t:dbus send_msg;
+	allow tp_gabble_t $1:dbus send_msg;
+')
+
+########################################
+## <summary>
+##	Read and write Telepathy Butterfly
+##	temporary files.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`telepathy_butterfly_rw_tmp_files',`
+	gen_require(`
+		type tp_butterfly_tmp_t;
+	')
+
+	allow $1 tp_butterfly_tmp_t:file rw_file_perms;
+	files_search_tmp($1)
+')
+
+########################################
+## <summary>
+##	Stream connect to Telepathy Gabble
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`telepathy_gabble_stream_connect',`
+	gen_require(`
+		type tp_gabble_t, tp_gabble_tmp_t;
+	')
+
+	stream_connect_pattern($1, tp_gabble_tmp_t, tp_gabble_tmp_t, tp_gabble_t)
+	files_search_tmp($1)
+')
+
+########################################
+## <summary>
+##	Stream connect to Telepathy Salut.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`telepathy_salut_stream_connect',`
+	gen_require(`
+		type tp_salut_t, tp_salut_tmp_t;
+	')
+
+	stream_connect_pattern($1, tp_salut_tmp_t, tp_salut_tmp_t, tp_salut_t)
+	files_search_tmp($1)
+')
+

@@ -342,6 +342,47 @@ interface(`dbus_system_bus_unconfined',`
 
 ########################################
 ## <summary>
+##	Allow a application domain to be started
+##	by the session dbus.
+## </summary>
+## <param name="role_prefix">
+##	<summary>
+##	The prefix of the user role (e.g., user
+##	is the prefix for user_r).
+##	</summary>
+## </param>
+## <param name="domain">
+##	<summary>
+##	Type to be used as a domain.
+##	</summary>
+## </param>
+## <param name="entry_point">
+##	<summary>
+##	Type of the program to be used as an 
+##	entry point to this domain.
+##	</summary>
+## </param>
+#
+interface(`dbus_session_domain',`
+	gen_require(`
+		type $1_dbusd_t;
+	')
+
+	domtrans_pattern($1_dbusd_t, $3, $2)
+
+	dbus_session_bus_client($2)
+	dbus_connect_session_bus($2)
+
+	optional_policy(`
+		# If unconfined_t wants to start a dbus_session_domain.
+		# unconfined_dbusd_t should get implemented for F13.
+		# Can just remove this when it is.
+		unconfined_dbus_connect($2)
+	')
+')
+
+########################################
+## <summary>
 ##	Create a domain for processes
 ##	which can be started by the system dbus
 ## </summary>
@@ -445,5 +486,24 @@ interface(`dbus_manage_lib_files',`
 
 	files_search_var_lib($1)
 	manage_files_pattern($1, system_dbusd_var_lib_t, system_dbusd_var_lib_t)
+')
+
+########################################
+## <summary>
+##	Read system dbus lib files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`dbus_read_lib_files',`
+	gen_require(`
+		type system_dbusd_var_lib_t;
+	')
+
+	files_search_var_lib($1)
+	read_files_pattern($1, system_dbusd_var_lib_t, system_dbusd_var_lib_t)
 ')
 
