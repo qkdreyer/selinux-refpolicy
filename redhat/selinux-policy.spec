@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.17
-Release: 2.1%{?dist}
+Release: 2.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,19 @@ exit 0
 %endif
 
 %changelog
+* Wed Mar 31 2010 Dominick Grift <dgrift@gmail.com> 3.7.17-2.2
+- Integrate tmw policy into games module.
+- Call games_role for unpriv users.
+- Move some role_calls from common to unpriv users.
+- Add nscd_socket_use calls to various modules.
+- Declare tmw port tcp:6901
+- Move user_$1_direct_dri to unpriv users.
+- Allow by boolean rw_dri (compiz etc) per user domain.
+- Allow nsplugin to set attributes of pulseaudio home dirs.
+- Allow nsplugin to rw pulseaudio home lnk_files.
+- Allow crond_t to list user_cron_spool_t dirs and to read user_cron_spool_t files.
+- Allow unpriv user to list cgroup dirs.
+
 * Tue Mar 30 2010 Dominick Grift <dgrift@gmail.com> 3.7.17-2.1
 - Merge fedora branch (3.7.17-2)
 

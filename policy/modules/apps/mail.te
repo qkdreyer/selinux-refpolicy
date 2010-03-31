@@ -119,6 +119,10 @@ optional_policy(`
 	nis_use_ypbind(mutt_t)
 ')
 
+optional_policy(`
+	nscd_socket_use(mutt_t)
+')
+
 ########################################
 #
 # Mutt PGP Ewrap personal policy

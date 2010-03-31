@@ -686,10 +686,6 @@ template(`userdom_common_user_template',`
 		locate_read_lib_files($1_usertype)
 	')
 
-	optional_policy(`
-		mplayer_role($1_r, $1_t)
-	')
-
 	# for running depmod as part of the kernel packaging process
 	optional_policy(`
 		modutils_read_module_config($1_usertype)
@@ -758,23 +754,11 @@ template(`userdom_common_user_template',`
 	')
 
 	optional_policy(`
-		seahorsed_role($1_r, $1_t)
-	')
-
-	optional_policy(`
 		seunshare_role_template($1, $1_r, $1_t)
 	')
 
 	optional_policy(`
 		slrnpull_search_spool($1_usertype)
-	')
-
-	optional_policy(`
-		telepathy_role($1_r, $1_t)
-	')
-
-	optional_policy(`
-		vino_role($1_r, $1_t)
 	')
 ')
 
@@ -995,13 +979,6 @@ template(`userdom_restricted_user_template',`
 #
 template(`userdom_restricted_xwindows_user_template',`
 
-	## <desc>
-	## <p>
-	## Allow regular users direct dri device access
-	## </p>
-	## </desc>
-	gen_tunable(user_$1_direct_dri, false)
-
 	userdom_restricted_user_template($1)
 
 	##############################
@@ -1030,10 +1007,6 @@ template(`userdom_restricted_xwindows_user_template',`
 		fs_manage_dos_files($1_usertype)
 		storage_raw_read_removable_device($1_usertype)
 		storage_raw_write_removable_device($1_usertype)
-	')
-
-	tunable_policy(`user_$1_direct_dri',`
-		dev_rw_dri($1_usertype)
 	')
 
 	logging_send_syslog_msg($1_usertype)
@@ -1121,6 +1094,13 @@ template(`userdom_unpriv_user_template', `
 	# Declarations
 	#
 
+	## <desc>
+	## <p>
+	## Allow regular users direct dri device access
+	## </p>
+	## </desc>
+	gen_tunable(user_$1_direct_dri, false)
+
 	# Inherit rules for ordinary users.
 	userdom_restricted_xwindows_user_template($1)
 	userdom_common_user_template($1)
@@ -1147,6 +1127,10 @@ template(`userdom_unpriv_user_template', `
 		corenet_tcp_bind_all_unreserved_ports($1_usertype)
 	')
 
+	tunable_policy(`user_$1_direct_dri',`
+		dev_rw_dri($1_usertype)
+	')
+
 	optional_policy(`
 		cdrecord_role($1_r, $1_t)
 	')
@@ -1156,6 +1140,7 @@ template(`userdom_unpriv_user_template', `
 	')
 
 	optional_policy(`
+		games_role($1_r, $1_t)
 		games_rw_data($1_usertype)
 	')
 
@@ -1188,6 +1173,10 @@ template(`userdom_unpriv_user_template', `
 	')
 
 	optional_policy(`
+		mplayer_role($1_r, $1_t)
+	')
+
+	optional_policy(`
 		wine_role_template($1, $1_r, $1_t)
 	')
 
@@ -1198,6 +1187,18 @@ template(`userdom_unpriv_user_template', `
 	# Run pppd in pppd_t by default for user
 	optional_policy(`
 		ppp_run_cond($1_t, $1_r)
+	')
+
+	optional_policy(`
+		seahorsed_role($1_r, $1_t)
+	')
+
+	optional_policy(`
+		telepathy_role($1_r, $1_t)
+	')
+	
+	optional_policy(`
+		vino_role($1_r, $1_t)
 	')
 ')
 

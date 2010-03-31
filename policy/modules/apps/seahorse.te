@@ -108,6 +108,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+	nscd_socket_use(seahorsed_t)
+')
+
+optional_policy(`
 	pulseaudio_exec(seahorsed_t)
 	pulseaudio_signull(seahorsed_t)
 ')

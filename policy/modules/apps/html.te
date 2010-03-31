@@ -86,3 +86,8 @@ optional_policy(`
 	nis_use_ypbind(elinks_t)
 ')
 
+optional_policy(`
+	nscd_socket_use(elinks_t)
+')
+
+

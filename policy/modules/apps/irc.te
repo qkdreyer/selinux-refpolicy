@@ -206,3 +206,7 @@ optional_policy(`
 	nis_use_ypbind(irssi_t)
 ')
 
+optional_policy(`
+	nscd_socket_use(irssi_t)
+')
+

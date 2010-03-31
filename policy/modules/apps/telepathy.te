@@ -176,6 +176,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+	nscd_socket_use(tp_domains)
+')
+
+optional_policy(`
 	telepathy_dbus_chat(tp_domains)
 ')
 

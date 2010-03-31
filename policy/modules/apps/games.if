@@ -18,6 +18,7 @@
 interface(`games_role',`
 	gen_require(`
 		type games_t, games_exec_t;
+		type tmw_t, tmw_exec_t;
 	')
 
 	role $1 types games_t;
@@ -29,6 +30,26 @@ interface(`games_role',`
 	# Allow the user domain to signal/ps.
 	ps_process_pattern($2, games_t)
 	allow $2 games_t:process signal_perms;
+
+	########################################
+	#
+	# tmw shared declarations.
+	#
+
+	role $1 types tmw_t;
+
+	########################################
+	#
+	# tmw shared policy.
+	#
+
+	domtrans_pattern($2, tmw_exec_t, tmw_t)
+
+	allow $2 tmw_t:process { ptrace signal_perms };
+	ps_process_pattern($2, tmw_t)
+
+	tmw_delete_tmpfs_files($2)
+	tmw_read_tmpfs_files($2)
 ')
 
 ########################################
@@ -49,3 +70,42 @@ interface(`games_rw_data',`
 
 	rw_files_pattern($1, games_data_t, games_data_t)
 ')
+
+########################################
+## <summary>
+##	delete tmw tmpfs files.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`tmw_delete_tmpfs_files',`
+	gen_require(`
+		type tmw_tmpfs_t;
+	')
+
+	allow $1 tmw_tmpfs_t:file { getattr_file_perms unlink };
+	fs_search_tmpfs($1)
+')
+
+########################################
+## <summary>
+##	Read tmw tmpfs files.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`tmw_read_tmpfs_files',`
+	gen_require(`
+		type tmw_tmpfs_t;
+	')
+
+	allow $1 tmw_tmpfs_t:file read_file_perms;
+	fs_search_tmpfs($1)
+')
+

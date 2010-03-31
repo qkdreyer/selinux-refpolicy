@@ -1,6 +1,12 @@
 #
+# HOME_DIR
+#
+HOME_DIR/\.tmw(/.*)?	gen_context(system_u:object_r:tmw_home_t,s0)
+
+#
 # /usr
 #
+/usr/bin/tmw		--	gen_context(system_u:object_r:tmw_exec_t, s0)
 /usr/lib/games(/.*)? 		gen_context(system_u:object_r:games_exec_t,s0)
 /usr/games/.*		--	gen_context(system_u:object_r:games_exec_t,s0)
 
