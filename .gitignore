@@ -1,1 +1,6 @@
 .project
+doc/global_booleans.xml
+doc/global_tunables.xml
+doc/policy.xml
+policy/booleans.conf
+policy/modules.conf
