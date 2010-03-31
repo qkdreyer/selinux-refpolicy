@@ -43,7 +43,13 @@ usermanage_domtrans_useradd(accountsd_t)
 optional_policy(`
 	consolekit_read_log(accountsd_t)
 ')
+
 optional_policy(`
 	policykit_dbus_chat(accountsd_t)
 ')
+
+optional_policy(`
+	xserver_dbus_chat_xdm(accountsd_t)
+')
+
 

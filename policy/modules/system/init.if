@@ -371,6 +371,7 @@ interface(`init_system_domain',`
 
 	userdom_dontaudit_search_user_home_dirs($1)
 	userdom_dontaudit_rw_stream($1)
+	userdom_dontaudit_write_user_tmp_files($1)
 
 	tunable_policy(`allow_daemons_use_tty',`
 	   term_use_all_ttys($1)
@@ -395,6 +396,7 @@ interface(`init_system_domain',`
 		unconfined_dontaudit_rw_pipes($1)
 		unconfined_dontaudit_rw_stream($1)
 		userdom_dontaudit_read_user_tmp_files($1)
+		userdom_dontaudit_write_user_tmp_files($1)
 	')
 
 	init_rw_script_stream_sockets($1)

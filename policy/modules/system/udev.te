@@ -259,6 +259,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+	networkmanager_dbus_chat(udev_t)
+')
+
+optional_policy(`
 	openct_read_pid_files(udev_t)
 	openct_domtrans(udev_t)
 ')

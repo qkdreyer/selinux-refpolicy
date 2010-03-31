@@ -279,4 +279,6 @@ optional_policy(`
 	virt_stream_connect(staff_t)
 ')
 
-userhelper_console_role_template(staff, staff_t, staff_usertype)
+optional_policy(`
+	userhelper_console_role_template(staff, staff_t, staff_usertype)
+')

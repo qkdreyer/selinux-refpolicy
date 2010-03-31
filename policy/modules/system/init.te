@@ -574,6 +574,7 @@ ifdef(`distro_redhat',`
 	')
 
 	optional_policy(`
+		cgroup_rw_cgroup_dir(initrc_t)
 		cgroup_stream_connect(initrc_t)
 	')
 

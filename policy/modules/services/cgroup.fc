@@ -5,3 +5,5 @@
 /sbin/cgconfigparser		-- gen_context(system_u:object_r:cgconfigparser_exec_t, s0)
 
 /var/run/cgred.*		gen_context(system_u:object_r:cgred_var_run_t, s0)
+
+/cgroup(/.*)?			gen_context(system_u:object_r:cgroup_t, s0)

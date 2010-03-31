@@ -115,6 +115,10 @@ template(`userdom_base_user_template',`
 	files_dontaudit_getattr_non_security_pipes($1_usertype)
 	files_dontaudit_getattr_non_security_sockets($1_usertype)
 
+	files_exec_usr_files($1_t)
+
+	fs_list_cgroup_dirs($1_usertype)
+
 	storage_rw_fuse($1_usertype)
 
 	auth_use_nsswitch($1_usertype)
@@ -134,6 +138,10 @@ template(`userdom_base_user_template',`
 	tunable_policy(`allow_execmem && allow_execstack',`
 		# Allow making the stack executable via mprotect.
 		allow $1_t self:process execstack;
+	')
+
+	optional_policy(`
+		cgroup_list_cgroup_dir($1_usertype)
 	')
 
 	optional_policy(`
@@ -841,7 +849,6 @@ template(`userdom_login_user_template', `
 	fs_get_all_fs_quotas($1_usertype)
 	fs_getattr_all_fs($1_usertype)
 	fs_search_all($1_usertype)
-	fs_list_cgroup_dirs($1_usertype)
 	fs_list_inotifyfs($1_usertype)
 	fs_rw_anon_inodefs_files($1_usertype)
 
@@ -1001,6 +1008,9 @@ template(`userdom_restricted_xwindows_user_template',`
 	dev_rw_wireless($1_usertype)
 
 	tunable_policy(`user_rw_noexattrfile',`
+		dev_rw_usbfs($1_t)
+		dev_rw_generic_usb_dev($1_usertype)
+
 		fs_manage_noxattr_fs_files($1_usertype)
 		fs_manage_noxattr_fs_dirs($1_usertype)
 		fs_manage_dos_dirs($1_usertype)

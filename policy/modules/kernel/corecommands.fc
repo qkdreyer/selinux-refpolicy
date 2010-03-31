@@ -49,7 +49,8 @@ ifdef(`distro_redhat',`
 /etc/cipe/ip-up.*		--	gen_context(system_u:object_r:bin_t,s0)
 /etc/cipe/ip-down.*		--	gen_context(system_u:object_r:bin_t,s0)
 
-/etc/ConsoleKit/run-session.d(/.*)?	gen_context(system_u:object_r:bin_t,s0)
+/etc/ConsoleKit/run-session\.d(/.*)?	gen_context(system_u:object_r:bin_t,s0)
+/etc/ConsoleKit/run-seat\.d(/.*)?	gen_context(system_u:object_r:bin_t,s0)
 
 /etc/cron.daily(/.*)?			gen_context(system_u:object_r:bin_t,s0)
 /etc/cron.hourly(/.*)?			gen_context(system_u:object_r:bin_t,s0)

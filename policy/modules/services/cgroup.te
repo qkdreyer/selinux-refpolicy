@@ -2,6 +2,14 @@ policy_module(cgroup, 1.0.0)
 
 ########################################
 #
+# cgroup global declarations.
+#
+
+type cgroup_t;
+files_mountpoint(cgroup_t)
+
+########################################
+#
 # cgred personal declarations.
 #
 
@@ -39,9 +47,10 @@ allow cgred_t self:capability { net_admin sys_ptrace dac_override };
 allow cgred_t self:netlink_socket { write bind create read };
 allow cgred_t self:unix_dgram_socket { write create connect };
 
-manage_sock_files_pattern(cgred_t, cgred_var_run_t,
-cgred_var_run_t)
+manage_sock_files_pattern(cgred_t, cgred_var_run_t, cgred_var_run_t)
 files_pid_filetrans(cgred_t, cgred_var_run_t, sock_file)
+
+kernel_read_system_state(cgred_t)
 
 domain_read_all_domains_state(cgred_t)
 
@@ -52,36 +61,30 @@ files_getattr_all_files(cgred_t)
 files_getattr_all_dirs(cgred_t)
 files_getattr_all_sockets(cgred_t)
 files_getattr_all_pipes(cgred_t)
-files_getattr_all_symlinks(cgred_t)
-# read all link files.
+files_read_all_symlinks(cgred_t)
 
-kernel_read_system_state(cgred_t)
+fs_write_cgroup_files(cgred_t)
 
 logging_send_syslog_msg(cgred_t)
 
 miscfiles_read_localization(cgred_t)
-
-optional_policy(`
-	fs_write_cgroup_files(cgred_t)
-')
 
 ########################################
 #
 # cgconfig personal policy.
 #
 
-optional_policy(`
-	fs_manage_cgroup_dirs(cgconfigparser_t)
-	fs_rw_cgroup_files(cgconfigparser_t)
-	fs_setattr_cgroup_files(cgconfigparser_t)
-	fs_mount_cgroup(cgconfigparser_t)
-')
+manage_dirs_pattern(cgconfigparser_t, cgroup_t, cgroup_t)
+manage_files_pattern(cgconfigparser_t, cgroup_t, cgroup_t)
+allow cgconfigparser_t cgroup_t:dir mounton;
 
-files_mounton_mnt(cgconfigparser_t)
-files_manage_mnt_dirs(cgconfigparser_t)
+kernel_list_unlabeled(cgconfigparser_t)
+kernel_read_system_state(cgconfigparser_t)
 
 files_read_etc_files(cgconfigparser_t)
 
-# /mnt/cgroups/cpu
-kernel_list_unlabeled(cgconfigparser_t)
-kernel_read_system_state(cgconfigparser_t)
+fs_manage_cgroup_dirs(cgconfigparser_t)
+fs_mount_cgroup(cgconfigparser_t)
+fs_rw_cgroup_files(cgconfigparser_t)
+fs_setattr_cgroup_files(cgconfigparser_t)
+
