@@ -1,0 +1,9 @@
+/etc/backup-script.config	--	gen_context(system_u:object_r:backupscript_config_t, s0)
+/usr/bin/backup-script		--	gen_context(system_u:object_r:backupscript_exec_t, s0)
+
+/etc/cron\.daily/clean_repos					--      gen_context(system_u:object_r:clean_repos_cron_system_exec_t,s0)
+/etc/cron\.weekly/clear_tmp_branches_weekly		--      gen_context(system_u:object_r:clear_tmp_cron_system_exec_t,s0)
+
+HOME_DIR/sepol-diff.txt	--		gen_context(system_u:object_r:sepoldiff_home_t, s0)
+/usr/bin/sepol-diff		--		gen_context(system_u:object_r:sepoldiff_exec_t, s0)
+

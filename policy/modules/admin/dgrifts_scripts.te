@@ -1,0 +1,316 @@
+
+policy_module(dgrifts_scripts,1.0.0) 
+
+########################################
+#
+# backup script global personal declarations.
+#
+
+attribute backupscript_domains;
+
+type backupscript_exec_t;
+
+type backupscript_config_t;
+files_config_file(backupscript_config_t)
+
+########################################
+#
+# Clean Repositories personal declarations.
+#
+
+type clean_repos_cron_system_t;
+type clean_repos_cron_system_exec_t;
+domain_type(clean_repos_cron_system_t)
+domain_entry_file(clean_repos_cron_system_t, clean_repos_cron_system_exec_t)
+
+########################################
+#
+# Clear tmp branches personal declarations.
+# (Clean repositories)
+#
+
+type clear_tmp_cron_system_t;
+type clear_tmp_cron_system_exec_t;
+domain_type(clear_tmp_cron_system_t)
+domain_entry_file(clear_tmp_cron_system_t, clear_tmp_cron_system_exec_t)
+
+########################################
+#
+# backup script system personal declarations.
+#
+
+## <desc>
+## <p>
+## Allow Backup Script system to search home directories.
+## </p>
+## </desc>
+gen_tunable(backupscript_system_enable_homedirs, false)
+
+## <desc>
+## <p>
+## Allow Backup Script system to access cifs file systems.
+## </p>
+## </desc>
+gen_tunable(backupscript_system_use_cifs, false)
+
+## <desc>
+## <p>
+## Allow Backup Script system to access nfs file systems.
+## </p>
+## </desc>
+gen_tunable(backupscript_system_use_nfs, false)
+
+type backupscript_system_t, backupscript_domains;
+domain_type(backupscript_system_t)
+domain_entry_file(backupscript_system_t, backupscript_exec_t)
+
+type backupscript_system_tmp_t;
+files_tmp_file(backupscript_system_tmp_t)
+
+type backupscript_system_home_t;
+files_type(backupscript_system_home_t)
+
+########################################
+#
+# backup script session personal declarations.
+#
+
+type backupscript_session_t, backupscript_domains;
+application_domain(backupscript_session_t, backupscript_exec_t)
+ubac_constrained(backupscript_session_t)
+
+type backupscript_session_tmp_t;
+files_tmp_file(backupscript_session_tmp_t)
+ubac_constrained(backupscript_session_tmp_t)
+
+type backupscript_session_home_t; # Customizable type.
+userdom_user_home_content(backupscript_session_home_t)
+
+########################################
+#
+# Sepol-diff personal declarations.
+#
+
+type sepoldiff_t;
+type sepoldiff_exec_t;
+application_domain(sepoldiff_t, sepoldiff_exec_t)
+ubac_constrained(sepoldiff_t)
+
+type sepoldiff_home_t;
+userdom_user_home_content(sepoldiff_home_t)
+
+type sepoldiff_tmp_t;
+files_tmp_file(sepoldiff_tmp_t)
+ubac_constrained(sepoldiff_tmp_t)
+
+########################################
+#
+# backup script global personal policy.
+#
+
+allow backupscript_domains self:fifo_file rw_fifo_file_perms;
+
+corecmd_exec_bin(backupscript_domains)
+
+files_read_etc_files(backupscript_domains)
+
+fs_search_auto_mountpoints(backupscript_domains)
+
+kernel_read_system_state(backupscript_domains)
+
+miscfiles_read_localization(backupscript_domains)
+
+netutils_domtrans_ping(backupscript_domains)
+
+sysnet_read_config(backupscript_domains)
+
+optional_policy(`
+	nis_use_ypbind(backupscript_domains)
+')
+
+optional_policy(`
+	nscd_socket_use(backupscript_domains)
+')
+
+optional_policy(`
+	ssh_domtrans_ssh(backupscript_domains)
+	# for system cron.
+	role system_r types ssh_t;
+')
+
+########################################
+#
+# backup script system personal policy.
+#
+
+read_files_pattern(backupscript_system_t, backupscript_config_t, backupscript_config_t)
+
+manage_files_pattern(backupscript_system_t, backupscript_system_home_t, backupscript_system_home_t)
+userdom_admin_home_dir_filetrans(backupscript_system_t, backupscript_system_home_t, file)
+userdom_search_admin_dir(backupscript_system_t)
+
+manage_files_pattern(backupscript_system_t, backupscript_system_tmp_t, backupscript_system_tmp_t)
+files_tmp_filetrans(backupscript_system_t, backupscript_system_tmp_t, file)
+
+files_read_config_files(backupscript_system_t)
+miscfiles_read_certs(backupscript_system_t)
+
+optional_policy(`
+	tunable_policy(`backupscript_system_enable_homedirs',`
+		userdom_search_user_home_dirs(backupscript_system_t)
+	
+		# http://oss.tresys.com/pipermail/refpolicy/2009-October/001543.html
+		userdom_read_all_user_home_content_files(backupscript_system_t)
+	')
+')
+
+tunable_policy(`backupscript_system_enable_homedirs && use_nfs_home_dirs',`
+	fs_list_nfs(backupscript_system_t)
+	fs_manage_nfs_files(backupscript_system_t)
+')
+
+tunable_policy(`backupscript_system_enable_homedirs && use_samba_home_dirs',`
+	fs_list_cifs(backupscript_system_t)
+	fs_manage_cifs_files(backupscript_system_t)
+')
+
+tunable_policy(`backupscript_system_use_cifs',`
+	fs_list_cifs(backupscript_system_t)
+	fs_manage_cifs_files(backupscript_system_t)
+')
+
+tunable_policy(`backupscript_system_use_nfs',`
+	fs_list_nfs(backupscript_system_t)
+	fs_manage_nfs_files(backupscript_system_t)
+')
+
+optional_policy(`
+	cron_system_entry(backupscript_system_t, backupscript_exec_t)
+')
+
+optional_policy(`
+	nscd_socket_use(backupscript_system_t)
+')
+
+########################################
+#
+# backup script session personal policy.
+#
+
+# Restorecon -u does not like this. Make backupscript_session_home_t customizable type.
+manage_files_pattern(backupscript_session_t, backupscript_session_home_t, backupscript_session_home_t)
+userdom_user_home_dir_filetrans(backupscript_session_t, backupscript_session_home_t, file)
+userdom_search_user_home_dirs(backupscript_session_t)
+
+manage_files_pattern(backupscript_session_t, backupscript_session_tmp_t, backupscript_session_tmp_t)
+files_tmp_filetrans(backupscript_session_t, backupscript_session_tmp_t, file)
+
+userdom_use_user_terminals(backupscript_session_t)
+
+tunable_policy(`use_nfs_home_dirs',`
+	fs_list_nfs(backupscript_session_t)
+	fs_read_nfs_files(backupscript_session_t)
+')
+
+tunable_policy(`use_samba_home_dirs',`
+	fs_list_cifs(backupscript_session_t)
+	fs_read_cifs_files(backupscript_session_t)
+')
+
+optional_policy(`
+	# http://oss.tresys.com/pipermail/refpolicy/2009-October/001543.html
+	userdom_read_all_user_home_content_files(backupscript_session_t)
+')
+
+########################################
+#
+# Clean Repositories personal policy.
+#
+
+allow clean_repos_cron_system_t self:capability { fowner fsetid dac_override };
+allow clean_repos_cron_system_t self:fifo_file rw_fifo_file_perms;
+
+corecmd_exec_bin(clean_repos_cron_system_t)
+corecmd_exec_shell(clean_repos_cron_system_t)
+
+kernel_read_system_state(clean_repos_cron_system_t)
+
+miscfiles_read_localization(clean_repos_cron_system_t)
+
+optional_policy(`
+	cron_system_entry(clean_repos_cron_system_t, clean_repos_cron_system_exec_t)
+')
+
+optional_policy(`
+	git_manage_all_system_content(clean_repos_cron_system_t)
+')
+
+########################################
+#
+# Clear tmp personal policy.
+# (Clean repositories)
+#
+
+allow clear_tmp_cron_system_t self:capability { fowner fsetid dac_override };
+allow clear_tmp_cron_system_t self:fifo_file rw_fifo_file_perms;
+
+corecmd_exec_bin(clear_tmp_cron_system_t)
+
+kernel_read_system_state(clear_tmp_cron_system_t)
+
+optional_policy(`
+	cron_system_entry(clear_tmp_cron_system_t, clear_tmp_cron_system_exec_t)
+')
+
+optional_policy(`
+	git_manage_all_system_content(clear_tmp_cron_system_t)
+')
+
+########################################
+#
+# Sepol-diff personal policy.
+#
+
+allow sepoldiff_t self:fifo_file rw_fifo_file_perms;
+allow sepoldiff_t self:netlink_route_socket create_netlink_socket_perms;
+allow sepoldiff_t self:process { setsched getsched };
+allow sepoldiff_t self:tcp_socket create_socket_perms;
+allow sepoldiff_t self:udp_socket create_socket_perms;
+
+manage_files_pattern(sepoldiff_t, sepoldiff_home_t, sepoldiff_home_t)
+userdom_user_home_dir_filetrans(sepoldiff_t, sepoldiff_home_t, file)
+files_search_home(sepoldiff_t)
+
+manage_dirs_pattern(sepoldiff_t, sepoldiff_tmp_t, sepoldiff_tmp_t)
+manage_files_pattern(sepoldiff_t, sepoldiff_tmp_t, sepoldiff_tmp_t)
+files_tmp_filetrans(sepoldiff_t, sepoldiff_tmp_t, { dir file })
+
+corenet_all_recvfrom_netlabel(sepoldiff_t)
+corenet_all_recvfrom_unlabeled(sepoldiff_t)
+
+corenet_tcp_connect_http_port(sepoldiff_t)
+
+corenet_tcp_sendrecv_generic_if(sepoldiff_t)
+corenet_tcp_sendrecv_generic_node(sepoldiff_t)
+corenet_tcp_sendrecv_generic_port(sepoldiff_t)
+
+corenet_sendrecv_http_client_packets(sepoldiff_t)
+
+corecmd_exec_bin(sepoldiff_t)
+
+dev_read_urand(sepoldiff_t)
+
+files_read_etc_files(sepoldiff_t)
+files_read_usr_files(sepoldiff_t)
+
+kernel_read_system_state(sepoldiff_t)
+
+miscfiles_read_localization(sepoldiff_t)
+
+sysnet_read_config(sepoldiff_t)
+
+# ~/.rpmmacros.
+userdom_dontaudit_read_user_home_content_files(sepoldiff_t)
+userdom_sigchld_all_users(sepoldiff_t)
+userdom_use_user_terminals(sepoldiff_t)
+

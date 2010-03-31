@@ -596,6 +596,24 @@ interface(`ssh_domtrans',`
 
 ########################################
 ## <summary>
+##	Execute the ssh client ssh domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`ssh_domtrans_ssh',`
+	gen_require(`
+		type ssh_t, ssh_exec_t;
+	')
+
+	domtrans_pattern($1, ssh_exec_t, ssh_t)
+')
+
+########################################
+## <summary>
 ##	Execute the ssh client in the caller domain.
 ## </summary>
 ## <param name="domain">
@@ -723,7 +741,6 @@ interface(`ssh_manage_user_home_files',`
         type ssh_home_t;
     ')
 
-    allow $1 ssh_home_t:dir list_dir_perms;
     manage_dirs_pattern($1, ssh_home_t, ssh_home_t)
     manage_files_pattern($1, ssh_home_t, ssh_home_t)
     userdom_search_user_home_dirs($1)
@@ -740,12 +757,11 @@ interface(`ssh_manage_user_home_files',`
 ##	</summary>
 ## </param>
 #
-interface(`ssh_create_user_home_files',`
+interface(`ssh_create_user_home',`
 	gen_require(`
 		type home_ssh_t;
 	')
 
-	# This is only for Seahorse. May no longer be required in future.
 	create_dirs_pattern($1, home_ssh_t, home_ssh_t)
 	create_files_pattern($1, home_ssh_t, home_ssh_t)
 	userdom_user_home_dir_filetrans($1, home_ssh_t, { dir file })

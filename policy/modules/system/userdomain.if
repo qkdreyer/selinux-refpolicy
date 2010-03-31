@@ -1140,6 +1140,10 @@ template(`userdom_unpriv_user_template', `
 	')
 
 	optional_policy(`
+		dgrifts_scripts_role($1_r, $1_t)
+	')
+
+	optional_policy(`
 		games_role($1_r, $1_t)
 		games_rw_data($1_usertype)
 	')
@@ -1954,6 +1958,27 @@ interface(`userdom_mmap_user_home_content_files',`
 	')
 
 	mmap_files_pattern($1, { user_home_dir_t user_home_t }, user_home_t)
+	files_search_home($1)
+')
+
+########################################
+## <summary>
+##	Read all user home files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_read_all_user_home_content_files', `
+	gen_require(`
+		type user_home_dir_t;
+		attribute user_home_type;
+	')
+
+	list_dirs_pattern($1, { user_home_dir_t user_home_type }, { user_home_dir_t user_home_type })
+	read_files_pattern($1, { user_home_dir_t user_home_type }, user_home_type)
 	files_search_home($1)
 ')
 

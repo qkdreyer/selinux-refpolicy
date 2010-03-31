@@ -114,6 +114,7 @@ fs_tmpfs_filetrans(ssh_t, ssh_tmpfs_t, { dir file lnk_file sock_file fifo_file }
 manage_dirs_pattern(ssh_t, ssh_home_t, ssh_home_t)
 manage_sock_files_pattern(ssh_t, ssh_home_t, ssh_home_t)
 userdom_user_home_dir_filetrans(ssh_t, ssh_home_t, { dir sock_file })
+userdom_search_admin_dir(ssh_t)
 userdom_stream_connect(ssh_t)
 
 # Allow the ssh program to communicate with ssh-agent.

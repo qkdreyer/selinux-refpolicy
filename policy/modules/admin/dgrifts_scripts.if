@@ -1,0 +1,75 @@
+## <summary>Scripts.</summary>
+## <desc>
+##	<p>
+##		Various scripts.
+##	</p>
+## </desc>
+
+########################################
+## <summary>
+##	Role access for dgrifts scripts.
+## </summary>
+## <param name="role">
+##	<summary>
+##	Role allowed access.
+##	</summary>
+## </param>
+## <param name="domain">
+##	<summary>
+##	User domain for the role.
+##	</summary>
+## </param>
+#
+interface(`dgrifts_scripts_role',`
+	gen_require(`
+		type backupscript_session_t, backupscript_exec_t, backupscript_session_tmp_t;
+		type sepoldiff_t, sepoldiff_exec_t, sepoldiff_tmp_t, sepoldiff_home_t;
+	')
+
+	########################################
+	#
+	# Backup Script shared declarations.
+	#
+
+	role $1 types backupscript_session_t;
+
+	########################################
+	#
+	# Sepol-diff shared declarations.
+	#
+
+	role $1 types sepoldiff_t;
+
+	########################################
+	#
+	# Backup Script shared policy.
+	#
+
+	domtrans_pattern($2, backupscript_exec_t, backupscript_session_t)
+
+	allow $2 backupscript_session_t:process { ptrace signal_perms };
+	ps_process_pattern($2, backupscript_session_t)
+
+	manage_files_pattern($2, backupscript_session_tmp_t, backupscript_session_tmp_t)
+	relabel_files_pattern($2, backupscript_session_tmp_t, backupscript_session_tmp_t)
+
+	########################################
+	#
+	# Sepol-diff personal policy.
+	#
+
+	domtrans_pattern($2, sepoldiff_exec_t, sepoldiff_t)
+
+	ps_process_pattern($2, sepoldiff_t)
+	allow $2 sepoldiff_t:process signal_perms;
+
+	manage_files_pattern($2, sepoldiff_home_t, sepoldiff_home_t)
+	relabel_files_pattern($2, sepoldiff_home_t, sepoldiff_home_t)
+
+	manage_dirs_pattern($2, sepoldiff_tmp_t, sepoldiff_tmp_t)
+	manage_files_pattern($2, sepoldiff_tmp_t, sepoldiff_tmp_t)
+
+	relabel_dirs_pattern($2, sepoldiff_tmp_t, sepoldiff_tmp_t)
+	relabel_files_pattern($2, sepoldiff_tmp_t, sepoldiff_tmp_t)
+')
+

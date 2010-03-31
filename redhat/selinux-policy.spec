@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.17
-Release: 2.2%{?dist}
+Release: 2.3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,13 @@ exit 0
 %endif
 
 %changelog
+* Wed Mar 31 2010 Dominick Grift <dgrift@gmail.com> 3.7.17-2.3
+- Integrate my scripts into new dgrifts_scripts module.
+- Call dgrifts_scripts_role for common users.
+- Install dgrifts_scripts module.
+- Allow plymouthd to use all ttys.
+- Add various files to gitignore.
+
 * Wed Mar 31 2010 Dominick Grift <dgrift@gmail.com> 3.7.17-2.2
 - Integrate tmw policy into games module.
 - Call games_role for unpriv users.

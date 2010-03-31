@@ -56,7 +56,7 @@ miscfiles_read_localization(plymouthd_t)
 miscfiles_read_fonts(plymouthd_t)
 miscfiles_manage_fonts_cache(plymouthd_t)
 
-term_use_all_ttys(plymounthd)
+term_use_all_ttys(plymouthd_t)
 
 manage_dirs_pattern(plymouthd_t, plymouthd_var_run_t,  plymouthd_var_run_t)
 manage_files_pattern(plymouthd_t, plymouthd_var_run_t,  plymouthd_var_run_t)
