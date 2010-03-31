@@ -183,6 +183,9 @@ files_tmp_filetrans(crond_t, crond_tmp_t, { file dir })
 list_dirs_pattern(crond_t, system_cron_spool_t, system_cron_spool_t)
 read_files_pattern(crond_t, system_cron_spool_t, system_cron_spool_t)
 
+list_dirs_pattern(crond_t, user_cron_spool_t, user_cron_spool_t)
+read_files_pattern(crond_t, user_cron_spool_t, user_cron_spool_t)
+
 kernel_read_kernel_sysctls(crond_t)
 kernel_read_fs_sysctls(crond_t)
 kernel_search_key(crond_t)
