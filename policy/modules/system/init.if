@@ -396,7 +396,6 @@ interface(`init_system_domain',`
 		unconfined_dontaudit_rw_pipes($1)
 		unconfined_dontaudit_rw_stream($1)
 		userdom_dontaudit_read_user_tmp_files($1)
-		userdom_dontaudit_write_user_tmp_files($1)
 	')
 
 	init_rw_script_stream_sockets($1)

@@ -631,6 +631,7 @@ optional_policy(`
 	unconfined_dontaudit_rw_pipes(daemon)
 	unconfined_dontaudit_rw_stream(daemon)
 	userdom_dontaudit_read_user_tmp_files(daemon)
+	userdom_dontaudit_write_user_tmp_files(daemon)
 ')
  
 optional_policy(`
