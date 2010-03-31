@@ -29,13 +29,6 @@ gen_tunable(user_direct_mouse, false)
 
 ## <desc>
 ## <p>
-## Allow regular users direct dri device access
-## </p>
-## </desc>
-gen_tunable(user_direct_dri, false)
-
-## <desc>
-## <p>
 ## Allow user to r/w files on filesystems
 ## that do not have extended attributes (FAT, CDROM, FLOPPY)
 ## </p>
