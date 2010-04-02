@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.17
-Release: 3.1%{?dist}
+Release: 5.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,11 @@ exit 0
 %endif
 
 %changelog
+* Fri Apr 02 2010 Dominick Grift <dgrift@gmail.com> 3.7.17-5.1
+- Merge fedora branch (3.7.17-5)
+- Fixed an error i made whilst merging fedora branch.
+- Changed cgroup dir interface calls in userdomain and virt to just search.
+
 * Wed Mar 31 2010 Dominick Grift <dgrift@gmail.com> 3.7.17-3.1
 - Merge fedora branch (3.7.17-3)
 - Create cgroup dir interfaces.

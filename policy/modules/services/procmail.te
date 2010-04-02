@@ -68,7 +68,6 @@ auth_use_nsswitch(procmail_t)
 
 corecmd_exec_bin(procmail_t)
 corecmd_exec_shell(procmail_t)
-corecmd_read_bin_symlinks(procmail_t)
 
 files_read_etc_files(procmail_t)
 files_read_etc_runtime_files(procmail_t)
@@ -91,6 +90,7 @@ userdom_user_home_dir_filetrans_user_home_content(procmail_t, { dir file lnk_fil
 
 # Do not audit attempts to access /root.
 userdom_dontaudit_search_user_home_dirs(procmail_t)
+userdom_dontaudit_search_admin_dir(procmail_t)
 
 mta_manage_spool(procmail_t)
 mta_read_queue(procmail_t)

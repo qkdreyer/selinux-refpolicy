@@ -289,6 +289,29 @@ interface(`gnome_data_filetrans',`
 
 ########################################
 ## <summary>
+##	Create gconf_home_t objects in the /root directory
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+## <param name="object_class">
+##	<summary>
+##	The class of the object to be created.
+##	</summary>
+## </param>
+#
+interface(`gnome_admin_home_gconf_filetrans',`
+	gen_require(`
+		type gconf_home_t;
+	')
+
+	userdom_admin_home_dir_filetrans($1, gconf_home_t, $2)
+')
+
+########################################
+## <summary>
 ##	read gconf config files
 ## </summary>
 ## <param name="user_domain">

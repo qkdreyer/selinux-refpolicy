@@ -2195,6 +2195,24 @@ interface(`kernel_rw_unlabeled_dirs',`
 
 ########################################
 ## <summary>
+##	Read and write unlabeled files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`kernel_rw_unlabeled_files',`
+	gen_require(`
+		type unlabeled_t;
+	')
+
+	allow $1 unlabeled_t:file rw_file_perms;
+')
+
+########################################
+## <summary>
 ##	Do not audit attempts by caller to get the
 ##	attributes of an unlabeled file.
 ## </summary>
