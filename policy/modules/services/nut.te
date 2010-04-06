@@ -104,6 +104,10 @@ miscfiles_read_localization(nut_upsmon_t)
 
 mta_send_mail(nut_upsmon_t)
 
+optional_policy(`
+	shutdown_domtrans(nut_upsmon_t)
+')
+
 ########################################
 #
 # Local policy for upsdrvctl
