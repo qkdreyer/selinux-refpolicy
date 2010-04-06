@@ -13,18 +13,22 @@
 #
 template(`apache_content_template',`
 	gen_require(`
+		attribute httpdcontent;
 		attribute httpd_exec_scripts;
 		attribute httpd_script_exec_type;
 		type httpd_t, httpd_suexec_t, httpd_log_t;
-		type httpd_sys_content_t;
 	')
+	# allow write access to public file transfer
+	# services files.
+	gen_tunable(allow_httpd_$1_script_anon_write, false)
+
 	#This type is for webpages
 	type httpd_$1_content_t, httpdcontent; # customizable
 	typealias httpd_$1_content_t alias httpd_$1_script_ro_t;
 	files_type(httpd_$1_content_t)
 
 	# This type is used for .htaccess files
-	type httpd_$1_htaccess_t;
+	type httpd_$1_htaccess_t; # customizable;
 	files_type(httpd_$1_htaccess_t)
 
 	# Type that CGI scripts run as
@@ -60,9 +64,7 @@ template(`apache_content_template',`
 	dontaudit httpd_$1_script_t httpd_t:unix_stream_socket { read write };
 
 	# Allow the script process to search the cgi directory, and users directory
-	list_dirs_pattern(httpd_$1_script_t, httpd_$1_content_t, httpd_$1_content_t)
-	read_files_pattern(httpd_$1_script_t, httpd_$1_content_t, httpd_$1_content_t)
-	read_lnk_files_pattern(httpd_$1_script_t, httpd_$1_content_t, httpd_$1_content_t)
+	allow httpd_$1_script_t httpd_$1_content_t:dir search_dir_perms;
 
 	append_files_pattern(httpd_$1_script_t, httpd_log_t, httpd_log_t)
 	logging_search_logs(httpd_$1_script_t)
@@ -93,7 +95,6 @@ template(`apache_content_template',`
 	dev_read_urand(httpd_$1_script_t)
 
 	corecmd_exec_all_executables(httpd_$1_script_t)
-	application_exec_all(httpd_$1_script_t)
 
 	files_exec_etc_files(httpd_$1_script_t)
 	files_read_etc_files(httpd_$1_script_t)
@@ -139,7 +140,6 @@ template(`apache_content_template',`
 		allow httpd_t httpd_$1_content_t:dir list_dir_perms;
 		read_files_pattern(httpd_t, httpd_$1_content_t, httpd_$1_content_t)
 		read_lnk_files_pattern(httpd_t, httpd_$1_content_t, httpd_$1_content_t)
-		allow httpd_t httpd_$1_script_t:unix_stream_socket connectto;
 	')
 
 	tunable_policy(`httpd_enable_cgi',`
@@ -148,19 +148,14 @@ template(`apache_content_template',`
 		# privileged users run the script:
 		domtrans_pattern(httpd_exec_scripts, httpd_$1_script_exec_t, httpd_$1_script_t)
 
-		allow httpd_exec_scripts httpd_$1_script_exec_t:file read_file_perms;
-
 		# apache runs the script:
 		domtrans_pattern(httpd_t, httpd_$1_script_exec_t, httpd_$1_script_t)
-
-		allow httpd_t httpd_$1_script_exec_t:file read_file_perms;
 
 		allow httpd_t httpd_$1_script_t:process { signal sigkill sigstop };
 		allow httpd_t httpd_$1_script_exec_t:dir list_dir_perms;
 
 		allow httpd_$1_script_t self:process { setsched signal_perms };
 		allow httpd_$1_script_t self:unix_stream_socket create_stream_socket_perms;
-		allow httpd_$1_script_t self:unix_dgram_socket create_socket_perms;
 
 		allow httpd_$1_script_t httpd_t:fd use;
 		allow httpd_$1_script_t httpd_t:process sigchld;
@@ -187,13 +182,15 @@ template(`apache_content_template',`
 
 	optional_policy(`
 		postgresql_unpriv_client(httpd_$1_script_t)
+
+		tunable_policy(`httpd_enable_cgi && httpd_can_network_connect_db',`
+			postgresql_tcp_connect(httpd_$1_script_t)
+		')
 	')
 
 	optional_policy(`
 		nscd_socket_use(httpd_$1_script_t)
 	')
-
-	dontaudit httpd_$1_script_t httpd_t:tcp_socket { read write };
 ')
 
 ########################################
@@ -423,25 +420,6 @@ interface(`apache_dontaudit_rw_stream_sockets',`
 	')
 
 	dontaudit $1 httpd_t:unix_stream_socket { read write };
-')
-
-########################################
-## <summary>
-##	Do not audit attempts to read and write Apache
-##	fifo file.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`apache_dontaudit_rw_fifo_file',`
-	gen_require(`
-		type httpd_t;
-	')
-
-	dontaudit $1 httpd_t:fifo_file rw_inherited_fifo_file_perms;
 ')
 
 ########################################
@@ -778,7 +756,6 @@ interface(`apache_list_modules',`
 	')
 
 	allow $1 httpd_modules_t:dir list_dir_perms;
-	read_lnk_files_pattern($1, httpd_modules_t, httpd_modules_t)
 ')
 
 ########################################
@@ -837,7 +814,6 @@ interface(`apache_list_sys_content',`
 	')
 
 	list_dirs_pattern($1, httpd_sys_content_t, httpd_sys_content_t)
-	read_lnk_files_pattern($1, httpd_sys_content_t, httpd_sys_content_t)
 	files_search_var($1)
 ')
 
@@ -867,32 +843,6 @@ interface(`apache_manage_sys_content',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to delete
-##	apache system content rw files.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-## <rolecap/>
-#
-# Note that httpd_sys_content_t is found in /var, /etc, /srv and /usr
-interface(`apache_delete_sys_content_rw',`
-	gen_require(`
-		type httpd_sys_content_rw_t;
-	')
-
-	files_search_tmp($1)
-	delete_dirs_pattern($1, httpd_sys_content_rw_t, httpd_sys_content_rw_t)
-	delete_files_pattern($1, httpd_sys_content_rw_t, httpd_sys_content_rw_t)
-	delete_lnk_files_pattern($1, httpd_sys_content_rw_t, httpd_sys_content_rw_t)
-	delete_fifo_files_pattern($1, httpd_sys_content_rw_t, httpd_sys_content_rw_t)
-	delete_sock_files_pattern($1, httpd_sys_content_rw_t, httpd_sys_content_rw_t)
-')
-
-########################################
-## <summary>
 ##	Execute all web scripts in the system
 ##	script domain.
 ## </summary>
@@ -902,18 +852,16 @@ interface(`apache_delete_sys_content_rw',`
 ##	</summary>
 ## </param>
 #
+# cjp: this interface specifically added to allow
+# sysadm_t to run scripts
 interface(`apache_domtrans_sys_script',`
 	gen_require(`
+		attribute httpdcontent;
 		type httpd_sys_script_t;
-		type httpd_sys_content_t;
-	')
-
-	tunable_policy(`httpd_enable_cgi',`
-		domtrans_pattern($1, httpd_sys_script_exec_t, httpd_sys_script_t)
 	')
 
 	tunable_policy(`httpd_enable_cgi && httpd_unified',`
-		domtrans_pattern($1, httpd_sys_content_t, httpd_sys_script_t)
+		domtrans_pattern($1, httpdcontent, httpd_sys_script_t)
 	')
 ')
 
@@ -972,8 +920,6 @@ interface(`apache_domtrans_all_scripts',`
 ##	</summary>
 ## </param>
 #
-# cjp: this is missing the terminal since scripts
-# do not output to the terminal
 interface(`apache_run_all_scripts',`
 	gen_require(`
 		attribute httpd_exec_scripts, httpd_script_domains;
@@ -999,7 +945,7 @@ interface(`apache_read_squirrelmail_data',`
 		type httpd_squirrelmail_t;
 	')
 
-	read_files_pattern($1, httpd_squirrelmail_t, httpd_squirrelmail_t)
+	allow $1 httpd_squirrelmail_t:file read_file_perms;
 ')
 
 ########################################
@@ -1197,44 +1143,6 @@ interface(`apache_cgi_domain',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to search 
-##	apache bugzilla directories.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`apache_search_bugzilla_dirs',`
-	gen_require(`
-		type httpd_bugzilla_content_t;
-	')
-
-	allow $1 httpd_bugzilla_content_t:dir search_dir_perms;
-')
-
-########################################
-## <summary>
-##	Do not audit attempts to read and write Apache
-##	bugzill script unix domain stream sockets.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`apache_dontaudit_rw_bugzilla_script_stream_sockets',`
-	gen_require(`
-		type httpd_bugzilla_script_t;
-	')
-
-	dontaudit $1 httpd_bugzilla_script_t:unix_stream_socket { read write };
-')
-
-########################################
-## <summary>
 ##	All of the rules required to administrate an apache environment
 ## </summary>
 ## <param name="prefix">
@@ -1294,78 +1202,12 @@ interface(`apache_admin',`
 
 	kernel_search_proc($1)
 	allow $1 httpd_t:dir list_dir_perms;
-	ps_process_pattern($1, httpd_t)
+
 	read_lnk_files_pattern($1, httpd_t, httpd_t)
 
 	admin_pattern($1, httpdcontent)
 	admin_pattern($1, httpd_script_exec_type)
-
-	seutil_domtrans_setfiles($1)
-
 	admin_pattern($1, httpd_tmp_t)
 	admin_pattern($1, httpd_php_tmp_t)
 	admin_pattern($1, httpd_suexec_tmp_t)
-	files_tmp_filetrans($1, httpd_tmp_t, { file dir })
-
-ifdef(`TODO',`
-	apache_set_booleans($1, $2, $3, httpd_bool_t )
-	seutil_setsebool_role_template($1, $3, $2)
-	allow httpd_setsebool_t httpd_bool_t:dir list_dir_perms;
-	allow httpd_setsebool_t httpd_bool_t:file rw_file_perms;
-')
-')
-
-########################################
-## <summary>
-##	Mark content as being readable by standard apache processes
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-template(`apache_ro_content',`
-	gen_require(`
-		attribute httpd_ro_content;
-	')
-	typeattribute $1  httpd_ro_content;
-')
-
-########################################
-## <summary>
-##	Mark content as being read/write by standard apache processes
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-template(`apache_rw_content',`
-	gen_require(`
-		attribute httpd_rw_content;
-	')
-	typeattribute $1  httpd_rw_content;
-')
-
-########################################
-## <summary>
-##	dontaudit read and write an leaked file descriptors
-## </summary>
-## <param name="domain">
-##	<summary>
-##	The type of the process performing this action.
-##	</summary>
-## </param>
-#
-interface(`apache_dontaudit_leaks',`
-	gen_require(`
-		type httpd_t;
-	')
-
-	dontaudit $1 httpd_t:fifo_file rw_inherited_fifo_file_perms;
- 	dontaudit $1 httpd_t:tcp_socket { read write };
-	dontaudit $1 httpd_t:unix_dgram_socket { read write };
-	dontaudit $1 httpd_t:unix_stream_socket { read write };
 ')
