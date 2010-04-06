@@ -1,5 +1,5 @@
 
-policy_module(rpc, 1.11.0)
+policy_module(rpc, 1.11.1)
 
 ########################################
 #
@@ -70,14 +70,14 @@ files_pid_filetrans(rpcd_t, rpcd_var_run_t, file)
 # rpc.statd executes sm-notify
 can_exec(rpcd_t, rpcd_exec_t)
 
-kernel_read_system_state(rpcd_t) 
+kernel_read_system_state(rpcd_t)
 kernel_read_network_state(rpcd_t)
 # for rpc.rquotad
 kernel_read_sysctl(rpcd_t)
-kernel_request_load_module(gssd_t)	
+kernel_request_load_module(gssd_t)
 kernel_rw_fs_sysctls(rpcd_t)
 kernel_dontaudit_getattr_core_if(rpcd_t)
-kernel_signal(rpcd_t) 
+kernel_signal(rpcd_t)
 
 corecmd_exec_bin(rpcd_t)
 
@@ -88,9 +88,9 @@ files_getattr_all_dirs(rpcd_t)
 fs_list_rpc(rpcd_t)
 fs_read_rpc_files(rpcd_t)
 fs_read_rpc_symlinks(rpcd_t)
-fs_rw_rpc_sockets(rpcd_t) 
-fs_get_all_fs_quotas(rpcd_t) 
-fs_getattr_all_fs(rpcd_t) 
+fs_rw_rpc_sockets(rpcd_t)
+fs_get_all_fs_quotas(rpcd_t)
+fs_getattr_all_fs(rpcd_t)
 
 storage_getattr_fixed_disk_dev(rpcd_t)
 
@@ -106,10 +106,6 @@ userdom_read_user_home_content_files(rpcd_t)
 optional_policy(`
 	automount_signal(rpcd_t)
 	automount_dontaudit_write_pipes(rpcd_t)
-')
-
-optional_policy(`
-	domain_unconfined_signal(rpcd_t)
 ')
 
 optional_policy(`
@@ -131,9 +127,9 @@ allow nfsd_t exports_t:file read_file_perms;
 allow nfsd_t { nfsd_rw_t nfsd_ro_t }:dir list_dir_perms;
 
 # for /proc/fs/nfs/exports - should we have a new type?
-kernel_read_system_state(nfsd_t) 
-kernel_read_network_state(nfsd_t) 
-kernel_dontaudit_getattr_core_if(nfsd_t) 
+kernel_read_system_state(nfsd_t)
+kernel_read_network_state(nfsd_t)
+kernel_dontaudit_getattr_core_if(nfsd_t)
 
 corenet_tcp_bind_all_rpc_ports(nfsd_t)
 corenet_udp_bind_all_rpc_ports(nfsd_t)
@@ -143,18 +139,18 @@ dev_dontaudit_getattr_all_chr_files(nfsd_t)
 dev_rw_lvm_control(nfsd_t)
 
 # does not really need this, but it is easier to just allow it
-files_search_pids(nfsd_t) 
+files_search_pids(nfsd_t)
 # for exportfs and rpc.mountd
-files_getattr_tmp_dirs(nfsd_t) 
+files_getattr_tmp_dirs(nfsd_t)
 # cjp: this should really have its own type
 files_manage_mounttab(nfsd_t)
 files_read_etc_runtime_files(nfsd_t)
 
-fs_mount_nfsd_fs(nfsd_t) 
-fs_search_nfsd_fs(nfsd_t) 
-fs_getattr_all_fs(nfsd_t) 
+fs_mount_nfsd_fs(nfsd_t)
+fs_search_nfsd_fs(nfsd_t)
+fs_getattr_all_fs(nfsd_t)
 fs_getattr_all_dirs(nfsd_t)
-fs_rw_nfsd_fs(nfsd_t) 
+fs_rw_nfsd_fs(nfsd_t)
 
 storage_dontaudit_read_fixed_disk(nfsd_t)
 storage_raw_read_removable_device(nfsd_t)
@@ -165,13 +161,13 @@ miscfiles_read_public_files(nfsd_t)
 # Write access to public_content_t and public_content_rw_t
 tunable_policy(`allow_nfsd_anon_write',`
 	miscfiles_manage_public_files(nfsd_t)
-') 
+')
 
 tunable_policy(`nfs_export_all_rw',`
 	dev_getattr_all_blk_files(nfsd_t)
 	dev_getattr_all_chr_files(nfsd_t)
 
-	fs_read_noxattr_fs_files(nfsd_t) 
+	fs_read_noxattr_fs_files(nfsd_t)
 	auth_manage_all_files_except_shadow(nfsd_t)
 ')
 userdom_user_home_dir_filetrans_user_home_content(nfsd_t, { file dir })
@@ -204,23 +200,23 @@ files_tmp_filetrans(gssd_t, gssd_tmp_t, { file dir })
 
 kernel_read_system_state(gssd_t)
 kernel_read_network_state(gssd_t)
-kernel_read_network_state_symlinks(gssd_t)	
-kernel_search_network_sysctl(gssd_t)	
-kernel_signal(gssd_t)	
+kernel_read_network_state_symlinks(gssd_t)
+kernel_search_network_sysctl(gssd_t)
+kernel_signal(gssd_t)
 
 corecmd_exec_bin(gssd_t)
 
-fs_list_rpc(gssd_t) 
-fs_rw_rpc_sockets(gssd_t) 
-fs_read_rpc_files(gssd_t) 
+fs_list_rpc(gssd_t)
+fs_rw_rpc_sockets(gssd_t)
+fs_read_rpc_files(gssd_t)
 
 fs_list_inotifyfs(gssd_t)
-files_list_tmp(gssd_t) 
-files_read_usr_symlinks(gssd_t) 
-files_dontaudit_write_var_dirs(gssd_t) 
+files_list_tmp(gssd_t)
+files_read_usr_symlinks(gssd_t)
+files_dontaudit_write_var_dirs(gssd_t)
 
 auth_use_nsswitch(gssd_t)
-auth_manage_cache(gssd_t) 
+auth_manage_cache(gssd_t)
 
 miscfiles_read_certs(gssd_t)
 
@@ -229,11 +225,9 @@ mount_signal(gssd_t)
 userdom_signal_all_users(gssd_t)
 
 tunable_policy(`allow_gssd_read_tmp',`
-	userdom_list_user_tmp(gssd_t) 
-	userdom_read_user_tmp_files(gssd_t) 
-	userdom_read_user_tmp_symlinks(gssd_t) 
-	userdom_dontaudit_write_user_tmp_files(gssd_t) 
-	files_read_generic_tmp_files(gssd_t) 
+	userdom_list_user_tmp(gssd_t)
+	userdom_read_user_tmp_files(gssd_t)
+	userdom_read_user_tmp_symlinks(gssd_t)
 ')
 
 optional_policy(`
@@ -241,7 +235,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-	kerberos_keytab_template(gssd, gssd_t) 
+	kerberos_keytab_template(gssd, gssd_t)
 ')
 
 optional_policy(`

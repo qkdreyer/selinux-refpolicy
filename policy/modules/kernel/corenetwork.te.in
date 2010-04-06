@@ -1,5 +1,5 @@
 
-policy_module(corenetwork, 1.13.9)
+policy_module(corenetwork, 1.13.10)
 
 ########################################
 #

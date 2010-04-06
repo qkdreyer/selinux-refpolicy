@@ -1,5 +1,5 @@
 
-policy_module(snort, 1.8.0)
+policy_module(snort, 1.8.1)
 
 ########################################
 #
@@ -60,8 +60,8 @@ kernel_dontaudit_read_system_state(snort_t)
 kernel_list_proc(snort_t)
 kernel_read_kernel_sysctls(snort_t)
 kernel_read_proc_symlinks(snort_t)
-kernel_read_sysctl(snort_t)
 kernel_request_load_module(snort_t)
+kernel_dontaudit_read_system_state(snort_t)
 
 corenet_all_recvfrom_unlabeled(snort_t)
 corenet_all_recvfrom_netlabel(snort_t)
@@ -78,7 +78,8 @@ corenet_tcp_connect_prelude_port(snort_t)
 dev_read_sysfs(snort_t)
 dev_read_rand(snort_t)
 dev_read_urand(snort_t)
-dev_read_usbmon_dev(snort_t)
+# Red Hat bug 559861: Snort wants read, write, and ioctl on /dev/usbmon
+# Snort uses libpcap, which can also monitor USB traffic. Maybe this is a side effect?
 dev_rw_generic_usb_dev(snort_t)
 
 domain_use_interactive_fds(snort_t)

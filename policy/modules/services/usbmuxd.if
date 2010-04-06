@@ -1,4 +1,4 @@
-## <summary>Daemon for communicating with Apple's iPod Touch and iPhone</summary>
+## <summary>USB multiplexing daemon for communicating with Apple iPod Touch and iPhone</summary>
 
 ########################################
 ## <summary>
@@ -20,20 +20,20 @@ interface(`usbmuxd_domtrans',`
 
 #####################################
 ## <summary>
-##      Connect to usbmuxd over a unix domain
-##      stream socket.
+##	Connect to usbmuxd over a unix domain
+##	stream socket.
 ## </summary>
 ## <param name="domain">
-##      <summary>
-##      Domain allowed access.
-##      </summary>
+##	<summary>
+##	Domain allowed access.
+##	</summary>
 ## </param>
 #
 interface(`usbmuxd_stream_connect',`
-        gen_require(`
-                type usbmuxd_t, usbmuxd_var_run_t;
-        ')
+	gen_require(`
+		type usbmuxd_t, usbmuxd_var_run_t;
+	')
 
-        files_search_pids($1)
-        stream_connect_pattern($1, usbmuxd_var_run_t, usbmuxd_var_run_t, usbmuxd_t)
+	files_search_pids($1)
+	stream_connect_pattern($1, usbmuxd_var_run_t, usbmuxd_var_run_t, usbmuxd_t)
 ')

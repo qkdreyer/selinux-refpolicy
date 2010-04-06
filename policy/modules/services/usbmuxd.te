@@ -1,4 +1,5 @@
-policy_module(usbmuxd,1.0.0)
+
+policy_module(usbmuxd, 1.0.0)
 
 ########################################
 #
@@ -13,8 +14,6 @@ role system_r types usbmuxd_t;
 type usbmuxd_var_run_t;
 files_pid_file(usbmuxd_var_run_t)
 
-permissive usbmuxd_t;
-
 ########################################
 #
 # usbmuxd local policy
@@ -22,17 +21,11 @@ permissive usbmuxd_t;
 
 allow usbmuxd_t self:capability { kill setgid setuid };
 allow usbmuxd_t self:process { fork signal signull };
-
-# Init script handling
-domain_use_interactive_fds(usbmuxd_t)
-
-# internal communication is often done using fifo and unix sockets.
 allow usbmuxd_t self:fifo_file rw_fifo_file_perms;
-allow usbmuxd_t self:unix_stream_socket create_stream_socket_perms;
 
-manage_dirs_pattern(usbmuxd_t, usbmuxd_var_run_t,  usbmuxd_var_run_t)
-manage_files_pattern(usbmuxd_t, usbmuxd_var_run_t,  usbmuxd_var_run_t)
-manage_sock_files_pattern(usbmuxd_t, usbmuxd_var_run_t,  usbmuxd_var_run_t)
+manage_dirs_pattern(usbmuxd_t, usbmuxd_var_run_t, usbmuxd_var_run_t)
+manage_files_pattern(usbmuxd_t, usbmuxd_var_run_t, usbmuxd_var_run_t)
+manage_sock_files_pattern(usbmuxd_t, usbmuxd_var_run_t, usbmuxd_var_run_t)
 files_pid_filetrans(usbmuxd_t, usbmuxd_var_run_t, { file dir sock_file })
 
 kernel_read_kernel_sysctls(usbmuxd_t)

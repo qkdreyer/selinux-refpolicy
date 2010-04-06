@@ -340,7 +340,7 @@ interface(`ppp_initrc_domtrans',`
 
 ########################################
 ## <summary>
-##	All of the rules required to administrate 
+##	All of the rules required to administrate
 ##	an ppp environment
 ## </summary>
 ## <param name="domain">

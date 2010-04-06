@@ -92,7 +92,7 @@ template(`rpc_domain_template', `
 	corenet_udp_bind_all_rpc_ports($1_t)
 	corenet_sendrecv_generic_server_packets($1_t)
 
-	fs_rw_rpc_named_pipes($1_t) 
+	fs_rw_rpc_named_pipes($1_t)
 	fs_search_auto_mountpoints($1_t)
 
 	files_read_etc_files($1_t)
@@ -215,6 +215,24 @@ interface(`rpc_domtrans_nfsd',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`rpc_initrc_domtrans_nfsd',`
+	gen_require(`
+		type nfsd_initrc_exec_t;
+	')
+
+	init_labeled_script_domtrans($1, nfsd_initrc_exec_t)
+')
+
+########################################
+## <summary>
+##	Execute domain in rpcd domain.
+## </summary>
+## <param name="domain">
+##	<summary>
 ##	The type of the process performing this action.
 ##	</summary>
 ## </param>
@@ -248,20 +266,20 @@ interface(`rpc_domtrans_rpcd',`
 
 #######################################
 ## <summary>
-##      Execute domain in rpcd domain.
+##	Execute domain in rpcd domain.
 ## </summary>
 ## <param name="domain">
-##      <summary>
-##      The type of the process performing this action.
-##      </summary>
+##	<summary>
+##	Domain allowed access.
+##	</summary>
 ## </param>
 #
 interface(`rpc_initrc_domtrans_rpcd',`
-        gen_require(`
-                type rpcd_initrc_exec_t;
-        ')
+	gen_require(`
+		type rpcd_initrc_exec_t;
+	')
 
-        init_labeled_script_domtrans($1, rpcd_initrc_exec_t)
+	init_labeled_script_domtrans($1, rpcd_initrc_exec_t)
 ')
 
 ########################################
@@ -277,7 +295,7 @@ interface(`rpc_initrc_domtrans_rpcd',`
 #
 interface(`rpc_read_nfs_content',`
 	gen_require(`
-		type nfsd_ro_t, nfsd_rw_t;	
+		type nfsd_ro_t, nfsd_rw_t;
 	')
 
 	allow $1 { nfsd_ro_t nfsd_rw_t }:dir list_dir_perms;
@@ -298,7 +316,7 @@ interface(`rpc_read_nfs_content',`
 #
 interface(`rpc_manage_nfs_rw_content',`
 	gen_require(`
-		type nfsd_rw_t;	
+		type nfsd_rw_t;
 	')
 
 	manage_dirs_pattern($1, nfsd_rw_t, nfsd_rw_t)
@@ -319,7 +337,7 @@ interface(`rpc_manage_nfs_rw_content',`
 #
 interface(`rpc_manage_nfs_ro_content',`
 	gen_require(`
-		type nfsd_ro_t;	
+		type nfsd_ro_t;
 	')
 
 	manage_dirs_pattern($1, nfsd_ro_t, nfsd_ro_t)
@@ -339,7 +357,7 @@ interface(`rpc_manage_nfs_ro_content',`
 #
 interface(`rpc_udp_rw_nfs_sockets',`
 	gen_require(`
-		type nfsd_t;	
+		type nfsd_t;
 	')
 
 	allow $1 nfsd_t:udp_socket rw_socket_perms;

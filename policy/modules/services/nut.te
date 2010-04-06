@@ -1,5 +1,5 @@
 
-policy_module(nut, 1.0.0)
+policy_module(nut, 1.0.1)
 
 ########################################
 #
@@ -103,10 +103,6 @@ auth_use_nsswitch(nut_upsmon_t)
 miscfiles_read_localization(nut_upsmon_t)
 
 mta_send_mail(nut_upsmon_t)
-
-optional_policy(`
-	shutdown_domtrans(nut_upsmon_t)
-')
 
 ########################################
 #

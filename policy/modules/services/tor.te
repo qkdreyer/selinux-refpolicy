@@ -1,5 +1,5 @@
 
-policy_module(tor, 1.6.0)
+policy_module(tor, 1.6.1)
 
 ########################################
 #
@@ -102,6 +102,10 @@ files_read_usr_files(tor_t)
 auth_use_nsswitch(tor_t)
 
 miscfiles_read_localization(tor_t)
+
+tunable_policy(`tor_bind_all_unreserved_ports', `
+	corenet_tcp_bind_all_unreserved_ports(tor_t)
+')
 
 optional_policy(`
 	seutil_sigchld_newrole(tor_t)

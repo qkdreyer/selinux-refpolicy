@@ -114,11 +114,11 @@ interface(`sssd_search_lib',`
 
 ########################################
 ## <summary>
-##	dontaudit search sssd lib directories.
+##	Do not audit attempts to search sssd lib directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
