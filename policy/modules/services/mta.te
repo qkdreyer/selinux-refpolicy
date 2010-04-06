@@ -91,14 +91,12 @@ logging_append_all_logs(system_mail_t)
 optional_policy(`
 	apache_read_squirrelmail_data(system_mail_t)
 	apache_append_squirrelmail_data(system_mail_t)
-	apache_search_bugzilla_dirs(system_mail_t)
 
 	# apache should set close-on-exec
 	apache_dontaudit_append_log(system_mail_t)
 	apache_dontaudit_rw_stream_sockets(system_mail_t)
 	apache_dontaudit_rw_tcp_sockets(system_mail_t)
 	apache_dontaudit_rw_sys_script_stream_sockets(system_mail_t)
-	apache_dontaudit_rw_bugzilla_script_stream_sockets(system_mail_t)
 ')
 
 optional_policy(`
