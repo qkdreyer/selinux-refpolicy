@@ -56,7 +56,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-	apache_delete_tmp(tmpreaper_t)
+	apache_delete_sys_rw_content(tmpreaper_t)
 	apache_list_cache(tmpreaper_t)
 	apache_delete_cache_files(tmpreaper_t)
 	apache_setattr_cache_dirs(tmpreaper_t)
