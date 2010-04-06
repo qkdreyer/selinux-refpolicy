@@ -237,24 +237,6 @@ interface(`rpc_initrc_domtrans_nfsd',`
 ##	</summary>
 ## </param>
 #
-interface(`rpc_initrc_domtrans_nfsd',`
-        gen_require(`
-                type nfsd_initrc_exec_t;
-        ')
-
-        init_labeled_script_domtrans($1, nfsd_initrc_exec_t)
-')
-
-########################################
-## <summary>
-##	Execute domain in rpcd domain.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	The type of the process performing this action.
-##	</summary>
-## </param>
-#
 interface(`rpc_domtrans_rpcd',`
 	gen_require(`
 		type rpcd_t, rpcd_exec_t;
