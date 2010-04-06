@@ -196,6 +196,7 @@ interface(`virt_manage_config',`
 	files_search_etc($1)
 	manage_files_pattern($1, virt_etc_t, virt_etc_t)
 	manage_files_pattern($1, virt_etc_rw_t, virt_etc_rw_t)
+	manage_lnk_files_pattern($1, virt_etc_rw_t, virt_etc_rw_t)
 ')
 
 ########################################

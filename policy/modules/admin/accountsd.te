@@ -9,8 +9,6 @@ type accountsd_t;
 type accountsd_exec_t;
 dbus_system_domain(accountsd_t, accountsd_exec_t)
 
-permissive accountsd_t;
-
 type accountsd_var_lib_t;
 files_type(accountsd_var_lib_t)
 
@@ -32,6 +30,7 @@ files_read_usr_files(accountsd_t)
 
 fs_list_inotifyfs(accountsd_t)
 
+auth_read_shadow(accountsd_t)
 auth_use_nsswitch(accountsd_t)
 
 miscfiles_read_localization(accountsd_t)

@@ -82,6 +82,24 @@ interface(`milter_getattr_all_sockets',`
 
 ########################################
 ## <summary>
+##	Allow setattr of milter dirs
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`milter_setattr_all_dirs',`
+	gen_require(`
+		attribute milter_data_type;
+	')
+
+	setattr_dirs_pattern($1, milter_data_type, milter_data_type)
+')
+
+########################################
+## <summary>
 ##	Manage spamassassin milter state
 ## </summary>
 ## <param name="domain">

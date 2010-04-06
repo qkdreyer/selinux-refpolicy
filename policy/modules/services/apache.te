@@ -30,6 +30,13 @@ gen_tunable(allow_httpd_anon_write, false)
 
 ## <desc>
 ## <p>
+## Allow Apache to use mod_auth_ntlm_winbind
+## </p>
+## </desc>
+gen_tunable(allow_httpd_mod_auth_ntlm_winbind, false)
+
+## <desc>
+## <p>
 ## Allow Apache to use mod_auth_pam
 ## </p>
 ## </desc>
@@ -420,12 +427,17 @@ tunable_policy(`allow_httpd_anon_write',`
 	miscfiles_manage_public_files(httpd_t)
 ')
 
+tunable_policy(`allow_httpd_mod_auth_ntlm_winbind',`
+	samba_domtrans_winbind_helper(httpd_t)
+')
+
 ifdef(`TODO', `
 #
 # We need optionals to be able to be within booleans to make this work
 #
 tunable_policy(`allow_httpd_mod_auth_pam',`
 	auth_domtrans_chk_passwd(httpd_t)
+	logging_send_audit_msgs(httpd_t)
 ')
 ')
 

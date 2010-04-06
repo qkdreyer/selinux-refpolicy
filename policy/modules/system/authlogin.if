@@ -41,7 +41,6 @@ interface(`auth_role',`
 ## </param>
 #
 interface(`auth_use_pam',`
-
 	# for SSP/ProPolice
 	dev_read_urand($1)
 	# for encrypted homedir

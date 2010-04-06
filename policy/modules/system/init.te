@@ -790,6 +790,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+	milter_setattr_all_dirs(initrc_t)
+')
+
+optional_policy(`
 	mta_read_config(initrc_t)
 	mta_write_config(initrc_t)
 	mta_dontaudit_read_spool_symlinks(initrc_t)
