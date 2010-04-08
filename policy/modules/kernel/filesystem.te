@@ -179,7 +179,6 @@ fs_use_trans devtmpfs gen_context(system_u:object_r:tmpfs_t,s0);
 fs_use_trans mqueue gen_context(system_u:object_r:tmpfs_t,s0);
 fs_use_trans shm gen_context(system_u:object_r:tmpfs_t,s0);
 fs_use_trans tmpfs gen_context(system_u:object_r:tmpfs_t,s0);
-fs_use_trans devtmpfs gen_context(system_u:object_r:tmpfs_t,s0);
 
 allow tmpfs_t noxattrfs:filesystem associate;
 
