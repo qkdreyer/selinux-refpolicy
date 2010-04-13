@@ -47,8 +47,6 @@ allow cgred_t self:capability { net_admin sys_ptrace dac_override };
 allow cgred_t self:netlink_socket { write bind create read };
 allow cgred_t self:unix_dgram_socket { write create connect };
 
-manage_dirs_pattern(cgred_t, cgroup_t, cgroup_t)
-
 manage_sock_files_pattern(cgred_t, cgred_var_run_t, cgred_var_run_t)
 files_pid_filetrans(cgred_t, cgred_var_run_t, sock_file)
 

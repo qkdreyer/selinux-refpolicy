@@ -347,10 +347,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	cgroup_manage_cgroup_dir(virtd_t)
-')
-
-optional_policy(`
 	dnsmasq_domtrans(virtd_t)
 	dnsmasq_signal(virtd_t)
 	dnsmasq_kill(virtd_t)
