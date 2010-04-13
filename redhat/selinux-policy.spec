@@ -440,6 +440,8 @@ exit 0
 
 %changelog
 * Tue Apr 13 2010 Dominick Grift <dgrift@gmail.com> 3.7.18-1.3
+- readd a port declaration removed by refpolicy merge.
+- cleaned up some port ranges.
 - Merge branch refpolicy.
 - undo cgroup fixes for now.
 
