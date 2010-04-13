@@ -8,7 +8,7 @@ policy_module(rpc, 1.11.1)
 
 ## <desc>
 ## <p>
-## Allow gssd to read tep directory.  For access to kerberos tgt.
+## Allow gssd to read temp directory for access to kerberos tgt.
 ## </p>
 ## </desc>
 gen_tunable(allow_gssd_read_tmp, true)

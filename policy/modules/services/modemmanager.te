@@ -39,5 +39,9 @@ logging_send_syslog_msg(modemmanager_t)
 networkmanager_dbus_chat(modemmanager_t)
 
 optional_policy(`
+	policykit_dbus_chat(modemmanager_t)
+')
+
+optional_policy(`
 	udev_read_db(modemmanager_t)
 ')

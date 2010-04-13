@@ -115,7 +115,7 @@ optional_policy(`
 	type unconfined_qemu_t;
 	typealias unconfined_qemu_t alias qemu_unconfined_t;
 	application_type(unconfined_qemu_t)
-	unconfined_domain_noaudit(unconfined_qemu_t)
+	unconfined_domain(unconfined_qemu_t)
 	userdom_manage_tmpfs_role(unconfined_r, unconfined_qemu_t)
 	userdom_unpriv_usertype(unconfined, unconfined_qemu_t)
 

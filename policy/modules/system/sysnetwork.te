@@ -294,6 +294,7 @@ read_files_pattern(ifconfig_t, dhcpc_state_t, dhcpc_state_t)
 
 files_read_etc_files(ifconfig_t)
 files_read_etc_runtime_files(ifconfig_t)
+files_read_usr_files(ifconfig_t)
 
 fs_getattr_xattr_fs(ifconfig_t)
 fs_search_auto_mountpoints(ifconfig_t)

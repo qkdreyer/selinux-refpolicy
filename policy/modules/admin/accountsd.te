@@ -36,6 +36,7 @@ auth_use_nsswitch(accountsd_t)
 miscfiles_read_localization(accountsd_t)
 
 logging_send_syslog_msg(accountsd_t)
+logging_set_loginuid(accountsd_t)
 
 usermanage_domtrans_useradd(accountsd_t)
 

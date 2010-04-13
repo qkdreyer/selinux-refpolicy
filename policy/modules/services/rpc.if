@@ -54,7 +54,7 @@ template(`rpc_domain_template', `
 	allow $1_t self:unix_dgram_socket create_socket_perms;
 	allow $1_t self:unix_stream_socket create_stream_socket_perms;
 	allow $1_t self:tcp_socket create_stream_socket_perms;
-	allow $1_t self:udp_socket create_stream_socket_perms;
+	allow $1_t self:udp_socket create_socket_perms;
 
 	manage_dirs_pattern($1_t, var_lib_nfs_t, var_lib_nfs_t)
 	manage_files_pattern($1_t, var_lib_nfs_t, var_lib_nfs_t)
@@ -197,7 +197,7 @@ interface(`rpc_write_exports',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -233,7 +233,7 @@ interface(`rpc_initrc_domtrans_nfsd',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #

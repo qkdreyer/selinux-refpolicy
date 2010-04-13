@@ -185,6 +185,7 @@ manage_dirs_pattern(virtd_t, virt_content_t, virt_content_t)
 manage_files_pattern(virtd_t, virt_content_t, virt_content_t)
 
 allow virtd_t virt_domain:process { getattr getsched setsched transition signal signull sigkill };
+dontaudit virtd_t virt_domain:process  { siginh noatsecure rlimitinh };
 
 read_files_pattern(virtd_t, virt_etc_t, virt_etc_t)
 read_lnk_files_pattern(virtd_t, virt_etc_t, virt_etc_t)

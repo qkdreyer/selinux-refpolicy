@@ -1401,6 +1401,25 @@ interface(`fs_cifs_domtrans',`
 	domain_auto_transition_pattern($1, cifs_t, $2)
 ')
 
+########################################
+## <summary>
+##	Make general progams in cifs an entrypoint for
+##	the specified domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	The domain for which cifs_t is an entrypoint.
+##	</summary>
+## </param>
+#
+interface(`fs_cifs_entry_type',`
+	gen_require(`
+		type cifs_t;
+	')
+
+	domain_entry_file($1, cifs_t)
+')
+
 #######################################
 ## <summary>
 ##	Create, read, write, and delete dirs
@@ -2293,6 +2312,25 @@ interface(`fs_exec_nfs_files',`
 
 ########################################
 ## <summary>
+##	Make general progams in nfs an entrypoint for
+##	the specified domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	The domain for which nfs_t is an entrypoint.
+##	</summary>
+## </param>
+#
+interface(`fs_nfs_entry_type',`
+	gen_require(`
+		type nfs_t;
+	')
+
+	domain_entry_file($1, nfs_t)
+')
+
+########################################
+## <summary>
 ##	Append files
 ##	on a NFS filesystem.
 ## </summary>
@@ -2535,6 +2573,24 @@ interface(`fs_dontaudit_read_removable_files',`
 
 ########################################
 ## <summary>
+##	Do not audit attempts to write removable storage files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain not to audit.
+##	</summary>
+## </param>
+#
+interface(`fs_dontaudit_write_removable_files',`
+	gen_require(`
+		type removable_t;
+	')
+
+	dontaudit $1 removable_t:file write_file_perms;
+')
+
+########################################
+## <summary>
 ##	Read removable storage symbolic links.
 ## </summary>
 ## <param name="domain">
@@ -2743,7 +2799,7 @@ interface(`fs_dontaudit_manage_nfs_files',`
 #########################################
 ## <summary>
 ##	Create, read, write, and delete symbolic links
-##	on a CIFS or SMB network filesystem.
+##	on a NFS network filesystem.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

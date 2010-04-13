@@ -251,6 +251,7 @@ interface(`userdom_manage_home_role',`
 	allow $2 user_home_t:file entrypoint;
 
 	allow $2 user_home_type:dir_file_class_set { relabelto relabelfrom };
+	allow $2 user_home_dir_t:lnk_file read_lnk_file_perms;
 	manage_dirs_pattern($2, { user_home_dir_t user_home_type }, user_home_type)
 	manage_files_pattern($2, { user_home_dir_t user_home_type }, user_home_type)
 	manage_lnk_files_pattern($2, { user_home_dir_t user_home_type }, user_home_type)

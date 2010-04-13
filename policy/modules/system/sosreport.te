@@ -124,5 +124,5 @@ optional_policy(`
 ')
 
 optional_policy(`
-	unconfined_domain_noaudit(sosreport_t)
+	unconfined_domain(sosreport_t)
 ')

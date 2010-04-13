@@ -545,6 +545,25 @@ interface(`logging_send_syslog_msg',`
 
 ########################################
 ## <summary>
+##	Connect to the syslog control unix stream socket.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`logging_stream_connect_syslog',`
+	gen_require(`
+		type syslogd_t, syslogd_var_run_t;
+	')
+
+	files_search_pids($1)
+	stream_connect_pattern($1, syslogd_var_run_t, syslogd_var_run_t, syslogd_t)
+')
+
+########################################
+## <summary>
 ##	Read the auditd configuration files.
 ## </summary>
 ## <param name="domain">

@@ -131,7 +131,6 @@ files_pid_filetrans(nut_upsdrvctl_t, nut_var_run_t, { file sock_file })
 kernel_read_kernel_sysctls(nut_upsdrvctl_t)
 
 # /sbin/upsdrvctl executes other drivers
-# can_exec(nut_upsdrvctl_t, nut_upsdrvctl_exec_t)
 corecmd_exec_bin(nut_upsdrvctl_t)
 
 dev_read_urand(nut_upsdrvctl_t)

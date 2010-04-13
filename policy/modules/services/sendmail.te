@@ -192,6 +192,6 @@ optional_policy(`
 
 optional_policy(`
 	mta_etc_filetrans_aliases(unconfined_sendmail_t)
-	unconfined_domain_noaudit(unconfined_sendmail_t)
+	unconfined_domain(unconfined_sendmail_t)
 ')
 

@@ -72,3 +72,23 @@ interface(`sosreport_role',`
 	ps_process_pattern($2, sosreport_t)
 	allow $2 sosreport_t:process signal;
 ')
+
+########################################
+## <summary>
+##	Allow the specified domain to read
+##	sosreport tmp files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`sosreport_read_tmp_files',`
+	gen_require(`
+		type sosreport_tmp_t;
+	')
+
+	files_search_tmp($1)
+	read_files_pattern($1, sosreport_tmp_t, sosreport_tmp_t)
+')

@@ -181,7 +181,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-	consoletype_exec(NetworkManager_t)
+	consoletype_domtrans(NetworkManager_t)
 ')
 
 optional_policy(`

@@ -66,6 +66,8 @@ ifdef(`distro_redhat',`
 /var/run/log		-s	gen_context(system_u:object_r:devlog_t,s0)
 /var/run/metalog\.pid	--	gen_context(system_u:object_r:syslogd_var_run_t,s0)
 /var/run/syslogd\.pid	--	gen_context(system_u:object_r:syslogd_var_run_t,s0)
+/var/run/syslog-ng.ctl	--	gen_context(system_u:object_r:syslogd_var_run_t,s0)
+/var/run/syslog-ng(/.*)?	gen_context(system_u:object_r:syslogd_var_run_t,s0)
 
 /var/spool/bacula/log(/.*)? 	gen_context(system_u:object_r:var_log_t,s0)
 /var/spool/postfix/pid	-d	gen_context(system_u:object_r:var_run_t,s0)

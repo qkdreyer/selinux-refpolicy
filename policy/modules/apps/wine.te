@@ -59,7 +59,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-	unconfined_domain_noaudit(wine_t)
+	unconfined_domain(wine_t)
 ')
 
 optional_policy(`

@@ -178,6 +178,7 @@ optional_policy(`
 
 optional_policy(`
 	sosreport_domtrans(abrt_t)
+	sosreport_read_tmp_files(abrt_t)
 ')
 
 optional_policy(`

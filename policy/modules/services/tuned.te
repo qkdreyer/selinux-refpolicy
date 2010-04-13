@@ -25,6 +25,7 @@ files_pid_file(tuned_var_run_t)
 #
 
 dontaudit tuned_t self:capability { dac_override sys_tty_config };
+allow tuned_t self:fifo_file rw_fifo_file_perms;
 
 manage_dirs_pattern(tuned_t, tuned_log_t, tuned_log_t)
 manage_files_pattern(tuned_t, tuned_log_t, tuned_log_t)

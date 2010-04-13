@@ -45,6 +45,8 @@ corecmd_exec_shell(vhostmd_t)
 
 corenet_tcp_connect_soundd_port(vhostmd_t)
 
+# 579803
+files_list_tmp(vhostmd_t)
 files_read_etc_files(vhostmd_t)
 files_read_usr_files(vhostmd_t)
 

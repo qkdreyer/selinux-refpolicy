@@ -291,9 +291,9 @@ optional_policy(`
 #
 
 optional_policy(`
-	files_etc_filetrans_etc_runtime(unconfined_mount_t, file)
-	unconfined_domain_noaudit(unconfined_mount_t)
+	unconfined_domain(unconfined_mount_t)
 	userdom_unpriv_usertype(unconfined, unconfined_mount_t)
+	files_etc_filetrans_etc_runtime(unconfined_mount_t, file)
 
 	rpc_domtrans_rpcd(unconfined_mount_t)
 	devicekit_dbus_chat_disk(unconfined_mount_t)
