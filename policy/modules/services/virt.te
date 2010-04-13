@@ -347,7 +347,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-	cgroup_search_cgroup_dir(virtd_t)
+	cgroup_manage_cgroup_dir(virtd_t)
 ')
 
 optional_policy(`

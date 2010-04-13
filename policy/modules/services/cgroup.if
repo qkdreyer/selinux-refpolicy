@@ -34,6 +34,24 @@ interface(`cgroup_list_cgroup_dir', `
 
 ########################################
 ## <summary>
+##	Manage cgroup directories.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`cgroup_manage_cgroup_dir', `
+	gen_require(`
+		type cgroup_t;
+	')
+
+	allow $1 cgroup_t:dir manage_dir_perms;
+')
+
+########################################
+## <summary>
 ##	Read and write cgroup directories.
 ## </summary>
 ## <param name="domain">
