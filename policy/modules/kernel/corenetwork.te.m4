@@ -6,6 +6,16 @@
 define(`shiftn',`ifelse($1,0,`shift($*)',`shiftn(decr($1),shift(shift($*)))')')
 
 #
+# range_start(num)
+#
+# return the low port in a range.
+#
+# range_start(600) returns "600"
+# range_start(1200-1600) returns "1200"
+#
+define(`range_start',`ifelse(-1,index(`$1', `-'),$1,substr($1,0,index(`$1', `-')))')
+
+#
 # build_option(option_name,true,[false])
 #
 # makes an ifdef.  hacky quoting changes because with
@@ -67,11 +77,10 @@ type $1_node_t alias node_$1_t, node_type;
 declare_nodes($1_node_t,shift($*))
 ')
 
+# bindresvport in glibc starts searching for reserved ports at 600
 define(`declare_ports',`dnl
-ifelse(eval($3 < 1024),1,`
-typeattribute $1 reserved_port_type;
-#bindresvport in glibc starts searching for reserved ports at 600
-ifelse(eval($3 >= 600),1,`typeattribute $1 rpc_port_type;',`dnl')
+ifelse(eval(range_start($3) < 1024),1,`typeattribute $1 reserved_port_type;
+ifelse(eval(range_start($3) >= 600),1,`typeattribute $1 rpc_port_type;',`dnl')
 ',`dnl')
 portcon $2 $3 gen_context(system_u:object_r:$1,$4)
 ifelse(`$5',`',`',`declare_ports($1,shiftn(4,$*))')dnl
@@ -84,7 +93,7 @@ define(`network_port',`
 type $1_port_t, port_type;
 type $1_client_packet_t, packet_type, client_packet_type;
 type $1_server_packet_t, packet_type, server_packet_type;
-declare_ports($1_port_t,shift($*))
+declare_ports($1_port_t,shift($*))dnl
 ')
 
 #
