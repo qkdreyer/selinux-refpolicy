@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.18
-Release: 1.2%{?dist}
+Release: 1.3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,10 @@ exit 0
 %endif
 
 %changelog
+* Tue Apr 13 2010 Dominick Grift <dgrift@gmail.com> 3.7.18-1.3
+- Merge branch refpolicy.
+- undo cgroup fixes for now.
+
 * Tue Apr 13 2010 Dominick Grift <dgrift@gmail.com> 3.7.18-1.2
 - cgroup fixes.
 
