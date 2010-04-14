@@ -206,6 +206,7 @@ files_read_etc_files(munin_disk_plugin_t)
 files_read_etc_runtime_files(munin_disk_plugin_t)
 
 fs_getattr_all_fs(munin_disk_plugin_t)
+dev_getattr_lvm_control(munin_disk_plugin_t)
 
 dev_read_sysfs(munin_disk_plugin_t)
 dev_read_urand(munin_disk_plugin_t)

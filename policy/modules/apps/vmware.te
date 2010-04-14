@@ -97,6 +97,8 @@ files_pid_filetrans(vmware_host_t, vmware_var_run_t, { file sock_file })
 manage_files_pattern(vmware_host_t, vmware_log_t, vmware_log_t)	
 logging_log_filetrans(vmware_host_t, vmware_log_t, { file dir })
 
+can_exec(vmware_host_t, vmware_host_exec_t)
+
 kernel_read_kernel_sysctls(vmware_host_t)
 kernel_read_system_state(vmware_host_t)
 
@@ -124,6 +126,7 @@ dev_getattr_all_blk_files(vmware_host_t)
 dev_read_sysfs(vmware_host_t)
 dev_read_urand(vmware_host_t)
 dev_rw_vmware(vmware_host_t)
+dev_rw_generic_chr_files(vmware_host_t)
 
 domain_use_interactive_fds(vmware_host_t)
 domain_dontaudit_read_all_domains_state(vmware_host_t)

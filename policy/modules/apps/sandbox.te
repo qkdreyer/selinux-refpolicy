@@ -119,6 +119,7 @@ files_entrypoint_all_files(sandbox_domain)
 
 files_read_etc_files(sandbox_domain)
 files_read_usr_files(sandbox_domain)
+files_dontaudit_search_all_dirs(sandbox_domain)
 
 miscfiles_read_localization(sandbox_domain)
 

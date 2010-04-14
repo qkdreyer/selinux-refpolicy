@@ -81,13 +81,11 @@ mta_read_config(regex_milter_t)
 allow spamass_milter_t spamass_milter_state_t:dir search_dir_perms;
 files_search_var_lib(spamass_milter_t)
 
-kernel_read_system_state(spamass_milter_t)
-
 # When used with -b or -B options, the milter invokes sendmail to send mail
-# to a spamtrap address, using popen()
-corecmd_exec_shell(spamass_milter_t)
+# to a spamtrap address, and with the -x option, it invokes sendmail to do
+# alias expansion. Since the sendmail binary is managed using alternatives,
+# it's a symlink that we need to be able to read.
 corecmd_read_bin_symlinks(spamass_milter_t)
-corecmd_search_bin(spamass_milter_t)
 
 mta_send_mail(spamass_milter_t)
 

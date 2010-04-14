@@ -268,3 +268,6 @@ ifndef(`distro_redhat',`
 ifdef(`distro_debian',`
 /var/run/motd		--	gen_context(system_u:object_r:etc_runtime_t,s0)
 ')
+
+/nsr(/.*)?				gen_context(system_u:object_r:var_t,s0)
+/nsr/logs(/.*)?			gen_context(system_u:object_r:var_log_t,s0)

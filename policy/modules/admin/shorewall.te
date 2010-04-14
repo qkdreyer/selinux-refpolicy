@@ -90,6 +90,10 @@ sysnet_domtrans_ifconfig(shorewall_t)
 userdom_dontaudit_list_admin_dir(shorewall_t)
 
 optional_policy(`
+	hostname_exec(shorewall_t)
+')
+
+optional_policy(`
 	iptables_domtrans(shorewall_t)
 ')
 

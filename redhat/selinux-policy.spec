@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.18
-Release: 1.3%{?dist}
+Release: 3.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,11 @@ exit 0
 %endif
 
 %changelog
+* Wed Apr 14 2010 Dominick Grift <dgrift@gmail.com> 3.7.18-3.1
+- Merge branch fedora (v3.7.18-3) except apps/telepathysofiasip.
+- Run munin_t with SystemLow-SystemHigh if MCS is enabled.
+- Implement cbp comments for irc (irssi) policy.
+
 * Tue Apr 13 2010 Dominick Grift <dgrift@gmail.com> 3.7.18-1.3
 - readd a port declaration removed by refpolicy merge.
 - cleaned up some port ranges.
