@@ -129,6 +129,7 @@ userdom_use_user_terminals(gpg_t)
 userdom_manage_user_tmp_files(gpg_t)
 userdom_manage_user_home_content_files(gpg_t)
 userdom_user_home_dir_filetrans_user_home_content(gpg_t, file)
+userdom_stream_connect(gpg_t)
 
 mta_write_config(gpg_t)
 
@@ -325,6 +326,8 @@ files_read_etc_files(gpg_pinentry_t)
 
 logging_send_syslog_msg(gpg_pinentry_t)
 
+auth_use_nsswitch(gpg_pinentry_t)
+
 miscfiles_read_fonts(gpg_pinentry_t)
 miscfiles_read_localization(gpg_pinentry_t)
 
@@ -356,6 +359,7 @@ optional_policy(`
 optional_policy(`
 	gnome_write_generic_cache_files(gpg_pinentry_t)
 	gnome_read_generic_cache_files(gpg_pinentry_t)
+	gnome_read_gconf_home_files(gpg_pinentry_t)
 ')
 
 optional_policy(`

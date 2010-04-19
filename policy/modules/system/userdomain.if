@@ -659,6 +659,10 @@ template(`userdom_common_user_template',`
 		')
 
 		optional_policy(`
+			modemmanager_dbus_chat($1_usertype)
+		')
+
+		optional_policy(`
 			networkmanager_dbus_chat($1_usertype)
 			networkmanager_read_var_lib_files($1_usertype)
 		')

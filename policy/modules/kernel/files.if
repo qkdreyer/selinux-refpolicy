@@ -2821,6 +2821,25 @@ interface(`files_delete_isid_type_dirs',`
 
 ########################################
 ## <summary>
+##	Do not audit attempts to write to chr_files
+##	that have not yet been labeled.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`files_dontaudit_write_isid_chr_files',`
+	gen_require(`
+		type file_t;
+	')
+
+	dontaudit $1 file_t:chr_file write;
+')
+
+########################################
+## <summary>
 ##	Create, read, write, and delete directories
 ##	on new filesystems that have not yet been labeled.
 ## </summary>

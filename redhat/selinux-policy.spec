@@ -19,8 +19,8 @@
 %define CHECKPOLICYVER 2.0.21-1
 Summary: SELinux policy configuration
 Name: selinux-policy
-Version: 3.7.18
-Release: 3.1%{?dist}
+Version: 3.7.19
+Release: 2.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,9 @@ exit 0
 %endif
 
 %changelog
+* Wed Apr 14 2010 Dominick Grift <dgrift@gmail.com> 3.7.19-2.1
+- Merge branch fedora (v3.7.19-2)
+
 * Wed Apr 14 2010 Dominick Grift <dgrift@gmail.com> 3.7.18-3.1
 - Merge branch fedora (v3.7.18-3) except apps/telepathysofiasip.
 - Run munin_t with SystemLow-SystemHigh if MCS is enabled.

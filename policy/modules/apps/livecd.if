@@ -45,6 +45,10 @@ interface(`livecd_run',`
 	role $2 types livecd_t;
 	
 	seutil_run_setfiles_mac(livecd_t, $2)
+
+	optional_policy(`
+		mount_run(livecd_t, $2)
+	')
 ')
 
 ########################################

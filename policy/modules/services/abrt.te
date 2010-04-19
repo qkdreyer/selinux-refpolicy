@@ -179,6 +179,7 @@ optional_policy(`
 optional_policy(`
 	sosreport_domtrans(abrt_t)
 	sosreport_read_tmp_files(abrt_t)
+	sosreport_delete_tmp_files(abrt_t)
 ')
 
 optional_policy(`
@@ -190,7 +191,7 @@ optional_policy(`
 # abrt--helper local policy
 #
 
-allow abrt_helper_t self:capability { chown setgid };
+allow abrt_helper_t self:capability { chown setgid sys_nice };
 allow abrt_helper_t self:process signal;
 
 read_files_pattern(abrt_helper_t, abrt_etc_t, abrt_etc_t)

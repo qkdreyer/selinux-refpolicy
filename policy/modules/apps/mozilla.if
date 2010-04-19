@@ -114,7 +114,7 @@ interface(`mozilla_dontaudit_rw_user_home_files',`
 		type mozilla_home_t;
 	')
 
-	dontaudit $1 mozilla_home_t:file { read write };
+	dontaudit $1 mozilla_home_t:file rw_inherited_file_perms;
 ')
 
 ########################################

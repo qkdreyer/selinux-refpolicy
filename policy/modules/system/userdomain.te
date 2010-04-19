@@ -126,3 +126,7 @@ tunable_policy(`use_samba_home_dirs',`
 ')
 
 allow userdomain userdomain:process signull;
+
+# Nautilus causes this avc
+dontaudit unpriv_userdomain self:dir setattr;
+

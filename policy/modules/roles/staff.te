@@ -26,6 +26,8 @@ kernel_read_software_raid_state(staff_t)
 
 auth_domtrans_pam_console(staff_t)
 
+init_dbus_chat_script(staff_t)
+
 seutil_read_module_store(staff_t)
 seutil_run_newrole(staff_t, staff_r)
 netutils_run_ping(staff_t, staff_r)

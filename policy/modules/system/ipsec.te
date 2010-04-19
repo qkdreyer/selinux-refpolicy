@@ -167,6 +167,7 @@ logging_send_syslog_msg(ipsec_t)
 miscfiles_read_localization(ipsec_t)
 
 sysnet_domtrans_ifconfig(ipsec_t)
+sysnet_etc_filetrans_config(ipsec_t)
 
 userdom_dontaudit_use_unpriv_user_fds(ipsec_t)
 userdom_dontaudit_search_user_home_dirs(ipsec_t)
@@ -225,7 +226,6 @@ allow ipsec_mgmt_t ipsec_conf_file_t:file read_file_perms;
 
 manage_files_pattern(ipsec_mgmt_t, ipsec_key_file_t, ipsec_key_file_t)
 manage_lnk_files_pattern(ipsec_mgmt_t, ipsec_key_file_t, ipsec_key_file_t)
-files_etc_filetrans(ipsec_mgmt_t, ipsec_key_file_t, file)
 
 # whack needs to connect to pluto
 stream_connect_pattern(ipsec_mgmt_t, ipsec_var_run_t, ipsec_var_run_t, ipsec_t)

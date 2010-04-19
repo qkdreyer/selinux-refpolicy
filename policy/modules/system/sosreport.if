@@ -92,3 +92,23 @@ interface(`sosreport_read_tmp_files',`
 	files_search_tmp($1)
 	read_files_pattern($1, sosreport_tmp_t, sosreport_tmp_t)
 ')
+
+########################################
+## <summary>
+##	Delete sosreport tmp files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`sosreport_delete_tmp_files',`
+	gen_require(`
+		type sosreport_tmp_t;
+	')
+
+	files_delete_tmp_dir_entry($1)
+	delete_files_pattern($1, sosreport_tmp_t, sosreport_tmp_t)
+')
+

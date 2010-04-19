@@ -61,6 +61,7 @@ kernel_read_kernel_sysctls(snort_t)
 kernel_read_proc_symlinks(snort_t)
 kernel_request_load_module(snort_t)
 kernel_dontaudit_read_system_state(snort_t)
+kernel_read_network_state(snort_t)
 
 corenet_all_recvfrom_unlabeled(snort_t)
 corenet_all_recvfrom_netlabel(snort_t)
