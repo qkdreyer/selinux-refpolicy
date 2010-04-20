@@ -137,11 +137,37 @@ interface(`nis_domtrans_ypbind',`
 
 ########################################
 ## <summary>
+##	Execute ypbind in the ypbind domain, and
+##	allow the specified role the ypbind domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+## <param name="role">
+##	<summary>
+##	The role to be allowed the ypbind domain.
+##	</summary>
+## </param>
+## <rolecap/>
+#
+interface(`nis_run_ypbind',`
+	gen_require(`
+		type ypbind_t;
+	')
+
+	nis_domtrans_ypbind($1)
+	role $2 types ypbind_t;
+')
+
+########################################
+## <summary>
 ##	Send generic signals to ypbind.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -159,7 +185,7 @@ interface(`nis_signal_ypbind',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -178,7 +204,7 @@ interface(`nis_list_var_yp',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -282,7 +308,7 @@ interface(`nis_domtrans_ypxfr',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -301,11 +327,11 @@ interface(`nis_initrc_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
-interface(`nis_ypbind_initrc_domtrans',`
+interface(`nis_initrc_domtrans_ypbind',`
 	gen_require(`
 		type ypbind_initrc_exec_t;
 	')
@@ -315,7 +341,7 @@ interface(`nis_ypbind_initrc_domtrans',`
 
 ########################################
 ## <summary>
-##	All of the rules required to administrate 
+##	All of the rules required to administrate
 ##	an nis environment
 ## </summary>
 ## <param name="domain">
@@ -351,7 +377,7 @@ interface(`nis_admin',`
 	ps_process_pattern($1, ypxfr_t)
 
 	nis_initrc_domtrans($1)
-	nis_ypbind_initrc_domtrans($1)
+	nis_initrc_domtrans_ypbind($1)
 	domain_system_change_exemption($1)
 	role_transition $2 nis_initrc_exec_t system_r;
 	role_transition $2 ypbind_initrc_exec_t system_r;
