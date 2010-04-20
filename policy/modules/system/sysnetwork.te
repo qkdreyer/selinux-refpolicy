@@ -204,7 +204,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-	nis_ypbind_initrc_domtrans(dhcpc_t)
+	nis_initrc_domtrans_ypbind(dhcpc_t)
 	nis_read_ypbind_pid(dhcpc_t)
 ')
 

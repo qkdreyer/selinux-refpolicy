@@ -399,29 +399,3 @@ interface(`nis_admin',`
 	admin_pattern($1, ypserv_var_run_t)
 ')
 
-
-########################################
-## <summary>
-##	Execute ypbind in the ypbind domain, and
-##	allow the specified role the ypbind domain.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-## <param name="role">
-##	<summary>
-##	The role to be allowed the ypbind domain.
-##	</summary>
-## </param>
-## <rolecap/>
-#
-interface(`nis_run_ypbind',`
-	gen_require(`
-		type ypbind_t;
-	')
-
-	nis_domtrans_ypbind($1)
-	role $2 types ypbind_t;
-')

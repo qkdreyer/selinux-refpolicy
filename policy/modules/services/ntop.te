@@ -96,6 +96,8 @@ logging_send_syslog_msg(ntop_t)
 miscfiles_read_localization(ntop_t)
 miscfiles_read_fonts(ntop_t)
 
+sysnet_read_config(ntop_t)
+
 userdom_dontaudit_use_unpriv_user_fds(ntop_t)
 userdom_dontaudit_search_user_home_dirs(ntop_t)
 
