@@ -143,6 +143,8 @@ manage_files_pattern(irssi_t, irssi_home_t, irssi_home_t)
 manage_lnk_files_pattern(irssi_t, irssi_home_t, irssi_home_t)
 userdom_user_home_dir_filetrans(irssi_t, irssi_home_t, { dir file lnk_file })
 
+kernel_read_system_state(irssi_t)
+
 corecmd_read_bin_symlinks(irssi_t)
 
 corenet_tcp_connect_ircd_port(irssi_t)
@@ -151,6 +153,10 @@ corenet_sendrecv_ircd_client_packets(irssi_t)
 # Privoxy
 corenet_tcp_connect_http_cache_port(irssi_t)
 corenet_sendrecv_http_cache_client_packets(irssi_t)
+
+# FreenodeSSL tcp:7000
+corenet_tcp_connect_gatekeeper_port(irssi_t)
+corenet_sendrecv_gatekeeper_client_packets(irssi_t)
 
 corenet_all_recvfrom_netlabel(irssi_t)
 corenet_all_recvfrom_unlabeled(irssi_t)
@@ -169,6 +175,7 @@ files_read_usr_files(irssi_t)
 
 fs_search_auto_mountpoints(irssi_t)
 
+miscfiles_read_certs(irssi_t)
 miscfiles_read_localization(irssi_t)
 
 sysnet_read_config(irssi_t)
