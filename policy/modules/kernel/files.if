@@ -2368,7 +2368,8 @@ interface(`files_read_etc_files',`
 	allow $1 etc_t:dir list_dir_perms;
 	read_files_pattern($1, etc_t, etc_t)
 	read_lnk_files_pattern($1, etc_t, etc_t)
-	files_read_config_files($1)
+	# only generic etc_t files here.
+	# files_read_config_files($1)
 ')
 
 ########################################
