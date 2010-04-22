@@ -152,7 +152,10 @@ template(`dbus_role_template',`
 	term_use_all_terms($1_dbusd_t)
 
 	userdom_dontaudit_search_admin_dir($1_dbusd_t)
-	userdom_read_user_home_content_files($1_dbusd_t)
+	# introduced in 3.7.19-5: what is it managing?
+	userdom_manage_user_home_content_dirs($1_dbusd_t)
+	userdom_manage_user_home_content_files($1_dbusd_t)
+	userdom_user_home_dir_filetrans_user_home_content($1_dbusd_t, { dir file })
 
 	ifdef(`hide_broken_symptoms', `
 		dontaudit $3 $1_dbusd_t:netlink_selinux_socket { read write };

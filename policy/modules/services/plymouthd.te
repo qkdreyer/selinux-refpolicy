@@ -52,6 +52,8 @@ domain_use_interactive_fds(plymouthd_t)
 files_read_etc_files(plymouthd_t)
 files_read_usr_files(plymouthd_t)
 
+term_use_unallocated_ttys(plymouthd_t)
+
 miscfiles_read_localization(plymouthd_t)
 miscfiles_read_fonts(plymouthd_t)
 miscfiles_manage_fonts_cache(plymouthd_t)

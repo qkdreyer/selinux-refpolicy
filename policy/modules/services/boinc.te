@@ -15,6 +15,9 @@ permissive boinc_t;
 type boinc_initrc_exec_t;
 init_script_file(boinc_initrc_exec_t)
 
+type boinc_tmp_t;
+files_tmp_file(boinc_tmp_t)
+
 type boinc_tmpfs_t;
 files_tmpfs_file(boinc_tmpfs_t)
 
@@ -32,7 +35,12 @@ allow boinc_t self:process { execmem fork setsched signal sigkill };
 allow boinc_t self:fifo_file rw_fifo_file_perms;
 allow boinc_t self:unix_stream_socket create_stream_socket_perms;
 allow boinc_t self:tcp_socket create_stream_socket_perms;
+allow boinc_t self:sem create_sem_perms;
 allow boinc_t self:shm create_shm_perms;
+
+manage_dirs_pattern(boinc_t, boinc_tmp_t, boinc_tmp_t)
+manage_files_pattern(boinc_t, boinc_tmp_t, boinc_tmp_t)
+files_tmp_filetrans(boinc_t, boinc_tmp_t, { dir file })
 
 manage_files_pattern(boinc_t, boinc_tmpfs_t, boinc_tmpfs_t)
 fs_tmpfs_filetrans(boinc_t, boinc_tmpfs_t,file)
@@ -61,7 +69,9 @@ corenet_udp_bind_generic_node(boinc_t)
 corenet_tcp_bind_boinc_port(boinc_t)
 corenet_tcp_connect_http_port(boinc_t)
 
+dev_read_rand(boinc_t)
 dev_read_urand(boinc_t)
+dev_read_sysfs(boinc_t)
 
 domain_read_all_domains_state(boinc_t)
 

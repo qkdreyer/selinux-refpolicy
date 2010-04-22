@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.19
-Release: 2.3%{?dist}
+Release: 4.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,10 @@ exit 0
 %endif
 
 %changelog
+* Thu Apr 22 2010 Dominick Grift <dgrift@gmail.com> 3.7.19-4-1
+- Merge branch fedora (v3.7.19-4)
+- Add fc spec for clamd executable optional location.
+
 * Wed Apr 21 2010 Dominick Grift <dgrift@gmail.com> 3.7.19-2.3
 - irc, irssi: add support for SSL connection to Freenode
 

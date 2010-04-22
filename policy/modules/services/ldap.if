@@ -109,6 +109,30 @@ interface(`ldap_stream_connect',`
 	files_search_pids($1)
 	allow $1 slapd_var_run_t:sock_file write;
 	allow $1 slapd_t:unix_stream_socket connectto;
+
+	optional_policy(`
+		ldap_stream_connect_dirsrv($1)	
+	')
+')
+
+########################################
+## <summary>
+##	Connect to dirsrv over an unix stream socket.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`ldap_stream_connect_dirsrv',`
+	gen_require(`
+		type dirsrv_t, dirsrv_var_run_t;
+	')
+
+	files_search_pids($1)
+	allow $1 dirsrv_var_run_t:sock_file write_sock_file_perms;
+	allow $1 dirsrv_t:unix_stream_socket connectto;
 ')
 
 ########################################

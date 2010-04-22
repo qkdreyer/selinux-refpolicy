@@ -256,8 +256,8 @@ files_read_kernel_modules(virtd_t)
 files_read_usr_src_files(virtd_t)
 	
 # Manages /etc/sysconfig/system-config-firewall
+files_etc_filetrans_system_conf(virtd_t)
 files_manage_system_conf_files(virtd_t)
-files_manage_etc_files(virtd_t)
 
 fs_list_auto_mountpoints(virtd_t)
 fs_getattr_xattr_fs(virtd_t)
