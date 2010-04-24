@@ -295,5 +295,6 @@ optional_policy(`
 
 optional_policy(`
 	xserver_user_x_domain_template(tmw, tmw_t, tmw_tmpfs_t)
+	xserver_append_xdm_home_files(tmw_t)
 ')
 

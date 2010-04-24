@@ -75,6 +75,7 @@ dev_read_urand(vino_server_t)
 # /etc/nsswitch.conf
 files_read_etc_files(vino_server_t)
 files_read_usr_files(vino_server_t)
+files_search_home(vino_server_t)
 
 fs_getattr_tmpfs(vino_server_t)
 fs_search_auto_mountpoints(vino_server_t)
@@ -150,6 +151,11 @@ optional_policy(`
 optional_policy(`
 	seahorsed_delete_tmpfs_files(vino_server_t)
 	seahorsed_read_tmpfs_files(vino_server_t)
+')
+
+optional_policy(`
+	tmw_delete_tmpfs_files(vino_server_t)
+	tmw_read_tmpfs_files(vino_server_t)
 ')
 
 optional_policy(`

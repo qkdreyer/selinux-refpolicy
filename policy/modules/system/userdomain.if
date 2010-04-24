@@ -1077,6 +1077,11 @@ template(`userdom_restricted_xwindows_user_template',`
 	optional_policy(`
 		wm_role_template($1, $1_r, $1_t)
 	')
+
+	optional_policy(`
+		xserver_search_xdm_lib($1_t)
+		xserver_read_xdm_lib_files($1_t)
+	')
 ')
 
 #######################################

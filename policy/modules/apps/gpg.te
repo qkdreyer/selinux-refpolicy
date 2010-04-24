@@ -231,6 +231,8 @@ manage_files_pattern(gpg_agent_t, gpg_agent_tmp_t, gpg_agent_tmp_t)
 manage_sock_files_pattern(gpg_agent_t, gpg_agent_tmp_t, gpg_agent_tmp_t)
 files_tmp_filetrans(gpg_agent_t, gpg_agent_tmp_t, { file sock_file dir })
 
+files_read_usr_files(gpg_agent_t)
+
 fs_dontaudit_list_inotifyfs(gpg_agent_t)
 
 # allow gpg to connect to the gpg agent
