@@ -85,7 +85,11 @@ miscfiles_read_localization(cgred_t)
 # cgclear personal policy.
 #
 
-cgroup_delete_cgroup_dir(cgclear_t)
+kernel_read_system_state(cgclear_t)
+
+fs_write_cgroup_files(cgclear_t)
+
+cgroup_delete_cgroup_dirs(cgclear_t)
 
 ########################################
 #

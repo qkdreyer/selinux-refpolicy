@@ -24,7 +24,7 @@
 ##	</summary>
 ## </param>
 #
-interface(`cgroup_delete_cgroup_dir', `
+interface(`cgroup_delete_cgroup_dirs', `
 	gen_require(`
 		type cgroup_t;
 	')
