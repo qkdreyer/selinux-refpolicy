@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.19
-Release: 4.1%{?dist}
+Release: 4.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,18 @@ exit 0
 %endif
 
 %changelog
+* Sat Apr 24 2010 Dominick Grift <dgrift@gmail.com> 3.7.19-4-2
+- remove files_read_config_files from files_read_etc_files since thats for generic etc_t files only
+- Initial cgclear policy
+- allow insmod to list inotifyfs
+- allow gpg to append to xdm home files
+- allow lvm to rw unconfined sem.
+- allow mutt pgpewrap to search home
+- allow pulseaudio to read tmw tmpfs files
+- allow tmw to signull all domains
+- create unconfined_rw_sem()
+- comment out userdom_append_inherited_user_home_files and tmp files for all daemons.
+
 * Thu Apr 22 2010 Dominick Grift <dgrift@gmail.com> 3.7.19-4-1
 - Merge branch fedora (v3.7.19-4)
 - Add fc spec for clamd executable optional location.

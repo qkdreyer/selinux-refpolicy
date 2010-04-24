@@ -973,8 +973,8 @@ optional_policy(`
 # if I start an initrc script from an random director I can generate this avc
 files_dontaudit_search_all_dirs(daemon)
 
-userdom_inherit_append_user_home_content_files(daemon)
-userdom_inherit_append_user_tmp_files(daemon)
+# userdom_inherit_append_user_home_content_files(daemon)
+# userdom_inherit_append_user_tmp_files(daemon)
 userdom_dontaudit_rw_stream(daemon)
 
 logging_append_all_logs(daemon)

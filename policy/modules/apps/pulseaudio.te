@@ -139,6 +139,11 @@ optional_policy(`
 ')
 
 optional_policy(`
+	tmw_delete_tmpfs_files(pulseaudio_t)
+	tmw_read_tmpfs_files(pulseaudio_t)
+')
+
+optional_policy(`
 	udev_read_db(pulseaudio_t)
 	udev_read_state(pulseaudio_t)
 ')

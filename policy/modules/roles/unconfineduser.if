@@ -539,6 +539,24 @@ interface(`unconfined_ptrace',`
 
 ########################################
 ## <summary>
+##	Read and write to unconfined semaphores.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`unconfined_rw_sem',`
+	gen_require(`
+		type unconfined_t;
+	')
+
+	allow $1 unconfined_t:sem rw_sem_perms;
+')
+
+########################################
+## <summary>
 ##	Read and write to unconfined shared memory.
 ## </summary>
 ## <param name="domain">

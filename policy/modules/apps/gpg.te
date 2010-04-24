@@ -153,6 +153,7 @@ optional_policy(`
 ')
 
 optional_policy(`
+	xserver_append_xdm_home_files(gpg_t)
 	xserver_use_xdm_fds(gpg_t)
 	xserver_rw_xdm_pipes(gpg_t)
 ')

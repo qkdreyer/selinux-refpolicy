@@ -361,6 +361,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+	unconfined_rw_sem(lvm_t)
+')
+
+optional_policy(`
 	virt_manage_images(lvm_t)
 ')
 

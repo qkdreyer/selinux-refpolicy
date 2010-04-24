@@ -237,6 +237,8 @@ dev_read_input(tmw_t)
 dev_read_urand(tmw_t)
 dev_rw_dri(tmw_t)
 
+domain_signull_all_domains(tmw_t)
+
 # /etc/pulse/client.conf
 files_read_etc_files(tmw_t)
 files_read_usr_files(tmw_t)

@@ -25,6 +25,17 @@ files_pid_file(cgred_var_run_t)
 
 ########################################
 #
+# cgclear personal declarations.
+#
+
+type cgclear_t;
+type cgclear_exec_t;
+init_daemon_domain(cgclear_t, cgclear_exec_t)
+
+permissive cgclear_t;
+
+########################################
+#
 # cgconfig personal declarations.
 #
 
@@ -68,6 +79,13 @@ fs_write_cgroup_files(cgred_t)
 logging_send_syslog_msg(cgred_t)
 
 miscfiles_read_localization(cgred_t)
+
+########################################
+#
+# cgclear personal policy.
+#
+
+cgroup_delete_cgroup_dir(cgclear_t)
 
 ########################################
 #

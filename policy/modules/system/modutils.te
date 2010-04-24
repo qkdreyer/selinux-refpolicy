@@ -167,6 +167,7 @@ files_write_kernel_modules(insmod_t)
 
 fs_getattr_xattr_fs(insmod_t)
 fs_dontaudit_use_tmpfs_chr_dev(insmod_t)
+fs_list_inotifyfs(insmod_t)
 fs_mount_rpc_pipefs(insmod_t)
 
 init_rw_initctl(insmod_t)
