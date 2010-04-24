@@ -439,14 +439,14 @@ exit 0
 %endif
 
 %changelog
-* Sat Apr 24 2010 Dominick Grift <dgrift@gmail.com> 3.7.19-4-3
+* Sat Apr 24 2010 Dominick Grift <dgrift@gmail.com> 3.7.19-4.3
 - Merge refpolicy branch.
 - allow xwindow users to search xdm var lib and read xdm var lib file so that they can display ".face" icon in tray.
 - allow gpg_agent_t to read reneric usr files ( gpg --edit-key XXXX passwd)
 - allow vino to search home root dir and to append xdm home files
 - allow tmw to append xdm home files
 
-* Sat Apr 24 2010 Dominick Grift <dgrift@gmail.com> 3.7.19-4-2
+* Sat Apr 24 2010 Dominick Grift <dgrift@gmail.com> 3.7.19-4.2
 - remove files_read_config_files from files_read_etc_files since thats for generic etc_t files only
 - Initial cgclear policy
 - allow insmod to list inotifyfs
@@ -458,7 +458,7 @@ exit 0
 - create unconfined_rw_sem()
 - comment out userdom_append_inherited_user_home_files and tmp files for all daemons.
 
-* Thu Apr 22 2010 Dominick Grift <dgrift@gmail.com> 3.7.19-4-1
+* Thu Apr 22 2010 Dominick Grift <dgrift@gmail.com> 3.7.19-4.1
 - Merge branch fedora (v3.7.19-4)
 - Add fc spec for clamd executable optional location.
 
