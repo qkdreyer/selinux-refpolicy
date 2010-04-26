@@ -25,8 +25,7 @@ gen_tunable(samba_create_home_dirs, false)
 ## <desc>
 ## <p>
 ## Allow samba to act as the domain controller, add users,
-## groups and change passwords.
-## 
+## groups and change passwords. 
 ## </p>
 ## </desc>
 gen_tunable(samba_domain_controller, false)
