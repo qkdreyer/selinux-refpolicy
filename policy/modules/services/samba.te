@@ -1,5 +1,5 @@
 
-policy_module(samba, 1.12.0)
+policy_module(samba, 1.12.1)
 
 #################################
 #
@@ -214,7 +214,7 @@ logging_send_syslog_msg(samba_net_t)
 
 miscfiles_read_localization(samba_net_t) 
 
-samba_read_var_files(samba_net_t) 
+samba_read_var_files(samba_net_t)
 
 userdom_use_user_terminals(samba_net_t)
 userdom_list_user_home_dirs(samba_net_t)
@@ -282,6 +282,8 @@ manage_files_pattern(smbd_t, smbd_var_run_t, smbd_var_run_t)
 manage_sock_files_pattern(smbd_t, smbd_var_run_t, smbd_var_run_t)
 files_pid_filetrans(smbd_t, smbd_var_run_t, file)
 
+allow smbd_t swat_t:process signal;
+
 allow smbd_t winbind_var_run_t:sock_file rw_sock_file_perms;
 
 allow smbd_t winbind_t:process { signal signull };
@@ -317,6 +319,7 @@ dev_read_sysfs(smbd_t)
 dev_read_urand(smbd_t)
 dev_getattr_mtrr_dev(smbd_t)
 dev_dontaudit_getattr_usbfs_dirs(smbd_t)
+# For redhat bug 566984
 dev_getattr_all_blk_files(smbd_t)
 dev_getattr_all_chr_files(smbd_t)
 
@@ -672,6 +675,10 @@ samba_domtrans_nmbd(swat_t)
 allow swat_t nmbd_t:process { signal signull };
 allow nmbd_t swat_t:process signal;
 
+samba_domtrans_nmbd(swat_t)
+allow swat_t nmbd_t:process { signal signull };
+allow nmbd_t swat_t:process signal;
+
 allow swat_t smbd_var_run_t:file { lock unlink };
 
 allow swat_t smbd_port_t:tcp_socket name_bind;
@@ -680,6 +687,13 @@ allow swat_t nmbd_port_t:udp_socket name_bind;
 
 rw_files_pattern(swat_t, samba_etc_t, samba_etc_t)
 read_lnk_files_pattern(swat_t, samba_etc_t, samba_etc_t)
+
+manage_dirs_pattern(swat_t, samba_log_t, samba_log_t)
+manage_files_pattern(swat_t, samba_log_t, samba_log_t)
+
+manage_files_pattern(swat_t, samba_etc_t, samba_secrets_t)
+
+manage_files_pattern(swat_t, samba_var_t, samba_var_t)
 
 allow swat_t smbd_exec_t:file mmap_file_perms ;
 
@@ -733,6 +747,9 @@ fs_getattr_xattr_fs(swat_t)
 auth_domtrans_chk_passwd(swat_t)
 auth_use_nsswitch(swat_t)
 
+init_read_utmp(swat_t)
+init_dontaudit_write_utmp(swat_t)
+
 logging_send_syslog_msg(swat_t)
 logging_send_audit_msgs(swat_t)
 logging_search_logs(swat_t)
@@ -770,7 +787,7 @@ files_list_var_lib(swat_t)
 # Winbind local policy
 #
 
-allow winbind_t self:capability { sys_nice dac_override ipc_lock setuid };
+allow winbind_t self:capability { dac_override ipc_lock setuid sys_nice };
 dontaudit winbind_t self:capability sys_tty_config;
 allow winbind_t self:process { signal_perms getsched setsched };
 allow winbind_t self:fifo_file rw_fifo_file_perms;
@@ -830,7 +847,6 @@ corenet_tcp_sendrecv_all_ports(winbind_t)
 corenet_udp_sendrecv_all_ports(winbind_t)
 corenet_tcp_bind_generic_node(winbind_t)
 corenet_udp_bind_generic_node(winbind_t)
-corenet_tcp_connect_smbd_port(winbind_t)
 corenet_tcp_connect_smbd_port(winbind_t)
 corenet_tcp_connect_epmap_port(winbind_t)
 corenet_tcp_connect_all_unreserved_ports(winbind_t)

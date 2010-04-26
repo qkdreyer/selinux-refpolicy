@@ -2,7 +2,7 @@
 
 ########################################
 ## <summary>
-##	Create a set of derived types for djbdns 
+##	Create a set of derived types for djbdns
 ##	components that are directly supervised by daemontools.
 ## </summary>
 ## <param name="prefix">
@@ -55,36 +55,36 @@ template(`djbdns_daemontools_domain_template',`
 
 #####################################
 ## <summary>
-##  Allow search the djbdns-tinydns key ring.
+##	Allow search the djbdns-tinydns key ring.
 ## </summary>
 ## <param name="domain">
-##  <summary>
-##  Domain allowed access.
-##  </summary>
+##	<summary>
+##	Domain allowed access.
+##	</summary>
 ## </param>
 #
-interface(`djbdns_search_key_tinydns',`
-    gen_require(`
-        type djbdns_tinydns_t;
-    ')
+interface(`djbdns_search_tinydns_keys',`
+	gen_require(`
+		type djbdns_tinydns_t;
+	')
 
-    allow $1 djbdns_tinydns_t:key search;
+	allow $1 djbdns_tinydns_t:key search;
 ')
 
 #####################################
 ## <summary>
-##  Allow link to the djbdns-tinydns key ring.
+##	Allow link to the djbdns-tinydns key ring.
 ## </summary>
 ## <param name="domain">
-##  <summary>
-##  Domain allowed access.
-##  </summary>
+##	<summary>
+##	Domain allowed access.
+##	</summary>
 ## </param>
 #
-interface(`djbdns_link_key_tinydns',`
-    gen_require(`
-        type djbdns_tinydn_t;
-    ')
+interface(`djbdns_link_tinydns_keys',`
+	gen_require(`
+		type djbdns_tinydn_t;
+	')
 
-    allow $1 djbdns_tinydn_t:key link;
+	allow $1 djbdns_tinydn_t:key link;
 ')
