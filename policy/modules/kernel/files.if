@@ -6161,3 +6161,23 @@ interface(`files_dontaudit_leaks',`
 	dontaudit $1 file_type:file rw_inherited_file_perms;
 	dontaudit $1 file_type:lnk_file { read };
 ')
+
+########################################
+## <summary>
+##	Allow domain to create_file_as all types
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`files_create_as_is_all_files',`
+	gen_require(`
+		attribute file_type;
+		class kernel_service create_files_as;
+	')
+
+	allow $1 file_type:kernel_service create_files_as;
+')
+

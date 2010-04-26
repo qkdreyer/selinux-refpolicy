@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.19
-Release: 4.3%{?dist}
+Release: 5.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,10 @@ exit 0
 %endif
 
 %changelog
+* Mon Apr 26 2010 Dominick Grift <dgrift@gmail.com> 3.7.19-5.1
+- Fix changelog entry format
+- Merge branch fedora (v.3.7.19-5)
+
 * Sat Apr 24 2010 Dominick Grift <dgrift@gmail.com> 3.7.19-4.3
 - Merge refpolicy branch.
 - allow xwindow users to search xdm var lib and read xdm var lib file so that they can display ".face" icon in tray.

@@ -97,6 +97,7 @@ manage_files_pattern(cachefilesd_t,cachefilesd_var_run_t, cachefilesd_var_run_t)
 manage_dirs_pattern(cachefilesd_t,cachefilesd_var_run_t, cachefilesd_var_run_t)
 files_pid_file(cachefilesd_var_run_t)
 files_pid_filetrans(cachefilesd_t,cachefilesd_var_run_t,file)
+files_create_as_is_all_files(cachefilesd_t)
 
 # Allow access to cachefiles device file
 allow cachefilesd_t cachefiles_dev_t : chr_file rw_file_perms;

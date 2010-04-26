@@ -3568,69 +3568,6 @@ template(`userdom_unpriv_usertype',`
 	ubac_constrained($2)
 ')
 
-
-#######################################
-## <summary>
-##	The template for creating a unprivileged user roughly
-##	equivalent to a regular linux user.
-## </summary>
-## <desc>
-##	<p>
-##     The template for creating a unprivileged user roughly
-##     equivalent to a regular linux user.
-##     </p>
-##     <p>
-##	This template creates a user domain, types, and
-##	rules for the user's tty, pty, home directories,
-##	tmp, and tmpfs files.
-##	</p>
-## </desc>
-## <param name="userdomain_prefix">
-##	<summary>
-##	The prefix of the user domain (e.g., user
-##	is the prefix for user_t).
-##	</summary>
-## </param>
-#
-template(`userdom_admin_login_user_template',`
-					      
-  userdom_admin_user_template($1)
-
-  domain_read_all_domains_state($1_t)
-  domain_getattr_all_domains($1_t)
-  domain_obj_id_change_exemption($1_t)
-
-  files_read_kernel_modules($1_t)
-
-  kernel_read_fs_sysctls($1_t)
-
-  modutils_read_module_config($1_t)
-  modutils_read_module_deps($1_t)
-
-  miscfiles_read_hwdata($1_t)
-
-  sudo_role_template($1, $1_r, $1_t)
-
-  seutil_run_newrole($1_t, $1_r)
-
-  optional_policy(`
-	gnomeclock_dbus_chat($1_t)
-  ')
-
-  optional_policy(`
-	kerneloops_dbus_chat($1_t)
-  ')
-
-  optional_policy(`
-	rpm_dbus_chat($1_usertype)
-  ')
-
-  optional_policy(`
-	setroubleshoot_stream_connect($1_t)
-	setroubleshoot_dbus_chat($1_t)
-  ')
-')
-
 ########################################
 ## <summary>
 ##	Connect to users over an unix stream socket.

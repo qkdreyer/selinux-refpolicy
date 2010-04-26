@@ -89,6 +89,7 @@ seutil_read_config(rlogind_t)
 userdom_setattr_user_ptys(rlogind_t)
 # cjp: this is egregious
 userdom_read_user_home_content_files(rlogind_t)
+userdom_search_admin_dir(rlogind_t)
 
 remotelogin_domtrans(rlogind_t)
 remotelogin_signal(rlogind_t)

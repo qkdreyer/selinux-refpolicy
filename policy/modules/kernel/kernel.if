@@ -2879,3 +2879,4 @@ interface(`kernel_stream_connect',`
 
 	allow $1 kernel_t:unix_stream_socket connectto;
 ')
+
