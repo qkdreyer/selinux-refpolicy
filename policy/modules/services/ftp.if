@@ -1,5 +1,23 @@
 ## <summary>File transfer protocol service</summary>
 
+#######################################
+## <summary>
+##	Allow domain dyntransition to sftpd_anon domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`ftp_dyntrans_anon_sftpd',`
+	gen_require(`
+		type anon_sftpd_t;
+	')
+
+	dyntrans_pattern($1, anon_sftpd_t);
+')
+
 ########################################
 ## <summary>
 ##	Use ftp by connecting over TCP.  (Deprecated)
@@ -117,45 +135,25 @@ interface(`ftp_run_ftpdctl',`
 
 #######################################
 ## <summary>
-##  Allow domain dyntransition to sftpd domain.
+##	Allow domain dyntransition to sftpd domain.
 ## </summary>
 ## <param name="domain">
-##  <summary>
-##  Domain allowed access.
-##  </summary>
+##	<summary>
+##	Domain allowed access.
+##	</summary>
 ## </param>
 #
-interface(`ftp_dyntransition_sftpd',`
-    gen_require(`
-        type sftpd_t;
-    ')
+interface(`ftp_dyntrans_sftpd',`
+	gen_require(`
+		type sftpd_t;
+	')
 
-	allow $1 sftpd_t:process dyntransition;
-	allow sftpd_t $1:process sigchld;
-')
-
-#######################################
-## <summary>
-##  Allow domain dyntransition to sftpd_anon domain.
-## </summary>
-## <param name="domain">
-##  <summary>
-##  Domain allowed access.
-##  </summary>
-## </param>
-#
-interface(`ftp_dyntransition_sftpd_anon',`
-    gen_require(`
-        type sftpd_anon_t;
-    ')
-
-	allow $1 sftpd_anon_t:process dyntransition;
-	allow sftpd_anon_t $1:process sigchld;
+	dyntrans_pattern($1, sftpd_t);
 ')
 
 ########################################
 ## <summary>
-##	All of the rules required to administrate 
+##	All of the rules required to administrate
 ##	an ftp environment
 ## </summary>
 ## <param name="domain">
