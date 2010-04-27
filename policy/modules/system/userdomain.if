@@ -3698,24 +3698,6 @@ interface(`userdom_rw_semaphores',`
 
 ########################################
 ## <summary>
-##	Add attrinute admin domain
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`userdom_admin',`
-	gen_require(`
-		attribute admin_userdomain;
-	')
-
-	typeattribute $1 admin_userdomain;
-')
-
-########################################
-## <summary>
 ##	Send a message to unpriv users over a unix domain
 ##	datagram socket.
 ## </summary>

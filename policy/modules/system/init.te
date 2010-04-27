@@ -591,6 +591,10 @@ ifdef(`distro_redhat',`
 	')
 
 	optional_policy(`
+		pulseaudio_stream_connect(initrc_t)
+	')
+
+	optional_policy(`
 		#for /etc/rc.d/init.d/nfs to create /etc/exports
 		rpc_write_exports(initrc_t)
 		rpc_manage_nfs_state_data(initrc_t)
