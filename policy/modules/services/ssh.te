@@ -332,8 +332,8 @@ optional_policy(`
 ')
 
 optional_policy(`
-	ftp_dyntransition_sftpd(sshd_t)
-	ftp_dyntransition_sftpd_anon(sshd_t)
+	ftp_dyntrans_sftpd(sshd_t)
+	ftp_dyntrans_anon_sftpd(sshd_t)
 ')
 
 optional_policy(`

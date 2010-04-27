@@ -171,7 +171,7 @@ fs_tmpfs_filetrans(ftpd_t, ftpd_tmpfs_t, { dir file lnk_file sock_file fifo_file
 manage_dirs_pattern(ftpd_t, ftpd_var_run_t, ftpd_var_run_t)
 manage_files_pattern(ftpd_t, ftpd_var_run_t, ftpd_var_run_t)
 manage_sock_files_pattern(ftpd_t, ftpd_var_run_t, ftpd_var_run_t)
-files_pid_filetrans(ftpd_t, ftpd_var_run_t, { file dir} )
+files_pid_filetrans(ftpd_t, ftpd_var_run_t, { file dir } )
 
 # proftpd requires the client side to bind a socket so that
 # it can stat the socket to perform access control decisions,
