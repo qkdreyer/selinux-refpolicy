@@ -69,6 +69,7 @@ corenet_udp_bind_generic_node(boinc_t)
 corenet_tcp_bind_boinc_port(boinc_t)
 corenet_tcp_connect_http_port(boinc_t)
 
+dev_list_sysfs(boinc_t)
 dev_read_rand(boinc_t)
 dev_read_urand(boinc_t)
 dev_read_sysfs(boinc_t)

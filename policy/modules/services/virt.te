@@ -44,11 +44,11 @@ gen_tunable(virt_use_usb, true)
 virt_domain_template(svirt)
 role system_r types svirt_t;
 
-type svirt_cache_t;
-files_type(svirt_cache_t)
-
 attribute virt_domain;
 attribute virt_image_type;
+
+type virt_cache_t alias svirt_cache_t;
+files_type(virt_cache_t)
 
 type virt_etc_t;
 files_config_file(virt_etc_t)
@@ -84,6 +84,11 @@ domain_subj_id_change_exemption(virtd_t)
 type virtd_initrc_exec_t;
 init_script_file(virtd_initrc_exec_t)
 
+type qemu_var_run_t;
+typealias qemu_var_run_t alias svirt_var_run_t;
+files_pid_file(qemu_var_run_t)
+mls_trusted_object(qemu_var_run_t)
+
 ifdef(`enable_mcs',`
 	init_ranged_daemon_domain(virtd_t, virtd_exec_t, s0 - mcs_systemhigh)
 ')
@@ -98,10 +103,6 @@ ifdef(`enable_mls',`
 #
 
 allow svirt_t self:udp_socket create_socket_perms;
-
-manage_dirs_pattern(svirt_t, svirt_cache_t, svirt_cache_t)
-manage_files_pattern(svirt_t, svirt_cache_t, svirt_cache_t)
-files_var_filetrans(svirt_t, svirt_cache_t, { file dir })
 
 read_lnk_files_pattern(svirt_t, virt_image_t, virt_image_t)
 
@@ -178,14 +179,16 @@ allow virtd_t self:tcp_socket create_stream_socket_perms;
 allow virtd_t self:tun_socket create_socket_perms;
 allow virtd_t self:netlink_kobject_uevent_socket create_socket_perms;
 
-manage_dirs_pattern(virtd_t, svirt_cache_t, svirt_cache_t)
-manage_files_pattern(virtd_t, svirt_cache_t, svirt_cache_t)
+manage_dirs_pattern(virtd_t, virt_cache_t, virt_cache_t)
+manage_files_pattern(virtd_t, virt_cache_t, virt_cache_t)
 
 manage_dirs_pattern(virtd_t, virt_content_t, virt_content_t)
 manage_files_pattern(virtd_t, virt_content_t, virt_content_t)
 
-allow virtd_t virt_domain:process { getattr getsched setsched transition signal signull sigkill };
-dontaudit virtd_t virt_domain:process  { siginh noatsecure rlimitinh };
+manage_dirs_pattern(virtd_t, qemu_var_run_t, qemu_var_run_t)
+manage_files_pattern(virtd_t, qemu_var_run_t, qemu_var_run_t)
+manage_sock_files_pattern(virtd_t, qemu_var_run_t, qemu_var_run_t)
+stream_connect_pattern(virtd_t, qemu_var_run_t, qemu_var_run_t, virt_domain)
 
 read_files_pattern(virtd_t, virt_etc_t, virt_etc_t)
 read_lnk_files_pattern(virtd_t, virt_etc_t, virt_etc_t)
@@ -420,6 +423,20 @@ allow virt_domain self:shm create_shm_perms;
 allow virt_domain self:unix_stream_socket create_stream_socket_perms;
 allow virt_domain self:unix_dgram_socket { create_socket_perms sendto };
 allow virt_domain self:tcp_socket create_stream_socket_perms;
+
+manage_dirs_pattern(virt_domain, virt_cache_t, virt_cache_t)
+manage_files_pattern(virt_domain, virt_cache_t, virt_cache_t)
+files_var_filetrans(virt_domain, virt_cache_t, { file dir })
+
+manage_dirs_pattern(virt_domain, qemu_var_run_t, qemu_var_run_t)
+manage_files_pattern(virt_domain, qemu_var_run_t, qemu_var_run_t)
+manage_sock_files_pattern(virt_domain, qemu_var_run_t, qemu_var_run_t)
+manage_lnk_files_pattern(virt_domain, qemu_var_run_t, qemu_var_run_t)
+files_pid_filetrans(virt_domain, qemu_var_run_t, { dir file })
+stream_connect_pattern(virt_domain, qemu_var_run_t, qemu_var_run_t, virtd_t)
+
+allow virtd_t virt_domain:process { getattr getsched setsched transition signal signull sigkill };
+dontaudit virtd_t virt_domain:process  { siginh noatsecure rlimitinh };
 
 append_files_pattern(virt_domain, virt_log_t, virt_log_t)
 

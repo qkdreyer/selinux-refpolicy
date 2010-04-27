@@ -323,6 +323,7 @@ dev_getattr_all_blk_files(smbd_t)
 dev_getattr_all_chr_files(smbd_t)
 
 fs_getattr_all_fs(smbd_t)
+fs_getattr_all_dirs(smbd_t)
 fs_get_xattr_fs_quotas(smbd_t)
 fs_search_auto_mountpoints(smbd_t)
 fs_getattr_rpc_dirs(smbd_t)

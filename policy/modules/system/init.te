@@ -586,6 +586,10 @@ ifdef(`distro_redhat',`
 		gnome_manage_gconf_config(initrc_t)
 	')
 
+ 	optional_policy(`
+		ldap_read_db_files(initrc_t)
+	')
+
 	optional_policy(`
 		#for /etc/rc.d/init.d/nfs to create /etc/exports
 		rpc_write_exports(initrc_t)
@@ -907,7 +911,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-	virt_manage_svirt_cache(initrc_t)
+	virt_manage_cache(initrc_t)
 ')
 
 # Cron jobs used to start and stop services

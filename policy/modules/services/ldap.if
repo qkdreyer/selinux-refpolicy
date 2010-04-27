@@ -54,7 +54,28 @@ interface(`ldap_list_db',`
 		type slapd_db_t;
 	')
 
+	files_search_var_lib($1)
 	allow $1 slapd_db_t:dir list_dir_perms;
+')
+
+########################################
+## <summary>
+##	Read the contents of the OpenLDAP
+##	database files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`ldap_read_db_files',`
+	gen_require(`
+		type slapd_db_t;
+	')
+
+	files_search_var_lib($1)
+	read_files_pattern($1, slapd_db_t, slapd_db_t)
 ')
 
 ########################################
