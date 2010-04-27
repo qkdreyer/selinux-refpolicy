@@ -401,9 +401,9 @@ fs_remount_all_fs(initrc_t)
 fs_getattr_all_fs(initrc_t)
 fs_search_all(initrc_t)
 fs_getattr_nfsd_files(initrc_t)
-fs_rw_cgroup_files(initrc_t)
+# fs_rw_cgroup_files(initrc_t)
 fs_setattr_cgroup_files(initrc_t)
-fs_manage_cgroup_dirs(initrc_t)
+# fs_manage_cgroup_dirs(initrc_t)
 
 # initrc_t needs to do a pidof which requires ptrace
 mcs_ptrace_all(initrc_t)
@@ -578,7 +578,7 @@ ifdef(`distro_redhat',`
 	')
 
 	optional_policy(`
-		cgroup_rw_cgroup_dir(initrc_t)
+#		cgroup_rw_cgroup_dir(initrc_t)
 		cgroup_stream_connect(initrc_t)
 	')
 
