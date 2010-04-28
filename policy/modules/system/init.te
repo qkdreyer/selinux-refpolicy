@@ -575,9 +575,9 @@ ifdef(`distro_redhat',`
 		bind_setattr_zone_dirs(initrc_t)
 	')
 
-	optional_policy(`
+#	optional_policy(`
 #		cgroup_stream_connect(initrc_t)
-	')
+#	')
 
 	optional_policy(`
 		gnome_manage_gconf_config(initrc_t)

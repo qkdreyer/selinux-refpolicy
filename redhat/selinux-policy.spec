@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.19
-Release: 7.1%{?dist}
+Release: 7.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,11 @@ exit 0
 %endif
 
 %changelog
+* Wed Apr 28 2010 Dominick Grift <dgrift@gmail.com> 3.7.19-7.2
+- Add some more policy to cgclear_t.
+- Remove some more cgroup policy from initrc_t.
+- Add stuff to gitignore.
+
 * Tue Apr 27 2010 Dominick Grift <dgrift@gmail.com> 3.7.19-7.1
 - Comment out some cgroup policy because i implemented cgclear_t domain. See what it still needs.
 - Merge branch Fedora (v3.7.19-7)

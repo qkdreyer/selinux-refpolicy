@@ -2,5 +2,13 @@
 doc/global_booleans.xml
 doc/global_tunables.xml
 doc/policy.xml
+file_contexts
+homedir_template
+policy.*
+policy.conf
 policy/booleans.conf
 policy/modules.conf
+policy/modules/kernel/corenetwork.if
+policy/modules/kernel/corenetwork.te
+support/pyplate.pyc
+tmp/
