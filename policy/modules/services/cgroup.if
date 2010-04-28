@@ -29,7 +29,7 @@ interface(`cgroup_delete_cgroup_dirs', `
 		type cgroup_t;
 	')
 
-	allow $1 cgroup_t:dir { write remove_name delete_dir_perms };
+	delete_dirs_pattern($1, cgroup_t, cgroup_t)
 	cgroup_search_cgroup_dir($1)
 ')
 

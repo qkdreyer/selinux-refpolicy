@@ -401,7 +401,6 @@ fs_remount_all_fs(initrc_t)
 fs_getattr_all_fs(initrc_t)
 fs_search_all(initrc_t)
 fs_getattr_nfsd_files(initrc_t)
-# fs_setattr_cgroup_files(initrc_t)
 
 # initrc_t needs to do a pidof which requires ptrace
 mcs_ptrace_all(initrc_t)
@@ -574,10 +573,6 @@ ifdef(`distro_redhat',`
 		bind_write_config(initrc_t)
 		bind_setattr_zone_dirs(initrc_t)
 	')
-
-#	optional_policy(`
-#		cgroup_stream_connect(initrc_t)
-#	')
 
 	optional_policy(`
 		gnome_manage_gconf_config(initrc_t)

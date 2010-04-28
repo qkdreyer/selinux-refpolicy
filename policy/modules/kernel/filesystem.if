@@ -572,7 +572,7 @@ interface(`fs_delete_cgroup_dirs', `
 		type cgroupfs_t;
 	')
 
-	allow $1 cgroupfs_t:dir { write remove_name delete_dir_perms };
+	delete_dirs_pattern($1, cgroupfs_t, cgroupfs_t)
 ')
 
 ########################################
