@@ -559,6 +559,24 @@ interface(`fs_register_binary_executable_type',`
 
 ########################################
 ## <summary>
+##	Delete directories on cgroupfs.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`fs_delete_cgroup_dirs', `
+	gen_require(`
+		type cgroupfs_t;
+	')
+
+	allow $1 cgroupfs_t:dir { write remove_name delete_dir_perms };
+')
+
+########################################
+## <summary>
 ##	Mount a cgroup filesystem.
 ## </summary>
 ## <param name="domain">

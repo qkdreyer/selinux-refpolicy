@@ -87,7 +87,10 @@ miscfiles_read_localization(cgred_t)
 
 kernel_read_system_state(cgclear_t)
 
-fs_write_cgroup_files(cgclear_t)
+fs_delete_cgroup_dirs(cgclear_t)
+fs_list_cgroup_dirs(cgclear_t)
+fs_rw_cgroup_files(cgclear_t)
+fs_unmount_cgroup(cgclear_t)
 
 cgroup_delete_cgroup_dirs(cgclear_t)
 
