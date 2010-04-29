@@ -252,6 +252,11 @@ userdom_use_user_terminals(gpg_agent_t)
 # read and write ~/.gnupg (gpg-agent stores secret keys in ~/.gnupg/private-keys-v1.d )
 userdom_search_user_home_dirs(gpg_agent_t)
 
+ifdef(`hide_broken_symptoms',`
+	userdom_dontaudit_read_user_tmp_files(gpg_agent_t)
+	userdom_dontaudit_write_user_tmp_files(gpg_agent_t)
+')
+
 tunable_policy(`gpg_agent_env_file',`
 	# write ~/.gpg-agent-info or a similar to the users home dir
 	# or subdir (gpg-agent --write-env-file option)

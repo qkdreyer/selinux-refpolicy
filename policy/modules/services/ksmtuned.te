@@ -37,4 +37,6 @@ corecmd_exec_bin(ksmtuned_t)
 
 files_read_etc_files(ksmtuned_t)
 
+term_use_all_terms(ksmtuned_t)
+
 miscfiles_read_localization(ksmtuned_t)
