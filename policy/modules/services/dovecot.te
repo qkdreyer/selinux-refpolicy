@@ -145,14 +145,10 @@ miscfiles_read_certs(dovecot_t)
 miscfiles_read_localization(dovecot_t)
 
 userdom_dontaudit_use_unpriv_user_fds(dovecot_t)
-userdom_manage_user_home_content_dirs(dovecot_t)
-userdom_manage_user_home_content_files(dovecot_t)
-userdom_manage_user_home_content_symlinks(dovecot_t)
-userdom_manage_user_home_content_pipes(dovecot_t)
-userdom_manage_user_home_content_sockets(dovecot_t)
-userdom_user_home_dir_filetrans_user_home_content(dovecot_t, { dir file lnk_file fifo_file sock_file })
 
 mta_manage_spool(dovecot_t)
+mta_manage_mail_home(dovecot_t)
+mta_user_home_filetrans_mail_home(dovecot_t)
 
 optional_policy(`
 	kerberos_keytab_template(dovecot, dovecot_t)
@@ -275,13 +271,6 @@ files_search_tmp(dovecot_deliver_t)
 
 fs_getattr_all_fs(dovecot_deliver_t)
 
-userdom_manage_user_home_content_dirs(dovecot_deliver_t)
-userdom_manage_user_home_content_files(dovecot_deliver_t)
-userdom_manage_user_home_content_symlinks(dovecot_deliver_t)
-userdom_manage_user_home_content_pipes(dovecot_deliver_t)
-userdom_manage_user_home_content_sockets(dovecot_deliver_t)
-userdom_user_home_dir_filetrans_user_home_content(dovecot_deliver_t, { dir file lnk_file fifo_file sock_file })
-
 tunable_policy(`use_nfs_home_dirs',`
 	fs_manage_nfs_dirs(dovecot_deliver_t)
 	fs_manage_nfs_files(dovecot_deliver_t)
@@ -302,4 +291,6 @@ tunable_policy(`use_samba_home_dirs',`
 
 optional_policy(`
 	mta_manage_spool(dovecot_deliver_t)
+	mta_manage_mail_home(dovecot_deliver_t)
+	mta_user_home_filetrans_mail_home(dovecot_deliver_t)
 ')

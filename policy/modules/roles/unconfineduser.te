@@ -313,7 +313,17 @@ optional_policy(`
 ')
 
 optional_policy(`
+	oident_manage_user_content(unconfined_t)
+	oident_relabel_user_content(unconfined_t)
+')
+
+optional_policy(`
 	prelink_run(unconfined_t, unconfined_r)
+')
+
+optional_policy(`
+	procmail_manage_user_content_files(unconfined_t)
+	procmail_relabel_user_content_files(unconfined_t)
 ')
 
 optional_policy(`

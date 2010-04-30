@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.19
-Release: 9.4%{?dist}
+Release: 9.5%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,11 @@ exit 0
 %endif
 
 %changelog
+* Fri Apr 30 2010 Dominick Grift <domg472@gmail.com> 3.7.19-9.5
+- Implement mail_home_t.
+- Implement procmail_home_t.
+- Allow unconfineduser to manage and relabel oidentd_home_t/procmail_home_t.
+
 * Fri Apr 30 2010 Dominick Grift <domg472@gmail.com> 3.7.19-9.4
 - add virt_initrc_domtrans.
 - extend cgexec domain.

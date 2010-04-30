@@ -115,10 +115,10 @@ template(`userdom_base_user_template',`
 	files_dontaudit_getattr_non_security_pipes($1_usertype)
 	files_dontaudit_getattr_non_security_sockets($1_usertype)
 
-	files_exec_usr_files($1_t)
-
 	fs_list_cgroupfs_dirs($1_usertype)
-	fs_rw_cgroupfs_files($1_usertype)
+	fs_read_cgroupfs_files($1_usertype)
+
+	files_exec_usr_files($1_t)
 
 	storage_rw_fuse($1_usertype)
 
@@ -562,6 +562,8 @@ template(`userdom_common_user_template',`
 	fs_read_noxattr_fs_files($1_usertype)
 	fs_read_noxattr_fs_symlinks($1_usertype)
 
+	fs_write_cgroupfs_files($1_usertype)
+
 	logging_send_syslog_msg($1_usertype)
 	logging_send_audit_msgs($1_usertype)
 	selinux_get_enforce_mode($1_usertype)
@@ -744,6 +746,11 @@ template(`userdom_common_user_template',`
 			postgresql_stream_connect($1_usertype)
 			postgresql_tcp_connect($1_usertype)
 		')
+	')
+
+	optional_policy(`
+		procmail_manage_user_content_files($1_usertype)
+		procmail_relabel_user_content_files($1_usertype)
 	')
 
 	optional_policy(`

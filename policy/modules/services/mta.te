@@ -22,7 +22,7 @@ type etc_mail_t;
 files_config_file(etc_mail_t)
 
 type mail_forward_t;
-files_type(mail_forward_t)
+userdom_user_home_content(mail_forward_t)
 
 type mqueue_spool_t;
 files_mountpoint(mqueue_spool_t)
@@ -43,6 +43,9 @@ typealias user_mail_tmp_t alias { staff_mail_tmp_t sysadm_mail_tmp_t };
 typealias user_mail_tmp_t alias { auditadm_mail_tmp_t secadm_mail_tmp_t };
 ubac_constrained(user_mail_t)
 ubac_constrained(user_mail_tmp_t)
+
+type mail_home_t;
+userdom_user_home_content(mail_home_t)
 
 ########################################
 #
@@ -280,16 +283,12 @@ userdom_use_user_terminals(user_mail_t)
 # Write to the user domain tty. cjp: why?
 userdom_use_user_terminals(mta_user_agent)
 # Create dead.letter in user home directories.
-userdom_manage_user_home_content_files(user_mail_t)
-userdom_user_home_dir_filetrans_user_home_content(user_mail_t, file)
+mta_manage_mail_home_files(user_mail_t)
+mta_user_home_filetrans_mail_home_files(user_mail_t)
 # for reading .forward - maybe we need a new type for it?
 # also for delivering mail to maildir
-userdom_manage_user_home_content_dirs(mailserver_delivery)
-userdom_manage_user_home_content_files(mailserver_delivery)
-userdom_manage_user_home_content_symlinks(mailserver_delivery)
-userdom_manage_user_home_content_pipes(mailserver_delivery)
-userdom_manage_user_home_content_sockets(mailserver_delivery)
-userdom_user_home_dir_filetrans_user_home_content(mailserver_delivery, { dir file lnk_file fifo_file sock_file })
+mta_manage_mail_home(mailserver_delivery)
+mta_user_home_filetrans_mail_home(mailserver_delivery)
 # Read user temporary files.
 userdom_read_user_tmp_files(user_mail_t)
 userdom_dontaudit_append_user_tmp_files(user_mail_t)

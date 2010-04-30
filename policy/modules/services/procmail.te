@@ -87,16 +87,10 @@ logging_append_all_logs(procmail_t)
 
 miscfiles_read_localization(procmail_t)
 
-# only works until we define a different type for maildir
-userdom_manage_user_home_content_dirs(procmail_t)
-userdom_manage_user_home_content_files(procmail_t)
-userdom_manage_user_home_content_symlinks(procmail_t)
-userdom_manage_user_home_content_pipes(procmail_t)
-userdom_manage_user_home_content_sockets(procmail_t)
-userdom_user_home_dir_filetrans_user_home_content(procmail_t, { dir file lnk_file fifo_file sock_file })
-
 mta_manage_spool(procmail_t)
 mta_read_queue(procmail_t)
+mta_manage_mail_home(procmail_t)
+mta_user_home_filetrans_mail_home(procmail_t)
 
 ifdef(`hide_broken_symptoms',`
 	mta_dontaudit_rw_queue(procmail_t)
