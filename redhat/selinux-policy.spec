@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.19
-Release: 9.8%{?dist}
+Release: 9.9%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,9 @@ exit 0
 %endif
 
 %changelog
+* Fri Apr 30 2010 Dominick Grift <domg472@gmail.com> 3.7.19-9.9
+- allow cgconfigparser and cgred to read etc_t files.
+
 * Fri Apr 30 2010 Dominick Grift <domg472@gmail.com> 3.7.19-9.8
 - cgconfigparser also needs sys_admin capability.
 
