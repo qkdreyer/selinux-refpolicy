@@ -524,6 +524,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+	livecd_read_tmp_files(system_cronjob_t)
+')
+
+optional_policy(`
 	lpd_list_spool(system_cronjob_t)
 ')
 

@@ -10,6 +10,9 @@ type portreserve_t;
 type portreserve_exec_t;
 init_daemon_domain(portreserve_t, portreserve_exec_t)
 
+type portreserve_initrc_exec_t;
+init_script_file(portreserve_initrc_exec_t)
+
 type portreserve_etc_t;
 files_type(portreserve_etc_t)
 

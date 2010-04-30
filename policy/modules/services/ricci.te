@@ -11,6 +11,9 @@ type ricci_exec_t;
 domain_type(ricci_t)
 init_daemon_domain(ricci_t, ricci_exec_t)
 
+type ricci_initrc_exec_t;
+init_script_file(ricci_initrc_exec_t)
+
 # tmp files
 type ricci_tmp_t;
 files_tmp_file(ricci_tmp_t)

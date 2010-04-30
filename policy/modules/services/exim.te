@@ -36,6 +36,9 @@ mta_mailserver_user_agent(exim_t)
 application_executable_file(exim_exec_t)
 mta_agent_executable(exim_exec_t)
 
+type exim_initrc_exec_t;
+init_script_file(exim_initrc_exec_t)
+
 type exim_log_t;
 logging_log_file(exim_log_t)
 

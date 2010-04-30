@@ -312,6 +312,25 @@ interface(`apache_domtrans',`
 	domtrans_pattern($1, httpd_exec_t, httpd_t)
 ')
 
+######################################
+## <summary>
+##  Allow the specified domain to execute apache
+##  in the caller domain.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`apache_exec',`
+    gen_require(`
+        type httpd_exec_t;
+    ')
+
+    can_exec($1, httpd_exec_t)
+')
+
 #######################################
 ## <summary>
 ##	Send a generic signal to apache.

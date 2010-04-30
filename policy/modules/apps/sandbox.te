@@ -105,6 +105,7 @@ allow sandbox_domain self:shm create_shm_perms;
 allow sandbox_domain self:msgq create_msgq_perms;
 allow sandbox_domain self:unix_stream_socket create_stream_socket_perms;
 allow sandbox_domain self:unix_dgram_socket { sendto create_socket_perms };
+dontaudit sandbox_domain self:netlink_audit_socket { create_netlink_socket_perms nlmsg_relay };
 
 dev_rw_all_inherited_chr_files(sandbox_domain)
 dev_rw_all_inherited_blk_files(sandbox_domain)

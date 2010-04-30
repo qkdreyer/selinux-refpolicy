@@ -71,6 +71,25 @@ interface(`livecd_dontaudit_leaks',`
 
 ########################################
 ## <summary>
+##	Read livecd temporary files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`livecd_read_tmp_files',`
+	gen_require(`
+		type livecd_tmp_t;
+	')
+
+	files_search_tmp($1)
+	read_files_pattern($1, livecd_tmp_t, livecd_tmp_t)
+')
+
+########################################
+## <summary>
 ##	Read and write livecd temporary files.
 ## </summary>
 ## <param name="domain">

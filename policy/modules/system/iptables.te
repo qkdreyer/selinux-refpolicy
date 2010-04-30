@@ -29,6 +29,8 @@ allow iptables_t self:capability { dac_read_search dac_override net_admin net_ra
 dontaudit iptables_t self:capability sys_tty_config;
 allow iptables_t self:fifo_file rw_file_perms;
 allow iptables_t self:process { sigchld sigkill sigstop signull signal };
+# needed by ipvsadm
+allow iptables_t self:netlink_socket create_socket_perms;
 allow iptables_t self:rawip_socket create_socket_perms;
 
 files_manage_system_conf_files(iptables_t)
@@ -49,6 +51,9 @@ kernel_read_network_state(iptables_t)
 kernel_read_kernel_sysctls(iptables_t)
 kernel_read_modprobe_sysctls(iptables_t)
 kernel_use_fds(iptables_t)
+
+# needed by ipvsadm
+corecmd_exec_bin(iptables_t)
 
 corenet_relabelto_all_packets(iptables_t)
 corenet_dontaudit_rw_tun_tap_dev(iptables_t)

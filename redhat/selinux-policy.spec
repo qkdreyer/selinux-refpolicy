@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.19
-Release: 9.11%{?dist}
+Release: 10.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,9 @@ exit 0
 %endif
 
 %changelog
+* Fri Apr 30 2010 Dominick Grift <domg472@gmail.com> 3.7.19-10.1
+- Merge branch fedora (v3.7.19-10)
+
 * Fri Apr 30 2010 Dominick Grift <domg472@gmail.com> 3.7.19-9.11
 - Put back virt_domtrans for cgexec. All services the support CGROUP_DAEMON are started by cgexec.
 

@@ -173,3 +173,4 @@ optional_policy(`
 optional_policy(`
 	rpm_read_db(prelink_cron_system_t)
 ')
+

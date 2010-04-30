@@ -64,7 +64,7 @@ init_rw_script_tmp_files(dlm_controld_t)
 #
 
 allow fenced_t self:capability { sys_rawio sys_resource };
-allow fenced_t self:process getsched;
+allow fenced_t self:process { getsched signal_perms };
 
 allow fenced_t self:tcp_socket create_stream_socket_perms;
 allow fenced_t self:udp_socket create_socket_perms;

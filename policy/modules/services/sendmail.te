@@ -20,6 +20,9 @@ mta_sendmail_mailserver(sendmail_t)
 mta_mailserver_delivery(sendmail_t)
 mta_mailserver_sender(sendmail_t)
 
+type sendmail_initrc_exec_t;
+init_script_file(sendmail_initrc_exec_t)
+
 type unconfined_sendmail_t;
 application_domain(unconfined_sendmail_t, sendmail_exec_t)
 role system_r types unconfined_sendmail_t;

@@ -233,45 +233,45 @@ optional_policy(`
 		')
 	')
 
-	init_dbus_chat_script(unconfined_t)
+	init_dbus_chat_script(unconfined_usertype)
 
 	dbus_stub(unconfined_t)
 
 	optional_policy(`
-		bluetooth_dbus_chat(unconfined_t)
+		bluetooth_dbus_chat(unconfined_usertype)
 	')
 
 	optional_policy(`
-		consolekit_dbus_chat(unconfined_t)
+		consolekit_dbus_chat(unconfined_usertype)
 	')
 
 	optional_policy(`
-		cups_dbus_chat_config(unconfined_t)
+		cups_dbus_chat_config(unconfined_usertype)
 	')
 
 	optional_policy(`
-		fprintd_dbus_chat(unconfined_t)
+		firewallgui_dbus_chat(unconfined_usertype)
 	')
 
 	optional_policy(`
-		gnomeclock_dbus_chat(unconfined_t)
+		fprintd_dbus_chat(unconfined_usertype)
 	')
 
 	optional_policy(`
-		kerneloops_dbus_chat(unconfined_t)
+		gnomeclock_dbus_chat(unconfined_usertype)
 	')
 
 	optional_policy(`
-		oddjob_dbus_chat(unconfined_t)
+		kerneloops_dbus_chat(unconfined_usertype)
 	')
 
 	optional_policy(`
-		vpnc_dbus_chat(unconfined_t)
+		oddjob_dbus_chat(unconfined_usertype)
 	')
-')
 
-optional_policy(`
-	firewallgui_dbus_chat(unconfined_t)
+	optional_policy(`
+		vpnc_dbus_chat(unconfined_usertype)
+	')
 ')
 
 optional_policy(`

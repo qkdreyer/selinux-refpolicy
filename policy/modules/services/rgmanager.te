@@ -18,6 +18,9 @@ type rgmanager_exec_t;
 domain_type(rgmanager_t)
 init_daemon_domain(rgmanager_t, rgmanager_exec_t)
 
+type rgmanager_initrc_exec_t;
+init_script_file(rgmanager_initrc_exec_t)
+
 # tmp files
 type rgmanager_tmp_t;
 files_tmp_file(rgmanager_tmp_t)
