@@ -66,14 +66,31 @@ permissive cgred_t;
 # cgexec personal policy.
 #
 
+allow cgexec_t self:capability setuid;
+allow cgexec_t self:fifo_file rw_fifo_file_perms;
+allow cgexec_t self:netlink_route_socket read;
 allow cgexec_t self:netlink_kobject_uevent_socket read;
+allow cgexec_t self:unix_dgram_socket write;
+
+kernel_read_system_state(cgexec_t)
+
+corecmd_exec_shell(cgexec_t)
+
+files_read_etc_files(cgexec_t)
 
 fs_write_cgroupfs_files(cgexec_t)
 
 cgroup_stream_connect(cgexec_t)
 
+logging_send_syslog_msg(cgexec_t)
+
+miscfiles_read_localization(cgexec_t)
+
+sysnet_read_config(cgexec_t)
+
 optional_policy(`
 	virt_domtrans(cgexec_t)
+	virt_initrc_domtrans(cgexec_t)
 ')
 
 ########################################
