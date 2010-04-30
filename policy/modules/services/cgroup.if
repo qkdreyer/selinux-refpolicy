@@ -26,6 +26,42 @@ interface(`cgroup_delete_cgroup_dirs', `
 
 ########################################
 ## <summary>
+##	Execute cgexec without a transition.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`cgroup_exec_cgexec',`
+	gen_require(`
+		type cgexec_exec_t;
+	')
+
+	can_exec($1, cgexec_exec_t)
+')
+
+########################################
+## <summary>
+##	Execute cgclear without a transition.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`cgroup_exec_cgclear',`
+	gen_require(`
+		type cgclear_exec_t;
+	')
+
+	can_exec($1, cgclear_exec_t)
+')
+
+########################################
+## <summary>
 ##	List cgroup directories.
 ## </summary>
 ## <param name="domain">

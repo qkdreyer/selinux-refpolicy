@@ -116,7 +116,7 @@ template(`userdom_base_user_template',`
 	files_dontaudit_getattr_non_security_sockets($1_usertype)
 
 	fs_list_cgroupfs_dirs($1_usertype)
-	fs_read_cgroupfs_files($1_usertype)
+	fs_rw_cgroupfs_files($1_usertype)
 
 	files_exec_usr_files($1_t)
 
@@ -142,6 +142,8 @@ template(`userdom_base_user_template',`
 	')
 
 	optional_policy(`
+		cgroup_exec_cgexec($1_usertype)
+		cgroup_exec_cgclear($1_usertype)
 		cgroup_list_cgroup_dirs($1_usertype)
 	')
 
@@ -561,8 +563,6 @@ template(`userdom_common_user_template',`
 	files_read_config_files($1_usertype)
 	fs_read_noxattr_fs_files($1_usertype)
 	fs_read_noxattr_fs_symlinks($1_usertype)
-
-	fs_write_cgroupfs_files($1_usertype)
 
 	logging_send_syslog_msg($1_usertype)
 	logging_send_audit_msgs($1_usertype)
