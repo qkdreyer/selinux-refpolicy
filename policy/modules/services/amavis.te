@@ -108,17 +108,14 @@ corecmd_exec_bin(amavis_t)
 
 corenet_all_recvfrom_unlabeled(amavis_t)
 corenet_all_recvfrom_netlabel(amavis_t)
+corenet_sendrecv_smtp_beforequeue_client_packets(amavis_t)
 corenet_tcp_sendrecv_generic_if(amavis_t)
 corenet_tcp_sendrecv_generic_node(amavis_t)
 corenet_tcp_bind_generic_node(amavis_t)
 corenet_udp_bind_generic_node(amavis_t)
-# amavis uses well-defined ports
-corenet_tcp_sendrecv_amavisd_recv_port(amavis_t)
-corenet_tcp_sendrecv_amavisd_send_port(amavis_t)
-# just the other side not. ;-)
 corenet_tcp_sendrecv_all_ports(amavis_t)
 # connect to backchannel port
-corenet_tcp_connect_amavisd_send_port(amavis_t)
+corenet_tcp_connect_smtp_beforequeue_port(amavis_t)
 # bind to incoming port
 corenet_tcp_bind_amavisd_recv_port(amavis_t)
 corenet_udp_bind_generic_port(amavis_t)

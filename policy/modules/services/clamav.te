@@ -50,6 +50,19 @@ init_daemon_domain(clamscan_t, clamscan_exec_t)
 type clamscan_tmp_t;
 files_tmp_file(clamscan_tmp_t)
 
+type clamsmtpd_t;
+type clamsmtpd_exec_t;
+init_daemon_domain(clamsmtpd_t, clamsmtpd_exec_t)
+
+type clamsmtpd_etc_t;
+files_config_file(clamsmtpd_etc_t)
+
+type clamsmtpd_initrc_exec_t;
+init_script_file(clamsmtpd_initrc_exec_t)
+
+type clamsmtpd_tmp_t;
+files_tmp_file(clamsmtpd_tmp_t)
+
 type freshclam_t;
 type freshclam_exec_t;
 init_daemon_domain(freshclam_t, freshclam_exec_t)
@@ -129,6 +142,8 @@ logging_send_syslog_msg(clamd_t)
 
 miscfiles_read_localization(clamd_t)
 
+clamav_read_clamsmtpd_tmp_files(clamd_t)
+
 cron_use_fds(clamd_t)
 cron_use_system_job_fds(clamd_t)
 cron_rw_pipes(clamd_t)
@@ -146,6 +161,44 @@ optional_policy(`
 optional_policy(`
 	exim_read_spool_files(clamd_t)
 ')
+
+########################################
+#
+# ClamSMTPd local policy
+#
+
+allow clamsmtpd_t self:capability { kill setgid setuid };
+allow clamsmtpd_t self:process { fork signal };
+allow clamsmtpd_t self:fifo_file rw_fifo_file_perms;
+allow clamsmtpd_t self:unix_stream_socket create_stream_socket_perms;
+allow clamsmtpd_t self:tcp_socket create_stream_socket_perms;
+
+manage_files_pattern(clamsmtpd_t, clamsmtpd_tmp_t, clamsmtpd_tmp_t)
+files_tmp_filetrans(clamsmtpd_t, clamsmtpd_tmp_t, file)
+
+corenet_all_recvfrom_unlabeled(clamsmtpd_t)
+corenet_all_recvfrom_netlabel(clamsmtpd_t)
+corenet_tcp_sendrecv_generic_if(clamsmtpd_t)
+corenet_tcp_sendrecv_generic_node(clamsmtpd_t)
+corenet_tcp_sendrecv_all_ports(clamsmtpd_t)
+corenet_tcp_bind_generic_node(clamsmtpd_t)
+corenet_tcp_bind_smtp_beforequeue_port(clamsmtpd_t)
+corenet_tcp_connect_smtp_afterqueue_port(clamsmtpd_t)
+corenet_sendrecv_smtp_afterqueue_client_packets(clamsmtpd_t)
+corenet_sendrecv_smtp_beforequeue_server_packets(clamsmtpd_t)
+
+auth_use_nsswitch(clamsmtpd_t)
+
+domain_use_interactive_fds(clamsmtpd_t)
+
+clamav_stream_connect(clamsmtpd_t)
+clamav_read_clamsmtpd_config(clamsmtpd_t)
+
+logging_send_syslog_msg(clamsmtpd_t)
+
+miscfiles_read_localization(clamsmtpd_t)
+
+sysnet_dns_name_resolve(clamsmtpd_t)
 
 ########################################
 #

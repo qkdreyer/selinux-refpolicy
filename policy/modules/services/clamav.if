@@ -20,6 +20,42 @@ interface(`clamav_domtrans',`
 
 ########################################
 ## <summary>
+##	Execute a domain transition to run clamsmtpd.
+## </summary>
+## <param name="domain">
+## <summary>
+##	Domain allowed to transition.
+## </summary>
+## </param>
+#
+interface(`clamav_domtrans_clamsmtpd',`
+	gen_require(`
+		type clamsmtpd_t, clamsmtpd_exec_t;
+	')
+
+	domtrans_pattern($1, clamsmtpd_exec_t, clamsmtpd_t)
+')
+
+########################################
+## <summary>
+##	Execute clamsmtpd server in the clamsmtpd domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed to transition.
+##	</summary>
+## </param>
+#
+interface(`clamav_initrc_domtrans_clamsmtpd',`
+	gen_require(`
+		type clamsmtpd_initrc_exec_t;
+	')
+
+	init_labeled_script_domtrans($1, clamsmtpd_initrc_exec_t)
+')
+
+########################################
+## <summary>
 ##	Connect to run clamd.
 ## </summary>
 ## <param name="domain">
@@ -78,6 +114,25 @@ interface(`clamav_read_config',`
 
 ########################################
 ## <summary>
+##	Read clamsmtpd configuration files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`clamav_read_clamsmtpd_config',`
+	gen_require(`
+		type clamsmtpd_etc_t;
+	')
+
+	files_search_etc($1)
+	allow $1 clamsmtpd_etc_t:file read_file_perms;
+')
+
+########################################
+## <summary>
 ##	Search clamav libraries directories.
 ## </summary>
 ## <param name="domain">
@@ -93,6 +148,25 @@ interface(`clamav_search_lib',`
 
 	files_search_var_lib($1)
 	allow $1 clamd_var_lib_t:dir search_dir_perms;
+')
+
+########################################
+## <summary>
+##	Read clamsmtpd temporary files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`clamav_read_clamsmtpd_tmp_files',`
+	gen_require(`
+		type clamsmtpd_tmp_t;
+	')
+
+	files_search_tmp($1)
+	read_files_pattern($1, clamsmtpd_tmp_t, clamsmtpd_tmp_t)
 ')
 
 ########################################
@@ -155,6 +229,8 @@ interface(`clamav_admin',`
 		type clamd_var_run_t, clamscan_t, clamscan_tmp_t;
 		type clamd_initrc_exec_t;
 		type freshclam_t, freshclam_var_log_t;
+		type clamsmtpd_t, clamsmtpd_initrc_exec_t;
+		type clamsmtpd_etc_t, clamsmtpd_tmp_t;
 	')
 
 	allow $1 clamd_t:process { ptrace signal_perms };
@@ -163,12 +239,20 @@ interface(`clamav_admin',`
 	allow $1 clamscan_t:process { ptrace signal_perms };
 	ps_process_pattern($1, clamscan_t)
 
+	allow $1 clamsmtpd_t:process { ptrace signal_perms };
+	ps_process_pattern($1, clamsmtpd_t)
+
 	allow $1 freshclam_t:process { ptrace signal_perms };
 	ps_process_pattern($1, freshclam_t)
 
 	init_labeled_script_domtrans($1, clamd_initrc_exec_t)
 	domain_system_change_exemption($1)
 	role_transition $2 clamd_initrc_exec_t system_r;
+	allow $2 system_r;
+
+	init_labeled_script_domtrans($1, clamsmtpd_initrc_exec_t)
+	domain_system_change_exemption($1)
+	role_transition $2 clamsmtpd_initrc_exec_t system_r;
 	allow $2 system_r;
 
 	files_list_etc($1)
@@ -187,6 +271,10 @@ interface(`clamav_admin',`
 	admin_pattern($1, clamd_tmp_t)
 
 	admin_pattern($1, clamscan_tmp_t)
+
+	admin_pattern($1, clamsmtpd_etc_t)
+
+	admin_pattern($1, clamsmtpd_tmp_t)
 
 	admin_pattern($1, freshclam_var_log_t)
 ')

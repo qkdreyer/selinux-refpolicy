@@ -1,5 +1,7 @@
 /etc/clamav(/.*)?			gen_context(system_u:object_r:clamd_etc_t,s0)
-/etc/rc\.d/init\.d/clamd-wrapper --	gen_context(system_u:object_r:clamd_initrc_exec_t,s0)
+/etc/clamsmtpd.conf		--	gen_context(system_u:object_r:clamsmtpd_etc_t,s0)
+/etc/rc\.d/init\.d/clamd-wrapper	--	gen_context(system_u:object_r:clamd_initrc_exec_t,s0)
+/etc/rc\.d/init\.d/clamsmtpd		--	gen_context(system_u:object_r:clamsmtpd_initrc_exec_t,s0)
 
 /usr/bin/clamscan		--	gen_context(system_u:object_r:clamscan_exec_t,s0)
 /usr/bin/clamdscan		--	gen_context(system_u:object_r:clamscan_exec_t,s0)
@@ -9,6 +11,7 @@
 
 /usr/sbin/clamd			--	gen_context(system_u:object_r:clamd_exec_t,s0)
 /usr/sbin/clamav-milter		--	gen_context(system_u:object_r:clamd_exec_t,s0)
+/usr/sbin/clamsmtpd		--	gen_context(system_u:object_r:clamsmtpd_exec_t,s0)
 
 /var/clamav(/.*)?			gen_context(system_u:object_r:clamd_var_lib_t,s0)
 /var/lib/clamav(/.*)?			gen_context(system_u:object_r:clamd_var_lib_t,s0)
