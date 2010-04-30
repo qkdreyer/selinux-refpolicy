@@ -266,8 +266,8 @@ fs_list_auto_mountpoints(virtd_t)
 fs_getattr_xattr_fs(virtd_t)
 fs_rw_anon_inodefs_files(virtd_t)
 fs_list_inotifyfs(virtd_t)
-fs_manage_cgroup_dirs(virtd_t)
-fs_rw_cgroup_files(virtd_t)
+fs_manage_cgroupfs_dirs(virtd_t)
+fs_rw_cgroupfs_files(virtd_t)
 
 mls_fd_share_all_levels(virtd_t)
 mls_file_read_to_clearance(virtd_t)
@@ -331,6 +331,10 @@ tunable_policy(`virt_use_samba',`
 
 optional_policy(`
 	brctl_domtrans(virtd_t)
+')
+
+optional_policy(`
+	consoletype_domtrans(virtd_t)
 ')
 
 optional_policy(`

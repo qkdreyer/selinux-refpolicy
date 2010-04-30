@@ -71,7 +71,7 @@ genfscon capifs / gen_context(system_u:object_r:capifs_t,s0)
 
 type cgroupfs_t;
 fs_type(cgroupfs_t)
-allow cgroupfs_t self:filesystem associate;
+files_type(cgroupfs_t)
 genfscon cgroup / gen_context(system_u:object_r:cgroupfs_t,s0)
 
 type configfs_t;

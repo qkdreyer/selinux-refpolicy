@@ -1,3 +1,4 @@
+
 policy_module(cgroup, 1.0.0)
 
 ########################################
@@ -7,6 +8,17 @@ policy_module(cgroup, 1.0.0)
 
 type cgroup_t;
 files_mountpoint(cgroup_t)
+
+########################################
+#
+# cgexec personal declarations.
+#
+
+type cgexec_t;
+type cgexec_exec_t;
+init_daemon_domain(cgexec_t, cgexec_exec_t)
+
+permissive cgexec_t;
 
 ########################################
 #
@@ -51,6 +63,15 @@ permissive cgred_t;
 
 ########################################
 #
+# cgexec personal policy.
+#
+
+fs_write_cgroupfs_files(cgexec_t)
+
+cgroup_stream_connect(cgexec_t)
+
+########################################
+#
 # cgred personal policy.
 #
 
@@ -74,7 +95,7 @@ files_getattr_all_sockets(cgred_t)
 files_getattr_all_pipes(cgred_t)
 files_read_all_symlinks(cgred_t)
 
-fs_write_cgroup_files(cgred_t)
+fs_write_cgroupfs_files(cgred_t)
 
 logging_send_syslog_msg(cgred_t)
 
@@ -87,10 +108,10 @@ miscfiles_read_localization(cgred_t)
 
 kernel_read_system_state(cgclear_t)
 
-fs_delete_cgroup_dirs(cgclear_t)
-fs_list_cgroup_dirs(cgclear_t)
-fs_rw_cgroup_files(cgclear_t)
-fs_unmount_cgroup(cgclear_t)
+fs_delete_cgroupfs_dirs(cgclear_t)
+fs_list_cgroupfs_dirs(cgclear_t)
+fs_rw_cgroupfs_files(cgclear_t)
+fs_unmount_cgroupfs(cgclear_t)
 
 cgroup_delete_cgroup_dirs(cgclear_t)
 
@@ -108,8 +129,8 @@ kernel_read_system_state(cgconfigparser_t)
 
 files_read_etc_files(cgconfigparser_t)
 
-fs_manage_cgroup_dirs(cgconfigparser_t)
-fs_mount_cgroup(cgconfigparser_t)
-fs_rw_cgroup_files(cgconfigparser_t)
-fs_setattr_cgroup_files(cgconfigparser_t)
+fs_manage_cgroupfs_dirs(cgconfigparser_t)
+fs_mount_cgroupfs(cgconfigparser_t)
+fs_rw_cgroupfs_files(cgconfigparser_t)
+fs_setattr_cgroupfs_files(cgconfigparser_t)
 

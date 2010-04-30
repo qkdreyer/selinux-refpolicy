@@ -1,16 +1,7 @@
-## <summary>Control group rules engine daemon.</summary>
+## <summary>libcg is a library that abstracts the control group file system in Linux.</summary>
 ## <desc>
 ##	<p>
-##		cgrulesengd is a daemon, which distributes processes
-##		to control groups. When any process changes its
-##		effective UID or GID, cgred inspects list of
-##		rules loaded from cgrules.conf file and moves the
-##		process to the appropriate control group.
-##	</p>
-##	<p>
-##		The list of rules is read during the daemon startup and
-##		are cached in daemons memory. The daemon reloads the
-##		list of rules when it receives SIGUSR2 signal.
+##	libcg aims to provide programmers easily usable APIs to use the control group file system.
 ##	</p>
 ## </desc>
 
@@ -30,7 +21,7 @@ interface(`cgroup_delete_cgroup_dirs', `
 	')
 
 	delete_dirs_pattern($1, cgroup_t, cgroup_t)
-	cgroup_search_cgroup_dir($1)
+	cgroup_search_cgroup_dirs($1)
 ')
 
 ########################################
@@ -43,7 +34,7 @@ interface(`cgroup_delete_cgroup_dirs', `
 ##	</summary>
 ## </param>
 #
-interface(`cgroup_list_cgroup_dir', `
+interface(`cgroup_list_cgroup_dirs', `
 	gen_require(`
 		type cgroup_t;
 	')
@@ -61,7 +52,7 @@ interface(`cgroup_list_cgroup_dir', `
 ##	</summary>
 ## </param>
 #
-interface(`cgroup_manage_cgroup_dir', `
+interface(`cgroup_manage_cgroup_dirs', `
 	gen_require(`
 		type cgroup_t;
 	')
@@ -79,7 +70,7 @@ interface(`cgroup_manage_cgroup_dir', `
 ##	</summary>
 ## </param>
 #
-interface(`cgroup_rw_cgroup_dir', `
+interface(`cgroup_rw_cgroup_dirs', `
 	gen_require(`
 		type cgroup_t;
 	')
@@ -97,7 +88,7 @@ interface(`cgroup_rw_cgroup_dir', `
 ##	</summary>
 ## </param>
 #
-interface(`cgroup_search_cgroup_dir', `
+interface(`cgroup_search_cgroup_dirs', `
 	gen_require(`
 		type cgroup_t;
 	')

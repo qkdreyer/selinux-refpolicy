@@ -567,7 +567,7 @@ interface(`fs_register_binary_executable_type',`
 ##	</summary>
 ## </param>
 #
-interface(`fs_delete_cgroup_dirs', `
+interface(`fs_delete_cgroupfs_dirs', `
 	gen_require(`
 		type cgroupfs_t;
 	')
@@ -585,7 +585,7 @@ interface(`fs_delete_cgroup_dirs', `
 ##	</summary>
 ## </param>
 #
-interface(`fs_mount_cgroup', `
+interface(`fs_mount_cgroupfs', `
 	gen_require(`
 		type cgroupfs_t;
 	')
@@ -604,7 +604,7 @@ interface(`fs_mount_cgroup', `
 ##	</summary>
 ## </param>
 #
-interface(`fs_remount_cgroup', `
+interface(`fs_remount_cgroupfs', `
 	gen_require(`
 		type cgroupfs_t;
 	')
@@ -622,7 +622,7 @@ interface(`fs_remount_cgroup', `
 ##	</summary>
 ## </param>
 #
-interface(`fs_unmount_cgroup', `
+interface(`fs_unmount_cgroupfs', `
 	gen_require(`
 		type cgroupfs_t;
 	')
@@ -640,7 +640,7 @@ interface(`fs_unmount_cgroup', `
 ##	</summary>
 ## </param>
 #
-interface(`fs_getattr_cgroup',`
+interface(`fs_getattr_cgroupfs',`
 	gen_require(`
 		type cgroupfs_t;
 	')
@@ -659,31 +659,12 @@ interface(`fs_getattr_cgroup',`
 ##	</summary>
 ## </param>
 #
-interface(`fs_list_cgroup_dirs', `
+interface(`fs_list_cgroupfs_dirs', `
 	gen_require(`
 		type cgroupfs_t;
 	')
 
 	list_dirs_pattern($1, cgroupfs_t, cgroupfs_t)
-')
-
-########################################
-## <summary>
-##	Do not audit attempts to read
-##	dirs on a CIFS or SMB filesystem.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain to not audit.
-##	</summary>
-## </param>
-#
-interface(`fs_dontaudit_list_cifs_dirs',`
-	gen_require(`
-		type cifs_t;
-	')
-
-	dontaudit $1 cifs_t:dir list_dir_perms;
 ')
 
 ########################################
@@ -696,7 +677,7 @@ interface(`fs_dontaudit_list_cifs_dirs',`
 ##	</summary>
 ## </param>
 #
-interface(`fs_manage_cgroup_dirs',`
+interface(`fs_manage_cgroupfs_dirs',`
 	gen_require(`
 		type cgroupfs_t;
 
@@ -716,7 +697,7 @@ interface(`fs_manage_cgroup_dirs',`
 ##	</summary>
 ## </param>
 #
-interface(`fs_setattr_cgroup_files',`
+interface(`fs_setattr_cgroupfs_files',`
 	gen_require(`
 		type cgroupfs_t;
 
@@ -736,7 +717,7 @@ interface(`fs_setattr_cgroup_files',`
 ##	</summary>
 ## </param>
 #
-interface(`fs_read_cgroup_files',`
+interface(`fs_read_cgroupfs_files',`
 	gen_require(`
 		type cgroupfs_t;
 
@@ -756,7 +737,7 @@ interface(`fs_read_cgroup_files',`
 ##	</summary>
 ## </param>
 #
-interface(`fs_write_cgroup_files', `
+interface(`fs_write_cgroupfs_files', `
 	gen_require(`
 		type cgroupfs_t;
 	')
@@ -775,13 +756,32 @@ interface(`fs_write_cgroup_files', `
 ##	</summary>
 ## </param>
 #
-interface(`fs_rw_cgroup_files',`
+interface(`fs_rw_cgroupfs_files',`
 	gen_require(`
 		type cgroupfs_t;
 
 	')
 
 	rw_files_pattern($1, cgroupfs_t, cgroupfs_t)
+')
+
+########################################
+## <summary>
+##	Do not audit attempts to read
+##	dirs on a CIFS or SMB filesystem.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain to not audit.
+##	</summary>
+## </param>
+#
+interface(`fs_dontaudit_list_cifs_dirs',`
+	gen_require(`
+		type cifs_t;
+	')
+
+	dontaudit $1 cifs_t:dir list_dir_perms;
 ')
 
 ########################################

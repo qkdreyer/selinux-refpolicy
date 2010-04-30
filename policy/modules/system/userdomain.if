@@ -117,7 +117,8 @@ template(`userdom_base_user_template',`
 
 	files_exec_usr_files($1_t)
 
-	fs_list_cgroup_dirs($1_usertype)
+	fs_list_cgroupfs_dirs($1_usertype)
+	fs_rw_cgroupfs_files($1_usertype)
 
 	storage_rw_fuse($1_usertype)
 
@@ -141,7 +142,7 @@ template(`userdom_base_user_template',`
 	')
 
 	optional_policy(`
-		cgroup_list_cgroup_dir($1_usertype)
+		cgroup_list_cgroup_dirs($1_usertype)
 	')
 
 	optional_policy(`
