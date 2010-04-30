@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.19
-Release: 9.3%{?dist}
+Release: 9.4%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,10 @@ exit 0
 %endif
 
 %changelog
+* Fri Apr 30 2010 Dominick Grift <domg472@gmail.com> 3.7.19-9.4
+- add virt_initrc_domtrans.
+- extend cgexec domain.
+
 * Fri Apr 30 2010 Dominick Grift <domg472@gmail.com> 3.7.19-9.3
 - allow cgexec to domain transition to virtd_t.
 - allow cgexec_t (libvirtd?!) to read self netlink kobject event socket.

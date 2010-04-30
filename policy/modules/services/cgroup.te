@@ -18,8 +18,6 @@ type cgexec_t;
 type cgexec_exec_t;
 init_daemon_domain(cgexec_t, cgexec_exec_t)
 
-permissive cgexec_t;
-
 ########################################
 #
 # cgred personal declarations.
@@ -44,8 +42,6 @@ type cgclear_t;
 type cgclear_exec_t;
 init_daemon_domain(cgclear_t, cgclear_exec_t)
 
-permissive cgclear_t;
-
 ########################################
 #
 # cgconfig personal declarations.
@@ -57,9 +53,6 @@ init_daemon_domain(cgconfigparser_t, cgconfigparser_exec_t)
 
 type cgconfig_initrc_exec_t;
 init_script_file(cgconfig_initrc_exec_t)
-
-permissive cgconfigparser_t;
-permissive cgred_t;
 
 ########################################
 #
@@ -87,6 +80,8 @@ logging_send_syslog_msg(cgexec_t)
 miscfiles_read_localization(cgexec_t)
 
 sysnet_read_config(cgexec_t)
+
+# I guess cgexec need to be able to domtrans to all init daemons that support CGROUP_DAEMON.
 
 optional_policy(`
 	virt_domtrans(cgexec_t)
