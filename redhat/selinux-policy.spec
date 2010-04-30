@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.19
-Release: 9.7%{?dist}
+Release: 9.8%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,9 @@ exit 0
 %endif
 
 %changelog
+* Fri Apr 30 2010 Dominick Grift <domg472@gmail.com> 3.7.19-9.8
+- cgconfigparser also needs sys_admin capability.
+
 * Fri Apr 30 2010 Dominick Grift <domg472@gmail.com> 3.7.19-9.7
 - allow cgclear sys_admin capability.
 - declare cgroup config file types.
