@@ -124,6 +124,8 @@ miscfiles_read_localization(cgred_t)
 # cgclear personal policy.
 #
 
+allow cgclear_t self:capability sys_admin;
+
 kernel_read_system_state(cgclear_t)
 
 fs_delete_cgroupfs_dirs(cgclear_t)
