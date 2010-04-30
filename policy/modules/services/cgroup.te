@@ -155,7 +155,6 @@ cgroup_delete_cgroup_dirs(cgclear_t)
 
 allow cgconfigparser_t self:capability sys_admin;
 
-files_search_etc(cgconfigparser_t)
 allow cgconfigparser_t cgconfig_etc_t:file read_file_perms;
 
 manage_dirs_pattern(cgconfigparser_t, cgroup_t, cgroup_t)
