@@ -9,6 +9,11 @@ policy_module(cgroup, 1.0.0)
 type cgroup_t;
 files_mountpoint(cgroup_t)
 
+# permissive cgexec_t;
+# permissive cgclear_t;
+# permissive cgred_t;
+# permissive cgconfigparser_t;
+
 ########################################
 #
 # cgexec personal declarations.
@@ -33,6 +38,9 @@ init_script_file(cgred_initrc_exec_t)
 type cgred_var_run_t;
 files_pid_file(cgred_var_run_t)
 
+type cgrules_etc_t;
+files_config_file(cgrules_etc_t)
+
 ########################################
 #
 # cgclear personal declarations.
@@ -53,6 +61,9 @@ init_daemon_domain(cgconfigparser_t, cgconfigparser_exec_t)
 
 type cgconfig_initrc_exec_t;
 init_script_file(cgconfig_initrc_exec_t)
+
+type cgconfig_etc_t;
+files_config_file(cgconfig_etc_t)
 
 ########################################
 #
@@ -97,6 +108,8 @@ allow cgred_t self:capability { net_admin sys_ptrace dac_override };
 allow cgred_t self:netlink_socket { write bind create read };
 allow cgred_t self:unix_dgram_socket { write create connect };
 
+allow cgred_t cgrules_etc_t:file read_file_perms;
+
 manage_sock_files_pattern(cgred_t, cgred_var_run_t, cgred_var_run_t)
 files_pid_filetrans(cgred_t, cgred_var_run_t, sock_file)
 
@@ -139,6 +152,8 @@ cgroup_delete_cgroup_dirs(cgclear_t)
 #
 # cgconfig personal policy.
 #
+
+allow cgconfigparser_t cgconfig_etc_t:file read_file_perms;
 
 manage_dirs_pattern(cgconfigparser_t, cgroup_t, cgroup_t)
 manage_files_pattern(cgconfigparser_t, cgroup_t, cgroup_t)
