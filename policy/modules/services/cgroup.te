@@ -66,9 +66,15 @@ permissive cgred_t;
 # cgexec personal policy.
 #
 
+allow cgexec_t self:netlink_kobject_uevent_socket read;
+
 fs_write_cgroupfs_files(cgexec_t)
 
 cgroup_stream_connect(cgexec_t)
+
+optional_policy(`
+	virt_domtrans(cgexec_t)
+')
 
 ########################################
 #
