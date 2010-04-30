@@ -100,6 +100,27 @@ interface(`networkmanager_dbus_chat',`
 
 ########################################
 ## <summary>
+##	Send and receive messages from
+##	NetworkManager over dbus.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`networkmanager_dontaudit_dbus_chat',`
+	gen_require(`
+		type NetworkManager_t;
+		class dbus send_msg;
+	')
+
+	dontaudit $1 NetworkManager_t:dbus send_msg;
+	dontaudit NetworkManager_t $1:dbus send_msg;
+')
+
+########################################
+## <summary>
 ##	Send a generic signal to NetworkManager
 ## </summary>
 ## <param name="domain">

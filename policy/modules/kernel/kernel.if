@@ -534,6 +534,37 @@ interface(`kernel_request_load_module',`
 
 ########################################
 ## <summary>
+##	Dontaudit caller request the kernel to load a module
+## </summary>
+## <desc>
+##	<p>
+##	Allow the specified domain to request that the kernel
+##	load a kernel module.  An example of this is the
+##	auto-loading of network drivers when doing an
+##	ioctl() on a network interface.
+##	</p>
+##	<p>
+##	In the specific case of a module loading request
+##	on a network interface, the domain will also
+##	need the net_admin capability.
+##	</p>
+## </desc>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`kernel_dontaudit_request_load_module',`
+	gen_require(`
+		type kernel_t;
+	')
+
+	dontaudit $1 kernel_t:system module_request;
+')
+
+########################################
+## <summary>
 ##	Get information on all System V IPC objects.
 ## </summary>
 ## <param name="domain">

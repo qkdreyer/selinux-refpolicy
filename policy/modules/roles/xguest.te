@@ -62,7 +62,7 @@ tunable_policy(`allow_execstack',`
 optional_policy(`
 	tunable_policy(`xguest_mount_media',`
 		kernel_read_fs_sysctls(xguest_t)
-
+		kernel_request_load_module(xguest_t)
 		files_dontaudit_getattr_boot_dirs(xguest_t)
 		files_search_mnt(xguest_t)
 

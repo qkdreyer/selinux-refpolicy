@@ -28,7 +28,7 @@ interface(`sandbox_transition',`
 	allow $1 sandbox_domain:process transition;
 	dontaudit $1 sandbox_domain:process { noatsecure siginh rlimitinh };
 	role $2 types sandbox_domain;
-	allow sandbox_domain $1:process sigchld;
+	allow sandbox_domain $1:process { sigchld signull };
 	allow sandbox_domain $1:fifo_file rw_inherited_fifo_file_perms;
 
 	allow $1 sandbox_x_domain:process { signal_perms transition };
@@ -42,7 +42,7 @@ interface(`sandbox_transition',`
 	dontaudit sandbox_xserver_t $1:udp_socket rw_socket_perms;
 	allow sandbox_xserver_t $1:unix_stream_socket { connectto rw_socket_perms };
 
-	allow sandbox_x_domain $1:process { sigchld signal };
+	allow sandbox_x_domain $1:process { sigchld signal signull };
 	allow sandbox_x_domain sandbox_x_domain:process signal;
 	# Dontaudit leaked file descriptors
 	dontaudit sandbox_x_domain $1:fifo_file { read write };
@@ -57,6 +57,9 @@ interface(`sandbox_transition',`
 	manage_lnk_files_pattern($1, sandbox_file_type, sandbox_file_type);
 	relabel_dirs_pattern($1, sandbox_file_type, sandbox_file_type)
 	relabel_files_pattern($1, sandbox_file_type, sandbox_file_type)
+	relabel_lnk_files_pattern($1, sandbox_file_type, sandbox_file_type)
+	relabel_fifo_files_pattern($1, sandbox_file_type, sandbox_file_type)
+	relabel_sock_files_pattern($1, sandbox_file_type, sandbox_file_type)
 ')
 
 ########################################
@@ -146,6 +149,8 @@ template(`sandbox_x_domain_template',`
 
 	manage_files_pattern($1_client_t, $1_client_tmpfs_t, $1_client_tmpfs_t)
 	fs_tmpfs_filetrans($1_client_t, $1_client_tmpfs_t, file )
+	# Pulseaudio tmpfs files with different MCS labels
+	dontaudit $1_client_t $1_client_tmpfs_t:file { read write };
 	allow sandbox_xserver_t $1_client_tmpfs_t:file { read write };
 
 	domtrans_pattern($1_t, xserver_exec_t, sandbox_xserver_t)

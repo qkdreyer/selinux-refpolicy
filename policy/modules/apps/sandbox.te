@@ -160,7 +160,7 @@ corecmd_exec_all_executables(sandbox_x_domain)
 
 dev_read_urand(sandbox_x_domain)
 dev_dontaudit_read_rand(sandbox_x_domain)
-dev_list_sysfs(sandbox_x_domain)
+dev_read_sysfs(sandbox_x_domain)
 
 files_entrypoint_all_files(sandbox_x_domain)
 files_read_etc_files(sandbox_x_domain)
@@ -252,7 +252,7 @@ optional_policy(`
 allow sandbox_web_client_t self:capability { setuid setgid };
 allow sandbox_web_client_t self:netlink_audit_socket nlmsg_relay;
 allow sandbox_web_client_t self:process setsched;
-
+dontaudit sandbox_web_client_t self:process setrlimit;
 allow sandbox_web_client_t self:tcp_socket create_socket_perms;
 allow sandbox_web_client_t self:udp_socket create_socket_perms;
 allow sandbox_web_client_t self:dbus { acquire_svc send_msg };
@@ -310,12 +310,25 @@ seutil_read_default_contexts(sandbox_web_client_t)
 userdom_rw_user_tmpfs_files(sandbox_web_client_t)
 
 optional_policy(`
+	hal_dbus_chat(sandbox_web_client_t)
+')
+
+optional_policy(`
 	nsplugin_read_rw_files(sandbox_web_client_t)
 	nsplugin_rw_exec(sandbox_web_client_t)
 ')
 
 optional_policy(`
-	hal_dbus_chat(sandbox_web_client_t)
+	pulseaudio_stream_connect(sandbox_web_client_t)
+	allow sandbox_web_client_t self:netlink_kobject_uevent_socket create_socket_perms;
+')
+
+optional_policy(`
+	rtkit_daemon_dontaudit_dbus_chat(sandbox_web_client_t)
+')
+
+optional_policy(`
+	networkmanager_dontaudit_dbus_chat(sandbox_web_client_t)
 ')
 
 ########################################

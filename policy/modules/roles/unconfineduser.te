@@ -34,7 +34,6 @@ userdom_base_user_template(unconfined)
 userdom_manage_home_role(unconfined_r, unconfined_t)
 userdom_manage_tmp_role(unconfined_r, unconfined_t)
 userdom_manage_tmpfs_role(unconfined_r, unconfined_t)
-userdom_execmod_user_home_files(unconfined_t)
 userdom_unpriv_usertype(unconfined, unconfined_t)
 
 type unconfined_exec_t;
@@ -106,6 +105,10 @@ tunable_policy(`allow_execmem && allow_execstack',`
 	allow unconfined_t self:process execstack;
 ')
 
+tunable_policy(`allow_execmod',`
+	userdom_execmod_user_home_files(unconfined_usertype)
+')
+
 tunable_policy(`unconfined_login',`
 	corecmd_shell_domtrans(unconfined_login_domain,unconfined_t)
 	allow unconfined_t unconfined_login_domain:fd use;
@@ -125,8 +128,6 @@ optional_policy(`
 		      nsplugin_domtrans_config(unconfined_usertype)
 		')
 	')
-
-	userdom_execmod_user_home_files(unconfined_usertype)
 
 	optional_policy(`
 		abrt_dbus_chat(unconfined_usertype)
