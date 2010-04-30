@@ -96,8 +96,20 @@ miscfiles_read_localization(cgexec_t)
 
 sysnet_read_config(cgexec_t)
 
-# For each service that supports CGROUP=daemon there must be a domtrans.
+# For each service that supports CGROUP_DAEMON there must be a domtrans.
 # All services in /etc/sysconfig that use functions in init script.
+
+optional_policy(`
+	apache_domtrans(cgexec_t)
+')
+
+optional_policy(`
+	denyhosts_domtrans(cgexec_t)
+')
+
+optional_policy(`
+	oidentd_domtrans(cgexec_t)
+')
 
 optional_policy(`
 	virt_domtrans(cgexec_t)

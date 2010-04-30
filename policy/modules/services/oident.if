@@ -7,6 +7,24 @@
 ##	</p>
 ## </desc>
 
+#######################################
+## <summary>
+##	Execute Oidentd in the oidentd domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain to transition.
+##	</summary>
+## </param>
+#
+interface(`oidentd_domtrans',`
+	gen_require(`
+		type oidentd_t, oidentd_exec_t;
+	')
+
+	domtrans_pattern($1, oidentd_exec_t, oidentd_t)
+')
+
 ########################################
 ## <summary>
 ##	Allow the specified domain to read
