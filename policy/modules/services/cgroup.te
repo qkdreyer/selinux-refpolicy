@@ -87,20 +87,16 @@ files_read_etc_files(cgexec_t)
 
 fs_write_cgroupfs_files(cgexec_t)
 
+cgroup_search_cgroup_dirs(cgexec_t)
 cgroup_stream_connect(cgexec_t)
+
+init_domtrans_script(cgexec_t)
 
 logging_send_syslog_msg(cgexec_t)
 
 miscfiles_read_localization(cgexec_t)
 
 sysnet_read_config(cgexec_t)
-
-# I guess cgexec need to be able to domtrans to all init daemons that support CGROUP_DAEMON.
-
-optional_policy(`
-	virt_domtrans(cgexec_t)
-	virt_initrc_domtrans(cgexec_t)
-')
 
 ########################################
 #
