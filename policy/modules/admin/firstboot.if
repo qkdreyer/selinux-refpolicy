@@ -1,7 +1,11 @@
-## <summary>
-##	Final system configuration run during the first boot
-##	after installation of Red Hat/Fedora systems.
-## </summary>
+## <summary>Firstboot Initial system configuration utility.</summary>
+## <desc>
+##	<p>
+##	firstboot is the program that runs on the first boot of a
+##	Fedora or Red Hat Enterprise Linux system that allows you to
+##	configure more things than the installer allows. 
+##	</p>
+## </desc>
 
 ########################################
 ## <summary>
@@ -9,7 +13,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -19,6 +23,7 @@ interface(`firstboot_domtrans',`
 	')
 
 	domtrans_pattern($1, firstboot_exec_t, firstboot_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -28,7 +33,7 @@ interface(`firstboot_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -52,7 +57,7 @@ interface(`firstboot_run',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -89,7 +94,7 @@ interface(`firstboot_dontaudit_use_fds',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -98,7 +103,7 @@ interface(`firstboot_write_pipes',`
 		type firstboot_t;
 	')
 
-	allow $1 firstboot_t:fifo_file write;
+	allow $1 firstboot_t:fifo_file write_fifo_file_perms;
 ')
 
 ########################################
@@ -107,7 +112,7 @@ interface(`firstboot_write_pipes',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -116,7 +121,7 @@ interface(`firstboot_rw_pipes',`
 		type firstboot_t;
 	')
 
-	allow $1 firstboot_t:fifo_file { read write };
+	allow $1 firstboot_t:fifo_file rw_fifo_file_perms;
 ')
 
 ########################################

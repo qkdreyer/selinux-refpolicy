@@ -1,4 +1,12 @@
-## <summary>Rotate and archive system logs</summary>
+## <summary>logrotate rotates, compresses, and mails system logs </summary>
+## <desc>
+##	<p>
+##	logrotate is designed to ease administration of systems that generate
+##	large numbers of log files. It allows automatic rotation, compression,
+##	removal, and mailing of log files. Each log file may be handled daily,
+##	weekly, monthly, or when it grows too large.
+##	</p>
+## </desc>
 
 ########################################
 ## <summary>
@@ -6,7 +14,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -16,6 +24,7 @@ interface(`logrotate_domtrans',`
 	')
 
 	domtrans_pattern($1, logrotate_exec_t, logrotate_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -25,7 +34,7 @@ interface(`logrotate_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -50,7 +59,7 @@ interface(`logrotate_run',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -60,6 +69,7 @@ interface(`logrotate_exec',`
 	')
 
 	can_exec($1, logrotate_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -86,7 +96,7 @@ interface(`logrotate_use_fds',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process to not audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -104,7 +114,7 @@ interface(`logrotate_dontaudit_use_fds',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process to not audit.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -113,6 +123,6 @@ interface(`logrotate_read_tmp_files',`
 		type logrotate_tmp_t;
 	')
 
-	files_search_tmp($1)
 	allow $1 logrotate_tmp_t:file read_file_perms;
+	files_search_tmp($1)
 ')

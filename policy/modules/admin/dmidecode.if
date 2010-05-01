@@ -1,4 +1,12 @@
-## <summary>Decode DMI data for x86/ia64 bioses.</summary>
+## <summary>dmidecode DMI table decoder.</summary>
+## <desc>
+##	<p>
+##	dmidecode is a tool for dumping a computer's DMI (some say SMBIOS )
+##	table contents in a human-readable format. This table contains a
+##	description of the system's hardware components, as well as other useful
+##	pieces of information such as serial numbers and BIOS revision. 
+##	</p>
+## </desc>
 
 ########################################
 ## <summary>
@@ -6,7 +14,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -16,6 +24,7 @@ interface(`dmidecode_domtrans',`
 	')
 
 	domain_auto_trans($1, dmidecode_exec_t, dmidecode_t)
+	corecmd_search_bin($1)
 
 	allow $1 dmidecode_t:fd use;
 	allow dmidecode_t $1:fd use;
@@ -30,7 +39,7 @@ interface(`dmidecode_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">

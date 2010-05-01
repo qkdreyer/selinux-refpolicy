@@ -1,4 +1,4 @@
-## <summary>Network analysis utilities</summary>
+## <summary>Various network analysis utilities.</summary>
 
 ########################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -16,6 +16,7 @@ interface(`netutils_domtrans',`
 	')
 
 	domtrans_pattern($1, netutils_exec_t, netutils_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -25,7 +26,7 @@ interface(`netutils_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -60,6 +61,7 @@ interface(`netutils_exec',`
 	')
 
 	can_exec($1, netutils_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -96,6 +98,7 @@ interface(`netutils_domtrans_ping',`
 	')
 
 	domtrans_pattern($1, ping_exec_t, ping_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -141,7 +144,7 @@ interface(`netutils_signal_ping',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -167,7 +170,7 @@ interface(`netutils_run_ping',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -206,6 +209,7 @@ interface(`netutils_exec_ping',`
 	')
 
 	can_exec($1, ping_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -214,7 +218,7 @@ interface(`netutils_exec_ping',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -224,6 +228,7 @@ interface(`netutils_domtrans_traceroute',`
 	')
 
 	domtrans_pattern($1, traceroute_exec_t, traceroute_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -233,7 +238,7 @@ interface(`netutils_domtrans_traceroute',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -259,7 +264,7 @@ interface(`netutils_run_traceroute',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -298,4 +303,5 @@ interface(`netutils_exec_traceroute',`
 	')
 
 	can_exec($1, traceroute_exec_t)
+	corecmd_search_bin($1)
 ')

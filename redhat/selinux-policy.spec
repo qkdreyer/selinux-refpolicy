@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.19
-Release: 10.2%{?dist}
+Release: 10.3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,10 @@ exit 0
 %endif
 
 %changelog
+* Sat May 01 2010 Dominick Grift <domg472@gmail.com> 3.7.19-10.3
+- Restructure IRC module.
+- Clean up: admin to p.
+
 * Sat May 01 2010 Dominick Grift <domg472@gmail.com> 3.7.19-10.2
 - Allow all users to run cgexec and cgclear in the userdomain.
 - Add some more domains for cgexec to transition to.

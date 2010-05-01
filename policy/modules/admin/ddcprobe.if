@@ -1,4 +1,4 @@
-## <summary>ddcprobe retrieves monitor and graphics card information</summary>
+## <summary>ddcprobe retrieves monitor and graphics card information.</summary>
 
 ########################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -16,6 +16,7 @@ interface(`ddcprobe_domtrans',`
 	')
 
 	domtrans_pattern($1, ddcprobe_exec_t, ddcprobe_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -25,12 +26,12 @@ interface(`ddcprobe_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	Role to be authenticated for ddcprobe domain.
+##	The role to be allowed the ddcprobe domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>

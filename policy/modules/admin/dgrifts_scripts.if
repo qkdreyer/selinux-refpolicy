@@ -1,9 +1,4 @@
-## <summary>Scripts.</summary>
-## <desc>
-##	<p>
-##		Various scripts.
-##	</p>
-## </desc>
+## <summary>Various scripts.</summary>
 
 ########################################
 ## <summary>
@@ -72,4 +67,3 @@ interface(`dgrifts_scripts_role',`
 	relabel_dirs_pattern($2, sepoldiff_tmp_t, sepoldiff_tmp_t)
 	relabel_files_pattern($2, sepoldiff_tmp_t, sepoldiff_tmp_t)
 ')
-

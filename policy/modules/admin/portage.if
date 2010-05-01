@@ -1,7 +1,12 @@
-## <summary>
-##	Portage Package Management System. The primary package management and
-##	distribution system for Gentoo.
-## </summary>
+## <summary>Portage package management system.</summary>
+## <desc>
+##	<p>
+##	Portage is based on the concept of ports collections. Gentoo is
+##	sometimes referred to as a meta-distribution due to the extreme
+##	flexibility of Portage, which even makes it
+##	operating-system-independent
+##	</p>
+## </desc>
 
 ########################################
 ## <summary>
@@ -9,7 +14,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -18,11 +23,9 @@ interface(`portage_domtrans',`
 		type portage_t, portage_exec_t;
 	')
 
-	files_search_usr($1)
-	corecmd_search_bin($1)
-
-	# transition to portage
 	domtrans_pattern($1, portage_exec_t, portage_t)
+	corecmd_search_bin($1)
+	files_search_usr($1)
 ')
 
 ########################################
@@ -32,7 +35,7 @@ interface(`portage_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -57,18 +60,17 @@ interface(`portage_run',`
 ## </summary>
 ## <desc>
 ##	<p>
-##	Template for portage sandbox.  Portage
+##	Template for portage sandbox. Portage
 ##	does all compiling in the sandbox.
 ##	</p>
 ## </desc>
 ## <param name="domain">
 ##	<summary>
-##	Domain Allowed Access
+##	Domain Allowed Access.
 ##	</summary>
 ## </param>
 #
 interface(`portage_compile_domain',`
-
 	gen_require(`
 		class dbus send_msg;
 		type portage_devpts_t, portage_log_t, portage_tmp_t;
@@ -203,7 +205,7 @@ interface(`portage_compile_domain',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -212,10 +214,9 @@ interface(`portage_domtrans_gcc_config',`
 		type gcc_config_t, gcc_config_exec_t;
 	')
 
-	files_search_usr($1)
-	corecmd_search_bin($1)
-
 	domtrans_pattern($1, gcc_config_exec_t, gcc_config_t)
+	corecmd_search_bin($1)
+	files_search_usr($1)
 ')
 
 ########################################
@@ -225,7 +226,7 @@ interface(`portage_domtrans_gcc_config',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">

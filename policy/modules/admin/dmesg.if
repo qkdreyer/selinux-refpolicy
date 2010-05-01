@@ -1,4 +1,9 @@
-## <summary>Policy for dmesg.</summary>
+## <summary>dmesg print or control the kernel ring buffer.</summary>
+## <desc>
+##	<p>
+##	The program helps users to print out their bootup messages. 
+##	</p>
+## </desc>
 
 ########################################
 ## <summary>
@@ -6,7 +11,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,8 +20,8 @@ interface(`dmesg_domtrans',`
 		type dmesg_t, dmesg_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, dmesg_exec_t, dmesg_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -25,16 +30,15 @@ interface(`dmesg_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`dmesg_exec',`
 	gen_require(`
 		type dmesg_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	can_exec($1, dmesg_exec_t)
+	corecmd_search_bin($1)
 ')

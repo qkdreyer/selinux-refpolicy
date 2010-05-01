@@ -1,4 +1,14 @@
-## <summary>policy for mcelog</summary>
+## <summary>Mcelog print machine check log from x86-64 kernel.</summary>
+## <desc>
+##	<p>
+##	Linux x86-64 kernels since 2.6.4 don't print recoverable machine
+##	check errors to the kernel log anymore. Instead they are saved into
+##	a special kernel  buffer accessible using /dev/mcelog. mcelog
+##	reads /dev/mcelog and prints the stored machine check records to
+##	stdout. Then the stored machine check records in the kernel 
+##	buffer are deleted. 
+##	</p>
+## </desc>
 
 ########################################
 ## <summary>
@@ -16,5 +26,5 @@ interface(`mcelog_domtrans',`
 	')
 
 	domtrans_pattern($1, mcelog_exec_t, mcelog_t)
+	corecmd_search_bin($1)
 ')
-

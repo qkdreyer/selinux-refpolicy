@@ -1,4 +1,14 @@
-## <summary>Prelink ELF shared library mappings.</summary>
+## <summary>Prelink ELF shared libraries and binaries to speed up startup time.</summary>
+## <desc>
+##	<p>
+##	prelink is a program which modifies ELF shared libraries and ELF dynamically
+##	linked binaries, so that the time which dynamic linker needs for their relocation
+##	at startup significantly decreases and also due to fewer relocations the run-time
+##	memory consumption decreases too (especially number of unshareable pages). Such
+##	prelinking information is only used if all its dependant libraries have not
+##	changed since prelinking, otherwise programs are relocated normally.
+##	</p>
+## </desc>
 
 ########################################
 ## <summary>
@@ -6,7 +16,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,10 +25,10 @@ interface(`prelink_domtrans',`
 		type prelink_t, prelink_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, prelink_exec_t, prelink_t)
+	corecmd_search_bin($1)
 
-	ifdef(`hide_broken_symptoms', `
+	ifdef(`hide_broken_symptoms',`
 		dontaudit prelink_t $1:socket_class_set { read write };
 		dontaudit prelink_t $1:fifo_file setattr;
 	')
@@ -39,8 +49,8 @@ interface(`prelink_exec',`
 		type prelink_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	can_exec($1, prelink_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -49,7 +59,7 @@ interface(`prelink_exec',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -78,7 +88,6 @@ interface(`prelink_run',`
 ##	</summary>
 ## </param>
 #
-# cjp: added for misc non-entrypoint objects
 interface(`prelink_object_file',`
 	gen_require(`
 		attribute prelink_object;
@@ -91,7 +100,7 @@ interface(`prelink_object_file',`
 ## <summary>
 ##	Read the prelink cache.
 ## </summary>
-## <param name="file_type">
+## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
@@ -102,15 +111,15 @@ interface(`prelink_read_cache',`
 		type prelink_cache_t;
 	')
 
-	files_search_etc($1)
 	allow $1 prelink_cache_t:file read_file_perms;
+	files_search_etc($1)
 ')
 
 ########################################
 ## <summary>
 ##	Delete the prelink cache.
 ## </summary>
-## <param name="file_type">
+## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
@@ -121,8 +130,8 @@ interface(`prelink_delete_cache',`
 		type prelink_cache_t;
 	')
 
-	allow $1 prelink_cache_t:file unlink;
-	files_rw_etc_dirs($1)
+	delete_files_pattern($1, prelink_cache_t, prelink_cache_t)
+	files_search_etc($1)
 ')
 
 ########################################
@@ -130,7 +139,7 @@ interface(`prelink_delete_cache',`
 ##	Create, read, write, and delete
 ##	prelink log files.
 ## </summary>
-## <param name="file_type">
+## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
@@ -141,8 +150,8 @@ interface(`prelink_manage_log',`
 		type prelink_log_t;
 	')
 
-	logging_search_logs($1)
 	manage_files_pattern($1, prelink_log_t, prelink_log_t)
+	logging_search_logs($1)
 ')
 
 ########################################
@@ -150,7 +159,7 @@ interface(`prelink_manage_log',`
 ##	Create, read, write, and delete
 ##	prelink var_lib files.
 ## </summary>
-## <param name="file_type">
+## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
@@ -161,8 +170,8 @@ interface(`prelink_manage_lib',`
 		type prelink_var_lib_t;
 	')
 
-	files_search_var_lib($1)
 	manage_files_pattern($1, prelink_var_lib_t, prelink_var_lib_t)
+	files_search_var_lib($1)
 ')
 
 ########################################
@@ -180,6 +189,6 @@ interface(`prelink_relabel_lib',`
 		type prelink_var_lib_t;
 	')
 
-	files_search_var_lib($1)
 	relabel_files_pattern($1, prelink_var_lib_t, prelink_var_lib_t)
+	files_search_var_lib($1)
 ')

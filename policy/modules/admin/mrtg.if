@@ -1,4 +1,11 @@
-## <summary>Network traffic graphing</summary>
+## <summary>The Multi Router Traffic Grapher.</summary>
+## <desc>
+##	<p>
+##	MRTG is a tool to monitor the traffic load on network
+##	links. MRTG generates HTML pages containing PNG images
+##	which provide a LIVE visual representation of this traffic.
+##	</p>
+## </desc>
 
 ########################################
 ## <summary>
@@ -17,4 +24,5 @@ interface(`mrtg_append_create_logs',`
 
 	append_files_pattern($1, mrtg_log_t, mrtg_log_t)
 	create_files_pattern($1, mrtg_log_t, mrtg_log_t)
+	logging_search_logs($1)
 ')

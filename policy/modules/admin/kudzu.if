@@ -1,4 +1,16 @@
-## <summary>Hardware detection and configuration tools</summary>
+## <summary>Kudzu detects and configures new and or changed hardware on a system.</summary>
+## <desc>
+##	<p>
+##	Kudzu detects and configures new and/or changed hardware on a system. When started,
+##	kudzu detects the current hardware, and checks it against a database stored
+##	in /etc/sysconfig/hwconf, if one exists. It then determines if any hardware has been
+##	added or removed from the system. If so, it gives the users the opportunity to
+##	configure any added hardware, and unconfigure any removed hardware. It then updates
+##	the database in /etc/sysconfig/hwconf. If no previous database exists, kudzu attempts
+##	to determine what devices have already been configured, by looking
+##	at /etc/modules.conf, /etc/sysconfig/network-scripts/, and /etc/X11/XF86Config. 
+##	</p>
+## </desc>
 
 ########################################
 ## <summary>
@@ -6,7 +18,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -16,6 +28,7 @@ interface(`kudzu_domtrans',`
 	')
 
 	domtrans_pattern($1, kudzu_exec_t, kudzu_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -25,7 +38,7 @@ interface(`kudzu_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -50,15 +63,14 @@ interface(`kudzu_run',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
-# cjp: added for ddcprobe
 interface(`kudzu_getattr_exec_files',`
 	gen_require(`
 		type kudzu_exec_t;
 	')
 
-	allow $1 kudzu_exec_t:file getattr;
+	allow $1 kudzu_exec_t:file getattr_file_perms;
 ')

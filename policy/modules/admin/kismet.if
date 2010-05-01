@@ -1,4 +1,10 @@
-## <summary>Kismet is an 802.11 layer2 wireless network detector, sniffer, and intrusion detection system.</summary>
+## <summary>Kismet WLAN detector, sniffer and IDS.</summary>
+## <desc>
+##	<p>
+##	Kismet is an 802.11 layer2 wireless network detector, sniffer,
+##	and intrusion detection system.
+##	</p>
+## </desc>
 
 ########################################
 ## <summary>
@@ -16,6 +22,8 @@ interface(`kismet_domtrans',`
 	')
 
 	domtrans_pattern($1, kismet_exec_t, kismet_t)
+	corecmd_search_bin($1)
+
 	allow kismet_t $1:process signull;
 ')
 
@@ -26,7 +34,7 @@ interface(`kismet_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -159,6 +167,7 @@ interface(`kismet_manage_lib',`
 	manage_dirs_pattern($1, kismet_var_lib_t, kismet_var_lib_t)
 	manage_files_pattern($1, kismet_var_lib_t, kismet_var_lib_t)
 	manage_lnk_files_pattern($1, kismet_var_lib_t, kismet_var_lib_t)
+	files_search_var_lib($1)
 ')
 
 ########################################
@@ -170,15 +179,14 @@ interface(`kismet_manage_lib',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kismet_read_log',`
 	gen_require(`
 		type kismet_log_t;
 	')
 
-	logging_search_logs($1)
 	read_files_pattern($1, kismet_log_t, kismet_log_t)
+	logging_search_logs($1)
 ')
 
 ########################################
@@ -188,7 +196,7 @@ interface(`kismet_read_log',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed to transition.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -197,17 +205,17 @@ interface(`kismet_append_log',`
 		type kismet_log_t;
 	')
 
-	logging_search_logs($1)
 	append_files_pattern($1, kismet_log_t, kismet_log_t)
+	logging_search_logs($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow domain to manage kismet log files
+##	Allow domain to manage kismet log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -224,14 +232,13 @@ interface(`kismet_manage_log',`
 
 ########################################
 ## <summary>
-##	All of the rules required to administrate an kismet environment
+##	All of the rules required to administrate an kismet environment.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kismet_admin',`
 	gen_require(`
