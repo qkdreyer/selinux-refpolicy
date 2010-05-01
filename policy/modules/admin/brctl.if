@@ -1,4 +1,10 @@
-## <summary>Utilities for configuring the linux ethernet bridge</summary>
+## <summary>brctl ethernet bridge administration.</summary>
+## <desc>
+##	<p>
+##	brctl is used to set up, maintain, and inspect the ethernet
+##	bridge configuration in the linux kernel. 
+##	</p>
+## </desc>
 
 ########################################
 ## <summary>
@@ -16,4 +22,5 @@ interface(`brctl_domtrans',`
 	')
 
 	domtrans_pattern($1, brctl_exec_t, brctl_t)
+	corecmd_search_bin($1)
 ')

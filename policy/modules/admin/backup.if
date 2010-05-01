@@ -16,6 +16,7 @@ interface(`backup_domtrans',`
 	')
 
 	domtrans_pattern($1, backup_exec_t, backup_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -25,7 +26,7 @@ interface(`backup_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">

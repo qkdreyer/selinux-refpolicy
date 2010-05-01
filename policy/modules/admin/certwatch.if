@@ -1,4 +1,10 @@
-## <summary>Digital Certificate Tracking</summary>
+## <summary>certwatch generate SSL certificate expiry warnings</summary>
+## <desc>
+##	<p>
+##	The certwatch program is used to issue warning mail when an SSL
+##	certificate is about to expire. 
+##	</p>
+## </desc>
 
 ########################################
 ## <summary>
@@ -6,7 +12,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,9 +21,9 @@ interface(`certwatch_domtrans',`
 		type certwatch_exec_t, certwatch_t;
 	')
 
-	files_search_usr($1)
-	corecmd_search_bin($1)
 	domtrans_pattern($1, certwatch_exec_t, certwatch_t)
+	corecmd_search_bin($1)
+	files_search_usr($1)
 ')
 
 ########################################
@@ -29,7 +35,7 @@ interface(`certwatch_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -57,7 +63,7 @@ interface(`certwatch_run',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
