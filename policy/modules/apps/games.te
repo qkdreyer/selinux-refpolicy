@@ -3,10 +3,23 @@ policy_module(games, 2.1.0)
 
 ########################################
 #
-# Declarations
+# Games global personal declarations.
 #
 
-type games_t;
+attribute games_domain;
+
+type games_tmpfs_t;
+typealias games_tmpfs_t alias { user_games_tmpfs_t staff_games_tmpfs_t sysadm_games_tmpfs_t };
+typealias games_tmpfs_t alias { auditadm_games_tmpfs_t secadm_games_tmpfs_t };
+files_tmpfs_file(games_tmpfs_t)
+ubac_constrained(games_tmpfs_t)
+
+########################################
+#
+# Games personal declarations.
+#
+
+type games_t, games_domain;
 type games_exec_t;
 typealias games_t alias { user_games_t staff_games_t sysadm_games_t };
 typealias games_t alias { auditadm_games_t secadm_games_t };
@@ -25,8 +38,11 @@ typealias games_devpts_t alias { auditadm_games_devpts_t secadm_games_devpts_t }
 term_pty(games_devpts_t)
 ubac_constrained(games_devpts_t)
 
-# games_srv_t is for system operation of games, generic games daemons and
-# games recovery scripts
+########################################
+#
+# Games server personal declarations.
+#
+
 type games_srv_t;
 init_system_domain(games_srv_t, games_exec_t)
 
@@ -39,15 +55,55 @@ typealias games_tmp_t alias { auditadm_games_tmp_t secadm_games_tmp_t };
 files_tmp_file(games_tmp_t)
 ubac_constrained(games_tmp_t)
 
-type games_tmpfs_t;
-typealias games_tmpfs_t alias { user_games_tmpfs_t staff_games_tmpfs_t sysadm_games_tmpfs_t };
-typealias games_tmpfs_t alias { auditadm_games_tmpfs_t secadm_games_tmpfs_t };
-files_tmpfs_file(games_tmpfs_t)
-ubac_constrained(games_tmpfs_t)
+########################################
+#
+# tmw personal declarations.
+#
+
+type tmw_t, games_domain;
+type tmw_exec_t;
+application_domain(tmw_t, tmw_exec_t)
+ubac_constrained(tmw_t)
+
+type tmw_home_t;
+userdom_user_home_content(tmw_home_t)
 
 ########################################
 #
-# Server local policy
+# Games global personal policy.
+#
+
+allow games_domain self:tcp_socket create_stream_socket_perms;
+allow games_domain self:udp_socket create_socket_perms;
+
+manage_files_pattern(games_domain, games_tmpfs_t, games_tmpfs_t)
+fs_tmpfs_filetrans(games_domain, games_tmpfs_t, file)
+
+kernel_read_system_state(games_domain)
+
+corenet_all_recvfrom_netlabel(games_domain)
+corenet_all_recvfrom_unlabeled(games_domain)
+corenet_tcp_sendrecv_generic_if(games_domain)
+corenet_tcp_sendrecv_generic_node(games_domain)
+corenet_tcp_bind_generic_node(games_domain)
+
+dev_read_input(games_domain)
+dev_read_urand(games_domain)
+
+files_read_etc_files(games_domain)
+files_read_usr_files(games_domain)
+
+miscfiles_read_localization(games_domain)
+
+sysnet_read_config(games_domain)
+
+optional_policy(`
+	nscd_socket_use(games_domain)
+')
+
+########################################
+#
+# Games server personal policy.
 #
 
 dontaudit games_srv_t self:capability sys_tty_config;
@@ -95,12 +151,10 @@ optional_policy(`
 
 ########################################
 #
-# Local policy
+# Games personal policy.
 #
 
 allow games_t self:sem create_sem_perms;
-allow games_t self:tcp_socket create_stream_socket_perms;
-allow games_t self:udp_socket create_socket_perms;
 
 manage_files_pattern(games_t, games_data_t, games_data_t)
 manage_lnk_files_pattern(games_t, games_data_t, games_data_t)
@@ -112,27 +166,19 @@ manage_dirs_pattern(games_t, games_tmp_t, games_tmp_t)
 manage_files_pattern(games_t, games_tmp_t, games_tmp_t)
 files_tmp_filetrans(games_t, games_tmp_t, { file dir })
 
-manage_files_pattern(games_t, games_tmpfs_t, games_tmpfs_t)
 manage_lnk_files_pattern(games_t, games_tmpfs_t, games_tmpfs_t)
 manage_fifo_files_pattern(games_t, games_tmpfs_t, games_tmpfs_t)
 manage_sock_files_pattern(games_t, games_tmpfs_t, games_tmpfs_t)
-fs_tmpfs_filetrans(games_t, games_tmpfs_t, { file lnk_file sock_file fifo_file })
+fs_tmpfs_filetrans(games_t, games_tmpfs_t, { lnk_file sock_file fifo_file })
 
 can_exec(games_t, games_exec_t)
 
-kernel_read_system_state(games_t)
-
 corecmd_exec_bin(games_t)
 
-corenet_all_recvfrom_unlabeled(games_t)
-corenet_all_recvfrom_netlabel(games_t)
-corenet_tcp_sendrecv_generic_if(games_t)
 corenet_udp_sendrecv_generic_if(games_t)
-corenet_tcp_sendrecv_generic_node(games_t)
 corenet_udp_sendrecv_generic_node(games_t)
 corenet_tcp_sendrecv_all_ports(games_t)
 corenet_udp_sendrecv_all_ports(games_t)
-corenet_tcp_bind_generic_node(games_t)
 corenet_tcp_bind_generic_port(games_t)
 corenet_tcp_connect_generic_port(games_t)
 corenet_sendrecv_generic_client_packets(games_t)
@@ -140,15 +186,11 @@ corenet_sendrecv_generic_server_packets(games_t)
 
 dev_read_sound(games_t)
 dev_write_sound(games_t)
-dev_read_input(games_t)
 dev_read_mouse(games_t)
-dev_read_urand(games_t)
 
 files_list_var(games_t)
 files_search_var_lib(games_t)
 files_dontaudit_search_var(games_t)
-files_read_etc_files(games_t)
-files_read_usr_files(games_t)
 files_read_var_files(games_t)
 
 init_dontaudit_rw_utmp(games_t)
@@ -156,9 +198,6 @@ init_dontaudit_rw_utmp(games_t)
 logging_dontaudit_search_logs(games_t)
 
 miscfiles_read_man_pages(games_t)
-miscfiles_read_localization(games_t)
-
-sysnet_read_config(games_t)
 
 userdom_manage_user_tmp_dirs(games_t)
 userdom_manage_user_tmp_files(games_t)
@@ -172,31 +211,10 @@ tunable_policy(`allow_execmem',`
 ')
 
 optional_policy(`
-	nscd_socket_use(games_t)
-')
-
-optional_policy(`
 	xserver_user_x_domain_template(games, games_t, games_tmpfs_t)
 	xserver_create_xdm_tmp_sockets(games_t)
 	xserver_read_xdm_lib_files(games_t)
 ')
-
-########################################
-#
-# tmw personal declarations.
-#
-
-type tmw_t;
-type tmw_exec_t;
-application_domain(tmw_t, tmw_exec_t)
-ubac_constrained(tmw_t)
-
-type tmw_home_t;
-userdom_user_home_content(tmw_home_t)
-
-type tmw_tmpfs_t;
-files_tmpfs_file(tmw_tmpfs_t)
-ubac_constrained(tmw_tmpfs_t)
 
 ########################################
 #
@@ -206,26 +224,15 @@ ubac_constrained(tmw_tmpfs_t)
 allow tmw_t self:process setsched;
 allow tmw_t self:fifo_file rw_fifo_file_perms;
 allow tmw_t self:shm create_shm_perms;
-allow tmw_t self:tcp_socket create_stream_socket_perms;
-allow tmw_t self:udp_socket create_socket_perms;
 
 manage_dirs_pattern(tmw_t, tmw_home_t, tmw_home_t)
 manage_files_pattern(tmw_t, tmw_home_t, tmw_home_t)
 userdom_user_home_dir_filetrans(tmw_t, tmw_home_t, dir)
 userdom_search_user_home_dirs(tmw_t)
 
-manage_files_pattern(tmw_t, tmw_tmpfs_t, tmw_tmpfs_t)
-fs_tmpfs_filetrans(tmw_t, tmw_tmpfs_t, file)
 fs_getattr_tmpfs(tmw_t)
 
-kernel_read_system_state(tmw_t)
-
-corenet_all_recvfrom_netlabel(tmw_t)
-corenet_all_recvfrom_unlabeled(tmw_t)
-corenet_tcp_sendrecv_generic_if(tmw_t)
-corenet_tcp_sendrecv_generic_node(tmw_t)
 corenet_tcp_sendrecv_generic_port(tmw_t)
-corenet_tcp_bind_generic_node(tmw_t)
 
 corenet_tcp_connect_http_port(tmw_t)
 corenet_sendrecv_http_client_packets(tmw_t)
@@ -233,23 +240,13 @@ corenet_sendrecv_http_client_packets(tmw_t)
 corenet_tcp_connect_tmw_port(tmw_t)
 corenet_sendrecv_tmw_client_packets(tmw_t)
 
-dev_read_input(tmw_t)
-dev_read_urand(tmw_t)
 dev_rw_dri(tmw_t)
 
 domain_signull_all_domains(tmw_t)
 
-# /etc/pulse/client.conf
-files_read_etc_files(tmw_t)
-files_read_usr_files(tmw_t)
-
 fs_search_auto_mountpoints(tmw_t)
 
 logging_send_syslog_msg(tmw_t)
-
-miscfiles_read_localization(tmw_t)
-
-sysnet_read_config(tmw_t)
 
 userdom_read_user_tmpfs_files(tmw_t)
 allow tmw_t user_tmpfs_t:file unlink;
@@ -282,10 +279,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	nscd_socket_use(tmw_t)
-')
-
-optional_policy(`
 	pulseaudio_exec(tmw_t)
 	pulseaudio_rw_home_files(tmw_t)
 	pulseaudio_setattr_home_dir(tmw_t)
@@ -294,7 +287,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	xserver_user_x_domain_template(tmw, tmw_t, tmw_tmpfs_t)
+	xserver_user_x_domain_template(tmw, tmw_t, games_tmpfs_t)
 	xserver_append_xdm_home_files(tmw_t)
 ')
-

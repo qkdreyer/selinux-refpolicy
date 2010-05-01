@@ -1,6 +1,6 @@
-## <summary>Games</summary>
+## <summary>Various games.</summary>
 
-############################################################
+########################################
 ## <summary>
 ##	Role access for games
 ## </summary>
@@ -17,19 +17,17 @@
 #
 interface(`games_role',`
 	gen_require(`
+		attribute games_domain;
 		type games_t, games_exec_t;
 		type tmw_t, tmw_exec_t;
 	')
 
+	########################################
+	#
+	# Games shared declarations.
+	#
+
 	role $1 types games_t;
-
-	domtrans_pattern($2, games_exec_t, games_t)
-	allow $2 games_t:unix_stream_socket connectto;
-	allow games_t $2:unix_stream_socket connectto;
-
-	# Allow the user domain to signal/ps.
-	ps_process_pattern($2, games_t)
-	allow $2 games_t:process signal_perms;
 
 	########################################
 	#
@@ -40,13 +38,28 @@ interface(`games_role',`
 
 	########################################
 	#
+	# Global shared policy.
+	#
+
+	allow $2 games_domain:process { ptrace signal_perms };
+	ps_process_pattern($2, games_domain)
+
+	########################################
+	#
+	# Games shared policy.
+	#
+
+	domtrans_pattern($2, games_exec_t, games_t)
+
+	allow $2 games_t:unix_stream_socket connectto;
+	allow games_t $2:unix_stream_socket connectto;
+
+	########################################
+	#
 	# tmw shared policy.
 	#
 
 	domtrans_pattern($2, tmw_exec_t, tmw_t)
-
-	allow $2 tmw_t:process { ptrace signal_perms };
-	ps_process_pattern($2, tmw_t)
 
 	tmw_delete_tmpfs_files($2)
 	tmw_read_tmpfs_files($2)

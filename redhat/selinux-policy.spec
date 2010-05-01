@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.19
-Release: 10.1%{?dist}
+Release: 10.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,18 @@ exit 0
 %endif
 
 %changelog
+* Sat May 01 2010 Dominick Grift <domg472@gmail.com> 3.7.19-10.2
+- Allow all users to run cgexec and cgclear in the userdomain.
+- Add some more domains for cgexec to transition to.
+- cgroup: various domain transition interfaces and cgroup admin interface.
+- oidentd: various domain transition interfaces and oidentd admin interface.
+- pads: various domain transition interfaces.
+- Allow cgexec_t to run bin_t files in the initrc_t domain.
+- Remove some trash that was merged in from fedora branch.
+- Clean up: admin a.
+- Clean up: admin b to c.
+- Restructure games module.
+
 * Fri Apr 30 2010 Dominick Grift <domg472@gmail.com> 3.7.19-10.1
 - Merge branch fedora (v3.7.19-10)
 
