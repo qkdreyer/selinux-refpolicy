@@ -7,6 +7,116 @@
 
 ########################################
 ## <summary>
+##	Execute a domain transition to run cgexec.
+## </summary>
+## <param name="domain">
+## <summary>
+##	Domain allowed to transition.
+## </summary>
+## </param>
+#
+interface(`cgroup_domtrans_cgexec',`
+	gen_require(`
+		type cgexec_t, cgexec_exec_t;
+	')
+
+	domtrans_pattern($1, cgexec_exec_t, cgexec_t)
+')
+
+########################################
+## <summary>
+##	Execute a domain transition to run cgclear.
+## </summary>
+## <param name="domain">
+## <summary>
+##	Domain allowed to transition.
+## </summary>
+## </param>
+#
+interface(`cgroup_domtrans_cgclear',`
+	gen_require(`
+		type cgclear_t, cgclear_exec_t;
+	')
+
+	domtrans_pattern($1, cgclear_exec_t, cgclear_t)
+')
+
+########################################
+## <summary>
+##	Execute a domain transition to run cgconfig.
+## </summary>
+## <param name="domain">
+## <summary>
+##	Domain allowed to transition.
+## </summary>
+## </param>
+#
+interface(`cgroup_domtrans_cgconfigparser',`
+	gen_require(`
+		type cgconfigparser_t, cgconfigparser_exec_t;
+	')
+
+	domtrans_pattern($1, cgconfigparser_exec_t, cgconfigparser_t)
+')
+
+########################################
+## <summary>
+##	Execute cgconfigparser server in the
+##	cgconfigparser domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed to transition.
+##	</summary>
+## </param>
+#
+interface(`cgroup_initrc_domtrans_cgconfigparser',`
+	gen_require(`
+		type cgconfig_initrc_exec_t;
+	')
+
+	init_labeled_script_domtrans($1, cgconfig_initrc_exec_t)
+')
+
+########################################
+## <summary>
+##	Execute a domain transition to run cgred.
+## </summary>
+## <param name="domain">
+## <summary>
+##	Domain allowed to transition.
+## </summary>
+## </param>
+#
+interface(`cgroup_domtrans_cgred',`
+	gen_require(`
+		type cgred_t, cgred_exec_t;
+	')
+
+	domtrans_pattern($1, cgred_exec_t, cgred_t)
+')
+
+########################################
+## <summary>
+##	Execute cgred server in the
+##	cgred domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed to transition.
+##	</summary>
+## </param>
+#
+interface(`cgroup_initrc_domtrans_cgred',`
+	gen_require(`
+		type cgred_initrc_exec_t;
+	')
+
+	init_labeled_script_domtrans($1, cgred_initrc_exec_t)
+')
+
+########################################
+## <summary>
 ##	Delete cgroup directories.
 ## </summary>
 ## <param name="domain">
@@ -149,5 +259,68 @@ interface(`cgroup_stream_connect', `
 
 	files_search_pids($1)
 	stream_connect_pattern($1, cgred_var_run_t, cgred_var_run_t, cgred_t)
+')
+
+########################################
+## <summary>
+##	All of the rules required to administrate 
+##	an cgroup environment
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+## <param name="role">
+##	<summary>
+##	Role allowed access.
+##	</summary>
+## </param>
+## <rolecap/>
+#
+interface(`cgroup_admin',`
+	gen_require(`
+		type cgred_t, cgconfigparser_t, cgred_var_run_t;
+		type cgconfig_etc_t, cgconfig_initrc_exec_t, cgred_initrc_exec_t;
+		type cgred_etc_t, cgroup_t, cgclear_t, cgexec_t, cgroupfs_t;	
+	')
+
+	allow $1 cgexec_t:process { ptrace signal_perms getattr };
+	read_files_pattern($1, cgexec_t, cgexec_t)
+
+	allow $1 cgclear_t:process { ptrace signal_perms getattr };
+	read_files_pattern($1, cgclear_t, cgclear_t)
+
+	allow $1 cgconfigparser_t:process { ptrace signal_perms getattr };
+	read_files_pattern($1, cgconfigparser_t, cgconfigparser_t)
+
+	allow $1 cgred_t:process { ptrace signal_perms getattr };
+	read_files_pattern($1, cgred_t, cgred_t)
+
+	admin_pattern($1, cgroup_t)
+	admin_pattern($1, cgroupfs_t)
+
+	files_search_etc($1)
+	admin_pattern($1, cgconfig_etc_t)
+	admin_pattern($1, cgred_etc_t)
+
+	files_list_var($1)
+	admin_pattern($1, cgred_var_run_t)
+
+	corecmd_search_bin($1)
+
+	cgroup_domtrans_cgexec($1)
+	role_transition $2 cgexec_exec_t system_r;
+
+	cgroup_domtrans_cgclear($1)
+	role_transition $2 cgclear_exec_t system_r;
+
+	cgroup_initrc_domtrans_cgconfigparser($1)
+	domain_system_change_exemption($1)
+	role_transition $2 cgconfig_initrc_exec_t system_r;
+	allow $2 system_r;
+
+	cgroup_initrc_domtrans_cgred($1)
+	role_transition $2 cgred_initrc_exec_t system_r;
 ')
 

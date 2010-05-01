@@ -1,4 +1,4 @@
-## <summary>SELinux policy for Oident daemon.</summary>
+## <summary>Oidentd RFC 1413 compliant ident daemon.</summary>
 ## <desc>
 ##	<p>
 ##	Oident daemon is a server that implements the TCP/IP
@@ -23,6 +23,24 @@ interface(`oidentd_domtrans',`
 	')
 
 	domtrans_pattern($1, oidentd_exec_t, oidentd_t)
+')
+
+########################################
+## <summary>
+##	Execute oidentd server in the oidentd domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed to transition.
+##	</summary>
+## </param>
+#
+interface(`oidentd_initrc_domtrans',`
+	gen_require(`
+		type oidentd_initrc_exec_t;
+	')
+
+	init_labeled_script_domtrans($1, oidentd_initrc_exec_t)
 ')
 
 ########################################
@@ -84,3 +102,38 @@ interface(`oident_relabel_user_content', `
 	allow $1 oidentd_home_t:file relabel_file_perms;
 	userdom_search_user_home_dirs($1)
 ')
+
+########################################
+## <summary>
+##	All of the rules required to administrate 
+##	an oidentd environment
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+## <param name="role">
+##	<summary>
+##	Role allowed access.
+##	</summary>
+## </param>
+## <rolecap/>
+#
+interface(`oidentd_admin',`
+	gen_require(`
+		type oidentd_t, oidentd_config_t, oidentd_initrc_exec_t;
+	')
+
+	allow $1 oidentd_t:process { ptrace signal_perms getattr };
+	read_files_pattern($1, oidentd_t, oidentd_t)
+
+	files_search_etc($1)
+	admin_pattern($1, oidentd_config_t)
+
+	oidentd_initrc_domtrans($1)
+	domain_system_change_exemption($1)
+	role_transition $2 oidentd_initrc_exec_t system_r;
+	allow $2 system_r;
+')
+
