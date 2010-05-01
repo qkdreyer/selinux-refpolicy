@@ -21,6 +21,7 @@ interface(`cgroup_domtrans_cgexec',`
 	')
 
 	domtrans_pattern($1, cgexec_exec_t, cgexec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -39,6 +40,7 @@ interface(`cgroup_domtrans_cgclear',`
 	')
 
 	domtrans_pattern($1, cgclear_exec_t, cgclear_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -57,6 +59,7 @@ interface(`cgroup_domtrans_cgconfigparser',`
 	')
 
 	domtrans_pattern($1, cgconfigparser_exec_t, cgconfigparser_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -75,6 +78,7 @@ interface(`cgroup_initrc_domtrans_cgconfigparser',`
 		type cgconfig_initrc_exec_t;
 	')
 
+	files_search_etc($1)
 	init_labeled_script_domtrans($1, cgconfig_initrc_exec_t)
 ')
 
@@ -94,6 +98,7 @@ interface(`cgroup_domtrans_cgred',`
 	')
 
 	domtrans_pattern($1, cgred_exec_t, cgred_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -112,6 +117,7 @@ interface(`cgroup_initrc_domtrans_cgred',`
 		type cgred_initrc_exec_t;
 	')
 
+	files_search_etc($1)
 	init_labeled_script_domtrans($1, cgred_initrc_exec_t)
 ')
 
@@ -150,6 +156,7 @@ interface(`cgroup_exec_cgexec',`
 	')
 
 	can_exec($1, cgexec_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -168,6 +175,7 @@ interface(`cgroup_exec_cgclear',`
 	')
 
 	can_exec($1, cgclear_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -257,8 +265,8 @@ interface(`cgroup_stream_connect', `
 		type cgred_var_run_t, cgred_t;
 	')
 
-	files_search_pids($1)
 	stream_connect_pattern($1, cgred_var_run_t, cgred_var_run_t, cgred_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -306,8 +314,6 @@ interface(`cgroup_admin',`
 
 	files_list_var($1)
 	admin_pattern($1, cgred_var_run_t)
-
-	corecmd_search_bin($1)
 
 	cgroup_domtrans_cgexec($1)
 	role_transition $2 cgexec_exec_t system_r;

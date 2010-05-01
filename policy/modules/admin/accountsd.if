@@ -1,4 +1,11 @@
-## <summary>policy for accountsd</summary>
+## <summary>Accountsservice D-Bus interfaces for querying and manipulating user account information.</summary>
+## <desc>
+##	<p>
+##	The accountsservice project provides a set of D-Bus interfaces for
+##	querying and manipulating user account information and an implementation
+##	of these interfaces, based on the useradd, usermod and userdel commands.
+##	</p>
+## </desc>
 
 ########################################
 ## <summary>
@@ -16,6 +23,8 @@ interface(`accountsd_domtrans',`
 	')
 
 	domtrans_pattern($1, accountsd_exec_t, accountsd_t)
+	corecmd_search_bin($1)
+	files_search_usr($1)
 ')
 
 ########################################
@@ -52,8 +61,8 @@ interface(`accountsd_read_lib_files',`
 		type accountsd_var_lib_t;
 	')
 
+	read_files_pattern($1, accountsd_var_lib_t, accountsd_var_lib_t)
 	files_search_var_lib($1)
-        read_files_pattern($1, accountsd_var_lib_t, accountsd_var_lib_t)
 ')
 
 ########################################
@@ -72,8 +81,8 @@ interface(`accountsd_manage_lib_files',`
 		type accountsd_var_lib_t;
 	')
 
+	manage_files_pattern($1, accountsd_var_lib_t,  accountsd_var_lib_t)
 	files_search_var_lib($1)
-        manage_files_pattern($1, accountsd_var_lib_t,  accountsd_var_lib_t)
 ')
 
 ########################################
@@ -91,9 +100,10 @@ interface(`accountsd_manage_var_lib',`
 		type accountsd_var_lib_t;
 	')
 
-         manage_dirs_pattern($1, accountsd_var_lib_t, accountsd_var_lib_t)
-         manage_files_pattern($1, accountsd_var_lib_t, accountsd_var_lib_t)
-         manage_lnk_files_pattern($1, accountsd_var_lib_t, accountsd_var_lib_t)
+	manage_dirs_pattern($1, accountsd_var_lib_t, accountsd_var_lib_t)
+	manage_files_pattern($1, accountsd_var_lib_t, accountsd_var_lib_t)
+	manage_lnk_files_pattern($1, accountsd_var_lib_t, accountsd_var_lib_t)
+	files_search_var_lib($1)
 ')
 
 ########################################
@@ -157,8 +167,10 @@ interface(`accountsd_admin',`
 	gen_require(`
 		type accountsd_t;
 	')
+	
 	allow $1 accountsd_t:process { ptrace signal_perms getattr };
 	read_files_pattern($1, accountsd_t, accountsd_t)
 
 	accountsd_manage_var_lib($1)
 ')
+

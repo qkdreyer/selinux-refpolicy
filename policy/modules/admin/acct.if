@@ -1,4 +1,15 @@
 ## <summary>Berkeley process accounting</summary>
+## <desc>
+##	<p>
+##	The psacct package contains several utilities for monitoring process
+##	activities, including ac, lastcomm, accton and sa. The ac command
+##	displays statistics about how long users have been logged on. The
+##	lastcomm command displays information about previous executed
+##	commands. The accton command turns process accounting on or off. The
+##	sa command summarizes information about previously executed
+##	commands.
+##	</p>
+## </desc>
 
 ########################################
 ## <summary>
@@ -6,7 +17,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,8 +26,8 @@ interface(`acct_domtrans',`
 		type acct_t, acct_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, acct_exec_t, acct_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -25,7 +36,7 @@ interface(`acct_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -34,8 +45,8 @@ interface(`acct_exec',`
 		type acct_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	can_exec($1, acct_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -44,19 +55,17 @@ interface(`acct_exec',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
-# cjp: this is added for logrotate, and does
-# not make sense to me.
 interface(`acct_exec_data',`
 	gen_require(`
 		type acct_data_t;
 	')
 
-	files_search_var($1)
 	can_exec($1, acct_data_t)
+	files_search_var($1)
 ')
 
 ########################################
@@ -65,7 +74,7 @@ interface(`acct_exec_data',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -74,7 +83,7 @@ interface(`acct_manage_data',`
 		type acct_data_t;
 	')
 
-	files_search_var($1)
 	manage_files_pattern($1, acct_data_t, acct_data_t)
 	manage_lnk_files_pattern($1, acct_data_t, acct_data_t)
+	files_search_var($1)
 ')

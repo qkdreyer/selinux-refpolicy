@@ -1,4 +1,11 @@
-## <summary>Abstract Machine Test Utility</summary>
+## <summary>Abstract Machine Test Utility.</summary>
+## <desc>
+##	<p>
+##	Abstract Machine Test Utility (AMTU) is an administrative
+##	utility that checks whether the underlying protection
+##	mechanisms of the hardware are being enforced. 
+##	</p>
+## </desc>
 
 ########################################
 ## <summary>
@@ -15,8 +22,8 @@ interface(`amtu_domtrans',`
 		type amtu_t, amtu_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, amtu_exec_t, amtu_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################

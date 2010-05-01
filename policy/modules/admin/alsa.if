@@ -1,4 +1,10 @@
-## <summary>Ainit ALSA configuration tool</summary>
+## <summary>Advanced Linux Sound Architecture</summary>
+## <desc>
+##	<p>
+##	The Advanced Linux Sound Architecture (ALSA) provides
+##	audio and MIDI functionality to the Linux operating system. 
+##	</p>
+## </desc>
 
 ########################################
 ## <summary>
@@ -16,6 +22,7 @@ interface(`alsa_domtrans',`
 	')
 
 	domtrans_pattern($1, alsa_exec_t, alsa_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -72,6 +79,7 @@ interface(`alsa_read_rw_config',`
 	allow $1 alsa_etc_rw_t:dir list_dir_perms;
 	read_files_pattern($1, alsa_etc_rw_t, alsa_etc_rw_t)
 	read_lnk_files_pattern($1, alsa_etc_rw_t, alsa_etc_rw_t)
+	files_search_etc($1)
 ')
 
 ########################################
@@ -92,6 +100,7 @@ interface(`alsa_manage_rw_config',`
 	allow $1 alsa_etc_rw_t:dir list_dir_perms;
 	manage_files_pattern($1, alsa_etc_rw_t, alsa_etc_rw_t)
 	read_lnk_files_pattern($1, alsa_etc_rw_t, alsa_etc_rw_t)
+	files_search_etc($1)
 ')
 
 ########################################
@@ -110,4 +119,5 @@ interface(`alsa_read_lib',`
 	')
 
 	read_files_pattern($1, alsa_var_lib_t, alsa_var_lib_t)
+	files_search_var_lib($1)
 ')

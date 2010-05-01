@@ -1,4 +1,12 @@
 ## <summary>APT advanced package tool.</summary>
+## <desc>
+##	<p>
+##	APT simplifies the process of managing software
+##	on Unix-like computer systems by automating the retrieval,
+##	configuration and installation of software packages, either
+##	from binary files or by compiling source code.
+##	</p>
+## </desc>
 
 ########################################
 ## <summary>
@@ -6,7 +14,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,9 +23,9 @@ interface(`apt_domtrans',`
 		type apt_t, apt_exec_t;
 	')
 
-	files_search_usr($1)
-	corecmd_search_bin($1)
 	domtrans_pattern($1, apt_exec_t, apt_t)
+	corecmd_search_bin($1)
+	files_search_usr($1)
 ')
 
 ########################################
@@ -26,7 +34,7 @@ interface(`apt_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -52,7 +60,7 @@ interface(`apt_run',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -71,8 +79,7 @@ interface(`apt_use_fds',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process attempting performing this action
-##	which should not be audited.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -90,7 +97,7 @@ interface(`apt_dontaudit_use_fds',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -109,7 +116,7 @@ interface(`apt_read_pipes',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -146,7 +153,7 @@ interface(`apt_use_ptys',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -155,10 +162,10 @@ interface(`apt_read_cache',`
 		type apt_var_cache_t;
 	')
 
-	files_search_var($1)
 	allow $1 apt_var_cache_t:dir list_dir_perms;
 	dontaudit $1 apt_var_cache_t:dir write;
 	allow $1 apt_var_cache_t:file read_file_perms;
+	files_search_var($1)
 ')
 
 ########################################
@@ -167,7 +174,7 @@ interface(`apt_read_cache',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowes access.
 ##	</summary>
 ## </param>
 #
@@ -176,10 +183,10 @@ interface(`apt_read_db',`
 		type apt_var_lib_t;
 	')
 
-	files_search_var_lib($1)
 	allow $1 apt_var_lib_t:dir list_dir_perms;
 	read_files_pattern($1, apt_var_lib_t, apt_var_lib_t)
 	read_lnk_files_pattern($1, apt_var_lib_t, apt_var_lib_t)
+	files_search_var_lib($1)
 ')
 
 ########################################
@@ -188,7 +195,7 @@ interface(`apt_read_db',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -197,11 +204,11 @@ interface(`apt_manage_db',`
 		type apt_var_lib_t;
 	')
 
-	files_search_var_lib($1)
 	manage_files_pattern($1, apt_var_lib_t, apt_var_lib_t)
 	# cjp: shouldnt this be manage_lnk_files?
 	rw_lnk_files_pattern($1, apt_var_lib_t, apt_var_lib_t)
 	delete_lnk_files_pattern($1, apt_var_lib_t, apt_var_lib_t)
+	files_search_var_lib($1)
 ')
 
 ########################################
