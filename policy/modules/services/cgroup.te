@@ -72,6 +72,8 @@ files_config_file(cgconfig_etc_t)
 # cgexec personal policy.
 #
 
+# It appears that some of these vectors are inherited from the CGROUP_DAEMON that cgexec executes.
+
 allow cgexec_t self:capability setuid;
 allow cgexec_t self:fifo_file rw_fifo_file_perms;
 allow cgexec_t self:netlink_route_socket read;
@@ -90,14 +92,21 @@ fs_write_cgroupfs_files(cgexec_t)
 cgroup_search_cgroup_dirs(cgexec_t)
 cgroup_stream_connect(cgexec_t)
 
+# If you have a CGROUP_DAEMON that is currently not confined you can run it in initrc_t.
+# This interface should be named init_bin_domtrans_initrc instead.
+init_bin_domtrans_spec(cgexec_t)
+
 logging_send_syslog_msg(cgexec_t)
 
 miscfiles_read_localization(cgexec_t)
 
 sysnet_read_config(cgexec_t)
 
-# For each service that supports CGROUP_DAEMON there must be a domtrans.
+# For each CGROUP_DAEMON there must be a domtrans.
 # All services in /etc/sysconfig that use functions in init script.
+
+# You start a service, init looks at service config to see if CGROUP_DAEMON is specified.
+# If it is, then init runs the service via cgexec. (see /etc/rc.d/init.d/functions)
 
 optional_policy(`
 	apache_domtrans(cgexec_t)
@@ -109,6 +118,10 @@ optional_policy(`
 
 optional_policy(`
 	oidentd_domtrans(cgexec_t)
+')
+
+optional_policy(`
+	pads_domtrans(cgexec_t)
 ')
 
 optional_policy(`
