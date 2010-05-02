@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.19
-Release: 10.3%{?dist}
+Release: 10.4%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,10 @@ exit 0
 %endif
 
 %changelog
+* Sun May 02 2010 Dominick Grift <domg472@gmail.com> 3.7.19-10.4
+Merge branch refpolicy.
+Allow seahorsed to create a socket in user tmp.
+
 * Sat May 01 2010 Dominick Grift <domg472@gmail.com> 3.7.19-10.3
 - Restructure IRC module.
 - Clean up: admin to p.
