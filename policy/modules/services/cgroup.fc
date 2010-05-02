@@ -1,5 +1,3 @@
-/bin/cgexec				--	gen_context(system_u:object_r:cgexec_exec_t, s0)
-
 /cgroup(/.*)?			gen_context(system_u:object_r:cgroup_t, s0)
 
 /etc/cgconfig.conf	-- gen_context(system_u:object_r:cgconfig_etc_t, s0)
