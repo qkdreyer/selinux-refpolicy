@@ -25,7 +25,7 @@
 #
 interface(`seahorsed_role',`
 	gen_require(`
-		type seahorsed_t, seahorsed_exec_t;
+		type seahorsed_t, seahorsed_exec_t, seahorsed_tmp_t;
 	')
 
 	########################################
@@ -44,6 +44,9 @@ interface(`seahorsed_role',`
 
 	allow $2 seahorsed_t:process { ptrace signal_perms };
 	ps_process_pattern($2, seahorsed_t)
+
+	manage_sock_files_pattern($2, seahorsed_tmp_t, seahorsed_tmp_t)
+	relabel_sock_files_pattern($2, seahorsed_tmp_t, seahorsed_tmp_t)
 
 	seahorsed_delete_tmpfs_files($2)
 	seahorsed_read_tmpfs_files($2)

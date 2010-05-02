@@ -11,6 +11,10 @@ type seahorsed_exec_t;
 application_domain(seahorsed_t, seahorsed_exec_t)
 ubac_constrained(seahorsed_t)
 
+type seahorsed_tmp_t;
+file_tmp_file(seahorsed_tmp_t)
+ubac_constrained(seahorsed_tmp_t)
+
 type seahorsed_tmpfs_t;
 files_tmpfs_file(seahorsed_tmpfs_t)
 ubac_constrained(seahorsed_tmpfs_t)
@@ -28,6 +32,9 @@ allow seahorsed_t self:unix_dgram_socket create_socket_perms;
 
 manage_files_pattern(seahorsed_t, seahorsed_tmpfs_t, seahorsed_tmpfs_t)
 fs_tmpfs_filetrans(seahorsed_t, seahorsed_tmpfs_t, file)
+
+manage_sock_files_pattern(seahorsed_t, seahorsed_tmp_t, seahorsed_tmp_t)
+userdom_user_tmp_filetrans(seahorsed_t, seahorsed_tmp_t, sock_file)
 
 corenet_all_recvfrom_netlabel(seahorsed_t)
 corenet_all_recvfrom_unlabeled(seahorsed_t)
@@ -61,7 +68,6 @@ userdom_setattr_user_tmp_dirs(seahorsed_t)
 userdom_stream_connect(seahorsed_t)
 userdom_signull_unpriv_users(seahorsed_t)
 userdom_use_user_terminals(seahorsed_t)
-userdom_write_user_tmp_sockets(seahorsed_t)
 
 # We need a non-generic type for ~/.icons
 userdom_dontaudit_read_user_home_content_files(seahorsed_t)
