@@ -100,7 +100,7 @@ optional_policy(`
 
 optional_policy(`
 	gpg_domtrans(seahorsed_t)
-	gpg_list_user_content_dirs(seahorsed_t)
+	gpg_list_user_secrets(seahorsed_t)
 ')
 
 optional_policy(`

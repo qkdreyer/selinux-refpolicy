@@ -120,7 +120,7 @@ optional_policy(`
 
 optional_policy(`
 	# Could this be a leak? Just want read and write.
-	gpg_agent_rw_named_pipes(pulseaudio_t)
+	gpg_rw_agent_pipes(pulseaudio_t)
 ')
 
 optional_policy(`
