@@ -767,6 +767,26 @@ interface(`fs_rw_cgroupfs_files',`
 
 ########################################
 ## <summary>
+##	Do not audit attempts to getattr,
+##	open, read and write files on cgroup
+##	file systems.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain to not audit.
+##	</summary>
+## </param>
+#
+interface(`fs_dontaudit_rw_cgroupfs_files',`
+	gen_require(`
+		type cgroupfs_t;
+	')
+
+	dontaudit $1 cgroupfs_t:file rw_file_perms;
+')
+
+########################################
+## <summary>
 ##	Do not audit attempts to read
 ##	dirs on a CIFS or SMB filesystem.
 ## </summary>
