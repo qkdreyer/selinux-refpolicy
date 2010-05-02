@@ -7,44 +7,6 @@
 
 ########################################
 ## <summary>
-##	Execute a domain transition to run cgexec.
-## </summary>
-## <param name="domain">
-## <summary>
-##	Domain allowed to transition.
-## </summary>
-## </param>
-#
-interface(`cgroup_domtrans_cgexec',`
-	gen_require(`
-		type cgexec_t, cgexec_exec_t;
-	')
-
-	domtrans_pattern($1, cgexec_exec_t, cgexec_t)
-	corecmd_search_bin($1)
-')
-
-########################################
-## <summary>
-##	Execute a domain transition to run cgclear.
-## </summary>
-## <param name="domain">
-## <summary>
-##	Domain allowed to transition.
-## </summary>
-## </param>
-#
-interface(`cgroup_domtrans_cgclear',`
-	gen_require(`
-		type cgclear_t, cgclear_exec_t;
-	')
-
-	domtrans_pattern($1, cgclear_exec_t, cgclear_t)
-	corecmd_search_bin($1)
-')
-
-########################################
-## <summary>
 ##	Execute a domain transition to run cgconfig.
 ## </summary>
 ## <param name="domain">
@@ -138,44 +100,6 @@ interface(`cgroup_delete_cgroup_dirs', `
 
 	delete_dirs_pattern($1, cgroup_t, cgroup_t)
 	cgroup_search_cgroup_dirs($1)
-')
-
-########################################
-## <summary>
-##	Execute cgexec without a transition.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`cgroup_exec_cgexec',`
-	gen_require(`
-		type cgexec_exec_t;
-	')
-
-	can_exec($1, cgexec_exec_t)
-	corecmd_search_bin($1)
-')
-
-########################################
-## <summary>
-##	Execute cgclear without a transition.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`cgroup_exec_cgclear',`
-	gen_require(`
-		type cgclear_exec_t;
-	')
-
-	can_exec($1, cgclear_exec_t)
-	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -290,11 +214,8 @@ interface(`cgroup_admin',`
 	gen_require(`
 		type cgred_t, cgconfigparser_t, cgred_var_run_t;
 		type cgconfig_etc_t, cgconfig_initrc_exec_t, cgred_initrc_exec_t;
-		type cgred_etc_t, cgroup_t, cgclear_t, cgroupfs_t;	
+		type cgred_etc_t, cgroup_t, cgroupfs_t;	
 	')
-
-	allow $1 cgclear_t:process { ptrace signal_perms getattr };
-	read_files_pattern($1, cgclear_t, cgclear_t)
 
 	allow $1 cgconfigparser_t:process { ptrace signal_perms getattr };
 	read_files_pattern($1, cgconfigparser_t, cgconfigparser_t)
@@ -312,9 +233,6 @@ interface(`cgroup_admin',`
 	files_list_var($1)
 	admin_pattern($1, cgred_var_run_t)
 
-	cgroup_domtrans_cgclear($1)
-	role_transition $2 cgclear_exec_t system_r;
-
 	cgroup_initrc_domtrans_cgconfigparser($1)
 	domain_system_change_exemption($1)
 	role_transition $2 cgconfig_initrc_exec_t system_r;
@@ -323,4 +241,3 @@ interface(`cgroup_admin',`
 	cgroup_initrc_domtrans_cgred($1)
 	role_transition $2 cgred_initrc_exec_t system_r;
 ')
-

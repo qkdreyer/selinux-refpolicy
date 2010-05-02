@@ -142,7 +142,6 @@ template(`userdom_base_user_template',`
 	')
 
 	optional_policy(`
-		cgroup_exec_cgclear($1_usertype)
 		cgroup_list_cgroup_dirs($1_usertype)
 	')
 

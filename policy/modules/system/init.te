@@ -549,6 +549,12 @@ ifdef(`distro_redhat',`
 
 	fs_read_tmpfs_symlinks(initrc_t)
 	fs_rw_tmpfs_chr_files(initrc_t)
+	
+	# /sbin/cgclear
+	fs_delete_cgroupfs_dirs(initrc_t)
+	fs_list_cgroupfs_dirs(initrc_t)
+	# w for /bin/cgcexec and rw for /sbin/cgclear 
+	fs_rw_cgroupfs_files(initrc_t)
 
 	storage_manage_fixed_disk(initrc_t)
 	storage_dev_filetrans_fixed_disk(initrc_t)
@@ -576,6 +582,9 @@ ifdef(`distro_redhat',`
 	')
 
 	optional_policy(`
+		# /sbin/cgclear
+		cgroup_delete_cgroup_dirs(initrc_t)
+		# /bin/cgexec
 		cgroup_stream_connect(initrc_t)
 	')
 

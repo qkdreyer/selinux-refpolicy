@@ -9,8 +9,6 @@ policy_module(cgroup, 1.0.0)
 type cgroup_t;
 files_mountpoint(cgroup_t)
 
-attribute cgroup_domains;
-
 ########################################
 #
 # cgexec personal declarations.
@@ -36,15 +34,6 @@ files_config_file(cgrules_etc_t)
 
 ########################################
 #
-# cgclear personal declarations.
-#
-
-type cgclear_t;
-type cgclear_exec_t;
-init_daemon_domain(cgclear_t, cgclear_exec_t)
-
-########################################
-#
 # cgconfig personal declarations.
 #
 
@@ -57,16 +46,6 @@ init_script_file(cgconfig_initrc_exec_t)
 
 type cgconfig_etc_t;
 files_config_file(cgconfig_etc_t)
-
-########################################
-#
-# cgroup global personal policy.
-#
-
-########################################
-#
-# cgexec personal policy.
-#
 
 ########################################
 #
@@ -107,23 +86,12 @@ miscfiles_read_localization(cgred_t)
 # cgclear personal policy.
 #
 
-allow cgclear_t self:capability sys_admin;
-
-kernel_read_system_state(cgclear_t)
-
-fs_delete_cgroupfs_dirs(cgclear_t)
-fs_list_cgroupfs_dirs(cgclear_t)
-fs_rw_cgroupfs_files(cgclear_t)
-fs_unmount_cgroupfs(cgclear_t)
-
-cgroup_delete_cgroup_dirs(cgclear_t)
-
 ########################################
 #
 # cgconfig personal policy.
 #
 
-allow cgconfigparser_t self:capability sys_admin;
+# allow cgconfigparser_t self:capability sys_admin;
 
 allow cgconfigparser_t cgconfig_etc_t:file read_file_perms;
 
