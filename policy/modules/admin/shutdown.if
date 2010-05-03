@@ -1,5 +1,14 @@
-
-## <summary>policy for shutdown</summary>
+## <summary>shutdown bring the system down.</summary>
+## <desc>
+##	<p>
+##	shutdown brings the system down in a secure way. All
+##	logged-in users are notified that the system is going down,
+##	and login(1) is blocked. It is possible to shut the system
+##	down immediately or after a specified delay. All processes
+##	are first notified that the system is going down by the
+##	signal SIGTERM.
+##	</p>
+## </desc>
 
 ########################################
 ## <summary>
@@ -17,8 +26,9 @@ interface(`shutdown_domtrans',`
 	')
 
 	domtrans_pattern($1, shutdown_exec_t, shutdown_t)
+	corecmd_search_bin($1)
 
-	ifdef(`hide_broken_symptoms', `
+	ifdef(`hide_broken_symptoms',`
 		dontaudit shutdown_t $1:socket_class_set { read write };
 		dontaudit shutdown_t $1:fifo_file rw_inherited_fifo_file_perms;
 	')
@@ -32,7 +42,7 @@ interface(`shutdown_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -56,12 +66,12 @@ interface(`shutdown_run',`
 ## </summary>
 ## <param name="role">
 ##	<summary>
-##	Role allowed access
+##	The role to be allowed the shutdown domain.
 ##	</summary>
 ## </param>
 ## <param name="domain">
 ##	<summary>
-##	User domain for the role
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -70,9 +80,8 @@ interface(`shutdown_role',`
               type shutdown_t;
 	')
 
-	role $1 types shutdown_t;
-
 	shutdown_domtrans($2)
+	role $1 types shutdown_t;
 
 	ps_process_pattern($2, shutdown_t)
 	allow $2 shutdown_t:process signal;
@@ -80,17 +89,17 @@ interface(`shutdown_role',`
 
 ########################################
 ## <summary>
-##	Recieve sigchld from shutdown
+##	Recieve sigchld from shutdown.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
 interface(`shutdown_send_sigchld',`
 	gen_require(`
-              type shutdown_t;
+		type shutdown_t;
 	')
 
 	allow shutdown_t $1:process signal;

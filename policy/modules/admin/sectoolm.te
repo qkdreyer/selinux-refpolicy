@@ -104,4 +104,3 @@ optional_policy(`
 	rpm_exec(sectoolm_t)
 	rpm_dontaudit_manage_db(sectoolm_t)
 ')
-

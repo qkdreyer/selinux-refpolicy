@@ -1,22 +1,30 @@
-## <summary>SUID/SGID program monitoring</summary>
+## <summary>sXid SUID/SGID program monitoring.</summary>
+# <desc>
+##	<p>
+##	sXid is an all in one suid/sgid monitoring program designed
+##	to be run from cron on a regular basis. Basically it tracks
+##	any changes in your s[ug]id files and folders. If there are
+##	any new ones, ones that aren't set any more, or they have
+##	changed bits or other modes then it reports the changes in
+##	an easy to read format via email or on the command line.
+##	</p>
+## </desc>
 
 ########################################
 ## <summary>
-##	Allow the specified domain to read
-##	sxid log files.
+##	Read sxid log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`sxid_read_log',`
 	gen_require(`
 		type sxid_log_t;
 	')
 
-	logging_search_logs($1)
 	allow $1 sxid_log_t:file read_file_perms;
+	logging_search_logs($1)
 ')

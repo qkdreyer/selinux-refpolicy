@@ -1,1 +1,7 @@
-## <summary>Readahead, read files into page cache for improved performance</summary>
+## <summary>readahead perform file readahead into page cache.</summary>
+## <desc>
+##	<p>
+##	readahead populates the page cache with data from a file so that
+##	subsequent reads from that file will not block on disk I/O.
+##	</p>
+## </desc>

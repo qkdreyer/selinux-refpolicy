@@ -1,4 +1,13 @@
-## <summary>Run shells with substitute user and group</summary>
+## <summary>su run a shell with substitute user and group IDs.</summary>
+## <desc>
+##	<p>
+##	su allows one user to temporarily become another user.  It runs a
+##	command (often an interactive shell) with the real and effective user
+##	ID, group ID, and supplemental groups of a given USER. When the -l
+##	option is given, the su-l PAM file is used instead of the default su
+##	PAM file.
+##	</p>
+## </desc>
 
 #######################################
 ## <summary>
@@ -28,7 +37,7 @@
 ##	</summary>
 ## </param>
 #
-template(`su_restricted_domain_template', `
+template(`su_restricted_domain_template',`
 	gen_require(`
 		type su_exec_t;
 	')
@@ -58,9 +67,9 @@ template(`su_restricted_domain_template', `
 	allow $2 $1_su_t:fifo_file rw_file_perms;
 	allow $2 $1_su_t:process sigchld;
 
-ifdef(`hide_broken_symptoms', `
-	dontaudit $1_su_t $2:socket_class_set { read write };
-')
+	ifdef(`hide_broken_symptoms', `
+		dontaudit $1_su_t $2:socket_class_set { read write };
+	')
 
 	kernel_read_system_state($1_su_t)
 	kernel_read_kernel_sysctls($1_su_t)
@@ -187,10 +196,10 @@ template(`su_role_template',`
 
 	# Transition from the user domain to this domain.
 	domtrans_pattern($3, su_exec_t, $1_su_t)
-ifdef(`hide_broken_symptoms', `
-	dontaudit $1_su_t $3:socket_class_set { read write };
-')
 
+	ifdef(`hide_broken_symptoms', `
+		dontaudit $1_su_t $3:socket_class_set { read write };
+	')
 
 	ps_process_pattern($3, $1_su_t)
 
@@ -335,4 +344,5 @@ interface(`su_exec',`
 	')
 
 	can_exec($1, su_exec_t)
+	corecmd_search_bin($1)
 ')

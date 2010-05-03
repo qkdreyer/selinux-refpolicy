@@ -1,4 +1,10 @@
-## <summary>Execute a command with a substitute user</summary>
+## <summary>sudo, sudoedit execute a command as another user.</summary>
+## <desc>
+##	<p>
+##	sudo allows a permitted user to execute a command as the superuser
+##	or another user, as specified in the sudoers file.
+##	</p>
+## </desc>
 
 #######################################
 ## <summary>
@@ -19,17 +25,16 @@
 ## </param>
 ## <param name="user_role">
 ##	<summary>
-##	The user role.
+##	The role associated with the user domain.
 ##	</summary>
 ## </param>
 ## <param name="user_domain">
 ##	<summary>
-##	The user domain associated with the role.
+##	The type of the user domain..
 ##	</summary>
 ## </param>
 #
 template(`sudo_role_template',`
-
 	gen_require(`
 		type sudo_exec_t;
 		attribute sudodomain;
@@ -158,7 +163,6 @@ template(`sudo_role_template',`
 	optional_policy(`
 		fprintd_dbus_chat($1_sudo_t)
 	')
-
 ')
 
 ########################################

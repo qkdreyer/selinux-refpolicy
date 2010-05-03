@@ -1,1 +1,8 @@
-## <summary>The Fedora hardware profiler client</summary>
+## <summary>Smolt hardware profiler.</summary>
+## <desc>
+##	<p>
+##	Smolt is a combined effort of various Linux projects,
+##	initially by Fedora, to gather hardware information
+##	from computers running Linux.
+##	</p>
+## </desc>

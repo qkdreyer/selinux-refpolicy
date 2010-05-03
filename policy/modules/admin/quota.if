@@ -1,4 +1,12 @@
-## <summary>File system quota management</summary>
+## <summary>Common Unix Disk Quota Utilities.</summary>
+## <desc>
+##	<p>
+##	A disk quota is a limit set by a system administrator that
+##	restricts certain aspects of file system usage on modern
+##	operating systems. The function of using disk quotas is to
+##	allocate limited disk space in a reasonable way.
+##	</p>
+## </desc>
 
 ########################################
 ## <summary>
@@ -6,7 +14,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -16,6 +24,7 @@ interface(`quota_domtrans',`
 	')
 
 	domtrans_pattern($1, quota_exec_t, quota_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -25,7 +34,7 @@ interface(`quota_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -79,6 +88,6 @@ interface(`quota_manage_flags',`
 		type quota_flag_t;
 	')
 
-	files_search_var_lib($1)
 	manage_files_pattern($1, quota_flag_t, quota_flag_t)
+	files_search_var_lib($1)
 ')
