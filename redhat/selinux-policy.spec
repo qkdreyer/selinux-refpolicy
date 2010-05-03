@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.19
-Release: 10.4%{?dist}
+Release: 10.5%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,9 +439,14 @@ exit 0
 %endif
 
 %changelog
+* Mon May 03 2010 Dominick Grift <domg472@gmail.com> 3.7.19-10.5
+- Remove cgclear_t and cgexec_t. cgexec_t needs about the same permissions as initrc_t
+- cgexec_t also needs: search cgroup dirs, write cgroupfs files and stream connectto cgred_t.
+- cgclear_t only needs a few more perms therefore run it in initrc_t aswell.
+
 * Sun May 02 2010 Dominick Grift <domg472@gmail.com> 3.7.19-10.4
-Merge branch refpolicy.
-Allow seahorsed to create a socket in user tmp.
+- Merge branch refpolicy.
+- Allow seahorsed to create a socket in user tmp.
 
 * Sat May 01 2010 Dominick Grift <domg472@gmail.com> 3.7.19-10.3
 - Restructure IRC module.
