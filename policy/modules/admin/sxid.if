@@ -1,5 +1,5 @@
 ## <summary>sXid SUID/SGID program monitoring.</summary>
-# <desc>
+## <desc>
 ##	<p>
 ##	sXid is an all in one suid/sgid monitoring program designed
 ##	to be run from cron on a regular basis. Basically it tracks

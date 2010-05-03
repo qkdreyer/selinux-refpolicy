@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.19
-Release: 10.5%{?dist}
+Release: 10.6%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,12 @@ exit 0
 %endif
 
 %changelog
+* Mon May 03 2010 Dominick Grift <domg472@gmail.com> 3.7.19-10.6
+- Merge branch refpolicy.
+- Whitespaces: admin a to p.
+- Cleanup: admin q to s.
+- fix some context specs.
+
 * Mon May 03 2010 Dominick Grift <domg472@gmail.com> 3.7.19-10.5
 - Remove cgclear_t and cgexec_t. cgexec_t needs about the same permissions as initrc_t
 - cgexec_t also needs: search cgroup dirs, write cgroupfs files and stream connectto cgred_t.

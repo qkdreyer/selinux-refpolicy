@@ -121,9 +121,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	type consolekit_tmpfs_t;
-	files_tmpfs_file(consolekit_tmpfs_t)
-
 	xserver_read_xdm_pid(consolekit_t)
 	xserver_read_user_xauth(consolekit_t)
 	xserver_non_drawing_client(consolekit_t)
