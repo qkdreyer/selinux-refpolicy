@@ -5,8 +5,8 @@
 ##	check errors to the kernel log anymore. Instead they are saved into
 ##	a special kernel  buffer accessible using /dev/mcelog. mcelog
 ##	reads /dev/mcelog and prints the stored machine check records to
-##	stdout. Then the stored machine check records in the kernel 
-##	buffer are deleted. 
+##	stdout. Then the stored machine check records in the kernel
+##	buffer are deleted.
 ##	</p>
 ## </desc>
 

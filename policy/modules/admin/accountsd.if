@@ -167,7 +167,7 @@ interface(`accountsd_admin',`
 	gen_require(`
 		type accountsd_t;
 	')
-	
+
 	allow $1 accountsd_t:process { ptrace signal_perms getattr };
 	read_files_pattern($1, accountsd_t, accountsd_t)
 

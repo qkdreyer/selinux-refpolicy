@@ -1,7 +1,7 @@
 ## <summary>dmesg print or control the kernel ring buffer.</summary>
 ## <desc>
 ##	<p>
-##	The program helps users to print out their bootup messages. 
+##	The program helps users to print out their bootup messages.
 ##	</p>
 ## </desc>
 

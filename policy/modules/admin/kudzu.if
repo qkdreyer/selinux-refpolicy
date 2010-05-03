@@ -8,7 +8,7 @@
 ##	configure any added hardware, and unconfigure any removed hardware. It then updates
 ##	the database in /etc/sysconfig/hwconf. If no previous database exists, kudzu attempts
 ##	to determine what devices have already been configured, by looking
-##	at /etc/modules.conf, /etc/sysconfig/network-scripts/, and /etc/X11/XF86Config. 
+##	at /etc/modules.conf, /etc/sysconfig/network-scripts/, and /etc/X11/XF86Config.
 ##	</p>
 ## </desc>
 
