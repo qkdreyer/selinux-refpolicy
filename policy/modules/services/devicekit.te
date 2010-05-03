@@ -1,4 +1,5 @@
-policy_module(devicekit, 1.0.0)
+
+policy_module(devicekit, 1.0.1)
 
 ########################################
 #
@@ -36,6 +37,8 @@ allow devicekit_t self:unix_dgram_socket create_socket_perms;
 manage_dirs_pattern(devicekit_t, devicekit_var_run_t, devicekit_var_run_t)
 manage_files_pattern(devicekit_t, devicekit_var_run_t, devicekit_var_run_t)
 files_pid_filetrans(devicekit_t, devicekit_var_run_t, { file dir })
+
+kernel_read_system_state(devicekit_t)
 
 dev_read_sysfs(devicekit_t)
 dev_read_urand(devicekit_t)
@@ -123,13 +126,13 @@ fs_mount_all_fs(devicekit_disk_t)
 fs_unmount_all_fs(devicekit_disk_t)
 fs_search_all(devicekit_disk_t)
 
+mls_file_read_all_levels(devicekit_disk_t)
+mls_file_write_to_clearance(devicekit_disk_t)
+
 storage_raw_read_fixed_disk(devicekit_disk_t)
 storage_raw_write_fixed_disk(devicekit_disk_t)
 storage_raw_read_removable_device(devicekit_disk_t)
 storage_raw_write_removable_device(devicekit_disk_t)
-
-mls_file_read_all_levels(devicekit_disk_t)
-mls_file_write_to_clearance(devicekit_disk_t)
 
 term_use_all_terms(devicekit_disk_t)
 

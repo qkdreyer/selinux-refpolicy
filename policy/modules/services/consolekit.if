@@ -92,7 +92,25 @@ interface(`consolekit_read_pid_files',`
 		type consolekit_var_run_t;
 	')
 
+	read_files_pattern($1, consolekit_var_run_t, consolekit_var_run_t)
+	files_search_pids($1)
+')
+
+########################################
+## <summary>
+##	Read consolekit PID files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`consolekit_read_pid_files',`
+	gen_require(`
+		type consolekit_var_run_t;
+	')
+
 	files_search_pids($1)
 	read_files_pattern($1, consolekit_var_run_t, consolekit_var_run_t)
 ')
-

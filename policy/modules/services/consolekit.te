@@ -1,5 +1,5 @@
 
-policy_module(consolekit, 1.5.1)
+policy_module(consolekit, 1.5.2)
 
 ########################################
 #
@@ -110,7 +110,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-        policykit_dbus_chat(consolekit_t)
+	policykit_dbus_chat(consolekit_t)
 	policykit_domtrans_auth(consolekit_t)
 	policykit_read_lib(consolekit_t)
 	policykit_read_reload(consolekit_t)
@@ -121,6 +121,9 @@ optional_policy(`
 ')
 
 optional_policy(`
+	type consolekit_tmpfs_t;
+	files_tmpfs_file(consolekit_tmpfs_t)
+
 	xserver_read_xdm_pid(consolekit_t)
 	xserver_read_user_xauth(consolekit_t)
 	xserver_non_drawing_client(consolekit_t)
