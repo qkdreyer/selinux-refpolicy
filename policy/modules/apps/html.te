@@ -37,6 +37,8 @@ manage_sock_files_pattern(elinks_t, elinks_home_t, elinks_home_t)
 userdom_user_home_dir_filetrans(elinks_t, elinks_home_t, { file dir sock_file })
 userdom_search_user_home_dirs(elinks_t)
 
+corecmd_search_bin(elinks_t)
+
 corenet_tcp_connect_http_port(elinks_t)
 corenet_sendrecv_http_client_packets(elinks_t)
 
@@ -56,6 +58,8 @@ dev_read_urand(elinks_t)
 
 files_read_etc_files(elinks_t)
 files_read_usr_files(elinks_t)
+# why?
+files_list_tmp(elinks_t)
 
 fs_search_auto_mountpoints(elinks_t)
 
@@ -89,5 +93,3 @@ optional_policy(`
 optional_policy(`
 	nscd_socket_use(elinks_t)
 ')
-
-
