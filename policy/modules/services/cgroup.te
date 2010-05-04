@@ -91,7 +91,7 @@ miscfiles_read_localization(cgred_t)
 # cgconfig personal policy.
 #
 
-# allow cgconfigparser_t self:capability sys_admin;
+allow cgconfigparser_t self:capability sys_admin;
 
 allow cgconfigparser_t cgconfig_etc_t:file read_file_perms;
 
