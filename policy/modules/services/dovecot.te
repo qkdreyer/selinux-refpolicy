@@ -1,5 +1,5 @@
 
-policy_module(dovecot, 1.11.1)
+policy_module(dovecot, 1.11.2)
 
 ########################################
 #
@@ -42,6 +42,9 @@ files_type(dovecot_passwd_t)
 type dovecot_spool_t;
 files_type(dovecot_spool_t)
 
+type dovecot_tmp_t;
+files_tmp_file(dovecot_tmp_t)
+
 # /var/lib/dovecot holds SSL parameters file
 type dovecot_var_lib_t;
 files_type(dovecot_var_lib_t)
@@ -66,6 +69,8 @@ allow dovecot_t self:unix_dgram_socket create_socket_perms;
 allow dovecot_t self:unix_stream_socket { create_stream_socket_perms connectto };
 
 domtrans_pattern(dovecot_t, dovecot_auth_exec_t, dovecot_auth_t)
+allow dovecot_t dovecot_auth_t:process signal;
+
 allow dovecot_t dovecot_auth_t:process signal;
 
 allow dovecot_t dovecot_cert_t:dir list_dir_perms;
@@ -247,7 +252,7 @@ optional_policy(`
 #
 allow dovecot_deliver_t self:unix_dgram_socket create_socket_perms;
 
-allow dovecot_deliver_t dovecot_t:process signull;  
+allow dovecot_deliver_t dovecot_t:process signull;
 
 allow dovecot_deliver_t dovecot_etc_t:file read_file_perms;
 allow dovecot_deliver_t dovecot_var_run_t:dir list_dir_perms;

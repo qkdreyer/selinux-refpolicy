@@ -1,5 +1,5 @@
 
-policy_module(cyrus, 1.9.1)
+policy_module(cyrus, 1.9.2)
 
 ########################################
 #
@@ -80,6 +80,7 @@ corenet_tcp_connect_all_ports(cyrus_t)
 corenet_sendrecv_mail_server_packets(cyrus_t)
 corenet_sendrecv_pop_server_packets(cyrus_t)
 corenet_sendrecv_lmtp_server_packets(cyrus_t)
+corenet_sendrecv_sieve_server_packets(cyrus_t)
 corenet_sendrecv_all_client_packets(cyrus_t)
 
 dev_read_rand(cyrus_t)
