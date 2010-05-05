@@ -38,25 +38,6 @@ interface(`networkmanager_rw_packet_sockets',`
 	allow $1 NetworkManager_t:packet_socket { read write };
 ')
 
-#######################################
-## <summary>
-## Allow caller to relabel tun_socket
-## </summary>
-## <param name="domain">
-## <summary>
-## Domain allowed access.
-## </summary>
-## </param>
-#
-interface(`networkmanager_attach_tun_iface',`
-	gen_require(`
-		type NetworkManager_t;
-	')
-
-	allow $1 NetworkManager_t:tun_socket relabelfrom;
-	allow $1 self:tun_socket relabelto;
-')
-
 ########################################
 ## <summary>
 ##	Read and write NetworkManager netlink
@@ -262,7 +243,7 @@ interface(`networkmanager_run',`
 
 #######################################
 ## <summary>
-## Allow caller to relabel tun_socket
+## Allow caller to relabel tun_socket.
 ## </summary>
 ## <param name="domain">
 ## <summary>
@@ -278,5 +259,3 @@ interface(`networkmanager_attach_tun_iface',`
 	allow $1 NetworkManager_t:tun_socket relabelfrom;    
 	allow $1 self:tun_socket relabelto;
 ')
-
-

@@ -9,9 +9,6 @@ type dovecot_t;
 type dovecot_exec_t;
 init_daemon_domain(dovecot_t, dovecot_exec_t)
 
-type dovecot_tmp_t;
-files_tmp_file(dovecot_tmp_t)
-
 type dovecot_auth_t;
 type dovecot_auth_exec_t;
 domain_type(dovecot_auth_t)
@@ -69,7 +66,6 @@ allow dovecot_t self:unix_dgram_socket create_socket_perms;
 allow dovecot_t self:unix_stream_socket { create_stream_socket_perms connectto };
 
 domtrans_pattern(dovecot_t, dovecot_auth_exec_t, dovecot_auth_t)
-allow dovecot_t dovecot_auth_t:process signal;
 
 allow dovecot_t dovecot_auth_t:process signal;
 
