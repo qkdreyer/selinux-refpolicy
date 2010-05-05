@@ -23,8 +23,8 @@ files_pid_file(readahead_var_run_t)
 # Local policy
 #
 
-allow readahead_t self:capability { fowner dac_override dac_read_search };
-dontaudit readahead_t self:capability { net_admin sys_tty_config };
+allow readahead_t self:capability { fowner dac_override dac_read_search net_admin };
+dontaudit readahead_t self:capability { sys_tty_config };
 allow readahead_t self:process { setsched signal_perms };
 
 manage_dirs_pattern(readahead_t, readahead_var_lib_t, readahead_var_lib_t)
@@ -36,7 +36,7 @@ files_pid_filetrans(readahead_t, readahead_var_run_t, file)
 
 kernel_read_all_sysctls(readahead_t)
 kernel_read_system_state(readahead_t)
-kernel_dontaudit_getattr_core_if(readahead_t)
+kernel_getattr_core_if(readahead_t)
 
 dev_read_sysfs(readahead_t)
 dev_getattr_generic_chr_files(readahead_t)
