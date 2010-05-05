@@ -347,6 +347,7 @@ optional_policy(`
 	hal_dontaudit_rw_pipes(ifconfig_t)
 	hal_dontaudit_rw_dgram_sockets(ifconfig_t)
 	hal_dontaudit_read_pid_files(ifconfig_t)
+	hal_write_log(ifconfig_t)
 ')
 
 optional_policy(`

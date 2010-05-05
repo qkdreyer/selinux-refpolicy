@@ -139,6 +139,7 @@ corecmd_exec_chroot(init_t)
 corecmd_exec_bin(init_t)
 
 dev_read_sysfs(init_t)
+dev_rw_generic_chr_files(init_t)
 
 domain_getpgid_all_domains(init_t)
 domain_kill_all_domains(init_t)
@@ -611,6 +612,7 @@ ifdef(`distro_redhat',`
 	optional_policy(`
 		sysnet_rw_dhcp_config(initrc_t)
 		sysnet_manage_config(initrc_t)
+		sysnet_delete_dhcpc_state(initrc_t)
 	')
 
 	optional_policy(`

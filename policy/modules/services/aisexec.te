@@ -93,6 +93,9 @@ init_rw_script_tmp_files(aisexec_t)
 
 logging_send_syslog_msg(aisexec_t)
 
+userdom_rw_semaphores(aisexec_t)
+userdom_rw_unpriv_user_shared_mem(aisexec_t)
+
 optional_policy(`
 	ccs_stream_connect(aisexec_t)
 ')

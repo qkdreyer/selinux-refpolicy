@@ -27,6 +27,8 @@ logging_log_file(denyhosts_var_log_t)
 # DenyHosts personal policy.
 #
 
+# Bug #588563
+allow denyhosts_t self:capability sys_tty_config;
 allow denyhosts_t self:netlink_route_socket create_netlink_socket_perms;
 allow denyhosts_t self:tcp_socket create_socket_perms;
 allow denyhosts_t self:udp_socket create_socket_perms;

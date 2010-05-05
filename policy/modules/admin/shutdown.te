@@ -25,7 +25,7 @@ permissive shutdown_t;
 #
 
 allow shutdown_t self:capability { dac_override kill setuid sys_tty_config };
-allow shutdown_t self:process { fork signal };
+allow shutdown_t self:process { fork signal signull };
 
 allow shutdown_t self:fifo_file manage_fifo_file_perms;
 allow shutdown_t self:unix_stream_socket create_stream_socket_perms;

@@ -323,6 +323,8 @@ files_tmp_filetrans(xauth_t, xauth_tmp_t, { file dir })
 
 stream_connect_pattern(xauth_t, xserver_tmp_t, xserver_tmp_t, xserver_t)
 
+kernel_read_system_state(xauth_t)
+
 domain_use_interactive_fds(xauth_t)
 domain_dontaudit_leaks(xauth_t)
 
@@ -619,6 +621,7 @@ userdom_read_user_home_content_files(xdm_t)
 # Search /proc for any user domain processes.
 userdom_read_all_users_state(xdm_t)
 userdom_signal_all_users(xdm_t)
+userdom_signull_unpriv_users(xdm_t)
 userdom_stream_connect(xdm_t)
 userdom_manage_user_tmp_dirs(xdm_t)
 userdom_manage_user_tmp_files(xdm_t)
@@ -730,7 +733,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-        policykit_dbus_chat(xdm_t)
+	policykit_dbus_chat(xdm_t)
 	policykit_domtrans_auth(xdm_t)
 	policykit_read_lib(xdm_t)
 	policykit_read_reload(xdm_t)

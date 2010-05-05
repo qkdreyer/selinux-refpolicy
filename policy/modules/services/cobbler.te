@@ -87,7 +87,7 @@ tunable_policy(`cobbler_anon_write',`
 ')
 
 optional_policy(`
-	apache_list_sys_content(cobblerd_t)
+	apache_read_sys_content(cobblerd_t)
 ')
 
 optional_policy(`
