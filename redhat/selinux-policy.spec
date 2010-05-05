@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.19
-Release: 10.7%{?dist}
+Release: 10.8%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,9 @@ exit 0
 %endif
 
 %changelog
+* Wed May 05 2010 Dominick Grift <domg472@gmail.com> 3.7.19-10.8
+- Allow readahead cap net_admin and getattr core if.
+
 * Tue May 04 2010 Dominick Grift <domg472@gmail.com> 3.7.19-10.7
 - cgconfigparser needs sys_admin cap.
 - some fixes to elinks. need more work.
