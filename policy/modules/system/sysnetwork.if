@@ -250,6 +250,24 @@ interface(`sysnet_delete_dhcpc_state',`
 
 #######################################
 ## <summary>
+##	Manage the dhcp client state files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`sysnet_manage_dhcpc_state',`
+	gen_require(`
+		type dhcpc_state_t;
+	')
+
+	manage_files_pattern($1, dhcpc_state_t, dhcpc_state_t)
+')
+
+#######################################
+## <summary>
 ##	Set the attributes of network config files.
 ## </summary>
 ## <param name="domain">

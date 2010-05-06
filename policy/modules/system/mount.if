@@ -52,10 +52,25 @@ interface(`mount_run',`
 	mount_domtrans($1)
 	role $2 types mount_t;
 
-	fstools_run(mount_t, $2)
+	optional_policy(`
+		fstools_run(mount_t, $2)
+	')
+
+	# Needed for mount crypt https://bugzilla.redhat.com/show_bug.cgi?id=418711
+	optional_policy(`
+		lvm_run(mount_t, $2)
+	')
 
 	optional_policy(`
-		samba_run_smbmount($1, $2)
+		modutils_run_insmod(mount_t, $2)
+	')
+
+	optional_policy(`
+		rpc_run_rpcd(mount_t, $2)
+	')
+
+	optional_policy(`
+		samba_run_smbmount(mount_t, $2)
 	')
 ')
 
@@ -217,6 +232,14 @@ interface(`mount_run_unconfined',`
 
 	mount_domtrans_unconfined($1)
 	role $2 types unconfined_mount_t;
+
+	optional_policy(`
+		rpc_run_rpcd(unconfined_mount_t, $2)
+	')
+
+	optional_policy(`
+		samba_run_smbmount(unconfined_mount_t, $2)
+	')
 ')
 
 ########################################

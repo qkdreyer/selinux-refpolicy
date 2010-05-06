@@ -15,8 +15,26 @@ interface(`chronyd_domtrans',`
 		type chronyd_t, chronyd_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, chronyd_exec_t, chronyd_t)
+	corecmd_search_bin($1)
+')
+
+########################################
+## <summary>
+##	Execute chronyd server in the chronyd domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`chronyd_initrc_domtrans',`
+	gen_require(`
+		type chronyd_initrc_exec_t;
+	')
+
+	init_labeled_script_domtrans($1, chronyd_initrc_exec_t)
 ')
 
 ####################################

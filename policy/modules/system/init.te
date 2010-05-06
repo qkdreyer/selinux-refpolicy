@@ -612,7 +612,7 @@ ifdef(`distro_redhat',`
 	optional_policy(`
 		sysnet_rw_dhcp_config(initrc_t)
 		sysnet_manage_config(initrc_t)
-		sysnet_delete_dhcpc_state(initrc_t)
+		sysnet_manage_dhcpc_state(initrc_t)
 	')
 
 	optional_policy(`

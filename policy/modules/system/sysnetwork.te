@@ -162,6 +162,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+	chronyd_initrc_domtrans(dhcpc_t)
+')
+
+optional_policy(`
 	init_dbus_chat_script(dhcpc_t)
 
 	dbus_system_bus_client(dhcpc_t)

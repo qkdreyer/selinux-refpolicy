@@ -42,7 +42,6 @@ interface(`sandbox_transition',`
 	dontaudit sandbox_xserver_t $1:udp_socket rw_socket_perms;
 	allow sandbox_xserver_t $1:unix_stream_socket { connectto rw_socket_perms };
 
-	allow sandbox_x_domain $1:process { sigchld signal signull };
 	allow sandbox_x_domain sandbox_x_domain:process signal;
 	# Dontaudit leaked file descriptors
 	dontaudit sandbox_x_domain $1:fifo_file { read write };
