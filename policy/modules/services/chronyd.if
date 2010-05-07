@@ -76,6 +76,44 @@ interface(`chronyd_read_log',`
 
 ########################################
 ## <summary>
+##	Append chronyd keys.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`chronyd_append_keys',`
+	gen_require(`
+		type chronyd_keys_t;
+	')
+
+	allow $1 chronyd_keys_t:file append_file_perms;
+	files_search_etc($1)
+')
+
+########################################
+## <summary>
+##	Read chronyd keys.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`chronyd_read_keys',`
+	gen_require(`
+		type chronyd_keys_t;
+	')
+
+	allow $1 chronyd_keys_t:file read_file_perms;
+	files_search_etc($1)
+')
+
+########################################
+## <summary>
 ##	Read and write chronyd shared memory.
 ## </summary>
 ## <param name="domain">

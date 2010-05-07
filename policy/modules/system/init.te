@@ -592,6 +592,11 @@ ifdef(`distro_redhat',`
 	')
 
 	optional_policy(`
+		chronyd_append_keys(initrc_t)
+		chronyd_read_keys(initrc_t)	
+	')
+
+	optional_policy(`
 		gnome_manage_gconf_config(initrc_t)
 	')
 
