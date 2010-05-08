@@ -187,6 +187,9 @@ init_system_domain(xdm_t, xdm_exec_t)
 xserver_object_types_template(xdm)
 xserver_common_x_domain_template(xdm, xdm_t)
 
+type xdm_etc_t;
+files_config_file(xdm_etc_t)
+
 type xdm_lock_t;
 files_lock_file(xdm_lock_t)
 
@@ -405,6 +408,9 @@ allow xdm_t self:key { search link write };
 allow xdm_t xauth_home_t:file manage_file_perms;
 
 allow xdm_t xconsole_device_t:fifo_file { getattr setattr };
+
+read_files_pattern(xdm_t, xdm_etc_t, xdm_etc_t)
+
 manage_dirs_pattern(xdm_t, xkb_var_lib_t, xkb_var_lib_t)
 manage_files_pattern(xdm_t, xkb_var_lib_t, xkb_var_lib_t)
 

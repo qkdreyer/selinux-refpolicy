@@ -199,7 +199,6 @@ init_signull(domain)
 
 ifdef(`distro_redhat',`
 	files_search_mnt(domain)
-	files_search_default(domain)
 	optional_policy(`
 		unconfined_use_fds(domain)
 	')

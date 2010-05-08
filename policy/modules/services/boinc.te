@@ -88,5 +88,6 @@ miscfiles_read_certs(boinc_t)
 
 logging_send_syslog_msg(boinc_t)
 
-sysnet_dns_name_resolve(boinc_t)
+mta_send_mail(boinc_t)
 
+sysnet_dns_name_resolve(boinc_t)

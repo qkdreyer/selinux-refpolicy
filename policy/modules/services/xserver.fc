@@ -30,6 +30,8 @@ HOME_DIR/\.dmrc.*	--	gen_context(system_u:object_r:xdm_home_t,s0)
 
 /etc/init\.d/xfree86-common --	gen_context(system_u:object_r:xserver_exec_t,s0)
 
+/etc/gdm(/.*)?		  			gen_context(system_u:object_r:xdm_etc_t,s0)
+
 /etc/kde3?/kdm/Xstartup	--	gen_context(system_u:object_r:xsession_exec_t,s0)
 /etc/kde3?/kdm/Xreset	--	gen_context(system_u:object_r:xsession_exec_t,s0)
 /etc/kde3?/kdm/Xsession	--	gen_context(system_u:object_r:xsession_exec_t,s0)

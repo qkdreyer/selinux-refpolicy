@@ -23,6 +23,7 @@ interface(`sandbox_transition',`
 		attribute sandbox_domain;
 		attribute sandbox_x_domain;
 		attribute sandbox_file_type;
+		attribute sandbox_tmpfs_type;
 	')
 
 	allow $1 sandbox_domain:process transition;
@@ -49,6 +50,8 @@ interface(`sandbox_transition',`
 	dontaudit sandbox_x_domain $1:udp_socket rw_socket_perms;
 	dontaudit sandbox_x_domain $1:unix_stream_socket { read write };
 	
+	allow $1 sandbox_tmpfs_type:file read_file_perms;
+
 	manage_files_pattern($1, sandbox_file_type, sandbox_file_type);
 	manage_dirs_pattern($1, sandbox_file_type, sandbox_file_type);
 	manage_sock_files_pattern($1, sandbox_file_type, sandbox_file_type);
@@ -110,8 +113,10 @@ template(`sandbox_x_domain_template',`
 	gen_require(`
 		type xserver_exec_t, sandbox_devpts_t;
 		type sandbox_xserver_t;
-		attribute sandbox_domain, sandbox_x_domain;
+		attribute sandbox_domain;
+		attribute sandbox_x_domain;
 		attribute sandbox_file_type;
+		attribute sandbox_tmpfs_type;
 	')
 
 	type $1_t, sandbox_x_domain;
@@ -139,7 +144,7 @@ template(`sandbox_x_domain_template',`
 	type $1_client_t, sandbox_x_domain;
 	domain_type($1_client_t)
 
-	type $1_client_tmpfs_t;
+	type $1_client_tmpfs_t, sandbox_tmpfs_type;
 	files_tmpfs_file($1_client_tmpfs_t)
 
 	term_search_ptys($1_t)

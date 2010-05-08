@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.19
-Release: 12.2%{?dist}
+Release: 14.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,9 @@ exit 0
 %endif
 
 %changelog
+* Sat May 08 2010 Dominick Grift <domg472@gmail.com> 3.7.19-14.1
+- Merge branch fedora (v3.7.19-14).
+
 * Fri May 07 2010 Dominick Grift <domg472@gmail.com> 3.7.19-12.2
 - Allow chronyd to udp bind to generic nodes.
 - Allow initrc_t to read and append to chronyd keys files.

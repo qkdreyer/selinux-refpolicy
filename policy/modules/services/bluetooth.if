@@ -117,6 +117,27 @@ interface(`bluetooth_dbus_chat',`
 
 ########################################
 ## <summary>
+##	dontaudit Send and receive messages from
+##	bluetooth over dbus.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`bluetooth_dontaudit_dbus_chat',`
+	gen_require(`
+		type bluetooth_t;
+		class dbus send_msg;
+	')
+
+	dontaudit $1 bluetooth_t:dbus send_msg;
+	dontaudit bluetooth_t $1:dbus send_msg;
+')
+
+########################################
+## <summary>
 ##	Execute bluetooth_helper in the bluetooth_helper domain.  (Deprecated)
 ## </summary>
 ## <param name="domain">

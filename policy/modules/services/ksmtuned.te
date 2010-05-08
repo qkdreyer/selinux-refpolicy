@@ -13,6 +13,9 @@ init_daemon_domain(ksmtuned_t, ksmtuned_exec_t)
 type ksmtuned_initrc_exec_t;
 init_script_file(ksmtuned_initrc_exec_t)
 
+type ksmtuned_log_t;
+logging_log_file(ksmtuned_log_t)
+
 type ksmtuned_var_run_t;
 files_pid_file(ksmtuned_var_run_t)
 
@@ -23,6 +26,10 @@ files_pid_file(ksmtuned_var_run_t)
 
 allow ksmtuned_t self:capability { sys_ptrace sys_tty_config };
 allow ksmtuned_t self:fifo_file rw_file_perms;
+
+manage_dirs_pattern(ksmtuned_t, ksmtuned_log_t, ksmtuned_log_t)
+manage_files_pattern(ksmtuned_t, ksmtuned_log_t, ksmtuned_log_t)
+logging_log_filetrans(ksmtuned_t, ksmtuned_log_t, { file dir })
 
 manage_files_pattern(ksmtuned_t, ksmtuned_var_run_t, ksmtuned_var_run_t)
 files_pid_filetrans(ksmtuned_t, ksmtuned_var_run_t, file)

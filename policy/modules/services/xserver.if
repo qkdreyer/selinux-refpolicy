@@ -369,8 +369,8 @@ template(`xserver_common_x_domain_template',`
 		class x_synthetic_event all_x_synthetic_event_perms;
 		class x_client destroy;
 		class x_server manage;
-		class x_screen { saver_hide saver_show };
-		class x_pointer manage;
+		class x_screen { saver_setattr saver_hide saver_show };
+		class x_pointer { get_property set_property manage };
 		class x_keyboard { read manage };
 		type xdm_t, xserver_t;
 	')
@@ -410,8 +410,8 @@ template(`xserver_common_x_domain_template',`
 
 	allow $2 root_xdrawable_t:x_drawable write;
 	allow $2 xserver_t:x_server manage;
-	allow $2 xserver_t:x_screen { saver_hide saver_show };
-	allow $2 xserver_t:x_pointer manage;
+	allow $2 xserver_t:x_screen { saver_setattr saver_hide saver_show };
+	allow $2 xserver_t:x_pointer { get_property set_property manage };
 	allow $2 xserver_t:x_keyboard { read manage };
 ')
 
@@ -992,6 +992,44 @@ interface(`xserver_read_xkb_libs',`
 	allow $1 xkb_var_lib_t:dir list_dir_perms;
 	read_files_pattern($1, xkb_var_lib_t, xkb_var_lib_t)
 	read_lnk_files_pattern($1, xkb_var_lib_t, xkb_var_lib_t)
+')
+
+########################################
+## <summary>
+##	Read xdm config files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`xserver_read_xdm_etc_files',`
+	gen_require(`
+		type xdm_etc_t;
+	')
+
+ 	files_search_etc($1)
+	read_files_pattern($1, xdm_etc_t, xdm_etc_t)
+')
+
+########################################
+## <summary>
+##	Manage xdm config files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`xserver_manage_xdm_etc_files',`
+	gen_require(`
+		type xdm_etc_t;
+	')
+
+ 	files_search_etc($1)
+	manage_files_pattern($1, xdm_etc_t, xdm_etc_t)
 ')
 
 ########################################
