@@ -409,6 +409,7 @@ allow xdm_t xauth_home_t:file manage_file_perms;
 
 allow xdm_t xconsole_device_t:fifo_file { getattr setattr };
 
+allow xdm_t xdm_etc_t:lnk_file read_lnk_file_perms;
 read_files_pattern(xdm_t, xdm_etc_t, xdm_etc_t)
 
 manage_dirs_pattern(xdm_t, xkb_var_lib_t, xkb_var_lib_t)
