@@ -541,25 +541,6 @@ interface(`rpm_delete_db',`
 
 ########################################
 ## <summary>
-##	Delete the RPM package database.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`rpm_delete_db',`
-	gen_require(`
-		type rpm_var_lib_t;
-	')
-
-	delete_files_pattern($1, rpm_var_lib_t, rpm_var_lib_t)
-	files_search_var_lib($1)
-')
-
-########################################
-## <summary>
 ##	Create, read, write, and delete the RPM package database.
 ## </summary>
 ## <param name="domain">
@@ -575,48 +556,6 @@ interface(`rpm_manage_db',`
 
 	manage_files_pattern($1, rpm_var_lib_t, rpm_var_lib_t)
 	manage_lnk_files_pattern($1, rpm_var_lib_t, rpm_var_lib_t)
-	files_search_var_lib($1)
-')
-
-########################################
-## <summary>
-##	Read the RPM cache.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`rpm_read_cache',`
-	gen_require(`
-		type rpm_var_cache_t;
-	')
-
-	allow $1 rpm_var_cache_t:dir list_dir_perms;
-	read_files_pattern($1, rpm_var_cache_t, rpm_var_cache_t)
-	read_lnk_files_pattern($1, rpm_var_cache_t, rpm_var_cache_t)
-	files_search_var($1)
-')
-
-########################################
-## <summary>
-##	Create, read, write, and delete the RPM package database.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`rpm_manage_cache',`
-	gen_require(`
-		type rpm_var_cache_t;
-	')
-
-	manage_dirs_pattern($1, rpm_var_cache_t, rpm_var_cache_t)
-	manage_files_pattern($1, rpm_var_cache_t, rpm_var_cache_t)
-	manage_lnk_files_pattern($1, rpm_var_cache_t, rpm_var_cache_t)
 	files_search_var_lib($1)
 ')
 
@@ -720,24 +659,6 @@ interface(`rpm_transition_script',`
 	allow rpm_script_t $1:fd use;
 	allow rpm_script_t $1:fifo_file rw_fifo_file_perms;
 	allow rpm_script_t $1:process sigchld;
-')
-
-########################################
-## <summary>
-##	Send a null signal to rpm.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`rpm_signull',`
-	gen_require(`
-		type rpm_t;
-	')
-
-	allow $1 rpm_t:process signull;
 ')
 
 ########################################
