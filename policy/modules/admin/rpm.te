@@ -1,5 +1,5 @@
 
-policy_module(rpm, 1.10.0)
+policy_module(rpm, 1.10.1)
 
 attribute rpm_transition_domain;
 
@@ -104,6 +104,10 @@ manage_dirs_pattern(rpm_t, rpm_var_cache_t, rpm_var_cache_t)
 manage_files_pattern(rpm_t, rpm_var_cache_t, rpm_var_cache_t)
 files_var_filetrans(rpm_t, rpm_var_cache_t, dir)
 
+manage_dirs_pattern(rpm_t, rpm_var_cache_t, rpm_var_cache_t)
+manage_files_pattern(rpm_t, rpm_var_cache_t, rpm_var_cache_t)
+files_var_filetrans(rpm_t, rpm_var_cache_t, dir)
+
 # Access /var/lib/rpm files
 manage_files_pattern(rpm_t, rpm_var_lib_t, rpm_var_lib_t)
 files_var_lib_filetrans(rpm_t, rpm_var_lib_t, dir)
@@ -135,9 +139,10 @@ dev_list_sysfs(rpm_t)
 dev_list_usbfs(rpm_t)
 dev_read_urand(rpm_t)
 dev_read_raw_memory(rpm_t)
-#devices_manage_all_device_types(rpm_t)
+#dev_manage_all_device_types(rpm_t)
 
 fs_getattr_all_fs(rpm_t)
+
 fs_getattr_all_dirs(rpm_t)
 fs_list_inotifyfs(rpm_t)
 fs_manage_nfs_dirs(rpm_t)
@@ -267,11 +272,11 @@ manage_fifo_files_pattern(rpm_script_t, rpm_script_tmpfs_t, rpm_script_tmpfs_t)
 manage_sock_files_pattern(rpm_script_t, rpm_script_tmpfs_t, rpm_script_tmpfs_t)
 fs_tmpfs_filetrans(rpm_script_t, rpm_script_tmpfs_t, { dir file lnk_file sock_file fifo_file })
 
-kernel_read_kernel_sysctls(rpm_script_t)
-kernel_read_system_state(rpm_script_t)
-kernel_read_network_state(rpm_script_t)
 kernel_list_all_proc(rpm_script_t)
+kernel_read_kernel_sysctls(rpm_script_t)
+kernel_read_network_state(rpm_script_t)
 kernel_read_software_raid_state(rpm_script_t)
+kernel_read_system_state(rpm_script_t)
 
 dev_list_sysfs(rpm_script_t)
 
@@ -283,6 +288,8 @@ dev_manage_all_chr_files(rpm_script_t)
 
 fs_manage_nfs_files(rpm_script_t)
 fs_getattr_nfs(rpm_script_t)
+fs_search_all(rpm_script_t)
+fs_getattr_all_fs(rpm_script_t)
 # why is this not using mount?
 fs_getattr_xattr_fs(rpm_script_t)
 fs_mount_xattr_fs(rpm_script_t)
@@ -384,7 +391,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-	unconfined_domain_noaudit(rpm_script_t)
+	unconfined_domain(rpm_script_t)
 	unconfined_domtrans(rpm_script_t)
 	unconfined_execmem_domtrans(rpm_script_t)
 

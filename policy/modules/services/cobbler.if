@@ -26,6 +26,7 @@ interface(`cobblerd_domtrans',`
 	')
 
 	domtrans_pattern($1, cobblerd_exec_t, cobblerd_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -34,7 +35,7 @@ interface(`cobblerd_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -68,7 +69,7 @@ interface(`cobbler_read_config',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to read and write
-##  Cobbler log files (leaked fd).
+##	Cobbler log files (leaked fd).
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -143,7 +144,7 @@ interface(`cobbler_manage_lib_files',`
 
 ########################################
 ## <summary>
-##	All of the rules required to administrate 
+##	All of the rules required to administrate
 ##	an cobblerd environment
 ## </summary>
 ## <param name="domain">
@@ -167,6 +168,11 @@ interface(`cobblerd_admin',`
 	allow $1 cobblerd_t:process { ptrace signal_perms getattr };
 	read_files_pattern($1, cobblerd_t, cobblerd_t)
 
+	cobblerd_initrc_domtrans($1)
+	domain_system_change_exemption($1)
+	role_transition $2 cobblerd_initrc_exec_t system_r;
+	allow $2 system_r;
+
 	files_search_etc($1)
 	admin_pattern($1, cobbler_etc_t)
 
@@ -177,9 +183,4 @@ interface(`cobblerd_admin',`
 	admin_pattern($1, cobbler_var_log_t)
 
 	admin_pattern($1, httpd_cobbler_content_rw_t)
-
-	cobblerd_initrc_domtrans($1)
-	domain_system_change_exemption($1)
-	role_transition $2 cobblerd_initrc_exec_t system_r;
-	allow $2 system_r;
 ')
