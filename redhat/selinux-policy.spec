@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.19
-Release: 14.1%{?dist}
+Release: 14.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,9 @@ exit 0
 %endif
 
 %changelog
+* Wed May 12 2010 Dominick Grift <domg472@gmail.com> 3.7.19-14.2
+- allow xdm_t to read gdm etc symlinks.
+
 * Sat May 08 2010 Dominick Grift <domg472@gmail.com> 3.7.19-14.1
 - Merge branch fedora (v3.7.19-14).
 
