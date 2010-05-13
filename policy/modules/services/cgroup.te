@@ -11,11 +11,6 @@ files_mountpoint(cgroup_t)
 
 ########################################
 #
-# cgexec personal declarations.
-#
-
-########################################
-#
 # cgred personal declarations.
 #
 
@@ -65,6 +60,7 @@ kernel_read_system_state(cgred_t)
 
 domain_read_all_domains_state(cgred_t)
 
+# Verify this
 files_getattr_all_files(cgred_t)
 files_getattr_all_sockets(cgred_t)
 files_read_all_symlinks(cgred_t)
@@ -78,11 +74,6 @@ fs_write_cgroupfs_files(cgred_t)
 logging_send_syslog_msg(cgred_t)
 
 miscfiles_read_localization(cgred_t)
-
-########################################
-#
-# cgclear personal policy.
-#
 
 ########################################
 #
@@ -106,5 +97,5 @@ files_read_etc_files(cgconfigparser_t)
 fs_manage_cgroupfs_dirs(cgconfigparser_t)
 fs_mount_cgroupfs(cgconfigparser_t)
 fs_rw_cgroupfs_files(cgconfigparser_t)
-fs_unmount_cgroupfs(cgconfigparser_t)
 fs_setattr_cgroupfs_files(cgconfigparser_t)
+fs_unmount_cgroupfs(cgconfigparser_t)
