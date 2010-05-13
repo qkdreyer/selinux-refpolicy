@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.19
-Release: 14.2%{?dist}
+Release: 15.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,10 @@ exit 0
 %endif
 
 %changelog
+* Thu May 13 2010 Dominick Grift <domg472@gmail.com> 3.7.19-15.1
+- Default context for cron is cronjob_t not crond_t.
+- Merge branch Fedora (v3.7.19-15)
+
 * Wed May 12 2010 Dominick Grift <domg472@gmail.com> 3.7.19-14.2
 - allow xdm_t to read gdm etc symlinks.
 
