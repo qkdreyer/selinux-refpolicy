@@ -91,7 +91,7 @@ miscfiles_read_localization(cgred_t)
 # cgconfig personal policy.
 #
 
-allow cgconfigparser_t self:capability sys_admin;
+allow cgconfigparser_t self:capability { chown sys_admin };
 
 allow cgconfigparser_t cgconfig_etc_t:file read_file_perms;
 
@@ -108,5 +108,6 @@ files_read_etc_files(cgconfigparser_t)
 fs_manage_cgroupfs_dirs(cgconfigparser_t)
 fs_mount_cgroupfs(cgconfigparser_t)
 fs_rw_cgroupfs_files(cgconfigparser_t)
+fs_unmount_cgroupfs(cgconfigparser_t)
 fs_setattr_cgroupfs_files(cgconfigparser_t)
 
