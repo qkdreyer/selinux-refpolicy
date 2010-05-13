@@ -1,4 +1,4 @@
-## <summary>ABRT - automated bug-reporting tool</summary>
+## <summary>ABRT automated bug-reporting tool.</summary>
 
 ######################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,8 +15,8 @@ interface(`abrt_domtrans',`
 		type abrt_t, abrt_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, abrt_exec_t, abrt_t)
+	corecmd_search_bin($1)
 ')
 
 #####################################
@@ -25,7 +25,7 @@ interface(`abrt_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##  <summary>
-##  The type of the process performing this action.
+##  Domain allowed to transition.
 ##  </summary>
 ## </param>
 #
@@ -34,20 +34,21 @@ interface(`abrt_domtrans_helper',`
 		type abrt_helper_t, abrt_helper_exec_t;
 	')
 
-        domtrans_pattern($1, abrt_helper_exec_t, abrt_helper_t)
+	domtrans_pattern($1, abrt_helper_exec_t, abrt_helper_t)
+	corecmd_search_bin($1)
 
-ifdef(`hide_broken_symptoms', `
-	dontaudit abrt_helper_t $1:socket_class_set { read write };
-')
+	ifdef(`hide_broken_symptoms',`
+		dontaudit abrt_helper_t $1:socket_class_set { read write };
+	')
 ')
 
 ######################################
 ## <summary>
-##	Execute abrt 
+##	Execute abrt.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -56,8 +57,8 @@ interface(`abrt_exec',`
 		type abrt_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	can_exec($1, abrt_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ####################################
@@ -75,8 +76,8 @@ interface(`abrt_read_config',`
 		type abrt_etc_t;
 	')
 
-	files_search_etc($1)
 	read_files_pattern($1, abrt_etc_t, abrt_etc_t)
+	files_search_etc($1)
 ')
 
 ########################################
@@ -86,7 +87,7 @@ interface(`abrt_read_config',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -120,8 +121,8 @@ interface(`abrt_read_log',`
 		type abrt_var_log_t;
 	')
 
-	logging_search_logs($1)
 	read_files_pattern($1, abrt_var_log_t, abrt_var_log_t)
+	logging_search_logs($1)
 ')
 
 ######################################
@@ -139,8 +140,27 @@ interface(`abrt_read_pid_files',`
 		type abrt_var_run_t;
 	')
 
-	files_search_pids($1)
 	read_files_pattern($1, abrt_var_run_t, abrt_var_run_t)
+	files_search_pids($1)
+')
+
+########################################
+## <summary>
+##	Connect to abrt over an unix stream socket.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`abrt_stream_connect',`
+	gen_require(`
+		type abrt_t, abrt_var_run_t;
+	')
+
+	stream_connect_pattern($1, abrt_var_run_t, abrt_var_run_t, abrt_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -199,6 +219,7 @@ interface(`abrt_cache_manage',`
 	')
 
 	manage_files_pattern($1, abrt_var_cache_t, abrt_var_cache_t)
+	files_search_var($1)
 ')
 
 ########################################

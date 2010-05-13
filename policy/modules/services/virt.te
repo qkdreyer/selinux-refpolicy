@@ -501,6 +501,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+	pulseaudio_dontaudit_exec(virt_domain)
+')
+
+optional_policy(`
 	virt_read_config(virt_domain)
 	virt_read_lib_files(virt_domain)
 	virt_read_content(virt_domain)

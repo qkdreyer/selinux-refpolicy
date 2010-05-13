@@ -59,6 +59,7 @@ interface(`pulseaudio_domtrans',`
 	')
 
 	domtrans_pattern($1, pulseaudio_exec_t, pulseaudio_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -102,6 +103,26 @@ interface(`pulseaudio_exec',`
 	')
 
 	can_exec($1, pulseaudio_exec_t)
+	corecmd_search_bin($1)
+')
+
+########################################
+## <summary>
+##	Do not audit attempts to execute a
+##	pulseaudio in the current domain.
+## </summary>
+## <param name="domain">
+## <summary>
+##	Domain to not audit.
+## </summary>
+## </param>
+#
+interface(`pulseaudio_dontaudit_exec',`
+	gen_require(`
+		type pulseaudio_exec_t;
+	')
+
+	dontaudit $1 pulseaudio_exec_t:file execute;
 ')
 
 #####################################

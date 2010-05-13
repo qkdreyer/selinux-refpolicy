@@ -211,6 +211,7 @@ optional_policy(`
 	abrt_read_pid_files(domain)
 	abrt_read_state(domain)
 	abrt_signull(domain)
+	abrt_stream_connect(domain)
 ')
 
 optional_policy(`

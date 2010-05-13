@@ -117,14 +117,16 @@ dev_rw_all_inherited_blk_files(sandbox_domain)
 
 gen_require(`
 	type usr_t, lib_t, locale_t;
-	attribute exec_type;
+	type var_t, var_run_t, rpm_log_t, locale_t;
+	attribute exec_type, configfile;
 ')
 
-files_rw_all_inherited_files(sandbox_domain, -exec_type -etc_t -usr_t -lib_t -locale_t )
+files_rw_all_inherited_files(sandbox_domain, -exec_type -configfile -usr_t -lib_t -locale_t -var_t -var_run_t -device_t -rpm_log_t)
 files_entrypoint_all_files(sandbox_domain)
 
 files_read_etc_files(sandbox_domain)
 files_read_usr_files(sandbox_domain)
+files_read_var_files(sandbox_domain)
 files_dontaudit_search_all_dirs(sandbox_domain)
 
 miscfiles_read_localization(sandbox_domain)

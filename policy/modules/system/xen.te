@@ -373,7 +373,7 @@ xen_append_log(xenstored_t)
 #
 
 allow xm_t self:capability { dac_override ipc_lock sys_tty_config };
-allow xm_t self:process { getsched signal };
+allow xm_t self:process { getcap getsched setcap signal };
 
 # internal communication is often done using fifo and unix sockets.
 allow xm_t self:fifo_file rw_fifo_file_perms;
@@ -390,6 +390,7 @@ allow xm_t xen_image_t:file read_file_perms;
 allow xm_t xen_image_t:blk_file read_blk_file_perms;
 
 kernel_read_system_state(xm_t)
+kernel_read_network_state(xm_t)
 kernel_read_kernel_sysctls(xm_t)
 kernel_read_sysctl(xm_t)
 kernel_read_xen_state(xm_t)

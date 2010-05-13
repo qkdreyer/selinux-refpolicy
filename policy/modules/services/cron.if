@@ -259,7 +259,6 @@ interface(`cron_system_entry',`
 	domtrans_pattern(system_cronjob_t, $2, $1)
 	domtrans_pattern(crond_t, $2, $1)
 
-	userdom_dontaudit_list_admin_dir($1)
 	role system_r types $1;
 ')
 

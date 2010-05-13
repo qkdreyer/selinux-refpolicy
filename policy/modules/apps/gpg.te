@@ -6,6 +6,8 @@ policy_module(gpg, 2.2.2)
 # Declarations
 #
 
+attribute gpgdomain;
+
 ## <desc>
 ## <p>
 ## Allow usage of the gpg-agent --write-env-file option.
@@ -14,7 +16,7 @@ policy_module(gpg, 2.2.2)
 ## </desc>
 gen_tunable(gpg_agent_env_file, false)
 
-type gpg_t;
+type gpg_t, gpgdomain;
 type gpg_exec_t;
 typealias gpg_t alias { user_gpg_t staff_gpg_t sysadm_gpg_t };
 typealias gpg_t alias { auditadm_gpg_t secadm_gpg_t };
@@ -68,12 +70,12 @@ ubac_constrained(gpg_pinentry_tmpfs_t)
 # GPG local policy
 #
 
-allow gpg_t self:capability { ipc_lock setuid };
+allow gpgdomain self:capability { ipc_lock setuid };
 # setrlimit is for ulimit -c 0
-allow gpg_t self:process { getsched setsched signal signull setrlimit getcap setcap setpgid };
+allow gpgdomain self:process { getsched setsched signal signull setrlimit getcap setcap setpgid };
 
-allow gpg_t self:fifo_file rw_fifo_file_perms;
-allow gpg_t self:tcp_socket create_stream_socket_perms;
+allow gpgdomain self:fifo_file rw_fifo_file_perms;
+allow gpgdomain self:tcp_socket create_stream_socket_perms;
 
 manage_dirs_pattern(gpg_t, gpg_agent_tmp_t, gpg_agent_tmp_t)
 manage_files_pattern(gpg_t, gpg_agent_tmp_t, gpg_agent_tmp_t)

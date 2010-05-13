@@ -56,7 +56,9 @@ corenet_tcp_sendrecv_generic_if(denyhosts_t)
 corenet_tcp_sendrecv_generic_node(denyhosts_t)
 corenet_tcp_bind_generic_node(denyhosts_t)
 corenet_tcp_connect_smtp_port(denyhosts_t)
+corenet_tcp_connect_sype_port(denyhosts_t)
 corenet_sendrecv_smtp_client_packets(denyhosts_t)
+corenet_sendrecv_sype_client_packets(denyhosts_t)
 
 dev_read_urand(denyhosts_t)
 
@@ -67,6 +69,7 @@ logging_read_generic_logs(denyhosts_t)
 
 miscfiles_read_localization(denyhosts_t)
 
+sysnet_dns_name_resolve(denyhosts_t)
 sysnet_manage_config(denyhosts_t)
 sysnet_etc_filetrans_config(denyhosts_t)
 

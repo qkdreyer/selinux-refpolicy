@@ -259,6 +259,7 @@ optional_policy(`
 
 	optional_policy(`
 		gnomeclock_dbus_chat(unconfined_usertype)
+		gnome_dbus_chat_gconfdefault(unconfined_usertype)
 	')
 
 	optional_policy(`

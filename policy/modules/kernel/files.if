@@ -6099,10 +6099,10 @@ interface(`files_rw_all_inherited_files',`
 		attribute file_type;
 	')
 
-	allow $1 { file_type $2 }:file { getattr read write append lock };
-	allow $1 { file_type $2 }:fifo_file { getattr read write append ioctl lock };
-	allow $1 { file_type $2 }:sock_file { getattr read write append ioctl lock };
-	allow $1 { file_type $2 }:chr_file { getattr read write append ioctl lock };
+	allow $1 { file_type $2 }:file rw_inherited_file_perms;
+	allow $1 { file_type $2 }:fifo_file rw_inherited_fifo_file_perms;
+	allow $1 { file_type $2 }:sock_file rw_inherited_sock_file_perms;
+	allow $1 { file_type $2 }:chr_file rw_inherited_chr_file_perms;
 ')
 
 ########################################
