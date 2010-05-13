@@ -292,7 +292,10 @@ ifdef(`hide_broken_symptoms', `
 	dev_dontaudit_rw_generic_dev_nodes(iceauth_t)
 	fs_list_inotifyfs(iceauth_t)
 	fs_dontaudit_rw_anon_inodefs_files(iceauth_t)
-        term_dontaudit_use_unallocated_ttys(iceauth_t)
+	term_dontaudit_use_unallocated_ttys(iceauth_t)
+
+	userdom_dontaudit_read_user_home_content_files(iceauth_t)
+	userdom_dontaudit_write_user_home_content_files(iceauth_t)
 
 	optional_policy(`
 		mozilla_dontaudit_rw_user_home_files(iceauth_t)
@@ -717,7 +720,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-	gnome_read_gconf_config(xdm_t)
+	gnome_manage_gconf_home_files(xdm_t)
 	gnome_read_config(xdm_t)
 	gnome_append_gconf_home_files(xdm_t)
 ')

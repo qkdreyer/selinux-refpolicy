@@ -13,6 +13,7 @@ gen_require(`
 type setrans_t;
 type setrans_exec_t;
 init_daemon_domain(setrans_t, setrans_exec_t)
+mls_trusted_object(setrans_t)
 
 type setrans_initrc_exec_t;
 init_script_file(setrans_initrc_exec_t)

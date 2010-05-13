@@ -182,6 +182,7 @@ optional_policy(`
 
 optional_policy(`
 	hal_dontaudit_rw_dgram_sockets(dhcpc_t)
+	hal_dontaudit_write_log(dhcpc_t)
 ')
 
 optional_policy(`

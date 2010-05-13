@@ -34,7 +34,7 @@ interface(`sandbox_transition',`
 
 	allow $1 sandbox_x_domain:process { signal_perms transition };
 	dontaudit $1 sandbox_x_domain:process { noatsecure siginh rlimitinh };
-	dontaudit sandbox_x_domain $1:process signal;
+	allow sandbox_x_domain $1:process { sigchld signull };
 	role $2 types sandbox_x_domain;
 	role $2 types sandbox_xserver_t;
 	allow $1 sandbox_xserver_t:process signal_perms;

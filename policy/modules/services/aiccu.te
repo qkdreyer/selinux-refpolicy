@@ -9,8 +9,6 @@ type aiccu_t;
 type aiccu_exec_t;
 init_daemon_domain(aiccu_t, aiccu_exec_t)
 
-permissive aiccu_t;
-
 type aiccu_initrc_exec_t;
 init_script_file(aiccu_initrc_exec_t)
 
@@ -31,6 +29,8 @@ domain_use_interactive_fds(aiccu_t)
 # internal communication is often done using fifo and unix sockets.
 allow aiccu_t self:fifo_file rw_file_perms;
 allow aiccu_t self:unix_stream_socket create_stream_socket_perms;
+
+corenet_rw_tun_tap_dev(aiccu_t)
 
 files_read_etc_files(aiccu_t)
 

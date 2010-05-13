@@ -303,7 +303,10 @@ corenet_sendrecv_generic_client_packets(sandbox_web_type)
 corenet_dontaudit_tcp_sendrecv_generic_port(sandbox_web_type)
 corenet_dontaudit_tcp_bind_generic_port(sandbox_web_type)
 
+files_dontaudit_getattr_all_dirs(sandbox_web_type)
+
 fs_dontaudit_rw_anon_inodefs_files(sandbox_web_type)
+fs_dontaudit_getattr_all_fs(sandbox_web_type)
 
 auth_use_nsswitch(sandbox_web_type)
 
@@ -318,6 +321,7 @@ selinux_compute_user_contexts(sandbox_web_type)
 seutil_read_default_contexts(sandbox_web_type)
 
 userdom_rw_user_tmpfs_files(sandbox_web_type)
+userdom_delete_user_tmpfs_files(sandbox_web_type)
 
 optional_policy(`
 	bluetooth_dontaudit_dbus_chat(sandbox_web_type)
@@ -343,6 +347,11 @@ optional_policy(`
 
 optional_policy(`
 	networkmanager_dontaudit_dbus_chat(sandbox_web_type)
+')
+
+optional_policy(`
+	udev_read_state(sandbox_web_type)
+	udev_read_db(sandbox_web_type)
 ')
 
 ########################################

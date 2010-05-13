@@ -2140,7 +2140,7 @@ interface(`userdom_read_user_home_content_symlinks',`
 		type user_home_dir_t, user_home_t;
 	')
 
-	read_lnk_files_pattern($1, { user_home_dir_t user_home_t }, user_home_t)
+	allow $1 { user_home_dir_t user_home_t }:lnk_file read_lnk_file_perms;
 	files_search_home($1)
 ')
 

@@ -73,6 +73,8 @@ manage_files_pattern(plymouthd_t, plymouthd_spool_t,  plymouthd_spool_t)
 manage_sock_files_pattern(plymouthd_t, plymouthd_spool_t,  plymouthd_spool_t)
 files_spool_filetrans(plymouthd_t,plymouthd_spool_t, { file dir sock_file })
 
+userdom_read_admin_home_files(plymouthd_t)
+
 ########################################
 #
 # Plymouth private policy
