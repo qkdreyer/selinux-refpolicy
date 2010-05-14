@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.19
-Release: 16.3%{?dist}
+Release: 16.4%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,9 @@ exit 0
 %endif
 
 %changelog
+* Fri May 14 2010 Dominick Grift <domg472@gmail.com> 3.7.19-16.4
+- Merge branch refpolicy.
+
 * Fri May 14 2010 Dominick Grift <domg472@gmail.com> 3.7.19-16.3
 - remove dev_rw_generic_chr_files for init_t and initrc_t
 - add dev_read_urand(init_t)
