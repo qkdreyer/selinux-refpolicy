@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.19
-Release: 16.2%{?dist}
+Release: 16.3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,11 @@ exit 0
 %endif
 
 %changelog
+* Fri May 14 2010 Dominick Grift <domg472@gmail.com> 3.7.19-16.3
+- remove dev_rw_generic_chr_files for init_t and initrc_t
+- add dev_read_urand(init_t)
+- remove some redundant policy. allow cgroup_admin not to list var but to search pids
+
 * Thu May 13 2010 Dominick Grift <domg472@gmail.com> 3.7.19-16.2
 - Change a group in /etc/cgconfig.conf and restart the cgconfig service causes cgconfig parser to unmount cgroupfs and to need chown cap so that it can change ownership of the cgroupfs file specified.
 
