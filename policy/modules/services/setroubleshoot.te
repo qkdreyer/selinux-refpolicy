@@ -1,15 +1,19 @@
 
-policy_module(setroubleshoot, 1.10.0)
+policy_module(setroubleshoot, 1.10.1)
 
 ########################################
 #
-# Declarations 
+# Declarations
 #
 
 type setroubleshootd_t alias setroubleshoot_t;
 type setroubleshootd_exec_t;
 domain_type(setroubleshootd_t)
 init_daemon_domain(setroubleshootd_t, setroubleshootd_exec_t)
+
+type setroubleshoot_fixit_t;
+type setroubleshoot_fixit_exec_t;
+dbus_system_domain(setroubleshoot_fixit_t, setroubleshoot_fixit_exec_t)
 
 type setroubleshoot_var_lib_t;
 files_type(setroubleshoot_var_lib_t)
@@ -33,8 +37,7 @@ dbus_system_domain(setroubleshoot_fixit_t, setroubleshoot_fixit_exec_t)
 
 allow setroubleshootd_t self:capability { dac_override sys_nice sys_tty_config };
 allow setroubleshootd_t self:process { getattr getsched setsched sigkill signull signal };
-# if bad library causes setroubleshoot to require these, we want to give it so setroubleshoot can continue to run
-allow setroubleshootd_t self:process { execmem execstack };
+
 allow setroubleshootd_t self:fifo_file rw_fifo_file_perms;
 allow setroubleshootd_t self:tcp_socket create_stream_socket_perms;
 allow setroubleshootd_t self:unix_stream_socket { create_stream_socket_perms connectto };
@@ -94,9 +97,9 @@ files_read_all_symlinks(setroubleshootd_t)
 fs_getattr_all_dirs(setroubleshootd_t)
 fs_getattr_all_files(setroubleshootd_t)
 fs_read_fusefs_symlinks(setroubleshootd_t)
+fs_list_inotifyfs(setroubleshootd_t)
 fs_dontaudit_read_nfs_files(setroubleshootd_t)
 fs_dontaudit_read_cifs_files(setroubleshootd_t)
-fs_list_inotifyfs(setroubleshootd_t)
 
 selinux_get_enforce_mode(setroubleshootd_t)
 selinux_validate_context(setroubleshootd_t)
@@ -144,6 +147,7 @@ optional_policy(`
 #
 # setroubleshoot_fixit local policy
 #
+
 allow setroubleshoot_fixit_t self:capability sys_nice;
 allow setroubleshoot_fixit_t self:process { setsched getsched };
 allow setroubleshoot_fixit_t self:fifo_file rw_fifo_file_perms;
@@ -154,6 +158,8 @@ allow setroubleshoot_fixit_t setroubleshootd_t:process signull;
 setroubleshoot_dbus_chat(setroubleshoot_fixit_t)
 setroubleshoot_stream_connect(setroubleshoot_fixit_t)
 
+kernel_read_system_state(setroubleshoot_fixit_t)
+
 corecmd_exec_bin(setroubleshoot_fixit_t)
 corecmd_exec_shell(setroubleshoot_fixit_t)
 
@@ -163,8 +169,6 @@ seutil_domtrans_setsebool(setroubleshoot_fixit_t)
 files_read_usr_files(setroubleshoot_fixit_t)
 files_read_etc_files(setroubleshoot_fixit_t)
 files_list_tmp(setroubleshoot_fixit_t)
-
-kernel_read_system_state(setroubleshoot_fixit_t)
 
 auth_use_nsswitch(setroubleshoot_fixit_t)
 
@@ -188,6 +192,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-        policykit_dbus_chat(setroubleshoot_fixit_t)
+	policykit_dbus_chat(setroubleshoot_fixit_t)
 	userdom_read_all_users_state(setroubleshoot_fixit_t)
 ')

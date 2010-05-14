@@ -1,5 +1,5 @@
 
-policy_module(asterisk, 1.7.1)
+policy_module(asterisk, 1.7.2)
 
 ########################################
 #
@@ -39,7 +39,6 @@ files_pid_file(asterisk_var_run_t)
 # Local policy
 #
 
-# dac_override for /var/run/asterisk
 allow asterisk_t self:capability { dac_override setgid setuid sys_nice net_admin };
 dontaudit asterisk_t self:capability sys_tty_config;
 allow asterisk_t self:process { getsched setsched signal_perms getcap setcap };
@@ -54,6 +53,8 @@ allow asterisk_t asterisk_etc_t:dir list_dir_perms;
 read_files_pattern(asterisk_t, asterisk_etc_t, asterisk_etc_t)
 read_lnk_files_pattern(asterisk_t, asterisk_etc_t, asterisk_etc_t)
 files_search_etc(asterisk_t)
+
+can_exec(asterisk_t, asterisk_exec_t)
 
 manage_files_pattern(asterisk_t, asterisk_log_t, asterisk_log_t)
 logging_log_filetrans(asterisk_t, asterisk_log_t, { file dir })
@@ -103,6 +104,7 @@ corenet_tcp_bind_asterisk_port(asterisk_t)
 corenet_udp_bind_asterisk_port(asterisk_t)
 corenet_udp_bind_sip_port(asterisk_t)
 corenet_sendrecv_asterisk_server_packets(asterisk_t)
+corenet_sendrecv_snmp_client_packets(asterisk_t)
 corenet_sendrecv_sip_client_packets(asterisk_t)
 corenet_sendrecv_sip_server_packets(asterisk_t)
 # for VOIP voice channels.
@@ -124,8 +126,6 @@ domain_use_interactive_fds(asterisk_t)
 
 files_read_etc_files(asterisk_t)
 files_search_spool(asterisk_t)
-# demo files installed in /usr/share/asterisk/sounds/demo-instruct.gsm
-# are labeled usr_t
 files_read_usr_files(asterisk_t)
 
 fs_getattr_all_fs(asterisk_t)
@@ -170,4 +170,3 @@ optional_policy(`
 optional_policy(`
 	udev_read_db(asterisk_t)
 ')
-

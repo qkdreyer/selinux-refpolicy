@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -15,8 +15,8 @@ interface(`asterisk_domtrans',`
 		type asterisk_t, asterisk_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, asterisk_exec_t, asterisk_t)
+	corecmd_search_bin($1)
 ')
 
 #####################################
@@ -35,8 +35,8 @@ interface(`asterisk_stream_connect',`
 		type asterisk_t, asterisk_var_run_t;
 	')
 
-	files_search_pids($1)
 	stream_connect_pattern($1, asterisk_var_run_t, asterisk_var_run_t, asterisk_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -51,7 +51,7 @@ interface(`asterisk_stream_connect',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed to manage the asterisk domain.
+##	The role to be allowed the asterisk domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
