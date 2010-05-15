@@ -709,9 +709,7 @@ optional_policy(`
 	optional_policy(`
 		networkmanager_dbus_chat(xdm_t)
 	')
-
 ')
-
 
 optional_policy(`
 	# Talk to the console mouse server.
@@ -721,9 +719,9 @@ optional_policy(`
 
 optional_policy(`
 	gnome_manage_gconf_home_files(xdm_t)
+	# Try me
 	gnome_read_config(xdm_t)
 	gnome_read_gconf_config(xdm_t)
-	gnome_append_gconf_home_files(xdm_t)
 ')
 
 optional_policy(`
