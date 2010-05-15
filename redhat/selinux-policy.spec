@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.19
-Release: 16.4%{?dist}
+Release: 16.5%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,9 @@ exit 0
 %endif
 
 %changelog
+* Sat May 15 2010 Dominick Grift <domg472@gmail.com> 3.7.19-16.5
+- Allow xdm_t to read gconf_etc_t else gconf sanity check failes and gnome power manager fails.
+
 * Fri May 14 2010 Dominick Grift <domg472@gmail.com> 3.7.19-16.4
 - Merge branch refpolicy.
 
