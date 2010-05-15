@@ -114,13 +114,14 @@ sysnet_read_config(hotplug_t)
 userdom_dontaudit_use_unpriv_user_fds(hotplug_t)
 userdom_dontaudit_search_user_home_dirs(hotplug_t)
 
-ifdef(`distro_redhat', `
+ifdef(`distro_redhat',`
 	optional_policy(`
 		# for arping used for static IP addresses on PCMCIA ethernet
 		netutils_domtrans(hotplug_t)
 		netutils_signal(hotplug_t)
 		fs_rw_tmpfs_chr_files(hotplug_t)
 	')
+
 	files_getattr_generic_locks(hotplug_t)
 ')
 

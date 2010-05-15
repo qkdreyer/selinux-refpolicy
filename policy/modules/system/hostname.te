@@ -16,7 +16,6 @@ role system_r types hostname_t;
 # Local policy
 #
 
-# for setting the hostname
 allow hostname_t self:process { sigchld sigkill sigstop signull signal };
 allow hostname_t self:capability sys_admin;
 allow hostname_t self:unix_stream_socket create_stream_socket_perms;
