@@ -234,7 +234,6 @@ optional_policy(`
 	unconfined_domain_noaudit(rpm_t)
 	# yum-updatesd requires this
 	unconfined_dbus_chat(rpm_t)
-	unconfined_dbus_chat(rpm_script_t)
 ')
 
 ########################################
@@ -395,6 +394,8 @@ optional_policy(`
 ')
 
 optional_policy(`
+	# yum-updatesd requires dbus chat
+	unconfined_dbus_chat(rpm_script_t)
 	unconfined_domain(rpm_script_t)
 	unconfined_domtrans(rpm_script_t)
 	unconfined_execmem_domtrans(rpm_script_t)
