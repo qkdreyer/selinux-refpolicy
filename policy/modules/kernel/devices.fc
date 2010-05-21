@@ -110,9 +110,11 @@
 /dev/usb.+		-c	gen_context(system_u:object_r:usb_device_t,s0)
 /dev/usbmon.+		-c	gen_context(system_u:object_r:usbmon_device_t,s0)
 /dev/usblp.*		-c	gen_context(system_u:object_r:printer_device_t,s0)
-ifdef(`distro_suse', `
+
+ifdef(`distro_suse',`
 /dev/usbscanner		-c	gen_context(system_u:object_r:scanner_device_t,s0)
 ')
+
 /dev/vbi.*		-c	gen_context(system_u:object_r:v4l_device_t,s0)
 /dev/vbox.*		-c	gen_context(system_u:object_r:xserver_misc_device_t,s0)
 /dev/vga_arbiter	-c	gen_context(system_u:object_r:xserver_misc_device_t,s0)
@@ -164,6 +166,7 @@ ifdef(`distro_suse', `
 
 /dev/usb/dc2xx.*	-c	gen_context(system_u:object_r:scanner_device_t,s0)
 /dev/usb/lp.*		-c	gen_context(system_u:object_r:printer_device_t,s0)
+/dev/mfpports/.*	-c	gen_context(system_u:object_r:printer_device_t,s0)
 /dev/usb/mdc800.*	-c	gen_context(system_u:object_r:scanner_device_t,s0)
 /dev/usb/scanner.*	-c	gen_context(system_u:object_r:scanner_device_t,s0)
 
@@ -187,3 +190,5 @@ ifdef(`distro_redhat',`
 /var/named/chroot/dev/random -c	gen_context(system_u:object_r:random_device_t,s0)
 /var/named/chroot/dev/zero -c	gen_context(system_u:object_r:zero_device_t,s0)
 ')
+
+/sys(/.*)?						gen_context(system_u:object_r:sysfs_t,s0)

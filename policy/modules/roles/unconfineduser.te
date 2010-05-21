@@ -271,7 +271,7 @@ optional_policy(`
 	')
 
 	optional_policy(`
-		vpnc_dbus_chat(unconfined_usertype)
+		vpn_dbus_chat(unconfined_usertype)
 	')
 ')
 

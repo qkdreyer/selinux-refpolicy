@@ -281,6 +281,10 @@ userdom_use_unpriv_users_fds(newrole_t)
 userdom_dontaudit_search_user_home_content(newrole_t)
 userdom_search_user_home_dirs(newrole_t)
 
+optional_policy(`
+	xserver_dontaudit_exec_xauth(newrole_t)
+')
+
 ifdef(`distro_ubuntu',`
 	optional_policy(`
 		unconfined_domain(newrole_t)

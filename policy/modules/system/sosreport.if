@@ -108,7 +108,25 @@ interface(`sosreport_delete_tmp_files',`
 		type sosreport_tmp_t;
 	')
 
-	files_delete_tmp_dir_entry($1)
 	delete_files_pattern($1, sosreport_tmp_t, sosreport_tmp_t)
+	files_delete_tmp_dir_entry($1)
 ')
 
+########################################
+## <summary>
+##	Append sosreport tmp files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`sosreport_append_tmp_files',`
+	gen_require(`
+		type sosreport_tmp_t;
+	')
+
+	allow $1 sosreport_tmp_t:file append_file_perms;
+	files_search_tmp($1)
+')

@@ -20,6 +20,7 @@ optional_policy(`
 
 optional_policy(`
 	cron_rw_inherited_user_spool_files(application_domain_type)
+	cron_sigchld(application_domain_type)
 ')
 
 optional_policy(`

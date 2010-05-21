@@ -278,6 +278,10 @@ template(`ssh_server_template', `
 	optional_policy(`
 		rlogin_read_home_content($1_t)
 	')
+
+	optional_policy(`
+		shutdown_getattr_exec_files($1_t)
+	')
 ')
 
 ########################################

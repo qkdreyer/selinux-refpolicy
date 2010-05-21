@@ -137,7 +137,7 @@ ifdef(`distro_redhat',`
 /usr/lib(64)?/xorg/libGL\.so(\.[^/]*)*	--	gen_context(system_u:object_r:textrel_shlib_t,s0)
 /usr/X11R6/lib/libGL\.so.* 		--	gen_context(system_u:object_r:textrel_shlib_t,s0)
 /usr/lib(64)?/libGL\.so(\.[^/]*)*	--	gen_context(system_u:object_r:textrel_shlib_t,s0)
-/usr/lib(64)?/catalyst/libGL\.so(\.[^/]*)* --	gen_context(system_u:object_r:textrel_shlib_t,s0)
+/usr/lib(64)?/catalyst/.*\.so(\.[^/]*)* --	gen_context(system_u:object_r:textrel_shlib_t,s0)
 /usr/lib(64)?/libADM5.*\.so(\.[^/]*)*	--	gen_context(system_u:object_r:textrel_shlib_t,s0)
 /usr/lib(64)?/libatiadlxx\.so(\.[^/]*)*	--	gen_context(system_u:object_r:textrel_shlib_t,s0)
 /usr/lib(64)?/win32/.*\.so(\.[^/]*)*	--	gen_context(system_u:object_r:textrel_shlib_t,s0)

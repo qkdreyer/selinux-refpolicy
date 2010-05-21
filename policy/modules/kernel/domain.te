@@ -224,6 +224,9 @@ optional_policy(`
 	rpm_inherited_fifo(domain)
 ')
 
+optional_policy(`
+	sosreport_append_tmp_files(domain)
+')
 
 tunable_policy(`allow_domain_fd_use',`
 	# Allow all domains to use fds past to them

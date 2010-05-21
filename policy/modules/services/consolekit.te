@@ -110,6 +110,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+	networkmanager_append_log(consolekit_t)
+')
+
+optional_policy(`
 	policykit_dbus_chat(consolekit_t)
 	policykit_domtrans_auth(consolekit_t)
 	policykit_read_lib(consolekit_t)

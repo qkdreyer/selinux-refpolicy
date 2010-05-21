@@ -134,6 +134,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+	sandbox_manage_tmpfs_files(pulseaudio_t)
+')
+
+optional_policy(`
 	seahorsed_delete_tmpfs_files(pulseaudio_t)
 	seahorsed_read_tmpfs_files(pulseaudio_t)
 ')

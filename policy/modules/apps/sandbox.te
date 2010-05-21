@@ -8,6 +8,7 @@ attribute sandbox_x_domain;
 attribute sandbox_file_type;
 attribute sandbox_web_type;
 attribute sandbox_tmpfs_type;
+attribute sandbox_x_type;
 
 ########################################
 #
@@ -161,6 +162,7 @@ domain_dontaudit_read_all_domains_state(sandbox_x_domain)
 files_search_home(sandbox_x_domain)
 files_dontaudit_list_tmp(sandbox_x_domain)
 
+kernel_getattr_proc(sandbox_x_domain)
 kernel_read_network_state(sandbox_x_domain)
 kernel_read_system_state(sandbox_x_domain)
 
@@ -327,6 +329,10 @@ userdom_delete_user_tmpfs_files(sandbox_web_type)
 
 optional_policy(`
 	bluetooth_dontaudit_dbus_chat(sandbox_web_type)
+')
+
+optional_policy(`
+	consolekit_dbus_chat(sandbox_web_type)
 ')
 
 optional_policy(`

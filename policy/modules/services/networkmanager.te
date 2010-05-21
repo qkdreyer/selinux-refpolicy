@@ -282,6 +282,7 @@ optional_policy(`
 	vpn_kill(NetworkManager_t)
 	vpn_signal(NetworkManager_t)
 	vpn_signull(NetworkManager_t)
+	vpn_relabelfrom_tun_socket(NetworkManager_t)
 ')
 
 ########################################

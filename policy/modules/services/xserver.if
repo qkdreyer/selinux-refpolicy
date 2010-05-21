@@ -573,9 +573,10 @@ interface(`xserver_domtrans_xauth',`
 	')
 
 	domtrans_pattern($1, xauth_exec_t, xauth_t)
-ifdef(`hide_broken_symptoms', `
-	dontaudit xauth_t $1:socket_class_set { read write };
-')
+	
+	ifdef(`hide_broken_symptoms',`
+		dontaudit xauth_t $1:socket_class_set { read write };
+	')
 ')
 
 ########################################
@@ -594,6 +595,24 @@ interface(`xserver_user_home_dir_filetrans_user_xauth',`
 	')
 
 	userdom_user_home_dir_filetrans($1, xauth_home_t, file)
+')
+
+########################################
+## <summary>
+##	Dontaudit exec of Xauthority program.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`xserver_dontaudit_exec_xauth',`
+	gen_require(`
+		type xauth_exec_t;
+	')
+
+	dontaudit $1 xauth_exec_t:file exec_file_perms;
 ')
 
 ########################################

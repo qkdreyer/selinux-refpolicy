@@ -177,6 +177,7 @@ interface(`virt_read_config',`
 	files_search_etc($1)
 	read_files_pattern($1, virt_etc_t, virt_etc_t)
 	read_files_pattern($1, virt_etc_rw_t, virt_etc_rw_t)
+	read_lnk_files_pattern($1, virt_etc_rw_t, virt_etc_rw_t)
 ')
 
 ########################################

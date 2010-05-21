@@ -65,6 +65,9 @@ type virt_content_t; # customizable
 virt_image(virt_content_t)
 userdom_user_home_content(virt_content_t)
 
+type virt_tmp_t;
+files_tmp_file(virt_tmp_t)
+
 type virt_log_t;
 logging_log_file(virt_log_t)
 mls_trusted_object(virt_log_t)
@@ -174,6 +177,7 @@ allow virtd_t self:capability { chown dac_override fowner ipc_lock kill mknod ne
 allow virtd_t self:process { getcap getsched setcap sigkill signal signull execmem setexec setfscreate setsched };
 
 allow virtd_t self:fifo_file rw_fifo_file_perms;
+allow virtd_t self:rawip_socket create_socket_perms;
 allow virtd_t self:unix_stream_socket create_stream_socket_perms;
 allow virtd_t self:tcp_socket create_stream_socket_perms;
 allow virtd_t self:tun_socket create_socket_perms;
@@ -203,6 +207,11 @@ manage_blk_files_pattern(virtd_t, virt_image_type, virt_image_type)
 manage_lnk_files_pattern(virtd_t, virt_image_type, virt_image_type)
 allow virtd_t virt_image_type:file { relabelfrom relabelto };
 allow virtd_t virt_image_type:blk_file { relabelfrom relabelto };
+
+manage_dirs_pattern(virtd_t, virt_tmp_t, virt_tmp_t)
+manage_files_pattern(virtd_t, virt_tmp_t, virt_tmp_t)
+files_tmp_filetrans(virtd_t, virt_tmp_t, { file dir })
+can_exec(virtd_t, virt_tmp_t)
 
 manage_dirs_pattern(virtd_t, virt_log_t, virt_log_t)
 manage_files_pattern(virtd_t, virt_log_t, virt_log_t)
@@ -480,6 +489,7 @@ files_search_all(virt_domain)
 fs_getattr_tmpfs(virt_domain)
 fs_rw_anon_inodefs_files(virt_domain)
 fs_rw_tmpfs_files(virt_domain)
+fs_getattr_hugetlbfs(virt_domain)
 
 # I think we need these for now.
 miscfiles_read_public_files(virt_domain)

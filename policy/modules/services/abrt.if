@@ -144,6 +144,25 @@ interface(`abrt_read_pid_files',`
 	files_search_pids($1)
 ')
 
+######################################
+## <summary>
+##	manage abrt PID files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`abrt_manage_pid_files',`
+	gen_require(`
+		type abrt_var_run_t;
+	')
+
+	manage_files_pattern($1, abrt_var_run_t, abrt_var_run_t)
+	files_search_pids($1)
+')
+
 ########################################
 ## <summary>
 ##	Connect to abrt over an unix stream socket.
@@ -238,6 +257,24 @@ interface(`abrt_signull',`
 	')
 
 	allow $1 abrt_t:process signull;
+')
+
+########################################
+## <summary>
+##	Read and write abrt fifo files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`abrt_rw_fifo_file',`
+	gen_require(`
+		type abrt_t;
+	')
+
+	allow $1 abrt_t:fifo_file rw_inherited_fifo_file_perms;
 ')
 
 #####################################

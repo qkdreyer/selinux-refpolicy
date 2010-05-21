@@ -670,7 +670,7 @@ template(`userdom_common_user_template',`
 		')
 
 		optional_policy(`
-			vpnc_dbus_chat($1_usertype)
+			vpn_dbus_chat($1_usertype)
 		')
 	')
 
@@ -1350,6 +1350,7 @@ template(`userdom_admin_user_template',`
 	domain_sigchld_all_domains($1_t)
 	# for lsof
 	domain_getattr_all_sockets($1_t)
+	domain_dontaudit_getattr_all_sockets($1_t)
 
 	files_exec_usr_src_files($1_t)
 

@@ -50,7 +50,8 @@ interface(`sandbox_transition',`
 	dontaudit sandbox_x_domain $1:udp_socket rw_socket_perms;
 	dontaudit sandbox_x_domain $1:unix_stream_socket { read write };
 	
-	allow $1 sandbox_tmpfs_type:file read_file_perms;
+	allow $1 sandbox_tmpfs_type:file manage_file_perms;
+	dontaudit $1 sandbox_tmpfs_type:file manage_file_perms;
 
 	manage_files_pattern($1, sandbox_file_type, sandbox_file_type);
 	manage_dirs_pattern($1, sandbox_file_type, sandbox_file_type);
@@ -80,9 +81,10 @@ template(`sandbox_domain_template',`
 	gen_require(`
 		attribute sandbox_domain;
 		attribute sandbox_file_type;
+		attribute sandbox_x_type;
 	')
 
-	type $1_t, sandbox_domain;
+	type $1_t, sandbox_domain, sandbox_x_type;
 	domain_type($1_t)
 
 	mls_rangetrans_target($1_t)
@@ -202,6 +204,27 @@ interface(`sandbox_rw_xserver_tmpfs_files',`
 	')
 
 	allow $1 sandbox_xserver_tmpfs_t:file rw_file_perms;
+	fs_search_tmpfs($1)
+')
+
+########################################
+## <summary>
+##	allow domain to manage
+##	sandbox tmpfs files
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access
+##	</summary>
+## </param>
+#
+interface(`sandbox_manage_tmpfs_files',`
+	gen_require(`
+		attribute sandbox_tmpfs_type;
+	')
+
+	allow $1 sandbox_tmpfs_type:file manage_file_perms;
+	fs_search_tmpfs($1)
 ')
 
 ########################################
