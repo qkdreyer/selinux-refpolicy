@@ -273,7 +273,7 @@ interface(`sendmail_manage_tmp_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -310,25 +310,6 @@ interface(`sendmail_run_unconfined',`
 
 	sendmail_domtrans_unconfined($1)
 	role $2 types unconfined_sendmail_t;
-')
-
-########################################
-## <summary>
-##	Execute sendmail in the unconfined sendmail domain.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`sendmail_domtrans_unconfined',`
-	gen_require(`
-		type unconfined_sendmail_t, sendmail_exec_t;
-	')
-
-	domtrans_pattern($1, sendmail_exec_t, unconfined_sendmail_t)
-	corecmd_search_bin($1)
 ')
 
 ########################################

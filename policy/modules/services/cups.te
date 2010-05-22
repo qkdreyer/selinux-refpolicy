@@ -77,9 +77,6 @@ files_config_file(hplip_etc_t)
 type hplip_var_lib_t;
 files_type(hplip_var_lib_t)
 
-type hplip_var_lib_t;
-files_type(hplip_var_lib_t)
-
 type hplip_var_run_t;
 files_pid_file(hplip_var_run_t)
 

@@ -19,29 +19,6 @@ interface(`abrt_domtrans',`
 	corecmd_search_bin($1)
 ')
 
-#####################################
-## <summary>
-##  Execute abrt-helper in the abrt-helper domain.
-## </summary>
-## <param name="domain">
-##  <summary>
-##  Domain allowed to transition.
-##  </summary>
-## </param>
-#
-interface(`abrt_domtrans_helper',`
-	gen_require(`
-		type abrt_helper_t, abrt_helper_exec_t;
-	')
-
-	domtrans_pattern($1, abrt_helper_exec_t, abrt_helper_t)
-	corecmd_search_bin($1)
-
-	ifdef(`hide_broken_symptoms',`
-		dontaudit abrt_helper_t $1:socket_class_set { read write };
-	')
-')
-
 ######################################
 ## <summary>
 ##	Execute abrt in the caller domain.
@@ -84,12 +61,12 @@ interface(`abrt_dbus_chat',`
 
 #####################################
 ## <summary>
-##	Execute abrt-helper in the abrt-helper domain.
+##  Execute abrt-helper in the abrt-helper domain.
 ## </summary>
 ## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
+##  <summary>
+##  Domain allowed to transition.
+##  </summary>
 ## </param>
 #
 interface(`abrt_domtrans_helper',`
@@ -99,12 +76,41 @@ interface(`abrt_domtrans_helper',`
 
 	domtrans_pattern($1, abrt_helper_exec_t, abrt_helper_t)
 	corecmd_search_bin($1)
+
+	ifdef(`hide_broken_symptoms',`
+		dontaudit abrt_helper_t $1:socket_class_set { read write };
+	')
 ')
 
 ########################################
 ## <summary>
-##	Send and receive messages from
-##	abrt over dbus.
+##	Execute abrt helper in the abrt_helper domain, and
+##	allow the specified role the abrt_helper domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed to transition.
+##	</summary>
+## </param>
+## <param name="role">
+##	<summary>
+##	The role to be allowed the abrt_helper domain.
+##	</summary>
+## </param>
+## <rolecap/>
+#
+interface(`abrt_run_helper',`
+	gen_require(`
+		type abrt_helper_t;
+	')
+
+	abrt_domtrans_helper($1)
+	role $2 types abrt_helper_t;
+')
+
+########################################
+## <summary>
+##	Manage abrt cache files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -138,32 +144,6 @@ interface(`abrt_read_config',`
 
 	read_files_pattern($1, abrt_etc_t, abrt_etc_t)
 	files_search_etc($1)
-')
-
-########################################
-## <summary>
-##	Execute abrt helper in the abrt_helper domain, and
-##	allow the specified role the abrt_helper domain.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed to transition.
-##	</summary>
-## </param>
-## <param name="role">
-##	<summary>
-##	The role to be allowed the abrt_helper domain.
-##	</summary>
-## </param>
-## <rolecap/>
-#
-interface(`abrt_run_helper',`
-	gen_require(`
-		type abrt_helper_t;
-	')
-
-	abrt_domtrans_helper($1)
-	role $2 types abrt_helper_t;
 ')
 
 ######################################
