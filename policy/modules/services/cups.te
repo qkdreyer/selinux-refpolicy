@@ -1,5 +1,5 @@
 
-policy_module(cups, 1.13.0)
+policy_module(cups, 1.13.1)
 
 ########################################
 #
@@ -73,6 +73,9 @@ files_tmp_file(hplip_tmp_t)
 
 type hplip_etc_t;
 files_config_file(hplip_etc_t)
+
+type hplip_var_lib_t;
+files_type(hplip_var_lib_t)
 
 type hplip_var_lib_t;
 files_type(hplip_var_lib_t)
@@ -365,7 +368,7 @@ manage_files_pattern(cupsd_config_t, cupsd_rw_etc_t, cupsd_rw_etc_t)
 manage_lnk_files_pattern(cupsd_config_t, cupsd_rw_etc_t, cupsd_rw_etc_t)
 files_var_filetrans(cupsd_config_t, cupsd_rw_etc_t, file)
 
-can_exec(cupsd_config_t, cupsd_config_exec_t) 
+can_exec(cupsd_config_t, cupsd_config_exec_t)
 
 allow cupsd_config_t cupsd_log_t:file rw_file_perms;
 
@@ -512,6 +515,7 @@ allow cupsd_lpd_t self:udp_socket create_socket_perms;
 allow cupsd_lpd_t self:netlink_tcpdiag_socket r_netlink_socket_perms;
 allow cupsd_lpd_t self:capability { setuid setgid };
 files_search_home(cupsd_lpd_t)
+
 optional_policy(`
 	kerberos_use(cupsd_lpd_t)
 ')

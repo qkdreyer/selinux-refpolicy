@@ -44,7 +44,7 @@ interface(`abrt_domtrans_helper',`
 
 ######################################
 ## <summary>
-##	Execute abrt.
+##	Execute abrt in the caller domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -59,6 +59,66 @@ interface(`abrt_exec',`
 
 	can_exec($1, abrt_exec_t)
 	corecmd_search_bin($1)
+')
+
+########################################
+## <summary>
+##	Send and receive messages from
+##	abrt over dbus.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`abrt_dbus_chat',`
+	gen_require(`
+		type abrt_t;
+		class dbus send_msg;
+	')
+
+	allow $1 abrt_t:dbus send_msg;
+	allow abrt_t $1:dbus send_msg;
+')
+
+#####################################
+## <summary>
+##	Execute abrt-helper in the abrt-helper domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`abrt_domtrans_helper',`
+	gen_require(`
+		type abrt_helper_t, abrt_helper_exec_t;
+	')
+
+	domtrans_pattern($1, abrt_helper_exec_t, abrt_helper_t)
+	corecmd_search_bin($1)
+')
+
+########################################
+## <summary>
+##	Send and receive messages from
+##	abrt over dbus.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`abrt_cache_manage',`
+	gen_require(`
+		type abrt_var_cache_t;
+	')
+
+	manage_files_pattern($1, abrt_var_cache_t, abrt_var_cache_t)
+	files_search_var($1)
 ')
 
 ####################################
@@ -202,47 +262,6 @@ interface(`abrt_read_state',`
 
 ########################################
 ## <summary>
-##	Send and receive messages from
-##	abrt over dbus.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`abrt_dbus_chat',`
-	gen_require(`
-		type abrt_t;
-		class dbus send_msg;
-	')
-
-	allow $1 abrt_t:dbus send_msg;
-	allow abrt_t $1:dbus send_msg;
-')
-
-########################################
-## <summary>
-##	Send and receive messages from
-##	abrt over dbus.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`abrt_cache_manage',`
-	gen_require(`
-		type abrt_var_cache_t;
-	')
-
-	manage_files_pattern($1, abrt_var_cache_t, abrt_var_cache_t)
-	files_search_var($1)
-')
-
-########################################
-## <summary>
 ##	Send a null signal to abrt.
 ## </summary>
 ## <param name="domain">
@@ -279,7 +298,7 @@ interface(`abrt_rw_fifo_file',`
 
 #####################################
 ## <summary>
-##	All of the rules required to administrate 
+##	All of the rules required to administrate
 ##	an abrt environment
 ## </summary>
 ## <param name="domain">
@@ -296,7 +315,7 @@ interface(`abrt_rw_fifo_file',`
 #
 interface(`abrt_admin',`
 	gen_require(`
-		type abrt_t, abrt_etc_t; 
+		type abrt_t, abrt_etc_t;
 		type abrt_var_cache_t, abrt_var_log_t;
 		type abrt_var_run_t, abrt_tmp_t;
 		type abrt_initrc_exec_t;
@@ -314,7 +333,7 @@ interface(`abrt_admin',`
 	admin_pattern($1, abrt_etc_t)
 
 	logging_search_logs($1)
-	admin_pattern($1, abrt_var_log_t)	
+	admin_pattern($1, abrt_var_log_t)
 
 	files_search_var($1)
 	admin_pattern($1, abrt_var_cache_t)

@@ -919,6 +919,7 @@ optional_policy(`
 	udev_rw_db(initrc_t)
 	udev_delete_db(initrc_t)
 	udev_manage_pid_files(initrc_t)
+	udev_manage_rules_files(initrc_t)
 ')
 
 optional_policy(`
@@ -995,17 +996,13 @@ optional_policy(`
 # if I start an initrc script from an random director I can generate this avc
 files_dontaudit_search_all_dirs(daemon)
 
+init_rw_script_stream_sockets(daemon)
+
 # userdom_inherit_append_user_home_content_files(daemon)
 # userdom_inherit_append_user_tmp_files(daemon)
 userdom_dontaudit_rw_stream(daemon)
 
 logging_append_all_logs(daemon)
-
-optional_policy(`
-	# sudo service restart causes this 
-	unconfined_signull(daemon)
-')
-
 
 optional_policy(`
 	xserver_dontaudit_append_xdm_home_files(daemon)
@@ -1017,8 +1014,11 @@ optional_policy(`
 	')
 ')
 
-init_rw_script_stream_sockets(daemon)
-
 optional_policy(`
 	fail2ban_read_lib_files(daemon)
+')
+
+optional_policy(`
+	# sudo service restart causes this 
+	unconfined_signull(daemon)
 ')

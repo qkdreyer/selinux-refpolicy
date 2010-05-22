@@ -1,5 +1,5 @@
 
-policy_module(prelink, 1.8.0)
+policy_module(prelink, 1.8.1)
 
 ########################################
 #
@@ -15,6 +15,11 @@ domain_obj_id_change_exemption(prelink_t)
 type prelink_cache_t;
 files_type(prelink_cache_t)
 
+type prelink_cron_system_t;
+type prelink_cron_system_exec_t;
+domain_type(prelink_cron_system_t)
+domain_entry_file(prelink_cron_system_t, prelink_cron_system_exec_t)
+
 type prelink_log_t;
 logging_log_file(prelink_log_t)
 
@@ -26,16 +31,6 @@ files_tmpfs_file(prelink_tmpfs_t)
 
 type prelink_var_lib_t;
 files_type(prelink_var_lib_t)
-
-########################################
-#
-# Prelink Cron system Declarations
-#
-
-type prelink_cron_system_t;
-type prelink_cron_system_exec_t;
-domain_type(prelink_cron_system_t)
-domain_entry_file(prelink_cron_system_t, prelink_cron_system_exec_t)
 
 ########################################
 #
@@ -65,7 +60,6 @@ manage_dirs_pattern(prelink_t, prelink_var_lib_t, prelink_var_lib_t)
 manage_files_pattern(prelink_t, prelink_var_lib_t, prelink_var_lib_t)
 relabel_files_pattern(prelink_t, prelink_var_lib_t, prelink_var_lib_t)
 files_var_lib_filetrans(prelink_t, prelink_var_lib_t, { dir file })
-files_search_var_lib(prelink_t)
 
 # prelink misc objects that are not system
 # libraries or entrypoints
@@ -130,46 +124,42 @@ optional_policy(`
 # Prelink Cron system Policy
 #
 
-allow prelink_cron_system_t self:capability setuid;
-allow prelink_cron_system_t self:process { setsched setfscreate };
-
-allow prelink_cron_system_t self:fifo_file rw_fifo_file_perms;
-allow prelink_cron_system_t self:unix_dgram_socket { write bind create setopt };
-
-domtrans_pattern(prelink_cron_system_t, prelink_exec_t, prelink_t)
-allow prelink_cron_system_t prelink_t:process noatsecure;  
-
-read_files_pattern(prelink_cron_system_t, prelink_cache_t, prelink_cache_t)
-allow prelink_cron_system_t prelink_cache_t:file unlink;
-files_delete_etc_dir_entry(prelink_cron_system_t)
-
-manage_files_pattern(prelink_cron_system_t, prelink_log_t, prelink_log_t)
-
-manage_files_pattern(prelink_cron_system_t, prelink_var_lib_t, prelink_var_lib_t)
-files_var_lib_filetrans(prelink_cron_system_t, prelink_var_lib_t, file)
-allow prelink_cron_system_t prelink_var_lib_t:file { relabelfrom relabelto };
-
-corecmd_exec_bin(prelink_cron_system_t)
-corecmd_exec_shell(prelink_cron_system_t)
-
-files_dontaudit_search_all_mountpoints(prelink_cron_system_t)
-files_read_etc_files(prelink_cron_system_t)
-files_search_var_lib(prelink_cron_system_t)
-
-init_exec(prelink_cron_system_t)
-
-kernel_read_system_state(prelink_cron_system_t)
-
-libs_exec_ld_so(prelink_cron_system_t)
-
-logging_search_logs(prelink_cron_system_t)
-
-miscfiles_read_localization(prelink_cron_system_t)
-
 optional_policy(`
+	allow prelink_cron_system_t self:capability setuid;
+	allow prelink_cron_system_t self:process { setsched setfscreate };
+	allow prelink_cron_system_t self:fifo_file rw_fifo_file_perms;
+	allow prelink_cron_system_t self:unix_dgram_socket { write bind create setopt };
+
+	read_files_pattern(prelink_cron_system_t, prelink_cache_t, prelink_cache_t)
+	allow prelink_cron_system_t prelink_cache_t:file unlink;
+
+	domtrans_pattern(prelink_cron_system_t, prelink_exec_t, prelink_t)
+	allow prelink_cron_system_t prelink_t:process noatsecure;
+
+	manage_files_pattern(prelink_cron_system_t, prelink_log_t, prelink_log_t)
+
+	manage_files_pattern(prelink_cron_system_t, prelink_var_lib_t, prelink_var_lib_t)
+	files_var_lib_filetrans(prelink_cron_system_t, prelink_var_lib_t, file)
+	allow prelink_cron_system_t prelink_var_lib_t:file { relabelfrom relabelto };
+
+	kernel_read_system_state(prelink_cron_system_t)
+
+	corecmd_exec_bin(prelink_cron_system_t)
+	corecmd_exec_shell(prelink_cron_system_t)
+
+	files_read_etc_files(prelink_cron_system_t)
+
+	init_exec(prelink_cron_system_t)
+
+	libs_exec_ld_so(prelink_cron_system_t)
+
+	logging_search_logs(prelink_cron_system_t)
+
+	miscfiles_read_localization(prelink_cron_system_t)
+
 	cron_system_entry(prelink_cron_system_t, prelink_cron_system_exec_t)
-')
 
-optional_policy(`
-	rpm_read_db(prelink_cron_system_t)
+	optional_policy(`
+		rpm_read_db(prelink_cron_system_t)
+	')
 ')

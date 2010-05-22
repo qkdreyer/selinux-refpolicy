@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -33,7 +33,7 @@ interface(`cups_backend',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -43,6 +43,7 @@ interface(`cups_domtrans',`
 	')
 
 	domtrans_pattern($1, cupsd_exec_t, cupsd_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -60,8 +61,8 @@ interface(`cups_stream_connect',`
 		type cupsd_t, cupsd_var_run_t;
 	')
 
-	files_search_pids($1)
 	stream_connect_pattern($1, cupsd_var_run_t, cupsd_var_run_t, cupsd_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -114,8 +115,8 @@ interface(`cups_read_pid_files',`
 		type cupsd_var_run_t;
 	')
 
-	files_search_pids($1)
 	allow $1 cupsd_var_run_t:file read_file_perms;
+	files_search_pids($1)
 ')
 
 ########################################
@@ -124,7 +125,7 @@ interface(`cups_read_pid_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -134,6 +135,7 @@ interface(`cups_domtrans_config',`
 	')
 
 	domtrans_pattern($1, cupsd_config_exec_t, cupsd_config_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -185,16 +187,15 @@ interface(`cups_dbus_chat_config',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`cups_read_config',`
 	gen_require(`
 		type cupsd_etc_t, cupsd_rw_etc_t;
 	')
 
-	files_search_etc($1)
 	read_files_pattern($1, cupsd_etc_t, cupsd_etc_t)
 	read_files_pattern($1, cupsd_etc_t, cupsd_rw_etc_t)
+	files_search_etc($1)
 ')
 
 ########################################
@@ -206,15 +207,14 @@ interface(`cups_read_config',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`cups_read_rw_config',`
 	gen_require(`
 		type cupsd_etc_t, cupsd_rw_etc_t;
 	')
 
-	files_search_etc($1)
 	read_files_pattern($1, cupsd_etc_t, cupsd_rw_etc_t)
+	files_search_etc($1)
 ')
 
 ########################################
@@ -226,15 +226,14 @@ interface(`cups_read_rw_config',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`cups_read_log',`
 	gen_require(`
 		type cupsd_log_t;
 	')
 
-	logging_search_logs($1)
 	allow $1 cupsd_log_t:file read_file_perms;
+	logging_search_logs($1)
 ')
 
 ########################################
@@ -252,8 +251,8 @@ interface(`cups_append_log',`
 		type cupsd_log_t;
 	')
 
-	logging_search_logs($1)
 	append_files_pattern($1, cupsd_log_t, cupsd_log_t)
+	logging_search_logs($1)
 ')
 
 ########################################
@@ -271,8 +270,8 @@ interface(`cups_write_log',`
 		type cupsd_log_t;
 	')
 
-	logging_search_logs($1)
 	allow $1 cupsd_log_t:file write_file_perms;
+	logging_search_logs($1)
 ')
 
 ########################################
@@ -290,8 +289,8 @@ interface(`cups_stream_connect_ptal',`
 		type ptal_t, ptal_var_run_t;
 	')
 
-	files_search_pids($1)
 	stream_connect_pattern($1, ptal_var_run_t, ptal_var_run_t, ptal_t)
+	files_search_pids($1)
 ')
 
 ########################################

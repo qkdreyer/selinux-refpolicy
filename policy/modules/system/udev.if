@@ -24,7 +24,7 @@ interface(`udev_signal',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -34,6 +34,7 @@ interface(`udev_domtrans',`
 	')
 
 	domtrans_pattern($1, udev_exec_t, udev_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -52,6 +53,7 @@ interface(`udev_exec',`
 	')
 
 	can_exec($1, udev_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -60,7 +62,7 @@ interface(`udev_exec',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -70,6 +72,7 @@ interface(`udev_helper_domtrans',`
 	')
 
 	domtrans_pattern($1, udev_helper_exec_t, udev_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -87,9 +90,9 @@ interface(`udev_read_state',`
 		type udev_t;
 	')
 
-	kernel_search_proc($1)
 	allow $1 udev_t:file read_file_perms;
 	allow $1 udev_t:lnk_file read_lnk_file_perms;
+	kernel_search_proc($1)
 ')
 
 ########################################
@@ -132,6 +135,24 @@ interface(`udev_dontaudit_rw_dgram_sockets',`
 
 ########################################
 ## <summary>
+##	Manage udev rules files
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`udev_manage_rules_files',`
+	gen_require(`
+		type udev_rules_t;
+	')
+
+	manage_files_pattern($1, udev_rules_t, udev_rules_t)
+')
+
+########################################
+## <summary>
 ##	Do not audit search of udev database directories.
 ## </summary>
 ## <param name="domain">
@@ -169,10 +190,10 @@ interface(`udev_read_db',`
 		type udev_tbl_t;
 	')
 
-	dev_list_all_dev_nodes($1)
 	allow $1 udev_tbl_t:dir list_dir_perms;
 	read_files_pattern($1, udev_tbl_t, udev_tbl_t)
 	read_lnk_files_pattern($1, udev_tbl_t, udev_tbl_t)
+	dev_list_all_dev_nodes($1)
 ')
 
 ########################################
@@ -181,7 +202,7 @@ interface(`udev_read_db',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -190,8 +211,8 @@ interface(`udev_rw_db',`
 		type udev_tbl_t;
 	')
 
-	dev_list_all_dev_nodes($1)
 	allow $1 udev_tbl_t:file rw_file_perms;
+	dev_list_all_dev_nodes($1)
 ')
 
 ########################################
@@ -200,7 +221,7 @@ interface(`udev_rw_db',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -209,8 +230,8 @@ interface(`udev_delete_db',`
 		type udev_tbl_t;
 	')
 
-	dev_list_all_dev_nodes($1)
 	allow $1 udev_tbl_t:file unlink;
+	dev_list_all_dev_nodes($1)
 ')
 
 ########################################
@@ -229,6 +250,6 @@ interface(`udev_manage_pid_files',`
 		type udev_var_run_t;
 	')
 
-	files_search_var_lib($1)
 	manage_files_pattern($1, udev_var_run_t, udev_var_run_t)
+	files_search_var_lib($1)
 ')

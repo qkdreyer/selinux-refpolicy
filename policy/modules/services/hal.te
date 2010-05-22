@@ -1,5 +1,5 @@
 
-policy_module(hal, 1.12.1)
+policy_module(hal, 1.12.2)
 
 ########################################
 #
@@ -104,6 +104,7 @@ kernel_rw_irq_sysctls(hald_t)
 kernel_rw_vm_sysctls(hald_t)
 kernel_write_proc_files(hald_t)
 kernel_rw_net_sysctls(hald_t)
+kernel_search_network_sysctl(hald_t)
 kernel_setsched(hald_t)
 kernel_request_load_module(hald_t)
 

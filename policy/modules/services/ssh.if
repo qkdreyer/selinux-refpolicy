@@ -623,7 +623,7 @@ interface(`ssh_initrc_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -633,6 +633,7 @@ interface(`ssh_domtrans_ssh',`
 	')
 
 	domtrans_pattern($1, ssh_exec_t, ssh_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -650,8 +651,8 @@ interface(`ssh_exec',`
 		type ssh_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	can_exec($1, ssh_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -688,8 +689,8 @@ interface(`ssh_agent_exec',`
 		type ssh_agent_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	can_exec($1, ssh_agent_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -719,7 +720,7 @@ interface(`ssh_read_user_home_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -729,15 +730,16 @@ interface(`ssh_domtrans_keygen',`
 	')
 
 	domtrans_pattern($1, ssh_keygen_exec_t, ssh_keygen_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
 ## <summary>
-##	Read ssh server keys
+##	Do not audit Read ssh server keys.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -788,7 +790,6 @@ interface(`ssh_create_user_home',`
 	create_dirs_pattern($1, home_ssh_t, home_ssh_t)
 	create_files_pattern($1, home_ssh_t, home_ssh_t)
 	userdom_user_home_dir_filetrans($1, home_ssh_t, { dir file })
-	userdom_search_user_home_dirs($1)
 ')
 
 #######################################

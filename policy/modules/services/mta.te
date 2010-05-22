@@ -1,5 +1,5 @@
 
-policy_module(mta, 2.2.1)
+policy_module(mta, 2.2.2)
 
 ########################################
 #
@@ -76,6 +76,8 @@ kernel_request_load_module(system_mail_t)
 dev_read_sysfs(system_mail_t)
 dev_read_rand(system_mail_t)
 dev_read_urand(system_mail_t)
+
+files_read_usr_files(system_mail_t)
 
 fs_rw_anon_inodefs_files(system_mail_t)
 

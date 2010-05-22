@@ -1,5 +1,5 @@
 
-policy_module(sendmail, 1.10.1)
+policy_module(sendmail, 1.10.2)
 
 ########################################
 #
@@ -197,4 +197,3 @@ optional_policy(`
 	mta_etc_filetrans_aliases(unconfined_sendmail_t)
 	unconfined_domain(unconfined_sendmail_t)
 ')
-
