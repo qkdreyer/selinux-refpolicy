@@ -270,8 +270,8 @@ interface(`userdom_manage_home_role',`
 	allow $2 user_home_dir_t:dir { manage_dir_perms relabel_dir_perms };
 
 	tunable_policy(`use_nfs_home_dirs',`
-	fs_mount_nfs($2)
-	fs_mounton_nfs($2)
+		fs_mount_nfs($2)
+		fs_mounton_nfs($2)
 		fs_manage_nfs_dirs($2)
 		fs_manage_nfs_files($2)
 		fs_manage_nfs_symlinks($2)
@@ -280,8 +280,8 @@ interface(`userdom_manage_home_role',`
 	')
 
 	tunable_policy(`use_samba_home_dirs',`
-	fs_mount_cifs($2)
-	fs_mounton_cifs($2)
+		fs_mount_cifs($2)
+		fs_mounton_cifs($2)
 		fs_manage_cifs_dirs($2)
 		fs_manage_cifs_files($2)
 		fs_manage_cifs_symlinks($2)
@@ -322,6 +322,26 @@ interface(`userdom_manage_tmp_role',`
 	manage_fifo_files_pattern($2, user_tmp_t, user_tmp_t)
 	files_tmp_filetrans($2, user_tmp_t, { dir file lnk_file sock_file fifo_file })
 	relabel_files_pattern($2, user_tmp_t, user_tmp_t)
+')
+
+#######################################
+## <summary>
+##	Execute user bin files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_exec_user_bin_files',`
+	gen_require(`
+		attribute user_home_type;
+		type home_bin_t, user_home_dir_t;
+	')
+
+	exec_files_pattern($1, { user_home_dir_t user_home_type }, home_bin_t)
+	files_search_home($1)
 ')
 
 #######################################
@@ -2154,7 +2174,6 @@ interface(`userdom_read_user_home_content_symlinks',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`userdom_exec_user_home_content_files',`
 	gen_require(`

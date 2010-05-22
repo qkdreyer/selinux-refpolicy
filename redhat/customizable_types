@@ -7,3 +7,4 @@ httpd_user_ra_content_t
 httpd_user_rw_content_t
 httpd_user_content_t
 git_session_content_t
+home_bin_t
