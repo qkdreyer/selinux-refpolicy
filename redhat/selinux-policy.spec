@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.19
-Release: 20.2%{?dist}
+Release: 20.3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,9 @@ exit 0
 %endif
 
 %changelog
+* Sat May 22 2010 Dominick Grift <domg472@gmail.com> 3.7.19-20.3
+- Implement home_bin_t https://bugzilla.redhat.com/show_bug.cgi?id=575639
+
 * Sat May 22 2010 Dominick Grift <domg472@gmail.com> 3.7.19-20.2
 - Merge branch refpolicy.
 
