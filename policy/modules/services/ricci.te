@@ -1,5 +1,5 @@
 
-policy_module(ricci, 1.6.0)
+policy_module(ricci, 1.6.1)
 
 ########################################
 #
@@ -14,19 +14,15 @@ init_daemon_domain(ricci_t, ricci_exec_t)
 type ricci_initrc_exec_t;
 init_script_file(ricci_initrc_exec_t)
 
-# tmp files
 type ricci_tmp_t;
 files_tmp_file(ricci_tmp_t)
 
-# var/lib files
 type ricci_var_lib_t;
 files_type(ricci_var_lib_t)
 
-# log files
 type ricci_var_log_t;
 logging_log_file(ricci_var_log_t)
 
-# pid files
 type ricci_var_run_t;
 files_pid_file(ricci_var_run_t)
 
@@ -36,15 +32,12 @@ domain_type(ricci_modcluster_t)
 domain_entry_file(ricci_modcluster_t, ricci_modcluster_exec_t)
 role system_r types ricci_modcluster_t;
 
-# var/lib files
 type ricci_modcluster_var_lib_t;
 files_type(ricci_modcluster_var_lib_t)
 
-# log files
 type ricci_modcluster_var_log_t;
 logging_log_file(ricci_modcluster_var_log_t)
 
-# pid files
 type ricci_modcluster_var_run_t;
 files_pid_file(ricci_modcluster_var_run_t)
 
@@ -97,24 +90,20 @@ domain_auto_trans(ricci_t, ricci_modrpm_exec_t, ricci_modrpm_t)
 domain_auto_trans(ricci_t, ricci_modservice_exec_t, ricci_modservice_t)
 domain_auto_trans(ricci_t, ricci_modstorage_exec_t, ricci_modstorage_t)
 
-# tmp file
 manage_dirs_pattern(ricci_t, ricci_tmp_t, ricci_tmp_t)
 manage_files_pattern(ricci_t, ricci_tmp_t, ricci_tmp_t)
 files_tmp_filetrans(ricci_t, ricci_tmp_t, { file dir })
 
-# var/lib files for ricci
 manage_dirs_pattern(ricci_t, ricci_var_lib_t, ricci_var_lib_t)
 manage_files_pattern(ricci_t, ricci_var_lib_t, ricci_var_lib_t)
 manage_sock_files_pattern(ricci_t, ricci_var_lib_t, ricci_var_lib_t)
 files_var_lib_filetrans(ricci_t, ricci_var_lib_t, { file dir sock_file })
 
-# log files
 allow ricci_t ricci_var_log_t:dir setattr;
 manage_files_pattern(ricci_t, ricci_var_log_t, ricci_var_log_t)
 manage_sock_files_pattern(ricci_t, ricci_var_log_t, ricci_var_log_t)
 logging_log_filetrans(ricci_t, ricci_var_log_t, { sock_file file dir })
 
-# pid file
 manage_files_pattern(ricci_t, ricci_var_run_t, ricci_var_run_t)
 manage_sock_files_pattern(ricci_t, ricci_var_run_t, ricci_var_run_t)
 files_pid_filetrans(ricci_t, ricci_var_run_t, { file sock_file })
@@ -210,6 +199,9 @@ kernel_read_system_state(ricci_modcluster_t)
 corecmd_exec_shell(ricci_modcluster_t)
 corecmd_exec_bin(ricci_modcluster_t)
 
+corenet_tcp_bind_cluster_port(ricci_modclusterd_t)
+corenet_tcp_bind_reserved_port(ricci_modclusterd_t)
+
 domain_read_all_domains_state(ricci_modcluster_t)
 
 files_search_locks(ricci_modcluster_t)
@@ -222,13 +214,13 @@ init_domtrans_script(ricci_modcluster_t)
 
 logging_send_syslog_msg(ricci_modcluster_t)
 
-consoletype_exec(ricci_modcluster_t)
-
 miscfiles_read_localization(ricci_modcluster_t)
 
 modutils_domtrans_insmod(ricci_modcluster_t)
 
 mount_domtrans(ricci_modcluster_t)
+
+consoletype_exec(ricci_modcluster_t)
 
 ricci_stream_connect_modclusterd(ricci_modcluster_t)
 
@@ -256,7 +248,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-        rgmanager_stream_connect(ricci_modclusterd_t)
+	rgmanager_stream_connect(ricci_modclusterd_t)
 ')
 
 optional_policy(`
@@ -280,13 +272,11 @@ allow ricci_modclusterd_t self:socket create_socket_perms;
 allow ricci_modclusterd_t ricci_modcluster_t:unix_stream_socket connectto;
 allow ricci_modclusterd_t ricci_modcluster_t:fifo_file rw_file_perms;
 
-# log files
 allow ricci_modclusterd_t ricci_modcluster_var_log_t:dir setattr;
 manage_files_pattern(ricci_modclusterd_t, ricci_modcluster_var_log_t, ricci_modcluster_var_log_t)
 manage_sock_files_pattern(ricci_modclusterd_t, ricci_modcluster_var_log_t, ricci_modcluster_var_log_t)
 logging_log_filetrans(ricci_modclusterd_t, ricci_modcluster_var_log_t, { sock_file file dir })
 
-# pid file
 manage_files_pattern(ricci_modclusterd_t, ricci_modcluster_var_run_t, ricci_modcluster_var_run_t)
 manage_sock_files_pattern(ricci_modclusterd_t, ricci_modcluster_var_run_t, ricci_modcluster_var_run_t)
 files_pid_filetrans(ricci_modclusterd_t, ricci_modcluster_var_run_t, { file sock_file })

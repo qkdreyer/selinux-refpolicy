@@ -1,5 +1,5 @@
 
-policy_module(readahead, 1.10.0)
+policy_module(readahead, 1.10.1)
 
 ########################################
 #
@@ -62,6 +62,7 @@ fs_getattr_all_fs(readahead_t)
 fs_search_auto_mountpoints(readahead_t)
 fs_getattr_all_pipes(readahead_t)
 fs_getattr_all_files(readahead_t)
+
 fs_read_cgroupfs_files(readahead_t)
 fs_read_tmpfs_files(readahead_t)
 fs_read_tmpfs_symlinks(readahead_t)

@@ -6,18 +6,17 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
-#
 #
 interface(`dnsmasq_domtrans',`
 	gen_require(`
 		type dnsmasq_exec_t, dnsmasq_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, dnsmasq_exec_t, dnsmasq_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -26,10 +25,9 @@ interface(`dnsmasq_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
-#
 #
 interface(`dnsmasq_initrc_domtrans',`
 	gen_require(`
@@ -49,7 +47,6 @@ interface(`dnsmasq_initrc_domtrans',`
 ##	</summary>
 ## </param>
 #
-#
 interface(`dnsmasq_signal',`
 	gen_require(`
 		type dnsmasq_t;
@@ -68,7 +65,6 @@ interface(`dnsmasq_signal',`
 ##	</summary>
 ## </param>
 #
-#
 interface(`dnsmasq_signull',`
 	gen_require(`
 		type dnsmasq_t;
@@ -86,7 +82,6 @@ interface(`dnsmasq_signull',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-#
 #
 interface(`dnsmasq_kill',`
 	gen_require(`
@@ -144,13 +139,13 @@ interface(`dnsmasq_write_config',`
 ##	</summary>
 ## </param>
 #
-#
 interface(`dnsmasq_delete_pid_files',`
 	gen_require(`
 		type dnsmasq_var_run_t;
 	')
 
 	delete_files_pattern($1, dnsmasq_var_run_t, dnsmasq_var_run_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -163,18 +158,18 @@ interface(`dnsmasq_delete_pid_files',`
 ##	</summary>
 ## </param>
 #
-#
 interface(`dnsmasq_read_pid_files',`
 	gen_require(`
 		type dnsmasq_var_run_t;
 	')
 
 	read_files_pattern($1, dnsmasq_var_run_t, dnsmasq_var_run_t)
+	files_search_pids($1)
 ')
 
 ########################################
 ## <summary>
-##	All of the rules required to administrate 
+##	All of the rules required to administrate
 ##	an dnsmasq environment
 ## </summary>
 ## <param name="domain">

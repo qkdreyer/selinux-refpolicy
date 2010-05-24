@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -16,6 +16,7 @@ interface(`nx_spec_domtrans_server',`
 	')
 
 	spec_domtrans_pattern($1, nx_server_exec_t, nx_server_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -33,14 +34,14 @@ interface(`nx_read_home_files',`
 		type nx_server_home_ssh_t, nx_server_var_lib_t;
 	')
 
-	allow $1  nx_server_var_lib_t:dir search_dir_perms;
+	allow $1 nx_server_var_lib_t:dir search_dir_perms;
 	read_files_pattern($1, nx_server_home_ssh_t, nx_server_home_ssh_t)
 	read_lnk_files_pattern($1, nx_server_home_ssh_t, nx_server_home_ssh_t)
 ')
 
 ########################################
 ## <summary>
-##	Read nx home directory content
+##	Read nx /var/lib content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -53,7 +54,8 @@ interface(`nx_search_var_lib',`
 		type nx_server_var_lib_t;
 	')
 
-	allow $1  nx_server_var_lib_t:dir search_dir_perms;
+	allow $1 nx_server_var_lib_t:dir search_dir_perms;
+	files_search_var_lib($1)
 ')
 
 ########################################

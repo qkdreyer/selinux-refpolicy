@@ -1,5 +1,5 @@
 
-policy_module(logrotate, 1.12.0)
+policy_module(logrotate, 1.12.1)
 
 ########################################
 #
@@ -59,11 +59,9 @@ manage_dirs_pattern(logrotate_t, logrotate_tmp_t, logrotate_tmp_t)
 manage_files_pattern(logrotate_t, logrotate_tmp_t, logrotate_tmp_t)
 files_tmp_filetrans(logrotate_t, logrotate_tmp_t, { file dir })
 
-# for /var/lib/logrotate.status and /var/lib/logcheck
 create_dirs_pattern(logrotate_t, logrotate_var_lib_t, logrotate_var_lib_t)
 manage_files_pattern(logrotate_t, logrotate_var_lib_t, logrotate_var_lib_t)
 files_var_lib_filetrans(logrotate_t, logrotate_var_lib_t, file)
-files_read_var_lib_files(logrotate_t)
 
 kernel_read_system_state(logrotate_t)
 kernel_read_kernel_sysctls(logrotate_t)
@@ -99,6 +97,7 @@ files_read_etc_files(logrotate_t)
 files_read_etc_runtime_files(logrotate_t)
 files_read_all_pids(logrotate_t)
 files_search_all(logrotate_t)
+files_read_var_lib_files(logrotate_t)
 # Write to /var/spool/slrnpull - should be moved into its own type.
 files_manage_generic_spool(logrotate_t)
 files_manage_generic_spool_dirs(logrotate_t)
@@ -127,7 +126,7 @@ cron_search_spool(logrotate_t)
 
 mta_send_mail(logrotate_t)
 
-ifdef(`distro_debian', `
+ifdef(`distro_debian',`
 	allow logrotate_t logrotate_tmp_t:file { relabelfrom relabelto };
 	# for savelog
 	can_exec(logrotate_t, logrotate_exec_t)
@@ -223,6 +222,7 @@ optional_policy(`
 ')
 
 optional_policy(`
+	# Red Hat bug 564565
 	su_exec(logrotate_t)
 ')
 

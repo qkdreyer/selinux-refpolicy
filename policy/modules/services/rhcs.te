@@ -1,5 +1,5 @@
 
-policy_module(rhcs,1.1.0)
+policy_module(rhcs, 1.1.0)
 
 ########################################
 #
@@ -19,12 +19,11 @@ rhcs_domain_template(dlm_controld)
 
 rhcs_domain_template(fenced)
 
-# tmp files
-type fenced_tmp_t;
-files_tmp_file(fenced_tmp_t)
-
 type fenced_lock_t;
 files_lock_file(fenced_lock_t)
+
+type fenced_tmp_t;
+files_tmp_file(fenced_tmp_t)
 
 rhcs_domain_template(gfs_controld)
 
@@ -32,7 +31,6 @@ rhcs_domain_template(groupd)
 
 rhcs_domain_template(qdiskd)
 
-# var/lib files
 type qdiskd_var_lib_t;
 files_type(qdiskd_var_lib_t)
 
@@ -58,6 +56,10 @@ fs_manage_configfs_dirs(dlm_controld_t)
 
 init_rw_script_tmp_files(dlm_controld_t)
 
+optional_policy(`
+	ccs_stream_connect(dlm_controld_t)
+')
+
 #######################################
 #
 # fenced local policy
@@ -66,17 +68,21 @@ init_rw_script_tmp_files(dlm_controld_t)
 allow fenced_t self:capability { sys_rawio sys_resource };
 allow fenced_t self:process { getsched signal_perms };
 
+
 allow fenced_t self:tcp_socket create_stream_socket_perms;
 allow fenced_t self:udp_socket create_socket_perms;
 
-can_exec(fenced_t,fenced_exec_t)
+can_exec(fenced_t, fenced_exec_t)
 
-# tmp files
+manage_files_pattern(fenced_t, fenced_lock_t, fenced_lock_t)
+files_lock_filetrans(fenced_t, fenced_lock_t, file)
+
 manage_dirs_pattern(fenced_t, fenced_tmp_t, fenced_tmp_t)
 manage_files_pattern(fenced_t, fenced_tmp_t, fenced_tmp_t)
 manage_fifo_files_pattern(fenced_t, fenced_tmp_t, fenced_tmp_t)
 files_tmp_filetrans(fenced_t, fenced_tmp_t, { file fifo_file dir })
 
+<<<<<<< HEAD
 manage_files_pattern(fenced_t, fenced_lock_t, fenced_lock_t)
 files_lock_filetrans(fenced_t,fenced_lock_t,file)
 
@@ -93,6 +99,8 @@ corenet_tcp_connect_http_port(fenced_t)
 dev_read_sysfs(fenced_t)
 dev_read_urand(fenced_t)
 
+files_read_usr_symlinks(fenced_t)
+
 storage_raw_read_fixed_disk(fenced_t)
 storage_raw_write_fixed_disk(fenced_t)
 storage_raw_read_removable_device(fenced_t)
@@ -102,15 +110,13 @@ term_use_ptmx(fenced_t)
 
 auth_use_nsswitch(fenced_t)
 
-files_read_usr_symlinks(fenced_t)
-
 tunable_policy(`fenced_can_network_connect',`
 	corenet_tcp_connect_all_ports(fenced_t)
 ')
 
 optional_policy(`
 	ccs_read_config(fenced_t)
-	ccs_stream_connect(cluster_domain)
+	ccs_stream_connect(fenced_t)
 ')
 
 optional_policy(`
@@ -134,14 +140,17 @@ stream_connect_pattern(gfs_controld_t, groupd_var_run_t, groupd_var_run_t, group
 
 kernel_read_system_state(gfs_controld_t)
 
-storage_getattr_removable_dev(gfs_controld_t)
-
 dev_rw_dlm_control(gfs_controld_t)
 dev_setattr_dlm_control(gfs_controld_t)
-
 dev_rw_sysfs(gfs_controld_t)
 
+storage_getattr_removable_dev(gfs_controld_t)
+
 init_rw_script_tmp_files(gfs_controld_t)
+
+optional_policy(`
+	ccs_stream_connect(gfs_controld_t)
+')
 
 optional_policy(`
 	lvm_exec(gfs_controld_t)
@@ -174,17 +183,17 @@ allow qdiskd_t self:capability { ipc_lock sys_boot };
 allow qdiskd_t self:tcp_socket create_stream_socket_perms;
 allow qdiskd_t self:udp_socket create_socket_perms;
 
-manage_files_pattern(qdiskd_t, qdiskd_var_lib_t,qdiskd_var_lib_t)
-manage_dirs_pattern(qdiskd_t, qdiskd_var_lib_t,qdiskd_var_lib_t)
-manage_sock_files_pattern(qdiskd_t, qdiskd_var_lib_t,qdiskd_var_lib_t)
-files_var_lib_filetrans(qdiskd_t,qdiskd_var_lib_t, { file dir sock_file })
-
-corecmd_getattr_bin_files(qdiskd_t)
-corecmd_exec_shell(qdiskd_t)
+manage_files_pattern(qdiskd_t, qdiskd_var_lib_t, qdiskd_var_lib_t)
+manage_dirs_pattern(qdiskd_t, qdiskd_var_lib_t, qdiskd_var_lib_t)
+manage_sock_files_pattern(qdiskd_t, qdiskd_var_lib_t, qdiskd_var_lib_t)
+files_var_lib_filetrans(qdiskd_t, qdiskd_var_lib_t, { file dir sock_file })
 
 kernel_read_system_state(qdiskd_t)
 kernel_read_software_raid_state(qdiskd_t)
 kernel_getattr_core_if(qdiskd_t)
+
+corecmd_getattr_bin_files(qdiskd_t)
+corecmd_exec_shell(qdiskd_t)
 
 dev_read_sysfs(qdiskd_t)
 dev_list_all_dev_nodes(qdiskd_t)
@@ -193,20 +202,24 @@ dev_getattr_all_chr_files(qdiskd_t)
 dev_manage_generic_blk_files(qdiskd_t)
 dev_manage_generic_chr_files(qdiskd_t)
 
-storage_raw_read_removable_device(qdiskd_t)
-storage_raw_write_removable_device(qdiskd_t)
-storage_raw_read_fixed_disk(qdiskd_t)
-storage_raw_write_fixed_disk(qdiskd_t)
-
 domain_dontaudit_getattr_all_pipes(qdiskd_t)
 domain_dontaudit_getattr_all_sockets(qdiskd_t)
 
 files_dontaudit_getattr_all_sockets(qdiskd_t)
 files_dontaudit_getattr_all_pipes(qdiskd_t)
 
+files_read_etc_files(qdiskd_t)
+
+storage_raw_read_removable_device(qdiskd_t)
+storage_raw_write_removable_device(qdiskd_t)
+storage_raw_read_fixed_disk(qdiskd_t)
+storage_raw_write_fixed_disk(qdiskd_t)
+
 auth_use_nsswitch(qdiskd_t)
 
-files_read_etc_files(qdiskd_t)
+optional_policy(`
+	ccs_stream_connect(qdiskd_t)
+')
 
 optional_policy(`
 	netutils_domtrans_ping(qdiskd_t)
@@ -228,9 +241,6 @@ allow cluster_domain self:sem create_sem_perms;
 allow cluster_domain self:fifo_file rw_fifo_file_perms;
 allow cluster_domain self:unix_stream_socket create_stream_socket_perms;
 allow cluster_domain self:unix_dgram_socket create_socket_perms;
-
-libs_use_ld_so(cluster_domain)
-libs_use_shared_libs(cluster_domain)
 
 logging_send_syslog_msg(cluster_domain)
 

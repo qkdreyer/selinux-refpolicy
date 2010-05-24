@@ -115,14 +115,14 @@ template(`postfix_server_domain_template',`
 	type postfix_$1_tmp_t;
 	files_tmp_file(postfix_$1_tmp_t)
 
-	manage_dirs_pattern(postfix_$1_t, postfix_$1_tmp_t, postfix_$1_tmp_t)
-	manage_files_pattern(postfix_$1_t, postfix_$1_tmp_t, postfix_$1_tmp_t)
-	files_tmp_filetrans(postfix_$1_t, postfix_$1_tmp_t, { file dir })
-
 	allow postfix_$1_t self:capability { setuid setgid dac_override };
 	allow postfix_$1_t postfix_master_t:unix_stream_socket { connectto rw_stream_socket_perms };
 	allow postfix_$1_t self:tcp_socket create_socket_perms;
 	allow postfix_$1_t self:udp_socket create_socket_perms;
+
+	manage_dirs_pattern(postfix_$1_t, postfix_$1_tmp_t, postfix_$1_tmp_t)
+	manage_files_pattern(postfix_$1_t, postfix_$1_tmp_t, postfix_$1_tmp_t)
+	files_tmp_filetrans(postfix_$1_t, postfix_$1_tmp_t, { file dir })
 
 	domtrans_pattern(postfix_master_t, postfix_$1_exec_t, postfix_$1_t)
 
@@ -176,7 +176,6 @@ template(`postfix_user_domain_template',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`postfix_read_config',`
 	gen_require(`
@@ -214,8 +213,8 @@ interface(`postfix_config_filetrans',`
 		type postfix_etc_t;
 	')
 
-	files_search_etc($1)
 	filetrans_pattern($1, postfix_etc_t, $2, $3)
+	files_search_etc($1)
 ')
 
 ########################################
@@ -245,7 +244,7 @@ interface(`postfix_dontaudit_rw_local_tcp_sockets',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -263,7 +262,7 @@ interface(`postfix_rw_local_pipes',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -281,7 +280,7 @@ interface(`postfix_read_local_state',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -329,6 +328,7 @@ interface(`postfix_domtrans_map',`
 	')
 
 	domtrans_pattern($1, postfix_map_exec_t, postfix_map_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -338,7 +338,7 @@ interface(`postfix_domtrans_map',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -364,7 +364,7 @@ interface(`postfix_run_map',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -383,7 +383,7 @@ interface(`postfix_domtrans_master',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -412,25 +412,25 @@ interface(`postfix_exec_master',`
 	')
 
 	can_exec($1, postfix_master_exec_t)
+	corecmd_search_bin($1)
 ')
 
 #######################################
 ## <summary>
-##  Connect to postfix master process using a unix domain stream socket.
+##	Connect to postfix master process using a unix domain stream socket.
 ## </summary>
 ## <param name="domain">
-##  <summary>
-##  Domain allowed access.
-##  </summary>
+##	<summary>
+##	Domain allowed access.
+##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`postfix_stream_connect_master',`
-    gen_require(`
-        type postfix_master_t, postfix_public_t;
-    ')
+	gen_require(`
+		type postfix_master_t, postfix_public_t;
+	')
 
-    stream_connect_pattern($1, postfix_public_t, postfix_public_t, postfix_master_t)
+	stream_connect_pattern($1, postfix_public_t, postfix_public_t, postfix_master_t)
 ')
 
 ########################################
@@ -478,7 +478,7 @@ interface(`postfix_manage_private_sockets',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -488,6 +488,7 @@ interface(`postfix_domtrans_smtp',`
 	')
 
 	domtrans_pattern($1, postfix_smtp_exec_t, postfix_smtp_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -543,8 +544,8 @@ interface(`postfix_getattr_spool_files',`
 		attribute postfix_spool_type;
 	')
 
-	files_search_spool($1)
 	getattr_files_pattern($1, postfix_spool_type, postfix_spool_type)
+	files_search_spool($1)
 ')
 
 ########################################
@@ -562,8 +563,8 @@ interface(`postfix_read_spool_files',`
 		attribute postfix_spool_type;
 	')
 
-	files_search_spool($1)
 	read_files_pattern($1, postfix_spool_type, postfix_spool_type)
+	files_search_spool($1)
 ')
 
 ########################################
@@ -581,8 +582,8 @@ interface(`postfix_manage_spool_files',`
 		attribute postfix_spool_type;
 	')
 
-	files_search_spool($1)
 	manage_files_pattern($1, postfix_spool_type, postfix_spool_type)
+	files_search_spool($1)
 ')
 
 ########################################
@@ -611,7 +612,7 @@ interface(`postfix_domtrans_user_mail_handler',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -621,6 +622,7 @@ interface(`postfix_domtrans_postdrop',`
 	')
 
 	domtrans_pattern($1, postfix_postdrop_exec_t, postfix_postdrop_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -630,7 +632,7 @@ interface(`postfix_domtrans_postdrop',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -640,6 +642,7 @@ interface(`postfix_domtrans_postqueue',`
 	')
 
 	domtrans_pattern($1, postfix_postqueue_exec_t, postfix_postqueue_t)
+	corecmd_search_bin($1)
 ')
 
 #######################################
@@ -658,6 +661,7 @@ interface(`posftix_exec_postqueue',`
     ')
 
     can_exec($1, postfix_postqueue_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -667,7 +671,7 @@ interface(`posftix_exec_postqueue',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
