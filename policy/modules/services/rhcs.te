@@ -67,8 +67,6 @@ optional_policy(`
 
 allow fenced_t self:capability { sys_rawio sys_resource };
 allow fenced_t self:process { getsched signal_perms };
-
-
 allow fenced_t self:tcp_socket create_stream_socket_perms;
 allow fenced_t self:udp_socket create_socket_perms;
 
@@ -81,10 +79,6 @@ manage_dirs_pattern(fenced_t, fenced_tmp_t, fenced_tmp_t)
 manage_files_pattern(fenced_t, fenced_tmp_t, fenced_tmp_t)
 manage_fifo_files_pattern(fenced_t, fenced_tmp_t, fenced_tmp_t)
 files_tmp_filetrans(fenced_t, fenced_tmp_t, { file fifo_file dir })
-
-<<<<<<< HEAD
-manage_files_pattern(fenced_t, fenced_lock_t, fenced_lock_t)
-files_lock_filetrans(fenced_t,fenced_lock_t,file)
 
 stream_connect_pattern(fenced_t, groupd_var_run_t, groupd_var_run_t, groupd_t)
 
