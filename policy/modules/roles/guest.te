@@ -15,16 +15,9 @@ userdom_restricted_user_template(guest)
 # Local policy
 #
 
-optional_policy(`
-	apache_role(guest_r, guest_t)
-')
-
-optional_policy(`
-	java_role_template(guest, guest_r, guest_t)
-')
-
-optional_policy(`
-	mono_role_template(guest, guest_r, guest_t)
-')
+# This looks like a bad idea. Maybe make it tunable?
+# optional_policy(`
+#	apache_role(guest_r, guest_t)
+# ')
 
 gen_user(guest_u, user, guest_r, s0, s0)
