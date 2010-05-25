@@ -24,7 +24,7 @@ interface(`auth_role',`
 
 	# Transition from the user domain to this domain.
 	domtrans_pattern($2, chkpwd_exec_t, chkpwd_t)
-	corecmd_search_bin($1)
+	corecmd_search_bin($2)
 
 	ps_process_pattern($2, chkpwd_t)
 
@@ -232,7 +232,7 @@ interface(`auth_domtrans_login_program',`
 		type login_exec_t;
 	')
 
-	domtrans_pattern($1, login_exec_t,$2)
+	domtrans_pattern($1, login_exec_t, $2)
 	corecmd_search_bin($1)
 ')
 
