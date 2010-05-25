@@ -46,7 +46,16 @@ interface(`git_session_role',`
 	allow $2 git_session_t:process { ptrace signal_perms };
 	ps_process_pattern($2, git_session_t)
 
+	# only hooks are executed but because one would have to restore context of
+	# each new repository manually to apply a special context for executable hooks,
+	# we treat all git content the same, thus allowing users to execute all git content.
+	# on Fedora a special type for hooks in session repositories would actually work in GUI
+	# installs since restorecond -u runs in a gnome-session.
+	# ~/Git/myrepository/.git/hooks/.*
+	# git_session_content being userdom_user_home_content; users would be able to run all
+	# git repository objects anyway.
 	exec_files_pattern($2, git_session_content_t, git_session_content_t)
+
 	manage_dirs_pattern($2, git_session_content_t, git_session_content_t)
 	manage_files_pattern($2, git_session_content_t, git_session_content_t)
 
@@ -135,6 +144,9 @@ template(`git_role_template',`
 
 	miscfiles_read_localization($1_t)
 
+	# only hooks should be executable but because we cannot differentiate between hooks
+	# and other git content unless we, for example, let restorecond monitor our repositories;
+	# we treat all git content the same.
 	git_rwx_generic_system_content($1_t)
 
 	ssh_rw_stream_sockets($1_t)
@@ -177,7 +189,11 @@ interface(`git_content_delegation',`
 		type $1, $2;
 	')
 
+	# only hooks should be executable but because we cannot differentiate between hooks
+	# and other git content unless we, for example, let restorecond monitor our repositories;
+	# we treat all git content the same.
 	exec_files_pattern($1, $2, $2)
+
 	manage_dirs_pattern($1, $2, $2)
 	manage_files_pattern($1, $2, $2)
 	files_search_var_lib($1)
@@ -211,7 +227,11 @@ interface(`git_rwx_all_content',`
 		attribute git_content;
 	')
 
+	# only hooks should be executable but because we cannot differentiate between hooks
+	# and other git content unless we, for example, let restorecond monitor our repositories;
+	# we treat all git content the same.
 	exec_files_pattern($1, git_content, git_content)
+
 	manage_dirs_pattern($1, git_content, git_content)
 	manage_files_pattern($1, git_content, git_content)
 	userdom_search_user_home_dirs($1)
@@ -258,7 +278,11 @@ interface(`git_rwx_all_system_content',`
 		attribute git_system_content;
 	')
 
+	# only hooks should be executable but because we cannot differentiate between hooks
+	# and other git content unless we, for example, let restorecond monitor our repositories;
+	# we treat all git content the same.
 	exec_files_pattern($1, git_system_content, git_system_content)
+
 	manage_dirs_pattern($1, git_system_content, git_system_content)
 	manage_files_pattern($1, git_system_content, git_system_content)
 	files_search_var_lib($1)
@@ -292,7 +316,11 @@ interface(`git_rwx_generic_system_content',`
 		type git_system_content_t;
 	')
 
+	# only hooks should be executable but because we cannot differentiate between hooks
+	# and other git content unless we, for example, let restorecond monitor our repositories;
+	# we treat all git content the same.
 	exec_files_pattern($1, git_system_content_t, git_system_content_t)
+
 	manage_dirs_pattern($1, git_system_content_t, git_system_content_t)
 	manage_files_pattern($1, git_system_content_t, git_system_content_t)
 	files_search_var_lib($1)
