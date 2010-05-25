@@ -1,3 +1,4 @@
+
 policy_module(unconfineduser, 1.0.0)
 
 ########################################
@@ -110,7 +111,7 @@ tunable_policy(`allow_execmod',`
 ')
 
 tunable_policy(`unconfined_login',`
-	corecmd_shell_domtrans(unconfined_login_domain,unconfined_t)
+	corecmd_shell_domtrans(unconfined_login_domain, unconfined_t)
 	allow unconfined_t unconfined_login_domain:fd use;
 	allow unconfined_t unconfined_login_domain:fifo_file rw_file_perms;
 	allow unconfined_t unconfined_login_domain:process sigchld;
@@ -120,8 +121,9 @@ optional_policy(`
 	gen_require(`
 		attribute unconfined_usertype;
 	')
-
+	
 	nsplugin_role_notrans(unconfined_r, unconfined_usertype)
+
 	optional_policy(`
 		tunable_policy(`allow_unconfined_nsplugin_transition',`
 		      nsplugin_domtrans(unconfined_usertype)
@@ -284,7 +286,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-        gpsd_run(unconfined_t, unconfined_r)
+	gpsd_run(unconfined_t, unconfined_r)
 ')
 
 optional_policy(`
@@ -413,7 +415,7 @@ optional_policy(`
 	')
 
 	optional_policy(`
-		tunable_policy(`allow_unconfined_nsplugin_transition',`', `
+		tunable_policy(`allow_unconfined_nsplugin_transition',`
 			nsplugin_exec_domtrans(unconfined_t, unconfined_execmem_t)
 		')
 	')
@@ -442,4 +444,3 @@ domain_ptrace_all_domains(unconfined_notrans_t)
 #
 
 gen_user(unconfined_u, user, unconfined_r system_r, s0, s0 - mls_systemhigh, mcs_allcats)
-
