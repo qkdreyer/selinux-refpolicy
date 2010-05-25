@@ -624,6 +624,7 @@ miscfiles_manage_fonts_cache(xdm_t)
 miscfiles_manage_localization(xdm_t)
 miscfiles_read_hwdata(xdm_t)
 
+userdom_dontaudit_read_admin_home_lnk_files(xdm_t)
 userdom_dontaudit_use_unpriv_user_fds(xdm_t)
 userdom_create_all_users_keys(xdm_t)
 # for .dmrc

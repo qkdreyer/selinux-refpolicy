@@ -299,7 +299,7 @@ interface(`apache_read_user_content',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -308,13 +308,13 @@ interface(`apache_domtrans',`
 		type httpd_t, httpd_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, httpd_exec_t, httpd_t)
+	corecmd_search_bin($1)
 ')
 
 ######################################
 ## <summary>
-##  Allow the specified domain to execute apache
+##	execute apache
 ##  in the caller domain.
 ## </summary>
 ## <param name="domain">
@@ -329,6 +329,7 @@ interface(`apache_exec',`
     ')
 
     can_exec($1, httpd_exec_t)
+	corecmd_search_bin($1)
 ')
 
 #######################################
@@ -410,7 +411,7 @@ interface(`apache_use_fds',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -429,7 +430,7 @@ interface(`apache_dontaudit_rw_fifo_file',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -448,7 +449,7 @@ interface(`apache_dontaudit_rw_stream_sockets',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -469,7 +470,6 @@ interface(`apache_dontaudit_rw_tcp_sockets',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`apache_manage_all_content',`
 	gen_require(`
@@ -487,7 +487,7 @@ interface(`apache_manage_all_content',`
 
 ########################################
 ## <summary>
-##	Allow domain to  set the attributes
+##	Set the attributes
 ##	of the APACHE cache directory.
 ## </summary>
 ## <param name="domain">
@@ -506,8 +506,7 @@ interface(`apache_setattr_cache_dirs',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to list
-##	Apache cache.
+##	List Apache cache.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -525,8 +524,7 @@ interface(`apache_list_cache',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to read
-##	and write Apache cache files.
+##	Read and write Apache cache files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -580,31 +578,28 @@ interface(`apache_delete_cache_files',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to read
-##	apache configuration files.
+##	Read apache configuration files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`apache_read_config',`
 	gen_require(`
 		type httpd_config_t;
 	')
 
-	files_search_etc($1)
 	allow $1 httpd_config_t:dir list_dir_perms;
 	read_files_pattern($1, httpd_config_t, httpd_config_t)
 	read_lnk_files_pattern($1, httpd_config_t, httpd_config_t)
+	files_search_etc($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow the specified domain to manage
-##	apache configuration files.
+##	Manage apache configuration files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -617,10 +612,10 @@ interface(`apache_manage_config',`
 		type httpd_config_t;
 	')
 
-	files_search_etc($1)
 	manage_dirs_pattern($1, httpd_config_t, httpd_config_t)
 	manage_files_pattern($1, httpd_config_t, httpd_config_t)
 	read_lnk_files_pattern($1, httpd_config_t, httpd_config_t)
+	files_search_etc($1)
 ')
 
 ########################################
@@ -630,7 +625,7 @@ interface(`apache_manage_config',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -639,8 +634,8 @@ interface(`apache_domtrans_helper',`
 		type httpd_helper_t, httpd_helper_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, httpd_helper_exec_t, httpd_helper_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -672,31 +667,28 @@ interface(`apache_run_helper',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to read
-##	apache log files.
+##	Read apache log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`apache_read_log',`
 	gen_require(`
 		type httpd_log_t;
 	')
 
-	logging_search_logs($1)
 	allow $1 httpd_log_t:dir list_dir_perms;
 	read_files_pattern($1, httpd_log_t, httpd_log_t)
 	read_lnk_files_pattern($1, httpd_log_t, httpd_log_t)
+	logging_search_logs($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow the specified domain to append
-##	to apache log files.
+##	Append to apache log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -709,9 +701,9 @@ interface(`apache_append_log',`
 		type httpd_log_t;
 	')
 
-	logging_search_logs($1)
 	allow $1 httpd_log_t:dir list_dir_perms;
 	append_files_pattern($1, httpd_log_t, httpd_log_t)
+	logging_search_logs($1)
 ')
 
 ########################################
@@ -735,8 +727,7 @@ interface(`apache_dontaudit_append_log',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to manage
-##	to apache log files.
+##	Manage apache log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -749,10 +740,10 @@ interface(`apache_manage_log',`
 		type httpd_log_t;
 	')
 
-	logging_search_logs($1)
 	manage_dirs_pattern($1, httpd_log_t, httpd_log_t)
 	manage_files_pattern($1, httpd_log_t, httpd_log_t)
 	read_lnk_files_pattern($1, httpd_log_t, httpd_log_t)
+	logging_search_logs($1)
 ')
 
 ########################################
@@ -776,8 +767,7 @@ interface(`apache_dontaudit_search_modules',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to list
-##	the contents of the apache modules
+##	List the contents of the apache modules
 ##	directory.
 ## </summary>
 ## <param name="domain">
@@ -796,8 +786,7 @@ interface(`apache_list_modules',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to execute
-##	apache modules.
+##	Execute apache modules.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -821,7 +810,7 @@ interface(`apache_exec_modules',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -831,12 +820,12 @@ interface(`apache_domtrans_rotatelogs',`
 	')
 
 	domtrans_pattern($1, httpd_rotatelogs_exec_t, httpd_rotatelogs_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow the specified domain to list
-##	apache system content files.
+##	List apache system content files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -855,26 +844,44 @@ interface(`apache_list_sys_content',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to manage
-##	apache system content files.
+##	Manage apache system content files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
-# Note that httpd_sys_content_t is found in /var, /etc, /srv and /usr
 interface(`apache_manage_sys_content',`
 	gen_require(`
 		type httpd_sys_content_t;
 	')
 
-	files_search_var($1)
 	manage_dirs_pattern($1, httpd_sys_content_t, httpd_sys_content_t)
 	manage_files_pattern($1, httpd_sys_content_t, httpd_sys_content_t)
 	manage_lnk_files_pattern($1, httpd_sys_content_t, httpd_sys_content_t)
+	files_search_var($1)
+')
+
+######################################
+## <summary>
+##  Manage apache system content rw files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`apache_manage_sys_content_rw',`
+    gen_require(`
+		type httpd_sys_rw_content_t;
+	')
+
+	manage_dirs_pattern($1, httpd_sys_rw_content_t, httpd_sys_rw_content_t)
+	manage_files_pattern($1, httpd_sys_rw_content_t, httpd_sys_rw_content_t)
+	manage_lnk_files_pattern($1, httpd_sys_rw_content_t, httpd_sys_rw_content_t)
+	files_search_var($1)
 ')
 
 ########################################
@@ -884,12 +891,10 @@ interface(`apache_manage_sys_content',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
-# cjp: this interface specifically added to allow
-# sysadm_t to run scripts
 interface(`apache_domtrans_sys_script',`
 	gen_require(`
 		attribute httpdcontent;
@@ -898,6 +903,7 @@ interface(`apache_domtrans_sys_script',`
 
 	tunable_policy(`httpd_enable_cgi && httpd_unified',`
 		domtrans_pattern($1, httpdcontent, httpd_sys_script_t)
+		files_search_var($1)
 	')
 ')
 
@@ -908,7 +914,7 @@ interface(`apache_domtrans_sys_script',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to not audit.
 ##	</summary>
 ## </param>
 #
@@ -927,7 +933,7 @@ interface(`apache_dontaudit_rw_sys_script_stream_sockets',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -947,7 +953,7 @@ interface(`apache_domtrans_all_scripts',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -967,8 +973,7 @@ interface(`apache_run_all_scripts',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to read
-##	apache squirrelmail data.
+##	Read apache squirrelmail data.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -986,8 +991,7 @@ interface(`apache_read_squirrelmail_data',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to append
-##	apache squirrelmail data.
+##	Append apache squirrelmail data.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1018,9 +1022,9 @@ interface(`apache_delete_sys_rw_content',`
 		type httpd_sys_rw_content_t;
 	')
 
-	files_search_tmp($1)
 	delete_dirs_pattern($1, httpd_sys_rw_content_t, httpd_sys_rw_content_t)
 	delete_files_pattern($1, httpd_sys_rw_content_t, httpd_sys_rw_content_t)
+	files_search_tmp($1)
 ')
 
 ########################################
@@ -1039,6 +1043,7 @@ interface(`apache_search_sys_content',`
 	')
 
 	allow $1 httpd_sys_content_t:dir search_dir_perms;
+	files_search_var($1)
 ')
 
 ########################################
@@ -1047,7 +1052,7 @@ interface(`apache_search_sys_content',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -1059,6 +1064,7 @@ interface(`apache_read_sys_content',`
 	allow $1 httpd_sys_content_t:dir list_dir_perms;
 	read_files_pattern($1, httpd_sys_content_t, httpd_sys_content_t)
 	read_lnk_files_pattern($1, httpd_sys_content_t, httpd_sys_content_t)
+	files_search_var($1)
 ')
 
 ########################################
@@ -1088,7 +1094,6 @@ interface(`apache_search_sys_scripts',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`apache_manage_all_user_content',`
 	gen_require(`
@@ -1110,7 +1115,7 @@ interface(`apache_manage_all_user_content',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -1124,8 +1129,7 @@ interface(`apache_search_sys_script_state',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to read
-##	apache tmp files.
+##	Read apache tmp files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1138,8 +1142,27 @@ interface(`apache_read_tmp_files',`
 		type httpd_tmp_t;
 	')
 
-	files_search_tmp($1)
 	read_files_pattern($1, httpd_tmp_t, httpd_tmp_t)
+	files_search_tmp($1)
+')
+
+######################################
+## <summary>
+##  Dontaudit attempts to read and write
+##  apache tmp files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain to not audit.
+##  </summary>
+## </param>
+#
+interface(`apache_dontaudit_rw_tmp_files',`
+	gen_require(`
+		type httpd_tmp_t;
+	')
+
+	dontaudit $1 httpd_tmp_t:file { read write };
 ')
 
 ########################################
@@ -1149,7 +1172,7 @@ interface(`apache_read_tmp_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1240,7 +1263,9 @@ interface(`apache_admin',`
 	allow $2 system_r;
 
 	apache_manage_all_content($1)
-	miscfiles_manage_public_files($1)
+	
+	# A bit coarse, maybe make it tunable.
+	# miscfiles_manage_public_files($1)
 
 	files_search_etc($1)
 	admin_pattern($1, httpd_config_t)
@@ -1263,7 +1288,10 @@ interface(`apache_admin',`
 
 	admin_pattern($1, httpdcontent)
 	admin_pattern($1, httpd_script_exec_type)
+	files_search_var($1)
+
 	admin_pattern($1, httpd_tmp_t)
 	admin_pattern($1, httpd_php_tmp_t)
 	admin_pattern($1, httpd_suexec_tmp_t)
+	files_search_tmp($1)
 ')

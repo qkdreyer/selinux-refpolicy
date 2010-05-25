@@ -16,6 +16,14 @@ attribute gpgdomain;
 ## </desc>
 gen_tunable(gpg_agent_env_file, false)
 
+## <desc>
+## <p>
+## Allow gpg web domain to manage public files
+## used for public file transfer services.
+## </p>
+## </desc>
+gen_tunable(gpg_web_anon_write, false)
+
 type gpg_t, gpgdomain;
 type gpg_exec_t;
 typealias gpg_t alias { user_gpg_t staff_gpg_t sysadm_gpg_t };
@@ -64,6 +72,11 @@ ubac_constrained(gpg_pinentry_tmp_t)
 type gpg_pinentry_tmpfs_t;
 files_tmpfs_file(gpg_pinentry_tmpfs_t)
 ubac_constrained(gpg_pinentry_tmpfs_t)
+
+type gpg_web_t;
+domain_type(gpg_web_t)
+gpg_entry_type(gpg_web_t)
+role system_r types gpg_web_t;
 
 ########################################
 #
@@ -389,4 +402,26 @@ optional_policy(`
 
 optional_policy(`
 	xserver_user_x_domain_template(gpg_pinentry, gpg_pinentry_t, gpg_pinentry_tmpfs_t)
+')
+
+#############################
+#
+# gpg web local policy
+#
+
+allow gpg_web_t self:process setrlimit;
+
+can_exec(gpg_web_t, gpg_exec_t)
+
+files_read_usr_files(gpg_web_t)
+
+miscfiles_read_localization(gpg_web_t)
+ 
+tunable_policy(`gpg_web_anon_write',`
+    miscfiles_manage_public_files(gpg_web_t)
+')
+
+optional_policy(`
+	apache_dontaudit_rw_tmp_files(gpg_web_t)
+	apache_manage_sys_content_rw(gpg_web_t)
 ')

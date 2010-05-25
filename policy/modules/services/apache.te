@@ -138,7 +138,7 @@ gen_tunable(httpd_use_cifs, false)
 
 ## <desc>
 ## <p>
-## Allow httpd to run gpg
+## Allow httpd to run gpg in gpg-web domain.
 ## </p>
 ## </desc>
 gen_tunable(httpd_use_gpg, false)
@@ -551,7 +551,7 @@ optional_policy(`
 
 optional_policy(`
 	tunable_policy(`httpd_enable_cgi && httpd_use_gpg',`
-		gpg_domtrans(httpd_t)
+		gpg_domtrans_web(httpd_t)
 	')
 ')
 

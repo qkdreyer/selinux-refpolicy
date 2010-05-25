@@ -24,6 +24,7 @@ interface(`auth_role',`
 
 	# Transition from the user domain to this domain.
 	domtrans_pattern($2, chkpwd_exec_t, chkpwd_t)
+	corecmd_search_bin($1)
 
 	ps_process_pattern($2, chkpwd_t)
 
@@ -164,6 +165,10 @@ interface(`auth_login_pgm_domain',`
 	')
 
 	optional_policy(`
+		kerberos_read_config($1)
+	')
+
+	optional_policy(`
 		oddjob_dbus_chat($1)
 		oddjob_domtrans_mkhomedir($1)
 	')
@@ -213,7 +218,7 @@ interface(`auth_login_entry_type',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="target_domain">
@@ -227,8 +232,8 @@ interface(`auth_domtrans_login_program',`
 		type login_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, login_exec_t,$2)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -238,7 +243,7 @@ interface(`auth_domtrans_login_program',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="target_domain">
@@ -356,7 +361,7 @@ interface(`auth_var_filetrans_cache',`
 		type auth_cache_t;
 	')
 
-	files_var_filetrans($1, auth_cache_t, { file dir } )
+	files_var_filetrans($1, auth_cache_t, { file dir })
 ')
 
 ########################################
@@ -365,7 +370,7 @@ interface(`auth_var_filetrans_cache',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -385,6 +390,7 @@ interface(`auth_domtrans_chk_passwd',`
 	dev_read_rand($1)
 	dev_read_urand($1)
 
+	auth_domtrans_upd_passwd($1)
 	auth_use_nsswitch($1)
 	auth_rw_faillog($1)
 
@@ -406,7 +412,6 @@ interface(`auth_domtrans_chk_passwd',`
 	optional_policy(`
 		samba_stream_connect_winbind($1)
 	')
-	auth_domtrans_upd_passwd($1)
 ')
 
 ########################################
@@ -416,7 +421,7 @@ interface(`auth_domtrans_chk_passwd',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed transition.
 ##	</summary>
 ## </param>
 #
@@ -437,7 +442,7 @@ interface(`auth_domtrans_chkpwd',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -482,7 +487,7 @@ interface(`auth_domtrans_upd_passwd',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -607,8 +612,8 @@ interface(`auth_tunable_read_shadow',`
 		type shadow_t;
 	')
 
-	files_list_etc($1)
 	allow $1 shadow_t:file read_file_perms;
+	files_list_etc($1)
 ')
 
 ########################################
@@ -618,7 +623,7 @@ interface(`auth_tunable_read_shadow',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the domain to not audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -646,9 +651,9 @@ interface(`auth_rw_shadow',`
 		type shadow_t;
 	')
 
-	files_list_etc($1)
 	allow $1 shadow_t:file rw_file_perms;
 	typeattribute $1 can_read_shadow_passwords, can_write_shadow_passwords;
+	files_search_etc($1)
 ')
 
 ########################################
@@ -670,6 +675,7 @@ interface(`auth_manage_shadow',`
 
 	allow $1 shadow_t:file manage_file_perms;
 	typeattribute $1 can_read_shadow_passwords, can_write_shadow_passwords;
+	files_search_etc($1)
 ')
 
 #######################################
@@ -707,9 +713,9 @@ interface(`auth_relabelto_shadow',`
 		type shadow_t;
 	')
 
-	files_search_etc($1)
 	allow $1 shadow_t:file relabelto;
 	typeattribute $1 can_relabelto_shadow_passwords;
+	files_search_etc($1)
 ')
 
 #######################################
@@ -729,9 +735,9 @@ interface(`auth_relabel_shadow',`
 		type shadow_t;
 	')
 
-	files_search_etc($1)
 	allow $1 shadow_t:file { relabelfrom relabelto };
 	typeattribute $1 can_relabelto_shadow_passwords;
+	files_search_etc($1)
 ')
 
 #######################################
@@ -749,8 +755,8 @@ interface(`auth_append_faillog',`
 		type faillog_t;
 	')
 
-	logging_search_logs($1)
 	allow $1 faillog_t:file append_file_perms;
+	logging_search_logs($1)
 ')
 
 ########################################
@@ -768,8 +774,8 @@ interface(`auth_rw_faillog',`
 		type faillog_t;
 	')
 
-	logging_search_logs($1)
 	allow $1 faillog_t:file rw_file_perms;
+	logging_search_logs($1)
 ')
 
 #######################################
@@ -788,8 +794,8 @@ interface(`auth_read_lastlog',`
 		type lastlog_t;
 	')
 
-	logging_search_logs($1)
 	allow $1 lastlog_t:file read_file_perms;
+	logging_search_logs($1)
 ')
 
 #######################################
@@ -807,8 +813,8 @@ interface(`auth_append_lastlog',`
 		type lastlog_t;
 	')
 
-	logging_search_logs($1)
 	allow $1 lastlog_t:file { append_file_perms lock };
+	logging_search_logs($1)
 ')
 
 #######################################
@@ -826,8 +832,8 @@ interface(`auth_rw_lastlog',`
 		type lastlog_t;
 	')
 
-	logging_search_logs($1)
 	allow $1 lastlog_t:file { rw_file_perms lock setattr };
+	logging_search_logs($1)
 ')
 
 ########################################
@@ -836,7 +842,7 @@ interface(`auth_rw_lastlog',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -846,6 +852,7 @@ interface(`auth_domtrans_pam',`
 	')
 
 	domtrans_pattern($1, pam_exec_t, pam_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -872,7 +879,7 @@ interface(`auth_signal_pam',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -906,6 +913,7 @@ interface(`auth_exec_pam',`
 	')
 
 	can_exec($1, pam_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -924,10 +932,10 @@ interface(`auth_manage_var_auth',`
 		type var_auth_t;
 	')
 
-	files_search_var($1)
 	allow $1 var_auth_t:dir manage_dir_perms;
 	allow $1 var_auth_t:file rw_file_perms;
 	allow $1 var_auth_t:lnk_file rw_lnk_file_perms;
+	files_search_var($1)
 ')
 
 ########################################
@@ -945,9 +953,9 @@ interface(`auth_read_pam_pid',`
 		type pam_var_run_t;
 	')
 
-	files_search_pids($1)
 	allow $1 pam_var_run_t:dir list_dir_perms;
 	allow $1 pam_var_run_t:file read_file_perms;
+	files_search_pids($1)
 ')
 
 #######################################
@@ -983,9 +991,9 @@ interface(`auth_delete_pam_pid',`
 		type pam_var_run_t;
 	')
 
-	files_search_pids($1)
 	allow $1 pam_var_run_t:dir del_entry_dir_perms;
 	allow $1 pam_var_run_t:file delete_file_perms;
+	files_search_pids($1)
 ')
 
 ########################################
@@ -1003,9 +1011,9 @@ interface(`auth_manage_pam_pid',`
 		type pam_var_run_t;
 	')
 
-	files_search_pids($1)
 	allow $1 pam_var_run_t:dir manage_dir_perms;
 	allow $1 pam_var_run_t:file manage_file_perms;
+	files_search_pids($1)
 ')
 
 ########################################
@@ -1014,7 +1022,7 @@ interface(`auth_manage_pam_pid',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -1024,6 +1032,7 @@ interface(`auth_domtrans_pam_console',`
 	')
 
 	domtrans_pattern($1, pam_console_exec_t, pam_console_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -1042,8 +1051,8 @@ interface(`auth_search_pam_console_data',`
 		type pam_var_console_t;
 	')
 
-	files_search_pids($1)
 	allow $1 pam_var_console_t:dir search_dir_perms;
+	files_search_pids($1)
 ')
 
 ########################################
@@ -1062,8 +1071,8 @@ interface(`auth_list_pam_console_data',`
 		type pam_var_console_t;
 	')
 
-	files_search_pids($1)
 	allow $1 pam_var_console_t:dir list_dir_perms;
+	files_search_pids($1)
 ')
 
 ########################################
@@ -1081,9 +1090,9 @@ interface(`auth_read_pam_console_data',`
 		type pam_var_console_t;
 	')
 
-	files_search_pids($1)
 	allow $1 pam_var_console_t:dir list_dir_perms;
 	allow $1 pam_var_console_t:file read_file_perms;
+	files_search_pids($1)
 ')
 
 ########################################
@@ -1102,9 +1111,9 @@ interface(`auth_manage_pam_console_data',`
 		type pam_var_console_t;
 	')
 
-	files_search_pids($1)
 	manage_files_pattern($1, pam_var_console_t, pam_var_console_t)
 	manage_lnk_files_pattern($1, pam_var_console_t, pam_var_console_t)
+	files_search_pids($1)
 ')
 
 #######################################
@@ -1122,9 +1131,9 @@ interface(`auth_delete_pam_console_data',`
 		type pam_var_console_t;
 	')
 
+	delete_files_pattern($1, pam_var_console_t, pam_var_console_t)
 	files_search_var($1)
 	files_search_pids($1)
-	delete_files_pattern($1, pam_var_console_t, pam_var_console_t)
 ')
 
 ########################################
@@ -1134,7 +1143,7 @@ interface(`auth_delete_pam_console_data',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the domain perfoming this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 ## <param name="exception_types" optional="true">
@@ -1159,7 +1168,7 @@ interface(`auth_read_all_dirs_except_shadow',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the domain perfoming this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 ## <param name="exception_types" optional="true">
@@ -1168,7 +1177,6 @@ interface(`auth_read_all_dirs_except_shadow',`
 ##	must be negated by the caller.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`auth_read_all_files_except_shadow',`
 	gen_require(`
@@ -1185,7 +1193,7 @@ interface(`auth_read_all_files_except_shadow',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the domain perfoming this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 ## <param name="exception_types" optional="true">
@@ -1210,7 +1218,7 @@ interface(`auth_read_all_symlinks_except_shadow',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the domain perfoming this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 ## <param name="exception_types" optional="true">
@@ -1220,7 +1228,6 @@ interface(`auth_read_all_symlinks_except_shadow',`
 ##	</summary>
 ## </param>
 #
-
 interface(`auth_relabel_all_files_except_shadow',`
 	gen_require(`
 		type shadow_t;
@@ -1236,7 +1243,7 @@ interface(`auth_relabel_all_files_except_shadow',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the domain perfoming this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 ## <param name="exception_types" optional="true">
@@ -1246,7 +1253,6 @@ interface(`auth_relabel_all_files_except_shadow',`
 ##	</summary>
 ## </param>
 #
-
 interface(`auth_rw_all_files_except_shadow',`
 	gen_require(`
 		type shadow_t;
@@ -1262,7 +1268,7 @@ interface(`auth_rw_all_files_except_shadow',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the domain perfoming this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 ## <param name="exception_types" optional="true">
@@ -1272,7 +1278,6 @@ interface(`auth_rw_all_files_except_shadow',`
 ##	</summary>
 ## </param>
 #
-
 interface(`auth_manage_all_files_except_shadow',`
 	gen_require(`
 		type shadow_t;
@@ -1287,7 +1292,7 @@ interface(`auth_manage_all_files_except_shadow',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -1297,6 +1302,7 @@ interface(`auth_domtrans_utempter',`
 	')
 
 	domtrans_pattern($1, utempter_exec_t, utempter_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -1305,7 +1311,7 @@ interface(`auth_domtrans_utempter',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -1369,15 +1375,14 @@ interface(`auth_setattr_login_records',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`auth_read_login_records',`
 	gen_require(`
 		type wtmp_t;
 	')
 
-	logging_search_logs($1)
 	allow $1 wtmp_t:file read_file_perms;
+	logging_search_logs($1)
 ')
 
 ########################################
@@ -1387,10 +1392,9 @@ interface(`auth_read_login_records',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`auth_dontaudit_read_login_records',`
 	gen_require(`
@@ -1454,6 +1458,7 @@ interface(`auth_write_login_records',`
 	')
 
 	allow $1 wtmp_t:file { write_file_perms lock };
+	logging_search_logs($1)
 ')
 
 ########################################
@@ -1510,8 +1515,9 @@ interface(`auth_manage_login_records',`
 		type wtmp_t;
 	')
 
-	logging_rw_generic_log_dirs($1)
 	allow $1 wtmp_t:file manage_file_perms;
+	# This doesnt make sense use: auth_log_filetrans_login_records.
+	# logging_rw_generic_log_dirs($1)
 ')
 
 ########################################

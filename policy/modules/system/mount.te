@@ -48,15 +48,13 @@ type showmount_exec_t;
 application_domain(showmount_t, showmount_exec_t)
 role system_r types showmount_t;
 
-permissive showmount_t;
-
 ########################################
 #
 # mount local policy
 #
 
 # setuid/setgid needed to mount cifs 
-allow mount_t self:capability { fsetid ipc_lock setpcap sys_rawio sys_resource sys_admin dac_override chown sys_tty_config setuid setgid };
+allow mount_t self:capability { fsetid ipc_lock setpcap sys_rawio sys_resource sys_admin dac_override dac_read_search chown sys_tty_config setuid setgid };
 allow mount_t self:process { getcap getsched ptrace setcap signal };
 allow mount_t self:fifo_file rw_fifo_file_perms;
 allow mount_t self:unix_stream_socket create_stream_socket_perms;
