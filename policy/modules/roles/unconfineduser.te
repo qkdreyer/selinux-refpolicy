@@ -415,7 +415,7 @@ optional_policy(`
 	')
 
 	optional_policy(`
-		tunable_policy(`allow_unconfined_nsplugin_transition',`
+		tunable_policy(`allow_unconfined_nsplugin_transition',`',`
 			nsplugin_exec_domtrans(unconfined_t, unconfined_execmem_t)
 		')
 	')

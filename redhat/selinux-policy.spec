@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.19
-Release: 21.1%{?dist}
+Release: 21.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,10 @@ exit 0
 %endif
 
 %changelog
+* Tue May 25 2010 Dominick Grift <domg472@gmail.com> 3.7.19-21.2
+- Fix user_pihg
+- Merge branch refpolicy.
+
 * Tue May 25 2010 Dominick Grift <domg472@gmail.com> 3.7.19-21.1
 - Merge branch fedora v3.7.19-21 plus clean ups.
 
