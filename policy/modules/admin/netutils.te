@@ -139,8 +139,6 @@ logging_send_syslog_msg(ping_t)
 
 miscfiles_read_localization(ping_t)
 
-userdom_use_user_terminals(ping_t)
-
 ifdef(`hide_broken_symptoms',`
 	init_dontaudit_use_fds(ping_t)
 
@@ -152,6 +150,9 @@ ifdef(`hide_broken_symptoms',`
 tunable_policy(`user_ping',`
 	term_use_all_ttys(ping_t)
 	term_use_all_ptys(ping_t)
+',`
+	term_dontaudit_use_all_ttys(traceroute_t)
+	term_dontaudit_use_all_ptys(traceroute_t)
 ')
 
 optional_policy(`
@@ -207,6 +208,7 @@ fs_dontaudit_getattr_xattr_fs(traceroute_t)
 domain_use_interactive_fds(traceroute_t)
 
 files_read_etc_files(traceroute_t)
+files_read_usr_files(traceroute_t)
 files_dontaudit_search_var(traceroute_t)
 
 init_use_fds(traceroute_t)
@@ -217,14 +219,14 @@ logging_send_syslog_msg(traceroute_t)
 
 miscfiles_read_localization(traceroute_t)
 
-userdom_use_user_terminals(traceroute_t)
-
 #rules needed for nmap
 dev_read_rand(traceroute_t)
 dev_read_urand(traceroute_t)
-files_read_usr_files(traceroute_t)
 
 tunable_policy(`user_ping',`
 	term_use_all_ttys(traceroute_t)
 	term_use_all_ptys(traceroute_t)
+',`
+	term_dontaudit_use_all_ttys(traceroute_t)
+	term_dontaudit_use_all_ptys(traceroute_t)
 ')
