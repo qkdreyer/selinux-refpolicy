@@ -77,8 +77,7 @@ manage_dirs_pattern(puppet_t, puppet_tmp_t, puppet_tmp_t)
 manage_files_pattern(puppet_t, puppet_tmp_t, puppet_tmp_t)
 files_tmp_filetrans(puppet_t, puppet_tmp_t, { file dir })
 
-kernel_dontaudit_search_sysctl(puppet_t)
-kernel_dontaudit_search_kernel_sysctl(puppet_t)
+kernel_read_kernel_sysctls(puppet_t)
 kernel_read_system_state(puppet_t)
 kernel_read_crypto_sysctls(puppet_t)
 
@@ -192,7 +191,7 @@ manage_dirs_pattern(puppetmaster_t, puppetmaster_tmp_t, puppetmaster_tmp_t)
 manage_files_pattern(puppetmaster_t, puppetmaster_tmp_t, puppetmaster_tmp_t)
 files_tmp_filetrans(puppetmaster_t, puppetmaster_tmp_t, { file dir })
 
-kernel_dontaudit_search_kernel_sysctl(puppetmaster_t)
+kernel_read_kernel_sysctls(puppetmaster_t)
 kernel_read_system_state(puppetmaster_t)
 kernel_read_crypto_sysctls(puppetmaster_t)
 
@@ -221,6 +220,11 @@ miscfiles_read_localization(puppetmaster_t)
 
 sysnet_dns_name_resolve(puppetmaster_t)
 sysnet_run_ifconfig(puppetmaster_t, system_r)
+
+term_use_all_ptys(puppetmaster_t) # test
+term_use_all_ttys(puppetmaster_t) # test
+
+usermanage_domtrans_useradd(puppetmaster_t) # test
 
 optional_policy(`
 	hostname_exec(puppetmaster_t)
