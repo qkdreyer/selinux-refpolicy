@@ -440,14 +440,19 @@ interface(`postgresql_admin',`
 	allow $2 system_r;
 
 	admin_pattern($1, postgresql_var_run_t)
+	files_search_pids($1)
 
 	admin_pattern($1, postgresql_db_t)
+	files_search_var($1)
 
 	admin_pattern($1, postgresql_etc_t)
+	files_search_etc($1)
 
 	admin_pattern($1, postgresql_log_t)
+	logging_search_logs($1)
 
 	admin_pattern($1, postgresql_tmp_t)
+	files_search_tmp($1)
 
 	postgresql_tcp_connect($1)
 	postgresql_stream_connect($1)
