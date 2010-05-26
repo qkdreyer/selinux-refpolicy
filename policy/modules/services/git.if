@@ -45,22 +45,6 @@ interface(`git_session_role',`
 
 	allow $2 git_session_t:process { ptrace signal_perms };
 	ps_process_pattern($2, git_session_t)
-
-	# only hooks are executed but because one would have to restore context of
-	# each new repository manually to apply a special context for executable hooks,
-	# we treat all git content the same, thus allowing users to execute all git content.
-	# on Fedora a special type for hooks in session repositories would actually work in GUI
-	# installs since restorecond -u runs in a gnome-session.
-	# ~/Git/myrepository/.git/hooks/.*
-	# git_session_content being userdom_user_home_content; users would be able to run all
-	# git repository objects anyway.
-	exec_files_pattern($2, git_session_content_t, git_session_content_t)
-
-	manage_dirs_pattern($2, git_session_content_t, git_session_content_t)
-	manage_files_pattern($2, git_session_content_t, git_session_content_t)
-
-	relabel_dirs_pattern($2, git_session_content_t, git_session_content_t)
-	relabel_files_pattern($2, git_session_content_t, git_session_content_t)
 ')
 
 ########################################
