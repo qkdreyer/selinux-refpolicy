@@ -184,6 +184,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+	dbadm_role_change(staff_r)
+')
+
+optional_policy(`
 	kerneloops_manage_tmp_files(staff_t)
 ')
 
