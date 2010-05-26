@@ -1,5 +1,5 @@
 
-policy_module(postfix, 1.11.1)
+policy_module(postfix, 1.12.0)
 
 ########################################
 #
@@ -8,16 +8,14 @@ policy_module(postfix, 1.11.1)
 
 ## <desc>
 ## <p>
-## Allow postfix_local domain full write access to mail_spool directories
-## 
+## Allow postfix_local domain full write
+## access to mail_spool directories. 
 ## </p>
 ## </desc>
 gen_tunable(allow_postfix_local_write_mail_spool, false)
 
 attribute postfix_spool_type;
 attribute postfix_user_domains;
-# domains that transition to the
-# postfix user domains
 attribute postfix_user_domtrans;
 
 postfix_server_domain_template(bounce)
@@ -36,7 +34,6 @@ application_executable_file(postfix_exec_t)
 postfix_server_domain_template(local)
 mta_mailserver_delivery(postfix_local_t)
 
-# Program for creating database files
 type postfix_map_t;
 type postfix_map_exec_t;
 application_domain(postfix_map_t, postfix_map_exec_t)
@@ -93,7 +90,6 @@ files_type(postfix_public_t)
 type postfix_var_run_t;
 files_pid_file(postfix_var_run_t)
 
-# the data_directory config parameter
 type postfix_data_t;
 files_type(postfix_data_t)
 
@@ -137,7 +133,6 @@ manage_sock_files_pattern(postfix_master_t, postfix_public_t, postfix_public_t)
 
 domtrans_pattern(postfix_master_t, postfix_showq_exec_t, postfix_showq_t)
 
-# allow access to deferred queue and allow removing bogus incoming entries
 manage_dirs_pattern(postfix_master_t, postfix_spool_t, postfix_spool_t)
 manage_files_pattern(postfix_master_t, postfix_spool_t, postfix_spool_t)
 files_spool_filetrans(postfix_master_t, postfix_spool_t, dir)
@@ -174,7 +169,7 @@ corenet_tcp_bind_smtp_beforequeue_port(postfix_master_t)
 corenet_sendrecv_smtp_server_packets(postfix_master_t)
 corenet_sendrecv_all_client_packets(postfix_master_t)
 
-# for a find command
+# postfix does a "find" on startup for some reason - keep it quiet
 selinux_dontaudit_search_fs(postfix_master_t)
 
 corecmd_exec_shell(postfix_master_t)
@@ -213,7 +208,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-#	for postalias
 	mailman_manage_data_files(postfix_master_t)
 ')
 
@@ -256,7 +250,6 @@ manage_lnk_files_pattern(postfix_bounce_t, postfix_spool_bounce_t, postfix_spool
 
 allow postfix_cleanup_t self:process setrlimit;
 
-# connect to master process
 stream_connect_pattern(postfix_cleanup_t, postfix_private_t, postfix_private_t, postfix_master_t)
 
 rw_fifo_files_pattern(postfix_cleanup_t, postfix_public_t, postfix_public_t)
@@ -285,7 +278,6 @@ optional_policy(`
 allow postfix_local_t self:fifo_file rw_fifo_file_perms;
 allow postfix_local_t self:process { setsched setrlimit };
 
-# connect to master process
 stream_connect_pattern(postfix_local_t, postfix_public_t, postfix_public_t, postfix_master_t)
 
 # for .forward - maybe we need a new type for it?
@@ -323,7 +315,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-#	for postalias
 	mailman_manage_data_files(postfix_local_t)
 	mailman_append_log(postfix_local_t)
 	mailman_read_log(postfix_local_t)
@@ -393,7 +384,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-#	for postalias
 	mailman_manage_data_files(postfix_map_t)
 ')
 
@@ -581,7 +571,6 @@ term_use_all_ttys(postfix_showq_t)
 # Postfix smtp delivery local policy
 #
 
-# connect to master process
 allow postfix_smtp_t self:capability sys_chroot;
 
 stream_connect_pattern(postfix_smtp_t, { postfix_private_t postfix_public_t }, { postfix_private_t postfix_public_t }, postfix_master_t)
@@ -609,8 +598,13 @@ allow postfix_smtpd_t postfix_master_t:tcp_socket rw_stream_socket_perms;
 # connect to master process
 stream_connect_pattern(postfix_smtpd_t, { postfix_private_t postfix_public_t }, { postfix_private_t postfix_public_t }, postfix_master_t)
 
-# Connect to policy server
+corenet_all_recvfrom_unlabeled(postfix_smtpd_t)
+corenet_all_recvfrom_netlabel(postfix_smtpd_t)
+corenet_tcp_sendrecv_generic_if(postfix_smtpd_t)
+corenet_tcp_sendrecv_generic_node(postfix_smtpd_t)
+corenet_tcp_sendrecv_all_ports(postfix_smtpd_t)
 corenet_tcp_connect_postfix_policyd_port(postfix_smtpd_t)
+corenet_sendrecv_postfix_policyd_client_packets(postfix_smtpd_t)
 
 # for prng_exch
 allow postfix_smtpd_t postfix_spool_t:file rw_file_perms;
@@ -618,7 +612,6 @@ allow postfix_smtpd_t postfix_prng_t:file rw_file_perms;
 
 corecmd_exec_bin(postfix_smtpd_t)
 
-# for OpenSSL certificates
 files_read_usr_files(postfix_smtpd_t)
 
 # postfix checks the size of all mounted file systems

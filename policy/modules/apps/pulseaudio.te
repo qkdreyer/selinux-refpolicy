@@ -1,5 +1,5 @@
 
-policy_module(pulseaudio, 1.1.2)
+policy_module(pulseaudio, 1.2.0)
 
 ########################################
 #
@@ -69,6 +69,9 @@ corenet_tcp_sendrecv_generic_node(pulseaudio_t)
 corenet_udp_bind_sap_port(pulseaudio_t)
 corenet_udp_sendrecv_generic_if(pulseaudio_t)
 corenet_udp_sendrecv_generic_node(pulseaudio_t)
+corenet_sendrecv_pulseaudio_server_packets(pulseaudio_t)
+corenet_sendrecv_soundd_server_packets(pulseaudio_t)
+corenet_sendrecv_sap_server_packets(pulseaudio_t)
 
 dev_read_sound(pulseaudio_t)
 dev_write_sound(pulseaudio_t)
@@ -119,7 +122,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	# Could this be a leak? Just want read and write.
 	gpg_rw_agent_pipes(pulseaudio_t)
 ')
 

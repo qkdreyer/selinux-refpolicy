@@ -1,5 +1,5 @@
 
-policy_module(asterisk, 1.7.2)
+policy_module(asterisk, 1.8.0)
 
 ########################################
 #
@@ -113,6 +113,7 @@ corenet_udp_bind_generic_port(asterisk_t)
 corenet_dontaudit_udp_bind_all_ports(asterisk_t)
 corenet_sendrecv_generic_server_packets(asterisk_t)
 corenet_tcp_connect_postgresql_port(asterisk_t)
+corenet_sendrecv_postgresql_client_packets(asterisk_t)
 corenet_tcp_connect_snmp_port(asterisk_t)
 corenet_tcp_connect_sip_port(asterisk_t)
 

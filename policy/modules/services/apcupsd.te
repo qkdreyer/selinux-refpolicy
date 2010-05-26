@@ -1,5 +1,5 @@
 
-policy_module(apcupsd, 1.6.1)
+policy_module(apcupsd, 1.7.0)
 
 ########################################
 #
@@ -62,11 +62,11 @@ corenet_tcp_sendrecv_all_ports(apcupsd_t)
 corenet_tcp_bind_generic_node(apcupsd_t)
 corenet_tcp_bind_apcupsd_port(apcupsd_t)
 corenet_sendrecv_apcupsd_server_packets(apcupsd_t)
+corenet_sendrecv_apcupsd_client_packets(apcupsd_t)
 corenet_tcp_connect_apcupsd_port(apcupsd_t)
 
 dev_rw_generic_usb_dev(apcupsd_t)
 
-# Init script handling
 domain_use_interactive_fds(apcupsd_t)
 
 files_read_etc_files(apcupsd_t)
@@ -78,9 +78,10 @@ files_etc_filetrans_etc_runtime(apcupsd_t, file)
 # https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=240805
 term_use_unallocated_ttys(apcupsd_t)
 
-#apcupsd runs shutdown, probably need a shutdown domain
-init_rw_utmp(apcupsd_t)
-init_telinit(apcupsd_t)
+# SHUTDOWN DOMAIN IS IMPLEMENTED NOW
+# apcupsd runs shutdown, probably need a shutdown domain
+# init_rw_utmp(apcupsd_t)
+# init_telinit(apcupsd_t)
 
 logging_send_syslog_msg(apcupsd_t)
 

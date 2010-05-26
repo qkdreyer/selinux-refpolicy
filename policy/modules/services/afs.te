@@ -1,5 +1,5 @@
 
-policy_module(afs, 1.5.3)
+policy_module(afs, 1.6.0)
 
 ########################################
 #
@@ -81,6 +81,8 @@ manage_files_pattern(afs_t, afs_cache_t, afs_cache_t)
 manage_dirs_pattern(afs_t, afs_cache_t, afs_cache_t)
 files_var_filetrans(afs_t, afs_cache_t, { file dir })
 
+kernel_rw_afs_state(afs_t)
+
 files_mounton_mnt(afs_t)
 files_read_etc_files(afs_t)
 files_read_usr_files(afs_t)
@@ -89,12 +91,6 @@ files_rw_etc_runtime_files(afs_t)
 fs_getattr_xattr_fs(afs_t)
 fs_mount_nfs(afs_t)
 fs_read_nfs_symlinks(afs_t)
-
-kernel_rw_afs_state(afs_t)
-
-ifdef(`hide_broken_symptoms', `
-	kernel_rw_unlabeled_files(afs_t)
-')
 
 corenet_all_recvfrom_unlabeled(afs_t)
 corenet_all_recvfrom_netlabel(afs_t)
@@ -111,6 +107,10 @@ logging_send_syslog_msg(afs_t)
 miscfiles_read_localization(afs_t)
 
 sysnet_dns_name_resolve(afs_t)
+
+ifdef(`hide_broken_symptoms', `
+	kernel_rw_unlabeled_files(afs_t)
+')
 
 ########################################
 #

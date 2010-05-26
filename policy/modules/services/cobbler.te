@@ -1,5 +1,5 @@
 
-policy_module(cobbler, 1.0.1)
+policy_module(cobbler, 1.1.0)
 
 ########################################
 #
@@ -74,8 +74,7 @@ files_read_etc_files(cobblerd_t)
 files_read_usr_files(cobblerd_t)
 files_list_boot(cobblerd_t)
 files_list_tmp(cobblerd_t)
-# read /etc/nsswitch.conf
-files_read_etc_files(cobblerd_t)
+
 
 miscfiles_read_localization(cobblerd_t)
 miscfiles_read_public_files(cobblerd_t)
@@ -130,7 +129,8 @@ optional_policy(`
 # Cobbler web local policy.
 #
 
-apache_content_template(cobbler)
-manage_dirs_pattern(cobblerd_t, httpd_cobbler_content_rw_t,  httpd_cobbler_content_rw_t)
-manage_files_pattern(cobblerd_t, httpd_cobbler_content_rw_t,  httpd_cobbler_content_rw_t)
-
+optional_policy(`
+	apache_content_template(cobbler)
+	manage_dirs_pattern(cobblerd_t, httpd_cobbler_content_rw_t,  httpd_cobbler_content_rw_t)
+	manage_files_pattern(cobblerd_t, httpd_cobbler_content_rw_t,  httpd_cobbler_content_rw_t)
+')

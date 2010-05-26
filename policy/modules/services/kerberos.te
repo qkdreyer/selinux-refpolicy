@@ -1,5 +1,5 @@
 
-policy_module(kerberos, 1.10.3)
+policy_module(kerberos, 1.11.0)
 
 ########################################
 #
@@ -44,18 +44,15 @@ userdom_user_home_content(krb5_home_t)
 type krb5_host_rcache_t;
 files_tmp_file(krb5_host_rcache_t)
 
-# types for general configuration files in /etc
 type krb5_keytab_t;
 files_security_file(krb5_keytab_t)
 
-# types for KDC configs and principal file(s)
 type krb5kdc_conf_t;
 files_type(krb5kdc_conf_t)
 
 type krb5kdc_lock_t;
 files_type(krb5kdc_lock_t)
 
-# types for KDC principal file(s)
 type krb5kdc_principal_t;
 files_type(krb5kdc_principal_t)
 
@@ -128,7 +125,7 @@ corenet_tcp_bind_generic_node(kadmind_t)
 corenet_udp_bind_generic_node(kadmind_t)
 corenet_tcp_bind_kerberos_admin_port(kadmind_t)
 corenet_udp_bind_kerberos_admin_port(kadmind_t)
-corenet_tcp_bind_reserved_port(kadmind_t)
+# corenet_tcp_bind_reserved_port(kadmind_t)
 corenet_dontaudit_tcp_bind_all_reserved_ports(kadmind_t)
 corenet_sendrecv_kerberos_admin_server_packets(kadmind_t)
 
@@ -307,6 +304,7 @@ corenet_tcp_sendrecv_generic_node(kpropd_t)
 corenet_tcp_sendrecv_all_ports(kpropd_t)
 corenet_tcp_bind_generic_node(kpropd_t)
 corenet_tcp_bind_kprop_port(kpropd_t)
+corenet_sendrecv_kprop_server_packets(kpropd_t)
 
 dev_read_urand(kpropd_t)
 

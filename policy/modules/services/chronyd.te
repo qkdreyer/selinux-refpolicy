@@ -1,5 +1,5 @@
 
-policy_module(chronyd, 1.0.1)
+policy_module(chronyd, 1.1.0)
 
 ########################################
 #
@@ -69,7 +69,6 @@ corenet_udp_sendrecv_generic_if(chronyd_t)
 corenet_udp_sendrecv_generic_node(chronyd_t)
 corenet_udp_sendrecv_generic_port(chronyd_t)
 
-# real time clock option
 dev_rw_realtime_clock(chronyd_t)
 
 auth_use_nsswitch(chronyd_t)

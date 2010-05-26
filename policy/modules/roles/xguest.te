@@ -1,5 +1,5 @@
 
-policy_module(xguest, 1.0.1)
+policy_module(xguest, 1.1.0)
 
 ########################################
 #
@@ -42,7 +42,6 @@ ifndef(`enable_mls',`
 	tunable_policy(`user_rw_noexattrfile',`
 		fs_manage_noxattr_fs_files(xguest_t)
 		fs_manage_noxattr_fs_dirs(xguest_t)
-		# Write floppies 
 		storage_raw_read_removable_device(xguest_t)
 		storage_raw_write_removable_device(xguest_t)
 	',`
@@ -114,6 +113,7 @@ optional_policy(`
 		networkmanager_dbus_chat(xguest_t)
 		networkmanager_read_var_lib_files(xguest_t)
 		corenet_tcp_connect_pulseaudio_port(xguest_usertype)
+		corenet_sendrecv_pulseaudio_client_packets(xguest_usertype)
 		corenet_all_recvfrom_unlabeled(xguest_usertype)
 		corenet_all_recvfrom_netlabel(xguest_usertype)
 		corenet_tcp_sendrecv_generic_if(xguest_usertype)
@@ -127,10 +127,12 @@ optional_policy(`
 		corenet_tcp_connect_http_port(xguest_usertype)
 		corenet_tcp_connect_http_cache_port(xguest_usertype)
 		corenet_tcp_connect_flash_port(xguest_usertype)
+		corenet_sendrecv_flash_client_packets(xguest_usertype)
 		corenet_tcp_connect_ftp_port(xguest_usertype)
 		corenet_tcp_connect_ipp_port(xguest_usertype)
 		corenet_tcp_connect_generic_port(xguest_usertype)
 		corenet_tcp_connect_soundd_port(xguest_usertype)
+		corenet_sendrecv_soundd_client_packets(xguest_usertype)
 		corenet_sendrecv_http_client_packets(xguest_usertype)
 		corenet_sendrecv_http_cache_client_packets(xguest_usertype)
 		corenet_sendrecv_ftp_client_packets(xguest_usertype)
@@ -140,8 +142,10 @@ optional_policy(`
 		corenet_dontaudit_tcp_sendrecv_generic_port(xguest_usertype)
 		corenet_dontaudit_tcp_bind_generic_port(xguest_usertype)
 		corenet_tcp_connect_speech_port(xguest_usertype)
+		corenet_sendrecv_speech_client_packets(xguest_usertype)
 		corenet_tcp_sendrecv_transproxy_port(xguest_usertype)
 		corenet_tcp_connect_transproxy_port(xguest_usertype)
+		corenet_sendrecv_transproxy_client_packets(xguest_usertype)
 	')
 ')
 

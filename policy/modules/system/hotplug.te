@@ -1,5 +1,5 @@
 
-policy_module(hotplug, 1.12.1)
+policy_module(hotplug, 1.13.0)
 
 ########################################
 #
@@ -77,7 +77,6 @@ corecmd_exec_bin(hotplug_t)
 corecmd_exec_shell(hotplug_t)
 
 domain_use_interactive_fds(hotplug_t)
-# for ps
 domain_dontaudit_read_all_domains_state(hotplug_t)
 domain_dontaudit_getattr_all_domains(hotplug_t)
 

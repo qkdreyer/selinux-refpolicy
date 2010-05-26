@@ -1,5 +1,5 @@
 
-policy_module(arpwatch, 1.8.2)
+policy_module(arpwatch, 1.9.0)
 
 ########################################
 #
@@ -26,6 +26,7 @@ files_pid_file(arpwatch_var_run_t)
 #
 # Local policy
 #
+
 allow arpwatch_t self:capability { net_admin net_raw setgid setuid };
 dontaudit arpwatch_t self:capability sys_tty_config;
 allow arpwatch_t self:process signal_perms;

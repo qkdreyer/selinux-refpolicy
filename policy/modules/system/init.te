@@ -1,5 +1,5 @@
 
-policy_module(init, 1.14.2)
+policy_module(init, 1.15.0)
 
 gen_require(`
 	class passwd rootok;
@@ -31,8 +31,6 @@ gen_tunable(allow_daemons_use_tty, false)
 ## </desc>
 gen_tunable(allow_daemons_dump_core, false)
 
-# used for direct running of init scripts
-# by admin domains
 attribute direct_run_init;
 attribute direct_init;
 attribute direct_init_entry;
@@ -42,12 +40,8 @@ attribute init_script_file_type;
 attribute init_run_all_scripts_domain;
 attribute initrc_transition_domain;
 
-# Mark process types as daemons
 attribute daemon;
 
-#
-# init_t is the domain of the init process.
-#
 type init_t, initrc_transition_domain;
 type init_exec_t;
 domain_type(init_t)
@@ -55,17 +49,9 @@ domain_entry_file(init_t, init_exec_t)
 kernel_domtrans_to(init_t, init_exec_t)
 role system_r types init_t;
 
-#
-# init_var_run_t is the type for /var/run/shutdown.pid.
-#
 type init_var_run_t;
 files_pid_file(init_var_run_t)
 
-#
-# initctl_t is the type of the named pipe created 
-# by init during initialization.  This pipe is used
-# to communicate with init.
-#
 type initctl_t;
 files_type(initctl_t)
 mls_trusted_object(initctl_t)
@@ -114,14 +100,12 @@ allow init_t self:capability ~{ audit_control audit_write sys_module };
 allow init_t self:process setsched;
 allow init_t self:fifo_file rw_fifo_file_perms;
 
-# Re-exec itself
 can_exec(init_t, init_exec_t)
 
 allow init_t initrc_t:unix_stream_socket { connectto rw_stream_socket_perms };
 allow initrc_t init_t:unix_stream_socket { connectto rw_stream_socket_perms };
 allow initrc_t init_t:fifo_file rw_fifo_file_perms;
 
-# For /var/run/shutdown.pid.
 allow init_t init_var_run_t:file manage_file_perms;
 files_pid_filetrans(init_t, init_var_run_t, file)
 
@@ -129,7 +113,6 @@ allow init_t initctl_t:fifo_file manage_fifo_file_perms;
 dev_filetrans(init_t, initctl_t, fifo_file)
 fs_associate_tmpfs(initctl_t)
 
-# Modify utmp.
 allow init_t initrc_var_run_t:file { rw_file_perms setattr };
 
 kernel_read_system_state(init_t)
@@ -251,7 +234,6 @@ dontaudit initrc_t self:capability sys_module; # sysctl is triggering this
 allow initrc_t self:passwd rootok;
 allow initrc_t self:key manage_key_perms;
 
-# Allow IPC with self
 allow initrc_t self:unix_dgram_socket create_socket_perms;
 allow initrc_t self:unix_stream_socket { create listen accept ioctl read getattr write setattr append bind connect getopt setopt shutdown connectto };
 allow initrc_t self:tcp_socket create_stream_socket_perms;
@@ -547,8 +529,6 @@ ifdef(`distro_redhat',`
 	files_write_var_dirs(initrc_t)
 
 	fs_read_tmpfs_symlinks(initrc_t)
-	# This is probably a bug and it should be removed.
-	fs_rw_tmpfs_chr_files(initrc_t)
 	
 	# /sbin/cgclear
 	fs_delete_cgroupfs_dirs(initrc_t)

@@ -1,5 +1,5 @@
 
-policy_module(vbetool, 1.4.1)
+policy_module(vbetool, 1.5.0)
 
 ########################################
 #
@@ -26,9 +26,6 @@ dev_rw_xserver_misc(vbetool_t)
 dev_rw_mtrr(vbetool_t)
 
 domain_mmap_low_type(vbetool_t)
-tunable_policy(`mmap_low_allowed',`
-domain_mmap_low(vbetool_t)
-')
 
 mls_file_read_all_levels(vbetool_t)
 mls_file_write_all_levels(vbetool_t)
@@ -36,6 +33,10 @@ mls_file_write_all_levels(vbetool_t)
 term_use_unallocated_ttys(vbetool_t)
 
 miscfiles_read_localization(vbetool_t)
+
+tunable_policy(`mmap_low_allowed',`
+	domain_mmap_low(vbetool_t)
+')
 
 optional_policy(`
 	hal_rw_pid_files(vbetool_t)

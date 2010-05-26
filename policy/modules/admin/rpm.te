@@ -1,5 +1,5 @@
 
-policy_module(rpm, 1.10.1)
+policy_module(rpm, 1.11.0)
 
 attribute rpm_transition_domain;
 
@@ -279,7 +279,6 @@ kernel_read_system_state(rpm_script_t)
 
 dev_list_sysfs(rpm_script_t)
 
-# ideally we would not need this
 dev_manage_generic_blk_files(rpm_script_t)
 dev_manage_generic_chr_files(rpm_script_t)
 dev_manage_all_blk_files(rpm_script_t)
@@ -319,7 +318,6 @@ term_use_all_terms(rpm_script_t)
 
 auth_dontaudit_getattr_shadow(rpm_script_t)
 auth_use_nsswitch(rpm_script_t)
-# ideally we would not need this
 auth_manage_all_files_except_shadow(rpm_script_t)
 auth_relabel_shadow(rpm_script_t)
 

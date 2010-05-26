@@ -1,5 +1,5 @@
 
-policy_module(snort, 1.8.1)
+policy_module(snort, 1.9.0)
 
 ########################################
 #
@@ -38,7 +38,6 @@ allow snort_t self:tcp_socket create_stream_socket_perms;
 allow snort_t self:udp_socket create_socket_perms;
 allow snort_t self:packet_socket create_socket_perms;
 allow snort_t self:socket create_socket_perms;
-# Snort IPS node. unverified.
 allow snort_t self:netlink_firewall_socket { bind create getattr };
 
 allow snort_t snort_etc_t:dir list_dir_perms;
@@ -74,6 +73,7 @@ corenet_raw_sendrecv_generic_node(snort_t)
 corenet_tcp_sendrecv_all_ports(snort_t)
 corenet_udp_sendrecv_all_ports(snort_t)
 corenet_tcp_connect_prelude_port(snort_t)
+corenet_sendrecv_prelude_client_packets(snort_t)
 
 dev_read_sysfs(snort_t)
 dev_read_rand(snort_t)
@@ -97,7 +97,6 @@ logging_send_syslog_msg(snort_t)
 miscfiles_read_localization(snort_t)
 
 sysnet_read_config(snort_t)
-# snorts must be able to resolve dns in case it wants to relay to a remote prelude-manager
 sysnet_dns_name_resolve(snort_t)
 
 userdom_dontaudit_use_unpriv_user_fds(snort_t)

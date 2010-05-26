@@ -1,5 +1,5 @@
 
-policy_module(shorewall, 1.0.2)
+policy_module(shorewall, 1.1.0)
 
 ########################################
 #
@@ -13,19 +13,15 @@ init_daemon_domain(shorewall_t, shorewall_exec_t)
 type shorewall_initrc_exec_t;
 init_script_file(shorewall_initrc_exec_t)
 
-# etc files
 type shorewall_etc_t;
 files_config_file(shorewall_etc_t)
 
-# lock files
 type shorewall_lock_t;
 files_lock_file(shorewall_lock_t)
 
-# tmp files
 type shorewall_tmp_t;
 files_tmp_file(shorewall_tmp_t)
 
-# var/lib files
 type shorewall_var_lib_t;
 files_type(shorewall_var_lib_t)
 

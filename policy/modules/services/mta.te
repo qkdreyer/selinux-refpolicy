@@ -1,5 +1,5 @@
 
-policy_module(mta, 2.2.2)
+policy_module(mta, 2.3.0)
 
 ########################################
 #
@@ -283,7 +283,6 @@ optional_policy(`
 domain_use_interactive_fds(user_mail_t)
 
 userdom_use_user_terminals(user_mail_t)
-# Write to the user domain tty. cjp: why?
 userdom_use_user_terminals(mta_user_agent)
 # Create dead.letter in user home directories.
 mta_manage_mail_home_files(user_mail_t)

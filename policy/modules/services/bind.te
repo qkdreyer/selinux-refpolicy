@@ -1,5 +1,5 @@
 
-policy_module(bind, 1.10.2)
+policy_module(bind, 1.11.0)
 
 ########################################
 #
@@ -14,7 +14,6 @@ policy_module(bind, 1.10.2)
 ## </desc>
 gen_tunable(named_write_master_zones, false)
 
-# for DNSSEC key files
 type dnssec_t;
 files_security_file(dnssec_t)
 
@@ -26,12 +25,10 @@ role system_r types named_t;
 type named_checkconf_exec_t;
 init_system_domain(named_t, named_checkconf_exec_t)
 
-# A type for configuration files of named.
 type named_conf_t;
 files_type(named_conf_t)
 files_mountpoint(named_conf_t)
 
-# for secondary zone files
 type named_cache_t;
 files_type(named_cache_t)
 
@@ -47,7 +44,6 @@ files_tmp_file(named_tmp_t)
 type named_var_run_t;
 files_pid_file(named_var_run_t)
 
-# for primary zone files
 type named_zone_t;
 files_type(named_zone_t)
 
@@ -72,12 +68,10 @@ allow named_t self:udp_socket create_socket_perms;
 
 allow named_t dnssec_t:file read_file_perms;
 
-# read configuration
 allow named_t named_conf_t:dir list_dir_perms;
 read_files_pattern(named_t, named_conf_t, named_conf_t)
 read_lnk_files_pattern(named_t, named_conf_t, named_conf_t)
 
-# write cache for secondary zones
 manage_files_pattern(named_t, named_cache_t, named_cache_t)
 manage_lnk_files_pattern(named_t, named_cache_t, named_cache_t)
 
@@ -94,7 +88,6 @@ manage_files_pattern(named_t, named_var_run_t, named_var_run_t)
 manage_sock_files_pattern(named_t, named_var_run_t, named_var_run_t)
 files_pid_filetrans(named_t, named_var_run_t, { file sock_file })
 
-# read zone files
 allow named_t named_zone_t:dir list_dir_perms;
 read_files_pattern(named_t, named_zone_t, named_zone_t)
 read_lnk_files_pattern(named_t, named_zone_t, named_zone_t)
@@ -125,6 +118,7 @@ corenet_sendrecv_rndc_server_packets(named_t)
 corenet_sendrecv_rndc_client_packets(named_t)
 corenet_dontaudit_udp_bind_all_reserved_ports(named_t)
 corenet_udp_bind_all_unreserved_ports(named_t)
+corenet_sendrecv_all_client_packets(named_t)
 
 dev_read_sysfs(named_t)
 dev_read_rand(named_t)

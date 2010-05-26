@@ -1,5 +1,5 @@
 
-policy_module(mozilla, 2.1.1)
+policy_module(mozilla, 2.2.0)
 
 ########################################
 #
@@ -47,21 +47,17 @@ allow mozilla_t self:shm { unix_read unix_write read write destroy create };
 allow mozilla_t self:sem create_sem_perms;
 allow mozilla_t self:socket create_socket_perms;
 allow mozilla_t self:unix_stream_socket { listen accept };
-# Browse the web, connect to printer
 allow mozilla_t self:tcp_socket create_socket_perms;
 allow mozilla_t self:netlink_route_socket r_netlink_socket_perms;
 
-# for bash - old mozilla binary
 can_exec(mozilla_t, mozilla_exec_t)
 
-# X access, Home files
 manage_dirs_pattern(mozilla_t, mozilla_home_t, mozilla_home_t)
 manage_files_pattern(mozilla_t, mozilla_home_t, mozilla_home_t)
 manage_lnk_files_pattern(mozilla_t, mozilla_home_t, mozilla_home_t)
 userdom_search_user_home_dirs(mozilla_t)
 userdom_user_home_dir_filetrans(mozilla_t, mozilla_home_t, dir)
 
-# Mozpluggerrc
 allow mozilla_t mozilla_conf_t:file read_file_perms;
 
 manage_files_pattern(mozilla_t, mozilla_tmpfs_t, mozilla_tmpfs_t)
@@ -72,17 +68,14 @@ fs_tmpfs_filetrans(mozilla_t, mozilla_tmpfs_t, { file lnk_file sock_file fifo_fi
 
 kernel_read_kernel_sysctls(mozilla_t)
 kernel_read_network_state(mozilla_t)
-# Access /proc, sysctl
 kernel_read_system_state(mozilla_t)
 kernel_read_net_sysctls(mozilla_t)
 
 # Look for plugins
 corecmd_list_bin(mozilla_t)
-# for bash - old mozilla binary
 corecmd_exec_shell(mozilla_t)
 corecmd_exec_bin(mozilla_t)
 
-# Browse the web, connect to printer
 corenet_all_recvfrom_unlabeled(mozilla_t)
 corenet_all_recvfrom_netlabel(mozilla_t)
 corenet_tcp_sendrecv_generic_if(mozilla_t)
@@ -105,7 +98,7 @@ corenet_sendrecv_http_cache_client_packets(mozilla_t)
 corenet_sendrecv_ftp_client_packets(mozilla_t)
 corenet_sendrecv_ipp_client_packets(mozilla_t)
 corenet_sendrecv_generic_client_packets(mozilla_t)
-# Should not need other ports
+corenet_sendrecv_flash_client_packets(mozilla_t)
 corenet_dontaudit_tcp_sendrecv_generic_port(mozilla_t)
 corenet_dontaudit_tcp_bind_generic_port(mozilla_t)
 corenet_tcp_connect_speech_port(mozilla_t)
@@ -122,7 +115,6 @@ domain_dontaudit_read_all_domains_state(mozilla_t)
 files_read_etc_runtime_files(mozilla_t)
 files_read_usr_files(mozilla_t)
 files_read_etc_files(mozilla_t)
-# /var/lib
 files_read_var_lib_files(mozilla_t)
 # interacting with gstreamer
 files_read_var_files(mozilla_t)
@@ -142,7 +134,6 @@ miscfiles_dontaudit_setattr_fonts_dirs(mozilla_t)
 miscfiles_read_fonts(mozilla_t)
 miscfiles_read_localization(mozilla_t)
 
-# Browse the web, connect to printer
 sysnet_dns_name_resolve(mozilla_t)
 
 userdom_use_user_ptys(mozilla_t)

@@ -1,5 +1,5 @@
 
-policy_module(uucp, 1.10.2)
+policy_module(uucp, 1.11.0)
 
 ########################################
 #
@@ -40,6 +40,7 @@ role system_r types uux_t;
 #
 # UUCPd Local policy
 #
+
 allow uucpd_t self:capability { setuid setgid };
 allow uucpd_t self:process signal_perms;
 allow uucpd_t self:fifo_file rw_fifo_file_perms;

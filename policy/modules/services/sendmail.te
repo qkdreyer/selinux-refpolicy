@@ -1,5 +1,5 @@
 
-policy_module(sendmail, 1.10.2)
+policy_module(sendmail, 1.11.0)
 
 ########################################
 #
@@ -66,6 +66,7 @@ corenet_tcp_bind_smtp_port(sendmail_t)
 corenet_tcp_connect_all_ports(sendmail_t)
 corenet_sendrecv_smtp_server_packets(sendmail_t)
 corenet_sendrecv_smtp_client_packets(sendmail_t)
+corenet_sendrecv_all_client_packets(sendmail_t)
 
 dev_read_urand(sendmail_t)
 dev_read_sysfs(sendmail_t)

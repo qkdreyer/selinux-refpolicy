@@ -1,5 +1,5 @@
 
-policy_module(pcscd, 1.5.2)
+policy_module(pcscd, 1.6.0)
 
 ########################################
 #
@@ -11,7 +11,6 @@ type pcscd_exec_t;
 domain_type(pcscd_t)
 init_daemon_domain(pcscd_t, pcscd_exec_t)
 
-# pid files
 type pcscd_var_run_t;
 files_pid_file(pcscd_var_run_t)
 
@@ -41,6 +40,7 @@ corenet_tcp_sendrecv_generic_if(pcscd_t)
 corenet_tcp_sendrecv_generic_node(pcscd_t)
 corenet_tcp_sendrecv_all_ports(pcscd_t)
 corenet_tcp_connect_http_port(pcscd_t)
+corenet_sendrecv_http_client_packets(pcscd_t)
 
 dev_rw_generic_usb_dev(pcscd_t)
 dev_rw_smartcard(pcscd_t)

@@ -1,11 +1,21 @@
 
-policy_module(application, 1.1.1)
+policy_module(application, 1.2.0)
+
+########################################
+#
+# Declarations
+#
 
 # Attribute of user applications
 attribute application_domain_type;
 
 # Executables to be run by user
 attribute application_exec_type;
+
+########################################
+#
+# Policy
+#
 
 userdom_inherit_append_user_home_content_files(application_domain_type)
 userdom_inherit_append_admin_home_files(application_domain_type)

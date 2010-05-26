@@ -1,5 +1,5 @@
 
-policy_module(brctl, 1.4.1)
+policy_module(brctl, 1.5.0)
 
 ########################################
 #
@@ -18,9 +18,9 @@ init_system_domain(brctl_t, brctl_exec_t)
 
 allow brctl_t self:capability net_admin;
 allow brctl_t self:fifo_file rw_file_perms;
+allow brctl_t self:tcp_socket create_socket_perms;
 allow brctl_t self:unix_stream_socket create_stream_socket_perms;
 allow brctl_t self:unix_dgram_socket create_socket_perms;
-allow brctl_t self:tcp_socket create_socket_perms;
 
 kernel_request_load_module(brctl_t)
 kernel_read_network_state(brctl_t)
@@ -31,7 +31,6 @@ corenet_rw_tun_tap_dev(brctl_t)
 dev_rw_sysfs(brctl_t)
 dev_write_sysfs_dirs(brctl_t)
 
-# Init script handling
 domain_use_interactive_fds(brctl_t)
 
 files_read_etc_files(brctl_t)

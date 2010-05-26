@@ -1,5 +1,5 @@
 
-policy_module(radvd, 1.11.2)
+policy_module(radvd, 1.12.0)
 
 ########################################
 #
@@ -22,6 +22,7 @@ files_config_file(radvd_etc_t)
 #
 # Local policy
 #
+
 allow radvd_t self:capability { kill setgid setuid net_raw net_admin };
 dontaudit radvd_t self:capability sys_tty_config;
 allow radvd_t self:process { fork signal_perms };

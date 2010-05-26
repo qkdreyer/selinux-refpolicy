@@ -1,5 +1,5 @@
 
-policy_module(apache, 2.1.2)
+policy_module(apache, 2.2.0)
 
 #
 # NOTES:
@@ -290,12 +290,10 @@ allow httpd_t self:unix_stream_socket { create_stream_socket_perms connectto };
 allow httpd_t self:tcp_socket create_stream_socket_perms;
 allow httpd_t self:udp_socket create_socket_perms;
 
-# Allow httpd_t to put files in /var/cache/httpd etc
 manage_dirs_pattern(httpd_t, httpd_cache_t, httpd_cache_t)
 manage_files_pattern(httpd_t, httpd_cache_t, httpd_cache_t)
 manage_lnk_files_pattern(httpd_t, httpd_cache_t, httpd_cache_t)
 
-# Allow the httpd_t to read the web servers config files
 allow httpd_t httpd_config_t:dir list_dir_perms;
 read_files_pattern(httpd_t, httpd_config_t, httpd_config_t)
 read_lnk_files_pattern(httpd_t, httpd_config_t, httpd_config_t)
@@ -310,8 +308,6 @@ create_files_pattern(httpd_t, httpd_log_t, httpd_log_t)
 append_files_pattern(httpd_t, httpd_log_t, httpd_log_t)
 read_files_pattern(httpd_t, httpd_log_t, httpd_log_t)
 read_lnk_files_pattern(httpd_t, httpd_log_t, httpd_log_t)
-# cjp: need to refine create interfaces to
-# cut this back to add_name only
 logging_log_filetrans(httpd_t, httpd_log_t, file)
 
 allow httpd_t httpd_modules_t:dir list_dir_perms;
@@ -361,7 +357,6 @@ manage_files_pattern(httpd_t, squirrelmail_spool_t, squirrelmail_spool_t)
 manage_lnk_files_pattern(httpd_t, squirrelmail_spool_t, squirrelmail_spool_t)
 
 kernel_read_kernel_sysctls(httpd_t)
-# for modules that want to access /proc/meminfo
 kernel_read_system_state(httpd_t)
 
 corenet_all_recvfrom_unlabeled(httpd_t)
@@ -376,7 +371,8 @@ corenet_tcp_bind_generic_node(httpd_t)
 corenet_tcp_bind_http_port(httpd_t)
 corenet_tcp_bind_http_cache_port(httpd_t)
 corenet_sendrecv_http_server_packets(httpd_t)
-# Signal self for shutdown
+corenet_sendrecv_http_client_packets(httpd_t)
+corenet_sendrecv_http_cache_server_packets(httpd_t)
 corenet_tcp_connect_http_port(httpd_t)
 
 dev_read_sysfs(httpd_t)
@@ -444,10 +440,10 @@ tunable_policy(`allow_httpd_mod_auth_pam',`
 
 tunable_policy(`httpd_can_network_connect',`
 	corenet_tcp_connect_all_ports(httpd_t)
+	corenet_sendrecv_all_client_packets(httpd_t)
 ')
 
 tunable_policy(`httpd_can_network_relay',`
-	# allow httpd to work as a relay
 	corenet_tcp_connect_gopher_port(httpd_t)
 	corenet_tcp_connect_ftp_port(httpd_t)
 	corenet_tcp_connect_http_port(httpd_t)
@@ -457,6 +453,7 @@ tunable_policy(`httpd_can_network_relay',`
 	corenet_sendrecv_ftp_client_packets(httpd_t)
 	corenet_sendrecv_http_client_packets(httpd_t)
 	corenet_sendrecv_http_cache_client_packets(httpd_t)
+	corenet_sendrecv_memcache_client_packets(httpd_t)
 ')
 
 tunable_policy(`httpd_enable_cgi && httpd_use_nfs',`
@@ -477,6 +474,7 @@ tunable_policy(`httpd_enable_cgi && httpd_unified && httpd_builtin_scripting',`
 
 tunable_policy(`httpd_enable_ftp_server',`
 	corenet_tcp_bind_ftp_port(httpd_t)
+	corenet_sendrecv_ftp_server_packets(httpd_t)
 ')
 
 tunable_policy(`httpd_enable_homedirs',`
@@ -494,7 +492,6 @@ tunable_policy(`httpd_enable_homedirs && use_samba_home_dirs',`
 ')
 
 tunable_policy(`httpd_can_sendmail',`
-	# allow httpd to connect to mail servers
 	corenet_tcp_connect_smtp_port(httpd_t)
 	corenet_sendrecv_smtp_client_packets(httpd_t)
 	mta_send_mail(httpd_t)
@@ -569,7 +566,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	# Allow httpd to work with mysql
 	mysql_stream_connect(httpd_t)
 	mysql_rw_db_sockets(httpd_t)
 
@@ -590,7 +586,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	# Allow httpd to work with postgresql
 	postgresql_stream_connect(httpd_t)
 	postgresql_unpriv_client(httpd_t)
 

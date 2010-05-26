@@ -1,5 +1,5 @@
 
-policy_module(cdrecord, 2.2.1)
+policy_module(cdrecord, 2.3.0)
 
 ########################################
 #
@@ -32,10 +32,8 @@ allow cdrecord_t self:process { getcap getsched setsched sigkill };
 allow cdrecord_t self:unix_dgram_socket create_socket_perms;
 allow cdrecord_t self:unix_stream_socket create_stream_socket_perms;
 
-# growisofs uses mkisofs
 corecmd_exec_bin(cdrecord_t) 
 
-# allow searching for cdrom-drive
 dev_list_all_dev_nodes(cdrecord_t) 
 dev_read_sysfs(cdrecord_t)
 
@@ -47,7 +45,6 @@ files_read_etc_files(cdrecord_t)
 term_use_controlling_term(cdrecord_t)
 term_list_ptys(cdrecord_t)
 
-# allow cdrecord to write the CD
 storage_raw_read_removable_device(cdrecord_t)
 storage_raw_write_removable_device(cdrecord_t)
 storage_write_scsi_generic(cdrecord_t)
@@ -56,11 +53,9 @@ logging_send_syslog_msg(cdrecord_t)
 
 miscfiles_read_localization(cdrecord_t)
 
-# write to the user domain tty.
 userdom_use_user_terminals(cdrecord_t)
 userdom_read_user_home_content_files(cdrecord_t)
 
-# Handle nfs home dirs
 tunable_policy(`cdrecord_read_content && use_nfs_home_dirs',`
 	fs_list_auto_mountpoints(cdrecord_t)
 	files_list_home(cdrecord_t)
@@ -73,7 +68,7 @@ tunable_policy(`cdrecord_read_content && use_nfs_home_dirs',`
 	fs_dontaudit_read_nfs_files(cdrecord_t)
 	fs_dontaudit_list_nfs(cdrecord_t)
 ')
-# Handle samba home dirs
+
 tunable_policy(`cdrecord_read_content && use_samba_home_dirs',`
 	fs_list_auto_mountpoints(cdrecord_t)
 	files_list_home(cdrecord_t)
@@ -86,7 +81,6 @@ tunable_policy(`cdrecord_read_content && use_samba_home_dirs',`
 	fs_dontaudit_list_cifs(cdrecord_t)
 ')
 
-# Handle removable media, /tmp, and /home
 tunable_policy(`cdrecord_read_content',`
 	userdom_list_user_tmp(cdrecord_t)
 	userdom_read_user_tmp_files(cdrecord_t)

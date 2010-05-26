@@ -1,5 +1,5 @@
 
-policy_module(modutils, 1.9.4)
+policy_module(modutils, 1.10.0)
 
 gen_require(`
 	bool secure_mode_insmod;
@@ -45,7 +45,6 @@ files_tmp_file(update_modules_tmp_t)
 
 can_exec(depmod_t, depmod_exec_t)
 
-# Read conf.modules.
 read_files_pattern(depmod_t, modules_conf_t, modules_conf_t)
 
 allow depmod_t modules_dep_t:file manage_file_perms;
@@ -115,7 +114,6 @@ allow insmod_t self:process { execmem sigchld sigkill sigstop signull signal };
 allow insmod_t self:udp_socket create_socket_perms;
 allow insmod_t self:rawip_socket create_socket_perms;
 
-# Read module config and dependency information
 list_dirs_pattern(insmod_t, modules_conf_t, modules_conf_t)
 read_files_pattern(insmod_t, modules_conf_t, modules_conf_t)
 list_dirs_pattern(insmod_t, modules_dep_t, modules_dep_t)
@@ -263,12 +261,10 @@ allow update_modules_t modules_dep_t:file rw_file_perms;
 can_exec(update_modules_t, insmod_exec_t)
 can_exec(update_modules_t, update_modules_exec_t)
 
-# manage module loading configuration
 manage_files_pattern(update_modules_t, modules_conf_t, modules_conf_t)
 files_kernel_modules_filetrans(update_modules_t, modules_conf_t, file)
 files_etc_filetrans(update_modules_t, modules_conf_t, file)
 
-# transition to depmod
 domain_auto_trans(update_modules_t, depmod_exec_t, depmod_t)
 allow update_modules_t depmod_t:fd use;
 allow depmod_t update_modules_t:fd use;

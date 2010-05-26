@@ -1,5 +1,5 @@
 
-policy_module(rsync, 1.9.1)
+policy_module(rsync, 1.10.0)
 
 ########################################
 #
@@ -105,6 +105,8 @@ fs_getattr_xattr_fs(rsync_t)
 files_read_etc_files(rsync_t)
 files_search_home(rsync_t)
 
+# Really?
+auth_can_read_shadow_passwords(rsync_t)
 auth_use_nsswitch(rsync_t)
 
 logging_send_syslog_msg(rsync_t)
@@ -141,7 +143,9 @@ tunable_policy(`rsync_export_all_ro',`
 
 tunable_policy(`rsync_client',`
 	corenet_tcp_connect_rsync_port(rsync_t)
+	corenet_sendrecv_rsync_client_packets(rsync_t)
 	corenet_tcp_connect_ssh_port(rsync_t)
+	corenet_sendrecv_ssh_client_packets(rsync_t)
 	manage_dirs_pattern(rsync_t, rsync_data_t, rsync_data_t)
 	manage_files_pattern(rsync_t, rsync_data_t, rsync_data_t)
 	manage_lnk_files_pattern(rsync_t, rsync_data_t, rsync_data_t)
@@ -152,5 +156,3 @@ optional_policy(`
 		ssh_exec(rsync_t) 
 	')
 ')
-
-auth_can_read_shadow_passwords(rsync_t)

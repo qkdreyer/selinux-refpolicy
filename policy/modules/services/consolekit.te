@@ -1,5 +1,5 @@
 
-policy_module(consolekit, 1.5.2)
+policy_module(consolekit, 1.6.0)
 
 ########################################
 #
@@ -140,7 +140,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	#reading .Xauthity
 	unconfined_ptrace(consolekit_t)
 	unconfined_stream_connect(consolekit_t)
 ')

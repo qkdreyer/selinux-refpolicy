@@ -1,5 +1,5 @@
 
-policy_module(dnsmasq, 1.8.2)
+policy_module(dnsmasq, 1.9.0)
 
 ########################################
 #
@@ -42,7 +42,6 @@ allow dnsmasq_t self:rawip_socket create_socket_perms;
 
 read_files_pattern(dnsmasq_t, dnsmasq_etc_t, dnsmasq_etc_t)
 
-# dhcp leases
 manage_files_pattern(dnsmasq_t, dnsmasq_lease_t, dnsmasq_lease_t)
 files_var_lib_filetrans(dnsmasq_t, dnsmasq_lease_t, file)
 
@@ -68,7 +67,7 @@ corenet_udp_sendrecv_all_ports(dnsmasq_t)
 corenet_tcp_bind_generic_node(dnsmasq_t)
 corenet_udp_bind_generic_node(dnsmasq_t)
 corenet_tcp_bind_dns_port(dnsmasq_t)
-corenet_udp_bind_all_ports(dnsmasq_t)
+# corenet_udp_bind_all_ports(dnsmasq_t)
 corenet_sendrecv_dns_server_packets(dnsmasq_t)
 corenet_sendrecv_dhcpd_server_packets(dnsmasq_t)
 

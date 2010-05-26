@@ -1,5 +1,5 @@
 
-policy_module(nx, 1.4.1)
+policy_module(nx, 1.5.0)
 
 ########################################
 #
@@ -11,8 +11,6 @@ type nx_server_exec_t;
 domain_type(nx_server_t)
 domain_entry_file(nx_server_t, nx_server_exec_t)
 domain_user_exemption_target(nx_server_t)
-# we need an extra role because nxserver is called from sshd
-# cjp: do we really need this?
 role nx_server_r types nx_server_t;
 allow system_r nx_server_r;
 
@@ -64,7 +62,6 @@ manage_files_pattern(nx_server_t, nx_server_home_ssh_t, nx_server_home_ssh_t)
 kernel_read_system_state(nx_server_t)
 kernel_read_kernel_sysctls(nx_server_t)
 
-# nxserver is a shell script --> call other programs
 corecmd_exec_shell(nx_server_t)
 corecmd_exec_bin(nx_server_t)
 
@@ -83,8 +80,6 @@ dev_read_urand(nx_server_t)
 
 files_read_etc_files(nx_server_t)
 files_read_etc_runtime_files(nx_server_t)
-# for reading the config files; maybe a separate type, 
-# but users need to be able to also read the config
 files_read_usr_files(nx_server_t)
 
 miscfiles_read_localization(nx_server_t)

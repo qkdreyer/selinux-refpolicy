@@ -1,5 +1,5 @@
 
-policy_module(gpsd, 1.0.2)
+policy_module(gpsd, 1.1.0)
 
 ########################################
 #
@@ -46,6 +46,7 @@ corenet_tcp_sendrecv_generic_node(gpsd_t)
 corenet_tcp_sendrecv_all_ports(gpsd_t)
 corenet_tcp_bind_all_nodes(gpsd_t)
 corenet_tcp_bind_gpsd_port(gpsd_t)
+corenet_sendrecv_gpsd_server_packets(gpsd_t)
 
 term_use_unallocated_ttys(gpsd_t)
 term_setattr_unallocated_ttys(gpsd_t)

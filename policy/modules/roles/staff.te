@@ -1,5 +1,5 @@
 
-policy_module(staff, 2.0.1)
+policy_module(staff, 2.1.0)
 
 ########################################
 #
@@ -23,40 +23,36 @@ kernel_read_ring_buffer(staff_t)
 kernel_getattr_core_if(staff_t)
 kernel_getattr_message_if(staff_t)
 kernel_read_software_raid_state(staff_t)
+kernel_read_fs_sysctls(staff_usertype)
 
 auth_domtrans_pam_console(staff_t)
 
+domain_read_all_domains_state(staff_usertype)
+domain_getattr_all_domains(staff_usertype)
+domain_obj_id_change_exemption(staff_t)
+
+files_read_kernel_modules(staff_usertype)
+
 init_dbus_chat_script(staff_t)
 
-seutil_read_module_store(staff_t)
-seutil_run_newrole(staff_t, staff_r)
 netutils_run_ping(staff_t, staff_r)
 netutils_signal_ping(staff_t)
 
-optional_policy(`
-	apache_role(staff_r, staff_t)
-')
+miscfiles_read_hwdata(staff_usertype)
+
+modutils_read_module_config(staff_usertype)
+modutils_read_module_deps(staff_usertype)
+
+seutil_read_module_store(staff_t)
+seutil_run_newrole(staff_t, staff_r)
+
+term_use_unallocated_ttys(staff_usertype)
 
 ifndef(`distro_redhat',`
-
 optional_policy(`
 	auth_role(staff_r, staff_t)
 ')
-')
 
-optional_policy(`
-	auditadm_role_change(staff_r)
-')
-
-optional_policy(`
-	kerneloops_manage_tmp_files(staff_t)
-')
-
-optional_policy(`
-	logadm_role_change(staff_r)
-')
-
-ifndef(`distro_redhat',`
 optional_policy(`
 	bluetooth_role(staff_r, staff_t)
 ')
@@ -67,10 +63,6 @@ optional_policy(`
 
 optional_policy(`
 	cron_role(staff_r, staff_t)
-')
-
-optional_policy(`
-	dbus_role_template(staff, staff_r, staff_t)
 ')
 
 optional_policy(`
@@ -129,17 +121,7 @@ optional_policy(`
 	oident_manage_user_content(staff_t)
 	oident_relabel_user_content(staff_t)
 ')
-')
 
-optional_policy(`
-	postgresql_role(staff_r, staff_t)
-')
-
-optional_policy(`
-	rtkit_scheduled(staff_t)
-')
-
-ifndef(`distro_redhat',`
 optional_policy(`
 	pyzor_role(staff_r, staff_t)
 ')
@@ -153,40 +135,9 @@ optional_policy(`
 ')
 
 optional_policy(`
-	screen_role_template(staff, staff_r, staff_t)
-')
-')
-
-optional_policy(`
-	secadm_role_change(staff_r)
-')
-
-ifndef(`distro_redhat',`
-optional_policy(`
 	spamassassin_role(staff_r, staff_t)
 ')
-')
 
-optional_policy(`
-	ssh_role_template(staff, staff_r, staff_t)
-')
-
-ifndef(`distro_redhat',`
-optional_policy(`
-	su_role_template(staff, staff_r, staff_t)
-')
-')
-
-optional_policy(`
-	sudo_role_template(staff, staff_r, staff_t)
-')
-
-optional_policy(`
-	sysadm_role_change(staff_r)
-	userdom_dontaudit_use_user_terminals(staff_t)
-')
-
-ifndef(`distro_redhat',`
 optional_policy(`
 	thunderbird_role(staff_r, staff_t)
 ')
@@ -200,10 +151,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	userhelper_role_template(staff, staff_r, staff_t)
-')
-
-optional_policy(`
 	vmware_role(staff_r, staff_t)
 ')
 
@@ -211,6 +158,62 @@ optional_policy(`
 	wireshark_role(staff_r, staff_t)
 ')
 
+optional_policy(`
+	dbus_role_template(staff, staff_r, staff_t)
+')
+
+optional_policy(`
+	screen_role_template(staff, staff_r, staff_t)
+')
+
+optional_policy(`
+	su_role_template(staff, staff_r, staff_t)
+')
+
+optional_policy(`
+	userhelper_role_template(staff, staff_r, staff_t)
+')
+')
+
+optional_policy(`
+	apache_role(staff_r, staff_t)
+')
+
+optional_policy(`
+	auditadm_role_change(staff_r)
+')
+
+optional_policy(`
+	kerneloops_manage_tmp_files(staff_t)
+')
+
+optional_policy(`
+	logadm_role_change(staff_r)
+')
+
+optional_policy(`
+	postgresql_role(staff_r, staff_t)
+')
+
+optional_policy(`
+	rtkit_scheduled(staff_t)
+')
+
+optional_policy(`
+	secadm_role_change(staff_r)
+')
+
+optional_policy(`
+	ssh_role_template(staff, staff_r, staff_t)
+')
+
+optional_policy(`
+	sudo_role_template(staff, staff_r, staff_t)
+')
+
+optional_policy(`
+	sysadm_role_change(staff_r)
+	userdom_dontaudit_use_user_terminals(staff_t)
 ')
 
 optional_policy(`
@@ -224,21 +227,6 @@ optional_policy(`
 optional_policy(`
 	xserver_role(staff_r, staff_t)
 ')
-
-domain_read_all_domains_state(staff_usertype)
-domain_getattr_all_domains(staff_usertype)
-domain_obj_id_change_exemption(staff_t)
-
-files_read_kernel_modules(staff_usertype)
-
-kernel_read_fs_sysctls(staff_usertype)
-
-modutils_read_module_config(staff_usertype)
-modutils_read_module_deps(staff_usertype)
-
-miscfiles_read_hwdata(staff_usertype)
-
-term_use_unallocated_ttys(staff_usertype)
 
 optional_policy(`
 	accountsd_dbus_chat(staff_t)

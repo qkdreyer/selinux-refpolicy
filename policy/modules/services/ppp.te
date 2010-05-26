@@ -1,5 +1,5 @@
 
-policy_module(ppp, 1.11.2)
+policy_module(ppp, 1.12.0)
 
 ########################################
 #
@@ -20,8 +20,6 @@ gen_tunable(pppd_can_insmod, false)
 ## </desc>
 gen_tunable(pppd_for_user, false)
 
-# pppd_t is the domain for the pppd program.
-# pppd_exec_t is the type of the pppd executable.
 type pppd_t;
 type pppd_exec_t;
 init_daemon_domain(pppd_t, pppd_exec_t)
@@ -29,18 +27,15 @@ init_daemon_domain(pppd_t, pppd_exec_t)
 type pppd_devpts_t;
 term_pty(pppd_devpts_t)
 
-# Define a separate type for /etc/ppp
 type pppd_etc_t;
 files_config_file(pppd_etc_t)
 
-# Define a separate type for writable files under /etc/ppp
 type pppd_etc_rw_t;
 files_type(pppd_etc_rw_t)
 
 type pppd_initrc_exec_t alias pppd_script_exec_t;
 init_script_file(pppd_initrc_exec_t)
 
-# pppd_secret_t is the type of the pap and chap password files
 type pppd_secret_t;
 files_type(pppd_secret_t)
 
@@ -92,7 +87,6 @@ allow pppd_t pppd_etc_t:file read_file_perms;
 allow pppd_t pppd_etc_t:lnk_file { getattr read };
 
 manage_files_pattern(pppd_t, pppd_etc_rw_t, pppd_etc_rw_t)
-# Automatically label newly created files under /etc/ppp with this type
 filetrans_pattern(pppd_t, pppd_etc_t, pppd_etc_rw_t, file)
 
 allow pppd_t pppd_lock_t:file manage_file_perms;
@@ -110,8 +104,6 @@ files_pid_filetrans(pppd_t, pppd_var_run_t, file)
 
 allow pppd_t pptp_t:process signal;
 
-# for SSP
-# Access secret files
 allow pppd_t pppd_secret_t:file read_file_perms;
 
 ppp_initrc_domtrans(pppd_t)
@@ -137,7 +129,6 @@ corenet_raw_sendrecv_generic_node(pppd_t)
 corenet_udp_sendrecv_generic_node(pppd_t)
 corenet_tcp_sendrecv_all_ports(pppd_t)
 corenet_udp_sendrecv_all_ports(pppd_t)
-# Access /dev/ppp.
 corenet_rw_ppp_dev(pppd_t)
 
 fs_getattr_all_fs(pppd_t)
@@ -240,7 +231,6 @@ allow pptp_t pppd_etc_rw_t:file read_file_perms;
 allow pptp_t pppd_etc_rw_t:lnk_file read_lnk_file_perms;
 can_exec(pptp_t, pppd_etc_rw_t)
 
-# Allow pptp to append to pppd log files
 allow pptp_t pppd_log_t:file append_file_perms;
 
 allow pptp_t pptp_log_t:file manage_file_perms;

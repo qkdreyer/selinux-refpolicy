@@ -1,5 +1,5 @@
 
-policy_module(dcc, 1.8.2)
+policy_module(dcc, 1.9.0)
 
 ########################################
 #
@@ -91,7 +91,6 @@ files_tmp_filetrans(cdcc_t, cdcc_tmp_t, { file dir })
 
 allow cdcc_t dcc_client_map_t:file rw_file_perms;
 
-# Access files in /var/dcc. The map file can be updated
 allow cdcc_t dcc_var_t:dir list_dir_perms;
 read_files_pattern(cdcc_t, dcc_var_t, dcc_var_t)
 read_lnk_files_pattern(cdcc_t, dcc_var_t, dcc_var_t)
@@ -128,7 +127,6 @@ manage_dirs_pattern(dcc_client_t, dcc_client_tmp_t, dcc_client_tmp_t)
 manage_files_pattern(dcc_client_t, dcc_client_tmp_t, dcc_client_tmp_t)
 files_tmp_filetrans(dcc_client_t, dcc_client_tmp_t, { file dir })
 
-# Access files in /var/dcc. The map file can be updated
 allow dcc_client_t dcc_var_t:dir list_dir_perms;
 manage_files_pattern(dcc_client_t, dcc_var_t, dcc_var_t)
 read_lnk_files_pattern(dcc_client_t, dcc_var_t, dcc_var_t)
@@ -214,16 +212,13 @@ allow dccd_t self:udp_socket create_socket_perms;
 
 allow dccd_t dcc_client_map_t:file rw_file_perms;
 
-# Access files in /var/dcc. The map file can be updated
 allow dccd_t dcc_var_t:dir list_dir_perms;
 read_files_pattern(dccd_t, dcc_var_t, dcc_var_t)
 read_lnk_files_pattern(dccd_t, dcc_var_t, dcc_var_t)
 
-# Runs the dbclean program
 domtrans_pattern(dccd_t, dcc_dbclean_exec_t, dcc_dbclean_t)
 corecmd_search_bin(dccd_t)
 
-# Updating dcc_db, flod, ...
 manage_dirs_pattern(dccd_t, dcc_var_t, dcc_var_t)
 manage_files_pattern(dccd_t, dcc_var_t, dcc_var_t)
 manage_lnk_files_pattern(dccd_t, dcc_var_t, dcc_var_t)
@@ -287,7 +282,6 @@ allow dccifd_t self:udp_socket create_socket_perms;
 
 allow dccifd_t dcc_client_map_t:file rw_file_perms;
 
-# Updating dcc_db, flod, ...
 manage_dirs_pattern(dccifd_t, dcc_var_t, dcc_var_t)
 manage_files_pattern(dccifd_t, dcc_var_t, dcc_var_t)
 manage_lnk_files_pattern(dccifd_t, dcc_var_t, dcc_var_t)

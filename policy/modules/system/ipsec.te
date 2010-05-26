@@ -1,5 +1,5 @@
 
-policy_module(ipsec, 1.10.2)
+policy_module(ipsec, 1.11.0)
 
 ########################################
 #
@@ -32,13 +32,10 @@ files_type(ipsec_key_file_t)
 type ipsec_log_t;
 logging_log_file(ipsec_log_t)
 
-# Default type for IPSEC SPD entries
 type ipsec_spd_t;
 
 type ipsec_tmp_t;
 files_tmp_file(ipsec_tmp_t)
-
-# type for runtime files, including pluto.ctl
 type ipsec_var_run_t;
 files_pid_file(ipsec_var_run_t)
 
@@ -363,6 +360,8 @@ corenet_tcp_bind_all_nodes(racoon_t)
 corenet_udp_bind_all_nodes(racoon_t)
 corenet_udp_bind_isakmp_port(racoon_t)
 corenet_udp_bind_ipsecnat_port(racoon_t)
+corenet_sendrecv_isakmp_server_packets(racoon_t)
+corenet_sendrecv_ipsecnat_server_packets(racoon_t)
 
 dev_read_urand(racoon_t)
 

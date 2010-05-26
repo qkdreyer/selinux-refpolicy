@@ -1,5 +1,5 @@
 
-policy_module(courier, 1.8.1)
+policy_module(courier, 1.9.0)
 
 ########################################
 #
@@ -119,7 +119,12 @@ files_search_var_lib(courier_tcpd_t)
 
 corecmd_search_bin(courier_tcpd_t)
 
+corenet_all_recvfrom_netlabel(courier_tcpd_t)
+corenet_all_recvfrom_unlabeled(courier_tcpd_t)
 corenet_tcp_bind_generic_node(courier_tcpd_t)
+corenet_tcp_sendrecv_generic_if(courier_tcpd_t)
+corenet_tcp_sendrecv_generic_node(courier_tcpd_t)
+corenet_tcp_sendrecv_generic_port(courier_tcpd_t)
 corenet_tcp_bind_pop_port(courier_tcpd_t)
 corenet_sendrecv_pop_server_packets(courier_tcpd_t)
 

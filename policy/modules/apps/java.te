@@ -1,5 +1,5 @@
 
-policy_module(java, 2.2.2)
+policy_module(java, 2.3.0)
 
 ########################################
 #
@@ -63,7 +63,6 @@ kernel_search_vm_sysctl(java_t)
 kernel_read_network_state(java_t)
 kernel_read_system_state(java_t)
 
-# Search bin directory under java for java executable
 corecmd_search_bin(java_t)
 
 corenet_all_recvfrom_unlabeled(java_t)
@@ -97,7 +96,6 @@ fs_dontaudit_rw_tmpfs_files(java_t)
 logging_send_syslog_msg(java_t)
 
 miscfiles_read_localization(java_t)
-# Read global fonts and font config
 miscfiles_read_fonts(java_t)
 
 sysnet_read_config(java_t)

@@ -1,5 +1,5 @@
 
-policy_module(hal, 1.12.2)
+policy_module(hal, 1.13.0)
 
 ########################################
 #
@@ -78,7 +78,6 @@ allow hald_t self:netlink_socket create_socket_perms;
 
 manage_files_pattern(hald_t, hald_cache_t, hald_cache_t)
 
-# log files for hald
 manage_files_pattern(hald_t, hald_log_t, hald_log_t)
 logging_log_filetrans(hald_t, hald_log_t, file)
 
@@ -86,7 +85,6 @@ manage_dirs_pattern(hald_t, hald_tmp_t, hald_tmp_t)
 manage_files_pattern(hald_t, hald_tmp_t, hald_tmp_t)
 files_tmp_filetrans(hald_t, hald_tmp_t, { file dir })
 
-# var/lib files for hald
 manage_dirs_pattern(hald_t, hald_var_lib_t, hald_var_lib_t)
 manage_files_pattern(hald_t, hald_var_lib_t, hald_var_lib_t)
 manage_sock_files_pattern(hald_t, hald_var_lib_t, hald_var_lib_t)
@@ -196,9 +194,11 @@ fstools_getattr_swap_files(hald_t)
 
 init_domtrans_script(hald_t)
 init_read_utmp(hald_t)
-#hal runs shutdown, probably need a shutdown domain
-init_rw_utmp(hald_t)
-init_telinit(hald_t)
+
+# shutdown domain is added see shutdown_domtrans below
+# hal runs shutdown, probably need a shutdown domain
+# init_rw_utmp(hald_t)
+# init_telinit(hald_t)
 
 libs_exec_ld_so(hald_t)
 libs_exec_lib_files(hald_t)
@@ -314,7 +314,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-        policykit_dbus_chat(hald_t)
+	policykit_dbus_chat(hald_t)
 	policykit_domtrans_auth(hald_t)
 	policykit_domtrans_resolve(hald_t)
 	policykit_read_lib(hald_t)

@@ -1,5 +1,5 @@
 
-policy_module(procmail, 1.11.1)
+policy_module(procmail, 1.12.0)
 
 ########################################
 #
@@ -35,14 +35,12 @@ allow procmail_t self:udp_socket create_socket_perms;
 
 can_exec(procmail_t, procmail_exec_t)
 
-# Execute user executables
 userdom_exec_user_bin_files(procmail_t)
 
 read_files_pattern(procmail_t, procmail_home_t, procmail_home_t)
 userdom_search_user_home_dirs(procmail_t)
 userdom_search_admin_dir(procmail_t)
- 
-# Write log to /var/log/procmail.log or /var/log/procmail/.*
+
 allow procmail_t procmail_log_t:dir setattr;
 create_files_pattern(procmail_t, procmail_log_t, procmail_log_t)
 append_files_pattern(procmail_t, procmail_log_t, procmail_log_t)
@@ -66,7 +64,6 @@ corenet_udp_sendrecv_all_ports(procmail_t)
 corenet_udp_bind_generic_node(procmail_t)
 corenet_tcp_connect_spamd_port(procmail_t)
 corenet_sendrecv_spamd_client_packets(procmail_t)
-corenet_sendrecv_comsat_client_packets(procmail_t)
 
 dev_read_urand(procmail_t)
 
@@ -82,7 +79,6 @@ corecmd_exec_shell(procmail_t)
 files_read_etc_files(procmail_t)
 files_read_etc_runtime_files(procmail_t)
 files_search_pids(procmail_t)
-# for spamassasin
 files_read_usr_files(procmail_t)
 
 logging_send_syslog_msg(procmail_t)
@@ -147,8 +143,9 @@ optional_policy(`
 ')
 
 optional_policy(`
-	corenet_udp_bind_generic_port(procmail_t)
-	corenet_dontaudit_udp_bind_all_ports(procmail_t)
+	# corenet_udp_bind_generic_port(procmail_t)
+	# corenet_sendrecv_generic_server_packets(procmail_t)
+	# corenet_dontaudit_udp_bind_all_ports(procmail_t)
 
 	spamassassin_domtrans_local_client(procmail_t)
 	spamassassin_domtrans_client(procmail_t)

@@ -1,5 +1,5 @@
 
-policy_module(snmp, 1.10.2)
+policy_module(snmp, 1.11.0)
 
 ########################################
 #
@@ -74,6 +74,8 @@ corenet_sendrecv_snmp_server_packets(snmpd_t)
 corenet_tcp_connect_agentx_port(snmpd_t)
 corenet_tcp_bind_agentx_port(snmpd_t)
 corenet_udp_bind_agentx_port(snmpd_t)
+corenet_sendrecv_agentx_client_packets(snmpd_t)
+corenet_sendrecv_agentx_server_packets(snmpd_t)
 
 dev_list_sysfs(snmpd_t)
 dev_read_sysfs(snmpd_t)

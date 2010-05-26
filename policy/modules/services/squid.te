@@ -1,5 +1,5 @@
 
-policy_module(squid, 1.9.1)
+policy_module(squid, 1.10.0)
 
 ########################################
 #
@@ -25,7 +25,6 @@ type squid_t;
 type squid_exec_t;
 init_daemon_domain(squid_t, squid_exec_t)
 
-# type for /var/cache/squid
 type squid_cache_t;
 files_type(squid_cache_t)
 
@@ -66,7 +65,6 @@ allow squid_t self:unix_stream_socket connectto;
 allow squid_t self:tcp_socket create_stream_socket_perms;
 allow squid_t self:udp_socket create_socket_perms;
 
-# Grant permissions to create, access, and delete cache files.
 manage_dirs_pattern(squid_t, squid_cache_t, squid_cache_t)
 manage_files_pattern(squid_t, squid_cache_t, squid_cache_t)
 manage_lnk_files_pattern(squid_t, squid_cache_t, squid_cache_t)
@@ -188,6 +186,7 @@ optional_policy(`
 	corenet_all_recvfrom_unlabeled(httpd_squid_script_t)
 	corenet_all_recvfrom_netlabel(httpd_squid_script_t)
 	corenet_tcp_connect_http_cache_port(httpd_squid_script_t)
+	corenet_sendrecv_http_cache_client_packets(httpd_squid_script_t)
 
 	sysnet_dns_name_resolve(httpd_squid_script_t)
 

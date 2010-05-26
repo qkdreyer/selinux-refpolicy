@@ -1,5 +1,5 @@
 
-policy_module(modemmanager, 1.0.1)
+policy_module(modemmanager, 1.1.0)
 
 ########################################
 #
@@ -16,6 +16,7 @@ typealias modemmanager_exec_t alias ModemManager_exec_t;
 #
 # ModemManager local policy
 #
+
 allow modemmanager_t self:capability { net_admin sys_admin sys_tty_config };
 allow modemmanager_t self:process { getsched signal };  
 allow modemmanager_t self:fifo_file rw_file_perms;

@@ -1,5 +1,5 @@
 
-policy_module(rpc, 1.11.1)
+policy_module(rpc, 1.12.0)
 
 ########################################
 #
@@ -33,8 +33,6 @@ files_tmp_file(gssd_tmp_t)
 type rpcd_var_run_t;
 files_pid_file(rpcd_var_run_t)
 
-# rpcd_t is the domain of rpc daemons.
-# rpc_exec_t is the type of rpc daemon programs.
 rpc_domain_template(rpcd)
 
 type rpcd_initrc_exec_t;
@@ -154,10 +152,8 @@ fs_rw_nfsd_fs(nfsd_t)
 storage_dontaudit_read_fixed_disk(nfsd_t)
 storage_raw_read_removable_device(nfsd_t)
 
-# Read access to public_content_t and public_content_rw_t
 miscfiles_read_public_files(nfsd_t)
 
-# Write access to public_content_t and public_content_rw_t
 tunable_policy(`allow_nfsd_anon_write',`
 	miscfiles_manage_public_files(nfsd_t)
 ')

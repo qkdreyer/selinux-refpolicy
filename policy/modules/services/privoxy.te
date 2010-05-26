@@ -1,5 +1,5 @@
 
-policy_module(privoxy, 1.9.1)
+policy_module(privoxy, 1.10.0)
 
 ########################################
 #
@@ -14,7 +14,7 @@ policy_module(privoxy, 1.9.1)
 ## </desc>
 gen_tunable(privoxy_connect_any, false)
 
-type privoxy_t; # web_client_domain
+type privoxy_t;
 type privoxy_exec_t;
 init_daemon_domain(privoxy_t, privoxy_exec_t)
 
@@ -67,6 +67,7 @@ corenet_sendrecv_http_cache_server_packets(privoxy_t)
 corenet_sendrecv_http_client_packets(privoxy_t)
 corenet_sendrecv_ftp_client_packets(privoxy_t)
 corenet_sendrecv_tor_client_packets(privoxy_t)
+corenet_sendrecv_pgpkeyserver_client_packets(privoxy_t)
 
 dev_read_sysfs(privoxy_t)
 

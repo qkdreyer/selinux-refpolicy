@@ -1,5 +1,5 @@
 
-policy_module(setrans, 1.6.1)
+policy_module(setrans, 1.7.0)
 
 gen_require(`
 	class context contains;
@@ -45,7 +45,6 @@ allow setrans_t self:context contains;
 can_exec(setrans_t, setrans_exec_t)
 corecmd_search_bin(setrans_t)
 
-# create unix domain socket in /var
 manage_files_pattern(setrans_t, setrans_var_run_t, setrans_var_run_t)
 manage_sock_files_pattern(setrans_t, setrans_var_run_t, setrans_var_run_t)
 files_pid_filetrans(setrans_t, setrans_var_run_t, file)

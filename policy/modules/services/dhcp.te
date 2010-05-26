@@ -1,5 +1,5 @@
 
-policy_module(dhcp, 1.8.1)
+policy_module(dhcp, 1.9.0)
 
 ########################################
 #
@@ -35,7 +35,6 @@ allow dhcpd_t self:unix_dgram_socket create_socket_perms;
 allow dhcpd_t self:unix_stream_socket create_socket_perms;
 allow dhcpd_t self:tcp_socket create_stream_socket_perms;
 allow dhcpd_t self:udp_socket create_socket_perms;
-# Allow dhcpd_t to use packet sockets
 allow dhcpd_t self:packet_socket create_socket_perms;
 allow dhcpd_t self:rawip_socket create_socket_perms;
 

@@ -1,5 +1,5 @@
 
-policy_module(samba, 1.12.1)
+policy_module(samba, 1.13.0)
 
 #################################
 #
@@ -198,6 +198,7 @@ corenet_udp_sendrecv_all_ports(samba_net_t)
 corenet_tcp_bind_generic_node(samba_net_t)
 corenet_udp_bind_generic_node(samba_net_t)
 corenet_tcp_connect_smbd_port(samba_net_t)
+corenet_sendrecv_smbd_client_packets(samba_net_t)
 
 dev_read_urand(samba_net_t)
 
@@ -313,6 +314,9 @@ corenet_udp_bind_generic_node(smbd_t)
 corenet_tcp_bind_smbd_port(smbd_t)
 corenet_tcp_connect_ipp_port(smbd_t)
 corenet_tcp_connect_smbd_port(smbd_t)
+corenet_sendrecv_smbd_server_packets(smbd_t)
+corenet_sendrecv_ipp_client_packets(smbd_t)
+corenet_sendrecv_smbd_client_packets(smbd_t)
 
 dev_read_sysfs(smbd_t)
 dev_read_urand(smbd_t)
@@ -342,9 +346,7 @@ files_read_etc_files(smbd_t)
 files_read_etc_runtime_files(smbd_t)
 files_read_usr_files(smbd_t)
 files_search_spool(smbd_t)
-# smbd seems to getattr all mountpoints
 files_dontaudit_getattr_all_dirs(smbd_t)
-# Allow samba to list mnt_t for potential mounted dirs
 files_list_mnt(smbd_t)
 
 init_rw_utmp(smbd_t)
@@ -389,7 +391,6 @@ tunable_policy(`samba_enable_home_dirs',`
 	userdom_manage_user_home_content(smbd_t)
 ')
 
-# Support Samba sharing of NFS mount points
 tunable_policy(`samba_share_nfs',`
 	fs_manage_nfs_dirs(smbd_t)
 	fs_manage_nfs_files(smbd_t)
@@ -398,7 +399,6 @@ tunable_policy(`samba_share_nfs',`
 	fs_manage_nfs_named_sockets(smbd_t)
 ')
 
-# Support Samba sharing of ntfs/fusefs mount points
 tunable_policy(`samba_share_fusefs',`
 	fs_manage_fusefs_dirs(smbd_t)
 	fs_manage_fusefs_files(smbd_t)
@@ -513,7 +513,7 @@ corenet_udp_sendrecv_all_ports(nmbd_t)
 corenet_udp_bind_generic_node(nmbd_t)
 corenet_udp_bind_nmbd_port(nmbd_t)
 corenet_sendrecv_nmbd_server_packets(nmbd_t)
-corenet_sendrecv_nmbd_client_packets(nmbd_t)
+corenet_sendrecv_smbd_client_packets(nmbd_t)
 corenet_tcp_connect_smbd_port(nmbd_t)
 
 dev_read_sysfs(nmbd_t)
@@ -618,6 +618,7 @@ corenet_udp_sendrecv_all_ports(smbmount_t)
 corenet_tcp_bind_generic_node(smbmount_t)
 corenet_udp_bind_generic_node(smbmount_t)
 corenet_tcp_connect_all_ports(smbmount_t)
+corenet_sendrecv_all_client_packets(smbmount_t)
 
 fs_getattr_cifs(smbmount_t)
 fs_mount_cifs(smbmount_t)
@@ -850,6 +851,8 @@ corenet_udp_bind_generic_node(winbind_t)
 corenet_tcp_connect_smbd_port(winbind_t)
 corenet_tcp_connect_epmap_port(winbind_t)
 corenet_tcp_connect_all_unreserved_ports(winbind_t)
+corenet_sendrecv_smbd_client_packets(winbind_t)
+corenet_sendrecv_epmap_client_packets(winbind_t)
 
 dev_read_sysfs(winbind_t)
 dev_read_urand(winbind_t)
@@ -936,6 +939,22 @@ optional_policy(`
 # samba_unconfined_script_t local policy
 #
 
+type samba_unconfined_script_t;
+type samba_unconfined_script_exec_t;
+domain_type(samba_unconfined_script_t)
+domain_entry_file(samba_unconfined_script_t, samba_unconfined_script_exec_t)
+corecmd_shell_entry_type(samba_unconfined_script_t)
+role system_r types samba_unconfined_script_t;
+
+allow smbd_t samba_unconfined_script_exec_t:dir search_dir_perms;
+allow smbd_t samba_unconfined_script_exec_t:file ioctl;
+
+tunable_policy(`samba_run_unconfined',`
+	domtrans_pattern(smbd_t, samba_unconfined_script_exec_t, samba_unconfined_script_t)
+',`
+	can_exec(smbd_t, samba_unconfined_script_exec_t)
+')
+
 optional_policy(`
 	type samba_unconfined_net_t;
 	domain_type(samba_unconfined_net_t)
@@ -949,22 +968,6 @@ optional_policy(`
 	userdom_use_user_terminals(samba_unconfined_net_t)
 ')
 
-	type samba_unconfined_script_t;
-	type samba_unconfined_script_exec_t;
-	domain_type(samba_unconfined_script_t)
-	domain_entry_file(samba_unconfined_script_t, samba_unconfined_script_exec_t)
-	corecmd_shell_entry_type(samba_unconfined_script_t)
-	role system_r types samba_unconfined_script_t;
-
-	allow smbd_t samba_unconfined_script_exec_t:dir search_dir_perms;
-	allow smbd_t samba_unconfined_script_exec_t:file ioctl;
-
 optional_policy(`
 	unconfined_domain(samba_unconfined_script_t)
-')
-
-	tunable_policy(`samba_run_unconfined',`
-		domtrans_pattern(smbd_t, samba_unconfined_script_exec_t, samba_unconfined_script_t)
-',`
-	can_exec(smbd_t, samba_unconfined_script_exec_t)
 ')

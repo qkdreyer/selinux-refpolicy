@@ -1,5 +1,5 @@
 
-policy_module(prelude, 1.1.2)
+policy_module(prelude, 1.2.0)
 
 ########################################
 #
@@ -91,6 +91,10 @@ corenet_tcp_bind_prelude_port(prelude_t)
 corenet_tcp_connect_prelude_port(prelude_t)
 corenet_tcp_connect_postgresql_port(prelude_t)
 corenet_tcp_connect_mysqld_port(prelude_t)
+corenet_sendrecv_prelude_client_packets(prelude_t)
+corenet_sendrecv_prelude_server_packets(prelude_t)
+corenet_sendrecv_mysqld_client_packets(prelude_t)
+corenet_sendrecv_postgresql_client_packets(prelude_t)
 
 dev_read_rand(prelude_t)
 dev_read_urand(prelude_t)
@@ -150,11 +154,11 @@ corenet_tcp_sendrecv_generic_if(prelude_audisp_t)
 corenet_tcp_sendrecv_generic_node(prelude_audisp_t)
 corenet_tcp_bind_generic_node(prelude_audisp_t)
 corenet_tcp_connect_prelude_port(prelude_audisp_t)
+corenet_sendrecv_prelude_client_packets(prelude_audisp_t)
 
 dev_read_rand(prelude_audisp_t)
 dev_read_urand(prelude_audisp_t)
 
-# Init script handling
 domain_use_interactive_fds(prelude_audisp_t)
 
 files_read_etc_files(prelude_audisp_t)
@@ -188,7 +192,9 @@ corenet_all_recvfrom_unlabeled(prelude_correlator_t)
 corenet_all_recvfrom_netlabel(prelude_correlator_t)
 corenet_tcp_sendrecv_generic_if(prelude_correlator_t)
 corenet_tcp_sendrecv_generic_node(prelude_correlator_t)
+corenet_tcp_sendrecv_all_ports(prelude_correlator_t)
 corenet_tcp_connect_prelude_port(prelude_correlator_t)
+corenet_sendrecv_prelude_client_packets(prelude_correlator_t)
 
 dev_read_rand(prelude_correlator_t)
 dev_read_urand(prelude_correlator_t)
@@ -241,8 +247,9 @@ corenet_tcp_sendrecv_generic_if(prelude_lml_t)
 corenet_tcp_sendrecv_generic_node(prelude_lml_t)
 corenet_tcp_recvfrom_netlabel(prelude_lml_t)
 corenet_tcp_recvfrom_unlabeled(prelude_lml_t)
-corenet_sendrecv_unlabeled_packets(prelude_lml_t)
+corenet_tcp_sendrecv_all_ports(prelude_lml_t)
 corenet_tcp_connect_prelude_port(prelude_lml_t)
+corenet_sendrecv_prelude_client_packets(prelude_lml_t)
 
 dev_read_rand(prelude_lml_t)
 dev_read_urand(prelude_lml_t)
@@ -290,7 +297,15 @@ optional_policy(`
 	kernel_read_sysctl(httpd_prewikka_script_t)
 	kernel_search_network_sysctl(httpd_prewikka_script_t)
 
+	corenet_all_recvfrom_unlabeled(httpd_prewikka_script_t)
+	corenet_all_recvfrom_netlabel(httpd_prewikka_script_t)
+	corenet_tcp_sendrecv_generic_if(httpd_prewikka_script_t)
+	corenet_tcp_sendrecv_generic_node(httpd_prewikka_script_t)
+	corenet_tcp_sendrecv_all_ports(httpd_prewikka_script_t)
+	corenet_tcp_connect_mysqld_port(httpd_prewikka_script_t)
+	corenet_sendrecv_mysqld_client_packets(httpd_prewikka_script_t)
 	corenet_tcp_connect_postgresql_port(httpd_prewikka_script_t)
+	corenet_sendrecv_postgresql_client_packets(httpd_prewikka_script_t)
 
 	auth_use_nsswitch(httpd_prewikka_script_t)
 

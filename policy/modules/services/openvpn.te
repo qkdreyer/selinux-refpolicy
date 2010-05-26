@@ -1,5 +1,5 @@
 
-policy_module(openvpn, 1.9.1)
+policy_module(openvpn, 1.10.0)
 
 ########################################
 #
@@ -31,11 +31,9 @@ files_tmp_file(openvpn_tmp_t)
 type openvpn_initrc_exec_t;
 init_script_file(openvpn_initrc_exec_t)
 
-# log files
 type openvpn_var_log_t;
 logging_log_file(openvpn_var_log_t)
 
-# pid files
 type openvpn_var_run_t;
 files_pid_file(openvpn_var_run_t)
 
@@ -47,7 +45,6 @@ files_pid_file(openvpn_var_run_t)
 allow openvpn_t self:capability { dac_read_search dac_override ipc_lock net_bind_service net_admin setgid setuid sys_chroot sys_tty_config };
 allow openvpn_t self:process { signal getsched };
 allow openvpn_t self:fifo_file rw_fifo_file_perms;
-
 allow openvpn_t self:unix_dgram_socket { create_socket_perms sendto };
 allow openvpn_t self:unix_stream_socket { create_stream_socket_perms connectto };
 allow openvpn_t self:udp_socket create_socket_perms;

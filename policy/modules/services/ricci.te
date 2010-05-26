@@ -1,5 +1,5 @@
 
-policy_module(ricci, 1.6.1)
+policy_module(ricci, 1.7.0)
 
 ########################################
 #
@@ -122,6 +122,8 @@ corenet_udp_bind_generic_node(ricci_t)
 corenet_tcp_bind_ricci_port(ricci_t)
 corenet_udp_bind_ricci_port(ricci_t)
 corenet_tcp_connect_http_port(ricci_t)
+corenet_sendrecv_ricci_server_packets(ricci_t)
+corenet_sendrecv_http_client_packets(ricci_t)
 
 dev_read_urand(ricci_t)
 
@@ -190,17 +192,21 @@ allow ricci_modcluster_t self:capability { net_bind_service sys_nice };
 allow ricci_modcluster_t self:process setsched;
 allow ricci_modcluster_t self:fifo_file rw_fifo_file_perms;
 
-corenet_tcp_bind_cluster_port(ricci_modclusterd_t)
-corenet_tcp_bind_reserved_port(ricci_modclusterd_t)
-
 kernel_read_kernel_sysctls(ricci_modcluster_t)
 kernel_read_system_state(ricci_modcluster_t)
 
 corecmd_exec_shell(ricci_modcluster_t)
 corecmd_exec_bin(ricci_modcluster_t)
 
-corenet_tcp_bind_cluster_port(ricci_modclusterd_t)
-corenet_tcp_bind_reserved_port(ricci_modclusterd_t)
+corenet_all_recvfrom_unlabeled(ricci_modcluster_t)
+corenet_all_recvfrom_netlabel(ricci_modcluster_t)
+corenet_tcp_sendrecv_generic_if(ricci_modcluster_t)
+corenet_tcp_sendrecv_generic_node(ricci_modcluster_t)
+corenet_tcp_sendrecv_all_ports(ricci_modcluster_t)
+corenet_tcp_bind_generic_node(ricci_modcluster_t)
+corenet_tcp_bind_cluster_port(ricci_modcluster_t)
+# corenet_tcp_bind_reserved_port(ricci_modcluster_t)
+corenet_sendrecv_cluster_server_packets(ricci_modcluster_t)
 
 domain_read_all_domains_state(ricci_modcluster_t)
 
@@ -252,7 +258,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	# XXX This has got to go.
 	unconfined_domain(ricci_modcluster_t)
 ')
 
@@ -286,11 +291,16 @@ kernel_read_system_state(ricci_modclusterd_t)
 
 corecmd_exec_bin(ricci_modclusterd_t)
 
+corenet_all_recvfrom_unlabeled(ricci_modclusterd_t)
+corenet_all_recvfrom_netlabel(ricci_modclusterd_t)
 corenet_tcp_sendrecv_generic_if(ricci_modclusterd_t)
+corenet_tcp_sendrecv_generic_node(ricci_modclusterd_t)
 corenet_tcp_sendrecv_all_ports(ricci_modclusterd_t)
 corenet_tcp_bind_generic_node(ricci_modclusterd_t)
 corenet_tcp_bind_ricci_modcluster_port(ricci_modclusterd_t)
 corenet_tcp_connect_ricci_modcluster_port(ricci_modclusterd_t)
+corenet_sendrecv_ricci_modcluster_client_packets(ricci_modclusterd_t)
+corenet_sendrecv_ricci_modcluster_server_packets(ricci_modclusterd_t)
 
 domain_read_all_domains_state(ricci_modclusterd_t)
 
@@ -383,6 +393,7 @@ optional_policy(`
 optional_policy(`
 	rpm_domtrans(ricci_modrpm_t)
 ')
+
 
 ########################################
 #

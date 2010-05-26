@@ -1,10 +1,17 @@
 
-policy_module(logging, 1.15.3)
+policy_module(logging, 1.16.0)
 
 ########################################
 #
 # Declarations
 #
+
+## <desc>
+## <p>
+## Allow syslog to connect to databases (postgres, mysql)
+## </p>
+## </desc>
+gen_tunable(syslog_can_connect_db, false)
 
 attribute logfile;
 
@@ -274,6 +281,7 @@ corenet_tcp_bind_audit_port(audisp_remote_t)
 corenet_tcp_bind_generic_node(audisp_remote_t)
 corenet_tcp_connect_audit_port(audisp_remote_t)
 corenet_sendrecv_audit_client_packets(audisp_remote_t)
+corenet_sendrecv_audit_server_packets(audisp_remote_t)
 
 files_read_etc_files(audisp_remote_t)
 
@@ -420,14 +428,12 @@ corenet_tcp_connect_rsh_port(syslogd_t)
 # Allow users to define additional syslog ports to connect to
 corenet_tcp_bind_syslogd_port(syslogd_t)
 corenet_tcp_connect_syslogd_port(syslogd_t)
-corenet_tcp_connect_postgresql_port(syslogd_t)
-corenet_tcp_connect_mysqld_port(syslogd_t)
 
 # syslog-ng can send or receive logs
 corenet_sendrecv_syslogd_client_packets(syslogd_t)
 corenet_sendrecv_syslogd_server_packets(syslogd_t)
-corenet_sendrecv_postgresql_client_packets(syslogd_t)
-corenet_sendrecv_mysqld_client_packets(syslogd_t)
+corenet_sendrecv_rsh_client_packets(syslogd_t)
+corenet_sendrecv_rsh_server_packets(syslogd_t)
 
 dev_filetrans(syslogd_t, devlog_t, sock_file)
 dev_read_sysfs(syslogd_t)
@@ -468,6 +474,20 @@ miscfiles_read_localization(syslogd_t)
 userdom_dontaudit_use_unpriv_user_fds(syslogd_t)
 userdom_dontaudit_search_user_home_dirs(syslogd_t)
 
+tunable_policy(`syslog_can_connect_db',`
+	corenet_tcp_connect_mysqld_port(syslogd_t)
+	corenet_sendrecv_mysqld_client_packets(syslogd_t)
+	corenet_tcp_connect_postgresql_port(syslogd_t)
+	corenet_sendrecv_postgresql_client_packets(syslogd_t)
+')
+
+optional_policy(`
+	tunable_policy(syslog_can_connect_db',`
+		mysql_stream_connect(syslogd_t)
+		postgresql_stream_connect(syslogd_t)
+	')
+')
+
 ifdef(`distro_gentoo',`
 	# default gentoo syslog-ng config appends kernel
 	# and high priority messages to /dev/tty12
@@ -492,14 +512,6 @@ optional_policy(`
 
 optional_policy(`
 	inn_manage_log(syslogd_t)
-')
-
-optional_policy(`
-	mysql_stream_connect(syslogd_t)
-')
-
-optional_policy(`
-	postgresql_stream_connect(syslogd_t)
 ')
 
 optional_policy(`

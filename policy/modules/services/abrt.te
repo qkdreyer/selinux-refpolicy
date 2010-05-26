@@ -1,5 +1,5 @@
 
-policy_module(abrt, 1.0.2)
+policy_module(abrt, 1.1.0)
 
 ########################################
 #
@@ -70,7 +70,6 @@ manage_lnk_files_pattern(abrt_t, abrt_var_cache_t, abrt_var_cache_t)
 files_var_filetrans(abrt_t, abrt_var_cache_t, { file dir })
 files_spool_filetrans(abrt_t, abrt_var_cache_t, dir)
 
-# abrt pid files
 manage_dirs_pattern(abrt_t, abrt_var_run_t, abrt_var_run_t)
 manage_files_pattern(abrt_t, abrt_var_run_t, abrt_var_run_t)
 manage_sock_files_pattern(abrt_t, abrt_var_run_t, abrt_var_run_t)

@@ -1,5 +1,5 @@
 
-policy_module(virt, 1.3.2)
+policy_module(virt, 1.4.0)
 
 ########################################
 #
@@ -247,6 +247,10 @@ corenet_tcp_bind_vnc_port(virtd_t)
 corenet_tcp_connect_vnc_port(virtd_t)
 corenet_tcp_connect_soundd_port(virtd_t)
 corenet_rw_tun_tap_dev(virtd_t)
+corenet_sendrecv_virt_server_packets(virtd_t)
+corenet_sendrecv_vnc_server_packets(virtd_t)
+corenet_sendrecv_vnc_client_packets(virtd_t)
+corenet_sendrecv_soundd_client_packets(virtd_t)
 
 dev_rw_sysfs(virtd_t)
 dev_read_rand(virtd_t)
@@ -254,7 +258,6 @@ dev_rw_kvm(virtd_t)
 dev_getattr_all_chr_files(virtd_t)
 dev_rw_mtrr(virtd_t)
 
-# Init script handling
 domain_use_interactive_fds(virtd_t)
 domain_read_all_domains_state(virtd_t)
 domain_read_all_domains_state(virtd_t)
@@ -470,6 +473,9 @@ corenet_tcp_bind_vnc_port(virt_domain)
 corenet_rw_tun_tap_dev(virt_domain)
 corenet_tcp_bind_virt_migration_port(virt_domain)
 corenet_tcp_connect_virt_migration_port(virt_domain)
+corenet_sendrecv_vnc_server_packets(virt_domain)
+corenet_sendrecv_virt_migration_client_packets(virt_domain)
+corenet_sendrecv_virt_migration_server_packets(virt_domain)
 
 dev_read_rand(virt_domain)
 dev_read_sound(virt_domain)

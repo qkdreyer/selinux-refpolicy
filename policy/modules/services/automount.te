@@ -1,5 +1,5 @@
 
-policy_module(automount, 1.12.1)
+policy_module(automount, 1.13.0)
 
 ########################################
 #
@@ -144,7 +144,6 @@ logging_search_logs(automount_t)
 miscfiles_read_localization(automount_t)
 miscfiles_read_certs(automount_t)
 
-# Run mount in the mount_t domain.
 mount_domtrans(automount_t)
 mount_domtrans_showmount(automount_t)
 mount_signal(automount_t)

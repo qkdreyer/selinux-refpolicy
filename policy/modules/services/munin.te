@@ -1,5 +1,5 @@
 
-policy_module(munin, 1.7.1)
+policy_module(munin, 1.8.0)
 
 ########################################
 #
@@ -66,7 +66,6 @@ manage_files_pattern(munin_t, munin_tmp_t, munin_tmp_t)
 manage_sock_files_pattern(munin_t, munin_tmp_t, munin_tmp_t)
 files_tmp_filetrans(munin_t, munin_tmp_t, { file dir sock_file })
 
-# Allow access to the munin databases
 manage_dirs_pattern(munin_t, munin_var_lib_t, munin_var_lib_t)
 manage_files_pattern(munin_t, munin_var_lib_t, munin_var_lib_t)
 manage_lnk_files_pattern(munin_t, munin_var_lib_t, munin_var_lib_t)
@@ -95,6 +94,9 @@ corenet_tcp_bind_generic_node(munin_t)
 corenet_tcp_bind_munin_port(munin_t)
 corenet_tcp_connect_munin_port(munin_t)
 corenet_tcp_connect_http_port(munin_t)
+corenet_sendrecv_munin_client_packets(munin_t)
+corenet_sendrecv_munin_server_packets(munin_t)
+corenet_sendrecv_http_client_packets(munin_t)
 
 dev_read_sysfs(munin_t)
 dev_read_urand(munin_t)
@@ -254,8 +256,16 @@ allow services_munin_plugin_t self:netlink_route_socket r_netlink_socket_perms;
 
 corecmd_exec_shell(services_munin_plugin_t)
 
+corenet_all_recvfrom_unlabeled(services_munin_plugin_t)
+corenet_all_recvfrom_netlabel(services_munin_plugin_t)
+corenet_tcp_sendrecv_generic_if(services_munin_plugin_t)
+corenet_tcp_sendrecv_generic_node(services_munin_plugin_t)
+corenet_tcp_sendrecv_all_ports(services_munin_plugin_t)
+corenet_tcp_bind_generic_node(services_munin_plugin_t)
 corenet_tcp_connect_all_ports(services_munin_plugin_t)
 corenet_tcp_connect_http_port(services_munin_plugin_t)
+corenet_sendrecv_all_client_packets(services_munin_plugin_t)
+corenet_sendrecv_http_client_packets(services_munin_plugin_t)
 
 dev_read_urand(services_munin_plugin_t)
 dev_read_rand(services_munin_plugin_t)
