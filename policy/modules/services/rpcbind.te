@@ -57,7 +57,7 @@ corenet_udp_bind_generic_node(rpcbind_t)
 corenet_tcp_bind_portmap_port(rpcbind_t)
 corenet_udp_bind_portmap_port(rpcbind_t)
 corenet_udp_bind_all_rpc_ports(rpcbind_t)
-corenet_sendrecv_portmap_server_packets(rpmcbind_t)
+corenet_sendrecv_portmap_server_packets(rpcbind_t)
 
 domain_use_interactive_fds(rpcbind_t)
 

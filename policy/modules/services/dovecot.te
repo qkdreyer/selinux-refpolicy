@@ -11,7 +11,7 @@ policy_module(dovecot, 1.12.0)
 ## Allow dovecot to connect to databases (postgres, mysql)
 ## </p>
 ## </desc>
-gen_tunable(exim_can_connect_db, false)
+gen_tunable(dovecot_can_connect_db, false)
 
 type dovecot_t;
 type dovecot_exec_t;
@@ -179,7 +179,7 @@ tunable_policy(`use_samba_home_dirs',`
 ')
 
 optional_policy(`
-	tunable_policy(dovecot_can_connect_db',`
+	tunable_policy(`dovecot_can_connect_db',`
 		mysql_stream_connect(dovecot_t)
 		postgresql_stream_connect(dovecot_t)
 	')

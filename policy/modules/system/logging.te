@@ -482,7 +482,7 @@ tunable_policy(`syslog_can_connect_db',`
 ')
 
 optional_policy(`
-	tunable_policy(syslog_can_connect_db',`
+	tunable_policy(`syslog_can_connect_db',`
 		mysql_stream_connect(syslogd_t)
 		postgresql_stream_connect(syslogd_t)
 	')

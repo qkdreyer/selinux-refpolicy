@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.7.19
-Release: 21.2%{?dist}
+Release: 21.3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,8 +439,12 @@ exit 0
 %endif
 
 %changelog
+* Wed May 26 2010 Dominick Grift <domg472@gmail.com> 3.7.19-21.3
+- Merge branch refpolicy (revision 2.20100524)
+- Fix: fix user_ping.
+
 * Tue May 25 2010 Dominick Grift <domg472@gmail.com> 3.7.19-21.2
-- Fix user_pihg
+- Fix user_ping
 - Merge branch refpolicy.
 
 * Tue May 25 2010 Dominick Grift <domg472@gmail.com> 3.7.19-21.1
