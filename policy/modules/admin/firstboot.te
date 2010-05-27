@@ -82,7 +82,6 @@ modutils_read_module_config(firstboot_t)
 modutils_read_module_deps(firstboot_t)
 
 userdom_use_user_terminals(firstboot_t)
-# Add/remove user home directories
 userdom_manage_user_home_content_dirs(firstboot_t)
 userdom_manage_user_home_content_files(firstboot_t)
 userdom_manage_user_home_content_symlinks(firstboot_t)

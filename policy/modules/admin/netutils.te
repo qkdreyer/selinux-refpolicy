@@ -36,7 +36,6 @@ role system_r types traceroute_t;
 # Netutils local policy
 #
 
-# Perform network administration operations and have raw access to the network.
 allow netutils_t self:capability { net_admin net_raw setuid setgid };
 dontaudit netutils_t self:capability sys_tty_config;
 allow netutils_t self:process { sigkill sigstop signull signal };
@@ -196,7 +195,6 @@ corenet_tcp_sendrecv_all_ports(traceroute_t)
 corenet_udp_sendrecv_all_ports(traceroute_t)
 corenet_udp_bind_generic_node(traceroute_t)
 corenet_tcp_bind_generic_node(traceroute_t)
-# traceroute needs this but not tracepath
 corenet_raw_bind_generic_node(traceroute_t)
 corenet_udp_bind_traceroute_port(traceroute_t)
 corenet_tcp_connect_all_ports(traceroute_t)
@@ -219,7 +217,6 @@ logging_send_syslog_msg(traceroute_t)
 
 miscfiles_read_localization(traceroute_t)
 
-#rules needed for nmap
 dev_read_rand(traceroute_t)
 dev_read_urand(traceroute_t)
 

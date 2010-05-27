@@ -60,5 +60,3 @@ optional_policy(`
 optional_policy(`
 	xserver_dontaudit_write_log(shutdown_t)
 ')
-
-

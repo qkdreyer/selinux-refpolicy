@@ -47,7 +47,6 @@ read_files_pattern(tripwire_t, tripwire_etc_t, tripwire_etc_t)
 read_lnk_files_pattern(tripwire_t, tripwire_etc_t, tripwire_etc_t)
 files_search_etc(tripwire_t)
 
-# Tripwire report files
 manage_dirs_pattern(tripwire_t, tripwire_report_t, tripwire_report_t)
 manage_files_pattern(tripwire_t, tripwire_report_t, tripwire_report_t)
 manage_lnk_files_pattern(tripwire_t, tripwire_report_t, tripwire_report_t)
@@ -137,8 +136,7 @@ userdom_use_user_terminals(twprint_t)
 
 domain_use_interactive_fds(siggen_t)
 
-# Need permission to read files
-files_read_all_files(siggen_t)
+auth_read_all_files_except_shadow(siggen_t)
 
 logging_send_syslog_msg(siggen_t)
 

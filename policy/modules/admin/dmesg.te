@@ -36,7 +36,6 @@ term_dontaudit_use_console(dmesg_t)
 domain_use_interactive_fds(dmesg_t)
 
 files_list_etc(dmesg_t)
-# for when /usr is not mounted:
 files_dontaudit_search_isid_type_dirs(dmesg_t)
 
 init_use_fds(dmesg_t)

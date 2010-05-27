@@ -1,4 +1,10 @@
-## <summary>GNAT Ada95 compiler</summary>
+## <summary>GNAT Ada95 compiler.</summary>
+##	<desc>
+##	<p>
+##	GNAT is a free, high-quality, complete compiler for Ada95,
+##	integrated into the GCC compiler system.
+##	</p>
+## </desc>
 
 ########################################
 ## <summary>
@@ -6,7 +12,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,8 +21,8 @@ interface(`ada_domtrans',`
 		type ada_t, ada_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, ada_exec_t, ada_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -26,7 +32,7 @@ interface(`ada_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">

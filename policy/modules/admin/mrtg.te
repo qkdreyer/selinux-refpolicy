@@ -86,9 +86,7 @@ files_search_locks(mrtg_t)
 files_search_var_lib(mrtg_t)
 files_search_spool(mrtg_t)
 files_getattr_tmp_dirs(mrtg_t)
-# for uptime
 files_read_etc_runtime_files(mrtg_t)
-# read config files
 files_read_etc_files(mrtg_t)
 
 fs_search_auto_mountpoints(mrtg_t)
@@ -99,7 +97,6 @@ term_dontaudit_use_console(mrtg_t)
 
 init_use_fds(mrtg_t)
 init_use_script_ptys(mrtg_t)
-# for uptime
 init_read_utmp(mrtg_t)
 init_dontaudit_write_utmp(mrtg_t)
 

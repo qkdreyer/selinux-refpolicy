@@ -67,6 +67,7 @@ corenet_tcp_connect_all_ports(vpnc_t)
 corenet_sendrecv_all_client_packets(vpnc_t)
 corenet_sendrecv_isakmp_server_packets(vpnc_t)
 corenet_sendrecv_generic_server_packets(vpnc_t)
+corenet_sendrecv_ipsecnat_server_packets(vpnc_t)
 corenet_rw_tun_tap_dev(vpnc_t)
 
 dev_read_rand(vpnc_t)

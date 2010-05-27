@@ -52,7 +52,6 @@ corecmd_exec_shell(logwatch_t)
 dev_read_urand(logwatch_t)
 dev_read_sysfs(logwatch_t)
 
-# Read /proc/PID directories for all domains.
 domain_read_all_domains_state(logwatch_t)
 
 files_list_var(logwatch_t)
@@ -64,7 +63,6 @@ files_search_spool(logwatch_t)
 files_search_mnt(logwatch_t)
 files_dontaudit_search_home(logwatch_t)
 files_dontaudit_search_boot(logwatch_t)
-# Execs df and if file system mounted with a context avc raised
 files_dontaudit_search_all_dirs(logwatch_t)
 
 fs_getattr_all_fs(logwatch_t)

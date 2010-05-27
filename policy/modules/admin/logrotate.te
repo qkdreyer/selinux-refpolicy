@@ -29,9 +29,7 @@ files_type(logrotate_var_lib_t)
 # Local policy
 #
 
-# Change ownership on log files.
 allow logrotate_t self:capability { chown dac_override dac_read_search kill fsetid fowner sys_resource sys_nice };
-# for mailx
 dontaudit logrotate_t self:capability { setuid setgid sys_ptrace };
 
 allow logrotate_t self:process ~{ ptrace setcurrent setexec setfscreate setrlimit execmem execstack execheap };
@@ -80,14 +78,12 @@ selinux_get_enforce_mode(logrotate_t)
 auth_manage_login_records(logrotate_t)
 auth_use_nsswitch(logrotate_t)
 
-# Run helper programs.
 corecmd_exec_bin(logrotate_t)
 corecmd_exec_shell(logrotate_t)
 
 domain_signal_all_domains(logrotate_t)
 domain_use_interactive_fds(logrotate_t)
 domain_getattr_all_entry_files(logrotate_t)
-# Read /proc/PID directories for all domains.
 domain_read_all_domains_state(logrotate_t)
 
 files_read_usr_files(logrotate_t)
@@ -96,18 +92,15 @@ files_read_etc_runtime_files(logrotate_t)
 files_read_all_pids(logrotate_t)
 files_search_all(logrotate_t)
 files_read_var_lib_files(logrotate_t)
-# Write to /var/spool/slrnpull - should be moved into its own type.
 files_manage_generic_spool(logrotate_t)
 files_manage_generic_spool_dirs(logrotate_t)
 files_getattr_generic_locks(logrotate_t)
 
-# cjp: why is this needed?
 init_domtrans_script(logrotate_t)
 
 logging_manage_all_logs(logrotate_t)
 logging_send_syslog_msg(logrotate_t)
 logging_send_audit_msgs(logrotate_t)
-# cjp: why is this needed?
 logging_exec_all_logs(logrotate_t)
 
 miscfiles_read_localization(logrotate_t)
@@ -126,13 +119,9 @@ mta_send_mail(logrotate_t)
 
 ifdef(`distro_debian',`
 	allow logrotate_t logrotate_tmp_t:file { relabelfrom relabelto };
-	# for savelog
 	can_exec(logrotate_t, logrotate_exec_t)
 
-	# for syslogd-listfiles
 	logging_read_syslog_config(logrotate_t)
-
-	# for "test -x /sbin/syslogd"
 	logging_check_exec_syslog(logrotate_t)
 ')
 

@@ -23,7 +23,6 @@ allow updfstab_t self:fifo_file rw_fifo_file_perms;
 kernel_use_fds(updfstab_t)
 kernel_read_kernel_sysctls(updfstab_t)
 kernel_dontaudit_write_kernel_sysctl(updfstab_t)
-# for /proc/partitions
 kernel_read_system_state(updfstab_t)
 # cjp: why is this required
 kernel_change_ring_buffer_level(updfstab_t)
@@ -61,7 +60,6 @@ files_manage_mnt_dirs(updfstab_t)
 files_manage_mnt_symlinks(updfstab_t)
 files_manage_etc_files(updfstab_t)
 files_dontaudit_search_home(updfstab_t)
-# for /etc/mtab
 files_read_etc_runtime_files(updfstab_t)
 
 init_use_fds(updfstab_t)

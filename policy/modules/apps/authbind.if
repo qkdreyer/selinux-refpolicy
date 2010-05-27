@@ -1,12 +1,25 @@
-## <summary>Tool for non-root processes to bind to reserved ports</summary>
+## <summary>Tool for non-root processes to bind to reserved ports.</summary>
+##	<desc>
+##	<p>
+##	The authbind software allows a program that would normally require
+##	superuser  privileges to access privileged network services to run as
+##	a non-privileged user. authbind allows the system administrator to permit
+##	specific users and groups access to bind to TCP and UDP ports below 1024.[2]
+##	Ports 0 - 1023 are normally privileged and reserved for programs that are
+##	run as the root  user. Allowing regular users limited access to privileged
+##	ports helps prevent possible privilege escalation and system compromise if
+##	the software happens to contain software bugs or is found to be vulnerable to
+##	unknown exploits.
+##	</p>
+## </desc>
 
 ########################################
 ## <summary>
-##	Use authbind to bind to a reserved port.
+##	Transition to authbind domain..
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -17,4 +30,5 @@ interface(`authbind_domtrans',`
 
 	domtrans_pattern($1, authbind_exec_t, authbind_t)
 	allow authbind_t $1:{ tcp_socket udp_socket } rw_socket_perms;
+	corecmd_search_bin($1)
 ')

@@ -83,7 +83,9 @@ sysnet_read_config(sxid_t)
 
 userdom_dontaudit_use_unpriv_user_fds(sxid_t)
 
-cron_system_entry(sxid_t, sxid_exec_t)
+optional_policy(`
+	cron_system_entry(sxid_t, sxid_exec_t)
+')
 
 optional_policy(`
 	mta_send_mail(sxid_t)

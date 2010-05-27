@@ -66,25 +66,25 @@ fs_list_noxattr_fs(sectoolm_t)
 
 selinux_validate_context(sectoolm_t)
 
-# tcp_wrappers test
 application_exec_all(sectoolm_t)
 
 auth_use_nsswitch(sectoolm_t)
-
-# tests related to network
-hostname_exec(sectoolm_t)
-
-# tests related to network
-iptables_domtrans(sectoolm_t)
 
 libs_exec_ld_so(sectoolm_t)
 
 logging_send_syslog_msg(sectoolm_t)
 
-# tests related to network
 sysnet_domtrans_ifconfig(sectoolm_t)
 
 userdom_manage_user_tmp_sockets(sectoolm_t)
+
+optional_policy(`
+	hostname_exec(sectoolm_t)
+')
+
+optional_policy(`
+	iptables_domtrans(sectoolm_t)
+')
 
 optional_policy(`
 	mount_exec(sectoolm_t)
@@ -94,8 +94,6 @@ optional_policy(`
 	policykit_dbus_chat(sectoolm_t)
 ')
 
-# suid test using
-# rpm -Vf option
 optional_policy(`
 	prelink_domtrans(sectoolm_t)
 ')

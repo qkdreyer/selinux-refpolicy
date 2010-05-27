@@ -248,7 +248,6 @@ optional_policy(`
 ########################################
 #
 # Clear tmp personal policy.
-# (Clean repositories)
 #
 
 allow clear_tmp_cron_system_t self:capability { fowner fsetid dac_override };

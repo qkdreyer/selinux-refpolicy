@@ -31,7 +31,6 @@ miscfiles_etc_filetrans_localization(tzdata_t)
 
 userdom_use_user_terminals(tzdata_t)
 
-# tzdata looks for /var/spool/postfix/etc/localtime.
 optional_policy(`
 	postfix_search_spool(tzdata_t)
 ')

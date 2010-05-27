@@ -1,4 +1,4 @@
-## <summary>List kernel modules of USB devices</summary>
+## <summary>List kernel modules of USB devices.</summary>
 
 ########################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -16,6 +16,7 @@ interface(`usbmodules_domtrans',`
 	')
 
 	domtrans_pattern($1, usbmodules_exec_t, usbmodules_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -26,7 +27,7 @@ interface(`usbmodules_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">

@@ -103,7 +103,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	# Commonly used from postinst scripts
 	rpm_read_pipes(consoletype_t)
 ')
 

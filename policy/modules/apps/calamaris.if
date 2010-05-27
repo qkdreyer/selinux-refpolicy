@@ -1,8 +1,16 @@
-## <summary>Squid log analysis</summary>
+## <summary>Calamaris Squid native log format (NLF) analyzer and report generator.</summary>
+## <desc>
+## <p>
+##	Calamaris parses the Squid Native Log and generates reports
+##	about Peak-usage, Request-Methods, Status-reports of incoming
+##	and outgoing requests, second and Top-level destinations,
+##	content-types and performance.
+##	</p>
+##	</desc>
 
 #######################################
 ## <summary>
-##	Allow domain to read calamaris www files.
+##	Read calamaris www files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -18,4 +26,5 @@ interface(`calamaris_read_www_files',`
 	allow $1 calamaris_www_t:dir list_dir_perms;
 	read_files_pattern($1, calamaris_www_t, calamaris_www_t)
 	read_lnk_files_pattern($1, calamaris_www_t, calamaris_www_t)
+	files_search_var($1)
 ')

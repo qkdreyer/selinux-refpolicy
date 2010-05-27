@@ -108,7 +108,6 @@ manage_dirs_pattern(rpm_t, rpm_var_cache_t, rpm_var_cache_t)
 manage_files_pattern(rpm_t, rpm_var_cache_t, rpm_var_cache_t)
 files_var_filetrans(rpm_t, rpm_var_cache_t, dir)
 
-# Access /var/lib/rpm files
 manage_files_pattern(rpm_t, rpm_var_lib_t, rpm_var_lib_t)
 files_var_lib_filetrans(rpm_t, rpm_var_lib_t, dir)
 
@@ -163,7 +162,6 @@ selinux_compute_relabel_context(rpm_t)
 selinux_compute_user_contexts(rpm_t)
 
 storage_raw_write_fixed_disk(rpm_t)
-# for installing kernel packages
 storage_raw_read_fixed_disk(rpm_t)
 
 term_list_ptys(rpm_t)
@@ -173,7 +171,6 @@ auth_manage_all_files_except_shadow(rpm_t)
 auth_dontaudit_read_shadow(rpm_t)
 auth_use_nsswitch(rpm_t)
 
-# transition to rpm script:
 rpm_domtrans_script(rpm_t)
 
 domain_read_all_domains_state(rpm_t)
@@ -199,7 +196,6 @@ libs_domtrans_ldconfig(rpm_t)
 
 logging_send_syslog_msg(rpm_t)
 
-# allow compiling and loading new policy
 seutil_manage_src_policy(rpm_t)
 seutil_manage_bin_policy(rpm_t)
 
@@ -288,7 +284,6 @@ fs_manage_nfs_files(rpm_script_t)
 fs_getattr_nfs(rpm_script_t)
 fs_search_all(rpm_script_t)
 fs_getattr_all_fs(rpm_script_t)
-# why is this not using mount?
 fs_getattr_xattr_fs(rpm_script_t)
 fs_mount_xattr_fs(rpm_script_t)
 fs_unmount_xattr_fs(rpm_script_t)

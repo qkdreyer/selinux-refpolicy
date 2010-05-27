@@ -1,4 +1,11 @@
-## <summary>run real-mode video BIOS code to alter hardware state</summary>
+## <summary>run real-mode video BIOS code to alter hardware state.</summary>
+## <desc>
+##	<p>
+##	vbetool uses lrmi in order to run code from the video BIOS. Currently, it is
+##	able to alter DPMS states, save/restore video card state and attempt to
+##	initialize the video card from scratch.
+##	</p>
+## </desc>
 
 ########################################
 ## <summary>
@@ -6,7 +13,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,8 +22,8 @@ interface(`vbetool_domtrans',`
 		type vbetool_t, vbetool_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, vbetool_exec_t, vbetool_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -26,7 +33,7 @@ interface(`vbetool_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">

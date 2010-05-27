@@ -1,15 +1,16 @@
 ## <summary>Tripwire file integrity checker.</summary>
 ## <desc>
 ##	<p>
-##	Tripwire file integrity checker.
-##	</p>
-##	<p>
-##	NOTE: Tripwire creates temp file in its current working directory.
-##	This policy does not allow write access to home directories, so
-##	users will need to either cd to a directory where they have write
-##	permission, or set the TEMPDIRECTORY variable in the tripwire config
-##	file.  The latter is preferable, as then the file_type_auto_trans
-##	rules will kick in and label the files as private to tripwire.
+##	When Tripwire is initially set up, it creates a database that records
+##	certain file information. Then when it is run, it compares a designated
+##	set of files and directories to the information stored in the database.
+##	Added or deleted files are flagged and reported, as are any files that
+##	have changed from their previously recorded state in the database. When
+##	Tripwire is run against system files on a regular basis, any file
+##	changes will be spotted when Tripwire is run. Tripwire will report the
+##	changes, which will give system administrators a clue that they need to
+##	enact damage control measures immediately if certain files have been
+##	altered.
 ##	</p>
 ## </desc>
 
@@ -19,7 +20,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -29,6 +30,7 @@ interface(`tripwire_domtrans_tripwire',`
 	')
 
 	domtrans_pattern($1, tripwire_exec_t, tripwire_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -38,7 +40,7 @@ interface(`tripwire_domtrans_tripwire',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -63,7 +65,7 @@ interface(`tripwire_run_tripwire',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -73,6 +75,7 @@ interface(`tripwire_domtrans_twadmin',`
 	')
 
 	domtrans_pattern($1, twadmin_exec_t, twadmin_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -82,7 +85,7 @@ interface(`tripwire_domtrans_twadmin',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -107,7 +110,7 @@ interface(`tripwire_run_twadmin',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -117,6 +120,7 @@ interface(`tripwire_domtrans_twprint',`
 	')
 
 	domtrans_pattern($1, twprint_exec_t, twprint_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -126,7 +130,7 @@ interface(`tripwire_domtrans_twprint',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -151,7 +155,7 @@ interface(`tripwire_run_twprint',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -161,6 +165,7 @@ interface(`tripwire_domtrans_siggen',`
 	')
 
 	domtrans_pattern($1, siggen_exec_t, siggen_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -170,7 +175,7 @@ interface(`tripwire_domtrans_siggen',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">

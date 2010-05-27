@@ -1,4 +1,10 @@
-## <summary>Time zone updater</summary>
+## <summary>Timezone data.</summary>
+## <desc>
+##	<p>
+##	Contains data files with rules for various timezones around
+##	the world.
+##	</p>
+## </desc>
 
 ########################################
 ## <summary>
@@ -16,6 +22,7 @@ interface(`tzdata_domtrans',`
 	')
 
 	domtrans_pattern($1, tzdata_exec_t, tzdata_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -24,7 +31,7 @@ interface(`tzdata_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">

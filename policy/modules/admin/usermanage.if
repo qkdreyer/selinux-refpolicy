@@ -1,4 +1,4 @@
-## <summary>Policy for managing user accounts.</summary>
+## <summary>Managing user accounts.</summary>
 
 ########################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,13 +15,13 @@ interface(`usermanage_domtrans_chfn',`
 		type chfn_t, chfn_exec_t;
 	')
 
+	domtrans_pattern($1, chfn_exec_t, chfn_t)
 	files_search_usr($1)
 	corecmd_search_bin($1)
-	domtrans_pattern($1, chfn_exec_t, chfn_t)
 
-ifdef(`hide_broken_symptoms', `
-	dontaudit chfn_t $1:socket_class_set { read write };
-')
+	ifdef(`hide_broken_symptoms', `
+		dontaudit chfn_t $1:socket_class_set { read write };
+	')
 ')
 
 ########################################
@@ -31,7 +31,7 @@ ifdef(`hide_broken_symptoms', `
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -55,7 +55,7 @@ interface(`usermanage_run_chfn',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -64,13 +64,13 @@ interface(`usermanage_domtrans_groupadd',`
 		type groupadd_t, groupadd_exec_t;
 	')
 
+	domtrans_pattern($1, groupadd_exec_t, groupadd_t)
 	files_search_usr($1)
 	corecmd_search_bin($1)
-	domtrans_pattern($1, groupadd_exec_t, groupadd_t)
 
-ifdef(`hide_broken_symptoms', `
-	dontaudit groupadd_t $1:socket_class_set { read write };
-')
+	ifdef(`hide_broken_symptoms', `
+		dontaudit groupadd_t $1:socket_class_set { read write };
+	')
 ')
 
 ########################################
@@ -80,7 +80,7 @@ ifdef(`hide_broken_symptoms', `
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -109,7 +109,7 @@ interface(`usermanage_run_groupadd',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -118,13 +118,13 @@ interface(`usermanage_domtrans_passwd',`
 		type passwd_t, passwd_exec_t;
 	')
 
+	domtrans_pattern($1, passwd_exec_t, passwd_t)
 	files_search_usr($1)
 	corecmd_search_bin($1)
-	domtrans_pattern($1, passwd_exec_t, passwd_t)
 
-ifdef(`hide_broken_symptoms', `
-	dontaudit passwd_t $1:socket_class_set { read write };
-')
+	ifdef(`hide_broken_symptoms',`
+		dontaudit passwd_t $1:socket_class_set { read write };
+	')
 ')
 
 ########################################
@@ -152,7 +152,7 @@ interface(`usermanage_kill_passwd',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -178,7 +178,7 @@ interface(`usermanage_run_passwd',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -187,9 +187,9 @@ interface(`usermanage_domtrans_admin_passwd',`
 		type sysadm_passwd_t, admin_passwd_exec_t;
 	')
 
+	domtrans_pattern($1, admin_passwd_exec_t, sysadm_passwd_t)
 	files_search_usr($1)
 	corecmd_search_bin($1)
-	domtrans_pattern($1, admin_passwd_exec_t, sysadm_passwd_t)
 ')
 
 ########################################
@@ -200,7 +200,7 @@ interface(`usermanage_domtrans_admin_passwd',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -229,7 +229,7 @@ interface(`usermanage_run_admin_passwd',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -247,7 +247,7 @@ interface(`usermanage_dontaudit_use_useradd_fds',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -256,12 +256,13 @@ interface(`usermanage_domtrans_useradd',`
 		type useradd_t, useradd_exec_t;
 	')
 
+	domtrans_pattern($1, useradd_exec_t, useradd_t)
 	files_search_usr($1)
 	corecmd_search_bin($1)
-	domtrans_pattern($1, useradd_exec_t, useradd_t)
-ifdef(`hide_broken_symptoms', `
-	dontaudit useradd_t $1:socket_class_set { read write };
-')
+
+	ifdef(`hide_broken_symptoms',`
+		dontaudit useradd_t $1:socket_class_set { read write };
+	')
 ')
 
 ########################################
@@ -271,7 +272,7 @@ ifdef(`hide_broken_symptoms', `
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -289,7 +290,6 @@ interface(`usermanage_run_useradd',`
 	usermanage_domtrans_useradd($1)
 	role $2 types useradd_t;
 
-	# Add/remove user home directories
 	userdom_manage_home_role($2, useradd_t)
 
 	seutil_run_semanage(useradd_t, $2)
@@ -305,7 +305,7 @@ interface(`usermanage_run_useradd',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -315,4 +315,5 @@ interface(`usermanage_read_crack_db',`
 	')
 
 	read_files_pattern($1, crack_db_t, crack_db_t)
+	files_search_etc($1)
 ')

@@ -1,4 +1,14 @@
-## <summary>Manage temporary directory sizes and file ages</summary>
+## <summary>Tmpwatch a utility for removing files based on when they were last accessed.</summary>
+## <desc>
+##	<p>
+##	The tmpwatch utility recursively searches through specified
+##	directories and removes files which have not been accessed in a
+##	specified period of time. Tmpwatch is normally used to clean up
+##	directories which are used for temporarily holding files (for example,
+##	/tmp). Tmpwatch ignores symlinks, will not switch filesystems and only
+##	removes empty directories and regular files.
+##	</p>
+## </desc>
 
 ########################################
 ## <summary>
@@ -6,7 +16,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -15,7 +25,7 @@ interface(`tmpreaper_exec',`
 		type tmpreaper_exec_t;
 	')
 
+	can_exec($1, tmpreaper_exec_t)
 	files_search_usr($1)
 	corecmd_search_bin($1)
-	can_exec($1, tmpreaper_exec_t)
 ')

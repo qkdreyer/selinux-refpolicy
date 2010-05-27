@@ -73,7 +73,6 @@ storage_raw_read_fixed_disk(kudzu_t)
 storage_raw_read_removable_device(kudzu_t)
 
 term_dontaudit_use_console(kudzu_t)
-# so it can write messages to the console
 term_use_unallocated_ttys(kudzu_t)
 
 corecmd_exec_all_executables(kudzu_t)
@@ -88,11 +87,8 @@ files_etc_filetrans_etc_runtime(kudzu_t, file)
 files_manage_mnt_files(kudzu_t)
 files_manage_mnt_symlinks(kudzu_t)
 files_dontaudit_search_src(kudzu_t)
-# Read /usr/share/hwdata/.* and /usr/share/terminfo/l/linux
 files_read_usr_files(kudzu_t)
-# for /etc/sysconfig/hwconf - probably need a new type
 files_rw_etc_runtime_files(kudzu_t)
-# for file systems that are not yet mounted
 files_dontaudit_search_isid_type_dirs(kudzu_t)
 
 init_use_fds(kudzu_t)
@@ -100,11 +96,8 @@ init_use_script_ptys(kudzu_t)
 init_stream_connect_script(kudzu_t)
 init_read_state(kudzu_t)
 init_ptrace(kudzu_t)
-# kudzu will telinit to make init re-read
-# the inittab after configuring serial consoles
 init_telinit(kudzu_t)
 
-# Read /usr/lib/gconv/gconv-modules.*
 libs_read_lib_files(kudzu_t)
 
 logging_send_syslog_msg(kudzu_t)

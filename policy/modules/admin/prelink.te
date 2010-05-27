@@ -61,8 +61,6 @@ manage_files_pattern(prelink_t, prelink_var_lib_t, prelink_var_lib_t)
 relabel_files_pattern(prelink_t, prelink_var_lib_t, prelink_var_lib_t)
 files_var_lib_filetrans(prelink_t, prelink_var_lib_t, { dir file })
 
-# prelink misc objects that are not system
-# libraries or entrypoints
 allow prelink_t prelink_object:file { manage_file_perms execute relabelto relabelfrom };
 
 kernel_read_system_state(prelink_t)

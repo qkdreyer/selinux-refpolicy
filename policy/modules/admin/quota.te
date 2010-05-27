@@ -25,7 +25,6 @@ allow quota_t self:capability { sys_admin dac_override };
 dontaudit quota_t self:capability sys_tty_config;
 allow quota_t self:process signal_perms;
 
-# for /quota.*
 allow quota_t quota_db_t:file { manage_file_perms quotaon };
 files_root_filetrans(quota_t, quota_db_t, file)
 files_boot_filetrans(quota_t, quota_db_t, file)
@@ -64,8 +63,7 @@ files_read_all_files(quota_t)
 files_read_all_symlinks(quota_t)
 files_getattr_all_pipes(quota_t)
 files_getattr_all_sockets(quota_t)
-files_getattr_all_file_type_fs(quota_t)
-# Read /etc/mtab.
+files_getattr_all_file_type_fs(quota_t).
 files_read_etc_runtime_files(quota_t)
 
 init_use_fds(quota_t)

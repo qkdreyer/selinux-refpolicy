@@ -1,5 +1,11 @@
-
-## <summary>policy for chrome</summary>
+## <summary>Google Chrome fast new browser.</summary>
+##	<desc>
+##	<p>
+##	Google Chrome is a browser that combines a minimal design
+##	with sophisticated technology to make the web faster,
+##	safer, and easier.
+##	</p>
+##	</desc>
 
 ########################################
 ## <summary>
@@ -17,11 +23,14 @@ interface(`chrome_domtrans_sandbox',`
 	')
 
 	domtrans_pattern($1,chrome_sandbox_exec_t,chrome_sandbox_t)
+	files_search_usr($1)
+
 	ps_process_pattern(chrome_sandbox_t, $1)
-ifdef(`hide_broken_symptoms', `
-	dontaudit chrome_sandbox_t $1:socket_class_set { read write };
-	fs_dontaudit_rw_anon_inodefs_files(chrome_sandbox_t)
-')
+
+	ifdef(`hide_broken_symptoms', `
+		dontaudit chrome_sandbox_t $1:socket_class_set { read write };
+		fs_dontaudit_rw_anon_inodefs_files(chrome_sandbox_t)
+	')
 ')
 
 
@@ -32,7 +41,7 @@ ifdef(`hide_broken_symptoms', `
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -67,8 +76,8 @@ interface(`chrome_run_sandbox',`
 #
 interface(`chrome_role',`
 	gen_require(`
-              type chrome_sandbox_t;
-              type chrome_sandbox_tmpfs_t;
+		type chrome_sandbox_t;
+		type chrome_sandbox_tmpfs_t;
 	')
 
 	role $1 types chrome_sandbox_t;
@@ -87,4 +96,3 @@ interface(`chrome_role',`
 
 	allow $2 chrome_sandbox_tmpfs_t:file rw_file_perms;
 ')
-

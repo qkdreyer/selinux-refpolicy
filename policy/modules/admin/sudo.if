@@ -57,7 +57,6 @@ template(`sudo_role_template',`
 	# Local Policy
 	#
 
-	# Use capabilities.
 	allow $1_sudo_t self:capability { fowner setuid setgid dac_override sys_nice sys_resource };
 	allow $1_sudo_t self:process ~{ ptrace setcurrent setexec setfscreate setrlimit execmem execstack execheap };
 	allow $1_sudo_t self:process { setexec setrlimit };
@@ -75,14 +74,12 @@ template(`sudo_role_template',`
 
 	allow $1_sudo_t $3:key search;
 
-	# Enter this derived domain from the user domain
 	domtrans_pattern($3, sudo_exec_t, $1_sudo_t)
 
 	ifdef(`hide_broken_symptoms', `
 		dontaudit $1_sudo_t $3:socket_class_set { read write };
 	')
 
-	# By default, revert to the calling domain when a shell is executed.
 	corecmd_shell_domtrans($1_sudo_t, $3)
 	corecmd_bin_domtrans($1_sudo_t, $3)
 	allow $3 $1_sudo_t:fd use;
@@ -108,7 +105,6 @@ template(`sudo_role_template',`
 	files_read_var_files($1_sudo_t)
 	files_read_usr_symlinks($1_sudo_t)
 	files_getattr_usr_files($1_sudo_t)
-	# for some PAM modules and for cwd
 	files_dontaudit_search_home($1_sudo_t)
 	files_list_tmp($1_sudo_t)
 
@@ -142,7 +138,6 @@ template(`sudo_role_template',`
 	userdom_manage_user_tmp_files($1_sudo_t)
 	userdom_manage_user_tmp_symlinks($1_sudo_t)
 	userdom_use_user_terminals($1_sudo_t)
-	# for some PAM modules and for cwd
 	userdom_search_user_home_content($1_sudo_t)
 	userdom_search_admin_dir($1_sudo_t)
 	userdom_manage_all_users_keys($1_sudo_t)
