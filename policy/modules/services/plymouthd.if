@@ -1,4 +1,4 @@
-## <summary>Plymouth graphical boot</summary>
+## <summary>Plymouth graphical boot.</summary>
 
 ########################################
 ## <summary>
@@ -40,7 +40,7 @@ interface(`plymouthd_exec', `
 
 ########################################
 ## <summary>
-##	Allow domain to Stream socket connect
+##	Stream socket connect
 ##	to Plymouth daemon.
 ## </summary>
 ## <param name="domain">
@@ -51,15 +51,16 @@ interface(`plymouthd_exec', `
 #
 interface(`plymouthd_stream_connect', `
 	gen_require(`
-		type plymouthd_t;
+		type plymouthd_t, plymouthd_spool_t;
 	')
 
-	allow $1 plymouthd_t:unix_stream_socket connectto;
+	stream_connect_pattern($1, plymouthd_spool_t, plymouthd_spool_t, plymouthd_t)
+	files_search_spool($1)
 ')
 
 ########################################
 ## <summary>
-##	Execute the plymoth command in the current domain
+##	Execute the plymouth command in the current domain.
 ## </summary>
 ## <param name="domain">
 ## <summary>

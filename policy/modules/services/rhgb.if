@@ -1,4 +1,4 @@
-## <summary> Red Hat Graphical Boot </summary>
+## <summary>Red Hat Graphical Boot.</summary>
 
 ########################################
 ## <summary>
@@ -22,7 +22,7 @@ interface(`rhgb_stub',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -76,7 +76,7 @@ interface(`rhgb_signal',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -95,7 +95,7 @@ interface(`rhgb_rw_stream_sockets',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -104,7 +104,7 @@ interface(`rhgb_dontaudit_rw_stream_sockets',`
 		type rhgb_t;
 	')
 
-	dontaudit $1 rhgb_t:unix_stream_socket { read write };
+	dontaudit $1 rhgb_t:unix_stream_socket rw_stream_socket_perms;
 ')
 
 ########################################
@@ -113,16 +113,17 @@ interface(`rhgb_dontaudit_rw_stream_sockets',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
 interface(`rhgb_stream_connect',`
 	gen_require(`
-		type rhgb_t;
+		type rhgb_t, rhgb_tmpfs_t;
 	')
 
-	allow $1 rhgb_t:unix_stream_socket connectto;
+	stream_connect_pattern($1, rhgb_tmpfs_t, rhgb_tmpfs_t, rhgb_t)
+	fs_search_tmpfs($1)
 ')
 
 ########################################
@@ -131,7 +132,7 @@ interface(`rhgb_stream_connect',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -167,7 +168,7 @@ interface(`rhgb_use_ptys',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -185,7 +186,7 @@ interface(`rhgb_dontaudit_use_ptys',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -195,4 +196,5 @@ interface(`rhgb_rw_tmpfs_files',`
 	')
 
 	allow $1 rhgb_tmpfs_t:file rw_file_perms;
+	fs_search_tmpfs($1)
 ')

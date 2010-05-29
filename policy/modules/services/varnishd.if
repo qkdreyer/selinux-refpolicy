@@ -1,4 +1,4 @@
-## <summary>Varnishd http accelerator daemon</summary>
+## <summary>Varnishd http accelerator daemon.</summary>
 
 #######################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition
 ##	</summary>
 ## </param>
 #
@@ -15,8 +15,8 @@ interface(`varnishd_domtrans',`
 		type varnishd_t, varnishd_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, varnishd_exec_t, varnishd_t)
+	corecmd_search_bin($1)
 ')
 
 #######################################
@@ -25,7 +25,7 @@ interface(`varnishd_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -35,6 +35,7 @@ interface(`varnishd_exec',`
 	')
 
 	can_exec($1, varnishd_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ######################################
@@ -52,8 +53,8 @@ interface(`varnishd_read_config',`
 		type varnishd_etc_t;
 	')
 
-	files_search_etc($1)
 	read_files_pattern($1, varnishd_etc_t, varnishd_etc_t)
+	files_search_etc($1)
 ')
 
 #####################################
@@ -71,8 +72,8 @@ interface(`varnishd_read_lib_files',`
         type varnishd_var_lib_t;
     ')
 
-    files_search_var_lib($1)
     read_files_pattern($1, varnishd_var_lib_t, varnishd_var_lib_t)
+    files_search_var_lib($1)
 ')
 
 #######################################
@@ -90,8 +91,8 @@ interface(`varnishd_read_log',`
 		type varnishlog_log_t;
 	')
 
-	logging_search_logs($1)
 	read_files_pattern($1, varnishlog_log_t, varnishlog_log_t)
+	logging_search_logs($1)
 ')
 
 ######################################
@@ -109,8 +110,8 @@ interface(`varnishd_append_log',`
 		type varnishlog_log_t;
 	')
 
-	logging_search_logs($1)
 	append_files_pattern($1, varnishlog_log_t, varnishlog_log_t)
+	logging_search_logs($1)
 ')
 
 #####################################
@@ -128,8 +129,8 @@ interface(`varnishd_manage_log',`
 		type varnishlog_log_t;
 	')
 
-	logging_search_logs($1)
 	manage_files_pattern($1, varnishlog_log_t, varnishlog_log_t)
+	logging_search_logs($1)
 ')
 
 ######################################

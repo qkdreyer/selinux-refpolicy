@@ -1,4 +1,4 @@
-## <summary>helper function for grantpt(3), changes ownship and permissions of pseudotty</summary>
+## <summary>helper function for grantpt(3), changes ownship and permissions of pseudotty.</summary>
 
 ########################################
 ## <summary>
@@ -16,6 +16,7 @@ interface(`ptchown_domtrans',`
 	')
 
 	domtrans_pattern($1, ptchown_exec_t, ptchown_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -25,7 +26,7 @@ interface(`ptchown_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -33,6 +34,7 @@ interface(`ptchown_domtrans',`
 ##	The role to be allowed the ptchown domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`ptchown_run',`
 	gen_require(`

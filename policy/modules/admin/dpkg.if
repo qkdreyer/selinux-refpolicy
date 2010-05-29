@@ -1,10 +1,4 @@
 ## <summary>dpkg a medium-level package manager for Debian.</summary>
-## <desc>
-##	<p>
-##	dpkg is a medium-level tool to install, build, remove and manage
-##	Debian GNU/Linux packages.
-##	</p>
-## </desc>
 
 ########################################
 ## <summary>
@@ -41,7 +35,6 @@ interface(`dpkg_domtrans_script',`
 		type dpkg_script_t;
 	')
 
-	# transition to dpkg script:
 	corecmd_shell_domtrans($1, dpkg_script_t)
 	allow dpkg_script_t $1:fd use;
 	allow dpkg_script_t $1:fifo_file rw_file_perms;

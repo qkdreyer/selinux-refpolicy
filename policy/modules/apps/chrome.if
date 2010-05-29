@@ -1,11 +1,4 @@
 ## <summary>Google Chrome fast new browser.</summary>
-##	<desc>
-##	<p>
-##	Google Chrome is a browser that combines a minimal design
-##	with sophisticated technology to make the web faster,
-##	safer, and easier.
-##	</p>
-##	</desc>
 
 ########################################
 ## <summary>
@@ -27,8 +20,8 @@ interface(`chrome_domtrans_sandbox',`
 
 	ps_process_pattern(chrome_sandbox_t, $1)
 
-	ifdef(`hide_broken_symptoms', `
-		dontaudit chrome_sandbox_t $1:socket_class_set { read write };
+	ifdef(`hide_broken_symptoms',`
+		dontaudit chrome_sandbox_t $1:socket_class_set rw_socket_perms;
 		fs_dontaudit_rw_anon_inodefs_files(chrome_sandbox_t)
 	')
 ')

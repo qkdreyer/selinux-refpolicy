@@ -29,15 +29,8 @@ allow ktalkd_t self:process signal_perms;
 allow ktalkd_t self:fifo_file rw_fifo_file_perms;
 allow ktalkd_t self:tcp_socket connected_stream_socket_perms;
 allow ktalkd_t self:udp_socket create_socket_perms;
-# for identd
-# cjp: this should probably only be inetd_child rules?
 allow ktalkd_t self:netlink_tcpdiag_socket r_netlink_socket_perms;
 allow ktalkd_t self:capability { setuid setgid };
-files_search_home(ktalkd_t)
-optional_policy(`
-	kerberos_use(ktalkd_t)
-')
-#end for identd
 
 allow ktalkd_t ktalkd_log_t:file manage_file_perms;
 logging_log_filetrans(ktalkd_t, ktalkd_log_t, file)
@@ -67,6 +60,7 @@ dev_read_urand(ktalkd_t)
 fs_getattr_xattr_fs(ktalkd_t)
 
 files_read_etc_files(ktalkd_t)
+files_search_home(ktalkd_t)
 
 term_search_ptys(ktalkd_t)
 term_use_all_terms(ktalkd_t)
@@ -78,3 +72,7 @@ init_read_utmp(ktalkd_t)
 logging_send_syslog_msg(ktalkd_t)
 
 miscfiles_read_localization(ktalkd_t)
+
+optional_policy(`
+	kerberos_use(ktalkd_t)
+')

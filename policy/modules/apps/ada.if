@@ -1,10 +1,4 @@
 ## <summary>GNAT Ada95 compiler.</summary>
-##	<desc>
-##	<p>
-##	GNAT is a free, high-quality, complete compiler for Ada95,
-##	integrated into the GCC compiler system.
-##	</p>
-## </desc>
 
 ########################################
 ## <summary>
@@ -40,6 +34,7 @@ interface(`ada_domtrans',`
 ##	The role to be allowed the ada domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`ada_run',`
 	gen_require(`

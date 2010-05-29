@@ -1,4 +1,4 @@
-## <summary>GNU terminal multiplexer</summary>
+## <summary>GNU terminal multiplexer.</summary>
 
 #######################################
 ## <summary>
@@ -48,7 +48,7 @@ template(`screen_role_template',`
 	allow $1_screen_t self:fifo_file rw_fifo_file_perms;
 	allow $1_screen_t self:tcp_socket create_stream_socket_perms;
 	allow $1_screen_t self:udp_socket create_socket_perms;
-	# Internal screen networking
+
 	allow $1_screen_t self:fd use;
 	allow $1_screen_t self:unix_stream_socket create_socket_perms;
 	allow $1_screen_t self:unix_dgram_socket create_socket_perms;
@@ -58,7 +58,6 @@ template(`screen_role_template',`
 	manage_fifo_files_pattern($1_screen_t, screen_tmp_t, screen_tmp_t)
 	files_tmp_filetrans($1_screen_t, screen_tmp_t, { file dir })
 
-	# Create fifo
 	manage_fifo_files_pattern($1_screen_t, screen_var_run_t, screen_var_run_t)
 	manage_dirs_pattern($1_screen_t, screen_var_run_t, screen_var_run_t)
 	files_pid_filetrans($1_screen_t, screen_var_run_t, dir)
@@ -73,13 +72,6 @@ template(`screen_role_template',`
 	allow $3 $1_screen_t:process { signal sigchld };
 	allow $1_screen_t $3:process signal;
 
-	manage_dirs_pattern($3, screen_home_t, screen_home_t)
-	manage_files_pattern($3, screen_home_t, screen_home_t)
-	manage_lnk_files_pattern($3, screen_home_t, screen_home_t)
-	relabel_dirs_pattern($3, screen_home_t, screen_home_t)
-	relabel_files_pattern($3, screen_home_t, screen_home_t)
-	relabel_lnk_files_pattern($3, screen_home_t, screen_home_t)
-
 	manage_dirs_pattern($3, screen_var_run_t, screen_var_run_t)
 	manage_files_pattern($3, screen_var_run_t, screen_var_run_t)
 	manage_lnk_files_pattern($3, screen_var_run_t, screen_var_run_t)
@@ -93,7 +85,6 @@ template(`screen_role_template',`
 	corecmd_read_bin_symlinks($1_screen_t)
 	corecmd_read_bin_pipes($1_screen_t)
 	corecmd_read_bin_sockets($1_screen_t)
-	# Revert to the user domain when a shell is executed.
 	corecmd_shell_domtrans($1_screen_t, $3)
 	corecmd_bin_domtrans($1_screen_t, $3)
 
@@ -106,10 +97,11 @@ template(`screen_role_template',`
 	corenet_tcp_sendrecv_all_ports($1_screen_t)
 	corenet_udp_sendrecv_all_ports($1_screen_t)
 	corenet_tcp_connect_all_ports($1_screen_t)
+	corenet_sendrecv_all_client_packets($1_screen_t)
 
 	dev_dontaudit_getattr_all_chr_files($1_screen_t)
 	dev_dontaudit_getattr_all_blk_files($1_screen_t)
-	# for SSP
+
 	dev_read_urand($1_screen_t)
 
 	domain_use_interactive_fds($1_screen_t)
@@ -128,7 +120,6 @@ template(`screen_role_template',`
 	auth_dontaudit_read_shadow($1_screen_t)
 	auth_dontaudit_exec_utempter($1_screen_t)
 
-	# Write to utmp.
 	init_rw_utmp($1_screen_t)
 
 	logging_send_syslog_msg($1_screen_t)

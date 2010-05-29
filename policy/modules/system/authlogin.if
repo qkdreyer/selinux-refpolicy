@@ -1,4 +1,4 @@
-## <summary>Common policy for authentication and user login.</summary>
+## <summary>Authentication and user login.</summary>
 
 ########################################
 ## <summary>
@@ -22,7 +22,6 @@ interface(`auth_role',`
 
 	role $1 types chkpwd_t;
 
-	# Transition from the user domain to this domain.
 	domtrans_pattern($2, chkpwd_exec_t, chkpwd_t)
 	corecmd_search_bin($2)
 
@@ -42,9 +41,7 @@ interface(`auth_role',`
 ## </param>
 #
 interface(`auth_use_pam',`
-	# for SSP/ProPolice
 	dev_read_urand($1)
-	# for encrypted homedir
 	dev_read_sysfs($1)
 
 	auth_domtrans_chk_passwd($1)
@@ -80,11 +77,11 @@ interface(`auth_use_pam',`
 
 ########################################
 ## <summary>
-##	Make the specified domain used for a login program.
+##	Domain used for a login program.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain type used for a login program domain.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -101,11 +98,9 @@ interface(`auth_login_pgm_domain',`
 	domain_obj_id_change_exemption($1)
 	role system_r types $1;
 
-	# Needed for pam_selinux_permit to cleanup properly
 	domain_read_all_domains_state($1)
 	domain_kill_all_domains($1)
 
-	# pam_keyring
 	allow $1 self:capability ipc_lock;
 	allow $1 self:process setkeycreate;
 	allow $1 self:key manage_key_perms;
@@ -119,10 +114,8 @@ interface(`auth_login_pgm_domain',`
 	manage_sock_files_pattern($1, auth_cache_t, auth_cache_t)
 	files_var_filetrans($1, auth_cache_t, dir)
 
-	# needed for afs - https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=253321
 	kernel_rw_afs_state($1)
 
-	# for fingerprint readers
 	dev_rw_input_dev($1)
 	dev_rw_generic_usb_dev($1)
 
@@ -200,7 +193,7 @@ interface(`auth_login_pgm_domain',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of process using the login program as entry point.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -214,7 +207,7 @@ interface(`auth_login_entry_type',`
 
 ########################################
 ## <summary>
-##	Execute a login_program in the target domain.
+##	Execute a login program in the target domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -223,7 +216,7 @@ interface(`auth_login_entry_type',`
 ## </param>
 ## <param name="target_domain">
 ##	<summary>
-##	The type of the login_program process.
+##	The type of the login program process.
 ##	</summary>
 ## </param>
 #
@@ -238,7 +231,7 @@ interface(`auth_domtrans_login_program',`
 
 ########################################
 ## <summary>
-##	Execute a login_program in the target domain,
+##	Execute a login program in the target domain,
 ##	with a range transition.
 ## </summary>
 ## <param name="domain">
@@ -275,7 +268,7 @@ interface(`auth_ranged_domtrans_login_program',`
 
 ########################################
 ## <summary>
-##	Search authentication cache
+##	Search authentication cache.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -293,7 +286,7 @@ interface(`auth_search_cache',`
 
 ########################################
 ## <summary>
-##	Read authentication cache
+##	Read authentication cache.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -311,7 +304,7 @@ interface(`auth_read_cache',`
 
 ########################################
 ## <summary>
-##	Read/Write authentication cache
+##	Read/Write authentication cache.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -329,7 +322,7 @@ interface(`auth_rw_cache',`
 
 ########################################
 ## <summary>
-##	Manage authentication cache
+##	Manage authentication cache.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -450,6 +443,7 @@ interface(`auth_domtrans_chkpwd',`
 ##	The role to allow the chkpwd domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`auth_run_chk_passwd',`
 	gen_require(`
@@ -495,6 +489,7 @@ interface(`auth_domtrans_upd_passwd',`
 ##	The role to allow the updpwd domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`auth_run_upd_passwd',`
 	gen_require(`
@@ -553,10 +548,6 @@ interface(`auth_dontaudit_getattr_shadow',`
 ##	</summary>
 ## </param>
 #
-# cjp: these next three interfaces are split 
-# since typeattribute does not work in conditionals
-# yet, otherwise they should be one interface.
-# 
 interface(`auth_read_shadow',`
 	auth_can_read_shadow_passwords($1)
 	auth_tunable_read_shadow($1)
@@ -566,15 +557,6 @@ interface(`auth_read_shadow',`
 ## <summary>
 ##	Pass shadow assertion for reading.
 ## </summary>
-## <desc>
-##	<p>
-##	Pass shadow assertion for reading.
-##	This should only be used with
-##	auth_tunable_read_shadow(), and
-##	only exists because typeattribute
-##	does not work in conditionals.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
@@ -593,14 +575,6 @@ interface(`auth_can_read_shadow_passwords',`
 ## <summary>
 ##	Read the shadow password file.
 ## </summary>
-## <desc>
-##	<p>
-##	Read the shadow password file.  This
-##	should only be used in a conditional;
-##	it does not pass the reading shadow
-##	assertion.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
@@ -787,7 +761,6 @@ interface(`auth_rw_faillog',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`auth_read_lastlog',`
 	gen_require(`
@@ -887,6 +860,7 @@ interface(`auth_signal_pam',`
 ##	The role to allow the PAM domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`auth_run_pam',`
 	gen_require(`
@@ -1319,6 +1293,7 @@ interface(`auth_domtrans_utempter',`
 ##	The role to allow the utempter domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`auth_run_utempter',`
 	gen_require(`
@@ -1516,8 +1491,6 @@ interface(`auth_manage_login_records',`
 	')
 
 	allow $1 wtmp_t:file manage_file_perms;
-	# This doesnt make sense use: auth_log_filetrans_login_records.
-	# logging_rw_generic_log_dirs($1)
 ')
 
 ########################################
@@ -1525,20 +1498,11 @@ interface(`auth_manage_login_records',`
 ##	Use nsswitch to look up user, password, group, or
 ##	host information.
 ## </summary>
-## <desc>
-##	<p>
-##	Allow the specified domain to look up user, password,
-##	group, or host information using the name service.
-##	The most common use of this interface is for services
-##	that do host name resolution (usually DNS resolution).
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <infoflow type="both" weight="10"/>
 #
 interface(`auth_use_nsswitch',`
 
@@ -1546,7 +1510,6 @@ interface(`auth_use_nsswitch',`
 
 	files_list_var_lib($1)
 
-	# read /etc/nsswitch.conf
 	files_read_etc_files($1)
 
 	miscfiles_read_certs($1)
@@ -1597,16 +1560,6 @@ interface(`auth_use_nsswitch',`
 ## <summary>
 ##	Unconfined access to the authlogin module.
 ## </summary>
-## <desc>
-##	<p>
-##	Unconfined access to the authlogin module.
-##	</p>
-##	<p>
-##	Currently, this only allows assertions for
-##	the shadow passwords file (/etc/shadow) to
-##	be passed.  No access is granted yet.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.

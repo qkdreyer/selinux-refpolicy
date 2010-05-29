@@ -33,8 +33,8 @@ interface(`openct_exec',`
 		type openct_t, openct_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	can_exec($1, openct_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -52,8 +52,8 @@ interface(`openct_domtrans',`
 		type openct_t, openct_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, openct_exec_t, openct_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -71,8 +71,8 @@ interface(`openct_read_pid_files',`
 		type openct_var_run_t;
 	')
 
-	files_search_pids($1)
 	read_files_pattern($1, openct_var_run_t, openct_var_run_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -90,6 +90,6 @@ interface(`openct_stream_connect',`
 		type openct_t, openct_var_run_t;
 	')
 
-	files_search_pids($1)
 	stream_connect_pattern($1, openct_var_run_t, openct_var_run_t, openct_t)
+	files_search_pids($1)
 ')

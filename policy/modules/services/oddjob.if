@@ -1,8 +1,4 @@
-## <summary>
-##	Oddjob provides a mechanism by which unprivileged applications can
-##	request that specified privileged operations be performed on their
-##	behalf.
-## </summary>
+## <summary>Oddjob.</summary>
 
 ########################################
 ## <summary>
@@ -20,6 +16,7 @@ interface(`oddjob_domtrans',`
 	')
 
 	domtrans_pattern($1, oddjob_exec_t, oddjob_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -84,6 +81,7 @@ interface(`oddjob_domtrans_mkhomedir',`
 	')
 
 	domtrans_pattern($1, oddjob_mkhomedir_exec_t, oddjob_mkhomedir_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -92,7 +90,7 @@ interface(`oddjob_domtrans_mkhomedir',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">

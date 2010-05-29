@@ -1,4 +1,4 @@
-## <summary>SASL authentication server</summary>
+## <summary>SASL authentication server.</summary>
 
 ########################################
 ## <summary>
@@ -15,8 +15,8 @@ interface(`sasl_connect',`
 		type saslauthd_t, saslauthd_var_run_t;
 	')
 
-	files_search_pids($1)
 	stream_connect_pattern($1, saslauthd_var_run_t, saslauthd_var_run_t, saslauthd_t)
+	files_search_pids($1)
 ')
 
 ########################################

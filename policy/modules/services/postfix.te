@@ -101,7 +101,6 @@ mta_mailserver_delivery(postfix_virtual_t)
 # Postfix master process local policy
 #
 
-# chown is to set the correct ownership of queue dirs
 allow postfix_master_t self:capability { chown dac_override kill setgid setuid net_bind_service sys_tty_config };
 allow postfix_master_t self:fifo_file rw_fifo_file_perms;
 allow postfix_master_t self:tcp_socket create_stream_socket_perms;
@@ -169,7 +168,6 @@ corenet_tcp_bind_smtp_beforequeue_port(postfix_master_t)
 corenet_sendrecv_smtp_server_packets(postfix_master_t)
 corenet_sendrecv_all_client_packets(postfix_master_t)
 
-# postfix does a "find" on startup for some reason - keep it quiet
 selinux_dontaudit_search_fs(postfix_master_t)
 
 corecmd_exec_shell(postfix_master_t)
@@ -186,7 +184,6 @@ term_dontaudit_search_ptys(postfix_master_t)
 miscfiles_read_man_pages(postfix_master_t)
 
 seutil_sigchld_newrole(postfix_master_t)
-# postfix does a "find" on startup for some reason - keep it quiet
 seutil_dontaudit_search_config(postfix_master_t)
 
 mta_rw_aliases(postfix_master_t)
@@ -194,7 +191,6 @@ mta_read_sendmail_bin(postfix_master_t)
 mta_getattr_spool(postfix_master_t)
 
 ifdef(`distro_redhat',`
-	# for newer main.cf that uses /etc/aliases
 	mta_manage_aliases(postfix_master_t)
 	mta_etc_filetrans_aliases(postfix_master_t)
 ')
@@ -280,7 +276,6 @@ allow postfix_local_t self:process { setsched setrlimit };
 
 stream_connect_pattern(postfix_local_t, postfix_public_t, postfix_public_t, postfix_master_t)
 
-# for .forward - maybe we need a new type for it?
 rw_sock_files_pattern(postfix_local_t, postfix_private_t, postfix_private_t)
 
 allow postfix_local_t postfix_spool_t:file rw_file_perms;
@@ -294,13 +289,11 @@ logging_dontaudit_search_logs(postfix_local_t)
 
 mta_read_aliases(postfix_local_t)
 mta_delete_spool(postfix_local_t)
-# For reading spamassasin
 mta_read_config(postfix_local_t)
-# Handle vacation script
 mta_send_mail(postfix_local_t)
 
 domtrans_pattern(postfix_local_t, postfix_postdrop_exec_t, postfix_postdrop_t)
-# Might be a leak, but I need a postfix expert to explain
+
 allow postfix_postdrop_t postfix_local_t:unix_stream_socket { read write };    
 
 userdom_read_user_home_content_files(postfix_local_t)
@@ -499,15 +492,12 @@ optional_policy(`
 allow postfix_postqueue_t self:tcp_socket create;
 allow postfix_postqueue_t self:udp_socket { create ioctl };
 
-# wants to write to /var/spool/postfix/public/showq
 stream_connect_pattern(postfix_postqueue_t, postfix_public_t, postfix_public_t, postfix_master_t)
 
-# write to /var/spool/postfix/public/qmgr
 write_fifo_files_pattern(postfix_postqueue_t, postfix_public_t, postfix_public_t)
 
 domtrans_pattern(postfix_postqueue_t, postfix_showq_exec_t, postfix_showq_t)
 
-# to write the mailq output, it really should not need read access!
 term_use_all_ptys(postfix_postqueue_t)
 term_use_all_ttys(postfix_postqueue_t)
 
@@ -532,7 +522,6 @@ stream_connect_pattern(postfix_qmgr_t, { postfix_private_t postfix_public_t }, {
 
 rw_fifo_files_pattern(postfix_qmgr_t, postfix_public_t, postfix_public_t)
 
-# for /var/spool/postfix/active
 manage_dirs_pattern(postfix_qmgr_t, postfix_spool_t, postfix_spool_t)
 manage_files_pattern(postfix_qmgr_t, postfix_spool_t, postfix_spool_t)
 manage_lnk_files_pattern(postfix_qmgr_t, postfix_spool_t, postfix_spool_t)
@@ -562,7 +551,6 @@ allow postfix_showq_t postfix_spool_maildrop_t:dir list_dir_perms;
 allow postfix_showq_t postfix_spool_maildrop_t:file read_file_perms;
 allow postfix_showq_t postfix_spool_maildrop_t:lnk_file { getattr read };
 
-# to write the mailq output, it really should not need read access!
 term_use_all_ptys(postfix_showq_t)
 term_use_all_ttys(postfix_showq_t)
 
@@ -595,7 +583,6 @@ optional_policy(`
 #
 allow postfix_smtpd_t postfix_master_t:tcp_socket rw_stream_socket_perms;
 
-# connect to master process
 stream_connect_pattern(postfix_smtpd_t, { postfix_private_t postfix_public_t }, { postfix_private_t postfix_public_t }, postfix_master_t)
 
 corenet_all_recvfrom_unlabeled(postfix_smtpd_t)
@@ -606,7 +593,6 @@ corenet_tcp_sendrecv_all_ports(postfix_smtpd_t)
 corenet_tcp_connect_postfix_policyd_port(postfix_smtpd_t)
 corenet_sendrecv_postfix_policyd_client_packets(postfix_smtpd_t)
 
-# for prng_exch
 allow postfix_smtpd_t postfix_spool_t:file rw_file_perms;
 allow postfix_smtpd_t postfix_prng_t:file rw_file_perms;
 
@@ -614,7 +600,6 @@ corecmd_exec_bin(postfix_smtpd_t)
 
 files_read_usr_files(postfix_smtpd_t)
 
-# postfix checks the size of all mounted file systems
 fs_getattr_all_dirs(postfix_smtpd_t)
 fs_getattr_all_fs(postfix_smtpd_t)
 
@@ -646,7 +631,6 @@ allow postfix_virtual_t self:process { setsched setrlimit };
 
 allow postfix_virtual_t postfix_spool_t:file rw_file_perms;
 
-# connect to master process
 stream_connect_pattern(postfix_virtual_t, { postfix_private_t postfix_public_t }, { postfix_private_t postfix_public_t }, postfix_master_t)
 
 corecmd_exec_shell(postfix_virtual_t)
@@ -657,7 +641,6 @@ files_read_usr_files(postfix_virtual_t)
 
 mta_read_aliases(postfix_virtual_t)
 mta_delete_spool(postfix_virtual_t)
-# For reading spamassasin
 mta_read_config(postfix_virtual_t)
 mta_manage_spool(postfix_virtual_t)
 

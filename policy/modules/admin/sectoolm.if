@@ -1,9 +1,2 @@
 ## <summary>sectool a security checking tool.</summary>
-## <desc>
-##	<p>
-##	sectool is a utility that can scan your system for various
-##	security flaws or misconfigurations. sectool contains a
-##	collection of individual tests, each of which is able to
-##	check for a specific vulnerability.
-##	</p>
-## </desc>
+

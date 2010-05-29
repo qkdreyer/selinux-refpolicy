@@ -52,7 +52,6 @@ userdom_user_home_content(mail_home_t)
 # System mail local policy
 #
 
-# newalias required this, not sure if it is needed in 'if' file
 allow system_mail_t self:capability { dac_override fowner };
 allow system_mail_t self:fifo_file rw_fifo_file_perms;
 
@@ -67,7 +66,6 @@ allow system_mail_t mta_exec_type:file entrypoint;
 can_exec(system_mail_t, mta_exec_type)
 
 files_read_all_tmp_files(system_mail_t)
-files_read_usr_files(system_mail_t)
 
 kernel_read_system_state(system_mail_t)
 kernel_read_network_state(system_mail_t)
@@ -97,7 +95,6 @@ optional_policy(`
 	apache_read_squirrelmail_data(system_mail_t)
 	apache_append_squirrelmail_data(system_mail_t)
 
-	# apache should set close-on-exec
 	apache_dontaudit_append_log(system_mail_t)
 	apache_dontaudit_rw_stream_sockets(system_mail_t)
 	apache_dontaudit_rw_tcp_sockets(system_mail_t)
@@ -158,7 +155,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	# newaliases runs as system_mail_t when the sendmail initscript does a restart
 	milter_getattr_all_sockets(system_mail_t)
 ')
 
@@ -180,7 +176,6 @@ optional_policy(`
 
 	domain_use_interactive_fds(system_mail_t)
 
-	# postfix needs this for newaliases
 	files_getattr_tmp_dirs(system_mail_t)
 
 	postfix_exec_master(system_mail_t)
@@ -188,7 +183,6 @@ optional_policy(`
 	postfix_search_spool(system_mail_t)
 
 	ifdef(`distro_redhat',`
-		# compatability for old default main.cf
 		postfix_config_filetrans(system_mail_t, etc_aliases_t, { dir file lnk_file sock_file fifo_file })
 	')
 ')
@@ -217,10 +211,7 @@ optional_policy(`
 	smartmon_read_tmp_files(system_mail_t)
 ')
 
-# should break this up among sections:
-
 optional_policy(`
-	# why is mail delivered to a directory of type arpwatch_data_t?
 	arpwatch_search_data(mailserver_delivery)
 	arpwatch_manage_tmp_files(mta_user_agent)
 
@@ -268,7 +259,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	# so MTA can access /var/lib/mailman/mail/wrapper
 	files_search_var_lib(mailserver_delivery)
 
 	mailman_domtrans(mailserver_delivery)
@@ -284,18 +274,12 @@ domain_use_interactive_fds(user_mail_t)
 
 userdom_use_user_terminals(user_mail_t)
 userdom_use_user_terminals(mta_user_agent)
-# Create dead.letter in user home directories.
 mta_manage_mail_home_files(user_mail_t)
 mta_user_home_filetrans_mail_home_files(user_mail_t)
-# for reading .forward - maybe we need a new type for it?
-# also for delivering mail to maildir
 mta_manage_mail_home(mailserver_delivery)
 mta_user_home_filetrans_mail_home(mailserver_delivery)
-# Read user temporary files.
 userdom_read_user_tmp_files(user_mail_t)
 userdom_dontaudit_append_user_tmp_files(user_mail_t)
-# cjp: this should probably be read all user tmp
-# files in an appropriate place for mta_user_agent
 userdom_read_user_tmp_files(mta_user_agent)
 
 tunable_policy(`use_samba_home_dirs',`
@@ -306,8 +290,6 @@ tunable_policy(`use_samba_home_dirs',`
 optional_policy(`
 	allow user_mail_t self:capability dac_override;
 
-	# Read user temporary files.
-	# postfix seems to need write access if the file handle is opened read/write
 	userdom_rw_user_tmp_files(user_mail_t)
 
 	postfix_read_config(user_mail_t)

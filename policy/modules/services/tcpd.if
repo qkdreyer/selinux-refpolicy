@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -16,6 +16,7 @@ interface(`tcpd_domtrans',`
 	')
 
 	domtrans_pattern($1, tcpd_exec_t, tcpd_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -41,5 +42,7 @@ interface(`tcpd_wrapped_domain',`
 	')
 
 	domtrans_pattern(tcpd_t, $2, $1)
+	corecmd_search_bin($1)	
+
 	role system_r types $1;
 ')

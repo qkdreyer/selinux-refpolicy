@@ -20,17 +20,6 @@ interface(`mta_stub',`
 ## <summary>
 ##	Basic mail transfer agent domain template.
 ## </summary>
-## <desc>
-##	<p>
-##	This template creates a derived domain which is
-##	a email transfer agent, which sends mail on
-##	behalf of the user.
-##	</p>
-##	<p>
-##	This is the basic types and rules, common
-##	to the system agent and user agents.
-##	</p>
-## </desc>
 ## <param name="domain_prefix">
 ##	<summary>
 ##	The prefix of the domain (e.g., user
@@ -65,7 +54,6 @@ template(`mta_base_mail_template',`
 	allow $1_mail_t self:process { signal_perms setrlimit };
 	allow $1_mail_t self:tcp_socket create_socket_perms;
 
-	# re-exec itself
 	can_exec($1_mail_t, sendmail_exec_t)
 	allow $1_mail_t sendmail_exec_t:lnk_file read_lnk_file_perms;
 
@@ -85,7 +73,6 @@ template(`mta_base_mail_template',`
 
 	files_read_etc_files($1_mail_t)
 	files_search_spool($1_mail_t)
-	# It wants to check for nscd
 	files_dontaudit_search_pids($1_mail_t)
 
 	auth_use_nsswitch($1_mail_t)
@@ -125,16 +112,13 @@ template(`mta_base_mail_template',`
 
 		allow $1_mail_t etc_mail_t:dir search_dir_perms;
 
-		# Write to /var/spool/mail and /var/spool/mqueue.
 		manage_files_pattern($1_mail_t, mail_spool_t, mail_spool_t)
 		manage_files_pattern($1_mail_t, mqueue_spool_t, mqueue_spool_t)
 
-		# Check available space.
 		fs_getattr_xattr_fs($1_mail_t)
 
 		files_read_etc_runtime_files($1_mail_t)
 
-		# Write to /var/log/sendmail.st
 		sendmail_manage_log($1_mail_t)
 		sendmail_create_log($1_mail_t)
 	')
@@ -158,6 +142,7 @@ template(`mta_base_mail_template',`
 ##	User domain for the role
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`mta_role',`
 	gen_require(`
@@ -167,7 +152,6 @@ interface(`mta_role',`
 
 	role $1 types { user_mail_t mta_user_agent };
 
-	# Transition from the user domain to the derived domain.
 	domtrans_pattern($2, sendmail_exec_t, user_mail_t)
 	allow $2 sendmail_exec_t:lnk_file { getattr read };
 
@@ -232,7 +216,7 @@ interface(`mta_agent_executable',`
 ## </summary>
 ## <param name="domain">
 ##  <summary>
-##  The type of the process performing this action.
+##  Domain to not audit.
 ##  </summary>
 ## </param>
 #
@@ -268,20 +252,6 @@ interface(`mta_system_content',`
 ##	Modified mailserver interface for
 ##	sendmail daemon use.
 ## </summary>
-## <desc>
-##	<p>
-##	A modified MTA mail server interface for
-##	the sendmail program.  It's design does
-##	not fit well with policy, and using the
-##	regular interface causes a type_transition
-##	conflict if direct running of init scripts
-##	is enabled.
-##	</p>
-##	<p>
-##	This interface should most likely only be used
-##	by the sendmail policy.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	The type to be used for the mail server.
@@ -305,7 +275,7 @@ interface(`mta_sendmail_mailserver',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Mail server domain type used for sending mail.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -324,7 +294,7 @@ interface(`mta_mailserver_sender',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Mail server domain type used for delivering mail.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -345,7 +315,7 @@ interface(`mta_mailserver_delivery',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Mail server domain type used for sending local mail.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -357,7 +327,6 @@ interface(`mta_mailserver_user_agent',`
 	typeattribute $1 mta_user_agent;
 
 	optional_policy(`
-		# apache should set close-on-exec
 		apache_dontaudit_rw_stream_sockets($1)
 		apache_dontaudit_rw_sys_script_stream_sockets($1)
 		apache_append_log($1)
@@ -389,7 +358,7 @@ interface(`mta_send_mail',`
 	allow mta_user_agent $1:process sigchld;
 	allow mta_user_agent $1:fifo_file rw_fifo_file_perms;
 
-	ifdef(`hide_broken_symptoms', `
+	ifdef(`hide_broken_symptoms',`
 		dontaudit system_mail_t $1:socket_class_set { read write };
 	')
 ')
@@ -400,10 +369,9 @@ interface(`mta_send_mail',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-#
 #
 interface(`mta_signal',`
 	gen_require(`
@@ -417,19 +385,9 @@ interface(`mta_signal',`
 ## <summary>
 ##	Execute send mail in a specified domain.
 ## </summary>
-## <desc>
-##	<p>
-##	Execute send mail in a specified domain.
-##	</p>
-##	<p>
-##	No interprocess communication (signals, pipes,
-##	etc.) is provided by this interface since
-##	the domains are not owned by this module.
-##	</p>
-## </desc>
 ## <param name="source_domain">
 ##	<summary>
-##	Domain to transition from.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="target_domain">
@@ -443,9 +401,10 @@ interface(`mta_sendmail_domtrans',`
 		type sendmail_exec_t;
 	')
 
+
+	domain_auto_trans($1, sendmail_exec_t, $2)
 	files_search_usr($1)
 	corecmd_read_bin_symlinks($1)
-	domain_auto_trans($1, sendmail_exec_t, $2)
 ')
 
 ########################################
@@ -457,7 +416,6 @@ interface(`mta_sendmail_domtrans',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-#
 #
 interface(`mta_signal_system_mail',`
 	gen_require(`
@@ -483,6 +441,7 @@ interface(`mta_sendmail_exec',`
 	')
 
 	can_exec($1, sendmail_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -494,17 +453,16 @@ interface(`mta_sendmail_exec',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`mta_read_config',`
 	gen_require(`
 		type etc_mail_t;
 	')
 
-	files_search_etc($1)
 	allow $1 etc_mail_t:dir list_dir_perms;
 	read_files_pattern($1, etc_mail_t, etc_mail_t)
 	read_lnk_files_pattern($1, etc_mail_t, etc_mail_t)
+	files_search_etc($1)
 ')
 
 ########################################
@@ -516,7 +474,6 @@ interface(`mta_read_config',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`mta_write_config',`
 	gen_require(`
@@ -524,7 +481,8 @@ interface(`mta_write_config',`
 	')
 
 	manage_files_pattern($1, etc_mail_t, etc_mail_t)
-	allow $1 etc_mail_t:file setattr;
+	allow $1 etc_mail_t:file setattr_file_perms;
+	files_search_etc($1)
 ')
 
 ########################################
@@ -542,8 +500,8 @@ interface(`mta_read_aliases',`
 		type etc_aliases_t;
 	')
 
-	files_search_etc($1)
 	allow $1 etc_aliases_t:file read_file_perms;
+	files_search_etc($1)
 ')
 
 ########################################
@@ -561,9 +519,9 @@ interface(`mta_manage_aliases',`
 		type etc_aliases_t;
 	')
 
-	files_search_etc($1)
 	manage_files_pattern($1, etc_aliases_t, etc_aliases_t)
 	manage_lnk_files_pattern($1, etc_aliases_t, etc_aliases_t)
+	files_search_etc($1)
 ')
 
 ########################################
@@ -583,12 +541,12 @@ interface(`mta_manage_mail_home',`
 		type mail_home_t;
 	')
 
-	userdom_search_user_home_dirs($1)
 	manage_dirs_pattern($1, mail_home_t, mail_home_t)
 	manage_files_pattern($1, mail_home_t, mail_home_t)
 	manage_lnk_files_pattern($1, mail_home_t, mail_home_t)
 	manage_sock_files_pattern($1, mail_home_t, mail_home_t)
 	manage_fifo_files_pattern($1, mail_home_t, mail_home_t)
+	userdom_search_user_home_dirs($1)
 ')
 
 ########################################
@@ -607,8 +565,8 @@ interface(`mta_manage_mail_home_files',`
 		type mail_home_t;
 	')
 
-	userdom_search_user_home_dirs($1)
 	manage_files_pattern($1, mail_home_t, mail_home_t)
+	userdom_search_user_home_dirs($1)
 ')
 
 ########################################
@@ -680,7 +638,6 @@ interface(`mta_user_home_filetrans_mail_home_files',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`mta_rw_aliases',`
 	gen_require(`
@@ -698,7 +655,7 @@ interface(`mta_rw_aliases',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Mail server domain.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -716,7 +673,7 @@ interface(`mta_dontaudit_rw_delivery_tcp_sockets',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Mail server domain.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -731,7 +688,7 @@ interface(`mta_tcp_connect_all_mailservers',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -740,7 +697,7 @@ interface(`mta_dontaudit_read_spool_symlinks',`
 		type mail_spool_t;
 	')
 
-	dontaudit $1 mail_spool_t:lnk_file read;
+	dontaudit $1 mail_spool_t:lnk_file read_inherited_file_perms;
 ')
 
 ########################################
@@ -974,7 +931,7 @@ interface(`mta_dontaudit_rw_queue',`
 	')
 
 	dontaudit $1 mqueue_spool_t:dir search_dir_perms;
-	dontaudit $1 mqueue_spool_t:file { getattr read write };
+	dontaudit $1 mqueue_spool_t:file rw_inherited_file_perms;
 ')
 
 ########################################
@@ -1008,13 +965,13 @@ interface(`mta_manage_queue',`
 ##	</summary>
 ## </param>
 #
-# cjp: added for postfix
 interface(`mta_read_sendmail_bin',`
 	gen_require(`
 		type sendmail_exec_t;
 	')
 
 	allow $1 sendmail_exec_t:file read_file_perms;
+	corecmd_search_bin($1)
 ')
 
 #######################################

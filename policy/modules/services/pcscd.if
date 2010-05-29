@@ -1,4 +1,4 @@
-## <summary>PCSC smart card service</summary>
+## <summary>PCSC smart card service.</summary>
 
 ########################################
 ## <summary>
@@ -16,6 +16,7 @@ interface(`pcscd_domtrans',`
 	')
 
 	domtrans_pattern($1, pcscd_exec_t, pcscd_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -33,8 +34,8 @@ interface(`pcscd_read_pub_files',`
 		type pcscd_var_run_t;
 	')
 
-	files_search_pids($1)
 	allow $1 pcscd_var_run_t:file read_file_perms;
+	files_search_pids($1)
 ')
 
 ########################################
@@ -52,8 +53,8 @@ interface(`pcscd_manage_pub_files',`
 		type pcscd_var_run_t;
 	')
 
-	files_search_pids($1)
 	manage_files_pattern($1, pcscd_var_run_t, pcscd_var_run_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -71,8 +72,8 @@ interface(`pcscd_manage_pub_pipes',`
 		type pcscd_var_run_t;
 	')
 
-	files_search_pids($1)
 	manage_fifo_files_pattern($1, pcscd_var_run_t, pcscd_var_run_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -90,6 +91,6 @@ interface(`pcscd_stream_connect',`
 		type pcscd_t, pcscd_var_run_t;
 	')
 
-	files_search_pids($1)
 	stream_connect_pattern($1, pcscd_var_run_t, pcscd_var_run_t, pcscd_t)
+	files_search_pids($1)
 ')

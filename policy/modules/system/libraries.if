@@ -1,4 +1,4 @@
-## <summary>Policy for system libraries.</summary>
+## <summary>System libraries.</summary>
 
 ########################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,8 +15,8 @@ interface(`libs_domtrans_ldconfig',`
 		type ldconfig_t, ldconfig_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, ldconfig_exec_t, ldconfig_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -25,7 +25,7 @@ interface(`libs_domtrans_ldconfig',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -60,13 +60,13 @@ interface(`libs_use_ld_so',`
 		type lib_t, ld_so_t, ld_so_cache_t;
 	')
 
-	files_list_etc($1)
 	allow $1 lib_t:dir list_dir_perms;
 
 	read_lnk_files_pattern($1, lib_t, { lib_t ld_so_t })
 	mmap_files_pattern($1, lib_t, ld_so_t)
 
 	allow $1 ld_so_cache_t:file read_file_perms;
+	files_list_etc($1)
 ')
 
 ########################################
@@ -85,9 +85,9 @@ interface(`libs_legacy_use_ld_so',`
 		type ld_so_t, ld_so_cache_t;
 	')
 
-	libs_use_ld_so($1)
 	allow $1 ld_so_t:file execmod;
 	allow $1 ld_so_cache_t:file execute;
+	libs_use_ld_so($1)
 ')
 
 ########################################
@@ -121,7 +121,6 @@ interface(`libs_exec_ld_so',`
 ##	</summary>
 ## </param>
 #
-# cjp: added for prelink
 interface(`libs_manage_ld_so',`
 	gen_require(`
 		type lib_t, ld_so_t;
@@ -141,7 +140,6 @@ interface(`libs_manage_ld_so',`
 ##	</summary>
 ## </param>
 #
-# cjp: added for prelink
 interface(`libs_relabel_ld_so',`
 	gen_require(`
 		type lib_t, ld_so_t;
@@ -192,16 +190,9 @@ interface(`libs_search_lib',`
 ## <summary>
 ##	Do not audit attempts to write to library directories.
 ## </summary>
-## <desc>
-##	<p>
-##	Do not audit attempts to write to library directories.
-##	Typically this is used to quiet attempts to recompile
-##	python byte code.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -301,7 +292,6 @@ interface(`libs_use_lib_files',`
 ##	</summary>
 ## </param>
 #
-# cjp: added for prelink
 interface(`libs_manage_lib_files',`
 	gen_require(`
 		type lib_t;
@@ -339,7 +329,6 @@ interface(`libs_relabelto_lib_files',`
 ##	</summary>
 ## </param>
 #
-# cjp: added for prelink
 interface(`libs_relabel_lib_files',`
 	gen_require(`
 		type lib_t;
@@ -358,7 +347,6 @@ interface(`libs_relabel_lib_files',`
 ##	</summary>
 ## </param>
 #
-# cjp: added for prelink
 interface(`libs_delete_lib_symlinks',`
 	gen_require(`
 		type lib_t;
@@ -377,7 +365,6 @@ interface(`libs_delete_lib_symlinks',`
 ##	</summary>
 ## </param>
 #
-# cjp: added for prelink
 interface(`libs_manage_shared_libs',`
 	gen_require(`
 		type lib_t, textrel_shlib_t;
@@ -439,7 +426,6 @@ interface(`libs_legacy_use_shared_libs',`
 ##	</summary>
 ## </param>
 #
-# cjp: added for prelink
 interface(`libs_relabel_shared_libs',`
 	gen_require(`
 		type lib_t, textrel_shlib_t;
@@ -473,15 +459,6 @@ interface(`lib_filetrans_shared_lib',`
 ##	Create an object in lib directories, with
 ##	the shared libraries type using a type transition.  (Deprecated)
 ## </summary>
-## <desc>
-##	<p>
-##	Create an object in lib directories, with
-##	the shared libraries type using a type transition.  (Deprecated)
-##	</p>
-##	<p>
-##	lib_filetrans_shared_lib() should be used instead.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.

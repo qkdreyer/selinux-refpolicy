@@ -34,16 +34,13 @@ application_executable_file(anacron_exec_t)
 type cron_spool_t;
 files_type(cron_spool_t)
 
-# var/lib files
 type cron_var_lib_t;
 files_type(cron_var_lib_t)
 
-# var/lib files
 type cron_var_run_t;
 files_type(cron_var_run_t)
 mta_system_content(crond_var_run_t)
 
-# var/log files
 type cron_log_t;
 logging_log_file(cron_log_t)
 
@@ -67,7 +64,6 @@ init_script_file(crond_initrc_exec_t)
 type crond_tmp_t;
 files_tmp_file(crond_tmp_t)
 files_poly_parent(crond_tmp_t)
-mta_system_content(crond_tmp_t)
 
 type crond_var_run_t;
 files_pid_file(crond_var_run_t)

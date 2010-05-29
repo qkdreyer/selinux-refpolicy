@@ -14,6 +14,7 @@
 ##	User domain for the role
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`wireshark_role',`
 	gen_require(`
@@ -25,15 +26,10 @@ interface(`wireshark_role',`
 	role $1 types wireshark_t;
 
 	domain_auto_trans($2, wireshark_exec_t, wireshark_t)
+	corecmd_search_bin($1)
+
 	allow wireshark_t $2:fd use;
 	allow wireshark_t $2:process sigchld;
-
-	manage_dirs_pattern($2, wireshark_home_t, wireshark_home_t)
-	manage_files_pattern($2, wireshark_home_t, wireshark_home_t)
-	manage_lnk_files_pattern($2, wireshark_home_t, wireshark_home_t)
-	relabel_dirs_pattern($2, wireshark_home_t, wireshark_home_t)
-	relabel_files_pattern($2, wireshark_home_t, wireshark_home_t)
-	relabel_lnk_files_pattern($2, wireshark_home_t, wireshark_home_t)
 ')
 
 ########################################
@@ -42,7 +38,7 @@ interface(`wireshark_role',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -52,4 +48,5 @@ interface(`wireshark_domtrans',`
 	')
 
 	domtrans_pattern($1, wireshark_exec_t, wireshark_t)
+	corecmd_search_bin($1)
 ')

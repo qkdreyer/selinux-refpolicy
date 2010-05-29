@@ -1,12 +1,12 @@
-## <summary>Smart disk monitoring daemon policy</summary>
+## <summary>Smart disk monitoring daemon policy.</summary>
 
 #######################################
 ## <summary>
-##	Allow caller to read smartmon temporary files.
+##	Read smartmon temporary files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type reading the temporary files.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #

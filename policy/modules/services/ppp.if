@@ -1,4 +1,4 @@
-## <summary>Point to Point Protocol daemon creates links in ppp networks</summary>
+## <summary>Point to Point Protocol daemon creates links in ppp networks.</summary>
 
 ########################################
 ## <summary>
@@ -117,7 +117,7 @@ interface(`ppp_signull',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	 Domain allowed access.
+##	 Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -126,8 +126,8 @@ interface(`ppp_domtrans',`
 		type pppd_t, pppd_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, pppd_exec_t, pppd_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -136,7 +136,7 @@ interface(`ppp_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	 Domain allowed access.
+##	 Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -164,7 +164,7 @@ interface(`ppp_run_cond',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	 Domain allowed access.
+##	 Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -203,8 +203,8 @@ interface(`ppp_exec',`
 		type pppd_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	can_exec($1, pppd_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -282,6 +282,7 @@ interface(`ppp_read_pid_files',`
 	')
 
 	allow $1 pppd_var_run_t:file read_file_perms;
+	files_search_pids($1)
 ')
 
 ########################################
@@ -300,6 +301,7 @@ interface(`ppp_manage_pid_files',`
 	')
 
 	allow $1 pppd_var_run_t:file manage_file_perms;
+	files_search_pids($1)
 ')
 
 ########################################
@@ -326,7 +328,7 @@ interface(`ppp_pid_filetrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -346,6 +348,11 @@ interface(`ppp_initrc_domtrans',`
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
+##	</summary>
+## </param>
+## <param name="role">
+##	<summary>
+##	Role allowed.
 ##	</summary>
 ## </param>
 ## <rolecap/>

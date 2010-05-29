@@ -1,4 +1,4 @@
-## <summary>Clockspeed simple network time protocol client</summary>
+## <summary>Clockspeed simple network time protocol client.</summary>
 
 ########################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -16,6 +16,7 @@ interface(`clockspeed_domtrans_cli',`
 	')
 
 	domtrans_pattern($1, clockspeed_cli_exec_t, clockspeed_cli_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -24,7 +25,7 @@ interface(`clockspeed_domtrans_cli',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">

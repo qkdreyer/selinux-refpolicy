@@ -295,6 +295,15 @@ auth_use_nsswitch(passwd_t)
 corecmd_check_exec_shell(passwd_t)
 corecmd_exec_bin(passwd_t)
 
+corenet_all_recvfrom_unlabeled(passwd_t)
+corenet_all_recvfrom_netlabel(passwd_t)
+corenet_tcp_sendrecv_generic_if(passwd_t)
+corenet_tcp_sendrecv_generic_node(passwd_t)
+corenet_tcp_sendrecv_all_ports(passwd_t)
+corenet_tcp_bind_generic_node(passwd_t)
+corenet_tcp_connect_kerberos_password_port(passwd_t)
+corenet_sendrecv_kerberos_password_client_packets(passwd_t)
+
 domain_use_interactive_fds(passwd_t)
 
 files_read_etc_runtime_files(passwd_t)

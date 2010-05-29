@@ -25,7 +25,6 @@ interface(`bluetooth_role',`
 
 	domtrans_pattern($2, bluetooth_helper_exec_t, bluetooth_helper_t)
 
-	# allow ps to show cdrecord and allow the user to kill it
 	ps_process_pattern($2, bluetooth_helper_t)
 	allow $2 bluetooth_helper_t:process signal;
 
@@ -53,9 +52,9 @@ interface(`bluetooth_stream_connect',`
 		type bluetooth_t, bluetooth_var_run_t;
 	')
 
-	files_search_pids($1)
 	allow $1 bluetooth_t:socket rw_socket_perms;
 	stream_connect_pattern($1, bluetooth_var_run_t, bluetooth_var_run_t, bluetooth_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -64,7 +63,7 @@ interface(`bluetooth_stream_connect',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -74,6 +73,7 @@ interface(`bluetooth_domtrans',`
 	')
 
 	domtrans_pattern($1, bluetooth_exec_t, bluetooth_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -122,7 +122,7 @@ interface(`bluetooth_dbus_chat',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -142,7 +142,7 @@ interface(`bluetooth_dontaudit_dbus_chat',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -157,7 +157,7 @@ interface(`bluetooth_domtrans_helper',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">

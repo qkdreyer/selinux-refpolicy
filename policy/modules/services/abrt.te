@@ -28,8 +28,6 @@ files_type(abrt_var_cache_t)
 type abrt_var_run_t;
 files_pid_file(abrt_var_run_t)
 
-# type needed to allow all domains
-# to handle /var/cache/abrt
 type abrt_helper_t;
 type abrt_helper_exec_t;
 application_domain(abrt_helper_t, abrt_helper_exec_t)

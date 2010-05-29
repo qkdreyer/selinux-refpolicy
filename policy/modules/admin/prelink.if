@@ -1,14 +1,4 @@
 ## <summary>Prelink ELF shared libraries and binaries to speed up startup time.</summary>
-## <desc>
-##	<p>
-##	prelink is a program which modifies ELF shared libraries and ELF dynamically
-##	linked binaries, so that the time which dynamic linker needs for their relocation
-##	at startup significantly decreases and also due to fewer relocations the run-time
-##	memory consumption decreases too (especially number of unshareable pages). Such
-##	prelinking information is only used if all its dependant libraries have not
-##	changed since prelinking, otherwise programs are relocated normally.
-##	</p>
-## </desc>
 
 ########################################
 ## <summary>
@@ -176,7 +166,26 @@ interface(`prelink_manage_lib',`
 
 ########################################
 ## <summary>
-##	Relabel from files in the /boot directory.
+##	Relabel from prelink var lib files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`prelink_relabelfrom_lib',`
+	gen_require(`
+		type prelink_var_lib_t;
+	')
+
+	relabelfrom_files_pattern($1, prelink_var_lib_t, prelink_var_lib_t)
+	files_search_var_lib($1)
+')
+
+########################################
+## <summary>
+##	Relabel prelink var lib files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

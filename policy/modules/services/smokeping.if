@@ -16,6 +16,7 @@ interface(`smokeping_domtrans',`
 	')
 
 	domtrans_pattern($1, smokeping_exec_t, smokeping_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -24,7 +25,7 @@ interface(`smokeping_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -51,8 +52,8 @@ interface(`smokeping_read_pid_files',`
 		type smokeping_var_run_t;
 	')
 
-	files_search_pids($1)
 	allow $1 smokeping_var_run_t:file read_file_perms;
+	files_search_pids($1)
 ')
 
 ########################################
@@ -70,8 +71,8 @@ interface(`smokeping_manage_pid_files',`
 		type smokeping_var_run_t;
 	')
 
-	files_search_pids($1)
 	manage_files_pattern($1, smokeping_var_run_t, smokeping_var_run_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -108,8 +109,8 @@ interface(`smokeping_read_lib_files',`
 		type smokeping_var_lib_t;
 	')
 
-	files_search_var_lib($1)
 	read_files_pattern($1, smokeping_var_lib_t, smokeping_var_lib_t)
+	files_search_var_lib($1)
 ')
 
 ########################################
@@ -127,8 +128,8 @@ interface(`smokeping_manage_lib_files',`
 		type smokeping_var_lib_t;
 	')
 
-	files_search_var_lib($1)
 	manage_files_pattern($1, smokeping_var_lib_t, smokeping_var_lib_t)
+	files_search_var_lib($1)
 ')
 
 ########################################

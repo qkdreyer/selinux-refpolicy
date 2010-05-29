@@ -1,4 +1,4 @@
-## <summary>Devicekit modular hardware abstraction layer</summary>
+## <summary>Devicekit modular hardware abstraction layer.</summary>
 
 ########################################
 ## <summary>
@@ -135,27 +135,6 @@ interface(`devicekit_read_pid_files',`
 	')
 
 	read_files_pattern($1, devicekit_var_run_t, devicekit_var_run_t)
-	files_search_pids($1)
-')
-
-########################################
-## <summary>
-##	Manage devicekit var_run files.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`devicekit_manage_var_run',`
-	gen_require(`
-		type devicekit_var_run_t;
-	')
-
-	manage_dirs_pattern($1,devicekit_var_run_t,devicekit_var_run_t)
-	manage_files_pattern($1,devicekit_var_run_t,devicekit_var_run_t)
-	manage_lnk_files_pattern($1,devicekit_var_run_t,devicekit_var_run_t)
 	files_search_pids($1)
 ')
 

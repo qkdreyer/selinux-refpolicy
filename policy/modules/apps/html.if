@@ -1,9 +1,4 @@
 ## <summary>HTML browsers.</summary>
-## <desc>
-##	<p>
-##		Various HTML browsers.
-##	</p>
-## </desc>
 
 ########################################
 ## <summary>
@@ -41,14 +36,6 @@ interface(`elinks_role',`
 
 	allow $2 elinks_t:process { ptrace signal_perms };
 	ps_process_pattern($2, elinks_t)
-
-	manage_dirs_pattern($2, elinks_home_t, elinks_home_t)
-	manage_files_pattern($2, elinks_home_t, elinks_home_t)
-	manage_sock_files_pattern($2, elinks_home_t, elinks_home_t)
-
-	relabel_dirs_pattern($2, elinks_home_t, elinks_home_t)
-	relabel_files_pattern($2, elinks_home_t, elinks_home_t)
-	relabel_sock_files_pattern($2, elinks_home_t, elinks_home_t)
 ')
 
 ########################################
@@ -57,7 +44,7 @@ interface(`elinks_role',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -67,5 +54,5 @@ interface(`elinks_domtrans', `
 	')
 
 	domtrans_pattern($1, elinks_exec_t, elinks_t)
+	corecmd_search_bin($1)
 ')
-

@@ -1,5 +1,5 @@
 
-## <summary>policy for aiccu</summary>
+## <summary>Aiccu.</summary>
 
 ########################################
 ## <summary>
@@ -17,6 +17,7 @@ interface(`aiccu_domtrans',`
 	')
 
 	domtrans_pattern($1, aiccu_exec_t, aiccu_t)
+	corecmd_search_bin($1)
 ')
 
 
@@ -26,7 +27,7 @@ interface(`aiccu_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -53,8 +54,8 @@ interface(`aiccu_read_pid_files',`
 		type aiccu_var_run_t;
 	')
 
-	files_search_pids($1)
 	allow $1 aiccu_var_run_t:file read_file_perms;
+	files_search_pids($1)
 ')
 
 ########################################
@@ -72,9 +73,9 @@ interface(`aiccu_manage_var_run',`
 		type aiccu_var_run_t;
 	')
 
-         manage_dirs_pattern($1, aiccu_var_run_t, aiccu_var_run_t)
-         manage_files_pattern($1, aiccu_var_run_t, aiccu_var_run_t)
-         manage_lnk_files_pattern($1, aiccu_var_run_t, aiccu_var_run_t)
+	manage_dirs_pattern($1, aiccu_var_run_t, aiccu_var_run_t)
+	manage_files_pattern($1, aiccu_var_run_t, aiccu_var_run_t)
+	manage_lnk_files_pattern($1, aiccu_var_run_t, aiccu_var_run_t)
 ')
 
 
@@ -97,23 +98,17 @@ interface(`aiccu_manage_var_run',`
 #
 interface(`aiccu_admin',`
 	gen_require(`
-		type aiccu_t;
+		type aiccu_t, aiccu_initrc_exec_t;
 	')
 
 	allow $1 aiccu_t:process { ptrace signal_perms getattr };
 	read_files_pattern($1, aiccu_t, aiccu_t)
-	        
 
-	gen_require(`
-		type aiccu_initrc_exec_t;
-	')
-
-	# Allow aiccu_t to restart the apache service
 	aiccu_initrc_domtrans($1)
 	domain_system_change_exemption($1)
 	role_transition $2 aiccu_initrc_exec_t system_r;
 	allow $2 system_r;
 
-	aiccu_manage_var_run($1)
-
+	admin_pattern($1, aiccu_var_run_t, aiccu_var_run_t)
+	files_search_pids($1)
 ')

@@ -1,4 +1,4 @@
-## <summary>Pingd of the Whatsup cluster node up/down detection utility</summary>
+## <summary>Pingd of the Whatsup cluster node up/down detection utility.</summary>
 
 ########################################
 ## <summary>
@@ -16,6 +16,7 @@ interface(`pingd_domtrans',`
 	')
 
 	domtrans_pattern($1, pingd_exec_t, pingd_t)
+	corecmd_search_bin($1)
 ')
 
 #######################################
@@ -33,8 +34,8 @@ interface(`pingd_read_config',`
 		type pingd_etc_t;
 	')
 
-	files_search_etc($1)
 	read_files_pattern($1, pingd_etc_t, pingd_etc_t)
+	files_search_etc($1)
 ')
 
 #######################################
@@ -52,10 +53,9 @@ interface(`pingd_manage_config',`
 		type pingd_etc_t;
 	')
 
-	files_search_etc($1)
 	manage_dirs_pattern($1, pingd_etc_t, pingd_etc_t)
 	manage_files_pattern($1, pingd_etc_t, pingd_etc_t)
-
+	files_search_etc($1)
 ')
 
 #######################################

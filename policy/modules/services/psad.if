@@ -1,4 +1,4 @@
-## <summary>Intrusion Detection and Log Analysis with iptables</summary>
+## <summary>Intrusion Detection and Log Analysis with iptables.</summary>
 
 ########################################
 ## <summary>
@@ -16,6 +16,7 @@ interface(`psad_domtrans',`
 	')
 
 	domtrans_pattern($1, psad_exec_t, psad_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -69,8 +70,8 @@ interface(`psad_read_config',`
 		type psad_etc_t;
 	')
 
-	files_search_etc($1)
 	read_files_pattern($1, psad_etc_t, psad_etc_t)
+	files_search_etc($1)
 ')
 
 ########################################
@@ -88,10 +89,9 @@ interface(`psad_manage_config',`
 		type psad_etc_t;
 	')
 
-	files_search_etc($1)
 	manage_dirs_pattern($1, psad_etc_t, psad_etc_t)
 	manage_files_pattern($1, psad_etc_t, psad_etc_t)
-
+	files_search_etc($1)
 ')
 
 ########################################
@@ -109,13 +109,13 @@ interface(`psad_read_pid_files',`
 		type psad_var_run_t;
 	')
 
-	files_search_pids($1)
 	read_files_pattern($1, psad_var_run_t, psad_var_run_t)
+	files_search_pids($1)
 ')
 
 ########################################
 ## <summary>
-##	Read psad PID files.
+##	Read and write psad PID files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -128,55 +128,53 @@ interface(`psad_rw_pid_files',`
 		type psad_var_run_t;
 	')
 
-	files_search_pids($1)
 	rw_files_pattern($1, psad_var_run_t, psad_var_run_t)
+	files_search_pids($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow the specified domain to read psad's log files.
+##	Read psad's log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`psad_read_log',`
 	gen_require(`
 		type psad_var_log_t;
 	')
 
-	logging_search_logs($1)
 	list_dirs_pattern($1, psad_var_log_t, psad_var_log_t)
 	read_files_pattern($1, psad_var_log_t, psad_var_log_t)
+	logging_search_logs($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow the specified domain to append to psad's log files.
+##	Append to psad's log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`psad_append_log',`
 	gen_require(`
 		type psad_var_log_t;
 	')
 
-	logging_search_logs($1)
 	list_dirs_pattern($1, psad_var_log_t, psad_var_log_t)
 	append_files_pattern($1, psad_var_log_t, psad_var_log_t)
+	logging_search_logs($1)
 ')
 
 ########################################
 ## <summary>
-##	Read and write psad fifo files.
+##	Read and write psad var_lib files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -189,9 +187,9 @@ interface(`psad_rw_fifo_file',`
 		type psad_t;
 	')
 
-	files_search_var_lib($1)
 	search_dirs_pattern($1, psad_var_lib_t, psad_var_lib_t)
 	rw_fifo_files_pattern($1, psad_var_lib_t, psad_var_lib_t)
+	files_search_var_lib($1)
 ')
 
 #######################################
@@ -209,8 +207,8 @@ interface(`psad_rw_tmp_files',`
 		type psad_tmp_t;
 	')
 
-	files_search_tmp($1)
 	rw_files_pattern($1, psad_tmp_t, psad_tmp_t)
+	files_search_tmp($1)
 ')
 
 ########################################

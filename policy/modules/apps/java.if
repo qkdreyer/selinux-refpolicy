@@ -1,4 +1,4 @@
-## <summary>Java virtual machine</summary>
+## <summary>Java virtual machine.</summary>
 
 ########################################
 ## <summary>
@@ -22,10 +22,8 @@ interface(`java_role',`
 
 	role $1 types java_t;
 
-	# The user role is authorized for this domain.
 	domtrans_pattern($2, java_exec_t, java_t)
 	allow java_t $2:process signull;
-	# Unrestricted inheritance from the caller.
 	allow $2 java_t:process { noatsecure siginh rlimitinh };
 
 	allow java_t $2:unix_stream_socket connectto;
@@ -37,12 +35,6 @@ interface(`java_role',`
 ## <summary>
 ##	The role template for the java module.
 ## </summary>
-## <desc>
-##	<p>
-##	This template creates a derived domains which are used
-##	for java applications.
-##	</p>
-## </desc>
 ## <param name="role_prefix">
 ##	<summary>
 ##	The prefix of the user domain (e.g., user
@@ -102,7 +94,7 @@ template(`java_role_template',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -112,6 +104,7 @@ template(`java_domtrans',`
 	')
 
 	domtrans_pattern($1, java_exec_t, java_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -121,7 +114,7 @@ template(`java_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -129,6 +122,7 @@ template(`java_domtrans',`
 ##	The role to be allowed the java domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`java_run',`
 	gen_require(`
@@ -145,7 +139,7 @@ interface(`java_run',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -164,7 +158,7 @@ interface(`java_domtrans_unconfined',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -172,6 +166,7 @@ interface(`java_domtrans_unconfined',`
 ##	Role allowed access.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`java_run_unconfined',`
 	gen_require(`
@@ -199,4 +194,5 @@ interface(`java_exec',`
 	')
 
 	can_exec($1, java_exec_t)
+	corecmd_search_bin($1)
 ')

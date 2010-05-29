@@ -1,12 +1,4 @@
 ## <summary>Common Unix Disk Quota Utilities.</summary>
-## <desc>
-##	<p>
-##	A disk quota is a limit set by a system administrator that
-##	restricts certain aspects of file system usage on modern
-##	operating systems. The function of using disk quotas is to
-##	allocate limited disk space in a reasonable way.
-##	</p>
-## </desc>
 
 ########################################
 ## <summary>
@@ -79,7 +71,7 @@ interface(`quota_dontaudit_getattr_db',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #

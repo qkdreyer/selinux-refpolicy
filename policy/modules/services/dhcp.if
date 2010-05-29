@@ -1,4 +1,4 @@
-## <summary>Dynamic host configuration protocol (DHCP) server</summary>
+## <summary>Dynamic host configuration protocol (DHCP) server.</summary>
 
 ########################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,8 +15,8 @@ interface(`dhcpd_domtrans',`
 		type dhcpd_t, dhcpd_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, dhcpd_exec_t, dhcpd_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -35,8 +35,8 @@ interface(`dhcpd_setattr_state_files',`
 		type dhcpd_state_t;
 	')
 
+	allow $1 dhcpd_state_t:file setattr_file_perms;
 	sysnet_search_dhcp_state($1)
-	allow $1 dhcpd_state_t:file setattr;
 ')
 
 ########################################
@@ -45,10 +45,9 @@ interface(`dhcpd_setattr_state_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
-#
 #
 interface(`dhcpd_initrc_domtrans',`
 	gen_require(`

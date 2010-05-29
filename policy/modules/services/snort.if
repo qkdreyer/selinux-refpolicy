@@ -1,4 +1,4 @@
-## <summary>Snort network intrusion detection system</summary>
+## <summary>Snort network intrusion detection system.</summary>
 
 ########################################
 ## <summary>
@@ -16,6 +16,7 @@ interface(`snort_domtrans',`
 	')
 
 	domtrans_pattern($1, snort_exec_t, snort_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################

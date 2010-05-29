@@ -1,9 +1,4 @@
 ## <summary>libcg is a library that abstracts the control group file system in Linux.</summary>
-## <desc>
-##	<p>
-##	libcg aims to provide programmers easily usable APIs to use the control group file system.
-##	</p>
-## </desc>
 
 ########################################
 ## <summary>
@@ -79,7 +74,6 @@ interface(`cgroup_initrc_domtrans_cgred',`
 		type cgred_initrc_exec_t;
 	')
 
-	files_search_etc($1)
 	init_labeled_script_domtrans($1, cgred_initrc_exec_t)
 ')
 
@@ -196,7 +190,7 @@ interface(`cgroup_stream_connect', `
 ########################################
 ## <summary>
 ##	All of the rules required to administrate 
-##	an cgroup environment
+##	an cgroup environment.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

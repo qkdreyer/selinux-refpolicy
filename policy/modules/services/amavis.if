@@ -1,7 +1,4 @@
-## <summary>
-##	Daemon that interfaces mail transfer agents and content
-##	checkers, such as virus scanners.
-## </summary>
+## <summary>Amavis.</summary>
 
 ########################################
 ## <summary>
@@ -18,8 +15,8 @@ interface(`amavis_domtrans',`
 		type amavis_t, amavis_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, amavis_exec_t, amavis_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -28,7 +25,7 @@ interface(`amavis_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -55,8 +52,8 @@ interface(`amavis_read_spool_files',`
 		type amavis_spool_t;
 	')
 
-	files_search_spool($1)
 	allow $1 amavis_spool_t:file read_file_perms;
+	files_search_spool($1)
 ')
 
 ########################################
@@ -74,9 +71,9 @@ interface(`amavis_manage_spool_files',`
 		type amavis_spool_t;
 	')
 
-	files_search_spool($1)
 	manage_dirs_pattern($1, amavis_spool_t, amavis_spool_t)
 	manage_files_pattern($1, amavis_spool_t, amavis_spool_t)
+	files_search_spool($1)
 ')
 
 ########################################
@@ -105,8 +102,8 @@ interface(`amavis_spool_filetrans',`
 		type amavis_spool_t;
 	')
 
-	files_search_spool($1)
 	filetrans_pattern($1, amavis_spool_t, $2, $3)
+	files_search_spool($1)
 ')
 
 ########################################

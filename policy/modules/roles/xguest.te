@@ -36,6 +36,11 @@ sysnet_dns_name_resolve(xguest_t)
 #
 # Local policy
 #
+
+mount_dontaudit_exec_fusermount(xguest_t)
+
+allow xguest_t self:process execmem;
+
 ifndef(`enable_mls',`
 	fs_exec_noxattr(xguest_t)
 
@@ -48,16 +53,11 @@ ifndef(`enable_mls',`
 		storage_raw_read_removable_device(xguest_t)
 	')
 ')
-# Dontaudit fusermount
-mount_dontaudit_exec_fusermount(xguest_t)
-
-allow xguest_t self:process execmem;
 
 tunable_policy(`allow_execstack',`
 	allow xguest_t self:process execstack;
 ')
 
-# Allow mounting of file systems
 optional_policy(`
 	tunable_policy(`xguest_mount_media',`
 		kernel_read_fs_sysctls(xguest_t)
@@ -83,15 +83,15 @@ optional_policy(`
 ')
 
 optional_policy(`
-	hal_dbus_chat(xguest_t)
-')
-
-optional_policy(`
 	apache_role(xguest_r, xguest_t)
 ')
 
 optional_policy(`
 	gnomeclock_dontaudit_dbus_chat(xguest_t)
+')
+
+optional_policy(`
+	hal_dbus_chat(xguest_t)
 ')
 
 optional_policy(`
@@ -109,9 +109,8 @@ optional_policy(`
 optional_policy(`
 	tunable_policy(`xguest_connect_network',`
 		kernel_read_network_state(xguest_usertype)
-
 		networkmanager_dbus_chat(xguest_t)
-		networkmanager_read_var_lib_files(xguest_t)
+		networkmanager_read_lib_files(xguest_t)
 		corenet_tcp_connect_pulseaudio_port(xguest_usertype)
 		corenet_sendrecv_pulseaudio_client_packets(xguest_usertype)
 		corenet_all_recvfrom_unlabeled(xguest_usertype)
@@ -138,7 +137,6 @@ optional_policy(`
 		corenet_sendrecv_ftp_client_packets(xguest_usertype)
 		corenet_sendrecv_ipp_client_packets(xguest_usertype)
 		corenet_sendrecv_generic_client_packets(xguest_usertype)
-		# Should not need other ports
 		corenet_dontaudit_tcp_sendrecv_generic_port(xguest_usertype)
 		corenet_dontaudit_tcp_bind_generic_port(xguest_usertype)
 		corenet_tcp_connect_speech_port(xguest_usertype)
@@ -149,6 +147,7 @@ optional_policy(`
 	')
 ')
 
+# Why not use mozilla_role()?)
 optional_policy(`
 	gen_require(`
 		type mozilla_t;

@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,11 +15,12 @@ interface(`loadkeys_domtrans',`
 		type loadkeys_t, loadkeys_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, loadkeys_exec_t, loadkeys_t)
-ifdef(`hide_broken_symptoms', `
-	dontaudit loadkeys_t $1:socket_class_set { read write };
-')
+	corecmd_search_bin($1)
+
+	ifdef(`hide_broken_symptoms',`
+		dontaudit loadkeys_t $1:socket_class_set rw_inherited_sock_file_perms;
+	')
 ')
 
 ########################################
@@ -28,7 +29,7 @@ ifdef(`hide_broken_symptoms', `
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -53,7 +54,7 @@ interface(`loadkeys_run',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -63,4 +64,5 @@ interface(`loadkeys_exec',`
 	')
 
 	can_exec($1, loadkeys_exec_t)
+	corecmd_search_bin($1)
 ')

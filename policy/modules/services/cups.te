@@ -65,7 +65,6 @@ mls_trusted_object(cupsd_var_run_t)
 type hplip_t;
 type hplip_exec_t;
 init_daemon_domain(hplip_t, hplip_exec_t)
-# For CUPS to run as a backend
 cups_backend(hplip_t, hplip_exec_t)
 
 type hplip_tmp_t;
@@ -103,7 +102,6 @@ ifdef(`enable_mls',`
 # Cups local policy
 #
 
-# /usr/lib/cups/backend/serial needs sys_admin(?!)
 allow cupsd_t self:capability { ipc_lock sys_admin dac_override dac_read_search kill setgid setuid fsetid net_bind_service fowner chown dac_override sys_rawio sys_resource sys_tty_config };
 dontaudit cupsd_t self:capability { sys_tty_config net_admin };
 allow cupsd_t self:process { getpgid setpgid setsched signal_perms };
@@ -116,7 +114,6 @@ allow cupsd_t self:sem create_sem_perms;
 allow cupsd_t self:tcp_socket create_stream_socket_perms;
 allow cupsd_t self:udp_socket create_socket_perms;
 allow cupsd_t self:appletalk_socket create_socket_perms;
-# generic socket here until appletalk socket is available in kernels
 allow cupsd_t self:socket create_socket_perms;
 
 allow cupsd_t cupsd_etc_t:{ dir file } setattr;
@@ -132,7 +129,6 @@ manage_files_pattern(cupsd_t, cupsd_etc_t, cupsd_rw_etc_t)
 filetrans_pattern(cupsd_t, cupsd_etc_t, cupsd_rw_etc_t, file)
 files_var_filetrans(cupsd_t, cupsd_rw_etc_t, { dir file })
 
-# allow cups to execute its backend scripts
 can_exec(cupsd_t, cupsd_exec_t)
 allow cupsd_t cupsd_exec_t:dir search_dir_perms;
 allow cupsd_t cupsd_exec_t:lnk_file read_lnk_file_perms;
@@ -217,7 +213,6 @@ mls_fd_use_all_levels(cupsd_t)
 term_use_unallocated_ttys(cupsd_t)
 term_search_ptys(cupsd_t)
 
-# Filter scripts may be shell scripts, and may invoke progs like /bin/mktemp
 corecmd_exec_shell(cupsd_t)
 corecmd_exec_bin(cupsd_t)
 
@@ -226,21 +221,14 @@ domain_use_interactive_fds(cupsd_t)
 files_list_spool(cupsd_t)
 files_read_etc_files(cupsd_t)
 files_read_etc_runtime_files(cupsd_t)
-# read python modules
 files_read_usr_files(cupsd_t)
-# for /var/lib/defoma
 files_read_var_lib_files(cupsd_t)
 files_list_world_readable(cupsd_t)
 files_read_world_readable_files(cupsd_t)
 files_read_world_readable_symlinks(cupsd_t)
-# Satisfy readahead
 files_read_var_files(cupsd_t)
 files_read_var_symlinks(cupsd_t)
-# for /etc/printcap
 files_dontaudit_write_etc_files(cupsd_t)
-# smbspool seems to be iterating through all existing tmp files.
-# redhat bug #214953
-# cjp: this might be a broken behavior
 files_dontaudit_getattr_all_tmp_files(cupsd_t)
 
 selinux_compute_access_vector(cupsd_t)
@@ -254,7 +242,6 @@ auth_dontaudit_read_pam_pid(cupsd_t)
 auth_rw_faillog(cupsd_t)
 auth_use_nsswitch(cupsd_t)
 
-# Read /usr/lib/gconv/gconv-modules.* and /usr/lib/python2.2/.*
 libs_read_lib_files(cupsd_t)
 libs_exec_lib_files(cupsd_t)
 
@@ -262,7 +249,7 @@ logging_send_audit_msgs(cupsd_t)
 logging_send_syslog_msg(cupsd_t)
 
 miscfiles_read_localization(cupsd_t)
-# invoking ghostscript needs to read fonts
+
 miscfiles_read_fonts(cupsd_t)
 miscfiles_setattr_fonts_cache_dirs(cupsd_t)
 
@@ -273,7 +260,6 @@ files_dontaudit_list_home(cupsd_t)
 userdom_dontaudit_use_unpriv_user_fds(cupsd_t)
 userdom_dontaudit_search_user_home_content(cupsd_t)
 
-# Write to /var/spool/cups.
 lpd_manage_spool(cupsd_t)
 lpd_read_config(cupsd_t)
 lpd_exec_lpr(cupsd_t)
@@ -300,7 +286,6 @@ optional_policy(`
 		hal_dbus_chat(cupsd_t)
 	')
 
-	# talk to processes that do not have policy
 	optional_policy(`
 		unconfined_dbus_chat(cupsd_t)
 		files_write_generic_pid_pipes(cupsd_t)
@@ -324,7 +309,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	# cups execs smbtool which reads samba_etc_t files
 	samba_read_config(cupsd_t)
 	samba_rw_var_files(cupsd_t)
 ')
@@ -408,7 +392,6 @@ corecmd_exec_bin(cupsd_config_t)
 corecmd_exec_shell(cupsd_config_t)
 
 domain_use_interactive_fds(cupsd_config_t)
-# killall causes the following
 domain_dontaudit_search_all_domains_state(cupsd_config_t)
 
 files_read_usr_files(cupsd_config_t)
@@ -416,7 +399,6 @@ files_read_etc_files(cupsd_config_t)
 files_read_etc_runtime_files(cupsd_config_t)
 files_read_var_symlinks(cupsd_config_t)
 
-# Alternatives asks for this
 init_getattr_all_script_files(cupsd_config_t)
 
 auth_use_nsswitch(cupsd_config_t)
@@ -507,8 +489,6 @@ allow cupsd_lpd_t self:fifo_file rw_fifo_file_perms;
 allow cupsd_lpd_t self:tcp_socket connected_stream_socket_perms;
 allow cupsd_lpd_t self:udp_socket create_socket_perms;
 
-# for identd
-# cjp: this should probably only be inetd_child rules?
 allow cupsd_lpd_t self:netlink_tcpdiag_socket r_netlink_socket_perms;
 allow cupsd_lpd_t self:capability { setuid setgid };
 files_search_home(cupsd_lpd_t)
@@ -516,7 +496,6 @@ files_search_home(cupsd_lpd_t)
 optional_policy(`
 	kerberos_use(cupsd_lpd_t)
 ')
-#end for identd
 
 allow cupsd_lpd_t cupsd_etc_t:dir list_dir_perms;
 read_files_pattern(cupsd_lpd_t, cupsd_etc_t, cupsd_etc_t)
@@ -548,6 +527,7 @@ corenet_udp_sendrecv_all_ports(cupsd_lpd_t)
 corenet_tcp_bind_generic_node(cupsd_lpd_t)
 corenet_udp_bind_generic_node(cupsd_lpd_t)
 corenet_tcp_connect_ipp_port(cupsd_lpd_t)
+corenet_sendrecv_ipp_client_packets(cupsd_lpd_t)
 
 dev_read_urand(cupsd_lpd_t)
 dev_read_rand(cupsd_lpd_t)
@@ -626,7 +606,6 @@ tunable_policy(`use_samba_home_dirs',`
 # HPLIP local policy
 #
 
-# Needed for USB Scanneer and xsane
 allow hplip_t self:capability { dac_override dac_read_search net_raw };
 dontaudit hplip_t self:capability sys_tty_config;
 allow hplip_t self:fifo_file rw_fifo_file_perms;
@@ -680,6 +659,8 @@ corenet_tcp_connect_ipp_port(hplip_t)
 corenet_sendrecv_hplip_client_packets(hplip_t)
 corenet_receive_hplip_server_packets(hplip_t)
 corenet_udp_bind_howl_port(hplip_t)
+corenet_sendrecv_ipp_client_packets(hplip_t)
+corenet_sendrecv_howl_server_packets(hplip_t)
 
 dev_read_sysfs(hplip_t)
 dev_rw_printer(hplip_t)
@@ -692,7 +673,6 @@ fs_getattr_all_fs(hplip_t)
 fs_search_auto_mountpoints(hplip_t)
 fs_rw_anon_inodefs_files(hplip_t)
 
-# for python
 corecmd_exec_bin(hplip_t)
 
 domain_use_interactive_fds(hplip_t)

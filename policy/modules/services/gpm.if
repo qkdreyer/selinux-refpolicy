@@ -1,4 +1,4 @@
-## <summary>General Purpose Mouse driver</summary>
+## <summary>General Purpose Mouse driver.</summary>
 
 ########################################
 ## <summary>
@@ -36,8 +36,8 @@ interface(`gpm_getattr_gpmctl',`
 		type gpmctl_t;
 	')
 
+	allow $1 gpmctl_t:sock_file getattr_sock_file_perms;
 	dev_list_all_dev_nodes($1)
-	allow $1 gpmctl_t:sock_file getattr;
 ')
 
 ########################################
@@ -48,7 +48,7 @@ interface(`gpm_getattr_gpmctl',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -76,6 +76,6 @@ interface(`gpm_setattr_gpmctl',`
 		type gpmctl_t;
 	')
 
+	allow $1 gpmctl_t:sock_file setattr_sock_file_perms;
 	dev_list_all_dev_nodes($1)
-	allow $1 gpmctl_t:sock_file setattr;
 ')

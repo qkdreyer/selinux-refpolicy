@@ -1,13 +1,13 @@
-## <summary>Policy controlling access to storage devices</summary>
+## <summary>Policy controlling access to storage devices.</summary>
 
 ########################################
 ## <summary>
-##	Allow the caller to get the attributes of fixed disk
+##	Get the attributes of fixed disk
 ##	device nodes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -22,12 +22,12 @@ interface(`storage_getattr_fixed_disk_dev',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts made by the caller to get
+##	Do not audit attempts made to get
 ##	the attributes of fixed disk device nodes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process to not audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -42,12 +42,12 @@ interface(`storage_dontaudit_getattr_fixed_disk_dev',`
 
 ########################################
 ## <summary>
-##	Allow the caller to set the attributes of fixed disk
+##	Set the attributes of fixed disk
 ##	device nodes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -62,12 +62,12 @@ interface(`storage_setattr_fixed_disk_dev',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts made by the caller to set
+##	Do not audit attempts made to set
 ##	the attributes of fixed disk device nodes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process to not audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -81,14 +81,11 @@ interface(`storage_dontaudit_setattr_fixed_disk_dev',`
 
 ########################################
 ## <summary>
-##	Allow the caller to directly read from a fixed disk.
-##	This is extremly dangerous as it can bypass the
-##	SELinux protections for filesystem objects, and
-##	should only be used by trusted domains.
+##	Directly read from a fixed disk.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -108,12 +105,12 @@ interface(`storage_raw_read_fixed_disk',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts made by the caller to read
+##	Do not audit attempts to read
 ##	fixed disk device nodes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process to not audit.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -129,14 +126,11 @@ interface(`storage_dontaudit_read_fixed_disk',`
 
 ########################################
 ## <summary>
-##	Allow the caller to directly write to a fixed disk.
-##	This is extremly dangerous as it can bypass the
-##	SELinux protections for filesystem objects, and
-##	should only be used by trusted domains.
+##	Directly write to a fixed disk.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -154,7 +148,7 @@ interface(`storage_raw_write_fixed_disk',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts made by the caller to write
+##	Do not audit attempts to write
 ##	fixed disk device nodes.
 ## </summary>
 ## <param name="domain">
@@ -174,10 +168,7 @@ interface(`storage_dontaudit_write_fixed_disk',`
 
 ########################################
 ## <summary>
-##	Allow the caller to directly read and write to a fixed disk.
-##	This is extremly dangerous as it can bypass the
-##	SELinux protections for filesystem objects, and
-##	should only be used by trusted domains.
+##	Directly read and write to a fixed disk.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -192,7 +183,7 @@ interface(`storage_raw_rw_fixed_disk',`
 
 ########################################
 ## <summary>
-##	Allow the caller to create fixed disk device nodes.
+##	Create fixed disk device nodes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -211,7 +202,7 @@ interface(`storage_create_fixed_disk_dev',`
 
 ########################################
 ## <summary>
-##	Allow the caller to create fixed disk device nodes.
+##	Create fixed disk device nodes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -258,7 +249,7 @@ interface(`storage_manage_fixed_disk',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -277,7 +268,7 @@ interface(`storage_dev_filetrans_fixed_disk',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -295,7 +286,7 @@ interface(`storage_tmpfs_filetrans_fixed_disk',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -310,11 +301,11 @@ interface(`storage_relabel_fixed_disk',`
 
 ########################################
 ## <summary>
-##	Enable a fixed disk device as swap space
+##	Enable a fixed disk device as swap space.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -329,12 +320,12 @@ interface(`storage_swapon_fixed_disk',`
 
 ########################################
 ## <summary>
-##	Allow the caller to get the attributes
+##	Get the attributes
 ##	of device nodes of fuse devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -353,7 +344,7 @@ interface(`storage_getattr_fuse_dev',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -386,12 +377,12 @@ interface(`storage_dontaudit_rw_fuse',`
 
 ########################################
 ## <summary>
-##	Allow the caller to get the attributes of
+##	Get the attributes of
 ##	the generic SCSI interface device nodes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -406,12 +397,12 @@ interface(`storage_getattr_scsi_generic_dev',`
 
 ########################################
 ## <summary>
-##	Allow the caller to set the attributes of
+##	Set the attributes of
 ##	the generic SCSI interface device nodes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -426,15 +417,12 @@ interface(`storage_setattr_scsi_generic_dev',`
 
 ########################################
 ## <summary>
-##	Allow the caller to directly read, in a
+##	Directly read, in a
 ##	generic fashion, from any SCSI device.
-##	This is extremly dangerous as it can bypass the
-##	SELinux protections for filesystem objects, and
-##	should only be used by trusted domains.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -451,15 +439,12 @@ interface(`storage_read_scsi_generic',`
 
 ########################################
 ## <summary>
-##	Allow the caller to directly write, in a
+##	Directly write, in a
 ##	generic fashion, from any SCSI device.
-##	This is extremly dangerous as it can bypass the
-##	SELinux protections for filesystem objects, and
-##	should only be used by trusted domains.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -481,7 +466,7 @@ interface(`storage_write_scsi_generic',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -515,12 +500,12 @@ interface(`storage_dontaudit_rw_scsi_generic',`
 
 ########################################
 ## <summary>
-##	Allow the caller to get the attributes of removable
+##	Get the attributes of removable
 ##	devices device nodes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -535,12 +520,12 @@ interface(`storage_getattr_removable_dev',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts made by the caller to get
+##	Do not audit attempts to get
 ##	the attributes of removable devices device nodes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process to not audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -554,12 +539,12 @@ interface(`storage_dontaudit_getattr_removable_dev',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts made by the caller to read
+##	Do not audit attempts to read
 ##	removable devices device nodes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process to not audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -574,12 +559,12 @@ interface(`storage_dontaudit_read_removable_device',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts made by the caller to write
+##	Do not audit attempts to write
 ##	removable devices device nodes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process to not audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -594,12 +579,12 @@ interface(`storage_dontaudit_write_removable_device',`
 
 ########################################
 ## <summary>
-##	Allow the caller to set the attributes of removable
+##	Set the attributes of removable
 ##	devices device nodes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -614,12 +599,12 @@ interface(`storage_setattr_removable_dev',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts made by the caller to set
+##	Do not audit attempt to set
 ##	the attributes of removable devices device nodes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process to not audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -633,15 +618,12 @@ interface(`storage_dontaudit_setattr_removable_dev',`
 
 ########################################
 ## <summary>
-##	Allow the caller to directly read from
+##	Directly read from
 ##	a removable device.
-##	This is extremly dangerous as it can bypass the
-##	SELinux protections for filesystem objects, and
-##	should only be used by trusted domains.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -674,15 +656,12 @@ interface(`storage_dontaudit_raw_read_removable_device',`
 
 ########################################
 ## <summary>
-##	Allow the caller to directly write to
+##	Directly write to
 ##	a removable device.
-##	This is extremly dangerous as it can bypass the
-##	SELinux protections for filesystem objects, and
-##	should only be used by trusted domains.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -715,12 +694,12 @@ interface(`storage_dontaudit_raw_write_removable_device',`
 
 ########################################
 ## <summary>
-##	Allow the caller to directly read
+##	Directly read
 ##	a tape device.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -735,12 +714,12 @@ interface(`storage_read_tape',`
 
 ########################################
 ## <summary>
-##	Allow the caller to directly read
+##	Directly write
 ##	a tape device.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -755,12 +734,12 @@ interface(`storage_write_tape',`
 
 ########################################
 ## <summary>
-##	Allow the caller to get the attributes
+##	Get the attributes
 ##	of device nodes of tape devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -775,12 +754,12 @@ interface(`storage_getattr_tape_dev',`
 
 ########################################
 ## <summary>
-##	Allow the caller to set the attributes
+##	Set the attributes
 ##	of device nodes of tape devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #

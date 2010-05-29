@@ -16,6 +16,8 @@ userdom_restricted_user_template(guest)
 #
 
 # This looks like a bad idea. Maybe make it tunable?
+# Or make httpd_user types userdom_user_home_content.
+
 # optional_policy(`
 #	apache_role(guest_r, guest_t)
 # ')

@@ -1,14 +1,4 @@
 ## <summary>A distributed, collaborative, spam detection and filtering network.</summary>
-## <desc>
-##	<p>
-##	A distributed, collaborative, spam detection and filtering network.
-##	</p>
-##	<p>
-##	This policy will work with either the ATrpms provided config
-##	file in /etc/razor, or with the default of dumping everything into
-##	$HOME/.razor.
-##	</p>
-## </desc>
 
 #######################################
 ## <summary>
@@ -43,7 +33,6 @@ template(`razor_common_domain_template',`
 	allow $1_t self:msg { send receive };
 	allow $1_t self:tcp_socket create_socket_perms;
 
-	# Read system config file
 	allow $1_t razor_etc_t:dir list_dir_perms;
 	allow $1_t razor_etc_t:file read_file_perms;
 	allow $1_t razor_etc_t:lnk_file { getattr read };
@@ -58,7 +47,6 @@ template(`razor_common_domain_template',`
 	manage_lnk_files_pattern($1_t, razor_var_lib_t, razor_var_lib_t)
 	files_search_var_lib($1_t)
 
-	# Razor is one executable and several symlinks
 	allow $1_t razor_exec_t:file read_file_perms;
 	allow $1_t razor_exec_t:lnk_file read_lnk_file_perms;
 
@@ -79,13 +67,10 @@ template(`razor_common_domain_template',`
 	corenet_raw_sendrecv_generic_node($1_t)
 	corenet_tcp_sendrecv_razor_port($1_t)
 
-	# mktemp and other randoms
 	dev_read_rand($1_t)
 	dev_read_urand($1_t)
 
 	files_search_pids($1_t)
-	# Allow access to various files in the /etc/directory including mtab
-	# and nsswitch
 	files_read_etc_files($1_t)
 	files_read_etc_runtime_files($1_t)
 
@@ -117,6 +102,7 @@ template(`razor_common_domain_template',`
 ##	User domain for the role
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`razor_role',`
 	gen_require(`
@@ -125,10 +111,8 @@ interface(`razor_role',`
 
 	role $1 types razor_t;
 
-	# Transition from the user domain to the derived domain.
 	domtrans_pattern($2, razor_exec_t, razor_t)
 
-	# allow ps to show razor and allow the user to kill it 
 	ps_process_pattern($2, razor_t)
 	allow $2 razor_t:process signal;
 
@@ -146,7 +130,7 @@ interface(`razor_role',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -156,6 +140,7 @@ interface(`razor_domtrans',`
 	')
 
 	domtrans_pattern($1, razor_exec_t, razor_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -174,10 +159,9 @@ template(`razor_manage_user_home_files',`
 		type razor_home_t;
 	')
 
-	files_search_home($1)
-	userdom_search_user_home_dirs($1)
 	manage_files_pattern($1, razor_home_t, razor_home_t)
 	read_lnk_files_pattern($1, razor_home_t, razor_home_t)
+	userdom_search_user_home_dirs($1)
 ')
 
 ########################################
@@ -195,7 +179,6 @@ interface(`razor_read_lib_files',`
 		type razor_var_lib_t;
 	')
 
-	files_search_var_lib($1)
 	read_files_pattern($1, razor_var_lib_t, razor_var_lib_t)
+	files_search_var_lib($1)
 ')
-

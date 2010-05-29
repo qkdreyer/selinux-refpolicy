@@ -1,4 +1,4 @@
-## <summary>X Windows Font Server </summary>
+## <summary>X Windows Font Server.</summary>
 
 ########################################
 ## <summary>
@@ -15,8 +15,8 @@ interface(`xfs_read_sockets',`
 		type xfs_tmp_t;
 	')
 
-	files_search_tmp($1)
 	read_sock_files_pattern($1, xfs_tmp_t, xfs_tmp_t)
+	files_search_tmp($1)
 ')
 
 ########################################
@@ -35,8 +35,8 @@ interface(`xfs_stream_connect',`
 		type xfs_tmp_t, xfs_t;
 	')
 
-	files_search_tmp($1)
 	stream_connect_pattern($1, xfs_tmp_t, xfs_tmp_t, xfs_t)
+	files_search_tmp($1)
 ')
 
 ########################################
@@ -56,4 +56,5 @@ interface(`xfs_exec',`
 	')
 
 	can_exec($1, xfs_exec_t)
+	corecmd_search_bin($1)
 ')

@@ -29,6 +29,13 @@ gen_tunable(user_direct_mouse, false)
 
 ## <desc>
 ## <p>
+## Allow users to read system messages.
+## </p>
+## </desc>
+gen_tunable(user_dmesg, false)
+
+## <desc>
+## <p>
 ## Allow user to r/w files on filesystems
 ## that do not have extended attributes (FAT, CDROM, FLOPPY)
 ## </p>
@@ -47,8 +54,8 @@ attribute admindomain;
 # all user domains
 attribute userdomain;
 
-attribute userhomereader;
-attribute userhomewriter;
+attribute untrusted_content_type;
+attribute untrusted_content_tmp_type;
 
 # unprivileged user domains
 attribute unpriv_userdomain;
@@ -109,22 +116,6 @@ userdom_user_home_content(home_cert_t)
 
 tunable_policy(`allow_console_login',`
 	term_use_console(userdomain)
-')
-
-tunable_policy(`use_nfs_home_dirs',`
-	fs_list_nfs(userhomereader)
-	fs_read_nfs_files(userhomereader)
-	fs_read_nfs_symlinks(userhomereader)
-	fs_read_nfs_named_sockets(userhomereader)
-	fs_read_nfs_named_pipes(userhomereader)
-')
-
-tunable_policy(`use_samba_home_dirs',`
-	fs_list_cifs(userhomereader)
-	fs_read_cifs_files(userhomereader)
-	fs_read_cifs_symlinks(userhomereader)
-	fs_read_cifs_named_sockets(userhomereader)
-	fs_read_cifs_named_pipes(userhomereader)
 ')
 
 allow userdomain userdomain:process signull;

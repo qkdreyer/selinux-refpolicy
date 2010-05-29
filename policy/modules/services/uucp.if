@@ -1,9 +1,8 @@
-## <summary>Unix to Unix Copy</summary>
+## <summary>Unix to Unix Copy.</summary>
 
 ########################################
 ## <summary>
-##	Allow the specified domain to append
-##	to uucp log files.
+##	Append to uucp log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -16,9 +15,9 @@ interface(`uucp_append_log',`
 		type uucpd_log_t;
 	')
 
-	logging_search_logs($1)
 	allow $1 uucpd_log_t:dir list_dir_perms;
 	append_files_pattern($1, uucpd_log_t, uucpd_log_t)
+	logging_search_logs($1)
 ')
 
 ########################################
@@ -36,10 +35,10 @@ interface(`uucp_manage_spool',`
 		type uucpd_spool_t;
 	')
 
-	files_search_spool($1)
 	manage_dirs_pattern($1, uucpd_spool_t, uucpd_spool_t)
 	manage_files_pattern($1, uucpd_spool_t, uucpd_spool_t)
 	manage_lnk_files_pattern($1, uucpd_spool_t, uucpd_spool_t)
+	files_search_spool($1)
 ')
 
 ########################################
@@ -49,7 +48,7 @@ interface(`uucp_manage_spool',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -59,6 +58,7 @@ interface(`uucp_domtrans_uux',`
 	')
 
 	domtrans_pattern($1, uux_exec_t, uux_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -71,7 +71,6 @@ interface(`uucp_domtrans_uux',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`uucp_admin',`
 	gen_require(`

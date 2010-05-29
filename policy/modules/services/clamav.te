@@ -94,7 +94,7 @@ logging_log_filetrans(clamd_t, clamd_var_log_t, { dir file })
 manage_dirs_pattern(clamd_t, clamd_var_log_t, clamd_var_log_t)
 manage_files_pattern(clamd_t, clamd_var_run_t, clamd_var_run_t)
 manage_sock_files_pattern(clamd_t, clamd_var_run_t, clamd_var_run_t)
-files_pid_filetrans(clamd_t, clamd_var_run_t, { file dir })
+files_pid_filetrans(clamd_t, clamd_var_run_t, { file dir sock_file })
 
 kernel_dontaudit_list_proc(clamd_t)
 kernel_read_sysctl(clamd_t)

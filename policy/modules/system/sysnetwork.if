@@ -1,4 +1,4 @@
-## <summary>Policy for network configuration: ifconfig and dhcp client.</summary>
+## <summary>Network configuration: ifconfig and dhcp client.</summary>
 
 #######################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,8 +15,8 @@ interface(`sysnet_domtrans_dhcpc',`
 		type dhcpc_t, dhcpc_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, dhcpc_exec_t, dhcpc_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -26,7 +26,7 @@ interface(`sysnet_domtrans_dhcpc',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -86,7 +86,7 @@ interface(`sysnet_run_dhcpc',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The domain sending the SIGCHLD.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -104,10 +104,9 @@ interface(`sysnet_sigchld_dhcpc',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The domain sending the SIGKILL.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`sysnet_kill_dhcpc',`
 	gen_require(`
@@ -123,7 +122,7 @@ interface(`sysnet_kill_dhcpc',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The domain sending the SIGSTOP.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -141,7 +140,7 @@ interface(`sysnet_sigstop_dhcpc',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The domain sending the null signal.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -159,10 +158,9 @@ interface(`sysnet_signull_dhcpc',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The domain sending the signal.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`sysnet_signal_dhcpc',`
 	gen_require(`
@@ -208,8 +206,8 @@ interface(`sysnet_rw_dhcp_config',`
 		type dhcp_etc_t;
 	')
 
-	files_search_etc($1)
 	allow $1 dhcp_etc_t:file rw_file_perms;
+	files_search_etc($1)
 ')
 
 ########################################
@@ -248,6 +246,24 @@ interface(`sysnet_delete_dhcpc_state',`
 	delete_files_pattern($1, dhcpc_state_t, dhcpc_state_t)
 ')
 
+########################################
+## <summary>
+##	Relabel dhcpc_state files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`sysnet_relabelfrom_dhcpc_state',`
+	gen_require(`
+		type dhcpc_state_t;
+	')
+
+	allow $1 dhcpc_state_t:file relabelfrom;
+')
+
 #######################################
 ## <summary>
 ##	Manage the dhcp client state files.
@@ -281,35 +297,14 @@ interface(`sysnet_setattr_config',`
 		type net_conf_t;
 	')
 
+	allow $1 net_conf_t:file setattr_file_perms;
 	files_search_etc($1)
-	allow $1 net_conf_t:file setattr;
 ')
 
 #######################################
 ## <summary>
 ##	Read network config files.
 ## </summary>
-## <desc>
-##	<p>
-##	Allow the specified domain to read the
-##	general network configuration files.  A
-##	common example of this is the
-##	/etc/resolv.conf file, which has domain
-##	name system (DNS) server IP addresses.
-##	Typically, most networking processes will
-##	require	the access provided by this interface.
-##	</p>
-##	<p>
-##	Higher-level interfaces which involve
-##	networking will generally call this interface,
-##	for example:
-##	</p>
-##	<ul>
-##		<li>sysnet_dns_name_resolve()</li>
-##		<li>sysnet_use_ldap()</li>
-##		<li>sysnet_use_portmap()</li>
-##	</ul>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
@@ -321,8 +316,8 @@ interface(`sysnet_read_config',`
 		type net_conf_t;
 	')
 
-	files_search_etc($1)
 	allow $1 net_conf_t:file read_file_perms;
+	files_search_etc($1)
 
 	ifdef(`distro_redhat',`
 		allow $1 net_conf_t:dir list_dir_perms;
@@ -363,8 +358,8 @@ interface(`sysnet_write_config',`
 		type net_conf_t;
 	')
 
-	files_search_etc($1)
 	allow $1 net_conf_t:file write_file_perms;
+	files_search_etc($1)
 ')
 
 #######################################
@@ -382,8 +377,8 @@ interface(`sysnet_create_config',`
 		type net_conf_t;
 	')
 
-	files_search_etc($1)
 	allow $1 net_conf_t:file create_file_perms;
+	files_search_etc($1)
 ')
 
 #######################################
@@ -393,7 +388,7 @@ interface(`sysnet_create_config',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -411,7 +406,7 @@ interface(`sysnet_etc_filetrans_config',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -430,7 +425,7 @@ interface(`sysnet_manage_config',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -439,8 +434,8 @@ interface(`sysnet_read_dhcpc_pid',`
 		type dhcpc_var_run_t;
 	')
 
-	files_list_pids($1)
 	allow $1 dhcpc_var_run_t:file read_file_perms;
+	files_list_pids($1)
 ')
 
 #######################################
@@ -449,7 +444,7 @@ interface(`sysnet_read_dhcpc_pid',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -458,7 +453,7 @@ interface(`sysnet_delete_dhcpc_pid',`
 		type dhcpc_var_run_t;
 	')
 
-	allow $1 dhcpc_var_run_t:file unlink;
+	allow $1 dhcpc_var_run_t:file delete_file_perms;
 ')
 
 #######################################
@@ -467,7 +462,7 @@ interface(`sysnet_delete_dhcpc_pid',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -476,12 +471,12 @@ interface(`sysnet_domtrans_ifconfig',`
 		type ifconfig_t, ifconfig_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, ifconfig_exec_t, ifconfig_t)
-	ifdef(`hide_broken_symptoms', `
-	        dontaudit ifconfig_t $1:socket_class_set { read write };
-	')
+	corecmd_search_bin($1)
 
+	ifdef(`hide_broken_symptoms',`
+		dontaudit ifconfig_t $1:socket_class_set rw_socket_perms;
+	')
 ')
 
 ########################################
@@ -492,7 +487,7 @@ interface(`sysnet_domtrans_ifconfig',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -507,7 +502,6 @@ interface(`sysnet_run_ifconfig',`
 		type ifconfig_t;
 	')
 
-	corecmd_search_bin($1)
 	sysnet_domtrans_ifconfig($1)
 	role $2 types ifconfig_t;
 ')
@@ -527,8 +521,8 @@ interface(`sysnet_exec_ifconfig',`
 		type ifconfig_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	can_exec($1, ifconfig_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -540,7 +534,6 @@ interface(`sysnet_exec_ifconfig',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`sysnet_signal_ifconfig',`
 	gen_require(`
@@ -565,9 +558,9 @@ interface(`sysnet_read_dhcp_config',`
 		type dhcp_etc_t;
 	')
 
-	files_search_etc($1)
 	allow $1 dhcp_etc_t:dir list_dir_perms;
 	read_files_pattern($1, dhcp_etc_t, dhcp_etc_t)
+	files_search_etc($1)
 ')
 
 ########################################
@@ -585,24 +578,14 @@ interface(`sysnet_search_dhcp_state',`
 		type dhcp_state_t;
 	')
 
-	files_search_var_lib($1)
 	allow $1 dhcp_state_t:dir search_dir_perms;
+	files_search_var_lib($1)
 ')
 
 ########################################
 ## <summary>
 ##	Create DHCP state data.
 ## </summary>
-## <desc>
-##	<p>
-##	Create DHCP state data.
-##	</p>
-##	<p>
-##	This is added for DHCP server, as
-##	the server and client put their state
-##	files in the same directory.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
@@ -624,8 +607,8 @@ interface(`sysnet_dhcp_state_filetrans',`
 		type dhcp_state_t;
 	')
 
-	files_search_var_lib($1)
 	filetrans_pattern($1, dhcp_state_t, $2, $3)
+	files_search_var_lib($1)
 ')
 
 ########################################
@@ -637,7 +620,6 @@ interface(`sysnet_dhcp_state_filetrans',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`sysnet_dns_name_resolve',`
 	gen_require(`
@@ -697,7 +679,7 @@ interface(`sysnet_use_ldap',`
 
 	files_search_etc($1)
 	allow $1 net_conf_t:file read_file_perms;
-	# LDAP Configuration using encrypted requires
+
 	dev_read_urand($1)
 ')
 
@@ -741,7 +723,7 @@ interface(`sysnet_use_portmap',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The domain sending the SIGCHLD.
+##	The domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -755,23 +737,14 @@ interface(`sysnet_dontaudit_dhcpc_use_fds',`
 
 ########################################
 ## <summary>
-##	Transition to system_r when execute an dhclient script
+##	Transition to system_r when execute an dhclient script.
 ## </summary>
-## <desc>
-##      <p>
-##	Execute dhclient script in a specified role
-##      </p>
-##      <p>
-##      No interprocess communication (signals, pipes,
-##      etc.) is provided by this interface since
-##      the domains are not owned by this module.
-##      </p>
-## </desc>
 ## <param name="source_role">
 ##	<summary>
 ##	Role to transition from.
 ##	</summary>
 ## </param>
+#
 interface(`sysnet_role_transition_dhcpc',`
 	gen_require(`
 		type dhcpc_exec_t;
@@ -779,3 +752,4 @@ interface(`sysnet_role_transition_dhcpc',`
 
 	role_transition $1 dhcpc_exec_t system_r;
 ')
+

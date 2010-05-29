@@ -1,4 +1,4 @@
-## <summary>Advanced power management daemon</summary>
+## <summary>Advanced power management daemon.</summary>
 
 ########################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,8 +15,8 @@ interface(`apm_domtrans_client',`
 		type apm_t, apm_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, apm_exec_t, apm_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -25,7 +25,7 @@ interface(`apm_domtrans_client',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -43,7 +43,7 @@ interface(`apm_use_fds',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -88,8 +88,8 @@ interface(`apm_append_log',`
 		type apmd_log_t;
 	')
 
-	logging_search_logs($1)
 	allow $1 apmd_log_t:file append;
+	logging_search_logs($1)
 ')
 
 ########################################
@@ -107,7 +107,7 @@ interface(`apm_stream_connect',`
 		type apmd_t, apmd_var_run_t;
 	')
 
-	files_search_pids($1)
 	allow $1 apmd_var_run_t:sock_file write;
 	allow $1 apmd_t:unix_stream_socket connectto;
+	files_search_pids($1)
 ')

@@ -1,4 +1,4 @@
-## <summary>Andrew Filesystem server</summary>
+## <summary>Andrew Filesystem server.</summary>
 
 ########################################
 ## <summary>
@@ -16,8 +16,8 @@ interface(`afs_domtrans',`
 		type afs_t, afs_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, afs_exec_t, afs_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -35,7 +35,7 @@ interface(`afs_rw_udp_sockets',`
 		type afs_t;
 	')
 
-	allow $1 afs_t:udp_socket { read write };
+	allow $1 afs_t:udp_socket rw_socket_perms;
 ')
 
 ########################################
@@ -44,7 +44,7 @@ interface(`afs_rw_udp_sockets',`
 ## </summary>
 ## <param name="domain">
 ## <summary>
-##	Domain allowed to transition.
+##	Domain allowed access.
 ## </summary>
 ## </param>
 #
@@ -53,8 +53,8 @@ interface(`afs_rw_cache',`
 		type afs_cache_t;
 	')
 
+	allow $1 afs_cache_t:file rw_file_perms;
 	files_search_var($1)
-	allow $1 afs_cache_t:file { read write };
 ')
 
 ########################################
@@ -63,7 +63,7 @@ interface(`afs_rw_cache',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -78,7 +78,7 @@ interface(`afs_initrc_domtrans',`
 ########################################
 ## <summary>
 ##	All of the rules required to administrate 
-##	an afs environment
+##	an afs environment.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -100,10 +100,8 @@ interface(`afs_admin',`
 	allow $1 afs_t:process { ptrace signal_perms getattr };
 	read_files_pattern($1, afs_t, afs_t)
 
-	# Allow afs_admin to restart the afs service
 	afs_initrc_domtrans($1)
 	domain_system_change_exemption($1)
 	role_transition $2 afs_initrc_exec_t system_r;
 	allow $2 system_r;
-
 ')

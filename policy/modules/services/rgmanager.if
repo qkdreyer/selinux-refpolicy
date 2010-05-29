@@ -1,4 +1,4 @@
-## <summary>rgmanager - Resource Group Manager</summary>
+## <summary>rgmanager Resource Group Manager.</summary>
 
 #######################################
 ## <summary>
@@ -40,7 +40,7 @@ interface(`rgmanager_stream_connect',`
 
 ######################################
 ## <summary>
-##	Allow manage rgmanager tmp files.
+##	Manage rgmanager tmp files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -59,7 +59,7 @@ interface(`rgmanager_manage_tmp_files',`
 
 ######################################
 ## <summary>
-##	Allow manage rgmanager tmpfs files.
+##	Manage rgmanager tmpfs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

@@ -1,4 +1,4 @@
-## <summary>Line printer daemon</summary>
+## <summary>Line printer daemon.</summary>
 
 ########################################
 ## <summary>
@@ -14,6 +14,7 @@
 ##	User domain for the role
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`lpd_role',`
 	gen_require(`
@@ -22,7 +23,6 @@ interface(`lpd_role',`
 
 	role $1 types lpr_t;
 
-	# Transition from the user domain to the derived domain.
 	domtrans_pattern($2, lpr_exec_t, lpr_t)
 	dontaudit lpr_t $2:unix_stream_socket { read write };
 
@@ -40,7 +40,7 @@ interface(`lpd_role',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -50,6 +50,7 @@ interface(`lpd_domtrans_checkpc',`
 	')
 
 	domtrans_pattern($1, checkpc_exec_t, checkpc_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -59,7 +60,7 @@ interface(`lpd_domtrans_checkpc',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -93,8 +94,8 @@ interface(`lpd_list_spool',`
 		type print_spool_t;
 	')
 
-	files_search_spool($1)
 	allow $1 print_spool_t:dir list_dir_perms;
+	files_search_spool($1)
 ')
 
 ########################################
@@ -112,8 +113,8 @@ interface(`lpd_read_spool',`
 		type print_spool_t;
 	')
 
-	files_search_spool($1)
 	read_files_pattern($1, print_spool_t, print_spool_t)
+	files_search_spool($1)
 ')
 
 ########################################
@@ -131,10 +132,10 @@ interface(`lpd_manage_spool',`
 		type print_spool_t;
 	')
 
-	files_search_spool($1)
 	manage_dirs_pattern($1, print_spool_t, print_spool_t)
 	manage_files_pattern($1, print_spool_t, print_spool_t)
 	manage_lnk_files_pattern($1, print_spool_t, print_spool_t)
+	files_search_spool($1)
 ')
 
 ########################################
@@ -152,8 +153,8 @@ interface(`lpd_relabel_spool',`
 		type print_spool_t;
 	')
 
+	allow $1 print_spool_t:file relabel_file_perms;
 	files_search_spool($1)
-	allow $1 print_spool_t:file { relabelto relabelfrom };
 ')
 
 ########################################
@@ -165,7 +166,6 @@ interface(`lpd_relabel_spool',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`lpd_read_config',`
 	gen_require(`
@@ -182,7 +182,7 @@ interface(`lpd_read_config',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -192,12 +192,12 @@ template(`lpd_domtrans_lpr',`
 	')
 
 	domtrans_pattern($1, lpr_exec_t, lpr_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow the specified domain to execute lpr
-##	in the caller domain.
+##	Execute lpr.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -211,4 +211,5 @@ interface(`lpd_exec_lpr',`
 	')
 
 	can_exec($1, lpr_exec_t)
+	corecmd_search_bin($1)
 ')

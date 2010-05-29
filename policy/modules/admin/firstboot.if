@@ -1,11 +1,4 @@
 ## <summary>Firstboot Initial system configuration utility.</summary>
-## <desc>
-##	<p>
-##	firstboot is the program that runs on the first boot of a
-##	Fedora or Red Hat Enterprise Linux system that allows you to
-##	configure more things than the installer allows.
-##	</p>
-## </desc>
 
 ########################################
 ## <summary>
@@ -41,6 +34,7 @@ interface(`firstboot_domtrans',`
 ##	The role to be allowed the firstboot domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`firstboot_run',`
 	gen_require(`

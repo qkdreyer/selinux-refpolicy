@@ -1,4 +1,4 @@
-## <summary>Ricci cluster management agent</summary>
+## <summary>Ricci cluster management agent.</summary>
 
 ########################################
 ## <summary>
@@ -53,6 +53,7 @@ interface(`ricci_domtrans_modcluster',`
 	')
 
 	domtrans_pattern($1, ricci_modcluster_exec_t, ricci_modcluster_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -62,7 +63,7 @@ interface(`ricci_domtrans_modcluster',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of process not to audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -81,7 +82,7 @@ interface(`ricci_dontaudit_use_modcluster_fds',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of process not to audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -90,7 +91,7 @@ interface(`ricci_dontaudit_rw_modcluster_pipes',`
 		type ricci_modcluster_t;
 	')
 
-	dontaudit $1 ricci_modcluster_t:fifo_file { read write };
+	dontaudit $1 ricci_modcluster_t:fifo_file rw_fifo_file_perms;
 ')
 
 ########################################
@@ -108,9 +109,8 @@ interface(`ricci_stream_connect_modclusterd',`
 		type ricci_modclusterd_t, ricci_modcluster_var_run_t;
 	')
 
+	stream_connect_pattern($1, ricci_modcluster_var_run_t, ricci_modcluster_var_run_t, ricci_modclusterd_t)
 	files_search_pids($1)
-	allow $1 ricci_modcluster_var_run_t:sock_file write;
-	allow $1 ricci_modclusterd_t:unix_stream_socket connectto;
 ')
 
 ########################################
@@ -129,6 +129,7 @@ interface(`ricci_domtrans_modlog',`
 	')
 
 	domtrans_pattern($1, ricci_modlog_exec_t, ricci_modlog_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -147,6 +148,7 @@ interface(`ricci_domtrans_modrpm',`
 	')
 
 	domtrans_pattern($1, ricci_modrpm_exec_t, ricci_modrpm_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -165,6 +167,7 @@ interface(`ricci_domtrans_modservice',`
 	')
 
 	domtrans_pattern($1, ricci_modservice_exec_t, ricci_modservice_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################

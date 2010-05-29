@@ -1,4 +1,4 @@
-## <summary>Restricted (scp/sftp) only shell</summary>
+## <summary>Restricted (scp/sftp) only shell.</summary>
 
 ########################################
 ## <summary>
@@ -17,14 +17,15 @@
 #
 interface(`rssh_role',`
 	gen_require(`
-		type rssh_t;
+		type rssh_t, rssh_exec_t;
 	')
+
+	domtrans_pattern($2, rssh_exec_t, rssh_t)
 
 	role $1 types rssh_t;
 
-	# allow ps to show irc
 	ps_process_pattern($2, rssh_t)
-	allow $2 rssh_t:process signal;
+	allow $2 rssh_t:process signal_perms;
 ')
 
 ########################################
@@ -33,7 +34,7 @@ interface(`rssh_role',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -43,6 +44,7 @@ interface(`rssh_spec_domtrans',`
 	')
 
 	spec_domtrans_pattern($1, rssh_exec_t, rssh_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################

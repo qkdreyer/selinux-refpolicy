@@ -1,4 +1,4 @@
-## <summary>TOR, the onion router</summary>
+## <summary>TOR, the onion router.</summary>
 
 ########################################
 ## <summary>
@@ -16,6 +16,7 @@ interface(`tor_domtrans',`
 	')
 
 	domtrans_pattern($1, tor_exec_t, tor_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################

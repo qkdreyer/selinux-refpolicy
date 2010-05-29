@@ -1,11 +1,4 @@
 ## <summary>Abstract Machine Test Utility.</summary>
-## <desc>
-##	<p>
-##	Abstract Machine Test Utility (AMTU) is an administrative
-##	utility that checks whether the underlying protection
-##	mechanisms of the hardware are being enforced.
-##	</p>
-## </desc>
 
 ########################################
 ## <summary>
@@ -41,6 +34,7 @@ interface(`amtu_domtrans',`
 ##	The role to be allowed the amtu domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`amtu_run',`
 	gen_require(`

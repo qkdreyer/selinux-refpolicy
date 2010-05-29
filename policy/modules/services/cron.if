@@ -33,7 +33,6 @@ template(`cron_common_crontab_template',`
 	# Local policy
 	#
 
-	# dac_override is to create the file in the directory under /tmp
 	allow $1_t self:capability { fowner setuid setgid chown dac_override };
 	allow $1_t self:process { setsched signal_perms };
 	allow $1_t self:fifo_file rw_fifo_file_perms;
@@ -45,17 +44,14 @@ template(`cron_common_crontab_template',`
 	manage_files_pattern($1_t, $1_tmp_t, $1_tmp_t)
 	files_tmp_filetrans($1_t, $1_tmp_t, { dir file })
 
-	# create files in /var/spool/cron
 	manage_files_pattern($1_t, { cron_spool_t user_cron_spool_t }, user_cron_spool_t)
 	filetrans_pattern($1_t, cron_spool_t, user_cron_spool_t, file)
 	files_list_spool($1_t)
 
-	# crontab signals crond by updating the mtime on the spooldir
 	allow $1_t cron_spool_t:dir setattr;
 
 	kernel_read_system_state($1_t)
 
-	# for the checks used by crontab -u
 	selinux_dontaudit_search_fs($1_t)
 
 	fs_getattr_xattr_fs($1_t)
@@ -81,14 +77,10 @@ template(`cron_common_crontab_template',`
 
 	userdom_manage_user_tmp_dirs($1_t)
 	userdom_manage_user_tmp_files($1_t)
-	# Access terminals.
 	userdom_use_user_terminals($1_t)
-	# Read user crontabs
 	userdom_read_user_home_content_files($1_t)
 
 	tunable_policy(`fcron_crond',`
-		# fcron wants an instant update of a crontab change for the administrator
-		# also crontab does a security check for crontab -u
 		dontaudit $1_t crond_t:process signal;
 	')
 
@@ -111,6 +103,7 @@ template(`cron_common_crontab_template',`
 ##	User domain for the role
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`cron_role',`
 	gen_require(`
@@ -119,19 +112,13 @@ interface(`cron_role',`
 
 	role $1 types { cronjob_t crontab_t };
 
-	# cronjob shows up in user ps
 	ps_process_pattern($2, cronjob_t)
 
-	# Transition from the user domain to the derived domain.
 	domtrans_pattern($2, crontab_exec_t, crontab_t)
 
-	# crontab shows up in user ps
 	ps_process_pattern($2, crontab_t)
 	allow $2 crontab_t:process signal;
 
-	# Run helper programs as the user domain
-	#corecmd_bin_domtrans(crontab_t, $2)
-	#corecmd_shell_domtrans(crontab_t, $2)
 	corecmd_exec_bin(crontab_t)
 	corecmd_exec_shell(crontab_t)
 
@@ -160,6 +147,7 @@ interface(`cron_role',`
 ##	User domain for the role
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`cron_unconfined_role',`
 	gen_require(`
@@ -168,7 +156,6 @@ interface(`cron_unconfined_role',`
 
 	role $1 types unconfined_cronjob_t;
 
-	# cronjob shows up in user ps
 	ps_process_pattern($2, unconfined_cronjob_t)
 
 	optional_policy(`
@@ -196,6 +183,7 @@ interface(`cron_unconfined_role',`
 ##	User domain for the role
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`cron_admin_role',`
 	gen_require(`
@@ -205,22 +193,15 @@ interface(`cron_admin_role',`
 
 	role $1 types { cronjob_t admin_crontab_t admin_crontab_tmp_t };
 
-	# cronjob shows up in user ps
 	ps_process_pattern($2, cronjob_t)
 
-	# Manipulate other users crontab.
 	allow $2 self:passwd crontab;
 
-	# Transition from the user domain to the derived domain.
 	domtrans_pattern($2, crontab_exec_t, admin_crontab_t)
 
-	# crontab shows up in user ps
 	ps_process_pattern($2, admin_crontab_t)
 	allow $2 admin_crontab_t:process signal;
 
-	# Run helper programs as the user domain
-	#corecmd_bin_domtrans(admin_crontab_t, $2)
-	#corecmd_shell_domtrans(admin_crontab_t, $2)
 	corecmd_exec_bin(admin_crontab_t)
 	corecmd_exec_shell(admin_crontab_t)
 
@@ -268,7 +249,7 @@ interface(`cron_system_entry',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -278,6 +259,7 @@ interface(`cron_domtrans',`
 	')
 
 	domtrans_pattern($1, crond_exec_t, system_cronjob_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -296,6 +278,7 @@ interface(`cron_exec',`
 	')
 
 	can_exec($1, crond_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -304,7 +287,7 @@ interface(`cron_exec',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -377,7 +360,7 @@ interface(`cron_read_pipes',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -445,11 +428,12 @@ interface(`cron_rw_tcp_sockets',`
 
 ########################################
 ## <summary>
-##	Dontaudit Read, and write cron daemon TCP sockets.
+##	Do not audit attempts to read, and
+##	write cron daemon TCP sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -467,7 +451,7 @@ interface(`cron_dontaudit_rw_tcp_sockets',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process to performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -476,8 +460,8 @@ interface(`cron_search_spool',`
 		type cron_spool_t;
 	')
 
-	files_search_spool($1)
 	allow $1 cron_spool_t:dir search_dir_perms;
+	files_search_spool($1)
 ')
 
 ########################################
@@ -496,6 +480,7 @@ interface(`cron_manage_pid_files',`
 	')
 
 	manage_files_pattern($1, crond_var_run_t, crond_var_run_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -504,7 +489,7 @@ interface(`cron_manage_pid_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -514,6 +499,7 @@ interface(`cron_anacron_domtrans_system_job',`
 	')
 
 	domtrans_pattern($1, anacron_exec_t, system_cronjob_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -604,11 +590,12 @@ interface(`cron_read_system_job_tmp_files',`
 		type system_cronjob_tmp_t, cron_var_run_t;
 	')
 
-	files_search_tmp($1)
 	allow $1 system_cronjob_tmp_t:file read_file_perms;
+	files_search_tmp($1)
 
-	files_search_pids($1)
+	# This is not a tmp file
 	allow $1 cron_var_run_t:file read_file_perms;
+	files_search_pids($1)
 ')
 
 ########################################
@@ -667,8 +654,8 @@ interface(`cron_read_system_job_lib_files',`
 		type system_cronjob_var_lib_t;
 	')
 
-
 	read_files_pattern($1, system_cronjob_var_lib_t,  system_cronjob_var_lib_t)
+	files_search_var_lib($1)
 ')
 
 ########################################
@@ -686,6 +673,6 @@ interface(`cron_manage_system_job_lib_files',`
 		type system_cronjob_var_lib_t;
 	')
 
-
 	manage_files_pattern($1, system_cronjob_var_lib_t,  system_cronjob_var_lib_t)
+	files_search_var_lib($1)
 ')

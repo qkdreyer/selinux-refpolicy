@@ -1,4 +1,4 @@
-## <summary>Remote-mail retrieval and forwarding utility</summary>
+## <summary>Remote-mail retrieval and forwarding utility.</summary>
 
 ########################################
 ## <summary>
@@ -10,7 +10,6 @@
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`fetchmail_admin',`
 	gen_require(`

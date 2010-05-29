@@ -16,6 +16,7 @@ interface(`ifplugd_domtrans',`
 	')
 
 	domtrans_pattern($1, ifplugd_exec_t, ifplugd_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -51,8 +52,8 @@ interface(`ifplugd_read_config',`
 		type ifplugd_etc_t;
 	')
 
-	files_search_etc($1)
 	read_files_pattern($1, ifplugd_etc_t, ifplugd_etc_t)
+	files_search_etc($1)
 ')
 
 ########################################
@@ -70,9 +71,9 @@ interface(`ifplugd_manage_config',`
 		type ifplugd_etc_t;
 	')
 
-	files_search_etc($1)
 	manage_dirs_pattern($1, ifplugd_etc_t, ifplugd_etc_t)
 	manage_files_pattern($1, ifplugd_etc_t, ifplugd_etc_t)
+	files_search_etc($1)
 ')
 
 ########################################
@@ -90,8 +91,8 @@ interface(`ifplugd_read_pid_files',`
 		type ifplugd_var_run_t;
 	')
 
-	files_search_pids($1)
 	allow $1 ifplugd_var_run_t:file read_file_perms;
+	files_search_pids($1)
 ')
 
 ########################################

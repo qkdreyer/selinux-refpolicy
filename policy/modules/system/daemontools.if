@@ -1,9 +1,4 @@
-## <summary>Collection of tools for managing UNIX services</summary>
-## <desc>
-##	<p>
-##		Policy for DJB's daemontools
-##	</p>
-## </desc>
+## <summary>Collection of tools for managing UNIX services.</summary>
 
 ########################################
 ## <summary>
@@ -11,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access to svc_start_t.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -28,7 +23,7 @@ interface(`daemontools_ipc_domain',`
 
 ########################################
 ## <summary>
-##	Define a specified domain as a supervised service.
+##	Domain specified as a supervised service.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -59,7 +54,7 @@ interface(`daemontools_service_domain',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -69,6 +64,7 @@ interface(`daemontools_domtrans_start',`
 	')
 
 	domtrans_pattern($1, svc_start_exec_t, svc_start_t)
+	corecmd_search_bin($1)
 ')
 
 ######################################
@@ -78,7 +74,7 @@ interface(`daemontools_domtrans_start',`
 ## </summary>
 ## <param name="domain">
 ##  <summary>
-##  Domain allowed access.
+##  Domain allowed to transition.
 ##  </summary>
 ## </param>
 ## <param name="role">
@@ -103,7 +99,7 @@ interface(`daemonstools_run_start',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -113,6 +109,7 @@ interface(`daemontools_domtrans_run',`
 	')
 
 	domtrans_pattern($1, svc_run_exec_t, svc_run_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -121,7 +118,7 @@ interface(`daemontools_domtrans_run',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -131,18 +128,18 @@ interface(`daemontools_domtrans_multilog',`
 	')
 
 	domtrans_pattern($1, svc_multilog_exec_t, svc_multilog_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow a domain to read svc_svc_t files.
+##	Read svc_svc_t files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`daemontools_read_svc',`
 	gen_require(`
@@ -155,7 +152,7 @@ interface(`daemontools_read_svc',`
 
 ######################################
 ## <summary>
-##  Search svc_svc_t  directory.
+##  Search svc_svc_t directory.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -173,14 +170,13 @@ interface(`daemontools_search_svc_dir',`
 
 ########################################
 ## <summary>
-##	Allow a domain to create svc_svc_t files.
+##	Create svc_svc_t files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`daemontools_manage_svc',`
 	gen_require(`

@@ -1,4 +1,4 @@
-## <summary>Name service cache daemon</summary>
+## <summary>Name service cache daemon.</summary>
 
 ########################################
 ## <summary>
@@ -60,7 +60,7 @@ interface(`nscd_signull',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -69,14 +69,13 @@ interface(`nscd_domtrans',`
 		type nscd_t, nscd_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, nscd_exec_t, nscd_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow the specified domain to execute nscd
-##	in the caller domain.
+## Execute nscd.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -90,6 +89,7 @@ interface(`nscd_exec',`
 	')
 
 	can_exec($1, nscd_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -157,12 +157,8 @@ interface(`nscd_shm_use',`
 	allow $1 nscd_var_run_t:dir list_dir_perms;
 	allow $1 nscd_t:nscd { shmempwd shmemgrp shmemhost };
 
-	# Receive fd from nscd and map the backing file with read access.
 	allow $1 nscd_t:fd use;
 
-	# cjp: these were originally inherited from the
-	# nscd_socket_domain macro. need to investigate
-	# if they are all actually required
 	allow $1 self:unix_stream_socket create_stream_socket_perms;
 	allow $1 nscd_t:unix_stream_socket connectto;
 	allow $1 nscd_var_run_t:sock_file rw_file_perms;
@@ -204,8 +200,8 @@ interface(`nscd_read_pid',`
 		type nscd_var_run_t;
 	')
 
-	files_search_pids($1)
 	read_files_pattern($1, nscd_var_run_t, nscd_var_run_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -234,7 +230,7 @@ interface(`nscd_unconfined',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -242,6 +238,7 @@ interface(`nscd_unconfined',`
 ##	The role to be allowed the nscd domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`nscd_run',`
 	gen_require(`
@@ -258,7 +255,7 @@ interface(`nscd_run',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #

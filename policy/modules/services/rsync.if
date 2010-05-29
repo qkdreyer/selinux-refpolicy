@@ -1,4 +1,4 @@
-## <summary>Fast incremental file transfer for synchronization</summary>
+## <summary>Fast incremental file transfer for synchronization.</summary>
 
 ########################################
 ## <summary>
@@ -10,7 +10,7 @@
 ##	The domain for which init scripts are an entrypoint.
 ##	</summary>
 ## </param>
-# cjp: added for portage
+#
 interface(`rsync_entry_type',`
 	gen_require(`
 		type rsync_exec_t;
@@ -23,19 +23,9 @@ interface(`rsync_entry_type',`
 ## <summary>
 ##	Execute a rsync in a specified domain.
 ## </summary>
-## <desc>
-##	<p>
-##	Execute a rsync in a specified domain.
-##	</p>
-##	<p>
-##	No interprocess communication (signals, pipes,
-##	etc.) is provided by this interface since
-##	the domains are not owned by this module.
-##	</p>
-## </desc>
 ## <param name="source_domain">
 ##	<summary>
-##	Domain to transition from.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="target_domain">
@@ -43,32 +33,23 @@ interface(`rsync_entry_type',`
 ##	Domain to transition to.
 ##	</summary>
 ## </param>
-# cjp: added for portage
+#
 interface(`rsync_entry_spec_domtrans',`
 	gen_require(`
 		type rsync_exec_t;
 	')
 
 	domain_trans($1, rsync_exec_t, $2)
+	corecmd_search_bin($1)
 ')
 
 ########################################
 ## <summary>
 ##	Execute a rsync in a specified domain.
 ## </summary>
-## <desc>
-##	<p>
-##	Execute a rsync in a specified domain.
-##	</p>
-##	<p>
-##	No interprocess communication (signals, pipes,
-##	etc.) is provided by this interface since
-##	the domains are not owned by this module.
-##	</p>
-## </desc>
 ## <param name="source_domain">
 ##	<summary>
-##	Domain to transition from.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="target_domain">
@@ -76,25 +57,25 @@ interface(`rsync_entry_spec_domtrans',`
 ##	Domain to transition to.
 ##	</summary>
 ## </param>
-# cjp: added for portage
+#
 interface(`rsync_entry_domtrans',`
 	gen_require(`
 		type rsync_exec_t;
 	')
 
 	domain_auto_trans($1, rsync_exec_t, $2)
+	corecmd_search_bin($1)
 ')
 
 ########################################
 ## <summary>
-##	Execute rsync in the caller domain domain.
+##	Execute rsync.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`rsync_exec',`
 	gen_require(`
@@ -102,6 +83,7 @@ interface(`rsync_exec',`
 	')
 
 	can_exec($1, rsync_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################

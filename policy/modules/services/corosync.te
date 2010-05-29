@@ -42,7 +42,7 @@ allow corosync_t self:unix_stream_socket { create_stream_socket_perms connectto 
 allow corosync_t self:unix_dgram_socket create_socket_perms;
 allow corosync_t self:udp_socket create_socket_perms;
 
-can_exec(corosync_t,corosync_exec_t)
+can_exec(corosync_t, corosync_exec_t)
 
 manage_dirs_pattern(corosync_t, corosync_tmp_t, corosync_tmp_t)
 manage_files_pattern(corosync_t, corosync_tmp_t, corosync_tmp_t)

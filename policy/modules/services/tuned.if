@@ -1,4 +1,4 @@
-## <summary>Dynamic adaptive system tuning daemon</summary>
+## <summary>Dynamic adaptive system tuning daemon.</summary>
 
 ########################################
 ## <summary>
@@ -16,6 +16,7 @@ interface(`tuned_domtrans',`
 	')
 
 	domtrans_pattern($1, tuned_exec_t, tuned_t)
+	corecmd_search_bin($1)
 ')
 
 #######################################
@@ -33,8 +34,8 @@ interface(`tuned_exec',`
 		type tuned_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	can_exec($1, tuned_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ######################################
@@ -52,8 +53,8 @@ interface(`tuned_read_pid_files',`
 		type tuned_var_run_t;
 	')
 
-	files_search_pids($1)
 	read_files_pattern($1, tuned_var_run_t, tuned_var_run_t)
+	files_search_pids($1)
 ')
 
 #######################################
@@ -71,8 +72,8 @@ interface(`tuned_manage_pid_files',`
 		type tuned_var_run_t;
 	')
 
-	files_search_pids($1)
 	manage_files_pattern($1, tuned_var_run_t, tuned_var_run_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -81,7 +82,7 @@ interface(`tuned_manage_pid_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #

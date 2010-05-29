@@ -63,7 +63,7 @@ files_read_all_files(quota_t)
 files_read_all_symlinks(quota_t)
 files_getattr_all_pipes(quota_t)
 files_getattr_all_sockets(quota_t)
-files_getattr_all_file_type_fs(quota_t).
+files_getattr_all_file_type_fs(quota_t)
 files_read_etc_runtime_files(quota_t)
 
 init_use_fds(quota_t)

@@ -1,4 +1,4 @@
-## <summary>Xen hypervisor</summary>
+## <summary>Xen hypervisor.</summary>
 
 ########################################
 ## <summary>
@@ -16,6 +16,7 @@ interface(`xen_domtrans',`
 	')
 
 	domtrans_pattern($1, xend_exec_t, xend_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -24,7 +25,7 @@ interface(`xen_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -69,21 +70,18 @@ interface(`xen_read_image_files',`
 	gen_require(`
 		type xen_image_t, xend_var_lib_t;
 	')
-
-	files_list_var_lib($1)
-
 	list_dirs_pattern($1, xend_var_lib_t, xend_var_lib_t)
 	read_files_pattern($1, { xend_var_lib_t xen_image_t }, xen_image_t)
+	files_list_var_lib($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow the specified domain to read/write
-##	xend image files.
+##	Read and write xend image files.
 ## </summary>
 ## <param name="domain">
 ## 	<summary>
-##	Domain allowed to transition.
+##	Domain allowed access.
 ## 	</summary>
 ## </param>
 #
@@ -92,19 +90,18 @@ interface(`xen_rw_image_files',`
 		type xen_image_t, xend_var_lib_t;
 	')
 
-	files_list_var_lib($1)
 	allow $1 xend_var_lib_t:dir search_dir_perms;
 	rw_files_pattern($1, xen_image_t, xen_image_t)
+	files_list_var_lib($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow the specified domain to append
-##	xend log files.
+##	Append xend log files.
 ## </summary>
 ## <param name="domain">
 ## 	<summary>
-##	Domain allowed to transition.
+##	Domain allowed access.
 ## 	</summary>
 ## </param>
 #
@@ -113,9 +110,9 @@ interface(`xen_append_log',`
 		type xend_var_log_t;
 	')
 
-	logging_search_logs($1)
 	append_files_pattern($1, xend_var_log_t, xend_var_log_t)
 	dontaudit $1 xend_var_log_t:file write;
+	logging_search_logs($1)
 ')
 
 ########################################
@@ -134,9 +131,9 @@ interface(`xen_manage_log',`
 		type xend_var_log_t;
 	')
 
-	logging_search_logs($1)
 	manage_dirs_pattern($1, xend_var_log_t, xend_var_log_t)
 	manage_files_pattern($1, xend_var_log_t, xend_var_log_t)
+	logging_search_logs($1)
 ')
 
 ########################################
@@ -174,8 +171,8 @@ interface(`xen_stream_connect_xenstore',`
 		type xenstored_t, xenstored_var_run_t;
 	')
 
-	files_search_pids($1)
 	stream_connect_pattern($1, xenstored_var_run_t, xenstored_var_run_t, xenstored_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -193,11 +190,11 @@ interface(`xen_stream_connect',`
 		type xend_t, xend_var_run_t, xend_var_lib_t;
 	')
 
-	files_search_pids($1)
 	stream_connect_pattern($1, xend_var_run_t, xend_var_run_t, xend_t)
+	files_search_pids($1)
 
-	files_search_var_lib($1)
 	stream_connect_pattern($1, xend_var_lib_t, xend_var_lib_t, xend_t)
+	files_search_var_lib($1)
 ')
 
 ########################################
@@ -215,8 +212,11 @@ interface(`xen_domtrans_xm',`
 		type xm_t, xm_exec_t;
 		attribute xm_transition_domain;
 	')
+
 	typeattribute $1 xm_transition_domain;
+
 	domtrans_pattern($1, xm_exec_t, xm_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -234,6 +234,6 @@ interface(`xen_stream_connect_xm',`
 		type xm_t;
 	')
 
-	files_search_pids($1)
 	stream_connect_pattern($1, xenstored_var_run_t, xenstored_var_run_t, xm_t)
+	files_search_pids($1)
 ')

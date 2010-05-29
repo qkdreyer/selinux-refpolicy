@@ -1,25 +1,10 @@
-## <summary>
-##	Policy for kernel security interface, in particular, selinuxfs.
-## </summary>
-## <required val="true">
-##	Contains the policy for the kernel SELinux security interface.
-## </required>
+## <summary>kernel security interface, in particular, selinuxfs.</summary>
 
 ########################################
 ## <summary>
 ##	Make the specified type used for labeling SELinux Booleans.
 ##	This interface is only usable in the base module.
 ## </summary>
-## <desc>
-##	<p>
-##	Make the specified type used for labeling SELinux Booleans.
-##	</p>
-##	<p>
-##	This makes use of genfscon statements, which are only
-##	available in the base module.  Thus any module which calls this
-##	interface must be included in the base module.
-##	</p>
-## </desc>
 ## <param name="type">
 ##	<summary>
 ##	Type used for labeling a Boolean.
@@ -40,7 +25,7 @@ interface(`selinux_labeled_boolean',`
 
 	# because of this statement, any module which
 	# calls this interface must be in the base module:
-#	genfscon selinuxfs /booleans/$2 gen_context(system_u:object_r:$1,s0)
+	# genfscon selinuxfs /booleans/$2 gen_context(system_u:object_r:$1,s0)
 ')
 
 ########################################
@@ -58,13 +43,7 @@ interface(`selinux_get_fs_mount',`
 		type security_t;
 	')
 
-	# starting in libselinux 2.0.5, init_selinuxmnt() will
-	# attempt to short circuit by checking if SELINUXMNT
-	# (/selinux) is already a selinuxfs
 	allow $1 security_t:filesystem getattr;
-
-	# read /proc/filesystems to see if selinuxfs is supported
-	# then read /proc/self/mount to see where selinuxfs is mounted
 	kernel_read_system_state($1)
 ')
 
@@ -84,13 +63,7 @@ interface(`selinux_dontaudit_get_fs_mount',`
 		type security_t;
 	')
 
-	# starting in libselinux 2.0.5, init_selinuxmnt() will
-	# attempt to short circuit by checking if SELINUXMNT
-	# (/selinux) is already a selinuxfs
 	dontaudit $1 security_t:filesystem getattr;
-
-	# read /proc/filesystems to see if selinuxfs is supported
-	# then read /proc/self/mount to see where selinuxfs is mounted
 	kernel_dontaudit_read_system_state($1)
 ')
 
@@ -209,15 +182,13 @@ interface(`selinux_dontaudit_read_fs',`
 
 ########################################
 ## <summary>
-##	Allows the caller to get the mode of policy enforcement
-##	(enforcing or permissive mode).
+##	Get the mode of policy enforcement
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type to allow to get the enforcing mode.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`selinux_get_enforce_mode',`
 	gen_require(`
@@ -231,25 +202,13 @@ interface(`selinux_get_enforce_mode',`
 
 ########################################
 ## <summary>
-##	Allow caller to set the mode of policy enforcement
-##	(enforcing or permissive mode).
+##	Set the mode of policy enforcement.
 ## </summary>
-## <desc>
-##	<p>
-##	Allow caller to set the mode of policy enforcement
-##	(enforcing or permissive mode).
-##	</p>
-##	<p>
-##	Since this is a security event, this action is
-##	always audited.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
-##	The process type to allow to set the enforcement mode.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`selinux_set_enforce_mode',`
 	gen_require(`
@@ -274,11 +233,11 @@ interface(`selinux_set_enforce_mode',`
 
 ########################################
 ## <summary>
-##	Allow caller to load the policy into the kernel.
+##	Load the policy into the kernel.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type that will load the policy.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -305,30 +264,14 @@ interface(`selinux_load_policy',`
 
 ########################################
 ## <summary>
-##	Allow caller to set the state of Booleans to
+##	Set the state of Booleans to
 ##	enable or disable conditional portions of the policy.  (Deprecated)
 ## </summary>
-## <desc>
-##	<p>
-##	Allow caller to set the state of Booleans to
-##	enable or disable conditional portions of the policy.
-##	</p>
-##	<p>
-##	Since this is a security event, this action is
-##	always audited.
-##	</p>
-##	<p>
-##	This interface has been deprecated.  Please use
-##	selinux_set_generic_booleans() or selinux_set_all_booleans()
-##	instead.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
-##	The process type allowed to set the Boolean.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`selinux_set_boolean',`
 	refpolicywarn(`$0($*) has been deprecated, use selinux_set_generic_booleans() instead.')
@@ -337,25 +280,14 @@ interface(`selinux_set_boolean',`
 
 ########################################
 ## <summary>
-##	Allow caller to set the state of generic Booleans to
+##	Sset the state of generic Booleans to
 ##	enable or disable conditional portions of the policy.
 ## </summary>
-## <desc>
-##	<p>
-##	Allow caller to set the state of generic Booleans to
-##	enable or disable conditional portions of the policy.
-##	</p>
-##	<p>
-##	Since this is a security event, this action is
-##	always audited.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
-##	The process type allowed to set the Boolean.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`selinux_set_generic_booleans',`
 	gen_require(`
@@ -378,25 +310,14 @@ interface(`selinux_set_generic_booleans',`
 
 ########################################
 ## <summary>
-##	Allow caller to set the state of all Booleans to
+##	Set the state of all Booleans to
 ##	enable or disable conditional portions of the policy.
 ## </summary>
-## <desc>
-##	<p>
-##	Allow caller to set the state of all Booleans to
-##	enable or disable conditional portions of the policy.
-##	</p>
-##	<p>
-##	Since this is a security event, this action is
-##	always audited.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
-##	The process type allowed to set the Boolean.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`selinux_set_all_booleans',`
 	gen_require(`
@@ -421,25 +342,13 @@ interface(`selinux_set_all_booleans',`
 
 ########################################
 ## <summary>
-##	Allow caller to set SELinux access vector cache parameters.
+##	Set SELinux access vector cache parameters.
 ## </summary>
-## <desc>
-##	<p>
-##	Allow caller to set SELinux access vector cache parameters.
-##	The allows the domain to set performance related parameters
-##	of the AVC, such as cache threshold.
-##	</p>
-##	<p>
-##	Since this is a security event, this action is
-##	always audited.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
-##	The process type to allow to set security parameters.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`selinux_set_parameters',`
 	gen_require(`
@@ -456,14 +365,13 @@ interface(`selinux_set_parameters',`
 
 ########################################
 ## <summary>
-##	Allows caller to validate security contexts.
+##	Validate security contexts.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type permitted to validate contexts.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`selinux_validate_context',`
 	gen_require(`
@@ -484,7 +392,6 @@ interface(`selinux_validate_context',`
 ##	Domain to not audit.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`selinux_dontaudit_validate_context',`
 	gen_require(`
@@ -498,14 +405,13 @@ interface(`selinux_dontaudit_validate_context',`
 
 ########################################
 ## <summary>
-##	Allows caller to compute an access vector.
+##	Compute an access vector.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type allowed to compute an access vector.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`selinux_compute_access_vector',`
 	gen_require(`
@@ -526,7 +432,6 @@ interface(`selinux_compute_access_vector',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`selinux_compute_create_context',`
 	gen_require(`
@@ -540,7 +445,7 @@ interface(`selinux_compute_create_context',`
 
 ########################################
 ## <summary>
-##	Allows caller to compute polyinstatntiated
+##	Compute polyinstatntiated
 ##	directory members.
 ## </summary>
 ## <param name="domain">
@@ -563,15 +468,6 @@ interface(`selinux_compute_member',`
 ## <summary>
 ##	Calculate the context for relabeling objects.
 ## </summary>
-## <desc>
-##	<p>
-##	Calculate the context for relabeling objects.
-##	This is determined by using the type_change
-##	rules in the policy, and is generally used
-##	for determining the context for relabeling
-##	a terminal when a user logs in.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
@@ -590,11 +486,11 @@ interface(`selinux_compute_relabel_context',`
 
 ########################################
 ## <summary>
-##	Allows caller to compute possible contexts for a user.
+##	Compute possible contexts for a user.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type allowed to compute user contexts.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -628,7 +524,7 @@ interface(`selinux_unconfined',`
 
 ########################################
 ## <summary>
-##	Generate a file context for a boolean type
+##	Generate a file context for a boolean type.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

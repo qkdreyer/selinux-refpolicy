@@ -156,7 +156,6 @@ files_getattr_home_dir(squid_t)
 auth_use_nsswitch(squid_t)
 auth_domtrans_chk_passwd(squid_t)
 
-# to allow running programs from /usr/lib/squid (IE unlinkd)
 libs_exec_lib_files(squid_t)
 
 logging_send_syslog_msg(squid_t)
@@ -176,6 +175,7 @@ tunable_policy(`squid_connect_any',`
 tunable_policy(`squid_use_tproxy',`
 	allow squid_t self:capability net_admin;
 	corenet_tcp_bind_netport_port(squid_t)
+	corenet_sendrecv_netport_server_packets(squid_t)
 ')
 
 optional_policy(`

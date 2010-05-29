@@ -1,4 +1,4 @@
-## <summary>Aide filesystem integrity checker</summary>
+## <summary>Aide filesystem integrity checker.</summary>
 
 ########################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,8 +15,8 @@ interface(`aide_domtrans',`
 		type aide_t, aide_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, aide_exec_t, aide_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -25,7 +25,7 @@ interface(`aide_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -33,6 +33,7 @@ interface(`aide_domtrans',`
 ##	The role to allow the AIDE domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`aide_run',`
 	gen_require(`
@@ -53,7 +54,6 @@ interface(`aide_run',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`aide_admin',`
 	gen_require(`

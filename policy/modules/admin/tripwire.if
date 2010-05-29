@@ -1,18 +1,4 @@
 ## <summary>Tripwire file integrity checker.</summary>
-## <desc>
-##	<p>
-##	When Tripwire is initially set up, it creates a database that records
-##	certain file information. Then when it is run, it compares a designated
-##	set of files and directories to the information stored in the database.
-##	Added or deleted files are flagged and reported, as are any files that
-##	have changed from their previously recorded state in the database. When
-##	Tripwire is run against system files on a regular basis, any file
-##	changes will be spotted when Tripwire is run. Tripwire will report the
-##	changes, which will give system administrators a clue that they need to
-##	enact damage control measures immediately if certain files have been
-##	altered.
-##	</p>
-## </desc>
 
 ########################################
 ## <summary>

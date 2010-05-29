@@ -1,14 +1,4 @@
-## <summary>shutdown bring the system down.</summary>
-## <desc>
-##	<p>
-##	shutdown brings the system down in a secure way. All
-##	logged-in users are notified that the system is going down,
-##	and login(1) is blocked. It is possible to shut the system
-##	down immediately or after a specified delay. All processes
-##	are first notified that the system is going down by the
-##	signal SIGTERM.
-##	</p>
-## </desc>
+## <summary>Shutdown bring the system down.</summary>
 
 ########################################
 ## <summary>
@@ -50,6 +40,7 @@ interface(`shutdown_domtrans',`
 ##	The role to be allowed the shutdown domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`shutdown_run',`
 	gen_require(`
@@ -74,6 +65,7 @@ interface(`shutdown_run',`
 ##	Domain allowed to transition.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`shutdown_role',`
 	gen_require(`

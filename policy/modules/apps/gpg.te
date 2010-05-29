@@ -172,11 +172,6 @@ optional_policy(`
 	xserver_rw_xdm_pipes(gpg_t)
 ')
 
-#optional_policy(`
-#	cron_system_entry(gpg_t, gpg_exec_t)
-#	cron_read_system_job_tmp_files(gpg_t)
-#')
-
 ########################################
 #
 # GPG helper local policy
@@ -314,7 +309,6 @@ manage_files_pattern(gpg_pinentry_t, gpg_pinentry_tmpfs_t, gpg_pinentry_tmpfs_t)
 fs_tmpfs_filetrans(gpg_pinentry_t, gpg_pinentry_tmpfs_t, { file dir })
 fs_getattr_tmpfs(gpg_pinentry_t)
 
-# read /proc/meminfo
 kernel_read_system_state(gpg_pinentry_t)
 
 corecmd_exec_bin(gpg_pinentry_t)
@@ -332,7 +326,6 @@ dev_read_urand(gpg_pinentry_t)
 dev_read_rand(gpg_pinentry_t)
 
 files_read_usr_files(gpg_pinentry_t)
-# read /etc/X11/qtrc
 files_read_etc_files(gpg_pinentry_t)
 
 fs_list_inotifyfs(gpg_pinentry_t)

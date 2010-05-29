@@ -1,8 +1,8 @@
-## <summary>Postfix email server</summary>
+## <summary>Postfix email server.</summary>
 
 ########################################
 ## <summary>
-##	Postfix stub interface.  No access allowed.
+##	Postfix stub interface. No access allowed.
 ## </summary>
 ## <param name="domain" unused="true">
 ##	<summary>
@@ -276,7 +276,7 @@ interface(`postfix_read_local_state',`
 
 ########################################
 ## <summary>
-##	Allow domain to read postfix master process state
+##	Read postfix master process state
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -318,7 +318,7 @@ interface(`postfix_dontaudit_use_fds',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -674,6 +674,12 @@ interface(`posftix_exec_postqueue',`
 ##	Domain allowed to transition.
 ##	</summary>
 ## </param>
+## <param name="role">
+##	<summary>
+##	The role to be allowed the postfix postdrop domain.
+##	</summary>
+## </param>
+## <rolecap/>
 #
 interface(`postfix_run_postdrop',`
 	gen_require(`

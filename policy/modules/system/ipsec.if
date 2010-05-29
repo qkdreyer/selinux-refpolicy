@@ -1,4 +1,4 @@
-## <summary>TCP/IP encryption</summary>
+## <summary>TCP/IP encryption.</summary>
 
 ########################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -16,6 +16,7 @@ interface(`ipsec_domtrans',`
 	')
 
 	domtrans_pattern($1, ipsec_exec_t, ipsec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -24,7 +25,7 @@ interface(`ipsec_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -33,8 +34,8 @@ interface(`ipsec_stream_connect',`
 		type ipsec_t, ipsec_var_run_t;
 	')
 
-	files_search_pids($1)
 	stream_connect_pattern($1, ipsec_var_run_t, ipsec_var_run_t, ipsec_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -43,7 +44,7 @@ interface(`ipsec_stream_connect',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -52,8 +53,8 @@ interface(`ipsec_stream_connect_racoon',`
 		type racoon_t, ipsec_var_run_t;
 	')
 
-	files_search_pids($1)
 	stream_connect_pattern($1, ipsec_var_run_t, ipsec_var_run_t, racoon_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -62,7 +63,7 @@ interface(`ipsec_stream_connect_racoon',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -80,7 +81,7 @@ interface(`ipsec_getattr_key_sockets',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -90,6 +91,7 @@ interface(`ipsec_exec_mgmt',`
 	')
 
 	can_exec($1, ipsec_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -98,18 +100,17 @@ interface(`ipsec_exec_mgmt',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`ipsec_read_config',`
 	gen_require(`
 		type ipsec_conf_file_t;
 	')
 
-	files_search_etc($1)
 	allow $1 ipsec_conf_file_t:file read_file_perms;
+	files_search_etc($1)
 ')
 
 ########################################
@@ -165,8 +166,8 @@ interface(`ipsec_write_pid',`
 		type ipsec_var_run_t;
 	')
 
-	files_search_pids($1)
 	write_files_pattern($1, ipsec_var_run_t, ipsec_var_run_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -175,7 +176,7 @@ interface(`ipsec_write_pid',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -184,8 +185,8 @@ interface(`ipsec_manage_pid',`
 		type ipsec_var_run_t;
 	')
 
-	files_search_pids($1)
 	manage_files_pattern($1, ipsec_var_run_t, ipsec_var_run_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -194,7 +195,7 @@ interface(`ipsec_manage_pid',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -204,6 +205,7 @@ interface(`ipsec_domtrans_racoon',`
 	')
 
 	domtrans_pattern($1, racoon_exec_t, racoon_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -212,7 +214,7 @@ interface(`ipsec_domtrans_racoon',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -237,7 +239,7 @@ interface(`ipsec_run_racoon',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -247,6 +249,7 @@ interface(`ipsec_domtrans_setkey',`
 	')
 
 	domtrans_pattern($1, setkey_exec_t, setkey_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -255,7 +258,7 @@ interface(`ipsec_domtrans_setkey',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">

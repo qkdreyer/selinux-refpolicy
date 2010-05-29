@@ -79,7 +79,6 @@ interface(`bootloader_read_config',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`bootloader_rw_config',`
 	gen_require(`

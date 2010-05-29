@@ -1,7 +1,4 @@
-## <summary>Multicategory security policy</summary>
-## <required val="true">
-##	Contains attributes used in MCS policy.
-## </required>
+## <summary>Multicategory security policy.</summary>
 
 ########################################
 ## <summary>
@@ -13,7 +10,6 @@
 ##	Domain target for user exemption.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`mcs_file_read_all',`
 	gen_require(`
@@ -33,7 +29,6 @@ interface(`mcs_file_read_all',`
 ##	Domain target for user exemption.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`mcs_file_write_all',`
 	gen_require(`
@@ -53,7 +48,6 @@ interface(`mcs_file_write_all',`
 ##	Domain target for user exemption.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`mcs_killall',`
 	gen_require(`

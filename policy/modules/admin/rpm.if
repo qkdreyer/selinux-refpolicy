@@ -1,11 +1,4 @@
 ## <summary>RPM Package Manager.</summary>
-## <desc>
-##	<p>
-##	rpm is a powerful Package Manager, which can be used
-##	to build, install, query, verify, update, and erase
-##	individual software packages.
-##	</p>
-## </desc>
 
 ########################################
 ## <summary>
@@ -200,11 +193,11 @@ interface(`rpm_rw_pipes',`
 
 ########################################
 ## <summary>
-##	dontaudit read and write an leaked file descriptors
+##	Do not audit read and write leaked file descriptors.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -663,7 +656,7 @@ interface(`rpm_transition_script',`
 
 ########################################
 ## <summary>
-##	Send a null signal to rpm.
+##	Read and write to inherited pipe.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

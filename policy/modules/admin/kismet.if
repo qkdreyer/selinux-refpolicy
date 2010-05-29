@@ -1,10 +1,4 @@
 ## <summary>Kismet WLAN detector, sniffer and IDS.</summary>
-## <desc>
-##	<p>
-##	Kismet is an 802.11 layer2 wireless network detector, sniffer,
-##	and intrusion detection system.
-##	</p>
-## </desc>
 
 ########################################
 ## <summary>
@@ -42,6 +36,7 @@ interface(`kismet_domtrans',`
 ##	The role to be allowed the kismet domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`kismet_run',`
 	gen_require(`

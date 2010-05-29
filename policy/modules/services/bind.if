@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -24,7 +24,7 @@ interface(`bind_initrc_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -34,6 +34,7 @@ interface(`bind_domtrans_ndc',`
 	')
 
 	domtrans_pattern($1, ndc_exec_t, ndc_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -97,7 +98,7 @@ interface(`bind_kill',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -122,7 +123,7 @@ interface(`bind_run_ndc',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -132,6 +133,7 @@ interface(`bind_domtrans',`
 	')
 
 	domtrans_pattern($1, named_exec_t, named_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -223,10 +225,10 @@ interface(`bind_search_cache',`
 		type named_conf_t, named_cache_t, named_zone_t;
 	')
 
-	files_search_var($1)
 	allow $1 named_conf_t:dir search_dir_perms;
 	allow $1 named_zone_t:dir search_dir_perms;
 	allow $1 named_cache_t:dir search_dir_perms;
+	files_search_var($1)
 ')
 
 ########################################
@@ -245,10 +247,10 @@ interface(`bind_manage_cache',`
 		type named_cache_t, named_zone_t;
 	')
 
-	files_search_var($1)
 	allow $1 named_zone_t:dir search_dir_perms;
 	manage_files_pattern($1, named_cache_t, named_cache_t)
 	manage_lnk_files_pattern($1, named_cache_t, named_cache_t)
+	files_search_var($1)
 ')
 
 ########################################
@@ -266,7 +268,7 @@ interface(`bind_setattr_pid_dirs',`
 		type named_var_run_t;
 	')
 
-	allow $1 named_var_run_t:dir setattr;
+	allow $1 named_var_run_t:dir setattr_dir_perms;
 ')
 
 ########################################
@@ -284,7 +286,7 @@ interface(`bind_setattr_zone_dirs',`
 		type named_zone_t;
 	')
 
-	allow $1 named_zone_t:dir setattr;
+	allow $1 named_zone_t:dir setattr_dir_perms;
 ')
 
 ########################################
@@ -302,8 +304,8 @@ interface(`bind_read_zone',`
 		type named_zone_t;
 	')
 
-	files_search_var($1)
 	read_files_pattern($1, named_zone_t, named_zone_t)
+	files_search_var($1)
 ')
 
 ########################################
@@ -321,8 +323,8 @@ interface(`bind_manage_zone',`
 		type named_zone_t;
 	')
 
-	files_search_var($1)
 	manage_files_pattern($1, named_zone_t, named_zone_t)
+	files_search_var($1)
 ')
 
 ########################################

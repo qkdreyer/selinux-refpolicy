@@ -16,6 +16,7 @@ interface(`rwho_domtrans',`
 	')
 
 	domtrans_pattern($1, rwho_exec_t, rwho_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################

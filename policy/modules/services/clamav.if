@@ -1,4 +1,4 @@
-## <summary>ClamAV Virus Scanner</summary>
+## <summary>ClamAV Virus Scanner.</summary>
 
 ########################################
 ## <summary>
@@ -16,6 +16,7 @@ interface(`clamav_domtrans',`
 	')
 
 	domtrans_pattern($1, clamd_exec_t, clamd_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -34,6 +35,7 @@ interface(`clamav_domtrans_clamsmtpd',`
 	')
 
 	domtrans_pattern($1, clamsmtpd_exec_t, clamsmtpd_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -70,6 +72,7 @@ interface(`clamav_stream_connect',`
 	')
 
 	stream_connect_pattern($1, clamd_var_run_t, clamd_var_run_t, clamd_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -88,9 +91,9 @@ interface(`clamav_append_log',`
 		type clamav_log_t;
 	')
 
-	logging_search_logs($1)
 	allow $1 clamav_log_t:dir list_dir_perms;
 	append_files_pattern($1, clamav_log_t, clamav_log_t)
+	logging_search_logs($1)
 ')
 
 ########################################
@@ -108,8 +111,8 @@ interface(`clamav_read_config',`
 		type clamd_etc_t;
 	')
 
-	files_search_etc($1)
 	allow $1 clamd_etc_t:file read_file_perms;
+	files_search_etc($1)
 ')
 
 ########################################
@@ -127,8 +130,8 @@ interface(`clamav_read_clamsmtpd_config',`
 		type clamsmtpd_etc_t;
 	')
 
-	files_search_etc($1)
 	allow $1 clamsmtpd_etc_t:file read_file_perms;
+	files_search_etc($1)
 ')
 
 ########################################
@@ -146,8 +149,8 @@ interface(`clamav_search_lib',`
 		type clamd_var_lib_t;
 	')
 
-	files_search_var_lib($1)
 	allow $1 clamd_var_lib_t:dir search_dir_perms;
+	files_search_var_lib($1)
 ')
 
 ########################################
@@ -165,8 +168,8 @@ interface(`clamav_read_clamsmtpd_tmp_files',`
 		type clamsmtpd_tmp_t;
 	')
 
-	files_search_tmp($1)
 	read_files_pattern($1, clamsmtpd_tmp_t, clamsmtpd_tmp_t)
+	files_search_tmp($1)
 ')
 
 ########################################
@@ -175,7 +178,7 @@ interface(`clamav_read_clamsmtpd_tmp_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -185,6 +188,7 @@ interface(`clamav_domtrans_clamscan',`
 	')
 
 	domtrans_pattern($1, clamscan_exec_t, clamscan_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -203,6 +207,7 @@ interface(`clamav_exec_clamscan',`
 	')
 
 	can_exec($1, clamscan_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################

@@ -1,4 +1,4 @@
-## <summary>Policy for mount.</summary>
+## <summary>Mount.</summary>
 
 ########################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -18,12 +18,11 @@ interface(`mount_domtrans',`
 	domtrans_pattern($1, mount_exec_t, mount_t)
 	mount_domtrans_fusermount($1)
 
-ifdef(`hide_broken_symptoms', `
-	dontaudit mount_t $1:unix_stream_socket { read write };
-	dontaudit mount_t $1:tcp_socket  { read write };
-	dontaudit mount_t $1:udp_socket { read write };
-')
-
+	ifdef(`hide_broken_symptoms',`
+		dontaudit mount_t $1:unix_stream_socket { read write };
+		dontaudit mount_t $1:tcp_socket  { read write };
+		dontaudit mount_t $1:udp_socket { read write };
+	')
 ')
 
 ########################################
@@ -34,7 +33,7 @@ ifdef(`hide_broken_symptoms', `
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -56,7 +55,6 @@ interface(`mount_run',`
 		fstools_run(mount_t, $2)
 	')
 
-	# Needed for mount crypt https://bugzilla.redhat.com/show_bug.cgi?id=418711
 	optional_policy(`
 		lvm_run(mount_t, $2)
 	')
@@ -82,7 +80,7 @@ interface(`mount_run',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -109,7 +107,7 @@ interface(`mount_run_fusermount',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -120,9 +118,10 @@ interface(`mount_exec',`
 
 	# cjp: this should be removed:
 	allow $1 mount_exec_t:dir list_dir_perms;
-
 	allow $1 mount_exec_t:lnk_file read_lnk_file_perms;
+
 	can_exec($1, mount_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -137,8 +136,7 @@ interface(`mount_exec',`
 #
 interface(`mount_signal',`
 	gen_require(`
-		type mount_t;
-		type unconfined_mount_t;
+		type mount_t, unconfined_mount_t;
 	')
 
 	allow $1 mount_t:process signal;
@@ -151,7 +149,7 @@ interface(`mount_signal',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -168,17 +166,6 @@ interface(`mount_use_fds',`
 ##	Allow the mount domain to send nfs requests for mounting
 ##	network drives
 ## </summary>
-## <desc>
-##	<p>
-##	Allow the mount domain to send nfs requests for mounting
-##	network drives
-##	</p>
-##	<p>
-##	This interface has been deprecated as these rules were
-##	a side effect of leaked mount file descriptors.  This
-##	interface has no effect.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
@@ -195,7 +182,7 @@ interface(`mount_send_nfs_client_request',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -205,6 +192,7 @@ interface(`mount_domtrans_unconfined',`
 	')
 
 	domtrans_pattern($1, mount_exec_t, unconfined_mount_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -215,7 +203,7 @@ interface(`mount_domtrans_unconfined',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -248,7 +236,7 @@ interface(`mount_run_unconfined',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -258,6 +246,7 @@ interface(`mount_domtrans_fusermount',`
 	')
 
 	domtrans_pattern($1, fusermount_exec_t, mount_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -266,7 +255,7 @@ interface(`mount_domtrans_fusermount',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -276,15 +265,16 @@ interface(`mount_exec_fusermount',`
 	')
 
 	can_exec($1, fusermount_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
 ## <summary>
-##	dontaudit Execute fusermount.
+##	Do not audit attempts to execute fusermount.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -312,6 +302,7 @@ interface(`mount_domtrans_showmount',`
     ')
 
     domtrans_pattern($1, showmount_exec_t, showmount_t)
+	corecmd_search_bin($1)
 ')
 
 ######################################
@@ -321,7 +312,7 @@ interface(`mount_domtrans_showmount',`
 ## </summary>
 ## <param name="domain">
 ##  <summary>
-##  Domain allowed access
+##  Domain allowed to transition.
 ##  </summary>
 ## </param>
 ## <param name="role">
@@ -329,6 +320,7 @@ interface(`mount_domtrans_showmount',`
 ##  The role to be allowed the showmount domain.
 ##  </summary>
 ## </param>
+## <rolecap/>
 #
 interface(`mount_run_showmount',`
     gen_require(`

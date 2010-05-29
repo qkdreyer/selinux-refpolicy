@@ -1,4 +1,4 @@
-## <summary>University of Washington IMAP toolkit POP3 and IMAP mail server</summary>
+## <summary>University of Washington IMAP toolkit POP3 and IMAP mail server.</summary>
 
 ########################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,6 +15,6 @@ interface(`uwimap_domtrans',`
 		type imapd_t, imapd_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, imapd_exec_t, imapd_t)
+	corecmd_search_bin($1)
 ')

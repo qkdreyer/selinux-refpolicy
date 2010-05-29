@@ -1,4 +1,4 @@
-## <summary>Net Saint / NAGIOS - network monitoring server</summary>
+## <summary>Net Saint / NAGIOS - network monitoring server.</summary>
 
 ########################################
 ## <summary>
@@ -26,14 +26,12 @@ template(`nagios_plugin_template',`
 
 	domtrans_pattern(nrpe_t, nagios_$1_plugin_exec_t, nagios_$1_plugin_t)
 
-	# needed by command.cfg
 	domtrans_pattern(nagios_t, nagios_$1_plugin_exec_t, nagios_$1_plugin_t)
 
 	allow nagios_t nagios_$1_plugin_t:process signal_perms;
 
-	# cjp: leaked file descriptor
-	dontaudit nagios_$1_plugin_t nrpe_t:tcp_socket { read write };
-	dontaudit nagios_$1_plugin_t nagios_log_t:file { read write };
+	dontaudit nagios_$1_plugin_t nrpe_t:tcp_socket rw_inherited_sock_file_perms;
+	dontaudit nagios_$1_plugin_t nagios_log_t:file rw_inherited_file_perms;
 
 	miscfiles_read_localization(nagios_$1_plugin_t)
 ')
@@ -48,7 +46,6 @@ template(`nagios_plugin_template',`
 ##	Domain to not audit.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`nagios_dontaudit_rw_pipes',`
 	gen_require(`
@@ -60,15 +57,13 @@ interface(`nagios_dontaudit_rw_pipes',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to read
-##	nagios configuration files.
+##	Read nagios configuration files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`nagios_read_config',`
 	gen_require(`
@@ -101,6 +96,25 @@ interface(`nagios_read_log',`
 
 ########################################
 ## <summary>
+##	Do not audit attempts to read or write nagios
+##	log files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain to not audit.
+##	</summary>
+## </param>
+#
+interface(`nagios_dontaudit_rw_log',`
+	gen_require(`
+		type nagios_log_t;
+	')
+
+	dontaudit $1 nagios_log_t:file rw_inherited_file_perms;
+')
+
+########################################
+## <summary>
 ##	Search nagios spool directories.
 ## </summary>
 ## <param name="domain">
@@ -120,8 +134,7 @@ interface(`nagios_search_spool',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to read
-##	nagios temporary files.
+##	Read nagios temporary files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -140,8 +153,7 @@ interface(`nagios_read_tmp_files',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to read
-##	nagios temporary files.
+##	Read and write inherited nagios temporary files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

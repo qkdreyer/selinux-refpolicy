@@ -1,4 +1,4 @@
-## <summary>Hardware abstraction layer</summary>
+## <summary>Hardware abstraction layer.</summary>
 
 ########################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -16,33 +16,16 @@ interface(`hal_domtrans',`
 	')
 
 	domtrans_pattern($1, hald_exec_t, hald_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
 ## <summary>
-##	Get the attributes of a hal process.
+##	Read hal system state.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`hal_getattr',`
-	gen_require(`
-		type hald_t;
-	')
-
-	allow $1 hald_t:process getattr;
-')
-
-########################################
-## <summary>
-##	Read hal system state
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -56,7 +39,7 @@ interface(`hal_read_state',`
 
 ########################################
 ## <summary>
-##	Allow ptrace of hal domain
+##	Allow ptrace of hal domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -70,15 +53,16 @@ interface(`hal_ptrace',`
 	')
 
 	allow $1 hald_t:process ptrace;
+	kernel_search_proc($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow domain to use file descriptors from hal.
+##	Use file descriptors from hal.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -110,12 +94,12 @@ interface(`hal_dontaudit_use_fds',`
 
 ########################################
 ## <summary>
-##	Allow attempts to read and write to
+##	Read and write to
 ##	hald unnamed pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -178,10 +162,11 @@ interface(`hal_dgram_send',`
 #
 interface(`hal_stream_connect',`
 	gen_require(`
-		type hald_t;
+		type hald_t, hald_var_lib_t;
 	')
 
-	allow $1 hald_t:unix_stream_socket connectto;
+	stream_connect_pattern($1, hald_var_lib_t, hald_var_lib_t, hald_t)
+	files_search_var_lib($1)
 ')
 
 ########################################
@@ -248,7 +233,7 @@ interface(`hal_dbus_chat',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -258,6 +243,7 @@ interface(`hal_domtrans_mac',`
 	')
 
 	domtrans_pattern($1, hald_mac_exec_t, hald_mac_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -276,8 +262,8 @@ interface(`hal_write_log',`
 		type hald_log_t;
 	')
 
-	logging_search_logs($1)
 	allow $1 hald_log_t:file write_file_perms;
+	logging_search_logs($1)
 ')
 
 ########################################
@@ -314,7 +300,6 @@ interface(`hal_manage_log',`
 		type hald_log_t;
 	')
 
-	# log files for hald
 	manage_files_pattern($1, hald_log_t, hald_log_t)
 	logging_log_filetrans($1, hald_log_t, file)
 ')
@@ -335,6 +320,7 @@ interface(`hal_read_tmp_files',`
 	')
 
 	allow $1 hald_tmp_t:file read_file_perms;
+	files_search_tmp($1)
 ')
 
 ########################################
@@ -344,7 +330,7 @@ interface(`hal_read_tmp_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -371,8 +357,8 @@ interface(`hal_read_pid_files',`
 		type hald_var_run_t;
 	')
 
-	files_search_pids($1)
 	allow $1 hald_var_run_t:file read_file_perms;
+	files_search_pids($1)
 ')
 
 ########################################
@@ -382,7 +368,7 @@ interface(`hal_read_pid_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -391,8 +377,8 @@ interface(`hal_dontaudit_read_pid_files',`
 		type hald_var_run_t;
 	')
 
-	files_search_pids($1)
 	allow $1 hald_var_run_t:file read_inherited_file_perms;
+	files_search_pids($1)
 ')
 
 ########################################
@@ -410,8 +396,8 @@ interface(`hal_rw_pid_files',`
 		type hald_var_run_t;
 	')
 
-	files_search_pids($1)
 	allow $1 hald_var_run_t:file rw_file_perms;
+	files_search_pids($1)
 ')
 
 ########################################
@@ -429,8 +415,8 @@ interface(`hal_manage_pid_dirs',`
 		type hald_var_run_t;
 	')
 
-	files_search_pids($1)
 	manage_dirs_pattern($1, hald_var_run_t, hald_var_run_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -448,6 +434,6 @@ interface(`hal_manage_pid_files',`
 		type hald_var_run_t;
 	')
 
-	files_search_pids($1)
 	manage_files_pattern($1, hald_var_run_t, hald_var_run_t)
+	files_search_pids($1)
 ')

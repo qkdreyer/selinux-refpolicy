@@ -10,7 +10,6 @@
 ##	</summary>
 ## </param>
 #
-# cjp: added for named.
 interface(`networkmanager_rw_udp_sockets',`
 	gen_require(`
 		type NetworkManager_t;
@@ -29,7 +28,6 @@ interface(`networkmanager_rw_udp_sockets',`
 ##	</summary>
 ## </param>
 #
-# cjp: added for named.
 interface(`networkmanager_rw_packet_sockets',`
 	gen_require(`
 		type NetworkManager_t;
@@ -49,13 +47,12 @@ interface(`networkmanager_rw_packet_sockets',`
 ##	</summary>
 ## </param>
 #
-# cjp: added for named.
 interface(`networkmanager_rw_routing_sockets',`
 	gen_require(`
 		type NetworkManager_t;
 	')
 
-	allow $1 NetworkManager_t:netlink_route_socket { read write };
+	allow $1 NetworkManager_t:netlink_route_socket rw_netlink_socket_perms;
 ')
 
 ########################################
@@ -64,7 +61,7 @@ interface(`networkmanager_rw_routing_sockets',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -73,8 +70,8 @@ interface(`networkmanager_domtrans',`
 		type NetworkManager_t, NetworkManager_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, NetworkManager_exec_t, NetworkManager_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -83,7 +80,7 @@ interface(`networkmanager_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -118,12 +115,12 @@ interface(`networkmanager_dbus_chat',`
 
 ########################################
 ## <summary>
-##	Send and receive messages from
+##	Do not audit attempts to send and receive messages from
 ##	NetworkManager over dbus.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -190,8 +187,8 @@ interface(`networkmanager_read_pid_files',`
 		type NetworkManager_var_run_t;
 	')
 
-	files_search_pids($1)
 	allow $1 NetworkManager_var_run_t:file read_file_perms;
+	files_search_pids($1)
 ')
 
 ########################################
@@ -209,9 +206,9 @@ interface(`networkmanager_read_var_lib_files',`
 		type NetworkManager_var_lib_t;
 	')
 
-	files_search_var_lib($1)
 	list_dirs_pattern($1, NetworkManager_var_lib_t, NetworkManager_var_lib_t)
 	read_files_pattern($1, NetworkManager_var_lib_t, NetworkManager_var_lib_t)
+	files_search_var_lib($1)
 ')
 
 ########################################
@@ -221,7 +218,7 @@ interface(`networkmanager_read_var_lib_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -240,15 +237,14 @@ interface(`networkmanager_run',`
 	role $2 types NetworkManager_t;
 ')
 
-
 #######################################
 ## <summary>
-## Allow caller to relabel tun_socket.
+##	Relabel tun_socket.
 ## </summary>
 ## <param name="domain">
-## <summary>
-## Domain allowed access.
-## </summary>
+##	<summary>
+##	Domain allowed access.
+##	</summary>
 ## </param>
 #
 interface(`networkmanager_attach_tun_iface',`

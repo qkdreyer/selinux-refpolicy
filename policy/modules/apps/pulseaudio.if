@@ -23,7 +23,6 @@ interface(`pulseaudio_role',`
 
 	role $1 types pulseaudio_t;
 
-	# Transition from the user domain to the derived domain.
 	domtrans_pattern($2, pulseaudio_exec_t, pulseaudio_t)
 
 	ps_process_pattern($2, pulseaudio_t)
@@ -69,7 +68,7 @@ interface(`pulseaudio_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -77,6 +76,7 @@ interface(`pulseaudio_domtrans',`
 ##	The role to be allowed the pulseaudio domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`pulseaudio_run',`
 	gen_require(`
@@ -93,7 +93,7 @@ interface(`pulseaudio_run',`
 ## </summary>
 ## <param name="domain">
 ## <summary>
-##	Domain allowed to transition.
+##	Domain allowed access.
 ## </summary>
 ## </param>
 #
@@ -122,7 +122,7 @@ interface(`pulseaudio_dontaudit_exec',`
 		type pulseaudio_exec_t;
 	')
 
-	dontaudit $1 pulseaudio_exec_t:file execute;
+	dontaudit $1 pulseaudio_exec_t:file exec_file_perms;
 ')
 
 #####################################
@@ -141,10 +141,9 @@ interface(`pulseaudio_stream_connect',`
 		type pulseaudio_t, pulseaudio_var_run_t;
 	')
 
-	files_search_pids($1)
-	allow $1 pulseaudio_t:process signull;
-	allow pulseaudio_t $1:process signull;
+	
 	stream_connect_pattern($1, pulseaudio_var_run_t, pulseaudio_var_run_t, pulseaudio_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -241,14 +240,14 @@ interface(`pulseaudio_manage_home_files',`
 		type pulseaudio_home_t;
 	')
 
-	userdom_search_user_home_dirs($1)
 	manage_files_pattern($1, pulseaudio_home_t, pulseaudio_home_t)
 	read_lnk_files_pattern($1, pulseaudio_home_t, pulseaudio_home_t)
+	userdom_search_user_home_dirs($1)
 ')
 
 ########################################
 ## <summary>
-##	Read and write Pulse Audio files.
+##	Read and write Pulse Audio home files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -265,4 +264,3 @@ interface(`pulseaudio_rw_home_files',`
 	rw_files_pattern($1, pulseaudio_home_t, pulseaudio_home_t)
 	userdom_search_user_home_dirs($1)
 ')
-

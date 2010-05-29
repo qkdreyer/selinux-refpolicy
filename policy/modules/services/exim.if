@@ -1,4 +1,4 @@
-## <summary>Exim mail transfer agent</summary>
+## <summary>Exim mail transfer agent.</summary>
 
 ########################################
 ## <summary>
@@ -16,6 +16,7 @@ interface(`exim_domtrans',`
 	')
 
 	domtrans_pattern($1, exim_exec_t, exim_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -24,7 +25,7 @@ interface(`exim_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -95,14 +96,13 @@ interface(`exim_read_pid_files',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to read exim's log files.
+##	Read exim's log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`exim_read_log',`
 	gen_require(`
@@ -115,12 +115,11 @@ interface(`exim_read_log',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to append
-##	exim log files.
+##	Append exim log files.
 ## </summary>
 ## <param name="domain">
 ## 	<summary>
-##	Domain allowed to transition.
+##	Domain allowed access.
 ## 	</summary>
 ## </param>
 #
@@ -135,14 +134,13 @@ interface(`exim_append_log',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to manage exim's log files.
+##	Manage exim log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`exim_manage_log',`
 	gen_require(`
@@ -228,6 +226,7 @@ interface(`exim_manage_spool_files',`
 ##	Role allowed access.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`exim_admin',`
 	gen_require(`

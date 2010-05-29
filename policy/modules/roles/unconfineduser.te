@@ -84,7 +84,6 @@ logging_send_syslog_msg(unconfined_t)
 logging_run_auditctl(unconfined_t, unconfined_r)
 
 mount_run_unconfined(unconfined_t, unconfined_r)
-# Unconfined running as system_r
 mount_domtrans_unconfined(unconfined_t)
 
 seutil_run_setsebool(unconfined_t, unconfined_r)
@@ -97,6 +96,13 @@ userdom_user_home_dir_filetrans_user_home_content(unconfined_t, { dir file lnk_f
 
 usermanage_run_passwd(unconfined_t, unconfined_r)
 usermanage_run_chfn(unconfined_t, unconfined_r)
+
+ifndef(`distro_redhat',`
+	optional_policy(`
+		oident_manage_user_content(unconfined_t)
+		oident_relabel_user_content(unconfined_t)
+	')
+')
 
 tunable_policy(`allow_execmem',`
 	allow unconfined_t self:process execmem;
@@ -316,11 +322,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	oident_manage_user_content(unconfined_t)
-	oident_relabel_user_content(unconfined_t)
-')
-
-optional_policy(`
 	prelink_run(unconfined_t, unconfined_r)
 ')
 
@@ -333,9 +334,9 @@ optional_policy(`
 	portmap_run_helper(unconfined_t, unconfined_r)
 ')
 
-#optional_policy(`
-#	ppp_run(unconfined_t, unconfined_r)
-#')
+optional_policy(`
+	ppp_run(unconfined_t, unconfined_r)
+')
 
 optional_policy(`
 	qemu_unconfined_role(unconfined_r)
@@ -344,12 +345,11 @@ optional_policy(`
 		qemu_domtrans(unconfined_t)
 	',`
 		qemu_domtrans_unconfined(unconfined_t)
-')
+	')
 ')
 
 optional_policy(`
 	rpm_run(unconfined_t, unconfined_r)
-	# Allow SELinux aware applications to request rpm_script execution
 	rpm_transition_script(unconfined_t)
 	rpm_dbus_chat(unconfined_t)
 ')
@@ -357,7 +357,7 @@ optional_policy(`
 optional_policy(`
 	samba_role_notrans(unconfined_r)
 	samba_run_unconfined_net(unconfined_t, unconfined_r)
-#	samba_run_winbind_helper(unconfined_t, unconfined_r)
+	samba_run_winbind_helper(unconfined_t, unconfined_r)
 	samba_run_smbcontrol(unconfined_t, unconfined_r)
 ')
 
@@ -434,7 +434,6 @@ allow unconfined_notrans_t self:process { execstack execmem };
 unconfined_domain_noaudit(unconfined_notrans_t)
 userdom_unpriv_usertype(unconfined, unconfined_notrans_t)
 domtrans_pattern(unconfined_t, unconfined_notrans_exec_t, unconfined_notrans_t)
-# Allow SELinux aware applications to request rpm_script execution
 rpm_transition_script(unconfined_notrans_t)
 domain_ptrace_all_domains(unconfined_notrans_t)
 

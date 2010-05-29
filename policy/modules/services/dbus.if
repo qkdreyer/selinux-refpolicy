@@ -1,4 +1,4 @@
-## <summary>Desktop messaging bus</summary>
+## <summary>Desktop messaging bus.</summary>
 
 ########################################
 ## <summary>
@@ -74,10 +74,8 @@ template(`dbus_role_template',`
 	allow $1_dbusd_t self:tcp_socket create_stream_socket_perms;
 	allow $1_dbusd_t self:netlink_selinux_socket create_socket_perms;
 
-	# For connecting to the bus
 	allow $3 $1_dbusd_t:unix_stream_socket connectto;
 
-	# SE-DBus specific permissions
 	allow { dbusd_unconfined $3 } $1_dbusd_t:dbus { send_msg acquire_svc };
 	allow $3 system_dbusd_t:dbus { send_msg acquire_svc };
 
@@ -92,7 +90,6 @@ template(`dbus_role_template',`
 	domtrans_pattern($3, dbusd_exec_t, $1_dbusd_t)
 	allow $3 $1_dbusd_t:process { signull sigkill signal };
 
-	# cjp: this seems very broken
 	corecmd_bin_domtrans($1_dbusd_t, $1_t)
 	allow $1_dbusd_t $3:process sigkill;
 	allow $3 $1_dbusd_t:fd use;
@@ -114,7 +111,7 @@ template(`dbus_role_template',`
 	corenet_tcp_sendrecv_generic_node($1_dbusd_t)
 	corenet_tcp_sendrecv_all_ports($1_dbusd_t)
 	corenet_tcp_bind_generic_node($1_dbusd_t)
-	corenet_tcp_bind_reserved_port($1_dbusd_t)
+	# corenet_tcp_bind_reserved_port($1_dbusd_t)
 
 	dev_read_urand($1_dbusd_t)
 
@@ -169,6 +166,10 @@ template(`dbus_role_template',`
 		hal_dbus_chat($1_dbusd_t)
 	')
 
+	optional_policy(`
+		xserver_use_xdm_fds($1_dbusd_t)
+		xserver_rw_xdm_pipes($1_dbusd_t)
+	')
 ')
 
 #######################################
@@ -190,7 +191,6 @@ interface(`dbus_system_bus_client',`
 		attribute dbusd_unconfined;
 	')
 
-	# SE-DBus specific permissions
 	allow $1 { system_dbusd_t self }:dbus send_msg;
 	allow { system_dbusd_t dbusd_unconfined } $1:dbus send_msg;
 
@@ -210,7 +210,7 @@ interface(`dbus_system_bus_client',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the domain.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -220,10 +220,8 @@ interface(`dbus_session_bus_client',`
 		class dbus send_msg;
 	')
 
-	# SE-DBus specific permissions
 	allow $1 { session_bus_type self }:dbus send_msg;
 
-	# For connecting to the bus
 	allow $1 session_bus_type:unix_stream_socket connectto;
 ')
 
@@ -467,7 +465,7 @@ interface(`dbus_system_domain',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #

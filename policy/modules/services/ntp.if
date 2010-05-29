@@ -1,4 +1,4 @@
-## <summary>Network time protocol daemon</summary>
+## <summary>Network time protocol daemon.</summary>
 
 ########################################
 ## <summary>
@@ -22,7 +22,7 @@ interface(`ntp_stub',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -31,8 +31,8 @@ interface(`ntp_domtrans',`
 		type ntpd_t, ntpd_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, ntpd_exec_t, ntpd_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -42,7 +42,7 @@ interface(`ntp_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -67,7 +67,7 @@ interface(`ntp_run',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -76,8 +76,8 @@ interface(`ntp_domtrans_ntpdate',`
 		type ntpd_t, ntpdate_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, ntpdate_exec_t, ntpd_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -86,7 +86,7 @@ interface(`ntp_domtrans_ntpdate',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -104,7 +104,7 @@ interface(`ntp_initrc_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #

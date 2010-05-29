@@ -1,4 +1,4 @@
-## <summary>Kernel crash dumping mechanism</summary>
+## <summary>Kernel crash dumping mechanism.</summary>
 
 ######################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,8 +15,8 @@ interface(`kdump_domtrans',`
 		type kdump_t, kdump_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, kdump_exec_t, kdump_t)
+	corecmd_search_bin($1)
 ')
 
 #######################################
@@ -25,7 +25,7 @@ interface(`kdump_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -52,8 +52,8 @@ interface(`kdump_read_config',`
 		type kdump_etc_t;
 	')
 
-	files_search_etc($1)
 	allow $1 kdump_etc_t:file read_file_perms;
+	files_search_etc($1)
 ')
 
 ####################################
@@ -71,8 +71,8 @@ interface(`kdump_manage_config',`
 		type kdump_etc_t;
 	')
 
-	files_search_etc($1)
 	allow $1 kdump_etc_t:file manage_file_perms;
+	files_search_etc($1)
 ')
 
 ######################################

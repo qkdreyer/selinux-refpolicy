@@ -35,13 +35,11 @@ template(`wine_role',`
 	role $1 types wine_t;
 
 	domain_auto_trans($2, wine_exec_t, wine_t)
-	# Unrestricted inheritance from the caller.
 	allow $2 wine_t:process { noatsecure siginh rlimitinh };
 	allow wine_t $2:fd use;
 	allow wine_t $2:process { sigchld signull };
 	allow wine_t $2:unix_stream_socket connectto;
 
-	# Allow the user domain to signal/ps.
 	ps_process_pattern($2, wine_t)
 	allow $2 wine_t:process signal_perms;
 
@@ -49,26 +47,12 @@ template(`wine_role',`
 	allow $2 wine_t:shm { associate getattr };
 	allow $2 wine_t:shm { unix_read unix_write };
 	allow $2 wine_t:unix_stream_socket connectto;
-
-	# X access, Home files
-	manage_dirs_pattern($2, wine_home_t, wine_home_t)
-	manage_files_pattern($2, wine_home_t, wine_home_t)
-	manage_lnk_files_pattern($2, wine_home_t, wine_home_t)
-	relabel_dirs_pattern($2, wine_home_t, wine_home_t)
-	relabel_files_pattern($2, wine_home_t, wine_home_t)
-	relabel_lnk_files_pattern($2, wine_home_t, wine_home_t)
 ')
 
 #######################################
 ## <summary>
 ##	The role template for the wine module.
 ## </summary>
-## <desc>
-##	<p>
-##	This template creates a derived domains which are used
-##	for wine applications.
-##	</p>
-## </desc>
 ## <param name="role_prefix">
 ##	<summary>
 ##	The prefix of the user domain (e.g., user
@@ -125,7 +109,7 @@ template(`wine_role_template',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -134,8 +118,8 @@ interface(`wine_domtrans',`
 		type wine_t, wine_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, wine_exec_t, wine_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -145,7 +129,7 @@ interface(`wine_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">

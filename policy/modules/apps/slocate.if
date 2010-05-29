@@ -1,4 +1,4 @@
-## <summary>Update database for mlocate</summary>
+## <summary>Update database for mlocate.</summary>
 
 ########################################
 ## <summary>
@@ -15,9 +15,9 @@ interface(`slocate_create_append_log',`
 		type locate_log_t;
 	')
 
-	logging_search_logs($1)
 	create_files_pattern($1, locate_log_t, locate_log_t)
 	append_files_pattern($1, locate_log_t, locate_log_t)
+	logging_search_logs($1)
 ')
 
 ########################################

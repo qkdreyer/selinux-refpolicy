@@ -1,4 +1,4 @@
-## <summary>APC UPS monitoring daemon</summary>
+## <summary>APC UPS monitoring daemon.</summary>
 
 ########################################
 ## <summary>
@@ -15,8 +15,8 @@ interface(`apcupsd_domtrans',`
 		type apcupsd_t, apcupsd_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, apcupsd_exec_t, apcupsd_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -25,7 +25,7 @@ interface(`apcupsd_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -52,39 +52,37 @@ interface(`apcupsd_read_pid_files',`
 		type apcupsd_var_run_t;
 	')
 
-	files_search_pids($1)
 	allow $1 apcupsd_var_run_t:file read_file_perms;
+	files_search_pids($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow the specified domain to read apcupsd's log files.
+##	Read apcupsd's log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`apcupsd_read_log',`
 	gen_require(`
 		type apcupsd_log_t;
 	')
 
-	logging_search_logs($1)
 	allow $1 apcupsd_log_t:dir list_dir_perms;
 	allow $1 apcupsd_log_t:file read_file_perms;
+	logging_search_logs($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow the specified domain to append
-##	apcupsd log files.
+##	Append apcupsd log files.
 ## </summary>
 ## <param name="domain">
 ## 	<summary>
-##	Domain allowed to transition.
+##	Domain allowed access.
 ## 	</summary>
 ## </param>
 #
@@ -93,14 +91,15 @@ interface(`apcupsd_append_log',`
 		type apcupsd_log_t;
 	')
 
-	logging_search_logs($1)
 	allow $1 apcupsd_log_t:dir list_dir_perms;
 	allow $1 apcupsd_log_t:file append_file_perms;
+	logging_search_logs($1)
 ')
 
 ########################################
 ## <summary>
-##	Execute a domain transition to run httpd_apcupsd_cgi_script.
+##	Execute a domain transition to run
+##	httpd_apcupsd_cgi_script.
 ## </summary>
 ## <param name="domain">
 ## <summary>
@@ -117,8 +116,8 @@ interface(`apcupsd_cgi_script_domtrans',`
 		apache_search_sys_content($1)
 	')
 
-	files_search_var($1)
 	domtrans_pattern($1, httpd_apcupsd_cgi_script_exec_t, httpd_apcupsd_cgi_script_t)
+	files_search_var($1)
 ')
 
 ########################################

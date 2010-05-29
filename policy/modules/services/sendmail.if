@@ -1,8 +1,8 @@
-## <summary>Policy for sendmail.</summary>
+## <summary>Sendmail.</summary>
 
 ########################################
 ## <summary>
-##	Sendmail stub interface.  No access allowed.
+##	Sendmail stub interface. No access allowed.
 ## </summary>
 ## <param name="domain" unused="true">
 ##	<summary>
@@ -18,12 +18,12 @@ interface(`sendmail_stub',`
 
 ########################################
 ## <summary>
-##	Allow attempts to read and write to
+##	Read and write to
 ##	sendmail unnamed pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -170,7 +170,7 @@ interface(`sendmail_rw_unix_stream_sockets',`
 		type sendmail_t;
 	')
 
-	allow $1 sendmail_t:unix_stream_socket { getattr read write ioctl };
+	allow $1 sendmail_t:unix_stream_socket rw_stream_socket_perms;
 ')
 
 ########################################
@@ -180,7 +180,7 @@ interface(`sendmail_rw_unix_stream_sockets',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -189,7 +189,7 @@ interface(`sendmail_dontaudit_rw_unix_stream_sockets',`
 		type sendmail_t;
 	')
 
-	dontaudit $1 sendmail_t:unix_stream_socket { getattr read write ioctl };
+	dontaudit $1 sendmail_t:unix_stream_socket rw_stream_socket_perms;
 ')
 
 ########################################

@@ -1,4 +1,4 @@
-## <summary>Dovecot POP and IMAP mail server</summary>
+## <summary>Dovecot POP and IMAP mail server.</summary>
 
 ########################################
 ## <summary>
@@ -9,7 +9,6 @@
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`dovecot_stream_connect_auth',`
 	gen_require(`
@@ -17,6 +16,7 @@ interface(`dovecot_stream_connect_auth',`
 	')
 
 	stream_connect_pattern($1, dovecot_var_run_t, dovecot_var_run_t, dovecot_auth_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -25,7 +25,7 @@ interface(`dovecot_stream_connect_auth',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -35,6 +35,7 @@ interface(`dovecot_domtrans_deliver',`
 	')
 
 	domtrans_pattern($1, dovecot_deliver_exec_t, dovecot_deliver_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -54,6 +55,7 @@ interface(`dovecot_manage_spool',`
 
 	manage_files_pattern($1, dovecot_spool_t, dovecot_spool_t)
 	manage_lnk_files_pattern($1, dovecot_spool_t, dovecot_spool_t)
+	files_search_spool($1)
 ')
 
 ########################################

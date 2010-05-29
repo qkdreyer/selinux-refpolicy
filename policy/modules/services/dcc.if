@@ -1,4 +1,4 @@
-## <summary>Distributed checksum clearinghouse spam filtering</summary>
+## <summary>Distributed checksum clearinghouse spam filtering.</summary>
 
 ########################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,8 +15,8 @@ interface(`dcc_domtrans_cdcc',`
 		type cdcc_t, cdcc_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, cdcc_exec_t, cdcc_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -26,7 +26,7 @@ interface(`dcc_domtrans_cdcc',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -51,7 +51,7 @@ interface(`dcc_run_cdcc',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -60,8 +60,8 @@ interface(`dcc_domtrans_client',`
 		type dcc_client_t, dcc_client_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, dcc_client_exec_t, dcc_client_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -89,7 +89,7 @@ interface(`dcc_signal_client',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -114,7 +114,7 @@ interface(`dcc_run_client',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -123,8 +123,8 @@ interface(`dcc_domtrans_dbclean',`
 		type dcc_dbclean_t, dcc_dbclean_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, dcc_dbclean_exec_t, dcc_dbclean_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -134,7 +134,7 @@ interface(`dcc_domtrans_dbclean',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -168,6 +168,6 @@ interface(`dcc_stream_connect_dccifd',`
 		type dcc_var_t, dccifd_var_run_t, dccifd_t;
 	')
 
-	files_search_var($1)
 	stream_connect_pattern($1, dcc_var_t, dccifd_var_run_t, dccifd_t)
+	files_search_var($1)
 ')

@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -16,6 +16,7 @@ interface(`clock_domtrans',`
 	')
 
 	domtrans_pattern($1, hwclock_exec_t, hwclock_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -25,7 +26,7 @@ interface(`clock_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -50,7 +51,7 @@ interface(`clock_run',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-## 	The type of the process performing this action.
+## 	Domain allowed access.
 ##	</summary>
 ## </param>
 #

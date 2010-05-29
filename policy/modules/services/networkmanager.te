@@ -34,8 +34,6 @@ init_system_domain(wpa_cli_t, wpa_cli_exec_t)
 # Local policy
 #
 
-# networkmanager will ptrace itself if gdb is installed
-# and it receives a unexpected signal (rh bug #204161) 
 allow NetworkManager_t self:capability { chown fsetid kill setgid setuid sys_admin sys_nice sys_ptrace dac_override net_admin net_raw net_bind_service ipc_lock };
 
 dontaudit NetworkManager_t self:capability { sys_tty_config sys_ptrace };
@@ -156,7 +154,6 @@ sysnet_signal_dhcpc(NetworkManager_t)
 userdom_stream_connect(NetworkManager_t)
 userdom_dontaudit_use_unpriv_user_fds(NetworkManager_t)
 userdom_dontaudit_use_user_ttys(NetworkManager_t)
-# Read gnome-keyring
 userdom_read_home_certs(NetworkManager_t)
 userdom_read_user_home_content_files(NetworkManager_t)
 userdom_dgram_send(NetworkManager_t)
@@ -233,7 +230,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	# Dispatcher starting and stoping ntp
 	ntp_initrc_domtrans(NetworkManager_t)
 ')
 

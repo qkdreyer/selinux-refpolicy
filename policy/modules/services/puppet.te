@@ -218,13 +218,15 @@ logging_send_syslog_msg(puppetmaster_t)
 
 miscfiles_read_localization(puppetmaster_t)
 
+mta_send_mail(puppetmaster_t)
+
 sysnet_dns_name_resolve(puppetmaster_t)
 sysnet_run_ifconfig(puppetmaster_t, system_r)
 
-term_use_all_ptys(puppetmaster_t) # test
-term_use_all_ttys(puppetmaster_t) # test
+term_use_all_ptys(puppetmaster_t)
+term_use_all_ttys(puppetmaster_t)
 
-usermanage_domtrans_useradd(puppetmaster_t) # test
+usermanage_domtrans_useradd(puppetmaster_t)
 
 optional_policy(`
 	hostname_exec(puppetmaster_t)

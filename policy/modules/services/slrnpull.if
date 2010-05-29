@@ -15,13 +15,13 @@ interface(`slrnpull_search_spool',`
 		type slrnpull_spool_t;
 	')
 
-	files_search_spool($1)
 	allow $1 slrnpull_spool_t:dir search_dir_perms;
+	files_search_spool($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow the domain to create, read,
+##	Create, read,
 ##	write, and delete slrnpull spools.
 ## </summary>
 ## <param name="pty_type">
@@ -35,8 +35,8 @@ interface(`slrnpull_manage_spool',`
 		type slrnpull_spool_t;
 	')
 
-	files_search_spool($1)
 	manage_dirs_pattern($1, slrnpull_spool_t, slrnpull_spool_t)
 	manage_files_pattern($1, slrnpull_spool_t, slrnpull_spool_t)
 	manage_lnk_files_pattern($1, slrnpull_spool_t, slrnpull_spool_t)
+	files_search_spool($1)
 ')

@@ -1,4 +1,4 @@
-## <summary>Kernel Samepage Merging (KSM) Tuning Daemon</summary>
+## <summary>Kernel Samepage Merging (KSM) Tuning Daemon.</summary>
 
 ########################################
 ## <summary>
@@ -16,6 +16,7 @@ interface(`ksmtuned_domtrans',`
 	')
 
 	domtrans_pattern($1, ksmtuned_exec_t, ksmtuned_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -24,7 +25,7 @@ interface(`ksmtuned_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -65,10 +66,8 @@ interface(`ksmtuned_admin',`
 	files_list_pids($1)
 	admin_pattern($1, ksmtuned_var_run_t)
 
-	# Allow ksmtuned_t to restart the apache service
 	ksmtuned_initrc_domtrans($1)
 	domain_system_change_exemption($1)
 	role_transition $2 ksmtuned_initrc_exec_t system_r;
 	allow $2 system_r;
-
 ')

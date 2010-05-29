@@ -1,5 +1,5 @@
 
-## <summary>policy for nsplugin</summary>
+## <summary>Nsplugin.</summary>
 
 ########################################
 ## <summary>
@@ -36,26 +36,15 @@ interface(`nsplugin_manage_rw',`
 		type nsplugin_rw_t;
 	')
 
-         manage_dirs_pattern($1, nsplugin_rw_t, nsplugin_rw_t)
-         manage_files_pattern($1, nsplugin_rw_t, nsplugin_rw_t)
-         manage_lnk_files_pattern($1, nsplugin_rw_t, nsplugin_rw_t)
+	manage_dirs_pattern($1, nsplugin_rw_t, nsplugin_rw_t)
+	manage_files_pattern($1, nsplugin_rw_t, nsplugin_rw_t)
+	manage_lnk_files_pattern($1, nsplugin_rw_t, nsplugin_rw_t)
 ')
 
 #######################################
 ## <summary>
 ##	The per role template for the nsplugin module.
 ## </summary>
-## <desc>
-##	<p>
-##	This template creates a derived domains which are used
-##	for nsplugin web browser.
-##	</p>
-##	<p>
-##	This template is invoked automatically for each user, and
-##	generally does not need to be invoked directly
-##	by policy writers.
-##	</p>
-## </desc>
 ## <param name="userdomain_prefix">
 ##	<summary>
 ##	The prefix of the user domain (e.g., user
@@ -98,13 +87,13 @@ interface(`nsplugin_role_notrans',`
 	read_lnk_files_pattern($2, nsplugin_rw_t, nsplugin_rw_t)
 	can_exec($2, nsplugin_rw_t)
 
-	#Leaked File Descriptors
-ifdef(`hide_broken_symptoms', `
-	dontaudit nsplugin_t $2:socket_class_set { read write };
-	dontaudit nsplugin_t $2:fifo_file rw_inherited_fifo_file_perms;
-	dontaudit nsplugin_config_t $2:socket_class_set { read write };
-	dontaudit nsplugin_config_t $2:fifo_file rw_inherited_fifo_file_perms;
-')
+	ifdef(`hide_broken_symptoms', `
+		dontaudit nsplugin_t $2:socket_class_set rw_inherited_sock_file_perms;
+		dontaudit nsplugin_t $2:fifo_file rw_inherited_fifo_file_perms;
+		dontaudit nsplugin_config_t $2:socket_class_set rw_inherited_sock_file_perms;
+		dontaudit nsplugin_config_t $2:fifo_file rw_inherited_fifo_file_perms;
+	')
+
 	allow nsplugin_t $2:unix_stream_socket connectto;
 	dontaudit nsplugin_t $2:process ptrace;
 	allow nsplugin_t $2:sem rw_sem_perms;
@@ -115,7 +104,6 @@ ifdef(`hide_broken_symptoms', `
 	allow $2 nsplugin_t:process { getattr ptrace signal_perms };
 	allow $2 nsplugin_t:unix_stream_socket connectto;
 
-	# Connect to pulseaudit server
 	stream_connect_pattern(nsplugin_t, user_home_t, user_home_t, $2)
 	gnome_stream_connect(nsplugin_t, $2)
 
@@ -167,11 +155,11 @@ interface(`nsplugin_role',`
 
 #######################################
 ## <summary>
-##	The per role template for the nsplugin module.
+##	Run nsplugin in the nsplugin domain.
 ## </summary>
 ## <param name="user_domain">
 ##	<summary>
-##	The type of the user domain.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -182,16 +170,21 @@ interface(`nsplugin_domtrans',`
 	')
 
 	domtrans_pattern($1, nsplugin_exec_t, nsplugin_t)
+	corecmd_search_bin($1)
+
+	# This doesnt belong here
 	allow $1 nsplugin_t:unix_stream_socket connectto;
 	allow nsplugin_t $1:process signal;
 ')
+
 #######################################
 ## <summary>
-##	The per role template for the nsplugin module.
+##	Run nsplugin config in the nsplugin
+##	config domain.
 ## </summary>
 ## <param name="user_domain">
 ##	<summary>
-##	The type of the user domain.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -202,6 +195,7 @@ interface(`nsplugin_domtrans_config',`
 	')
 
 	domtrans_pattern($1, nsplugin_config_exec_t, nsplugin_config_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -260,6 +254,7 @@ interface(`nsplugin_read_home',`
 	list_dirs_pattern($1, nsplugin_home_t, nsplugin_home_t)
 	read_files_pattern($1, nsplugin_home_t, nsplugin_home_t)
 	read_lnk_files_pattern($1, nsplugin_home_t, nsplugin_home_t)
+	userdom_search_user_home_dirs($1)
 ')
 
 ########################################
@@ -297,16 +292,17 @@ interface(`nsplugin_manage_home_files',`
 	')
 
 	manage_files_pattern($1, nsplugin_home_t, nsplugin_home_t)
+	userdom_search_user_home_dirs($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow attempts to read and write to
+##	Read and write to
 ##	nsplugin named pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -324,7 +320,7 @@ interface(`nsplugin_rw_pipes',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -338,20 +334,20 @@ interface(`nsplugin_rw_shm',`
 
 #####################################
 ## <summary>
-##      Allow read and write access to nsplugin semaphores.
+##	Read and write access to nsplugin semaphores.
 ## </summary>
 ## <param name="domain">
-##      <summary>
-##      Domain allowed access.
-##      </summary>
+##	<summary>
+##	Domain allowed access.
+##	</summary>
 ## </param>
 #
 interface(`nsplugin_rw_semaphores',`
-        gen_require(`
-                type nsplugin_t;
-        ')
+	gen_require(`
+		type nsplugin_t;
+	')
 
-        allow $1 nsplugin_t:sem rw_sem_perms;
+	allow $1 nsplugin_t:sem rw_sem_perms;
 ')
 
 ########################################
@@ -359,20 +355,9 @@ interface(`nsplugin_rw_semaphores',`
 ##	Execute nsplugin_exec_t 
 ##	in the specified domain.
 ## </summary>
-## <desc>
-##	<p>
-##	Execute a nsplugin_exec_t
-##	in the specified domain.  
-##	</p>
-##	<p>
-##	No interprocess communication (signals, pipes,
-##	etc.) is provided by this interface since
-##	the domains are not owned by this module.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="target_domain">
@@ -388,4 +373,5 @@ interface(`nsplugin_exec_domtrans',`
 
 	allow $2 nsplugin_exec_t:file entrypoint;
 	domtrans_pattern($1, nsplugin_exec_t, $2)
+	corecmd_search_bin($1)
 ')

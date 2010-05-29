@@ -1,4 +1,4 @@
-## <summary>Courier IMAP and POP3 email servers</summary>
+## <summary>Courier IMAP and POP3 email servers.</summary>
 
 ########################################
 ## <summary>
@@ -90,7 +90,7 @@ template(`courier_domain_template',`
 ## </summary>
 ## <param name="prefix">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -100,6 +100,7 @@ interface(`courier_domtrans_authdaemon',`
 	')
 
 	domtrans_pattern($1, courier_authdaemon_exec_t, courier_authdaemon_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -109,7 +110,7 @@ interface(`courier_domtrans_authdaemon',`
 ## </summary>
 ## <param name="prefix">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -119,6 +120,7 @@ interface(`courier_domtrans_pop',`
 	')
 
 	domtrans_pattern($1, courier_pop_exec_t, courier_pop_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -137,6 +139,7 @@ interface(`courier_read_config',`
 	')
 
 	read_files_pattern($1, courier_etc_t, courier_etc_t)
+	files_search_etc($1)
 ')
 
 ########################################
@@ -156,6 +159,7 @@ interface(`courier_manage_spool_dirs',`
 	')
 
 	manage_dirs_pattern($1, courier_spool_t, courier_spool_t)
+	files_search_spool($1)
 ')
 
 ########################################
@@ -175,6 +179,7 @@ interface(`courier_manage_spool_files',`
 	')
 
 	manage_files_pattern($1, courier_spool_t, courier_spool_t)
+	files_search_spool($1)
 ')
 
 ########################################
@@ -193,6 +198,7 @@ interface(`courier_read_spool',`
 	')
 
 	read_files_pattern($1, courier_spool_t, courier_spool_t)
+	files_search_spool($1)
 ')
 
 ########################################
@@ -201,7 +207,7 @@ interface(`courier_read_spool',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -211,4 +217,5 @@ interface(`courier_rw_spool_pipes',`
 	')
 
 	allow $1 courier_spool_t:fifo_file rw_fifo_file_perms;
+	files_search_spool($1)
 ')

@@ -1,4 +1,4 @@
-## <summary>Policy for rshd, rlogind, and telnetd.</summary>
+## <summary>rshd, rlogind, and telnetd.</summary>
 
 ########################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -24,7 +24,7 @@ interface(`remotelogin_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #

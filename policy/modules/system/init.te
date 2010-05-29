@@ -595,6 +595,7 @@ ifdef(`distro_redhat',`
 		sysnet_rw_dhcp_config(initrc_t)
 		sysnet_manage_config(initrc_t)
 		sysnet_manage_dhcpc_state(initrc_t)
+		sysnet_relabelfrom_dhcpc_state(initrc_t)
 	')
 
 	optional_policy(`
@@ -746,6 +747,11 @@ optional_policy(`
 ')
 
 optional_policy(`
+	iscsi_stream_connect(initrc_t)
+	iscsi_read_lib_files(initrc_t)
+ ')
+
+optional_policy(`
 	kerberos_use(initrc_t)
 ')
 
@@ -781,11 +787,6 @@ optional_policy(`
 	dev_create_generic_chr_files(initrc_t)
 
 	lvm_read_config(initrc_t)
-')
-
-optional_policy(`
-	iscsi_stream_connect(initrc_t)
-	iscsi_read_lib_files(initrc_t)
 ')
 
 optional_policy(`

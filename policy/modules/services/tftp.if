@@ -1,4 +1,4 @@
-## <summary>Trivial file transfer protocol daemon</summary>
+## <summary>Trivial file transfer protocol daemon.</summary>
 
 ########################################
 ## <summary>
@@ -33,9 +33,9 @@ interface(`tftp_manage_rw_content',`
 		type tftpdir_rw_t;
 	')
 
-	files_search_var_lib($1)
 	manage_dirs_pattern($1, tftpdir_rw_t, tftpdir_rw_t)
 	manage_files_pattern($1, tftpdir_rw_t, tftpdir_rw_t)
+	files_search_var_lib($1)
 ')
 
 ########################################
@@ -48,7 +48,6 @@ interface(`tftp_manage_rw_content',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`tftp_admin',`
 	gen_require(`

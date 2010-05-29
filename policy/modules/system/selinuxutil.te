@@ -184,6 +184,14 @@ ifdef(`distro_ubuntu',`
 	')
 ')
 
+ifdef(`hide_broken_symptoms',`
+	dontaudit load_policy_t selinux_config_t:file write;
+
+	optional_policy(`
+		unconfined_dontaudit_read_pipes(load_policy_t)
+	')
+')
+
 ########################################
 #
 # Newrole local policy
@@ -371,6 +379,7 @@ selinux_compute_user_contexts(run_init_t)
 
 auth_use_nsswitch(run_init_t)
 auth_domtrans_chk_passwd(run_init_t)
+auth_domtrans_upd_passwd(run_init_t)
 auth_dontaudit_read_shadow(run_init_t)
 
 init_spec_domtrans_script(run_init_t)

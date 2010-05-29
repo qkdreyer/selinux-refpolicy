@@ -1,4 +1,4 @@
-## <summary>QEMU machine emulator and virtualizer</summary>
+## <summary>QEMU machine emulator and virtualizer.</summary>
 
 ########################################
 ## <summary>
@@ -52,7 +52,7 @@ template(`qemu_domain_template',`
 	corenet_tcp_bind_vnc_port($1_t)
 	corenet_rw_tun_tap_dev($1_t)
 
-#	dev_rw_kvm($1_t)
+	# dev_rw_kvm($1_t)
 
 	domain_use_interactive_fds($1_t)
 
@@ -94,7 +94,7 @@ template(`qemu_domain_template',`
 		xserver_stream_connect($1_t)
 		xserver_read_xdm_tmp_files($1_t)
 		xserver_read_xdm_pid($1_t)
-#		xserver_xdm_rw_shm($1_t)
+		# xserver_xdm_rw_shm($1_t)
 	')
 ')
 
@@ -102,17 +102,6 @@ template(`qemu_domain_template',`
 ## <summary>
 ##	The per role template for the qemu module.
 ## </summary>
-## <desc>
-##	<p>
-##	This template creates a derived domains which are used
-##	for qemu web browser.
-##	</p>
-##	<p>
-##	This template is invoked automatically for each user, and
-##	generally does not need to be invoked directly
-##	by policy writers.
-##	</p>
-## </desc>
 ## <param name="user_role">
 ##	<summary>
 ##	The role associated with the user domain.
@@ -153,6 +142,7 @@ interface(`qemu_domtrans',`
 	')
 
 	domtrans_pattern($1, qemu_exec_t, qemu_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -161,7 +151,7 @@ interface(`qemu_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -185,7 +175,7 @@ interface(`qemu_run',`
 
 ########################################
 ## <summary>
-##	Allow the domain to read state files in /proc.
+##	Read state files in /proc.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -198,7 +188,7 @@ interface(`qemu_read_state',`
 		type qemu_t;
 	')
 
-	read_files_pattern($1, qemu_t, qemu_t)
+	ps_process_pattern($1, qemu_t)
 ')
 
 ########################################
@@ -271,6 +261,7 @@ interface(`qemu_domtrans_unconfined',`
 	')
 
 	domtrans_pattern($1, qemu_exec_t, unconfined_qemu_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -280,15 +271,6 @@ interface(`qemu_domtrans_unconfined',`
 ##	do it automatically. This is an explicit
 ##	transition, requiring the caller to use setexeccon().
 ## </summary>
-## <desc>
-##	<p>
-##	Execute qemu_exec_t 
-##	in the specified domain.  This allows
-##	the specified domain to qemu programs
-##	on these filesystems in the specified
-##	domain.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
@@ -307,8 +289,9 @@ interface(`qemu_spec_domtrans',`
   
 	read_lnk_files_pattern($1, qemu_exec_t, qemu_exec_t)
 	domain_transition_pattern($1, qemu_exec_t, $2)
-  	domain_entry_file($2,qemu_exec_t)
-	can_exec($1,qemu_exec_t)
+  	domain_entry_file($2, qemu_exec_t)
+	can_exec($1, qemu_exec_t)
+	corecmd_search_bin($1)	
 
 	allow $2 $1:fd use;
 	allow $2 $1:fifo_file rw_fifo_file_perms;
@@ -350,6 +333,7 @@ interface(`qemu_manage_tmp_dirs',`
 	')
 
 	manage_dirs_pattern($1, qemu_tmp_t, qemu_tmp_t)
+	files_search_tmp($1)
 ')
 
 ########################################
@@ -368,17 +352,18 @@ interface(`qemu_manage_tmp_files',`
 	')
 
 	manage_files_pattern($1, qemu_tmp_t, qemu_tmp_t)
+	files_search_tmp($1)
 ')
 
 ########################################
 ## <summary>
-##     Make qemu_exec_t an entrypoint for
-##     the specified domain.
+##	Make qemu_exec_t an entrypoint for
+##	the specified domain.
 ## </summary>
 ## <param name="domain">
-##     <summary>
-##     The domain for which qemu_exec_t is an entrypoint.
-##     </summary>
+##	<summary>
+##	The domain for which qemu_exec_t is an entrypoint.
+##	</summary>
 ## </param>
 #
 interface(`qemu_entry_type',`
@@ -388,5 +373,3 @@ interface(`qemu_entry_type',`
 
 	domain_entry_file($1, qemu_exec_t)
 ')
-
-

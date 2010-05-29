@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -33,8 +33,8 @@ interface(`arpwatch_search_data',`
 		type arpwatch_data_t;
 	')
 
-	files_search_var_lib($1)
 	allow $1 arpwatch_data_t:dir search_dir_perms;
+	files_search_var_lib($1)
 ')
 
 ########################################
@@ -52,8 +52,8 @@ interface(`arpwatch_manage_data_files',`
 		type arpwatch_data_t;
 	')
 
-	files_search_var_lib($1)
 	manage_files_pattern($1, arpwatch_data_t, arpwatch_data_t)
+	files_search_var_lib($1)
 ')
 
 ########################################
@@ -71,8 +71,8 @@ interface(`arpwatch_rw_tmp_files',`
 		type arpwatch_tmp_t;
 	')
 
-	files_search_tmp($1)
 	allow $1 arpwatch_tmp_t:file rw_file_perms;
+	files_search_tmp($1)
 ')
 
 ########################################
@@ -90,8 +90,8 @@ interface(`arpwatch_manage_tmp_files',`
 		type arpwatch_tmp_t;
 	')
 
-	files_search_tmp($1)
 	allow $1 arpwatch_tmp_t:file manage_file_perms;
+	files_search_tmp($1)
 ')
 
 ########################################

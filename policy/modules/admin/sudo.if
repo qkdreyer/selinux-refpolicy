@@ -1,22 +1,9 @@
 ## <summary>sudo, sudoedit execute a command as another user.</summary>
-## <desc>
-##	<p>
-##	sudo allows a permitted user to execute a command as the superuser
-##	or another user, as specified in the sudoers file.
-##	</p>
-## </desc>
 
 #######################################
 ## <summary>
 ##	The role template for the sudo module.
 ## </summary>
-## <desc>
-##	<p>
-##	This template creates a derived domain which is allowed
-##	to change the linux user id, to run commands as a different
-##	user.
-##	</p>
-## </desc>
 ## <param name="role_prefix">
 ##	<summary>
 ##	The prefix of the user role (e.g., user
@@ -118,7 +105,6 @@ template(`sudo_role_template',`
 	term_relabel_all_ptys($1_sudo_t)
 
 	auth_run_chk_passwd($1_sudo_t, $2)
-	# sudo stores a token in the pam_pid directory
 	auth_manage_pam_pid($1_sudo_t)
 	auth_use_nsswitch($1_sudo_t)
 

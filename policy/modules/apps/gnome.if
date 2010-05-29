@@ -1,4 +1,4 @@
-## <summary>GNU network object model environment (GNOME)</summary>
+## <summary>GNU network object model environment (GNOME).</summary>
 
 ############################################################
 ## <summary>
@@ -30,18 +30,18 @@ interface(`gnome_role',`
 
 	ps_process_pattern($2, gconfd_t)
 
-	#gnome_stream_connect_gconf_template($1, $2)
+	# gnome_stream_connect_gconf_template($1, $2)
 	read_files_pattern($2, gconf_tmp_t, gconf_tmp_t)
 	allow $2 gconfd_t:unix_stream_socket connectto;
 ')
 
 ########################################
 ## <summary>
-##	gconf connection template.
+##	Connect to GConf over unix stream socket.
 ## </summary>
 ## <param name="user_domain">
 ##	<summary>
-##	The type of the user domain.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -50,8 +50,8 @@ interface(`gnome_stream_connect_gconf',`
 		type gconfd_t, gconf_tmp_t;
 	')
 
-	read_files_pattern($1, gconf_tmp_t, gconf_tmp_t)
-	allow $1 gconfd_t:unix_stream_socket connectto;
+	stream_connect_pattern($1, gconf_tmp_t, gconf_tmp_t, gconfd_t)
+	files_search_tmp($1)
 ')
 
 ########################################
@@ -60,7 +60,7 @@ interface(`gnome_stream_connect_gconf',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -70,6 +70,7 @@ interface(`gnome_domtrans_gconfd',`
 	')
 
 	domtrans_pattern($1, gconfd_exec_t, gconfd_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -78,7 +79,7 @@ interface(`gnome_domtrans_gconfd',`
 ## </summary>
 ## <param name="user_domain">
 ##	<summary>
-##	The type of the user domain.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -96,7 +97,7 @@ interface(`gnome_dontaudit_search_config',`
 ## </summary>
 ## <param name="user_domain">
 ##	<summary>
-##	The type of the user domain.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -219,11 +220,11 @@ interface(`gnome_write_generic_cache_files',`
 
 ########################################
 ## <summary>
-##	read gnome homedir content (.config)
+##	Read gnome homedir content (.config)
 ## </summary>
 ## <param name="user_domain">
 ##	<summary>
-##	The type of the user domain.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -235,6 +236,7 @@ template(`gnome_read_config',`
 	list_dirs_pattern($1, gnome_home_type, gnome_home_type)
 	read_files_pattern($1, gnome_home_type, gnome_home_type)
 	read_lnk_files_pattern($1, gnome_home_type, gnome_home_type)
+	userdom_search_user_home_dirs($1)
 ')
 
 ########################################
@@ -312,11 +314,11 @@ interface(`gnome_admin_home_gconf_filetrans',`
 
 ########################################
 ## <summary>
-##	read gconf config files
+##	Read gconf config files.
 ## </summary>
 ## <param name="user_domain">
 ##	<summary>
-##	The type of the user domain.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -331,21 +333,21 @@ template(`gnome_read_gconf_config',`
 
 #######################################
 ## <summary>
-##      Manage gconf config files
+##	Manage gconf config files.
 ## </summary>
 ## <param name="domain">
-##      <summary>
-##      Domain allowed access.
-##      </summary>
+##	<summary>
+##	Domain allowed access.
+##	</summary>
 ## </param>
 #
 interface(`gnome_manage_gconf_config',`
-        gen_require(`
-                type gconf_etc_t;
-        ')
+	gen_require(`
+		type gconf_etc_t;
+	')
 
-        allow $1 gconf_etc_t:dir list_dir_perms;
-        manage_files_pattern($1, gconf_etc_t, gconf_etc_t)
+	allow $1 gconf_etc_t:dir list_dir_perms;
+	manage_files_pattern($1, gconf_etc_t, gconf_etc_t)
 ')
 
 ########################################
@@ -365,6 +367,7 @@ interface(`gnome_exec_gconf',`
 	')
 
 	can_exec($1, gconfd_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -387,6 +390,7 @@ interface(`gnome_read_gconf_home_files',`
 	allow $1 data_home_t:dir list_dir_perms;
 	read_files_pattern($1, gconf_home_t, gconf_home_t)
 	read_files_pattern($1, data_home_t, data_home_t)
+	userdom_search_user_home_dirs($1)
 ')
 
 ########################################
@@ -395,7 +399,7 @@ interface(`gnome_read_gconf_home_files',`
 ## </summary>
 ## <param name="user_domain">
 ##	<summary>
-##	The type of the domain.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -424,6 +428,7 @@ interface(`gnome_append_gconf_home_files',`
 	')
 
 	append_files_pattern($1, gconf_home_t, gconf_home_t)
+	userdom_search_user_home_dirs($1)
 ')
 
 ########################################
@@ -443,6 +448,7 @@ interface(`gnome_manage_gconf_home_files',`
 
 	allow $1 gconf_home_t:dir list_dir_perms;
 	manage_files_pattern($1, gconf_home_t, gconf_home_t)
+	userdom_search_user_home_dirs($1)
 ')
 
 ########################################
@@ -465,17 +471,17 @@ interface(`gnome_stream_connect',`
 		attribute gnome_home_type;
 	')
 
-	# Connect to pulseaudit server
+	# Connect to pulseaudio server
 	stream_connect_pattern($1, gnome_home_type, gnome_home_type, $2)
 ')
 
 ########################################
 ## <summary>
-##	read gnome homedir content (.config)
+##	Read gnome homedir content (.config)
 ## </summary>
 ## <param name="user_domain">
 ##	<summary>
-##	The type of the user domain.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -485,11 +491,12 @@ template(`gnome_list_home_config',`
 	')
 
 	allow $1 config_home_t:dir list_dir_perms;
+	userdom_search_user_home_dirs($1)
 ')
 
 ########################################
 ## <summary>
-##	Read/Write all inherited gnome home config 
+##	Read/Write all inherited gnome home config.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

@@ -6,20 +6,16 @@ policy_module(kernel, 1.12.0)
 # Declarations
 #
 
-# assertion related attributes
 attribute can_load_kernmodule;
 attribute can_receive_kernel_messages;
 attribute can_dump_kernel;
 
 neverallow ~{ can_load_kernmodule kern_unconfined } self:capability sys_module;
 
-# domains with unconfined access to kernel resources
 attribute kern_unconfined;
 
-# regular entries in proc
 attribute proc_type;
 
-# sysctls
 attribute sysctl_type;
 
 role system_r;
@@ -35,43 +31,25 @@ ifdef(`enable_mls',`
 	role auditadm_r;
 ')
 
-#
-# kernel_t is the domain of kernel threads.
-# It is also the target type when checking permissions in the system class.
-#
 type kernel_t, can_load_kernmodule;
 domain_base_type(kernel_t)
 mls_rangetrans_source(kernel_t)
 role system_r types kernel_t;
 sid kernel gen_context(system_u:system_r:kernel_t,mls_systemhigh)
 
-#
-# DebugFS
-#
 type debugfs_t;
 fs_type(debugfs_t)
 allow debugfs_t self:filesystem associate;
 genfscon debugfs / gen_context(system_u:object_r:debugfs_t,s0)
 
-#
-# infinibandeventfs fs
-#
 type infinibandeventfs_t;
 fs_type(infinibandeventfs_t)
 allow infinibandeventfs_t self:filesystem associate;
 genfscon infinibandeventfs / gen_context(system_u:object_r:infinibandeventfs_t,s0)
 
-#
-# kvmFS
-#
-
 type kvmfs_t;
 fs_type(kvmfs_t)
 genfscon kvmfs / gen_context(system_u:object_r:kvmfs_t,s0)
-
-#
-# Procfs types
-#
 
 type proc_t, proc_type;
 files_mountpoint(proc_t)
@@ -82,12 +60,10 @@ genfscon proc /sysvipc gen_context(system_u:object_r:proc_t,s0)
 type proc_afs_t, proc_type;
 genfscon proc /fs/openafs gen_context(system_u:object_r:proc_afs_t,s0)
 
-# kernel message interface
 type proc_kmsg_t, proc_type;
 genfscon proc /kmsg gen_context(system_u:object_r:proc_kmsg_t,mls_systemhigh)
 neverallow ~{ can_receive_kernel_messages kern_unconfined } proc_kmsg_t:file ~getattr;
 
-# /proc kcore: inaccessible
 type proc_kcore_t, proc_type;
 neverallow ~{ can_dump_kernel kern_unconfined } proc_kcore_t:file ~getattr;
 genfscon proc /kcore gen_context(system_u:object_r:proc_kcore_t,mls_systemhigh)
@@ -102,80 +78,58 @@ type proc_xen_t, proc_type;
 files_mountpoint(proc_xen_t)
 genfscon proc /xen gen_context(system_u:object_r:proc_xen_t,s0)
 
-#
-# Sysctl types
-#
-
-# /proc/sys directory, base directory of sysctls
 type sysctl_t, sysctl_type;
 files_mountpoint(sysctl_t)
 sid sysctl gen_context(system_u:object_r:sysctl_t,s0)
 genfscon proc /sys gen_context(system_u:object_r:sysctl_t,s0)
 
-# /proc/irq directory and files
 type sysctl_irq_t, sysctl_type;
 genfscon proc /irq gen_context(system_u:object_r:sysctl_irq_t,s0)
 
-# /proc/net/rpc directory and files
 type sysctl_rpc_t, sysctl_type;
 genfscon proc /net/rpc gen_context(system_u:object_r:sysctl_rpc_t,s0)
 
-# /proc/sys/crypto directory and files
 type sysctl_crypto_t, sysctl_type;
 genfscon proc /sys/crypto gen_context(system_u:object_r:sysctl_crypto_t,s0)
 
-# /proc/sys/fs directory and files
 type sysctl_fs_t, sysctl_type;
 files_mountpoint(sysctl_fs_t)
 genfscon proc /sys/fs gen_context(system_u:object_r:sysctl_fs_t,s0)
 
-# /proc/sys/kernel directory and files
 type sysctl_kernel_t, sysctl_type;
 genfscon proc /sys/kernel gen_context(system_u:object_r:sysctl_kernel_t,s0)
 
-# /proc/sys/kernel/modprobe file
 type sysctl_modprobe_t, sysctl_type;
 genfscon proc /sys/kernel/modprobe gen_context(system_u:object_r:sysctl_modprobe_t,s0)
 
-# /proc/sys/kernel/hotplug file
 type sysctl_hotplug_t, sysctl_type;
 genfscon proc /sys/kernel/hotplug gen_context(system_u:object_r:sysctl_hotplug_t,s0)
 
-# /proc/sys/net directory and files
 type sysctl_net_t, sysctl_type;
 genfscon proc /sys/net gen_context(system_u:object_r:sysctl_net_t,s0)
 
-# /proc/sys/net/unix directory and files
 type sysctl_net_unix_t, sysctl_type;
 genfscon proc /sys/net/unix gen_context(system_u:object_r:sysctl_net_unix_t,s0)
 
-# /proc/sys/vm directory and files
 type sysctl_vm_t, sysctl_type;
 genfscon proc /sys/vm gen_context(system_u:object_r:sysctl_vm_t,s0)
 
-# /proc/sys/dev directory and files
 type sysctl_dev_t, sysctl_type;
 genfscon proc /sys/dev gen_context(system_u:object_r:sysctl_dev_t,s0)
 
-#
-# unlabeled_t is the type of unlabeled objects.
-# Objects that have no known labeling information or that
-# have labels that are no longer valid are treated as having this type.
-#
 type unlabeled_t;
 sid unlabeled gen_context(system_u:object_r:unlabeled_t,mls_systemhigh)
 fs_associate(unlabeled_t)
 
-# These initial sids are no longer used, and can be removed:
 sid any_socket		gen_context(system_u:object_r:unlabeled_t,mls_systemhigh)
 sid file_labels		gen_context(system_u:object_r:unlabeled_t,s0)
 sid icmp_socket		gen_context(system_u:object_r:unlabeled_t,mls_systemhigh)
 sid igmp_packet		gen_context(system_u:object_r:unlabeled_t,mls_systemhigh)
-sid init		gen_context(system_u:object_r:unlabeled_t,s0)
-sid kmod		gen_context(system_u:object_r:unlabeled_t,mls_systemhigh)
-sid policy		gen_context(system_u:object_r:unlabeled_t,mls_systemhigh)
+sid init			gen_context(system_u:object_r:unlabeled_t,s0)
+sid kmod			gen_context(system_u:object_r:unlabeled_t,mls_systemhigh)
+sid policy			gen_context(system_u:object_r:unlabeled_t,mls_systemhigh)
 sid scmp_packet		gen_context(system_u:object_r:unlabeled_t,mls_systemhigh)
-sid sysctl_modprobe 	gen_context(system_u:object_r:unlabeled_t,s0)
+sid sysctl_modprobe gen_context(system_u:object_r:unlabeled_t,s0)
 sid sysctl_fs		gen_context(system_u:object_r:unlabeled_t,s0)
 sid sysctl_kernel	gen_context(system_u:object_r:unlabeled_t,s0)
 sid sysctl_net		gen_context(system_u:object_r:unlabeled_t,s0)
@@ -222,24 +176,18 @@ allow kernel_t sysctl_kernel_t:dir list_dir_perms;
 allow kernel_t sysctl_kernel_t:file read_file_perms;
 allow kernel_t sysctl_t:dir list_dir_perms;
 
-# Other possible mount points for the root fs are in files
 allow kernel_t unlabeled_t:dir mounton;
-# Kernel-generated traffic e.g., TCP resets on
-# connections with invalidated labels:
 allow kernel_t unlabeled_t:packet send;
 
-# Allow unlabeled network traffic
 allow unlabeled_t unlabeled_t:packet { forward_in forward_out };
 corenet_in_generic_if(unlabeled_t)
 corenet_in_generic_node(unlabeled_t)
 
 corenet_all_recvfrom_unlabeled(kernel_t)
 corenet_all_recvfrom_netlabel(kernel_t)
-# Kernel-generated traffic e.g., ICMP replies:
 corenet_raw_sendrecv_all_if(kernel_t)
 corenet_raw_sendrecv_all_nodes(kernel_t)
 corenet_raw_send_generic_if(kernel_t)
-# Kernel-generated traffic e.g., TCP resets:
 corenet_tcp_sendrecv_all_if(kernel_t)
 corenet_tcp_sendrecv_all_nodes(kernel_t)
 corenet_raw_send_generic_node(kernel_t)
@@ -247,7 +195,6 @@ corenet_send_all_packets(kernel_t)
 
 dev_read_sysfs(kernel_t)
 dev_search_usbfs(kernel_t)
-# devtmpfs handling:
 dev_create_generic_dirs(kernel_t)
 dev_delete_generic_dirs(kernel_t)
 dev_create_generic_blk_files(kernel_t)
@@ -257,8 +204,6 @@ dev_delete_generic_chr_files(kernel_t)
 # work around until devtmpfs has device_t type
 dev_tmpfs_filetrans_dev(kernel_t, { dir blk_file chr_file })
 
-# Mount root file system. Used when loading a policy
-# from initrd, then mounting the root filesystem
 fs_mount_all_fs(kernel_t)
 fs_unmount_all_fs(kernel_t)
 
@@ -269,7 +214,6 @@ term_use_ptmx(kernel_t)
 
 corecmd_exec_shell(kernel_t)
 corecmd_list_bin(kernel_t)
-# /proc/sys/kernel/modprobe is set to /bin/true if not using modules.
 corecmd_exec_bin(kernel_t)
 
 domain_signal_all_domains(kernel_t)
@@ -322,13 +266,9 @@ optional_policy(`
 ')
 
 optional_policy(`
-	# nfs kernel server needs kernel UDP access. It is less risky and painful
-	# to just give it everything.
 	allow kernel_t self:tcp_socket create_stream_socket_perms;
 	allow kernel_t self:udp_socket create_socket_perms;
 
-	# nfs kernel server needs kernel UDP access. It is less risky and painful
-	# to just give it everything.
 	corenet_udp_sendrecv_generic_if(kernel_t)
 	corenet_udp_sendrecv_generic_node(kernel_t)
 	corenet_udp_sendrecv_all_ports(kernel_t)
@@ -386,10 +326,6 @@ optional_policy(`
 #
 
 optional_policy(`
-	# If you load a new policy that removes active domains, processes can
-	# get stuck if you do not allow unlabeled processes to signal init.
-	# If you load an incompatible policy, you should probably reboot,
-	# since you may have compromised system security.
 	init_sigchld(unlabeled_t)
 ')
 

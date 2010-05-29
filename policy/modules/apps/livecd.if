@@ -1,5 +1,5 @@
 
-## <summary>policy for livecd</summary>
+## <summary>Livecd.</summary>
 
 ########################################
 ## <summary>
@@ -18,6 +18,7 @@ interface(`livecd_domtrans',`
 	')
 
 	domtrans_pattern($1, livecd_exec_t, livecd_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -27,7 +28,7 @@ interface(`livecd_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -35,6 +36,7 @@ interface(`livecd_domtrans',`
 ##	The role to be allowed the livecd domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`livecd_run',`
 	gen_require(`
@@ -57,7 +59,7 @@ interface(`livecd_run',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -66,7 +68,7 @@ interface(`livecd_dontaudit_leaks',`
 		type livecd_t;
 	')
 
-	dontaudit $1 livecd_t:unix_dgram_socket { read write };
+	dontaudit $1 livecd_t:unix_dgram_socket rw_inherited_sock_file_perms;
 ')
 
 ########################################
@@ -84,8 +86,8 @@ interface(`livecd_read_tmp_files',`
 		type livecd_tmp_t;
 	')
 
-	files_search_tmp($1)
 	read_files_pattern($1, livecd_tmp_t, livecd_tmp_t)
+	files_search_tmp($1)
 ')
 
 ########################################
@@ -103,13 +105,13 @@ interface(`livecd_rw_tmp_files',`
 		type livecd_tmp_t;
 	')
 
-	files_search_tmp($1)
 	allow $1 livecd_tmp_t:file rw_file_perms;
+	files_search_tmp($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow read and write access to livecd semaphores.
+##	Read and write access to livecd semaphores.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -122,6 +124,5 @@ interface(`livecd_rw_semaphores',`
 		type livecd_t;
 	')
 
-	allow $1 livecd_t:sem { unix_read unix_write associate read write };
+	allow $1 livecd_t:sem rw_sem_perms;
 ')
-

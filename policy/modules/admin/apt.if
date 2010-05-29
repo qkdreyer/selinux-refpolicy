@@ -1,12 +1,4 @@
 ## <summary>APT advanced package tool.</summary>
-## <desc>
-##	<p>
-##	APT simplifies the process of managing software
-##	on Unix-like computer systems by automating the retrieval,
-##	configuration and installation of software packages, either
-##	from binary files or by compiling source code.
-##	</p>
-## </desc>
 
 ########################################
 ## <summary>
@@ -205,7 +197,6 @@ interface(`apt_manage_db',`
 	')
 
 	manage_files_pattern($1, apt_var_lib_t, apt_var_lib_t)
-	# cjp: shouldnt this be manage_lnk_files?
 	rw_lnk_files_pattern($1, apt_var_lib_t, apt_var_lib_t)
 	delete_lnk_files_pattern($1, apt_var_lib_t, apt_var_lib_t)
 	files_search_var_lib($1)

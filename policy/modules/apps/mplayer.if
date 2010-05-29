@@ -1,4 +1,4 @@
-## <summary>Mplayer media player and encoder</summary>
+## <summary>Mplayer media player and encoder.</summary>
 
 ########################################
 ## <summary>
@@ -24,25 +24,13 @@ interface(`mplayer_role',`
 
 	role $1 types { mencoder_t mplayer_t };
 
-	# domain transition
 	domtrans_pattern($2, mencoder_exec_t, mencoder_t)
 
-	# Allow the user domain to signal/ps.
 	ps_process_pattern($2, mencoder_t)
 	allow $2 mencoder_t:process signal_perms;
 
-	# Home access
-	manage_dirs_pattern($2, mplayer_home_t, mplayer_home_t)
-	manage_files_pattern($2, mplayer_home_t, mplayer_home_t)
-	manage_lnk_files_pattern($2, mplayer_home_t, mplayer_home_t)
-	relabel_dirs_pattern($2, mplayer_home_t, mplayer_home_t)
-	relabel_files_pattern($2, mplayer_home_t, mplayer_home_t)
-	relabel_lnk_files_pattern($2, mplayer_home_t, mplayer_home_t)
-
-	# domain transition
 	domtrans_pattern($2, mplayer_exec_t, mplayer_t)
 
-	# Allow the user domain to signal/ps.
 	ps_process_pattern($2, mplayer_t)
 	allow $2 mplayer_t:process signal_perms;
 ')
@@ -53,7 +41,7 @@ interface(`mplayer_role',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -63,6 +51,7 @@ interface(`mplayer_domtrans',`
 	')
 
 	domtrans_pattern($1, mplayer_exec_t, mplayer_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -75,18 +64,18 @@ interface(`mplayer_domtrans',`
 ##	</summary>
 ## </param>
 #
-#
 interface(`mplayer_exec',`
 	gen_require(`
 		type mplayer_exec_t;
 	')
 
 	can_exec($1, mplayer_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
 ## <summary>
-##	Read mplayer per user homedir
+##	Read mplayer user homedir
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -108,20 +97,9 @@ interface(`mplayer_read_user_home_files',`
 ##	Execute mplayer_exec_t 
 ##	in the specified domain.
 ## </summary>
-## <desc>
-##	<p>
-##	Execute a mplayer_exec_t
-##	in the specified domain.  
-##	</p>
-##	<p>
-##	No interprocess communication (signals, pipes,
-##	etc.) is provided by this interface since
-##	the domains are not owned by this module.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="target_domain">
@@ -137,4 +115,5 @@ interface(`mplayer_exec_domtrans',`
 
 	allow $2 mplayer_exec_t:file entrypoint;
 	domtrans_pattern($1, mplayer_exec_t, $2)
+	corecmd_search_bin($1)
 ')

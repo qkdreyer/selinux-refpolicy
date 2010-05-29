@@ -1,4 +1,4 @@
-## <summary>hddtemp hard disk temperature tool running as a daemon</summary>
+## <summary>hddtemp hard disk temperature tool running as a daemon.</summary>
 
 #######################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,8 +15,8 @@ interface(`hddtemp_domtrans',`
 		type hddtemp_t, hddtemp_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, hddtemp_exec_t, hddtemp_t)
+	corecmd_search_bin($1)
 ')
 
 ######################################
@@ -35,4 +35,5 @@ interface(`hddtemp_exec',`
 	')
 
 	can_exec($1, hddtemp_exec_t)
+	corecmd_search_bin($1)
 ')

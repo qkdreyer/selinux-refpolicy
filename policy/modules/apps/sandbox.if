@@ -1,5 +1,5 @@
 
-## <summary>policy for sandbox</summary>
+## <summary>Sandbox.</summary>
 
 ########################################
 ## <summary>
@@ -8,7 +8,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -44,11 +44,11 @@ interface(`sandbox_transition',`
 	allow sandbox_xserver_t $1:unix_stream_socket { connectto rw_socket_perms };
 
 	allow sandbox_x_domain sandbox_x_domain:process signal;
-	# Dontaudit leaked file descriptors
-	dontaudit sandbox_x_domain $1:fifo_file { read write };
+
+	dontaudit sandbox_x_domain $1:fifo_file rw_fifo_file_perms;
 	dontaudit sandbox_x_domain $1:tcp_socket rw_socket_perms;
 	dontaudit sandbox_x_domain $1:udp_socket rw_socket_perms;
-	dontaudit sandbox_x_domain $1:unix_stream_socket { read write };
+	dontaudit sandbox_x_domain $1:unix_stream_socket rw_inherited_sock_file_perms;
 	
 	allow $1 sandbox_tmpfs_type:file manage_file_perms;
 	dontaudit $1 sandbox_tmpfs_type:file manage_file_perms;
@@ -137,9 +137,8 @@ template(`sandbox_x_domain_template',`
 	type $1_devpts_t;
 	term_pty($1_devpts_t)
 	term_create_pty($1_t, $1_devpts_t)
-	allow $1_t $1_devpts_t:chr_file { rw_chr_file_perms setattr };
+	allow $1_t $1_devpts_t:chr_file { rw_chr_file_perms setattr_chr_file_perms };
 
-	# window manager
 	miscfiles_setattr_fonts_cache_dirs($1_t)
 	allow $1_t self:capability setuid;
 
@@ -150,14 +149,13 @@ template(`sandbox_x_domain_template',`
 	files_tmpfs_file($1_client_tmpfs_t)
 
 	term_search_ptys($1_t)
-	allow $1_client_t sandbox_devpts_t:chr_file { rw_term_perms setattr };
-	term_create_pty($1_client_t,sandbox_devpts_t)
+	allow $1_client_t sandbox_devpts_t:chr_file { rw_term_perms setattr_chr_file_perms };
+	term_create_pty($1_client_t, sandbox_devpts_t)
 
 	manage_files_pattern($1_client_t, $1_client_tmpfs_t, $1_client_tmpfs_t)
 	fs_tmpfs_filetrans($1_client_t, $1_client_tmpfs_t, file )
-	# Pulseaudio tmpfs files with different MCS labels
-	dontaudit $1_client_t $1_client_tmpfs_t:file { read write };
-	allow sandbox_xserver_t $1_client_tmpfs_t:file { read write };
+	dontaudit $1_client_t $1_client_tmpfs_t:file rw_inherited_file_perms;
+	allow sandbox_xserver_t $1_client_tmpfs_t:file rw_file_perms;
 
 	domtrans_pattern($1_t, xserver_exec_t, sandbox_xserver_t)
 	allow $1_t sandbox_xserver_t:process signal_perms;
@@ -165,7 +163,6 @@ template(`sandbox_x_domain_template',`
 	domtrans_pattern($1_t, $1_file_t, $1_client_t)
 	domain_entry_file($1_client_t,  $1_file_t)
 
-	# Random tmpfs_t that gets created when you run X. 
 	fs_rw_tmpfs_files($1_t)
 
 	manage_dirs_pattern(sandbox_xserver_t, $1_file_t, $1_file_t)
@@ -189,8 +186,7 @@ template(`sandbox_x_domain_template',`
 
 ########################################
 ## <summary>
-##	allow domain to read, 
-##	write sandbox_xserver tmp files
+##	Read and write sandbox_xserver tmp files
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -209,8 +205,7 @@ interface(`sandbox_rw_xserver_tmpfs_files',`
 
 ########################################
 ## <summary>
-##	allow domain to manage
-##	sandbox tmpfs files
+##	Manage sandbox tmpfs files
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -265,8 +260,7 @@ interface(`sandbox_delete_sock_files',`
 
 ########################################
 ## <summary>
-##	Allow domain to  set the attributes
-##	of the sandbox directory.
+##	Set attributes of the sandbox directory.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -279,12 +273,12 @@ interface(`sandbox_setattr_dirs',`
 		attribute sandbox_file_type;
 	')
 
-	allow $1 sandbox_file_type:dir setattr;
+	allow $1 sandbox_file_type:dir setattr_dir_perms;
 ')
 
 ########################################
 ## <summary>
-##	allow domain to delete sandbox files
+##	Delete sandbox files
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -302,7 +296,7 @@ interface(`sandbox_delete_dirs',`
 
 ########################################
 ## <summary>
-##	allow domain to list sandbox dirs
+##	List sandbox dirs
 ## </summary>
 ## <param name="domain">
 ##	<summary>

@@ -1,4 +1,4 @@
-## <summary>Policy for udev.</summary>
+## <summary>Udev.</summary>
 
 ########################################
 ## <summary>
@@ -77,7 +77,7 @@ interface(`udev_helper_domtrans',`
 
 ########################################
 ## <summary>
-##	Allow process to read udev process state.
+##	Read udev process state.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -135,7 +135,7 @@ interface(`udev_dontaudit_rw_dgram_sockets',`
 
 ########################################
 ## <summary>
-##	Manage udev rules files
+##	Manage udev rules files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -173,17 +173,11 @@ interface(`udev_dontaudit_search_db',`
 ## <summary>
 ##	Read the udev device table.
 ## </summary>
-## <desc>
-##	<p>
-##	Allow the specified domain to read the udev device table.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <infoflow type="read" weight="10"/>
 #
 interface(`udev_read_db',`
 	gen_require(`

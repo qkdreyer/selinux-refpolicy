@@ -1,4 +1,4 @@
-## <summary>Libvirt virtualization API</summary>
+## <summary>Libvirt virtualization API.</summary>
 
 ########################################
 ## <summary>
@@ -80,7 +80,6 @@ interface(`virt_image',`
 	typeattribute $1 virt_image_type;
 	files_type($1)
 
-	# virt images can be assigned to blk devices
 	dev_node($1)
 ')
 
@@ -100,6 +99,7 @@ interface(`virt_domtrans',`
 	')
 
 	domtrans_pattern($1, virtd_exec_t, virtd_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -108,7 +108,7 @@ interface(`virt_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -135,13 +135,13 @@ interface(`virt_stream_connect',`
 		type virtd_t, virt_var_run_t;
 	')
 
-	files_search_pids($1)
 	stream_connect_pattern($1, virt_var_run_t, virt_var_run_t, virtd_t)
+	files_search_pids($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow domain to attach to virt TUN devices
+##	Attach to virt TUN devices
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -170,14 +170,13 @@ interface(`virt_attach_tun_iface',`
 #
 interface(`virt_read_config',`
 	gen_require(`
-		type virt_etc_t;
-		type virt_etc_rw_t;
+		type virt_etc_t, virt_etc_rw_t;
 	')
 
-	files_search_etc($1)
 	read_files_pattern($1, virt_etc_t, virt_etc_t)
 	read_files_pattern($1, virt_etc_rw_t, virt_etc_rw_t)
 	read_lnk_files_pattern($1, virt_etc_rw_t, virt_etc_rw_t)
+	files_search_etc($1)
 ')
 
 ########################################
@@ -192,23 +191,22 @@ interface(`virt_read_config',`
 #
 interface(`virt_manage_config',`
 	gen_require(`
-		type virt_etc_t;
-		type virt_etc_rw_t;
+		type virt_etc_t, virt_etc_rw_t;
 	')
 
-	files_search_etc($1)
 	manage_files_pattern($1, virt_etc_t, virt_etc_t)
 	manage_files_pattern($1, virt_etc_rw_t, virt_etc_rw_t)
 	manage_lnk_files_pattern($1, virt_etc_rw_t, virt_etc_rw_t)
+	files_search_etc($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow domain to manage virt image files
+##	Manage virt image files
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -217,12 +215,12 @@ interface(`virt_read_content',`
 		type virt_content_t;
 	')
 
-	virt_search_lib($1)
 	allow $1 virt_content_t:dir list_dir_perms;
 	list_dirs_pattern($1, virt_content_t, virt_content_t)
 	read_files_pattern($1, virt_content_t, virt_content_t)
 	read_lnk_files_pattern($1, virt_content_t, virt_content_t)
 	read_blk_files_pattern($1, virt_content_t, virt_content_t)
+	virt_search_lib($1)
 
 	tunable_policy(`virt_use_nfs',`
 		fs_list_nfs($1)
@@ -252,8 +250,8 @@ interface(`virt_read_pid_files',`
 		type virt_var_run_t;
 	')
 
-	files_search_pids($1)
 	read_files_pattern($1, virt_var_run_t, virt_var_run_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -271,8 +269,8 @@ interface(`virt_manage_pid_files',`
 		type virt_var_run_t;
 	')
 
-	files_search_pids($1)
 	manage_files_pattern($1, virt_var_run_t, virt_var_run_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -309,9 +307,9 @@ interface(`virt_read_lib_files',`
 		type virt_var_lib_t;
 	')
 
-	files_search_var_lib($1)
 	read_files_pattern($1, virt_var_lib_t, virt_var_lib_t)
 	read_lnk_files_pattern($1, virt_var_lib_t, virt_var_lib_t)
+	files_search_var_lib($1)
 ')
 
 ########################################
@@ -330,38 +328,36 @@ interface(`virt_manage_lib_files',`
 		type virt_var_lib_t;
 	')
 
-	files_search_var_lib($1)
 	manage_files_pattern($1, virt_var_lib_t, virt_var_lib_t)
+	files_search_var_lib($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow the specified domain to read virt's log files.
+##	Read virt log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`virt_read_log',`
 	gen_require(`
 		type virt_log_t;
 	')
 
-	logging_search_logs($1)
 	read_files_pattern($1, virt_log_t, virt_log_t)
+	logging_search_logs($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow the specified domain to append
-##	virt log files.
+##	Append virt log files.
 ## </summary>
 ## <param name="domain">
 ## 	<summary>
-##	Domain allowed to transition.
+##	Domain allowed access.
 ## 	</summary>
 ## </param>
 #
@@ -370,17 +366,17 @@ interface(`virt_append_log',`
 		type virt_log_t;
 	')
 
-	logging_search_logs($1)
 	append_files_pattern($1, virt_log_t, virt_log_t)
+	logging_search_logs($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow domain to manage virt log files
+##	Manage virt log files
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -392,15 +388,16 @@ interface(`virt_manage_log',`
 	manage_dirs_pattern($1, virt_log_t, virt_log_t)
 	manage_files_pattern($1, virt_log_t, virt_log_t)
 	manage_lnk_files_pattern($1, virt_log_t, virt_log_t)
+	logging_search_logs($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow domain to read virt image files
+##	Read virt image files
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -410,12 +407,12 @@ interface(`virt_read_images',`
 		attribute virt_image_type;
 	')
 
-	virt_search_lib($1)
 	allow $1 virt_image_type:dir list_dir_perms;
 	list_dirs_pattern($1, virt_image_type, virt_image_type)
 	read_files_pattern($1, virt_image_type, virt_image_type)
 	read_lnk_files_pattern($1, virt_image_type, virt_image_type)
 	read_blk_files_pattern($1, virt_image_type, virt_image_type)
+	virt_search_lib($1)
 
 	tunable_policy(`virt_use_nfs',`
 		fs_list_nfs($1)
@@ -446,19 +443,19 @@ interface(`virt_manage_cache',`
 		type virt_cache_t;
 	')
 
-	files_search_var($1)
 	manage_dirs_pattern($1, virt_cache_t, virt_cache_t)
 	manage_files_pattern($1, virt_cache_t, virt_cache_t)
 	manage_lnk_files_pattern($1, virt_cache_t, virt_cache_t)
+	files_search_var($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow domain to manage virt image files
+##	Manage virt image files
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -468,12 +465,12 @@ interface(`virt_manage_images',`
 		attribute virt_image_type;
 	')
 
-	virt_search_lib($1)
 	allow $1 virt_image_type:dir list_dir_perms;
 	manage_dirs_pattern($1, virt_image_type, virt_image_type)
 	manage_files_pattern($1, virt_image_type, virt_image_type)
 	read_lnk_files_pattern($1, virt_image_type, virt_image_type)
 	rw_blk_files_pattern($1, virt_image_type, virt_image_type)
+	virt_search_lib($1)
 
 	tunable_policy(`virt_use_nfs',`
 		fs_manage_nfs_dirs($1)
@@ -532,7 +529,7 @@ interface(`virt_admin',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -540,6 +537,7 @@ interface(`virt_admin',`
 ##	The role to be allowed the sandbox domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`virt_transition_svirt',`
 	gen_require(`

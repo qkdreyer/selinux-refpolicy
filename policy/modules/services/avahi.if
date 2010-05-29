@@ -1,4 +1,4 @@
-## <summary>mDNS/DNS-SD daemon implementing Apple ZeroConf architecture</summary>
+## <summary>mDNS/DNS-SD daemon implementing Apple ZeroConf architecture.</summary>
 
 ########################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,8 +15,8 @@ interface(`avahi_domtrans',`
 		type avahi_exec_t, avahi_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, avahi_exec_t, avahi_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -25,7 +25,7 @@ interface(`avahi_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -57,7 +57,7 @@ interface(`avahi_kill',`
 
 ########################################
 ## <summary>
-##	Send avahi a signull
+##	Send avahi a signull.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -90,7 +90,7 @@ interface(`avahi_dbus_chat',`
 		class dbus send_msg;
 	')
 
-	allow avahi_t $1:file read;
+	# allow avahi_t $1:file read;
 	allow $1 avahi_t:dbus send_msg;
 	allow avahi_t $1:dbus send_msg;
 ')
@@ -110,8 +110,8 @@ interface(`avahi_stream_connect',`
 		type avahi_t, avahi_var_run_t;
 	')
 
-	files_search_pids($1)
 	stream_connect_pattern($1, avahi_var_run_t, avahi_var_run_t, avahi_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -120,7 +120,7 @@ interface(`avahi_stream_connect',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #

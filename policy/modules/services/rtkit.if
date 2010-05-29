@@ -16,6 +16,7 @@ interface(`rtkit_daemon_domtrans',`
 	')
 
 	domtrans_pattern($1, rtkit_daemon_exec_t, rtkit_daemon_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -46,7 +47,7 @@ interface(`rtkit_daemon_dbus_chat',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -62,7 +63,7 @@ interface(`rtkit_daemon_dontaudit_dbus_chat',`
 
 ########################################
 ## <summary>
-##	Allow rtkit to control scheduling for your process
+## Control scheduling for your process
 ## </summary>
 ## <param name="domain">
 ##	<summary>

@@ -89,10 +89,8 @@ manage_dirs_pattern(dovecot_t, dovecot_tmp_t, dovecot_tmp_t)
 manage_files_pattern(dovecot_t, dovecot_tmp_t, dovecot_tmp_t)
 files_tmp_filetrans(dovecot_t, dovecot_tmp_t, { file dir })
 
-# Allow dovecot to create and read SSL parameters file
 manage_files_pattern(dovecot_t, dovecot_var_lib_t, dovecot_var_lib_t)
 files_search_var_lib(dovecot_t)
-files_read_var_symlinks(dovecot_t)
 
 manage_dirs_pattern(dovecot_t, dovecot_var_log_t, dovecot_var_log_t)
 manage_files_pattern(dovecot_t, dovecot_var_log_t, dovecot_var_log_t)
@@ -139,9 +137,10 @@ files_read_etc_files(dovecot_t)
 files_search_spool(dovecot_t)
 files_search_tmp(dovecot_t)
 files_dontaudit_list_default(dovecot_t)
-# Dovecot now has quota support and it uses getmntent() to find the mountpoints.
 files_read_etc_runtime_files(dovecot_t)
 files_search_all_mountpoints(dovecot_t)
+files_read_var_symlinks(dovecot_t)
+files_read_var_lib_files(dovecot_t)
 
 init_getattr_utmp(dovecot_t)
 
@@ -169,7 +168,6 @@ tunable_policy(`use_nfs_home_dirs',`
 	fs_manage_nfs_dirs(dovecot_t)
 	fs_manage_nfs_files(dovecot_t)
 	fs_manage_nfs_symlinks(dovecot_t)
-
 ')
 
 tunable_policy(`use_samba_home_dirs',`
@@ -252,7 +250,6 @@ seutil_dontaudit_search_config(dovecot_auth_t)
 optional_policy(`
 	kerberos_use(dovecot_auth_t)
 
-	# for gssapi (kerberos)
 	userdom_list_user_tmp(dovecot_auth_t)
 	userdom_read_user_tmp_files(dovecot_auth_t)
 	userdom_read_user_tmp_symlinks(dovecot_auth_t)
@@ -276,6 +273,7 @@ optional_policy(`
 #
 # dovecot deliver local policy
 #
+
 allow dovecot_deliver_t self:unix_dgram_socket create_socket_perms;
 
 allow dovecot_deliver_t dovecot_t:process signull;

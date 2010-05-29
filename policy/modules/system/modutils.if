@@ -1,4 +1,4 @@
-## <summary>Policy for kernel module utilities</summary>
+## <summary>Kernel module utilities.</summary>
 
 ######################################
 ## <summary>
@@ -33,8 +33,8 @@ interface(`modutils_read_module_deps',`
 		type modules_dep_t;
 	')
 
-	files_list_kernel_modules($1)
 	allow $1 modules_dep_t:file read_file_perms;
+	files_list_kernel_modules($1)
 ')
 
 ########################################
@@ -47,20 +47,17 @@ interface(`modutils_read_module_deps',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`modutils_read_module_config',`
 	gen_require(`
 		type modules_conf_t;
 	')
 
-	# This file type can be in /etc or
-	# /lib(64)?/modules
-	files_search_etc($1)
-	files_search_boot($1)
-
 	read_files_pattern($1, modules_conf_t, modules_conf_t)
 	read_lnk_files_pattern($1, modules_conf_t, modules_conf_t)
+
+	files_search_etc($1)
+	files_search_boot($1)
 ')
 
 ########################################
@@ -126,19 +123,17 @@ interface(`modutils_manage_module_config',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
-# cjp: this is added for pppd, due to nested
-# conditionals not working.
 interface(`modutils_domtrans_insmod_uncond',`
 	gen_require(`
 		type insmod_t, insmod_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, insmod_exec_t, insmod_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -147,7 +142,7 @@ interface(`modutils_domtrans_insmod_uncond',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed transition.
 ##	</summary>
 ## </param>
 #
@@ -170,7 +165,7 @@ interface(`modutils_domtrans_insmod',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -204,8 +199,8 @@ interface(`modutils_exec_insmod',`
 		type insmod_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	can_exec($1, insmod_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -214,7 +209,7 @@ interface(`modutils_exec_insmod',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -223,8 +218,8 @@ interface(`modutils_domtrans_depmod',`
 		type depmod_t, depmod_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, depmod_exec_t, depmod_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -233,7 +228,7 @@ interface(`modutils_domtrans_depmod',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -267,8 +262,8 @@ interface(`modutils_exec_depmod',`
 		type depmod_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	can_exec($1, depmod_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -277,7 +272,7 @@ interface(`modutils_exec_depmod',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -286,8 +281,8 @@ interface(`modutils_domtrans_update_mods',`
 		type update_modules_t, update_modules_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, update_modules_exec_t, update_modules_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -296,7 +291,7 @@ interface(`modutils_domtrans_update_mods',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -332,6 +327,6 @@ interface(`modutils_exec_update_mods',`
 		type update_modules_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	can_exec($1, update_modules_exec_t)
+	corecmd_search_bin($1)
 ')

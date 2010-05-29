@@ -1,12 +1,4 @@
 ## <summary>Seahorse pass phrase caching agent.</summary>
-## <desc>
-##	<p>
-##		Seahorse is a GNOME application for managing encryption
-##		keys. This is the daemon program which provides
-##		services to other parts of Seahorse, and shares your
-##		keys over the network.
-##	</p>
-## </desc>
 
 ########################################
 ## <summary>
@@ -71,10 +63,11 @@ interface(`seahorsed_role',`
 #
 interface(`seahorsed_stream_connect',`   
 	gen_require(`
-		type seahorsed_t;   
+		type seahorsed_t, seahorsed_tmp_t;   
 	')   
 
-	allow $1 seahorsed_t:unix_stream_socket connectto;
+	stream_connect_pattern($1, seahorsed_tmp_t, seahorsed_tmp_t, seahorsed_t)
+	files_search_tmp($1)
 ')
 
 ########################################
@@ -132,6 +125,6 @@ interface(`seahorsed_delete_tmpfs_files',`
 		type seahorsed_tmpfs_t;
 	')
 
-	allow $1 seahorsed_tmpfs_t:file { getattr_file_perms unlink };
+	allow $1 seahorsed_tmpfs_t:file delete_file_perms;
 	fs_search_tmpfs($1)
 ')

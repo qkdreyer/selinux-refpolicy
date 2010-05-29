@@ -1,4 +1,4 @@
-## <summary>Policy for sysstat. Reports on various system states</summary>
+## <summary>Policy for sysstat. Reports on various system states.</summary>
 
 ########################################
 ## <summary>
@@ -9,13 +9,12 @@
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`sysstat_manage_log',`
 	gen_require(`
 		type sysstat_log_t;
 	')
 
-	logging_search_logs($1)
 	manage_files_pattern($1, sysstat_log_t, sysstat_log_t)
+	logging_search_logs($1)
 ')

@@ -1,4 +1,4 @@
-## <summary>Cluster Configuration System</summary>
+## <summary>Cluster Configuration System.</summary>
 
 ########################################
 ## <summary>
@@ -16,6 +16,7 @@ interface(`ccs_domtrans',`
 	')
 
 	domtrans_pattern($1, ccs_exec_t, ccs_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -33,8 +34,8 @@ interface(`ccs_stream_connect',`
 		type ccs_t, ccs_var_run_t;
 	')
 
-	files_search_pids($1)
 	stream_connect_pattern($1, ccs_var_run_t, ccs_var_run_t, ccs_t)
+	files_search_pids($1)
 ')
 
 ########################################

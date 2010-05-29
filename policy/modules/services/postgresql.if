@@ -1,4 +1,4 @@
-## <summary>PostgreSQL relational database</summary>
+## <summary>PostgreSQL relational database.</summary>
 
 #######################################
 ## <summary>
@@ -14,6 +14,7 @@
 ##	The type of the user domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`postgresql_role',`
 	gen_require(`
@@ -182,7 +183,7 @@ interface(`postgresql_blob_object',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to search postgresql's database directory.
+##	Search postgresql's database directory.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -195,12 +196,12 @@ interface(`postgresql_search_db',`
 		type postgresql_db_t;
 	')
 
-	allow $1 postgresql_db_t:dir search;
+	allow $1 postgresql_db_t:dir search_dir_perms;
 ')
 
 ########################################
 ## <summary>
-##	Allow the specified domain to manage postgresql's database.
+##	Manage postgresql's database.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -214,7 +215,7 @@ interface(`postgresql_manage_db',`
 
 	allow $1 postgresql_db_t:dir rw_dir_perms;
 	allow $1 postgresql_db_t:file rw_file_perms;
-	allow $1 postgresql_db_t:lnk_file { getattr read };
+	allow $1 postgresql_db_t:lnk_file read_lnk_file_perms;
 ')
 
 ########################################
@@ -223,7 +224,7 @@ interface(`postgresql_manage_db',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -233,15 +234,16 @@ interface(`postgresql_domtrans',`
 	')
 
 	domtrans_pattern($1, postgresql_exec_t, postgresql_t)
+	corecmd_search_bin($1)
 ')
 
 ######################################
 ## <summary>
-##	Allow domain to signal postgresql
+##	Signal postgresql
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -254,29 +256,28 @@ interface(`postgresql_signal',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to read postgresql's etc.
+##	Read postgresql's etc.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`postgresql_read_config',`
 	gen_require(`
 		type postgresql_etc_t;
 	')
 
-	files_search_etc($1)
 	allow $1 postgresql_etc_t:dir list_dir_perms;
 	allow $1 postgresql_etc_t:file read_file_perms;
 	allow $1 postgresql_etc_t:lnk_file read_lnk_file_perms;
+	files_search_etc($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow the specified domain to connect to postgresql with a tcp socket.
+##	Connect to postgresql with a tcp socket.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -297,30 +298,28 @@ interface(`postgresql_tcp_connect',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to connect to postgresql with a unix socket.
+##	Connect to postgresql with a unix socket.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`postgresql_stream_connect',`
 	gen_require(`
 		type postgresql_t, postgresql_var_run_t, postgresql_tmp_t;
 	')
 
+	stream_connect_pattern($1, postgresql_var_run_t, postgresql_var_run_t, postgresql_t)
+	stream_connect_pattern($1, postgresql_tmp_t, postgresql_tmp_t, postgresql_t)
 	files_search_pids($1)
-	allow $1 postgresql_t:unix_stream_socket connectto;
-	allow $1 postgresql_var_run_t:sock_file write;
-	# Some versions of postgresql put the sock file in /tmp
-	allow $1 postgresql_tmp_t:sock_file write;
+	files_search_tmp($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow the specified domain unprivileged accesses to unifined database objects
+##	Access to unifined database objects
 ##	managed by SE-PostgreSQL,
 ## </summary>
 ## <param name="domain">
@@ -385,7 +384,7 @@ interface(`postgresql_unpriv_client',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain unconfined accesses to any database objects
+##	Access to any database objects
 ##	managed by SE-PostgreSQL,
 ## </summary>
 ## <param name="domain">

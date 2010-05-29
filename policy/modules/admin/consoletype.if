@@ -1,12 +1,4 @@
-## <summary>consoletype print type of the console connected to standard input.</summary>
-## <desc>
-##	<p>
-##	consoletype prints the type of console connected to standard input. It prints
-##	vt if console is a virtual terminal (/dev/tty* or /dev/console device if not
-##	on a serial console), serial if standard input is a serial console (/dev/console
-##	or /dev/ttyS*) and pty if standard input is a pseudo terminal.
-##	</p>
-## </desc>
+## <summary>Consoletype print type of the console connected to standard input.</summary>
 
 ########################################
 ## <summary>
@@ -46,6 +38,7 @@ interface(`consoletype_domtrans',`
 ##	The role to be allowed the consoletype domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`consoletype_run',`
 	gen_require(`

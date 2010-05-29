@@ -1,16 +1,4 @@
 ## <summary>Kudzu detects and configures new and or changed hardware on a system.</summary>
-## <desc>
-##	<p>
-##	Kudzu detects and configures new and/or changed hardware on a system. When started,
-##	kudzu detects the current hardware, and checks it against a database stored
-##	in /etc/sysconfig/hwconf, if one exists. It then determines if any hardware has been
-##	added or removed from the system. If so, it gives the users the opportunity to
-##	configure any added hardware, and unconfigure any removed hardware. It then updates
-##	the database in /etc/sysconfig/hwconf. If no previous database exists, kudzu attempts
-##	to determine what devices have already been configured, by looking
-##	at /etc/modules.conf, /etc/sysconfig/network-scripts/, and /etc/X11/XF86Config.
-##	</p>
-## </desc>
 
 ########################################
 ## <summary>

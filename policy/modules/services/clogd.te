@@ -34,7 +34,7 @@ fs_tmpfs_filetrans(clogd_t, clogd_tmpfs_t, { dir file })
 
 manage_files_pattern(clogd_t, clogd_var_run_t, clogd_var_run_t)
 manage_sock_files_pattern(clogd_t, clogd_var_run_t, clogd_var_run_t)
-files_pid_filetrans(clogd_t, clogd_var_run_t, file)
+files_pid_filetrans(clogd_t, clogd_var_run_t, { file sock_file })
 
 dev_read_lvm_control(clogd_t)
 

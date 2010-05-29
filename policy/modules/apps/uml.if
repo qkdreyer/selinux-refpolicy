@@ -1,4 +1,4 @@
-## <summary>Policy for UML</summary>
+## <summary>UML.</summary>
 
 ########################################
 ## <summary>
@@ -24,41 +24,23 @@ interface(`uml_role',`
 
 	role $1 types uml_t;
 
-	# Transition from the user domain to this domain.
 	domtrans_pattern($2, uml_exec_t, uml_t)
 
-	# for mconsole
 	allow $2 uml_t:unix_dgram_socket sendto;
 	allow uml_t $2:unix_dgram_socket sendto;
 
-	# allow ps, ptrace, signal
 	ps_process_pattern($2, uml_t)
 	allow $2 uml_t:process { ptrace signal_perms };
-
-	allow $2 uml_ro_t:dir list_dir_perms;
-	read_files_pattern($2, uml_ro_t, uml_ro_t)
-	read_lnk_files_pattern($2, uml_ro_t, uml_ro_t)
-
-	manage_dirs_pattern($2, { uml_ro_t uml_rw_t }, { uml_ro_t uml_rw_t })
-	manage_files_pattern($2, { uml_ro_t uml_rw_t }, { uml_ro_t uml_rw_t })
-	manage_lnk_files_pattern($2, { uml_ro_t uml_rw_t }, { uml_ro_t uml_rw_t })
-	manage_fifo_files_pattern($2, { uml_ro_t uml_rw_t }, { uml_ro_t uml_rw_t })
-	manage_sock_files_pattern($2, { uml_ro_t uml_rw_t }, { uml_ro_t uml_rw_t })
-	relabel_dirs_pattern($2, { uml_ro_t uml_rw_t }, { uml_ro_t uml_rw_t })
-	relabel_files_pattern($2, { uml_ro_t uml_rw_t }, { uml_ro_t uml_rw_t })
-	relabel_lnk_files_pattern($2, { uml_ro_t uml_rw_t }, { uml_ro_t uml_rw_t })
-	relabel_fifo_files_pattern($2, { uml_ro_t uml_rw_t }, { uml_ro_t uml_rw_t })
-	relabel_sock_files_pattern($2, { uml_ro_t uml_rw_t }, { uml_ro_t uml_rw_t })
-
-	manage_dirs_pattern($2, { uml_ro_t uml_rw_t uml_exec_t }, { uml_ro_t uml_rw_t uml_exec_t })
-	manage_files_pattern($2, { uml_ro_t uml_rw_t uml_exec_t }, { uml_ro_t uml_rw_t uml_exec_t })
-	relabel_dirs_pattern($2, { uml_ro_t uml_rw_t uml_exec_t }, { uml_ro_t uml_rw_t uml_exec_t })
-	relabel_files_pattern($2, { uml_ro_t uml_rw_t uml_exec_t }, { uml_ro_t uml_rw_t uml_exec_t })
 
 	manage_dirs_pattern($2, uml_tmp_t, uml_tmp_t)
 	manage_files_pattern($2, uml_tmp_t, uml_tmp_t)
 	manage_lnk_files_pattern($2, uml_tmp_t, uml_tmp_t)
 	manage_sock_files_pattern($2, uml_tmp_t, uml_tmp_t)
+
+	relabel_dirs_pattern($2, uml_tmp_t, uml_tmp_t)
+	relabel_files_pattern($2, uml_tmp_t, uml_tmp_t)
+	relabel_lnk_files_pattern($2, uml_tmp_t, uml_tmp_t)
+	relabel_sock_files_pattern($2, uml_tmp_t, uml_tmp_t)
 ')
 
 ########################################
@@ -76,7 +58,8 @@ interface(`uml_setattr_util_sockets',`
 		type uml_switch_var_run_t;
 	')
 
-	allow $1 uml_switch_var_run_t:sock_file setattr;
+	allow $1 uml_switch_var_run_t:sock_file setattr_sock_file_perms;
+	files_search_pids($1)
 ')
 
 ########################################
@@ -96,4 +79,5 @@ interface(`uml_manage_util_files',`
 
 	manage_files_pattern($1, uml_switch_var_run_t, uml_switch_var_run_t)
 	manage_lnk_files_pattern($1, uml_switch_var_run_t, uml_switch_var_run_t)
+	files_search_pids($1)
 ')

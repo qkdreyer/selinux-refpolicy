@@ -1,7 +1,4 @@
-## <summary>
-## Policy for hotplug system, for supporting the
-## connection and disconnection of devices at runtime.
-## </summary>
+## <summary>Hotplug system supporting the connection and disconnection of devices at runtime.</summary>
 
 ########################################
 ## <summary>
@@ -9,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -18,8 +15,8 @@ interface(`hotplug_domtrans',`
 		type hotplug_t, hotplug_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, hotplug_exec_t, hotplug_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -37,8 +34,8 @@ interface(`hotplug_exec',`
 		type hotplug_t;
 	')
 
-	corecmd_search_bin($1)
 	can_exec($1, hotplug_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -139,20 +136,19 @@ interface(`hotplug_search_config',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`hotplug_read_config',`
 	gen_require(`
 		type hotplug_etc_t;
 	')
 
-	files_search_etc($1)
 	allow $1 hotplug_etc_t:dir list_dir_perms;
 	read_files_pattern($1, hotplug_etc_t, hotplug_etc_t)
 	read_lnk_files_pattern($1, hotplug_etc_t, hotplug_etc_t)
+	files_search_etc($1)
 ')
 
 ########################################

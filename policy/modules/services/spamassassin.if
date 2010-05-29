@@ -14,6 +14,7 @@
 ##	User domain for the role
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`spamassassin_role',`
 	gen_require(`
@@ -55,7 +56,7 @@ interface(`spamassassin_exec',`
 	')
 
 	can_exec($1, spamassassin_exec_t)
-
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -64,7 +65,7 @@ interface(`spamassassin_exec',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -93,6 +94,7 @@ interface(`spamassassin_exec_spamd',`
 	')
 
 	can_exec($1, spamd_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -101,7 +103,7 @@ interface(`spamassassin_exec_spamd',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -111,7 +113,9 @@ interface(`spamassassin_domtrans_client',`
 	')
 
 	domtrans_pattern($1, spamc_exec_t, spamc_t)
-	allow $1 spamc_exec_t:file ioctl;
+	corecmd_search_bin($1)
+
+	# allow $1 spamc_exec_t:file ioctl;
 ')
 
 ########################################
@@ -150,6 +154,7 @@ interface(`spamassassin_manage_home_client',`
 	manage_dirs_pattern($1, spamc_home_t, spamc_home_t)
 	manage_files_pattern($1, spamc_home_t, spamc_home_t)
 	manage_lnk_files_pattern($1, spamc_home_t, spamc_home_t)
+	userdom_search_user_home_dirs($1)
 ')
 
 ########################################
@@ -169,6 +174,7 @@ interface(`spamassassin_exec_client',`
 	')
 
 	can_exec($1, spamc_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -177,7 +183,7 @@ interface(`spamassassin_exec_client',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -187,6 +193,7 @@ interface(`spamassassin_domtrans_local_client',`
 	')
 
 	domtrans_pattern($1, spamassassin_exec_t, spamassassin_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -204,10 +211,10 @@ interface(`spamassassin_read_lib_files',`
 		type spamd_var_lib_t;
 	')
 
-	files_search_var_lib($1)
 	list_dirs_pattern($1, spamd_var_lib_t, spamd_var_lib_t)
 	read_files_pattern($1, spamd_var_lib_t, spamd_var_lib_t)
 	read_lnk_files_pattern($1, spamd_var_lib_t, spamd_var_lib_t)
+	files_search_var_lib($1)
 ')
 
 ########################################
@@ -226,8 +233,8 @@ interface(`spamassassin_manage_lib_files',`
 		type spamd_var_lib_t;
 	')
 
-	files_search_var_lib($1)
 	manage_files_pattern($1, spamd_var_lib_t, spamd_var_lib_t)
+	files_search_var_lib($1)
 ')
 
 ########################################
@@ -236,7 +243,7 @@ interface(`spamassassin_manage_lib_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -246,6 +253,7 @@ interface(`spamassassin_read_spamd_tmp_files',`
 	')
 
 	allow $1 spamd_tmp_t:file read_file_perms;
+	files_search_tmp($1)
 ')
 
 ########################################
@@ -264,7 +272,7 @@ interface(`spamassassin_dontaudit_getattr_spamd_tmp_sockets',`
 		type spamd_tmp_t;
 	')
 
-	dontaudit $1 spamd_tmp_t:sock_file getattr;
+	dontaudit $1 spamd_tmp_t:sock_file getattr_sock_file_perms;
 ')
 
 ########################################
@@ -273,7 +281,7 @@ interface(`spamassassin_dontaudit_getattr_spamd_tmp_sockets',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed to connect.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -283,6 +291,7 @@ interface(`spamd_stream_connect',`
 	')
 
 	stream_connect_pattern($1, spamd_var_run_t, spamd_var_run_t, spamd_t)
+	files_search_pids($1)
 ')
 
 ########################################

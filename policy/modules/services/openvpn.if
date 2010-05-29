@@ -1,4 +1,4 @@
-## <summary>full-featured SSL VPN solution</summary>
+## <summary>full-featured SSL VPN solution.</summary>
 
 ########################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -16,6 +16,7 @@ interface(`openvpn_domtrans',`
 	')
 
 	domtrans_pattern($1, openvpn_exec_t, openvpn_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -25,7 +26,7 @@ interface(`openvpn_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -108,17 +109,16 @@ interface(`openvpn_signull',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`openvpn_read_config',`
 	gen_require(`
 		type openvpn_etc_t;
 	')
 
-	files_search_etc($1)
 	allow $1 openvpn_etc_t:dir list_dir_perms;
 	read_files_pattern($1, openvpn_etc_t, openvpn_etc_t)
 	read_lnk_files_pattern($1, openvpn_etc_t, openvpn_etc_t)
+	files_search_etc($1)
 ')
 
 ########################################

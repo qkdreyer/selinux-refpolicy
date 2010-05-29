@@ -16,57 +16,55 @@ interface(`ulogd_domtrans',`
 	')
 
 	domtrans_pattern($1, ulogd_exec_t, ulogd_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow the specified domain to read
-##	ulogd configuration files.
+##	Read ulogd configuration files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`ulogd_read_config',`
 	gen_require(`
 		type ulogd_etc_t;
 	')
 
-	files_search_etc($1)
 	read_files_pattern($1, ulogd_etc_t, ulogd_etc_t)
+	files_search_etc($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow the specified domain to read ulogd's log files.
+##	Read ulogd log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`ulogd_read_log',`
 	gen_require(`
 		type ulogd_var_log_t;
 	')
 
-	logging_search_logs($1)
 	allow $1 ulogd_var_log_t:dir list_dir_perms;
 	read_files_pattern($1, ulogd_var_log_t, ulogd_var_log_t)
+	logging_search_logs($1)
 ')
 
 #######################################
 ## <summary>
-##	Allow the specified domain to search ulogd's log files.
+##	Search ulogd log files.
 ## </summary>
 ## <param name="domain">
 ## <summary>
-##	Domain allowed to transition.
+##	Domain allowed access.
 ## </summary>
 ## </param>
 #
@@ -75,29 +73,28 @@ interface(`ulogd_search_log',`
 		type ulogd_var_log_t;
 	')
 
-	logging_search_logs($1)
 	allow $1 ulogd_var_log_t:dir search_dir_perms;
+	logging_search_logs($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow the specified domain to append to ulogd's log files.
+##	Append to ulogd log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`ulogd_append_log',`
 	gen_require(`
 		type ulogd_var_log_t;
 	')
 
-	logging_search_logs($1)
 	allow $1 ulogd_var_log_t:dir list_dir_perms;
 	allow $1 ulogd_var_log_t:file append_file_perms;
+	logging_search_logs($1)
 ')
 
 ########################################

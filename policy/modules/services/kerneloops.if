@@ -1,4 +1,4 @@
-## <summary>Service for reporting kernel oopses to kerneloops.org</summary>
+## <summary>Service for reporting kernel oopses to kerneloops.org.</summary>
 
 ########################################
 ## <summary>
@@ -12,11 +12,11 @@
 #
 interface(`kerneloops_domtrans',`
 	gen_require(`
-		type kerneloops_t;
-		type kerneloops_exec_t;
+		type kerneloops_t, kerneloops_exec_t;
 	')
 
 	domtrans_pattern($1, kerneloops_exec_t, kerneloops_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -47,7 +47,7 @@ interface(`kerneloops_dbus_chat',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -63,11 +63,11 @@ interface(`kerneloops_dontaudit_dbus_chat',`
 
 ########################################
 ## <summary>
-##	Allow domain to manage kerneloops tmp files
+##	Manage kerneloops tmp files
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #

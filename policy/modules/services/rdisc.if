@@ -1,8 +1,8 @@
-## <summary>Network router discovery daemon</summary>
+## <summary>Network router discovery daemon.</summary>
 
 ######################################
 ## <summary>
-##	Execute rdisc in the caller domain.
+##	Execute rdisc.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -15,6 +15,6 @@ interface(`rdisc_exec',`
 		type rdisc_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	can_exec($1, rdisc_exec_t)
+	corecmd_search_bin($1)
 ')

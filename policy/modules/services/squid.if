@@ -1,4 +1,4 @@
-## <summary>Squid caching http proxy server</summary>
+## <summary>Squid caching http proxy server.</summary>
 
 ########################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,8 +15,8 @@ interface(`squid_domtrans',`
 		type squid_t, squid_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, squid_exec_t, squid_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -25,7 +25,7 @@ interface(`squid_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -35,6 +35,7 @@ interface(`squid_exec',`
 	')
 
 	can_exec($1, squid_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -71,7 +72,7 @@ interface(`squid_rw_stream_sockets',`
 		type squid_t;
 	')
 
-	allow $1 squid_t:unix_stream_socket { getattr read write };
+	allow $1 squid_t:unix_stream_socket rw_stream_socket_perms;
 ')
 
 ########################################
@@ -83,7 +84,6 @@ interface(`squid_rw_stream_sockets',`
 ##	Domain to not audit.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`squid_dontaudit_search_cache',`
 	gen_require(`
@@ -102,35 +102,33 @@ interface(`squid_dontaudit_search_cache',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`squid_read_config',`
 	gen_require(`
 		type squid_conf_t;
 	')
 
-	files_search_etc($1)
 	read_files_pattern($1, squid_conf_t, squid_conf_t)
+	files_search_etc($1)
 ')
 
 ########################################
 ## <summary>
-##	Append squid logs.
+##	Read squid logs.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`squid_read_log',`
 	gen_require(`
 		type squid_log_t;
 	')
 
-	logging_search_logs($1)
 	read_files_pattern($1, squid_log_t, squid_log_t)
+	logging_search_logs($1)
 ')
 
 ########################################
@@ -148,8 +146,8 @@ interface(`squid_append_log',`
 		type squid_log_t;
 	')
 
-	logging_search_logs($1)
 	append_files_pattern($1, squid_log_t, squid_log_t)
+	logging_search_logs($1)
 ')
 
 ########################################
@@ -162,15 +160,14 @@ interface(`squid_append_log',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`squid_manage_logs',`
 	gen_require(`
 		type squid_log_t;
 	')
 
-	logging_search_logs($1)
 	manage_files_pattern($1, squid_log_t, squid_log_t)
+	logging_search_logs($1)
 ')
 
 ########################################

@@ -1,15 +1,4 @@
 ## <summary>Berkeley process accounting</summary>
-## <desc>
-##	<p>
-##	The psacct package contains several utilities for monitoring process
-##	activities, including ac, lastcomm, accton and sa. The ac command
-##	displays statistics about how long users have been logged on. The
-##	lastcomm command displays information about previous executed
-##	commands. The accton command turns process accounting on or off. The
-##	sa command summarizes information about previously executed
-##	commands.
-##	</p>
-## </desc>
 
 ########################################
 ## <summary>

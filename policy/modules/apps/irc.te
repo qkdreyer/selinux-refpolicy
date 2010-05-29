@@ -72,7 +72,6 @@ corenet_tcp_sendrecv_generic_port(irc_domain)
 corenet_tcp_bind_generic_node(irc_domain)
 corenet_udp_bind_generic_node(irc_domain)
 corenet_udp_sendrecv_generic_if(irc_domain)
-
 corenet_sendrecv_ircd_client_packets(irc_domain)
 
 files_read_etc_files(irc_domain)
@@ -135,11 +134,9 @@ fs_getattr_xattr_fs(irc_t)
 term_use_controlling_term(irc_t)
 term_list_ptys(irc_t)
 
-# allow utmp access
 init_read_utmp(irc_t)
 init_dontaudit_lock_utmp(irc_t)
 
-# Inherit and use descriptors from newrole.
 seutil_use_newrole_fds(irc_t)
 
 ########################################
@@ -159,7 +156,6 @@ kernel_read_system_state(irssi_t)
 corecmd_read_bin_symlinks(irssi_t)
 
 corenet_udp_sendrecv_generic_node(irssi_t)
-
 corenet_tcp_connect_ircd_port(irssi_t)
 
 # Privoxy

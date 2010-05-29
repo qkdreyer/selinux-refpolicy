@@ -1,4 +1,4 @@
-## <summary>Policy for changing the system host name.</summary>
+## <summary>The system host name.</summary>
 
 ########################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,8 +15,8 @@ interface(`hostname_domtrans',`
 		type hostname_t, hostname_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, hostname_exec_t, hostname_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -26,7 +26,7 @@ interface(`hostname_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -34,6 +34,7 @@ interface(`hostname_domtrans',`
 ##	The role to be allowed the hostname domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`hostname_run',`
 	gen_require(`
@@ -53,13 +54,12 @@ interface(`hostname_run',`
 ##	Domain allowed access.
 ## 	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`hostname_exec',`
 	gen_require(`
 		type hostname_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	can_exec($1, hostname_exec_t)
+	corecmd_search_bin($1)
 ')

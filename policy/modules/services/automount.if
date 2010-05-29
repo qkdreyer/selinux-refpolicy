@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,20 +15,19 @@ interface(`automount_domtrans',`
 		type automount_t, automount_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, automount_exec_t, automount_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
 ## <summary>
-##	Send automount a signal
+##	Send automount a signal.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-#
 #
 interface(`automount_signal',`
 	gen_require(`
@@ -55,7 +54,7 @@ interface(`automount_exec_config',`
 
 ########################################
 ## <summary>
-##	Allow the domain to read state files in /proc.
+##	Read state files in /proc.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -69,6 +68,7 @@ interface(`automount_read_state',`
 	')
 
 	read_files_pattern($1, automount_t, automount_t)
+	kernel_search_proc($1)
 ')
 
 ########################################
@@ -95,7 +95,7 @@ interface(`automount_dontaudit_use_fds',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #

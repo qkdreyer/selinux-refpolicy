@@ -1,67 +1,15 @@
-## <summary>
-## Device nodes and interfaces for many basic system devices.
-## </summary>
-## <desc>
-## <p>
-## This module creates the device node concept and provides
-## the policy for many of the device files. Notable exceptions are
-## the mass storage and terminal devices that are covered by other
-## modules.
-## </p>
-## <p>
-## This module creates the concept of a device node. That is a
-## char or block device file, usually in /dev. All types that
-## are used to label device nodes should use the dev_node macro.
-## </p>
-## <p>
-## Additionally, this module controls access to three things:
-##	<ul>
-##		<li>the device directories containing device nodes</li>
-##		<li>device nodes as a group</li>
-##		<li>individual access to specific device nodes covered by
-##		this module.</li>
-##	</ul>
-## </p>
-## </desc>
-## <required val="true">
-##	Depended on by other required modules.
-## </required>
+## <summary>Device nodes and interfaces for many basic system devices.</summary>
 
 ########################################
 ## <summary>
 ##	Make the specified type usable for device
 ##	nodes in a filesystem.
 ## </summary>
-## <desc>
-##	<p>
-##	Make the specified type usable for device nodes
-##	in a filesystem.  Types used for device nodes that
-##	do not use this interface, or an interface that
-##	calls this one, will have unexpected behaviors
-##	while the system is running.
-##	</p>
-##	<p>
-##	Example:
-##	</p>
-##	<p>
-##	type mydev_t;
-##	dev_node(mydev_t)
-##	allow mydomain_t mydev_t:chr_file read_chr_file_perms;
-##	</p>
-##	<p>
-##	Related interfaces:
-##	</p>
-##	<ul>
-##		<li>term_tty()</li>
-##		<li>term_pty()</li>
-##	</ul>
-## </desc>
 ## <param name="type">
 ##	<summary>
 ##	Type to be used for device nodes.
 ##	</summary>
 ## </param>
-## <infoflow type="none"/>
 #
 interface(`dev_node',`
 	gen_require(`
@@ -80,7 +28,6 @@ interface(`dev_node',`
 ##	Domain allowed to relabel.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`dev_relabel_all_dev_nodes',`
 	gen_require(`
@@ -103,7 +50,7 @@ interface(`dev_relabel_all_dev_nodes',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed to list device nodes.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -136,11 +83,11 @@ interface(`dev_setattr_generic_dirs',`
 
 ########################################
 ## <summary>
-##	Dontaudit attempts to list all device nodes.
+##	Do not audit attempts to list all device nodes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to dontaudit listing of device nodes.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -194,7 +141,7 @@ interface(`dev_remove_entry_generic_dirs',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed to create the directory.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -213,7 +160,7 @@ interface(`dev_create_generic_dirs',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed to create the directory.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -231,7 +178,7 @@ interface(`dev_delete_generic_dirs',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed to relabel.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -249,7 +196,7 @@ interface(`dev_manage_generic_dirs',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed to relabel.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -263,7 +210,7 @@ interface(`dev_relabel_generic_dev_dirs',`
 
 ########################################
 ## <summary>
-##	dontaudit getattr generic files in /dev.
+##	Do not audit attempts to getattr generic files in /dev.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -321,7 +268,7 @@ interface(`dev_delete_generic_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed to create the files.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -335,11 +282,11 @@ interface(`dev_manage_generic_files',`
 
 ########################################
 ## <summary>
-##	Dontaudit getattr on generic pipes.
+##	Do not audit attempts to getattr on generic pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to dontaudit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -371,11 +318,11 @@ interface(`dev_getattr_generic_blk_files',`
 
 ########################################
 ## <summary>
-##	Dontaudit getattr on generic block devices.
+##	Do not audit attempts to getattr on generic block devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to dontaudit access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -389,11 +336,11 @@ interface(`dev_dontaudit_getattr_generic_blk_files',`
 
 ########################################
 ## <summary>
-##	Dontaudit setattr on generic block devices.
+##	Do not audit attempts to setattr on generic block devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to dontaudit access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -443,7 +390,7 @@ interface(`dev_delete_generic_blk_files',`
 
 ########################################
 ## <summary>
-##	Allow getattr for generic character device files.
+##	Get attributes of generic character device files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -461,11 +408,12 @@ interface(`dev_getattr_generic_chr_files',`
 
 ########################################
 ## <summary>
-##	Dontaudit getattr for generic character device files.
+##	Do not audit attempts to get attributes
+##	of generic character device files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to dontaudit access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -479,11 +427,12 @@ interface(`dev_dontaudit_getattr_generic_chr_files',`
 
 ########################################
 ## <summary>
-##	Dontaudit setattr for generic character device files.
+##	Do not audit attempts to setattr of
+##	generic character device files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to dontaudit access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -606,7 +555,8 @@ interface(`dev_delete_generic_symlinks',`
 
 ########################################
 ## <summary>
-##	Create, delete, read, and write symbolic links in device directories.
+##	Create, delete, read, and write symbolic
+##	links in device directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -642,7 +592,8 @@ interface(`dev_relabel_generic_symlinks',`
 
 ########################################
 ## <summary>
-##	Create, delete, read, and write device nodes in device directories.
+##	Create, delete, read, and write device
+##	nodes in device directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -665,8 +616,6 @@ interface(`dev_manage_all_dev_nodes',`
 	relabel_chr_files_pattern($1, device_t, { device_t device_node })
 	relabel_blk_files_pattern($1, device_t, { device_t device_node })
 
-	# these next rules are to satisfy assertions broken by the above lines.
-	# the permissions hopefully can be cut back a lot
 	storage_raw_read_fixed_disk($1)
 	storage_raw_write_fixed_disk($1)
 	storage_read_scsi_generic($1)
@@ -678,11 +627,12 @@ interface(`dev_manage_all_dev_nodes',`
 
 ########################################
 ## <summary>
-##	Dontaudit getattr for generic device files.
+##	Do not audit attempts to get attributes
+##	of generic device files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to dontaudit access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -792,14 +742,13 @@ interface(`dev_tmpfs_filetrans_dev',`
 
 ########################################
 ## <summary>
-##	Getattr on all block file device nodes.
+##	Get attributes of all block file device nodes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`dev_getattr_all_blk_files',`
 	gen_require(`
@@ -812,11 +761,12 @@ interface(`dev_getattr_all_blk_files',`
 
 ########################################
 ## <summary>
-##	Dontaudit getattr on all block file device nodes.
+##	Do not audit attempts to get attributes
+##	of all block file device nodes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to dontaudit access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -838,7 +788,6 @@ interface(`dev_dontaudit_getattr_all_blk_files',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`dev_getattr_all_chr_files',`
 	gen_require(`
@@ -850,11 +799,12 @@ interface(`dev_getattr_all_chr_files',`
 
 ########################################
 ## <summary>
-##	Dontaudit getattr on all character file device nodes.
+##	Do not audit attempts to getattr of
+##	all character file device nodes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to dontaudit access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -869,14 +819,13 @@ interface(`dev_dontaudit_getattr_all_chr_files',`
 
 ########################################
 ## <summary>
-##	Setattr on all block file device nodes.
+##	Set attributes of all block file device nodes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`dev_setattr_all_blk_files',`
 	gen_require(`
@@ -888,14 +837,13 @@ interface(`dev_setattr_all_blk_files',`
 
 ########################################
 ## <summary>
-##	Setattr on all character file device nodes.
+##	Set attributes of all character file device nodes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`dev_setattr_all_chr_files',`
 	gen_require(`
@@ -907,7 +855,8 @@ interface(`dev_setattr_all_chr_files',`
 
 ########################################
 ## <summary>
-##	Dontaudit read on all block file device nodes.
+##	Do not audit attempts to read
+##	all block file device nodes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -925,7 +874,8 @@ interface(`dev_dontaudit_read_all_blk_files',`
 
 ########################################
 ## <summary>
-##	Dontaudit write on all block file device nodes.
+##	Do not audit attempts to write to
+##	all block file device nodes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -943,7 +893,8 @@ interface(`dev_dontaudit_write_all_blk_files',`
 
 ########################################
 ## <summary>
-##	Dontaudit read on all character file device nodes.
+##	Do not audit attempts to read
+##	all character file device nodes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -961,7 +912,8 @@ interface(`dev_dontaudit_read_all_chr_files',`
 
 ########################################
 ## <summary>
-##	Dontaudit write on all character file device nodes.
+##	Do not audit attempts to write to
+##	all character file device nodes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1138,7 +1090,6 @@ interface(`dev_manage_all_blk_files',`
 
 	manage_blk_files_pattern($1, device_t, device_node)
 
-	# these next rules are to satisfy assertions broken by the above lines.
 	storage_raw_read_fixed_disk($1)
 	storage_raw_write_fixed_disk($1)
 	storage_read_scsi_generic($1)
@@ -1668,11 +1619,12 @@ interface(`dev_rw_dri',`
 
 ########################################
 ## <summary>
-##	Dontaudit read and write on the dri devices.
+##	Do not audit attempts to read and
+##	write to the dri devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to dontaudit access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -2213,11 +2165,12 @@ interface(`dev_rw_lvm_control',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to read and write lvm control device.
+##	Do not audit attempts to read and
+##	write to lvm control devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -2249,11 +2202,12 @@ interface(`dev_delete_lvm_control_dev',`
 
 ########################################
 ## <summary>
-##	dontaudit getattr raw memory devices (e.g. /dev/mem).
+##	Do not audit attempts to get attributes
+##	of raw memory devices (e.g. /dev/mem).
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -2391,7 +2345,7 @@ interface(`dev_getattr_misc_dev',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -2428,7 +2382,7 @@ interface(`dev_setattr_misc_dev',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -2482,7 +2436,7 @@ interface(`dev_write_misc',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -2663,19 +2617,6 @@ interface(`dev_getattr_mtrr_dev',`
 ##	Read the memory type range
 ##	registers (MTRR).  (Deprecated)
 ## </summary>
-## <desc>
-##	<p>
-##	Read the memory type range
-##	registers (MTRR).  This interface has
-##	been deprecated, dev_rw_mtrr() should be
-##	used instead.
-##	</p>
-##	<p>
-##	The MTRR device ioctls can be used for
-##	reading and writing; thus, read access to the
-##	device cannot be separated from write access.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
@@ -2692,19 +2633,6 @@ interface(`dev_read_mtrr',`
 ##	Write the memory type range
 ##	registers (MTRR).  (Deprecated)
 ## </summary>
-## <desc>
-##	<p>
-##	Write the memory type range
-##	registers (MTRR).  This interface has
-##	been deprecated, dev_rw_mtrr() should be
-##	used instead.
-##	</p>
-##	<p>
-##	The MTRR device ioctls can be used for
-##	reading and writing; thus, write access to the
-##	device cannot be separated from read access.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
@@ -2982,7 +2910,6 @@ interface(`dev_setattr_printer_dev',`
 ##	</summary>
 ## </param>
 #
-# cjp: added for lpd/checkpc_t
 interface(`dev_append_printer',`
 	gen_require(`
 		type device_t, printer_device_t;
@@ -3106,26 +3033,11 @@ interface(`dev_rw_qemu',`
 ##	Read from random number generator
 ##	devices (e.g., /dev/random).
 ## </summary>
-## <desc>
-##	<p>
-##	Allow the specified domain to read from random number
-##	generator devices (e.g., /dev/random).  Typically this is
-##	used in situations when a cryptographically secure random
-##	number is needed.
-##	</p>
-##	<p>
-##	Related interface:
-##	</p>
-##	<ul>
-##		<li>dev_read_urand()</li>
-##	</ul>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <infoflow type="read" weight="10"/>
 #
 interface(`dev_read_rand',`
 	gen_require(`
@@ -3142,7 +3054,7 @@ interface(`dev_read_rand',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -3161,7 +3073,7 @@ interface(`dev_dontaudit_read_rand',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -3616,7 +3528,7 @@ interface(`dev_getattr_sysfs_dirs',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -3634,7 +3546,7 @@ interface(`dev_search_sysfs',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -3652,7 +3564,7 @@ interface(`dev_dontaudit_search_sysfs',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -3670,11 +3582,10 @@ interface(`dev_list_sysfs',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
-# cjp: added for cpuspeed
 interface(`dev_write_sysfs_dirs',`
 	gen_require(`
 		type sysfs_t;
@@ -3687,20 +3598,11 @@ interface(`dev_write_sysfs_dirs',`
 ## <summary>
 ##	Read hardware state information.
 ## </summary>
-## <desc>
-##	<p>
-##	Allow the specified domain to read the contents of
-##	the sysfs filesystem.  This filesystem contains
-##	information, parameters, and other settings on the
-##	hardware installed on the system.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <infoflow type="read" weight="10"/>
 #
 interface(`dev_read_sysfs',`
 	gen_require(`
@@ -3715,11 +3617,11 @@ interface(`dev_read_sysfs',`
 
 ########################################
 ## <summary>
-##	Allow caller to modify hardware state information.
+##	Modify hardware state information.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type modifying hardware state information.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -3738,34 +3640,11 @@ interface(`dev_rw_sysfs',`
 ## <summary>
 ##	Read from pseudo random number generator devices (e.g., /dev/urandom).
 ## </summary>
-## <desc>
-##	<p>
-##	Allow the specified domain to read from pseudo random number
-##	generator devices (e.g., /dev/urandom).  Typically this is
-##	used in situations when a cryptographically secure random
-##	number is not necessarily needed.  One example is the Stack
-##	Smashing Protector (SSP, formerly known as ProPolice) support
-##	that may be compiled into programs.
-##	</p>
-##	<p>
-##	Related interface:
-##	</p>
-##	<ul>
-##		<li>dev_read_rand()</li>
-##	</ul>
-##	<p>
-##	Related tunable:
-##	</p>
-##	<ul>
-##		<li>global_ssp</li>
-##	</ul>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <infoflow type="read" weight="10"/>
 #
 interface(`dev_read_urand',`
 	gen_require(`
@@ -3909,7 +3788,7 @@ interface(`dev_read_usbmon_dev',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -3927,7 +3806,7 @@ interface(`dev_mount_usbfs',`
 ## </summary>
 ## <param name="file_type">
 ##	<summary>
-##	The type of the file to be associated to usbfs.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -3982,7 +3861,7 @@ interface(`dev_dontaudit_getattr_usbfs_dirs',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -3996,11 +3875,11 @@ interface(`dev_search_usbfs',`
 
 ########################################
 ## <summary>
-##	Allow caller to get a list of usb hardware.
+##	List usb hardware.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type getting the list.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -4041,7 +3920,7 @@ interface(`dev_setattr_usbfs_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -4057,11 +3936,11 @@ interface(`dev_read_usbfs',`
 
 ########################################
 ## <summary>
-##	Allow caller to modify usb hardware configuration files.
+##	Modify usb hardware configuration files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type modifying the options.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #

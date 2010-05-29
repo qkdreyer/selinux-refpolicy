@@ -1,9 +1,4 @@
 ## <summary>Shorewall firewall.</summary>
-## <desc>
-##	<p>
-##	Shorewall is a gateway/firewall configuration tool for GNU/Linux.
-##	</p>
-## </desc>
 
 ########################################
 ## <summary>

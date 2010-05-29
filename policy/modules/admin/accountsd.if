@@ -1,11 +1,4 @@
 ## <summary>Accountsservice D-Bus interfaces for querying and manipulating user account information.</summary>
-## <desc>
-##	<p>
-##	The accountsservice project provides a set of D-Bus interfaces for
-##	querying and manipulating user account information and an implementation
-##	of these interfaces, based on the useradd, usermod and userdel commands.
-##	</p>
-## </desc>
 
 ########################################
 ## <summary>
@@ -173,4 +166,3 @@ interface(`accountsd_admin',`
 
 	accountsd_manage_var_lib($1)
 ')
-

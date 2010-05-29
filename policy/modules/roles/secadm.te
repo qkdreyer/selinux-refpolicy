@@ -73,4 +73,3 @@ optional_policy(`
 optional_policy(`
 	sysadm_role_change(secadm_r)
 ')
-

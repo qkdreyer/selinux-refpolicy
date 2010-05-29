@@ -1,4 +1,4 @@
-## <summary>Openoffice</summary>
+## <summary>Openoffice.</summary>
 
 #######################################
 ## <summary>
@@ -17,8 +17,7 @@
 #
 interface(`openoffice_plugin_role',`
 	gen_require(`
-		type openoffice_exec_t;
-		type openoffice_t;
+		type openoffice_exec_t, openoffice_t;
 	')
 	
 	########################################
@@ -27,6 +26,7 @@ interface(`openoffice_plugin_role',`
 	#
 
 	domtrans_pattern($1, openoffice_exec_t, openoffice_t)
+
 	allow $1 openoffice_t:process { signal sigkill };
 ')
 
@@ -34,12 +34,6 @@ interface(`openoffice_plugin_role',`
 ## <summary>
 ##	role for openoffice
 ## </summary>
-## <desc>
-##	<p>
-##	This template creates a derived domains which are used
-##	for java applications.
-##	</p>
-## </desc>
 ## <param name="role_prefix">
 ##	<summary>
 ##	The prefix of the user domain (e.g., user
@@ -75,7 +69,7 @@ interface(`openoffice_role_template',`
 	allow $1_openoffice_t self:process { getsched sigkill execheap execmem execstack };
 
 	allow $3 $1_openoffice_t:process { getattr ptrace signal_perms noatsecure siginh rlimitinh };
-	allow $1_openoffice_t $3:tcp_socket { read write };
+	allow $1_openoffice_t $3:tcp_socket rw_inherited_sock_file_perms;
 
 	domtrans_pattern($3, openoffice_exec_t, $1_openoffice_t)
 
@@ -97,20 +91,9 @@ interface(`openoffice_role_template',`
 ##	Execute openoffice_exec_t 
 ##	in the specified domain.
 ## </summary>
-## <desc>
-##	<p>
-##	Execute a openoffice_exec_t
-##	in the specified domain.  
-##	</p>
-##	<p>
-##	No interprocess communication (signals, pipes,
-##	etc.) is provided by this interface since
-##	the domains are not owned by this module.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="target_domain">
@@ -126,4 +109,5 @@ interface(`openoffice_exec_domtrans',`
 
 	allow $2 openoffice_exec_t:file entrypoint;
 	domtrans_pattern($1, openoffice_exec_t, $2)
+	corecmd_search_bin($1)
 ')

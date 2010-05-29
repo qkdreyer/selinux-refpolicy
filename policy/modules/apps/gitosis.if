@@ -16,6 +16,7 @@ interface(`gitosis_domtrans',`
 	')
 
 	domtrans_pattern($1, gitosis_exec_t, gitosis_t)
+	corecmd_search_bin($1)
 ')
 
 #######################################
@@ -25,7 +26,7 @@ interface(`gitosis_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -33,6 +34,7 @@ interface(`gitosis_domtrans',`
 ##	Role allowed access.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`gitosis_run',`
 	gen_require(`
@@ -45,8 +47,7 @@ interface(`gitosis_run',`
 
 #######################################
 ## <summary>
-##	Allow the specified domain to read
-##	gitosis lib files.
+##	Read gitosis lib files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -59,16 +60,15 @@ interface(`gitosis_read_lib_files',`
 		type gitosis_var_lib_t;
 	')
 
-	files_search_var_lib($1)
 	read_files_pattern($1, gitosis_var_lib_t, gitosis_var_lib_t)
 	read_lnk_files_pattern($1, gitosis_var_lib_t, gitosis_var_lib_t)
 	list_dirs_pattern($1, gitosis_var_lib_t, gitosis_var_lib_t)
+	files_search_var_lib($1)
 ')
 
 ######################################
 ## <summary>
-##	Allow the specified domain to manage
-##	gitosis lib files.
+##	Manage gitosis lib files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -81,6 +81,6 @@ interface(`gitosis_manage_lib_files',`
 		type gitosis_var_lib_t;
 	')
 
-	files_search_var_lib($1)
 	manage_files_pattern($1, gitosis_var_lib_t, gitosis_var_lib_t)
+	files_search_var_lib($1)
 ')

@@ -1,4 +1,4 @@
-## <summary>Policy for Mozilla and related web browsers</summary>
+## <summary>Mozilla and related web browsers.</summary>
 
 ########################################
 ## <summary>
@@ -23,13 +23,11 @@ interface(`mozilla_role',`
 	role $1 types mozilla_t;
 
 	domain_auto_trans($2, mozilla_exec_t, mozilla_t)
-	# Unrestricted inheritance from the caller.
 	allow $2 mozilla_t:process { noatsecure siginh rlimitinh };
 	allow mozilla_t $2:fd use;
 	allow mozilla_t $2:process { sigchld signull };
 	allow mozilla_t $2:unix_stream_socket connectto;
 
-	# Allow the user domain to signal/ps.
 	ps_process_pattern($2, mozilla_t)
 	allow $2 mozilla_t:process signal_perms;
 
@@ -37,14 +35,6 @@ interface(`mozilla_role',`
 	allow $2 mozilla_t:shm { associate getattr };
 	allow $2 mozilla_t:shm { unix_read unix_write };
 	allow $2 mozilla_t:unix_stream_socket connectto;
-
-	# X access, Home files
-	manage_dirs_pattern($2, mozilla_home_t, mozilla_home_t)
-	manage_files_pattern($2, mozilla_home_t, mozilla_home_t)
-	manage_lnk_files_pattern($2, mozilla_home_t, mozilla_home_t)
-	relabel_dirs_pattern($2, mozilla_home_t, mozilla_home_t)
-	relabel_files_pattern($2, mozilla_home_t, mozilla_home_t)
-	relabel_lnk_files_pattern($2, mozilla_home_t, mozilla_home_t)
 
 	mozilla_dbus_chat($2)
 
@@ -105,7 +95,7 @@ interface(`mozilla_write_user_home_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -123,7 +113,7 @@ interface(`mozilla_dontaudit_rw_user_home_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -142,7 +132,7 @@ interface(`mozilla_dontaudit_manage_user_home_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -152,6 +142,7 @@ interface(`mozilla_domtrans',`
 	')
 
 	domtrans_pattern($1, mozilla_exec_t, mozilla_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -195,7 +186,7 @@ interface(`mozilla_rw_tcp_sockets',`
 
 ########################################
 ## <summary>
-##	Write mozilla home directory content
+##	Text relocation mozilla home files
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -209,6 +200,7 @@ interface(`mozilla_execmod_user_home_files',`
 	')
 
 	allow $1 mozilla_home_t:file execmod;
+	userdom_search_user_home_dirs($1)
 ')
 
 ########################################
@@ -216,20 +208,9 @@ interface(`mozilla_execmod_user_home_files',`
 ##	Execute mozilla_exec_t 
 ##	in the specified domain.
 ## </summary>
-## <desc>
-##	<p>
-##	Execute a mozilla_exec_t
-##	in the specified domain.  
-##	</p>
-##	<p>
-##	No interprocess communication (signals, pipes,
-##	etc.) is provided by this interface since
-##	the domains are not owned by this module.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="target_domain">
@@ -245,4 +226,5 @@ interface(`mozilla_exec_domtrans',`
 
 	allow $2 mozilla_exec_t:file entrypoint;
 	domtrans_pattern($1, mozilla_exec_t, $2)
+	corecmd_search_bin($1)
 ')

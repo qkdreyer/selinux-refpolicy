@@ -1,4 +1,4 @@
-## <summary>Generic unprivileged user role</summary>
+## <summary>Generic unprivileged user role.</summary>
 
 ########################################
 ## <summary>
@@ -23,17 +23,6 @@ interface(`unprivuser_role_change',`
 ## <summary>
 ##	Change from the generic user role.
 ## </summary>
-## <desc>
-##	<p>
-##	Change from the generic user role to
-##	the specified role.
-##	</p>
-##	<p>
-##	This is an interface to support third party modules
-##	and its use is not allowed in upstream reference
-##	policy.
-##	</p>
-## </desc>
 ## <param name="role">
 ##	<summary>
 ##	Role allowed access.

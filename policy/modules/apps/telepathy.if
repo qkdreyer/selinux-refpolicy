@@ -1,32 +1,15 @@
 ## <summary>Telepathy framework.</summary>
-## <desc>
-##	<p>
-##		The Telepathy project is building a unified framework
-##		for many different kinds of real-time communications.
-##		It uses the D-Bus messaging system to provide a simple
-##		interface for client applications, allowing them to
-##		quickly take advantage of Telepathys benefits.
-##	</p>
-##	<p>
-##		Mission Control, or MC, is a Telepathy component
-##		providing a way for end-user applications to abstract
-##		some of the details of connection managers, to provide
-##		a simple way to manipulate a bunch of connection
-##		managers at once, and to remove the need to have in
-##		each program the account definitions and credentials.
-##	</p>
-## </desc>
 
 ########################################
 ## <summary>
 ##	Role access for Telepathy.
 ## </summary>
-## <param name="role">
+## <param name="user_role">
 ##	<summary>
 ##	Role allowed access.
 ##	</summary>
 ## </param>
-## <param name="domain">
+## <param name="user_domain">
 ##	<summary>
 ##	User domain for the role.
 ##	</summary>
@@ -319,7 +302,7 @@ interface(`telepathy_butterfly_rw_tmp_files',`
 
 ########################################
 ## <summary>
-##	Stream connect to Telepathy Gabble
+##	Stream connect to Telepathy Gabble.
 ## </summary>
 ## <param name="domain">
 ## 	<summary>
@@ -354,4 +337,3 @@ interface(`telepathy_salut_stream_connect',`
 	stream_connect_pattern($1, tp_salut_tmp_t, tp_salut_tmp_t, tp_salut_t)
 	files_search_tmp($1)
 ')
-

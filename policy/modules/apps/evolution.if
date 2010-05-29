@@ -1,4 +1,4 @@
-## <summary>Evolution email client</summary>
+## <summary>Evolution email client.</summary>
 
 ########################################
 ## <summary>
@@ -49,15 +49,8 @@ interface(`evolution_role',`
 	allow $2 evolution_t:process noatsecure;
 	allow $2 evolution_t:process signal_perms;
 
-	# Access .evolution
-	allow $2 evolution_home_t:dir manage_dir_perms;
-	allow $2 evolution_home_t:file manage_file_perms;
-	allow $2 evolution_home_t:lnk_file manage_lnk_file_perms;
-	allow $2 evolution_home_t:{ dir file lnk_file } { relabelfrom relabelto };
-
 	allow evolution_exchange_t $2:unix_stream_socket connectto;
 
-	# Clock applet talks to exchange (FIXME: Needs policy)
 	allow $2 evolution_exchange_t:unix_stream_socket connectto;
 	allow $2 evolution_exchange_orbit_tmp_t:sock_file write;
 ')
@@ -89,6 +82,7 @@ interface(`evolution_home_filetrans',`
 
 	allow $1 evolution_home_t:dir rw_dir_perms;
 	type_transition $1 evolution_home_t:$3 $2;
+	userdom_search_user_home_dirs($1)
 ')
 
 ########################################
@@ -106,8 +100,8 @@ interface(`evolution_stream_connect',`
 		type evolution_t, evolution_home_t;
 	')
 
-	allow $1 evolution_t:unix_stream_socket connectto;
-	allow $1 evolution_home_t:dir search;
+	stream_connect_pattern($1, evolution_home_t, evolution_home_t, evolution_t)
+	userdom_search_user_home_dirs($1)
 ')
 
 ########################################

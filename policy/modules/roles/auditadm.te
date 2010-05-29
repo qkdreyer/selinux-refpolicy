@@ -63,4 +63,3 @@ optional_policy(`
 optional_policy(`
 	sysadm_role_change(auditadm_r)
 ')
-

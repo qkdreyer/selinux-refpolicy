@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -16,6 +16,7 @@ interface(`finger_domtrans',`
 	')
 
 	domtrans_pattern($1, fingerd_exec_t, fingerd_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################

@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,8 +15,8 @@ interface(`fstools_domtrans',`
 		type fsadm_t, fsadm_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, fsadm_exec_t, fsadm_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -26,7 +26,7 @@ interface(`fstools_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -51,7 +51,7 @@ interface(`fstools_run',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -61,11 +61,12 @@ interface(`fstools_exec',`
 	')
 
 	can_exec($1, fsadm_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
 ## <summary>
-##	Send signal to fsadm process
+##	Send signal to fsadm process.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -106,7 +107,7 @@ interface(`fstools_read_pipes',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -125,7 +126,7 @@ interface(`fstools_relabelto_entry_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -143,7 +144,7 @@ interface(`fstools_manage_entry_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -152,5 +153,5 @@ interface(`fstools_getattr_swap_files',`
 		type swapfile_t;
 	')
 
-	allow $1 swapfile_t:file getattr;
+	allow $1 swapfile_t:file getattr_file_perms;
 ')

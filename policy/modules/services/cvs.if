@@ -1,4 +1,4 @@
-## <summary>Concurrent versions system</summary>
+## <summary>Concurrent versions system.</summary>
 
 ########################################
 ## <summary>
@@ -22,8 +22,7 @@ interface(`cvs_read_data',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to execute cvs
-##	in the caller domain.
+##	Execute cvs.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -66,7 +65,6 @@ interface(`cvs_admin',`
 	allow $1 cvs_t:process { ptrace signal_perms };
 	ps_process_pattern($1, cvs_t)
 
-	# Allow cvs_t to restart the apache service
 	init_labeled_script_domtrans($1, cvs_initrc_exec_t)
 	domain_system_change_exemption($1)
 	role_transition $2 cvs_initrc_exec_t system_r;

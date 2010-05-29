@@ -1,4 +1,4 @@
-## <summary>Policy for iptables.</summary>
+## <summary>Iptables.</summary>
 
 ########################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,11 +15,11 @@ interface(`iptables_domtrans',`
 		type iptables_t, iptables_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, iptables_exec_t, iptables_t)
+	corecmd_search_bin($1)
 
-	ifdef(`hide_broken_symptoms', `
-	        dontaudit iptables_t $1:socket_class_set { read write };
+	ifdef(`hide_broken_symptoms',`
+		dontaudit iptables_t $1:socket_class_set { read write };
 	')
 ')
 
@@ -30,7 +30,7 @@ interface(`iptables_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -70,8 +70,8 @@ interface(`iptables_exec',`
 		type iptables_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	can_exec($1, iptables_exec_t)
+	corecmd_search_bin($1)
 ')
 
 #####################################
@@ -80,7 +80,7 @@ interface(`iptables_exec',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -107,8 +107,8 @@ interface(`iptables_setattr_config',`
 		type iptables_conf_t;
 	')
 
-	files_search_etc($1)
 	allow $1 iptables_conf_t:file setattr;
+	files_search_etc($1)
 ')
 
 #####################################
@@ -126,9 +126,9 @@ interface(`iptables_read_config',`
 		type iptables_conf_t;
 	')
 
-	files_search_etc($1)
 	allow $1 iptables_conf_t:dir list_dir_perms;
 	read_files_pattern($1, iptables_conf_t, iptables_conf_t)
+	files_search_etc($1)
 ')
 
 #####################################
@@ -138,7 +138,7 @@ interface(`iptables_read_config',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -163,9 +163,8 @@ interface(`iptables_etc_filetrans_config',`
 interface(`iptables_manage_config',`
 	gen_require(`
 		type iptables_conf_t;
-		type etc_t;
 	')
 
-	files_search_etc($1)
 	manage_files_pattern($1, iptables_conf_t, iptables_conf_t)
+	files_search_etc($1)
 ')

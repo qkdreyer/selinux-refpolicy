@@ -1,4 +1,4 @@
-## <summary>Chrony NTP background daemon</summary>
+## <summary>Chrony NTP background daemon.</summary>
 
 #####################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -25,7 +25,7 @@ interface(`chronyd_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -53,6 +53,7 @@ interface(`chronyd_exec',`
 	')
 
 	can_exec($1, chronyd_exec_t)
+	corecmd_search_bin($1)
 ')
 
 #####################################
@@ -70,8 +71,8 @@ interface(`chronyd_read_log',`
 		type chronyd_var_log_t;
 	')
 
-	logging_search_logs($1)
 	read_files_pattern($1, chronyd_var_log_t, chronyd_var_log_t)
+	logging_search_logs($1)
 ')
 
 ########################################

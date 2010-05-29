@@ -39,10 +39,13 @@ manage_dirs_pattern(certmonger_t, certmonger_var_run_t, certmonger_var_run_t)
 manage_files_pattern(certmonger_t, certmonger_var_run_t, certmonger_var_run_t)
 files_pid_filetrans(certmonger_t, certmonger_var_run_t, { file dir })
 
+corenet_all_recvfrom_unlabeled(certmonger_t)
+corenet_all_recvfrom_netlabel(certmonger_t)
 corenet_tcp_sendrecv_generic_if(certmonger_t)
 corenet_tcp_sendrecv_generic_node(certmonger_t)
 corenet_tcp_sendrecv_all_ports(certmonger_t)
 corenet_tcp_connect_certmaster_port(certmonger_t)
+corenet_sendrecv_certmaster_client_packets(certmonger_t)
 
 dev_read_urand(certmonger_t)
 

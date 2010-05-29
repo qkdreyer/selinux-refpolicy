@@ -1,22 +1,9 @@
 ## <summary>Likewise Active Directory support for UNIX.</summary>
-## <desc>
-##	<p>
-##	Likewise Open is a free, open source application that joins Linux, Unix,
-##	and Mac machines to Microsoft Active Directory to securely authenticate
-##	users with their domain credentials.
-##	</p>
-## </desc>
 
 #######################################
 ## <summary>
 ##	The template to define a likewise domain.
 ## </summary>
-## <desc>
-##	<p>
-##	This template creates a domain to be used for
-##	a new likewise daemon.
-##	</p>
-## </desc>
 ## <param name="userdomain_prefix">
 ##	<summary>
 ##	The type of daemon to be used.
@@ -100,6 +87,6 @@ interface(`likewise_stream_connect_lsassd',`
 		type likewise_var_lib_t, lsassd_var_socket_t, lsassd_t;
 	')
 
-	files_search_pids($1)
 	stream_connect_pattern($1, likewise_var_lib_t, lsassd_var_socket_t, lsassd_t)
+	files_search_pids($1)
 ')

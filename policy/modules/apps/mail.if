@@ -1,9 +1,4 @@
 ## <summary>Mail clients.</summary>
-## <desc>
-##	<p>
-##		Various mail clients.
-##	</p>
-## </desc>
 
 ########################################
 ## <summary>
@@ -57,12 +52,6 @@ interface(`mutt_role',`
 
 	domtrans_pattern($2, mutt_exec_t, mutt_t)
 
-	manage_dirs_pattern($2, mutt_home_t, mutt_home_t)
-	manage_files_pattern($2, mutt_home_t, mutt_home_t)
-
-	relabel_dirs_pattern($2, mutt_home_t, mutt_home_t)
-	relabel_files_pattern($2, mutt_home_t, mutt_home_t)
-
 	manage_dirs_pattern($2, mutt_tmp_t, mutt_tmp_t)
 	manage_files_pattern($2, mutt_tmp_t, mutt_tmp_t)
 
@@ -85,6 +74,6 @@ interface(`mutt_rw_tmp_files',`
 		type mutt_tmp_t;
 	')
 
-	files_search_tmp($1)
 	rw_files_pattern($1, mutt_tmp_t, mutt_tmp_t)
+	files_search_tmp($1)
 ')

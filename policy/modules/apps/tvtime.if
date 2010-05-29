@@ -1,4 +1,4 @@
-## <summary> tvtime - a high quality television application </summary>
+## <summary>TVtime a high quality television application.</summary>
 
 ########################################
 ## <summary>
@@ -23,18 +23,8 @@ interface(`tvtime_role',`
 
 	role $1 types tvtime_t;
 
-	# Type transition
 	domtrans_pattern($2, tvtime_exec_t, tvtime_t)
 
-	# X access, Home files
-	manage_dirs_pattern($2, tvtime_home_t, tvtime_home_t)
-	manage_files_pattern($2, tvtime_home_t, tvtime_home_t)
-	manage_lnk_files_pattern($2, tvtime_home_t, tvtime_home_t)
-	relabel_dirs_pattern($2, tvtime_home_t, tvtime_home_t)
-	relabel_files_pattern($2, tvtime_home_t, tvtime_home_t)
-	relabel_lnk_files_pattern($2, tvtime_home_t, tvtime_home_t)
-
-	# Allow the user domain to signal/ps.
 	ps_process_pattern($2, tvtime_t)
 	allow $2 tvtime_t:process signal_perms;
 ')

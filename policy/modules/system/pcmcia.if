@@ -1,4 +1,4 @@
-## <summary>PCMCIA card management services</summary>
+## <summary>PCMCIA card management services.</summary>
 
 ########################################
 ## <summary>
@@ -22,7 +22,7 @@ interface(`pcmcia_stub',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -32,6 +32,7 @@ interface(`pcmcia_domtrans_cardmgr',`
 	')
 
 	domtrans_pattern($1, cardmgr_exec_t, cardmgr_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -58,7 +59,7 @@ interface(`pcmcia_use_cardmgr_fds',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -68,6 +69,7 @@ interface(`pcmcia_domtrans_cardctl',`
 	')
 
 	domtrans_pattern($1, cardctl_exec_t, cardmgr_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -77,7 +79,7 @@ interface(`pcmcia_domtrans_cardctl',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -111,8 +113,8 @@ interface(`pcmcia_read_pid',`
 		type cardmgr_var_run_t;
 	')
 
-	files_search_pids($1)
 	read_files_pattern($1, cardmgr_var_run_t, cardmgr_var_run_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -131,8 +133,8 @@ interface(`pcmcia_manage_pid',`
 		type cardmgr_var_run_t;
 	')
 
-	files_search_pids($1)
 	manage_files_pattern($1, cardmgr_var_run_t, cardmgr_var_run_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -151,6 +153,6 @@ interface(`pcmcia_manage_pid_chr_files',`
 		type cardmgr_var_run_t;
 	')
 
-	files_search_pids($1)
 	manage_chr_files_pattern($1, cardmgr_var_run_t, cardmgr_var_run_t)
+	files_search_pids($1)
 ')

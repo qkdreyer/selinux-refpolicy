@@ -39,6 +39,7 @@ interface(`usermanage_domtrans_chfn',`
 ##	The role to be allowed the chfn domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`usermanage_run_chfn',`
 	gen_require(`
@@ -68,7 +69,7 @@ interface(`usermanage_domtrans_groupadd',`
 	files_search_usr($1)
 	corecmd_search_bin($1)
 
-	ifdef(`hide_broken_symptoms', `
+	ifdef(`hide_broken_symptoms',`
 		dontaudit groupadd_t $1:socket_class_set { read write };
 	')
 ')
@@ -160,6 +161,7 @@ interface(`usermanage_kill_passwd',`
 ##	The role to be allowed the passwd domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`usermanage_run_passwd',`
 	gen_require(`
@@ -225,7 +227,7 @@ interface(`usermanage_run_admin_passwd',`
 
 ########################################
 ## <summary>
-##	Dontaudit attempts to use useradd fds
+##	Do not audit attempts to use useradd fds.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

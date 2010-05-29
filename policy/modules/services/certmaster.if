@@ -1,4 +1,4 @@
-## <summary>Certmaster SSL certificate distribution service</summary>
+## <summary>Certmaster SSL certificate distribution service.</summary>
 
 ########################################
 ## <summary>
@@ -16,6 +16,7 @@ interface(`certmaster_domtrans',`
 	')
 
 	domtrans_pattern($1, certmaster_exec_t, certmaster_t)
+	corecmd_search_bin($1)
 ')
 
 #######################################

@@ -1,12 +1,4 @@
-## <summary>Piranha Load-balanced generic service clustering enviroment</summary>
-## <desc>
-##	<p>
-##	Piranha is not one singular tool but a collection of
-##	programs arranged to provide a more cohesive enviroment
-##	for those administrators that wish to setup clustering
-##	services in the linux enviroment.
-##	</p>
-## </desc>
+## <summary>Piranha Load-balanced generic service clustering enviroment.</summary>
 
 #######################################
 ## <summary>
@@ -34,7 +26,6 @@ template(`piranha_domain_template',`
 	type piranha_$1_exec_t;
 	init_daemon_domain(piranha_$1_t, piranha_$1_exec_t)
 
-	# pid files
 	type piranha_$1_var_run_t;
 	files_pid_file(piranha_$1_var_run_t)
 
@@ -64,6 +55,7 @@ interface(`piranha_domtrans_fos',`
 	')
 
 	domtrans_pattern($1, piranha_fos_exec_t, piranha_fos_t)
+	corecmd_search_bin($1)
 ')
 
 #######################################
@@ -82,6 +74,7 @@ interface(`piranha_domtrans_lvs',`
 	')
 
 	domtrans_pattern($1, piranha_lvs_exec_t, piranha_lvs_t)
+	corecmd_search_bin($1)
 ')
 
 #######################################
@@ -100,6 +93,7 @@ interface(`piranha_domtrans_pulse',`
 	')
 
 	domtrans_pattern($1, piranha_pulse_exec_t, piranha_pulse_t)
+	corecmd_search_bin($1)
 ')
 
 #######################################
@@ -108,7 +102,7 @@ interface(`piranha_domtrans_pulse',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -122,22 +116,21 @@ interface(`piranha_pulse_initrc_domtrans',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to read piranha's log files.
+##	Read piranha log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`piranha_read_log',`
 	gen_require(`
 		type piranha_log_t;
 	')
 
-	logging_search_logs($1)
     read_files_pattern($1, piranha_log_t, piranha_log_t)
+	logging_search_logs($1)
 ')
 
 ########################################
@@ -147,7 +140,7 @@ interface(`piranha_read_log',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed to transition.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -156,17 +149,17 @@ interface(`piranha_append_log',`
 		type piranha_log_t;
 	')
 
-	logging_search_logs($1)
 	append_files_pattern($1, piranha_log_t, piranha_log_t)
+	logging_search_logs($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow domain to manage piranha log files
+##	Manage piranha log files
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -175,9 +168,8 @@ interface(`piranha_manage_log',`
 		type piranha_log_t;
 	')
 
-	logging_search_logs($1)
 	manage_dirs_pattern($1, piranha_log_t, piranha_log_t)
 	manage_files_pattern($1, piranha_log_t, piranha_log_t)
 	manage_lnk_files_pattern($1, piranha_log_t, piranha_log_t)
+	logging_search_logs($1)
 ')
-

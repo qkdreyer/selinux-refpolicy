@@ -1,14 +1,8 @@
-## <summary>
-##	Policy for kernel threads, proc filesystem,
-##	and unlabeled processes and objects.
-## </summary>
-## <required val="true">
-##	This module has initial SIDs.
-## </required>
+## <summary>kernel threads, proc filesystem and unlabeled processes and objects.</summary>
 
 ########################################
 ## <summary>
-##	Allows to start userland processes
+##	Start userland processes
 ##	by transitioning to the specified domain.
 ## </summary>
 ## <param name="domain">
@@ -32,7 +26,7 @@ interface(`kernel_domtrans_to',`
 
 ########################################
 ## <summary>
-##	Allows to start userland processes
+##	Start userland processes
 ##	by transitioning to the specified domain,
 ##	with a range transition.
 ## </summary>
@@ -130,7 +124,7 @@ interface(`kernel_setsched',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process sending the signal.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -148,7 +142,7 @@ interface(`kernel_sigchld',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process sending the signal.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -166,7 +160,7 @@ interface(`kernel_kill',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process sending the signal.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -185,7 +179,7 @@ interface(`kernel_signal',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process with which to share state information.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -199,11 +193,11 @@ interface(`kernel_share_state',`
 
 ########################################
 ## <summary>
-##	Permits caller to use kernel file descriptors.
+##	Use kernel file descriptors.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process using the descriptors.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -222,7 +216,7 @@ interface(`kernel_use_fds',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of process not to audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -332,11 +326,11 @@ interface(`kernel_udp_recvfrom',`
 
 ########################################
 ## <summary>
-##	Allows caller to load kernel modules
+##	Load kernel modules
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type to allow to load kernel modules.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -348,8 +342,6 @@ interface(`kernel_load_module',`
 	allow $1 self:capability sys_module;
 	typeattribute $1 can_load_kernmodule;
 
-	# load_module() calls stop_machine() which
-	# calls sched_setscheduler()
 	allow $1 self:capability sys_nice;
 	kernel_setsched($1)
 ')
@@ -428,14 +420,13 @@ interface(`kernel_dontaudit_link_key',`
 
 ########################################
 ## <summary>
-##	Allows caller to read the ring buffer.
+##	Read the ring buffer.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type allowed to read the ring buffer.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_read_ring_buffer',`
 	gen_require(`
@@ -472,7 +463,6 @@ interface(`kernel_dontaudit_read_ring_buffer',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_change_ring_buffer_level',`
 	gen_require(`
@@ -484,14 +474,13 @@ interface(`kernel_change_ring_buffer_level',`
 
 ########################################
 ## <summary>
-##	Allows the caller to clear the ring buffer.
+##	Clear the ring buffer.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type clearing the buffer.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_clear_ring_buffer',`
 	gen_require(`
@@ -503,21 +492,8 @@ interface(`kernel_clear_ring_buffer',`
 
 ########################################
 ## <summary>
-##	Allows caller to request the kernel to load a module
+##	Request the kernel to load a module.
 ## </summary>
-## <desc>
-##	<p>
-##	Allow the specified domain to request that the kernel
-##	load a kernel module.  An example of this is the
-##	auto-loading of network drivers when doing an
-##	ioctl() on a network interface.
-##	</p>
-##	<p>
-##	In the specific case of a module loading request
-##	on a network interface, the domain will also
-##	need the net_admin capability.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
@@ -534,24 +510,12 @@ interface(`kernel_request_load_module',`
 
 ########################################
 ## <summary>
-##	Dontaudit caller request the kernel to load a module
+##	Do not audit attempts to request the
+##	kernel to load a module.
 ## </summary>
-## <desc>
-##	<p>
-##	Allow the specified domain to request that the kernel
-##	load a kernel module.  An example of this is the
-##	auto-loading of network drivers when doing an
-##	ioctl() on a network interface.
-##	</p>
-##	<p>
-##	In the specific case of a module loading request
-##	on a network interface, the domain will also
-##	need the net_admin capability.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -605,7 +569,7 @@ interface(`kernel_getattr_debugfs',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the domain mounting the filesystem.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -623,7 +587,7 @@ interface(`kernel_mount_debugfs',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the domain unmounting the filesystem.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -641,7 +605,7 @@ interface(`kernel_unmount_debugfs',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the domain remounting the filesystem.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -677,7 +641,7 @@ interface(`kernel_search_debugfs',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -715,7 +679,7 @@ interface(`kernel_read_debugfs',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the domain mounting the filesystem.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -733,7 +697,7 @@ interface(`kernel_mount_kvmfs',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the domain unmounting the filesystem.
+##	domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -840,20 +804,11 @@ interface(`kernel_getattr_proc_files',`
 ## <summary>
 ##	Read generic symbolic links in /proc.
 ## </summary>
-## <desc>
-##	<p>
-##	Allow the specified domain to read (follow) generic
-##	symbolic links (symlinks) in the proc filesystem (/proc).
-##	This interface does not include access to the targets of
-##	these links.  An example symlink is /proc/self.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <infoflow type="read" weight="10"/>
 #
 interface(`kernel_read_proc_symlinks',`
 	gen_require(`
@@ -865,34 +820,13 @@ interface(`kernel_read_proc_symlinks',`
 
 ########################################
 ## <summary>
-##	Allows caller to read system state information in /proc.
+##	Read system state information in /proc.
 ## </summary>
-## <desc>
-##	<p>
-##	Allow the specified domain to read general system
-##	state information from the proc filesystem (/proc).
-##	</p>
-##	<p>
-##	Generally it should be safe to allow this access.  Some
-##	example files that can be read based on this interface:
-##	</p>
-##	<ul>
-##		<li>/proc/cpuinfo</li>
-##		<li>/proc/meminfo</li>
-##		<li>/proc/uptime</li>
-##	</ul>
-##	<p>
-##	This does not allow access to sysctl entries (/proc/sys/*)
-##	nor process state information (/proc/pid).
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <infoflow type="read" weight="10"/>
-## <rolecap/>
 #
 interface(`kernel_read_system_state',`
 	gen_require(`
@@ -914,11 +848,6 @@ interface(`kernel_read_system_state',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
-#
-# cjp: this should probably go away.  any
-# file thats writable in proc should really
-# have its own label.
 #
 interface(`kernel_write_proc_files',`
 	gen_require(`
@@ -935,7 +864,7 @@ interface(`kernel_write_proc_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type not to audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -954,7 +883,7 @@ interface(`kernel_dontaudit_read_system_state',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type not to audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -968,14 +897,13 @@ interface(`kernel_dontaudit_read_proc_symlinks',`
 
 #######################################
 ## <summary>
-##	Allow caller to read and write state information for AFS.
+##	Read and write state information for AFS.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_rw_afs_state',`
 	gen_require(`
@@ -988,14 +916,13 @@ interface(`kernel_rw_afs_state',`
 
 #######################################
 ## <summary>
-##	Allow caller to read the state information for software raid.
+##	Read the state information for software raid.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type reading software raid state.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_read_software_raid_state',`
 	gen_require(`
@@ -1003,17 +930,16 @@ interface(`kernel_read_software_raid_state',`
 	')
 
 	read_files_pattern($1, proc_t, proc_mdstat_t)
-
 	list_dirs_pattern($1, proc_t, proc_t)
 ')
 
 #######################################
 ## <summary>
-##	Allow caller to read and set the state information for software raid.
+##	Read and set the state information for software raid.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type reading software raid state.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -1023,17 +949,16 @@ interface(`kernel_rw_software_raid_state',`
 	')
 
 	rw_files_pattern($1, proc_t, proc_mdstat_t)
-
 	list_dirs_pattern($1, proc_t, proc_t)
 ')
 
 ########################################
 ## <summary>
-##	Allows caller to get attribues of core kernel interface.
+##	Get attribues of core kernel interface.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type getting the attibutes.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -1043,7 +968,6 @@ interface(`kernel_getattr_core_if',`
 	')
 
 	getattr_files_pattern($1, proc_t, proc_kcore_t)
-
 	list_dirs_pattern($1, proc_t, proc_t)
 ')
 
@@ -1054,7 +978,7 @@ interface(`kernel_getattr_core_if',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type to not audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1068,7 +992,7 @@ interface(`kernel_dontaudit_getattr_core_if',`
 
 ########################################
 ## <summary>
-##	Allows caller to read the core kernel interface.
+##	Read the core kernel interface.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1091,12 +1015,12 @@ interface(`kernel_read_core_if',`
 
 ########################################
 ## <summary>
-##	Allow caller to read kernel messages
+##	Read kernel messages
 ##	using the /proc/kmsg interface.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type reading the messages.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -1113,12 +1037,12 @@ interface(`kernel_read_messages',`
 
 ########################################
 ## <summary>
-##	Allow caller to get the attributes of kernel message
+##	Get the attributes of kernel message
 ##	interface (/proc/kmsg).
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type getting the attributes.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -1132,12 +1056,12 @@ interface(`kernel_getattr_message_if',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts by caller to get the attributes of kernel
+##	Do not audit attempts to get the attributes of kernel
 ##	message interfaces.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type not to audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1156,10 +1080,9 @@ interface(`kernel_dontaudit_getattr_message_if',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type reading the state.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
-##
 #
 interface(`kernel_dontaudit_search_network_state',`
 	gen_require(`
@@ -1175,10 +1098,9 @@ interface(`kernel_dontaudit_search_network_state',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type reading the state.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-##
 #
 interface(`kernel_search_network_state',`
 	gen_require(`
@@ -1192,23 +1114,11 @@ interface(`kernel_search_network_state',`
 ## <summary>
 ##	Read the network state information.
 ## </summary>
-## <desc>
-##	<p>
-##	Allow the specified domain to read the networking
-##	state information. This includes several pieces
-##	of networking information, such as network interface
-##	names, netfilter (iptables) statistics, protocol
-##	information, routes, and remote procedure call (RPC)
-##	information.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <infoflow type="read" weight="10"/>
-## <rolecap/>
 #
 interface(`kernel_read_network_state',`
 	gen_require(`
@@ -1223,11 +1133,11 @@ interface(`kernel_read_network_state',`
 
 ########################################
 ## <summary>
-##	Allow caller to read the network state symbolic links.
+##	Read the network state symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type reading the state.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -1237,7 +1147,6 @@ interface(`kernel_read_network_state_symlinks',`
 	')
 
 	read_lnk_files_pattern($1, { proc_t proc_net_t }, proc_net_t)
-
 	list_dirs_pattern($1, proc_t, proc_net_t)
 ')
 
@@ -1247,10 +1156,9 @@ interface(`kernel_read_network_state_symlinks',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type reading the state.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-##
 #
 interface(`kernel_search_xen_state',`
 	gen_require(`
@@ -1267,10 +1175,9 @@ interface(`kernel_search_xen_state',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type reading the state.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
-##
 #
 interface(`kernel_dontaudit_search_xen_state',`
 	gen_require(`
@@ -1282,14 +1189,13 @@ interface(`kernel_dontaudit_search_xen_state',`
 
 ########################################
 ## <summary>
-##	Allow caller to read the xen state information.
+##	Read the xen state information.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type reading the state.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-##
 #
 interface(`kernel_read_xen_state',`
 	gen_require(`
@@ -1298,20 +1204,18 @@ interface(`kernel_read_xen_state',`
 
 	read_files_pattern($1, { proc_t proc_xen_t }, proc_xen_t)
 	read_lnk_files_pattern($1, { proc_t proc_xen_t }, proc_xen_t)
-
 	list_dirs_pattern($1, proc_t, proc_xen_t)
 ')
 
 ########################################
 ## <summary>
-##	Allow caller to read the xen state symbolic links.
+##	Read the xen state symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type reading the state.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-##
 #
 interface(`kernel_read_xen_state_symlinks',`
 	gen_require(`
@@ -1319,20 +1223,18 @@ interface(`kernel_read_xen_state_symlinks',`
 	')
 
 	read_lnk_files_pattern($1, { proc_t proc_xen_t }, proc_xen_t)
-
 	list_dirs_pattern($1, proc_t, proc_xen_t)
 ')
 
 ########################################
 ## <summary>
-##	Allow caller to write xen state information.
+##	Write xen state information.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type writing the state.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-##
 #
 interface(`kernel_write_xen_state',`
 	gen_require(`
@@ -1344,11 +1246,11 @@ interface(`kernel_write_xen_state',`
 
 ########################################
 ## <summary>
-##	Allow attempts to list all proc directories.
+##	list all proc directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -1382,15 +1284,14 @@ interface(`kernel_dontaudit_list_all_proc',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts by caller to search
+##	Do not audit attempts to search
 ##	the base directory of sysctls.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type not to audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
-##
 #
 interface(`kernel_dontaudit_search_sysctl',`
 	gen_require(`
@@ -1402,14 +1303,13 @@ interface(`kernel_dontaudit_search_sysctl',`
 
 ########################################
 ## <summary>
-##	Allow access to read sysctl directories.
+##	Read sysctl directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type to allow to read sysctl directories.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-##
 #
 interface(`kernel_read_sysctl',`
 	gen_require(`
@@ -1422,14 +1322,13 @@ interface(`kernel_read_sysctl',`
 
 ########################################
 ## <summary>
-##	Allow caller to read the device sysctls.
+##	Read the device sysctls.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type to allow to read the device sysctls.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_read_device_sysctls',`
 	gen_require(`
@@ -1437,7 +1336,6 @@ interface(`kernel_read_device_sysctls',`
 	')
 
 	read_files_pattern($1, { proc_t sysctl_t sysctl_dev_t }, sysctl_dev_t)
-
 	list_dirs_pattern($1, { proc_t sysctl_t }, sysctl_dev_t)
 ')
 
@@ -1450,7 +1348,6 @@ interface(`kernel_read_device_sysctls',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_rw_device_sysctls',`
 	gen_require(`
@@ -1458,13 +1355,12 @@ interface(`kernel_rw_device_sysctls',`
 	')
 
 	rw_files_pattern($1, { proc_t sysctl_t sysctl_dev_t }, sysctl_dev_t)
-
 	list_dirs_pattern($1, { proc_t sysctl_t }, sysctl_dev_t)
 ')
 
 ########################################
 ## <summary>
-##	Allow caller to search virtual memory sysctls.
+##	Search virtual memory sysctls.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1482,14 +1378,13 @@ interface(`kernel_search_vm_sysctl',`
 
 ########################################
 ## <summary>
-##	Allow caller to read virtual memory sysctls.
+##	Read virtual memory sysctls.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_read_vm_sysctls',`
 	gen_require(`
@@ -1497,7 +1392,6 @@ interface(`kernel_read_vm_sysctls',`
 	')
 
 	read_files_pattern($1, { proc_t sysctl_t sysctl_vm_t }, sysctl_vm_t)
-
 	list_dirs_pattern($1, { proc_t sysctl_t }, sysctl_vm_t)
 ')
 
@@ -1510,7 +1404,6 @@ interface(`kernel_read_vm_sysctls',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_rw_vm_sysctls',`
 	gen_require(`
@@ -1520,7 +1413,6 @@ interface(`kernel_rw_vm_sysctls',`
 	rw_files_pattern($1 ,{ proc_t sysctl_t sysctl_vm_t }, sysctl_vm_t)
 	list_dirs_pattern($1, { proc_t sysctl_t }, sysctl_vm_t)
 
-	# hal needs this
 	allow $1 sysctl_vm_t:dir write;
 ')
 
@@ -1544,11 +1436,11 @@ interface(`kernel_search_network_sysctl',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts by caller to search network sysctl directories.
+##	Do not audit attempts to search network sysctl directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type not to audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1562,14 +1454,13 @@ interface(`kernel_dontaudit_search_network_sysctl',`
 
 ########################################
 ## <summary>
-##	Allow caller to read network sysctls.
+##	Read network sysctls.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_read_net_sysctls',`
 	gen_require(`
@@ -1577,20 +1468,18 @@ interface(`kernel_read_net_sysctls',`
 	')
 
 	read_files_pattern($1, { proc_t sysctl_t sysctl_net_t }, sysctl_net_t)
-
 	list_dirs_pattern($1, { proc_t sysctl_t }, sysctl_net_t)
 ')
 
 ########################################
 ## <summary>
-##	Allow caller to modiry contents of sysctl network files.
+##	Modify contents of sysctl network files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_rw_net_sysctls',`
 	gen_require(`
@@ -1598,13 +1487,12 @@ interface(`kernel_rw_net_sysctls',`
 	')
 
 	rw_files_pattern($1, { proc_t sysctl_t sysctl_net_t }, sysctl_net_t)
-
 	list_dirs_pattern($1, { proc_t sysctl_t }, sysctl_net_t)
 ')
 
 ########################################
 ## <summary>
-##	Allow caller to read unix domain
+##	Read unix domain
 ##	socket sysctls.
 ## </summary>
 ## <param name="domain">
@@ -1612,7 +1500,6 @@ interface(`kernel_rw_net_sysctls',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_read_unix_sysctls',`
 	gen_require(`
@@ -1620,7 +1507,6 @@ interface(`kernel_read_unix_sysctls',`
 	')
 
 	read_files_pattern($1, { proc_t sysctl_t sysctl_net_t }, sysctl_net_unix_t)
-
 	list_dirs_pattern($1, { proc_t sysctl_t }, sysctl_net_t)
 ')
 
@@ -1634,7 +1520,6 @@ interface(`kernel_read_unix_sysctls',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_rw_unix_sysctls',`
 	gen_require(`
@@ -1642,7 +1527,6 @@ interface(`kernel_rw_unix_sysctls',`
 	')
 
 	rw_files_pattern($1, { proc_t sysctl_t sysctl_net_t }, sysctl_net_unix_t)
-
 	list_dirs_pattern($1, { proc_t sysctl_t }, sysctl_net_t)
 ')
 
@@ -1655,7 +1539,6 @@ interface(`kernel_rw_unix_sysctls',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_read_hotplug_sysctls',`
 	gen_require(`
@@ -1663,7 +1546,6 @@ interface(`kernel_read_hotplug_sysctls',`
 	')
 
 	read_files_pattern($1, { proc_t sysctl_t sysctl_kernel_t }, sysctl_hotplug_t)
-
 	list_dirs_pattern($1, { proc_t sysctl_t }, sysctl_kernel_t)
 ')
 
@@ -1676,7 +1558,6 @@ interface(`kernel_read_hotplug_sysctls',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_rw_hotplug_sysctls',`
 	gen_require(`
@@ -1684,7 +1565,6 @@ interface(`kernel_rw_hotplug_sysctls',`
 	')
 
 	rw_files_pattern($1, { proc_t sysctl_t sysctl_kernel_t }, sysctl_hotplug_t)
-
 	list_dirs_pattern($1, { proc_t sysctl_t }, sysctl_kernel_t)
 ')
 
@@ -1697,7 +1577,6 @@ interface(`kernel_rw_hotplug_sysctls',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_read_modprobe_sysctls',`
 	gen_require(`
@@ -1705,7 +1584,6 @@ interface(`kernel_read_modprobe_sysctls',`
 	')
 
 	read_files_pattern($1, { proc_t sysctl_t sysctl_kernel_t }, sysctl_modprobe_t)
-
 	list_dirs_pattern($1, { proc_t sysctl_t }, sysctl_kernel_t)
 ')
 
@@ -1718,7 +1596,6 @@ interface(`kernel_read_modprobe_sysctls',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_rw_modprobe_sysctls',`
 	gen_require(`
@@ -1726,7 +1603,6 @@ interface(`kernel_rw_modprobe_sysctls',`
 	')
 
 	rw_files_pattern($1, { proc_t sysctl_t sysctl_kernel_t }, sysctl_modprobe_t)
-
 	list_dirs_pattern($1, { proc_t sysctl_t }, sysctl_kernel_t)
 ')
 
@@ -1771,33 +1647,11 @@ interface(`kernel_read_crypto_sysctls',`
 ## <summary>
 ##	Read general kernel sysctls.
 ## </summary>
-## <desc>
-##	<p>
-##	Allow the specified domain to read general
-##	kernel sysctl settings. These settings are typically
-##	read using the sysctl program.  The settings
-##	that are included by this interface are prefixed
-##	with "kernel.", for example, kernel.sysrq.
-##	</p>
-##	<p>
-##	This does not include access to the hotplug
-##	handler setting (kernel.hotplug)
-##	nor the module installer handler setting
-##	(kernel.modprobe).
-##	</p>
-##	<p>
-##	Related interfaces:
-##	</p>
-##	<ul>
-##		<li>kernel_rw_kernel_sysctl()</li>
-##	</ul>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <infoflow type="read" weight="10"/>
 #
 interface(`kernel_read_kernel_sysctls',`
 	gen_require(`
@@ -1805,7 +1659,6 @@ interface(`kernel_read_kernel_sysctls',`
 	')
 
 	read_files_pattern($1, { proc_t sysctl_t sysctl_kernel_t }, sysctl_kernel_t)
-
 	list_dirs_pattern($1, { proc_t sysctl_t }, sysctl_kernel_t)
 ')
 
@@ -1836,7 +1689,6 @@ interface(`kernel_dontaudit_write_kernel_sysctl',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_rw_kernel_sysctl',`
 	gen_require(`
@@ -1844,7 +1696,6 @@ interface(`kernel_rw_kernel_sysctl',`
 	')
 
 	rw_files_pattern($1, { proc_t sysctl_t sysctl_kernel_t }, sysctl_kernel_t)
-
 	list_dirs_pattern($1, { proc_t sysctl_t }, sysctl_kernel_t)
 ')
 
@@ -1857,7 +1708,6 @@ interface(`kernel_rw_kernel_sysctl',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_read_fs_sysctls',`
 	gen_require(`
@@ -1865,7 +1715,6 @@ interface(`kernel_read_fs_sysctls',`
 	')
 
 	read_files_pattern($1, { proc_t sysctl_t sysctl_fs_t }, sysctl_fs_t)
-
 	list_dirs_pattern($1, { proc_t sysctl_t }, sysctl_fs_t)
 ')
 
@@ -1878,7 +1727,6 @@ interface(`kernel_read_fs_sysctls',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_rw_fs_sysctls',`
 	gen_require(`
@@ -1886,7 +1734,6 @@ interface(`kernel_rw_fs_sysctls',`
 	')
 
 	rw_files_pattern($1, { proc_t sysctl_t sysctl_fs_t }, sysctl_fs_t)
-
 	list_dirs_pattern($1, { proc_t sysctl_t }, sysctl_fs_t)
 ')
 
@@ -1899,7 +1746,6 @@ interface(`kernel_rw_fs_sysctls',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_read_irq_sysctls',`
 	gen_require(`
@@ -1907,7 +1753,6 @@ interface(`kernel_read_irq_sysctls',`
 	')
 
 	read_files_pattern($1, { proc_t sysctl_irq_t }, sysctl_irq_t)
-
 	list_dirs_pattern($1, proc_t, sysctl_irq_t)
 ')
 
@@ -1920,7 +1765,6 @@ interface(`kernel_read_irq_sysctls',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_rw_irq_sysctls',`
 	gen_require(`
@@ -1928,7 +1772,6 @@ interface(`kernel_rw_irq_sysctls',`
 	')
 
 	rw_files_pattern($1, { proc_t sysctl_irq_t }, sysctl_irq_t)
-
 	list_dirs_pattern($1, proc_t, sysctl_irq_t)
 ')
 
@@ -1941,7 +1784,6 @@ interface(`kernel_rw_irq_sysctls',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_read_rpc_sysctls',`
 	gen_require(`
@@ -1949,7 +1791,6 @@ interface(`kernel_read_rpc_sysctls',`
 	')
 
 	read_files_pattern($1, { proc_t proc_net_t sysctl_rpc_t }, sysctl_rpc_t)
-
 	list_dirs_pattern($1, { proc_t proc_net_t }, sysctl_rpc_t)
 ')
 
@@ -1962,7 +1803,6 @@ interface(`kernel_read_rpc_sysctls',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_rw_rpc_sysctls',`
 	gen_require(`
@@ -1970,7 +1810,6 @@ interface(`kernel_rw_rpc_sysctls',`
 	')
 
 	rw_files_pattern($1, { proc_t proc_net_t sysctl_rpc_t }, sysctl_rpc_t)
-
 	list_dirs_pattern($1, { proc_t proc_net_t }, sysctl_rpc_t)
 ')
 
@@ -1995,14 +1834,13 @@ interface(`kernel_dontaudit_list_all_sysctls',`
 
 ########################################
 ## <summary>
-##	Allow caller to read all sysctls.
+##	Read all sysctls.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_read_all_sysctls',`
 	gen_require(`
@@ -2010,9 +1848,7 @@ interface(`kernel_read_all_sysctls',`
 		type proc_t, proc_net_t;
 	')
 
-	# proc_net_t for /proc/net/rpc sysctls
 	read_files_pattern($1, { proc_t proc_net_t sysctl_type }, sysctl_type)
-
 	list_dirs_pattern($1, { proc_t proc_net_t }, sysctl_type)
 ')
 
@@ -2025,7 +1861,6 @@ interface(`kernel_read_all_sysctls',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`kernel_rw_all_sysctls',`
 	gen_require(`
@@ -2033,11 +1868,9 @@ interface(`kernel_rw_all_sysctls',`
 		type proc_t, proc_net_t;
 	')
 
-	# proc_net_t for /proc/net/rpc sysctls
 	rw_files_pattern($1, { proc_t proc_net_t sysctl_type }, sysctl_type)
 
 	allow $1 sysctl_type:dir list_dir_perms;
-	# why is setattr needed?
 	allow $1 sysctl_type:file setattr;
 ')
 
@@ -2065,7 +1898,7 @@ interface(`kernel_kill_unlabeled',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the domain mounting the filesystem.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -2211,7 +2044,7 @@ interface(`kernel_read_unlabeled_state',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -2261,12 +2094,12 @@ interface(`kernel_rw_unlabeled_files',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts by caller to get the
+##	Do not audit attempts to get the
 ##	attributes of an unlabeled file.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type not to audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -2280,7 +2113,7 @@ interface(`kernel_dontaudit_getattr_unlabeled_files',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts by caller to
+##	Do not audit attempts to
 ##	read an unlabeled file.
 ## </summary>
 ## <param name="domain">
@@ -2299,12 +2132,12 @@ interface(`kernel_dontaudit_read_unlabeled_files',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts by caller to get the
+##	Do not audit attempts to get the
 ##	attributes of unlabeled symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type not to audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -2318,12 +2151,12 @@ interface(`kernel_dontaudit_getattr_unlabeled_symlinks',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts by caller to get the
+##	Do not audit attempts to get the
 ##	attributes of unlabeled named pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type not to audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -2337,12 +2170,12 @@ interface(`kernel_dontaudit_getattr_unlabeled_pipes',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts by caller to get the
+##	Do not audit attempts to get the
 ##	attributes of unlabeled named sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type not to audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -2356,12 +2189,12 @@ interface(`kernel_dontaudit_getattr_unlabeled_sockets',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts by caller to get attributes for
+##	Do not audit attempts to get attributes for
 ##	unlabeled block devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type not to audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -2393,12 +2226,12 @@ interface(`kernel_rw_unlabeled_blk_files',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts by caller to get attributes for
+##	Do not audit attempts to get attributes for
 ##	unlabeled character devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type not to audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -2412,7 +2245,7 @@ interface(`kernel_dontaudit_getattr_unlabeled_chr_files',`
 
 ########################################
 ## <summary>
-##	Allow caller to relabel unlabeled directories.
+##	Relabel unlabeled directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2430,7 +2263,7 @@ interface(`kernel_relabelfrom_unlabeled_dirs',`
 
 ########################################
 ## <summary>
-##	Allow caller to relabel unlabeled files.
+##	Relabel unlabeled files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2449,7 +2282,7 @@ interface(`kernel_relabelfrom_unlabeled_files',`
 
 ########################################
 ## <summary>
-##	Allow caller to relabel unlabeled symbolic links.
+##	Relabel unlabeled symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2468,7 +2301,7 @@ interface(`kernel_relabelfrom_unlabeled_symlinks',`
 
 ########################################
 ## <summary>
-##	Allow caller to relabel unlabeled named pipes.
+##	Relabel unlabeled named pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2487,7 +2320,7 @@ interface(`kernel_relabelfrom_unlabeled_pipes',`
 
 ########################################
 ## <summary>
-##	Allow caller to relabel unlabeled named sockets.
+##	Relabel unlabeled named sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2509,20 +2342,6 @@ interface(`kernel_relabelfrom_unlabeled_sockets',`
 ##	Send and receive messages from an
 ##	unlabeled IPSEC association.
 ## </summary>
-## <desc>
-##	<p>
-##	Send and receive messages from an
-##	unlabeled IPSEC association.  Network
-##	connections that are not protected
-##	by IPSEC have use an unlabeled
-##	assocation.
-##	</p>
-##	<p>
-##	The corenetwork interface
-##	corenet_non_ipsec_sendrecv() should
-##	be used instead of this one.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
@@ -2536,7 +2355,6 @@ interface(`kernel_sendrecv_unlabeled_association',`
 
 	allow $1 unlabeled_t:association { sendto recvfrom };
 
-	# temporary hack until labeling on packets is supported
 	allow $1 unlabeled_t:packet { send recv };
 ')
 
@@ -2545,20 +2363,6 @@ interface(`kernel_sendrecv_unlabeled_association',`
 ##	Do not audit attempts to send and receive messages
 ##	from an	unlabeled IPSEC association.
 ## </summary>
-## <desc>
-##	<p>
-##	Do not audit attempts to send and receive messages
-##	from an	unlabeled IPSEC association.  Network
-##	connections that are not protected
-##	by IPSEC have use an unlabeled
-##	assocation.
-##	</p>
-##	<p>
-##	The corenetwork interface
-##	corenet_dontaudit_non_ipsec_sendrecv() should
-##	be used instead of this one.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain to not audit.
@@ -2577,15 +2381,6 @@ interface(`kernel_dontaudit_sendrecv_unlabeled_association',`
 ## <summary>
 ##	Receive TCP packets from an unlabeled connection.
 ## </summary>
-## <desc>
-##	<p>
-##	Receive TCP packets from an unlabeled connection.
-##	</p>
-##	<p>
-##	The corenetwork interface corenet_tcp_recv_unlabeled() should
-##	be used instead of this one.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
@@ -2605,16 +2400,6 @@ interface(`kernel_tcp_recvfrom_unlabeled',`
 ##	Do not audit attempts to receive TCP packets from an unlabeled
 ##	connection.
 ## </summary>
-## <desc>
-##	<p>
-##	Do not audit attempts to receive TCP packets from an unlabeled
-##	connection.
-##	</p>
-##	<p>
-##	The corenetwork interface corenet_dontaudit_tcp_recv_unlabeled()
-##	should be used instead of this one.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain to not audit.
@@ -2633,15 +2418,6 @@ interface(`kernel_dontaudit_tcp_recvfrom_unlabeled',`
 ## <summary>
 ##	Receive UDP packets from an unlabeled connection.
 ## </summary>
-## <desc>
-##	<p>
-##	Receive UDP packets from an unlabeled connection.
-##	</p>
-##	<p>
-##	The corenetwork interface corenet_udp_recv_unlabeled() should
-##	be used instead of this one.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
@@ -2661,16 +2437,6 @@ interface(`kernel_udp_recvfrom_unlabeled',`
 ##	Do not audit attempts to receive UDP packets from an unlabeled
 ##	connection.
 ## </summary>
-## <desc>
-##	<p>
-##	Do not audit attempts to receive UDP packets from an unlabeled
-##	connection.
-##	</p>
-##	<p>
-##	The corenetwork interface corenet_dontaudit_udp_recv_unlabeled()
-##	should be used instead of this one.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain to not audit.
@@ -2689,15 +2455,6 @@ interface(`kernel_dontaudit_udp_recvfrom_unlabeled',`
 ## <summary>
 ##	Receive Raw IP packets from an unlabeled connection.
 ## </summary>
-## <desc>
-##	<p>
-##	Receive Raw IP packets from an unlabeled connection.
-##	</p>
-##	<p>
-##	The corenetwork interface corenet_raw_recv_unlabeled() should
-##	be used instead of this one.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
@@ -2717,16 +2474,6 @@ interface(`kernel_raw_recvfrom_unlabeled',`
 ##	Do not audit attempts to receive Raw IP packets from an unlabeled
 ##	connection.
 ## </summary>
-## <desc>
-##	<p>
-##	Do not audit attempts to receive Raw IP packets from an unlabeled
-##	connection.
-##	</p>
-##	<p>
-##	The corenetwork interface corenet_dontaudit_raw_recv_unlabeled()
-##	should be used instead of this one.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain to not audit.
@@ -2745,18 +2492,6 @@ interface(`kernel_dontaudit_raw_recvfrom_unlabeled',`
 ## <summary>
 ##	Send and receive unlabeled packets.
 ## </summary>
-## <desc>
-##	<p>
-##	Send and receive unlabeled packets.
-##	These packets do not match any netfilter
-##	SECMARK rules.
-##	</p>
-##	<p>
-##	The corenetwork interface
-##	corenet_sendrecv_unlabeled_packets() should
-##	be used instead of this one.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
@@ -2775,16 +2510,6 @@ interface(`kernel_sendrecv_unlabeled_packets',`
 ## <summary>
 ##	Receive packets from an unlabeled peer.
 ## </summary>
-## <desc>
-##	<p>
-##	Receive packets from an unlabeled peer, these packets do not have any
-##	peer labeling information present.
-##	</p>
-##	<p>
-##	The corenetwork interface corenet_recvfrom_unlabeled_peer() should
-##	be used instead of this one.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
@@ -2803,16 +2528,6 @@ interface(`kernel_recvfrom_unlabeled_peer',`
 ## <summary>
 ##	Do not audit attempts to receive packets from an unlabeled peer.
 ## </summary>
-## <desc>
-##	<p>
-##	Do not audit attempts to receive packets from an unlabeled peer,
-##	these packets do not have any peer labeling information present.
-##	</p>
-##	<p>
-##	The corenetwork interface corenet_dontaudit_*_recvfrom_unlabeled()
-##	should be used instead of this one.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain to not audit.
@@ -2858,12 +2573,12 @@ interface(`kernel_relabelfrom_unlabeled_database',`
 
 ########################################
 ## <summary>
-##      Relabel to unlabeled context .
+##	Relabel to unlabeled context.
 ## </summary>
 ## <param name="domain">
-##      <summary>
-##      Domain allowed access.
-##      </summary>
+##	<summary>
+##	Domain allowed access.
+##	</summary>
 ## </param>
 #
 interface(`kernel_relabelto_unlabeled',`
@@ -2894,8 +2609,7 @@ interface(`kernel_unconfined',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to connect to
-##	the kernel with a unix socket.
+##	Connect to the kernel with a unix socket.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2910,4 +2624,3 @@ interface(`kernel_stream_connect',`
 
 	allow $1 kernel_t:unix_stream_socket connectto;
 ')
-

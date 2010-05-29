@@ -99,7 +99,7 @@ interface(`tmw_delete_tmpfs_files',`
 		type tmw_tmpfs_t;
 	')
 
-	allow $1 tmw_tmpfs_t:file { getattr_file_perms unlink };
+	allow $1 tmw_tmpfs_t:file delete_file_perms;
 	fs_search_tmpfs($1)
 ')
 
@@ -121,4 +121,3 @@ interface(`tmw_read_tmpfs_files',`
 	allow $1 tmw_tmpfs_t:file read_file_perms;
 	fs_search_tmpfs($1)
 ')
-

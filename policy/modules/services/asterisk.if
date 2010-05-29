@@ -1,4 +1,4 @@
-## <summary>Asterisk IP telephony server</summary>
+## <summary>Asterisk IP telephony server.</summary>
 
 ######################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #

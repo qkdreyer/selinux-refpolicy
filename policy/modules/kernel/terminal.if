@@ -1,7 +1,4 @@
 ## <summary>Policy for terminals.</summary>
-## <required val="true">
-##	Depended on by other required modules.
-## </required>
 
 ########################################
 ## <summary>
@@ -117,8 +114,6 @@ interface(`term_user_tty',`
 
 	type_change $1 tty_device_t:chr_file $2;
 
-	# Debian login is from shadow utils and does not allow resetting the perms.
-	# have to fix this!
 	ifdef(`distro_debian',`
 		type_change $1 ttynode:chr_file $2;
 	')
@@ -163,7 +158,6 @@ interface(`term_create_pty',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`term_write_all_terms',`
 	gen_require(`
@@ -186,7 +180,6 @@ interface(`term_write_all_terms',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`term_use_all_terms',`
 	gen_require(`
@@ -208,7 +201,6 @@ interface(`term_use_all_terms',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`term_write_console',`
 	gen_require(`
@@ -228,7 +220,6 @@ interface(`term_write_console',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`term_read_console',`
 	gen_require(`
@@ -245,10 +236,9 @@ interface(`term_read_console',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`term_dontaudit_read_console',`
 	gen_require(`
@@ -267,7 +257,6 @@ interface(`term_dontaudit_read_console',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`term_use_console',`
 	gen_require(`
@@ -285,7 +274,7 @@ interface(`term_use_console',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -309,7 +298,6 @@ interface(`term_dontaudit_use_console',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`term_setattr_console',`
 	gen_require(`
@@ -384,7 +372,7 @@ interface(`term_getattr_pty_fs',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process to not audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -422,7 +410,7 @@ interface(`term_search_ptys',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -462,7 +450,7 @@ interface(`term_list_ptys',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process to not audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -481,7 +469,7 @@ interface(`term_dontaudit_list_ptys',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process to not audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -500,7 +488,7 @@ interface(`term_dontaudit_manage_pty_dirs',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process to not audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -511,6 +499,7 @@ interface(`term_dontaudit_getattr_generic_ptys',`
 
 	dontaudit $1 devpts_t:chr_file getattr;
 ')
+
 ########################################
 ## <summary>
 ##	ioctl of generic pty devices.
@@ -521,7 +510,6 @@ interface(`term_dontaudit_getattr_generic_ptys',`
 ##	</summary>
 ## </param>
 #
-# cjp: added for ppp
 interface(`term_ioctl_generic_ptys',`
 	gen_require(`
 		type devpts_t;
@@ -543,7 +531,6 @@ interface(`term_ioctl_generic_ptys',`
 ##	</summary>
 ## </param>
 #
-# dwalsh: added for rhgb
 interface(`term_setattr_generic_ptys',`
 	gen_require(`
 		type devpts_t;
@@ -554,16 +541,15 @@ interface(`term_setattr_generic_ptys',`
 
 ########################################
 ## <summary>
-##	Dontaudit setting the attributes of
+##	Do not audit attempts to setting the attributes of
 ##	generic pty devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
-# dwalsh: added for rhgb
 interface(`term_dontaudit_setattr_generic_ptys',`
 	gen_require(`
 		type devpts_t;
@@ -575,7 +561,7 @@ interface(`term_dontaudit_setattr_generic_ptys',`
 ########################################
 ## <summary>
 ##	Read and write the generic pty
-##	type.  This is generally only used in
+##	type. This is generally only used in
 ##	the targeted policy.
 ## </summary>
 ## <param name="domain">
@@ -602,7 +588,7 @@ interface(`term_use_generic_ptys',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process to not audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -659,7 +645,7 @@ interface(`term_use_controlling_term',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process to allow access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -679,7 +665,7 @@ interface(`term_use_ptmx',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process to not audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -698,7 +684,7 @@ interface(`term_dontaudit_getattr_ptmx',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process to not audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -720,7 +706,6 @@ interface(`term_dontaudit_use_ptmx',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`term_getattr_all_ptys',`
 	gen_require(`
@@ -741,7 +726,7 @@ interface(`term_getattr_all_ptys',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -763,7 +748,6 @@ interface(`term_dontaudit_getattr_all_ptys',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`term_setattr_all_ptys',`
 	gen_require(`
@@ -822,7 +806,6 @@ interface(`term_write_all_ptys',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`term_use_all_ptys',`
 	gen_require(`
@@ -883,7 +866,6 @@ interface(`term_relabel_all_ptys',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`term_getattr_all_user_ptys',`
 	refpolicywarn(`$0 has been deprecated, use term_getattr_all_ptys() instead.')
@@ -917,7 +899,6 @@ interface(`term_dontaudit_getattr_all_user_ptys',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`term_setattr_all_user_ptys',`
 	refpolicywarn(`$0 has been deprecated, use term_setattr_all_ptys() instead.')
@@ -963,7 +944,6 @@ interface(`term_write_all_user_ptys',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`term_use_all_user_ptys',`
 	refpolicywarn(`$0 has been deprecated, use term_use_all_ptys() instead.')
@@ -977,7 +957,7 @@ interface(`term_use_all_user_ptys',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process to not audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1012,7 +992,6 @@ interface(`term_relabel_all_user_ptys',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`term_getattr_unallocated_ttys',`
 	gen_require(`
@@ -1030,7 +1009,7 @@ interface(`term_getattr_unallocated_ttys',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1052,7 +1031,6 @@ interface(`term_dontaudit_getattr_unallocated_ttys',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`term_setattr_unallocated_ttys',`
 	gen_require(`
@@ -1070,7 +1048,7 @@ interface(`term_setattr_unallocated_ttys',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1089,7 +1067,7 @@ interface(`term_dontaudit_setattr_unallocated_ttys',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1190,7 +1168,6 @@ interface(`term_write_unallocated_ttys',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`term_use_unallocated_ttys',`
 	gen_require(`
@@ -1208,7 +1185,7 @@ interface(`term_use_unallocated_ttys',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process to not audit.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1229,7 +1206,6 @@ interface(`term_dontaudit_use_unallocated_ttys',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`term_getattr_all_ttys',`
 	gen_require(`
@@ -1247,7 +1223,7 @@ interface(`term_getattr_all_ttys',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1269,7 +1245,6 @@ interface(`term_dontaudit_getattr_all_ttys',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`term_setattr_all_ttys',`
 	gen_require(`
@@ -1327,7 +1302,6 @@ interface(`term_write_all_ttys',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`term_use_all_ttys',`
 	gen_require(`
@@ -1345,7 +1319,7 @@ interface(`term_use_all_ttys',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1367,7 +1341,6 @@ interface(`term_dontaudit_use_all_ttys',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`term_getattr_all_user_ttys',`
 	refpolicywarn(`$0() is deprecated, use term_getattr_all_ttys() instead.')
@@ -1382,7 +1355,7 @@ interface(`term_getattr_all_user_ttys',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1401,7 +1374,6 @@ interface(`term_dontaudit_getattr_all_user_ttys',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`term_setattr_all_user_ttys',`
 	refpolicywarn(`$0() is deprecated, use term_setattr_all_ttys() instead.')
@@ -1448,7 +1420,6 @@ interface(`term_write_all_user_ttys',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`term_use_all_user_ttys',`
 	refpolicywarn(`$0() is deprecated, use term_use_all_ttys() instead.')
@@ -1462,7 +1433,7 @@ interface(`term_use_all_user_ttys',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #

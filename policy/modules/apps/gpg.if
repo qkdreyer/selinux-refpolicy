@@ -1,4 +1,4 @@
-## <summary>Policy for GNU Privacy Guard and related programs.</summary>
+## <summary>GNU Privacy Guard and related programs.</summary>
 
 ############################################################
 ## <summary>
@@ -26,21 +26,16 @@ interface(`gpg_role',`
 
 	role $1 types { gpg_t gpg_agent_t gpg_helper_t gpg_pinentry_t };
 
-	# transition from the userdomain to the derived domain
 	domtrans_pattern($2, gpg_exec_t, gpg_t)
 
-	# allow ps to show gpg
 	ps_process_pattern($2, gpg_t)
 	allow $2 gpg_t:process { signull sigstop signal sigkill };
 
-	# communicate with the user
 	allow gpg_helper_t $2:fd use;
 	allow gpg_helper_t $2:fifo_file write;
 
-	# allow ps to show gpg-agent
 	ps_process_pattern($2, gpg_agent_t)
 
-	# Allow the user shell to signal the gpg-agent program.
 	allow $2 gpg_agent_t:process { signal sigkill };
 
 	manage_dirs_pattern($2, gpg_agent_tmp_t, gpg_agent_tmp_t)
@@ -48,7 +43,6 @@ interface(`gpg_role',`
 	manage_sock_files_pattern($2, gpg_agent_tmp_t, gpg_agent_tmp_t)
 	files_tmp_filetrans(gpg_agent_t, gpg_agent_tmp_t, { file sock_file dir })
 
-	# Transition from the user domain to the agent domain.
 	domtrans_pattern($2, gpg_agent_exec_t, gpg_agent_t)
 
 	manage_sock_files_pattern($2, gpg_pinentry_tmp_t, gpg_pinentry_tmp_t)
@@ -62,7 +56,6 @@ interface(`gpg_role',`
 	')
 
 	ifdef(`hide_broken_symptoms',`
-		#Leaked File Descriptors
 		dontaudit gpg_t $2:socket_class_set { read write };
 		dontaudit gpg_t $2:fifo_file rw_fifo_file_perms;
 		dontaudit gpg_agent_t $2:socket_class_set { read write };
@@ -156,7 +149,6 @@ interface(`gpg_signal',`
 ## </param>
 #
 interface(`gpg_rw_agent_pipes',`
-	# Just wants read/write could this be a leak?
 	gen_require(`
 		type gpg_agent_t;
 	')
@@ -214,7 +206,7 @@ interface(`gpg_list_user_secrets',`
 ##	</summary>
 ## </param>
 #
-interface(`gpg_pinentry_read_tmpfs_files', `
+interface(`gpg_pinentry_read_tmpfs_files',`
 	gen_require(`
 		type gpg_pinentry_tmpfs_t;
 	')
@@ -233,11 +225,11 @@ interface(`gpg_pinentry_read_tmpfs_files', `
 ##	</summary>
 ## </param>
 #
-interface(`gpg_pinentry_delete_tmpfs_files', `
+interface(`gpg_pinentry_delete_tmpfs_files',`
 	gen_require(`
 		type gpg_pinentry_tmpfs_t;
 	')
 
-	allow $1 gpg_pinentry_tmpfs_t:file { getattr_file_perms unlink };
+	allow $1 gpg_pinentry_tmpfs_t:file delete_file_perms;
 	fs_search_tmpfs($1)
 ')

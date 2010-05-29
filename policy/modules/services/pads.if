@@ -1,12 +1,4 @@
-## <summary>Passive Asset Detection System</summary>
-## <desc>
-##	<p>
-##	PADS is a libpcap based detection engine used to
-##	passively detect network assets.  It is designed to
-##	complement IDS technology by providing context to IDS
-##	alerts.
-##	</p>
-## </desc>
+## <summary>Passive Asset Detection System.</summary>
 
 #######################################
 ## <summary>
@@ -24,6 +16,7 @@ interface(`pads_domtrans',`
 	')
 
 	domtrans_pattern($1, pads_exec_t, pads_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -78,4 +71,3 @@ interface(`pads_admin',`
 	admin_pattern($1, pads_var_run_t)
 	admin_pattern($1, pads_config_t)
 ')
-

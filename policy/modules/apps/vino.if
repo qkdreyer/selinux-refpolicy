@@ -1,12 +1,4 @@
 ## <summary>Vino. The remote desktop project, Take 2.</summary>
-## <desc>
-##	<p>
-##		The primary goal of Vino was originally to provide a
-##		mechanism by which system administrators could remotely
-##		connect to a desktop machine and resolve basic problems
-##		for users.
-##	</p>
-## </desc>
 
 ########################################
 ## <summary>
@@ -50,14 +42,7 @@ interface(`vino_role',`
 	allow $2 vino_server_t:process { ptrace signal_perms };
 	ps_process_pattern($2, vino_server_t)
 
-	manage_dirs_pattern($2, vino_server_data_home_t, vino_server_data_home_t)
-	manage_files_pattern($2, vino_server_data_home_t, vino_server_data_home_t)
-
-	relabel_dirs_pattern($2, vino_server_data_home_t, vino_server_data_home_t)
-	relabel_files_pattern($2, vino_server_data_home_t, vino_server_data_home_t)
-
 	manage_sock_files_pattern($2, vino_server_tmp_t, vino_server_tmp_t) 
-
 	relabel_sock_files_pattern($2, vino_server_tmp_t, vino_server_tmp_t) 
 
 	vino_server_delete_tmpfs_files($2)
@@ -166,4 +151,3 @@ interface(`vino_server_signull',`
 
 	allow $1 vino_server_t:process signull;
 ')
-

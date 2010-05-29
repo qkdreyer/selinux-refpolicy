@@ -1,4 +1,4 @@
-## <summary>device locking policy for lockdev</summary>
+## <summary>Device locking policy for lockdev.</summary>
 
 ########################################
 ## <summary>
@@ -23,11 +23,9 @@ interface(`lockdev_role',`
 
 	role $1 types lockdev_t;
 
-	# Transition from the user domain to the derived domain.
 	domtrans_pattern($2, lockdev_exec_t, lockdev_t)
 	allow lockdev_t $2:process signull;
 
-	# allow ps to show lockdev
 	ps_process_pattern($2, lockdev_t)
 	allow $2 lockdev_t:process signal;
 ')

@@ -1,8 +1,8 @@
-## <summary>Cyrus is an IMAP service intended to be run on sealed servers</summary>
+## <summary>Cyrus is an IMAP service intended to be run on sealed servers.</summary>
 
 ########################################
 ## <summary>
-##	Allow caller to create, read, write,
+##	Create, read, write,
 ##	and delete cyrus data files.
 ## </summary>
 ## <param name="domain">
@@ -16,8 +16,8 @@ interface(`cyrus_manage_data',`
 		type cyrus_var_lib_t;
 	')
 
-	files_search_var_lib($1)
 	manage_files_pattern($1, cyrus_var_lib_t, cyrus_var_lib_t)
+	files_search_var_lib($1)
 ')
 
 ########################################
@@ -35,8 +35,8 @@ interface(`cyrus_stream_connect',`
 		type cyrus_t, cyrus_var_lib_t;
 	')
 
-	files_search_var_lib($1)
 	stream_connect_pattern($1, cyrus_var_lib_t, cyrus_var_lib_t, cyrus_t)
+	files_search_var_lib($1)
 ')
 
 ########################################

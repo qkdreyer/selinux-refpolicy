@@ -1,4 +1,4 @@
-## <summary>policy for z/OS Remote-services Audit dispatcher plugin</summary>
+## <summary>policy for z/OS Remote-services Audit dispatcher plugin.</summary>
 
 ########################################
 ## <summary>
@@ -16,6 +16,7 @@ interface(`zosremote_domtrans',`
 	')
 
 	domtrans_pattern($1, zos_remote_exec_t, zos_remote_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -26,7 +27,7 @@ interface(`zosremote_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -34,6 +35,7 @@ interface(`zosremote_domtrans',`
 ##	The role to be allowed the zos_remote domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`zosremote_run',`
 	gen_require(`

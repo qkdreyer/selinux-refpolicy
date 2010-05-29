@@ -1,4 +1,4 @@
-## <summary>X Windows Server</summary>
+## <summary>X Windows Server.</summary>
 
 ########################################
 ## <summary>
@@ -58,9 +58,9 @@ interface(`xserver_restricted_role',`
 
 	domtrans_pattern($2, iceauth_exec_t, iceauth_t)
 
-ifdef(`hide_broken_symptoms', `
-	dontaudit iceauth_t $2:socket_class_set { read write };
-')
+	ifdef(`hide_broken_symptoms',`
+		dontaudit iceauth_t $2:socket_class_set { read write };
+	')
 
 	allow $2 iceauth_home_t:file read_file_perms;
 
@@ -174,7 +174,6 @@ interface(`xserver_role',`
 	manage_files_pattern($2, user_fonts_config_t, user_fonts_config_t)
 	relabel_dirs_pattern($2, user_fonts_config_t, user_fonts_config_t)
 	relabel_files_pattern($2, user_fonts_config_t, user_fonts_config_t)
-
 ')
 
 #######################################
@@ -521,16 +520,6 @@ template(`xserver_user_x_domain_template',`
 ##	Read user fonts, user font configuration,
 ##	and manage the user font cache.
 ## </summary>
-## <desc>
-##	<p>
-##	Read user fonts, user font configuration,
-##	and manage the user font cache.
-##	</p>
-##	<p>
-##	This is a templated interface, and should only
-##	be called from a per-userdomain template.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
@@ -563,7 +552,7 @@ interface(`xserver_use_user_fonts',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -573,6 +562,7 @@ interface(`xserver_domtrans_xauth',`
 	')
 
 	domtrans_pattern($1, xauth_exec_t, xauth_t)
+	corecmd_search_bin($1)
 	
 	ifdef(`hide_broken_symptoms',`
 		dontaudit xauth_t $1:socket_class_set { read write };
@@ -603,7 +593,7 @@ interface(`xserver_user_home_dir_filetrans_user_xauth',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -666,7 +656,7 @@ interface(`xserver_setattr_console_pipes',`
 		type xconsole_device_t;
 	')
 
-	allow $1 xconsole_device_t:fifo_file setattr;
+	allow $1 xconsole_device_t:fifo_file setattr_fifo_file_perms;
 ')
 
 ########################################
@@ -739,7 +729,7 @@ interface(`xserver_rw_xdm_pipes',`
 		type xdm_t;
 	')
 
-	allow $1 xdm_t:fifo_file { getattr read write }; 
+	allow $1 xdm_t:fifo_file rw_fifo_file_perms; 
 ')
 
 ########################################
@@ -754,7 +744,6 @@ interface(`xserver_rw_xdm_pipes',`
 ## </param>
 #
 interface(`xserver_dontaudit_rw_xdm_pipes',`
-
 	gen_require(`
 		type xdm_t;
 	')
@@ -778,8 +767,8 @@ interface(`xserver_stream_connect_xdm',`
 		type xdm_t, xdm_tmp_t;
 	')
 
-	files_search_tmp($1)
 	stream_connect_pattern($1, xdm_tmp_t, xdm_tmp_t, xdm_t)
+	files_search_tmp($1)
 ')
 
 ########################################
@@ -797,8 +786,8 @@ interface(`xserver_read_xdm_rw_config',`
 		type xdm_rw_etc_t;
 	')
 
-	files_search_etc($1)
 	allow $1 xdm_rw_etc_t:file read_file_perms;
+	files_search_etc($1)
 ')
 
 ########################################
@@ -816,7 +805,7 @@ interface(`xserver_setattr_xdm_tmp_dirs',`
 		type xdm_tmp_t;
 	')
 
-	allow $1 xdm_tmp_t:dir setattr;
+	allow $1 xdm_tmp_t:dir setattr_dir_perms;
 ')
 
 ########################################
@@ -835,9 +824,9 @@ interface(`xserver_create_xdm_tmp_sockets',`
 		type xdm_tmp_t;
 	')
 
-	files_search_tmp($1)
 	allow $1 xdm_tmp_t:dir list_dir_perms;
 	create_sock_files_pattern($1, xdm_tmp_t, xdm_tmp_t)
+	files_search_tmp($1)
 ')
 
 ########################################
@@ -855,8 +844,8 @@ interface(`xserver_read_xdm_pid',`
 		type xdm_var_run_t;
 	')
 
-	files_search_pids($1)
 	read_files_pattern($1, xdm_var_run_t, xdm_var_run_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -875,6 +864,7 @@ interface(`xserver_read_xdm_lib_files',`
 	')
 
 	allow $1 xdm_var_lib_t:file read_file_perms;
+	files_search_var_lib($1)
 ')
 
 ########################################
@@ -901,21 +891,9 @@ interface(`xserver_xsession_entry_type',`
 ##	is an explicit transition, requiring the
 ##	caller to use setexeccon().
 ## </summary>
-## <desc>
-##	<p>
-##	Execute an Xsession in the target domain.  This
-##	is an explicit transition, requiring the
-##	caller to use setexeccon().
-##	</p>
-##	<p>
-##	No interprocess communication (signals, pipes,
-##	etc.) is provided by this interface since
-##	the domains are not owned by this module.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="target_domain">
@@ -930,6 +908,7 @@ interface(`xserver_xsession_spec_domtrans',`
 	')
 
 	domain_trans($1, xsession_exec_t, $2)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -947,8 +926,8 @@ interface(`xserver_getattr_log',`
 		type xserver_log_t;
 	')
 
+	allow $1 xserver_log_t:file getattr_file_perms;
 	logging_search_logs($1)
-	allow $1 xserver_log_t:file getattr;
 ')
 
 ########################################
@@ -972,12 +951,12 @@ interface(`xserver_dontaudit_write_log',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to write the X server
+##	Delete the X server
 ##	log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -986,10 +965,10 @@ interface(`xserver_delete_log',`
 		type xserver_log_t;
 	')
 
-	logging_search_logs($1)
 	allow $1 xserver_log_t:dir list_dir_perms;
 	delete_files_pattern($1, xserver_log_t, xserver_log_t)
 	delete_fifo_files_pattern($1, xserver_log_t, xserver_log_t)
+	logging_search_logs($1)
 ')
 
 ########################################
@@ -998,7 +977,7 @@ interface(`xserver_delete_log',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -1007,10 +986,10 @@ interface(`xserver_read_xkb_libs',`
 		type xkb_var_lib_t;
 	')
 
-	files_search_var_lib($1)
 	allow $1 xkb_var_lib_t:dir list_dir_perms;
 	read_files_pattern($1, xkb_var_lib_t, xkb_var_lib_t)
 	read_lnk_files_pattern($1, xkb_var_lib_t, xkb_var_lib_t)
+	files_search_var_lib($1)
 ')
 
 ########################################
@@ -1028,8 +1007,8 @@ interface(`xserver_read_xdm_etc_files',`
 		type xdm_etc_t;
 	')
 
- 	files_search_etc($1)
 	read_files_pattern($1, xdm_etc_t, xdm_etc_t)
+ 	files_search_etc($1)
 ')
 
 ########################################
@@ -1047,8 +1026,8 @@ interface(`xserver_manage_xdm_etc_files',`
 		type xdm_etc_t;
 	')
 
- 	files_search_etc($1)
 	manage_files_pattern($1, xdm_etc_t, xdm_etc_t)
+ 	files_search_etc($1)
 ')
 
 ########################################
@@ -1057,7 +1036,7 @@ interface(`xserver_manage_xdm_etc_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -1066,8 +1045,8 @@ interface(`xserver_read_xdm_tmp_files',`
 		type xdm_tmp_t;
 	')
 
- 	files_search_tmp($1)
 	read_files_pattern($1, xdm_tmp_t, xdm_tmp_t)
+ 	files_search_tmp($1)
 ')
 
 ########################################
@@ -1095,7 +1074,7 @@ interface(`xserver_dontaudit_read_xdm_tmp_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -1106,6 +1085,7 @@ interface(`xserver_rw_xdm_tmp_files',`
 
 	allow $1 xdm_tmp_t:dir search_dir_perms;
 	allow $1 xdm_tmp_t:file rw_file_perms;
+	files_search_tmp($1)
 ')
 
 ########################################
@@ -1114,7 +1094,7 @@ interface(`xserver_rw_xdm_tmp_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -1124,6 +1104,7 @@ interface(`xserver_manage_xdm_tmp_files',`
 	')
 
 	manage_files_pattern($1, xdm_tmp_t, xdm_tmp_t)
+	files_search_tmp($1)
 ')
 
 ########################################
@@ -1141,7 +1122,7 @@ interface(`xserver_dontaudit_getattr_xdm_tmp_sockets',`
 		type xdm_tmp_t;
 	')
 
-	dontaudit $1 xdm_tmp_t:sock_file getattr;
+	dontaudit $1 xdm_tmp_t:sock_file getattr_sock_file_perms;
 ')
 
 ########################################
@@ -1150,7 +1131,7 @@ interface(`xserver_dontaudit_getattr_xdm_tmp_sockets',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -1161,6 +1142,7 @@ interface(`xserver_domtrans',`
 
  	allow $1 xserver_t:process siginh;
 	domtrans_pattern($1, xserver_exec_t, xserver_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -1169,7 +1151,7 @@ interface(`xserver_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -1187,7 +1169,7 @@ interface(`xserver_signal',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -1225,7 +1207,7 @@ interface(`xserver_rw_shm',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1234,7 +1216,7 @@ interface(`xserver_dontaudit_rw_tcp_sockets',`
 		type xserver_t;
 	')
 
-	dontaudit $1 xserver_t:tcp_socket { read write };
+	dontaudit $1 xserver_t:tcp_socket rw_socket_perms;
 ')
 
 ########################################
@@ -1244,7 +1226,7 @@ interface(`xserver_dontaudit_rw_tcp_sockets',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1253,7 +1235,7 @@ interface(`xserver_dontaudit_rw_stream_sockets',`
 		type xserver_t;
 	')
 
-	dontaudit $1 xserver_t:unix_stream_socket { read write };
+	dontaudit $1 xserver_t:unix_stream_socket rw_stream_socket_perms;
 ')
 
 ########################################
@@ -1272,8 +1254,8 @@ interface(`xserver_stream_connect',`
 		type xserver_t, xserver_tmp_t;
 	')
 
-	files_search_tmp($1)
 	stream_connect_pattern($1, xserver_tmp_t, xserver_tmp_t, xserver_t)
+	files_search_tmp($1)
 ')
 
 ########################################
@@ -1282,7 +1264,7 @@ interface(`xserver_stream_connect',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -1299,7 +1281,7 @@ interface(`xserver_read_tmp_files',`
 ## <summary>
 ##	Interface to provide X object permissions on a given X server to
 ##	an X client domain.  Gives the domain permission to read the
-##      virtual core keyboard and virtual core pointer devices.
+##	virtual core keyboard and virtual core pointer devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1385,7 +1367,7 @@ interface(`xserver_dontaudit_append_xdm_home_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -1422,8 +1404,8 @@ interface(`xserver_xdm_manage_spool',`
 		type xdm_spool_t;
 	')
 
-	files_search_spool($1)
 	manage_files_pattern($1, xdm_spool_t, xdm_spool_t)
+	files_search_spool($1)
 ')
 
 ########################################
@@ -1462,8 +1444,8 @@ interface(`xserver_read_pid',`
 		type xserver_var_run_t;
 	')
 
-	files_search_pids($1)
 	read_files_pattern($1, xserver_var_run_t, xserver_var_run_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -1481,8 +1463,8 @@ interface(`xserver_exec_pid',`
 		type xserver_var_run_t;
 	')
 
-	files_search_pids($1)
 	exec_files_pattern($1, xserver_var_run_t, xserver_var_run_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -1500,8 +1482,8 @@ interface(`xserver_write_pid',`
 		type xserver_var_run_t;
 	')
 
-	files_search_pids($1)
 	write_files_pattern($1, xserver_var_run_t, xserver_var_run_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -1511,7 +1493,7 @@ interface(`xserver_write_pid',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to not audit
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -1522,7 +1504,9 @@ interface(`xserver_xdm_append_log',`
 	')
 
 	typeattribute $1 xdmhomewriter;
+
 	append_files_pattern($1, xdm_log_t, xdm_log_t)
+	logging_search_logs($1)
 ')
 
 ########################################
@@ -1540,8 +1524,8 @@ template(`xserver_read_user_iceauth',`
 		type iceauth_home_t;
 	')
 
-	# Read .Iceauthority file
 	allow $1 iceauth_home_t:file read_file_perms;
+	userdom_search_user_home_dirs($1)
 ')
 
 ########################################
@@ -1553,18 +1537,17 @@ template(`xserver_read_user_iceauth',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`xserver_rw_inherited_user_fonts',`
 	gen_require(`
-		type user_fonts_t;
-		type user_fonts_config_t;
+		type user_fonts_t, user_fonts_config_t;
 	')
 
 	allow $1 user_fonts_t:file rw_inherited_file_perms;
 	allow $1 user_fonts_t:file read_lnk_file_perms;
 
 	allow $1 user_fonts_config_t:file rw_inherited_file_perms;
+	userdom_search_user_home_dirs($1)
 ')
 
 ########################################
@@ -1583,8 +1566,8 @@ interface(`xserver_search_xdm_lib',`
 	')
 
 	allow $1 xdm_var_lib_t:dir search_dir_perms;
+	files_search_var_lib($1)
 ')
-
 
 ########################################
 ## <summary>
@@ -1611,7 +1594,7 @@ interface(`xserver_entry_type',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -1619,6 +1602,7 @@ interface(`xserver_entry_type',`
 ##	The role to be allowed the xserver domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`xserver_run',`
 	gen_require(`
@@ -1636,7 +1620,7 @@ interface(`xserver_run',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -1644,6 +1628,7 @@ interface(`xserver_run',`
 ##	The role to be allowed the xserver domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`xserver_run_xauth',`
 	gen_require(`
@@ -1662,17 +1647,15 @@ interface(`xserver_run_xauth',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`xserver_manage_home_fonts',`
 	gen_require(`
-		type user_fonts_t;
-		type user_fonts_config_t;
+		type user_fonts_t, user_fonts_config_t;
 	')
 
 	manage_dirs_pattern($1, user_fonts_t, user_fonts_t)
 	manage_files_pattern($1, user_fonts_t, user_fonts_t)
 	manage_lnk_files_pattern($1, user_fonts_t, user_fonts_t)
-
 	manage_files_pattern($1, user_fonts_config_t, user_fonts_config_t)
+	userdom_search_user_home_dirs($1)
 ')

@@ -1,9 +1,8 @@
-## <summary>Bugzilla server</summary>
+## <summary>Bugzilla.</summary>
 
 ########################################
-## <summary>
-##	Allow the specified domain to search 
-##	bugzilla directories.
+## <summary> 
+##	Search bugzilla directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -26,7 +25,7 @@ interface(`bugzilla_search_dirs',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #

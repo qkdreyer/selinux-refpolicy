@@ -24,6 +24,7 @@ files_type(smokeping_var_lib_t)
 # smokeping local policy
 #
 
+dontaudit smokeping_t self:capability { dac_read_search dac_override }; 
 allow smokeping_t self:fifo_file rw_fifo_file_perms;
 allow smokeping_t self:udp_socket create_socket_perms;
 allow smokeping_t self:unix_stream_socket create_stream_socket_perms;
@@ -34,7 +35,7 @@ files_pid_filetrans(smokeping_t, smokeping_var_run_t, { file dir })
 
 manage_dirs_pattern(smokeping_t, smokeping_var_lib_t, smokeping_var_lib_t)
 manage_files_pattern(smokeping_t, smokeping_var_lib_t, smokeping_var_lib_t)
-files_var_lib_filetrans(smokeping_t, smokeping_var_lib_t, { file dir } )
+files_var_lib_filetrans(smokeping_t, smokeping_var_lib_t, { file dir })
 
 corecmd_read_bin_symlinks(smokeping_t)
 

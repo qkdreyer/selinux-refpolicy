@@ -1,25 +1,9 @@
 ## <summary>su run a shell with substitute user and group IDs.</summary>
-## <desc>
-##	<p>
-##	su allows one user to temporarily become another user.  It runs a
-##	command (often an interactive shell) with the real and effective user
-##	ID, group ID, and supplemental groups of a given USER. When the -l
-##	option is given, the su-l PAM file is used instead of the default su
-##	PAM file.
-##	</p>
-## </desc>
 
 #######################################
 ## <summary>
 ##	Restricted su domain template.
 ## </summary>
-## <desc>
-##	<p>
-##	This template creates a derived domain which is allowed
-##	to change the linux user id, to run shells as a different
-##	user.
-##	</p>
-## </desc>
 ## <param name="userdomain_prefix">
 ##	<summary>
 ##	The prefix of the user domain (e.g., user
@@ -58,10 +42,8 @@ template(`su_restricted_domain_template',`
 	allow $1_su_t self:netlink_audit_socket { nlmsg_relay create_netlink_socket_perms };
 	allow $1_su_t self:unix_stream_socket create_stream_socket_perms;
 
-	# Transition from the user domain to this domain.
 	domtrans_pattern($2, su_exec_t, $1_su_t)
 
-	# By default, revert to the calling domain when a shell is executed.
 	corecmd_shell_domtrans($1_su_t,$2)
 	allow $2 $1_su_t:fd use;
 	allow $2 $1_su_t:fifo_file rw_file_perms;
@@ -76,7 +58,6 @@ template(`su_restricted_domain_template',`
 	kernel_search_key($1_su_t)
 	kernel_link_key($1_su_t)
 
-	# for SSP
 	dev_read_urand($1_su_t)
 
 	files_read_etc_files($1_su_t)
@@ -84,7 +65,6 @@ template(`su_restricted_domain_template',`
 	files_search_var_lib($1_su_t)
 	files_dontaudit_getattr_tmp_dirs($1_su_t)
 
-	# for the rootok check
 	selinux_compute_access_vector($1_su_t)
 
 	auth_domtrans_chk_passwd($1_su_t)
@@ -96,7 +76,6 @@ template(`su_restricted_domain_template',`
 
 	init_dontaudit_use_fds($1_su_t)
 	init_dontaudit_use_script_ptys($1_su_t)
-	# Write to utmp.
 	init_rw_utmp($1_su_t)
 
 	logging_send_syslog_msg($1_su_t)
@@ -104,7 +83,6 @@ template(`su_restricted_domain_template',`
 	miscfiles_read_localization($1_su_t)
 
 	ifdef(`distro_redhat',`
-		# RHEL5 and possibly newer releases incl. Fedora
 		auth_domtrans_upd_passwd($1_su_t)
 
 		optional_policy(`
@@ -127,7 +105,6 @@ template(`su_restricted_domain_template',`
 		seutil_read_config($1_su_t)
 		seutil_read_default_contexts($1_su_t)
 
-		# Only allow transitions to unprivileged user domains.
 		userdom_spec_domtrans_unpriv_users($1_su_t)
 	')
 
@@ -140,14 +117,12 @@ template(`su_restricted_domain_template',`
 	')
 
 	optional_policy(`
-		# used when the password has expired
 		usermanage_read_crack_db($1_su_t)
 	')
 
 	ifdef(`TODO',`
-	# Caused by su - init scripts
 	dontaudit $1_su_t initrc_devpts_t:chr_file { getattr ioctl };
-	') dnl end TODO
+	')
 ')
 
 #######################################
@@ -194,7 +169,6 @@ template(`su_role_template',`
 	allow $1_su_t self:netlink_audit_socket { nlmsg_relay create_netlink_socket_perms };
 	allow $1_su_t self:key { search write };
 
-	# Transition from the user domain to this domain.
 	domtrans_pattern($3, su_exec_t, $1_su_t)
 
 	ifdef(`hide_broken_symptoms', `
@@ -203,7 +177,6 @@ template(`su_role_template',`
 
 	ps_process_pattern($3, $1_su_t)
 
-	# By default, revert to the calling domain when a shell is executed.
 	corecmd_shell_domtrans($1_su_t, $3)
 	allow $3 $1_su_t:fd use;
 	allow $3 $1_su_t:fifo_file rw_file_perms;
@@ -214,12 +187,10 @@ template(`su_role_template',`
 	kernel_search_key($1_su_t)
 	kernel_link_key($1_su_t)
 
-	# for SSP
 	dev_read_urand($1_su_t)
 
 	fs_search_auto_mountpoints($1_su_t)
 
-	# needed for pam_rootok
 	selinux_compute_access_vector($1_su_t)
 
 	auth_domtrans_chk_passwd($1_su_t)
@@ -238,7 +209,6 @@ template(`su_role_template',`
 	files_dontaudit_getattr_tmp_dirs($1_su_t)
 
 	init_dontaudit_use_fds($1_su_t)
-	# Write to utmp.
 	init_rw_utmp($1_su_t)
 
 	mls_file_write_all_levels($1_su_t)
@@ -252,7 +222,6 @@ template(`su_role_template',`
 	userdom_search_admin_dir($1_su_t)
 
 	ifdef(`distro_redhat',`
-		# RHEL5 and possibly newer releases incl. Fedora
 		auth_domtrans_upd_passwd($1_su_t)
 
 		optional_policy(`
@@ -271,10 +240,9 @@ template(`su_role_template',`
 		selinux_compute_relabel_context($1_su_t)
 		selinux_compute_user_contexts($1_su_t)
 
-		# Relabel ttys and ptys.
 		term_relabel_all_ttys($1_su_t)
 		term_relabel_all_ptys($1_su_t)
-		# Close and re-open ttys and ptys to get the fd into the correct domain.
+
 		term_use_all_ttys($1_su_t)
 		term_use_all_ptys($1_su_t)
 
@@ -282,10 +250,8 @@ template(`su_role_template',`
 		seutil_read_default_contexts($1_su_t)
 
 		if(secure_mode) {
-			# Only allow transitions to unprivileged user domains.
 			userdom_spec_domtrans_unpriv_users($1_su_t)
 		} else {
-			# Allow transitions to all user domains
 			userdom_spec_domtrans_all_users($1_su_t)
 		}
 
@@ -317,11 +283,9 @@ template(`su_role_template',`
 	')
 
 	optional_policy(`
-		# used when the password has expired
 		usermanage_read_crack_db($1_su_t)
 	')
 
-	# Modify .Xauthority file (via xauth program).
 	optional_policy(`
 		xserver_user_home_dir_filetrans_user_xauth($1_su_t)
 		xserver_domtrans_xauth($1_su_t)

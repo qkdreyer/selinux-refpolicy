@@ -1,4 +1,4 @@
-## <summary>Policy for logical volume management programs.</summary>
+## <summary>Logical volume management programs.</summary>
 
 ########################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,8 +15,8 @@ interface(`lvm_domtrans',`
 		type lvm_t, lvm_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, lvm_exec_t, lvm_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -25,7 +25,7 @@ interface(`lvm_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -34,8 +34,8 @@ interface(`lvm_exec',`
 		type lvm_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	can_exec($1, lvm_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -44,7 +44,7 @@ interface(`lvm_exec',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -69,19 +69,18 @@ interface(`lvm_run',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`lvm_read_config',`
 	gen_require(`
 		type lvm_etc_t;
 	')
 
-	files_search_etc($1)
 	allow $1 lvm_etc_t:dir list_dir_perms;
 	read_files_pattern($1, lvm_etc_t, lvm_etc_t)
+	files_search_etc($1)
 ')
 
 ########################################
@@ -93,16 +92,15 @@ interface(`lvm_read_config',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`lvm_manage_config',`
 	gen_require(`
 		type lvm_etc_t;
 	')
 
-	files_search_etc($1)
 	manage_dirs_pattern($1, lvm_etc_t, lvm_etc_t)
 	manage_files_pattern($1, lvm_etc_t, lvm_etc_t)
+	files_search_etc($1)
 ')
 
 ######################################
@@ -120,6 +118,6 @@ interface(`lvm_domtrans_clvmd',`
 		type clvmd_t, clvmd_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, clvmd_exec_t, clvmd_t)
+	corecmd_search_bin($1)
 ')

@@ -1,22 +1,9 @@
 ## <summary>Core policy for domains.</summary>
-## <required val="true">
-##	Contains the concept of a domain.
-## </required>
 
 ########################################
 ## <summary>
 ##	Make the specified type usable as a basic domain.
 ## </summary>
-## <desc>
-##	<p>
-##	Make the specified type usable as a basic domain.
-##	</p>
-##	<p>
-##	This is primarily used for kernel threads;
-##	generally the domain_type() interface is
-##	more appropriate for userland processes.
-##	</p>
-## </desc>
 ## <param name="type">
 ##	<summary>
 ##	Type to be used as a basic domain type.
@@ -33,47 +20,15 @@ interface(`domain_base_type',`
 
 ########################################
 ## <summary>
-##	Make the specified type usable as a domain.
+##	Type usable as a domain.
 ## </summary>
-## <desc>
-##	<p>
-##	Make the specified type usable as a domain.  This,
-##	or an interface that calls this interface, must be
-##	used on all types that are used as domains.
-##	</p>
-##	<p>
-##	Related interfaces:
-##	</p>
-##	<ul>
-##		<li>application_domain()</li>
-##		<li>init_daemon_domain()</li>
-##		<li>init_domaion()</li>
-##		<li>init_ranged_daemon_domain()</li>
-##		<li>init_ranged_domain()</li>
-##		<li>init_ranged_system_domain()</li>
-##		<li>init_script_domain()</li>
-##		<li>init_system_domain()</li>
-##	</ul>
-##	<p>
-##	Example:
-##	</p>
-##	<p>
-##	type mydomain_t;
-##	domain_type(mydomain_t)
-##	type myfile_t;
-##	files_type(myfile_t)
-##	allow mydomain_t myfile_t:file read_file_perms;
-##	</p>
-## </desc>
 ## <param name="type">
 ##	<summary>
 ##	Type to be used as a domain type.
 ##	</summary>
 ## </param>
-## <infoflow type="none"/>
 #
 interface(`domain_type',`
-	# start with basic domain
 	domain_base_type($1)
 
 	ifdef(`distro_redhat',`
@@ -82,13 +37,10 @@ interface(`domain_type',`
 		')
 	')
 
-	# send init a sigchld and signull
 	optional_policy(`
 		init_sigchld($1)
 		init_signull($1)
 	')
-
-	# these seem questionable:
 
 	optional_policy(`
 		rpm_use_fds($1)
@@ -107,8 +59,7 @@ interface(`domain_type',`
 
 ########################################
 ## <summary>
-##	Make the specified type usable as
-##	an entry point for the domain.
+##	Type usable as an entry point for the domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -137,8 +88,7 @@ interface(`domain_entry_file',`
 
 ########################################
 ## <summary>
-##	Make the file descriptors of the specified
-##	domain for interactive use (widely inheritable)
+##	File descriptors for interactive use.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -156,22 +106,11 @@ interface(`domain_interactive_fd',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to perform
-##	dynamic transitions.
+##	Perform dynamic transitions.
 ## </summary>
-## <desc>
-##	<p>
-##	Allow the specified domain to perform
-##	dynamic transitions.
-##	</p>
-##	<p>
-##	This violates process tranquility, and it
-##	is strongly suggested that this not be used.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -185,7 +124,7 @@ interface(`domain_dyntrans_type',`
 
 ########################################
 ## <summary>
-##	Makes caller and execption to the constraint
+##	Exception to the constraint
 ##	preventing changing to the system user
 ##	identity and system role.
 ## </summary>
@@ -205,12 +144,12 @@ interface(`domain_system_change_exemption',`
 
 ########################################
 ## <summary>
-##	Makes caller an exception to the constraint preventing
+##	Exception to the constraint preventing
 ##	changing of user identity.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type to make an exception to the constraint.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -224,12 +163,12 @@ interface(`domain_subj_id_change_exemption',`
 
 ########################################
 ## <summary>
-##	Makes caller an exception to the constraint preventing
+##	Exception to the constraint preventing
 ##	changing of role.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type to make an exception to the constraint.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -243,15 +182,14 @@ interface(`domain_role_change_exemption',`
 
 ########################################
 ## <summary>
-##	Makes caller an exception to the constraint preventing
+##	Exception to the constraint preventing
 ##	changing the user identity in object contexts.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The process type to make an exception to the constraint.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`domain_obj_id_change_exemption',`
 	gen_require(`
@@ -263,28 +201,14 @@ interface(`domain_obj_id_change_exemption',`
 
 ########################################
 ## <summary>
-##	Make the specified domain the target of
+##	Domain target of
 ##	the user domain exception of the
 ##	SELinux role and identity change
 ##	constraints.
 ## </summary>
-## <desc>
-##	<p>
-##	Make the specified domain the target of
-##	the user domain exception of the
-##	SELinux role and identity change
-##	constraints.
-##	</p>
-##	<p>
-##	This interface is needed to decouple
-##	the user domains from the base module.
-##	It should not be used other than on
-##	user domains.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
-##	Domain target for user exemption.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -298,28 +222,14 @@ interface(`domain_user_exemption_target',`
 
 ########################################
 ## <summary>
-##	Make the specified domain the source of
+##	Domain the source of
 ##	the cron domain exception of the
 ##	SELinux role and identity change
 ##	constraints.
 ## </summary>
-## <desc>
-##	<p>
-##	Make the specified domain the source of
-##	the cron domain exception of the
-##	SELinux role and identity change
-##	constraints.
-##	</p>
-##	<p>
-##	This interface is needed to decouple
-##	the cron domains from the base module.
-##	It should not be used other than on
-##	cron domains.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
-##	Domain target for user exemption.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -333,28 +243,14 @@ interface(`domain_cron_exemption_source',`
 
 ########################################
 ## <summary>
-##	Make the specified domain the target of
+##	Domain the target of
 ##	the cron domain exception of the
 ##	SELinux role and identity change
 ##	constraints.
 ## </summary>
-## <desc>
-##	<p>
-##	Make the specified domain the target of
-##	the cron domain exception of the
-##	SELinux role and identity change
-##	constraints.
-##	</p>
-##	<p>
-##	This interface is needed to decouple
-##	the cron domains from the base module.
-##	It should not be used other than on
-##	user cron jobs.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
-##	Domain target for user exemption.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -371,20 +267,11 @@ interface(`domain_cron_exemption_target',`
 ##	Inherit and use file descriptors from
 ##	domains with interactive programs.
 ## </summary>
-## <desc>
-##	<p>
-##	Allow the specified domain to inherit and use file
-##	descriptors from domains with interactive programs. 
-##	This does not allow access to the objects being referenced
-##	by the file descriptors.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <infoflow type="read" weight="1"/>
 #
 interface(`domain_use_interactive_fds',`
 	gen_require(`
@@ -402,7 +289,7 @@ interface(`domain_use_interactive_fds',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -425,7 +312,6 @@ interface(`domain_dontaudit_use_interactive_fds',`
 ##	</summary>
 ## </param>
 #
-# cjp: this was added because of newrole
 interface(`domain_sigchld_interactive_fds',`
 	gen_require(`
 		attribute privfd;
@@ -443,7 +329,6 @@ interface(`domain_sigchld_interactive_fds',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`domain_setpriority_all_domains',`
 	gen_require(`
@@ -462,7 +347,6 @@ interface(`domain_setpriority_all_domains',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`domain_signal_all_domains',`
 	gen_require(`
@@ -481,7 +365,6 @@ interface(`domain_signal_all_domains',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`domain_signull_all_domains',`
 	gen_require(`
@@ -500,7 +383,6 @@ interface(`domain_signull_all_domains',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`domain_sigstop_all_domains',`
 	gen_require(`
@@ -519,7 +401,6 @@ interface(`domain_sigstop_all_domains',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`domain_sigchld_all_domains',`
 	gen_require(`
@@ -538,7 +419,6 @@ interface(`domain_sigchld_all_domains',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`domain_kill_all_domains',`
 	gen_require(`
@@ -596,7 +476,6 @@ interface(`domain_dontaudit_search_all_domains_state',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`domain_read_all_domains_state',`
 	gen_require(`
@@ -618,7 +497,6 @@ interface(`domain_read_all_domains_state',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`domain_getattr_all_domains',`
 	gen_require(`
@@ -630,11 +508,12 @@ interface(`domain_getattr_all_domains',`
 
 ########################################
 ## <summary>
-##	Dontaudit geting the attributes of all domains.
+##	Do not audit attempts to get the
+##	attributes of all domains.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -655,7 +534,6 @@ interface(`domain_dontaudit_getattr_all_domains',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`domain_read_confined_domains_state',`
 	gen_require(`
@@ -681,7 +559,6 @@ interface(`domain_read_confined_domains_state',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`domain_getattr_confined_domains',`
 	gen_require(`
@@ -700,7 +577,6 @@ interface(`domain_getattr_confined_domains',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`domain_ptrace_all_domains',`
 	gen_require(`
@@ -715,19 +591,9 @@ interface(`domain_ptrace_all_domains',`
 ## <summary>
 ##	Do not audit attempts to ptrace all domains.
 ## </summary>
-## <desc>
-##	<p>
-##	Do not audit attempts to ptrace all domains.
-##	</p>
-##	<p>
-##	Generally this needs to be suppressed because procps tries to access
-##	/proc/pid/environ and this now triggers a ptrace check in recent kernels
-##	(2.4 and 2.6).
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -743,19 +609,9 @@ interface(`domain_dontaudit_ptrace_all_domains',`
 ## <summary>
 ##	Do not audit attempts to ptrace confined domains.
 ## </summary>
-## <desc>
-##	<p>
-##	Do not audit attempts to ptrace confined domains.
-##	</p>
-##	<p>
-##	Generally this needs to be suppressed because procps tries to access
-##	/proc/pid/environ and this now triggers a ptrace check in recent kernels
-##	(2.4 and 2.6).
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -774,7 +630,7 @@ interface(`domain_dontaudit_ptrace_confined_domains',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -787,7 +643,6 @@ interface(`domain_dontaudit_read_all_domains_state',`
 	dontaudit $1 domain:lnk_file read_lnk_file_perms;
 	dontaudit $1 domain:file read_file_perms;
 
-	# cjp: these should be removed:
 	dontaudit $1 domain:sock_file read_sock_file_perms;
 	dontaudit $1 domain:fifo_file read_fifo_file_perms;
 ')
@@ -799,7 +654,7 @@ interface(`domain_dontaudit_read_all_domains_state',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -889,16 +744,6 @@ interface(`domain_getsched_all_domains',`
 ##	Get the attributes of all domains
 ##	sockets, for all socket types.
 ## </summary>
-## <desc>
-##	<p>
-##	Get the attributes of all domains
-##	sockets, for all socket types.
-##	</p>
-##	<p>
-##	This is commonly used for domains
-##	that can use lsof on all domains.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
@@ -918,16 +763,6 @@ interface(`domain_getattr_all_sockets',`
 ##	Do not audit attempts to get the attributes
 ##	of all domains sockets, for all socket types.
 ## </summary>
-## <desc>
-##	<p>
-##	Do not audit attempts to get the attributes
-##	of all domains sockets, for all socket types.
-##	</p>
-##	<p>
-##	This interface was added for PCMCIA cardmgr
-##	and is probably excessive.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain to not audit.
@@ -949,7 +784,7 @@ interface(`domain_dontaudit_getattr_all_sockets',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -968,7 +803,7 @@ interface(`domain_dontaudit_getattr_all_tcp_sockets',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -987,7 +822,7 @@ interface(`domain_dontaudit_getattr_all_udp_sockets',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1006,7 +841,7 @@ interface(`domain_dontaudit_rw_all_udp_sockets',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1025,7 +860,7 @@ interface(`domain_dontaudit_getattr_all_key_sockets',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1039,12 +874,12 @@ interface(`domain_dontaudit_getattr_all_packet_sockets',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get attribues of
+##	Do not audit attempts to get attributes of
 ##	all domains raw sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1063,7 +898,7 @@ interface(`domain_dontaudit_getattr_all_raw_sockets',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1082,7 +917,7 @@ interface(`domain_dontaudit_rw_all_key_sockets',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1120,7 +955,7 @@ interface(`domain_getattr_all_stream_sockets',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1137,16 +972,6 @@ interface(`domain_dontaudit_getattr_all_stream_sockets',`
 ##	Get the attributes of all domains
 ##	unnamed pipes.
 ## </summary>
-## <desc>
-##	<p>
-##	Get the attributes of all domains
-##	unnamed pipes.
-##	</p>
-##	<p>
-##	This is commonly used for domains
-##	that can use lsof on all domains.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
@@ -1168,7 +993,7 @@ interface(`domain_getattr_all_pipes',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1187,7 +1012,7 @@ interface(`domain_dontaudit_getattr_all_pipes',`
 ## </summary>
 ## <param name="type">
 ##	<summary>
-##	Type of subject to be allowed this.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -1248,7 +1073,6 @@ interface(`domain_read_all_entry_files',`
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`domain_exec_all_entry_files',`
 	gen_require(`
@@ -1287,7 +1111,6 @@ interface(`domain_dontaudit_exec_all_entry_files',`
 ##	</summary>
 ## </param>
 #
-# cjp: added for prelink
 interface(`domain_manage_all_entry_files',`
 	gen_require(`
 		attribute entry_type;
@@ -1307,7 +1130,6 @@ interface(`domain_manage_all_entry_files',`
 ##	</summary>
 ## </param>
 #
-# cjp: added for prelink
 interface(`domain_relabel_all_entry_files',`
 	gen_require(`
 		attribute entry_type;
@@ -1326,7 +1148,6 @@ interface(`domain_relabel_all_entry_files',`
 ##	</summary>
 ## </param>
 #
-# cjp: added for prelink
 interface(`domain_mmap_all_entry_files',`
 	gen_require(`
 		attribute entry_type;
@@ -1341,7 +1162,7 @@ interface(`domain_mmap_all_entry_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to transition.
 ##	</summary>
 ## </param>
 ## <param name="target_domain">
@@ -1350,7 +1171,6 @@ interface(`domain_mmap_all_entry_files',`
 ##	</summary>
 ## </param>
 #
-# cjp: added for userhelper
 interface(`domain_entry_file_spec_domtrans',`
 	gen_require(`
 		attribute entry_type;
@@ -1368,7 +1188,7 @@ interface(`domain_entry_file_spec_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed to mmap low memory.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -1383,13 +1203,13 @@ interface(`domain_mmap_low_type',`
 ########################################
 ## <summary>
 ##	Ability to mmap a low area of the address space,
-##      as configured by /proc/sys/kernel/mmap_min_addr.
-##      Preventing such mappings helps protect against
-##      exploiting null deref bugs in the kernel.
+##	as configured by /proc/sys/kernel/mmap_min_addr.
+##	Preventing such mappings helps protect against
+##	exploiting null deref bugs in the kernel.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed to mmap low memory.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -1474,7 +1294,6 @@ interface(`domain_unconfined',`
 
 	typeattribute $1 unconfined_domain_type;
 
-	# pass constraints
 	typeattribute $1 can_change_object_identity;
 	typeattribute $1 set_curr_context;
 	typeattribute $1 process_uncond_exempt;
@@ -1487,7 +1306,7 @@ interface(`domain_unconfined',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #

@@ -1,4 +1,4 @@
-## <summary>System Security Services Daemon</summary>
+## <summary>System Security Services Daemon.</summary>
 
 ########################################
 ## <summary>
@@ -16,6 +16,7 @@ interface(`sssd_domtrans',`
 	')
 
 	domtrans_pattern($1, sssd_exec_t, sssd_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -24,7 +25,7 @@ interface(`sssd_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -51,8 +52,8 @@ interface(`sssd_read_public_files',`
 		type sssd_public_t;
 	')
 
-	sssd_search_lib($1)
 	read_files_pattern($1, sssd_public_t, sssd_public_t)
+	sssd_search_lib($1)
 ')
 
 ########################################
@@ -70,8 +71,8 @@ interface(`sssd_read_pid_files',`
 		type sssd_var_run_t;
 	')
 
-	files_search_pids($1)
 	allow $1 sssd_var_run_t:file read_file_perms;
+	files_search_pids($1)
 ')
 
 ########################################
@@ -91,6 +92,7 @@ interface(`sssd_manage_pids',`
 
 	manage_dirs_pattern($1, sssd_var_run_t, sssd_var_run_t)
 	manage_files_pattern($1, sssd_var_run_t, sssd_var_run_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -146,8 +148,8 @@ interface(`sssd_read_lib_files',`
 		type sssd_var_lib_t;
 	')
 
-	files_search_var_lib($1)
 	read_files_pattern($1, sssd_var_lib_t, sssd_var_lib_t)
+	files_search_var_lib($1)
 ')
 
 ########################################
@@ -166,8 +168,8 @@ interface(`sssd_manage_lib_files',`
 		type sssd_var_lib_t;
 	')
 
-	files_search_var_lib($1)
 	manage_files_pattern($1, sssd_var_lib_t, sssd_var_lib_t)
+	files_search_var_lib($1)
 ')
 
 ########################################
@@ -206,8 +208,8 @@ interface(`sssd_stream_connect',`
 		type sssd_t, sssd_var_lib_t;
 	')
 
-	files_search_pids($1)
 	stream_connect_pattern($1, sssd_var_lib_t, sssd_var_lib_t, sssd_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -241,7 +243,6 @@ interface(`sssd_admin',`
 	allow $1 sssd_t:process { ptrace signal_perms getattr };
 	read_files_pattern($1, sssd_t, sssd_t)
 
-	# Allow sssd_t to restart the apache service
 	sssd_initrc_domtrans($1)
 	domain_system_change_exemption($1)
 	role_transition $2 sssd_initrc_exec_t system_r;

@@ -1,25 +1,13 @@
-## <summary>Policy for NIS (YP) servers and clients</summary>
+## <summary>Policy for NIS (YP) servers and clients.</summary>
 
 ########################################
 ## <summary>
 ##	Use the ypbind service to access NIS services
 ##	unconditionally.
 ## </summary>
-## <desc>
-##	<p>
-##	Use the ypbind service to access NIS services
-##	unconditionally.
-##	</p>
-##	<p>
-##	This interface was added because of apache and
-##	spamassassin, to fix a nested conditionals problem.
-##	When that support is added, this should be removed,
-##	and the regular	interface should be used.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -68,24 +56,11 @@ interface(`nis_use_ypbind_uncond',`
 ## <summary>
 ##	Use the ypbind service to access NIS services.
 ## </summary>
-## <desc>
-##	<p>
-##	Allow the specified domain to use the ypbind service
-##	to access Network Information Service (NIS) services.
-##	Information that can be retreived from NIS includes
-##	usernames, passwords, home directories, and groups.
-##	If the network is configured to have a single sign-on
-##	using NIS, it is likely that any program that does
-##	authentication will need this access.
-##	</p>
-## </desc>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <infoflow type="both" weight="10"/>
-## <rolecap/>
 #
 interface(`nis_use_ypbind',`
 	gen_require(`
@@ -99,14 +74,13 @@ interface(`nis_use_ypbind',`
 
 ########################################
 ## <summary>
-##	Use the nis to authenticate passwords
+##	Use the nis to authenticate passwords.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`nis_authenticate',`
 	tunable_policy(`allow_ypbind',`
@@ -122,7 +96,7 @@ interface(`nis_authenticate',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -131,8 +105,8 @@ interface(`nis_domtrans_ypbind',`
 		type ypbind_t, ypbind_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, ypbind_exec_t, ypbind_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -142,7 +116,7 @@ interface(`nis_domtrans_ypbind',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -194,13 +168,13 @@ interface(`nis_list_var_yp',`
 		type var_yp_t;
 	')
 
-	files_search_var($1)
 	allow $1 var_yp_t:dir list_dir_perms;
+	files_search_var($1)
 ')
 
 ########################################
 ## <summary>
-##	Send UDP network traffic to NIS clients.  (Deprecated)
+##	Send UDP network traffic to NIS clients. (Deprecated)
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -214,7 +188,7 @@ interface(`nis_udp_send_ypbind',`
 
 ########################################
 ## <summary>
-##	Connect to ypbind over TCP.  (Deprecated)
+##	Connect to ypbind over TCP. (Deprecated)
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -241,8 +215,8 @@ interface(`nis_read_ypbind_pid',`
 		type ypbind_var_run_t;
 	')
 
-	files_search_pids($1)
 	allow $1 ypbind_var_run_t:file read_file_perms;
+	files_search_pids($1)
 ')
 
 ########################################
@@ -260,8 +234,7 @@ interface(`nis_delete_ypbind_pid',`
 		type ypbind_t;
 	')
 
-	# TODO: add delete pid from dir call to files
-	allow $1 ypbind_t:file unlink;
+	allow $1 ypbind_t:file delete_file_perms;
 ')
 
 ########################################
@@ -279,8 +252,8 @@ interface(`nis_read_ypserv_config',`
 		type ypserv_conf_t;
 	')
 
-	files_search_etc($1)
 	allow $1 ypserv_conf_t:file read_file_perms;
+	files_search_etc($1)
 ')
 
 ########################################
@@ -289,7 +262,7 @@ interface(`nis_read_ypserv_config',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -298,8 +271,8 @@ interface(`nis_domtrans_ypxfr',`
 		type ypxfr_t, ypxfr_exec_t;
 	')
 
-	corecmd_search_bin($1)
 	domtrans_pattern($1, ypxfr_exec_t, ypxfr_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -308,10 +281,9 @@ interface(`nis_domtrans_ypxfr',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
-#
 #
 interface(`nis_initrc_domtrans',`
 	gen_require(`
@@ -327,7 +299,7 @@ interface(`nis_initrc_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -398,4 +370,3 @@ interface(`nis_admin',`
 
 	admin_pattern($1, ypserv_var_run_t)
 ')
-

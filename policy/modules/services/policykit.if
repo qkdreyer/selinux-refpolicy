@@ -17,7 +17,7 @@ interface(`policykit_dbus_chat',`
 		class dbus send_msg;
 	')
 
-	ps_process_pattern(policykit_t, $1)
+	# ps_process_pattern(policykit_t, $1)
 
 	allow $1 policykit_t:dbus send_msg;
 	allow policykit_t $1:dbus send_msg;
@@ -40,7 +40,7 @@ interface(`policykit_dbus_chat_auth',`
 		class dbus send_msg;
 	')
 
-	ps_process_pattern(policykit_auth_t, $1)
+	# ps_process_pattern(policykit_auth_t, $1)
 
 	allow $1 policykit_auth_t:dbus send_msg;
 	allow policykit_auth_t $1:dbus send_msg;
@@ -62,6 +62,7 @@ interface(`policykit_domtrans_auth',`
 	')
 
 	domtrans_pattern($1, policykit_auth_exec_t, policykit_auth_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -71,14 +72,15 @@ interface(`policykit_domtrans_auth',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the load_policy domain.
+##	The role to be allowed the policykit_auth domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`policykit_run_auth',`
 	gen_require(`
@@ -108,6 +110,7 @@ interface(`policykit_domtrans_grant',`
 	')
 
 	domtrans_pattern($1, policykit_grant_exec_t, policykit_grant_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -117,12 +120,12 @@ interface(`policykit_domtrans_grant',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the load_policy domain.
+##	The role to be allowed the policykit_grant domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -142,7 +145,7 @@ interface(`policykit_run_grant',`
 
 ########################################
 ## <summary>
-##	read policykit reload files
+##	read policykit reload files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -155,8 +158,8 @@ interface(`policykit_read_reload',`
 		type policykit_reload_t;
 	')
 
-	files_search_var_lib($1)
 	read_files_pattern($1, policykit_reload_t, policykit_reload_t)
+	files_search_var_lib($1)
 ')
 
 ########################################
@@ -174,8 +177,8 @@ interface(`policykit_rw_reload',`
 		type policykit_reload_t;
 	')
 
-	files_search_var_lib($1)
 	rw_files_pattern($1, policykit_reload_t, policykit_reload_t)
+	files_search_var_lib($1)
 ')
 
 ########################################
@@ -194,6 +197,7 @@ interface(`policykit_domtrans_resolve',`
 	')
 
 	domtrans_pattern($1, policykit_resolve_exec_t, policykit_resolve_t)
+	corecmd_search_bin($1)
 
 	ps_process_pattern(policykit_resolve_t, $1)
 ')
@@ -232,10 +236,9 @@ interface(`policykit_read_lib',`
 		type policykit_var_lib_t;
 	')
 
-	files_search_var_lib($1)
 	read_files_pattern($1, policykit_var_lib_t, policykit_var_lib_t)
+	files_search_var_lib($1)
 
-	# Broken placement
 	cron_read_system_job_lib_files($1)
 ')
 
@@ -253,6 +256,7 @@ interface(`policykit_read_lib',`
 ##	User domain for the role
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 template(`policykit_role',`
 	policykit_run_auth($2, $1)
@@ -261,6 +265,7 @@ template(`policykit_role',`
 	policykit_read_reload($2)
 	policykit_dbus_chat($2)
 ')
+
 ########################################
 ## <summary>
 ##	Send generic signal to policy_auth

@@ -1,4 +1,4 @@
-## <summary>RHCS - Red Hat Cluster Suite</summary>
+## <summary>RHCS Red Hat Cluster Suite.</summary>
 
 #######################################
 ## <summary>
@@ -94,7 +94,7 @@ interface(`rhcs_stream_connect_dlm_controld',`
 
 #####################################
 ## <summary>
-##	Allow read and write access to dlm_controld semaphores.
+##	Read and write access to dlm_controld semaphores.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -134,7 +134,7 @@ interface(`rhcs_domtrans_fenced',`
 
 ######################################
 ## <summary>
-##	Allow read and write access to fenced semaphores.
+##	Read and write access to fenced semaphores.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -194,7 +194,7 @@ interface(`rhcs_domtrans_gfs_controld',`
 
 ####################################
 ## <summary>
-##	Allow read and write access to gfs_controld semaphores.
+##	Read and write access to gfs_controld semaphores.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -294,7 +294,7 @@ interface(`rhcs_stream_connect_groupd',`
 
 #####################################
 ## <summary>
-##	Allow read and write access to groupd semaphores.
+##	Read and write access to groupd semaphores.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

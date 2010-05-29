@@ -16,6 +16,7 @@ interface(`fail2ban_domtrans',`
 	')
 
 	domtrans_pattern($1, fail2ban_exec_t, fail2ban_t)
+	corecmd_search_bin($1)
 ')
 
 #####################################
@@ -34,8 +35,8 @@ interface(`fail2ban_stream_connect',`
 		type fail2ban_t, fail2ban_var_run_t;
 	')
 
-	files_search_pids($1)
 	stream_connect_pattern($1, fail2ban_var_run_t, fail2ban_var_run_t, fail2ban_t)
+	files_search_pids($1)
 ')
 
 ########################################
@@ -71,39 +72,37 @@ interface(`fail2ban_read_lib_files',`
 		type fail2ban_var_lib_t;
 	')
 
-	files_search_var_lib($1)
 	allow $1 fail2ban_var_lib_t:file read_file_perms;
+	files_search_var_lib($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow the specified domain to read fail2ban's log files.
+##	Read fail2ban's log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`fail2ban_read_log',`
 	gen_require(`
 		type fail2ban_log_t;
 	')
 
-	logging_search_logs($1)
 	allow $1 fail2ban_log_t:dir list_dir_perms;
 	allow $1 fail2ban_log_t:file read_file_perms;
+	logging_search_logs($1)
 ')
 
 ########################################
 ## <summary>
-##	Allow the specified domain to append
-##	fail2ban log files.
+##	Append fail2ban log files.
 ## </summary>
 ## <param name="domain">
 ## 	<summary>
-##	Domain allowed to transition.
+##	Domain allowed access.
 ## 	</summary>
 ## </param>
 #
@@ -112,9 +111,9 @@ interface(`fail2ban_append_log',`
 		type fail2ban_log_t;
 	')
 
-	logging_search_logs($1)
 	allow $1 fail2ban_log_t:dir list_dir_perms;
 	allow $1 fail2ban_log_t:file append_file_perms;
+	logging_search_logs($1)
 ')
 
 ########################################
@@ -132,8 +131,8 @@ interface(`fail2ban_read_pid_files',`
 		type fail2ban_var_run_t;
 	')
 
-	files_search_pids($1)
 	allow $1 fail2ban_var_run_t:file read_file_perms;
+	files_search_pids($1)
 ')
 
 ########################################
@@ -142,7 +141,7 @@ interface(`fail2ban_read_pid_files',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #

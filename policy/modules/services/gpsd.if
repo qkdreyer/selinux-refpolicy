@@ -1,4 +1,4 @@
-## <summary>gpsd monitor daemon</summary>
+## <summary>gpsd monitor daemon.</summary>
 
 ########################################
 ## <summary>
@@ -16,6 +16,7 @@ interface(`gpsd_domtrans',`
 	')
 
 	domtrans_pattern($1, gpsd_exec_t, gpsd_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -25,7 +26,7 @@ interface(`gpsd_domtrans',`
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
@@ -33,6 +34,7 @@ interface(`gpsd_domtrans',`
 ##	The role to be allowed the gpsd domain.
 ##	</summary>
 ## </param>
+## <rolecap/>
 #
 interface(`gpsd_run',`
 	gen_require(`

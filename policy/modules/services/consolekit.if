@@ -16,6 +16,7 @@ interface(`consolekit_domtrans',`
 	')
 
 	domtrans_pattern($1, consolekit_exec_t, consolekit_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -74,7 +75,7 @@ interface(`consolekit_manage_log',`
 	')
 
 	manage_files_pattern($1, consolekit_log_t, consolekit_log_t)
-	files_search_pids($1)
+	logging_search_logs($1)
 ')
 
 ########################################

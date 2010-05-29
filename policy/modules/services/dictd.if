@@ -1,9 +1,9 @@
-## <summary>Dictionary daemon</summary>
+## <summary>Dictionary daemon.</summary>
 
 ########################################
 ## <summary>
 ##	Use dictionary services by connecting
-##	over TCP.  (Deprecated)
+##	over TCP. (Deprecated)
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -27,7 +27,7 @@ interface(`dictd_tcp_connect',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed to manage the dictd domain.
+##	The role to be allowed the dictd domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>

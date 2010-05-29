@@ -1,11 +1,4 @@
 ## <summary>Oidentd RFC 1413 compliant ident daemon.</summary>
-## <desc>
-##	<p>
-##	Oident daemon is a server that implements the TCP/IP
-##	standard IDENT user identification protocol as
-##	specified in the RFC 1413 document.
-##	</p>
-## </desc>
 
 #######################################
 ## <summary>
@@ -13,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to transition.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -23,6 +16,7 @@ interface(`oidentd_domtrans',`
 	')
 
 	domtrans_pattern($1, oidentd_exec_t, oidentd_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -136,4 +130,3 @@ interface(`oidentd_admin',`
 	role_transition $2 oidentd_initrc_exec_t system_r;
 	allow $2 system_r;
 ')
-

@@ -1,4 +1,4 @@
-## <summary>Procmail mail delivery agent</summary>
+## <summary>Procmail mail delivery agent.</summary>
 
 ########################################
 ## <summary>
@@ -6,7 +6,7 @@
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -15,9 +15,9 @@ interface(`procmail_domtrans',`
 		type procmail_exec_t, procmail_t;
 	')
 
+	domtrans_pattern($1, procmail_exec_t, procmail_t)
 	files_search_usr($1)
 	corecmd_search_bin($1)
-	domtrans_pattern($1, procmail_exec_t, procmail_t)
 ')
 
 ########################################
@@ -35,9 +35,9 @@ interface(`procmail_exec',`
 		type procmail_exec_t;
 	')
 
+	can_exec($1, procmail_exec_t)
 	files_search_usr($1)
 	corecmd_search_bin($1)
-	can_exec($1, procmail_exec_t)
 ')
 
 ########################################
@@ -55,8 +55,8 @@ interface(`procmail_read_tmp_files',`
 		type procmail_tmp_t;
 	')
 
-	files_search_tmp($1)
 	allow $1 procmail_tmp_t:file read_file_perms;
+	files_search_tmp($1)
 ')
 
 ########################################
@@ -74,8 +74,8 @@ interface(`procmail_rw_tmp_files',`
 		type procmail_tmp_t;
 	')
 
-	files_search_tmp($1)
 	rw_files_pattern($1, procmail_tmp_t, procmail_tmp_t)
+	files_search_tmp($1)
 ')
 
 ########################################
@@ -137,4 +137,3 @@ interface(`procmail_relabel_user_content_files',`
 	allow $1 procmail_home_t:file relabel_file_perms;
 	userdom_search_user_home_dirs($1)
 ')
-
