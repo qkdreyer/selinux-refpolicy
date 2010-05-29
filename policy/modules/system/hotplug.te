@@ -25,7 +25,6 @@ files_pid_file(hotplug_var_run_t)
 
 allow hotplug_t self:capability { net_admin sys_tty_config mknod sys_rawio };
 dontaudit hotplug_t self:capability { sys_module sys_admin sys_tty_config };
-# for access("/etc/bashrc", X_OK) on Red Hat
 dontaudit hotplug_t self:capability { dac_override dac_read_search };
 allow hotplug_t self:process { setpgid getsession getattr signal_perms };
 allow hotplug_t self:fifo_file rw_file_perms;
@@ -64,7 +63,6 @@ dev_rw_sysfs(hotplug_t)
 dev_read_usbfs(hotplug_t)
 dev_setattr_printer_dev(hotplug_t)
 dev_setattr_sound_dev(hotplug_t)
-# for SSP:
 dev_read_urand(hotplug_t)
 
 fs_getattr_all_fs(hotplug_t)
@@ -84,20 +82,15 @@ files_read_etc_files(hotplug_t)
 files_manage_etc_runtime_files(hotplug_t)
 files_etc_filetrans_etc_runtime(hotplug_t, file)
 files_exec_etc_files(hotplug_t)
-# for when filesystems are not mounted early in the boot:
 files_dontaudit_search_isid_type_dirs(hotplug_t)
 
 init_read_script_state(hotplug_t)
-# Allow hotplug (including /sbin/ifup-local) to start/stop services and
-# run sendmail -q
 init_domtrans_script(hotplug_t)
-# kernel threads inherit from shared descriptor table used by init
 init_dontaudit_rw_initctl(hotplug_t)
 
 logging_send_syslog_msg(hotplug_t)
 logging_search_logs(hotplug_t)
 
-# Read /usr/lib/gconv/.*
 libs_read_lib_files(hotplug_t)
 
 miscfiles_read_hwdata(hotplug_t)
@@ -115,7 +108,6 @@ userdom_dontaudit_search_user_home_dirs(hotplug_t)
 
 ifdef(`distro_redhat',`
 	optional_policy(`
-		# for arping used for static IP addresses on PCMCIA ethernet
 		netutils_domtrans(hotplug_t)
 		netutils_signal(hotplug_t)
 		fs_rw_tmpfs_chr_files(hotplug_t)

@@ -5,6 +5,7 @@ policy_module(uucp, 1.11.0)
 #
 # Declarations
 #
+
 type uucpd_t;
 type uucpd_exec_t;
 inetd_tcp_service_domain(uucpd_t, uucpd_exec_t)

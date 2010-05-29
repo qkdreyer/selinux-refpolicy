@@ -13,9 +13,6 @@ gen_require(`
 attribute can_write_binary_policy;
 attribute can_relabelto_binary_policy;
 
-# cjp: this is out of order due to rules
-# in the domain_type interface
-# (fix dup decl)
 type selinux_config_t;
 files_type(selinux_config_t)
 
@@ -45,16 +42,9 @@ domain_role_change_exemption(newrole_t)
 domain_obj_id_change_exemption(newrole_t)
 domain_interactive_fd(newrole_t)
 
-#
-# policy_config_t is the type of /etc/security/selinux/*
-# the security server policy configuration.
-#
-#type policy_config_t;
-#files_type(policy_config_t)
 typealias semanage_store_t alias policy_config_t;
 
 neverallow ~can_relabelto_binary_policy policy_config_t:file relabelto;
-#neverallow ~can_write_binary_policy policy_config_t:file { write append };
 
 type policy_src_t;
 files_type(policy_src_t)
@@ -153,7 +143,6 @@ read_files_pattern(load_policy_t,{ policy_src_t policy_config_t },policy_config_
 
 domain_use_interactive_fds(load_policy_t)
 
-# for mcs.conf
 files_read_etc_files(load_policy_t)
 files_read_etc_runtime_files(load_policy_t)
 
@@ -223,7 +212,6 @@ corecmd_read_bin_symlinks(newrole_t)
 dev_read_urand(newrole_t)
 
 domain_use_interactive_fds(newrole_t)
-# for when the user types "exec newrole" at the command line:
 domain_sigchld_interactive_fds(newrole_t)
 
 files_read_etc_files(newrole_t)
@@ -255,7 +243,6 @@ term_dontaudit_use_unallocated_ttys(newrole_t)
 
 auth_use_pam(newrole_t)
 
-# Write to utmp.
 init_rw_utmp(newrole_t)
 init_use_fds(newrole_t)
 
@@ -264,7 +251,6 @@ miscfiles_read_localization(newrole_t)
 seutil_libselinux_linked(newrole_t)
 
 userdom_use_unpriv_users_fds(newrole_t)
-# for some PAM modules and for cwd
 userdom_dontaudit_search_user_home_content(newrole_t)
 userdom_search_user_home_dirs(newrole_t)
 
@@ -278,8 +264,6 @@ ifdef(`distro_ubuntu',`
 	')
 ')
 
-# if secure mode is enabled, then newrole
-# can only transition to unprivileged users
 if(secure_mode) {
 	userdom_spec_domtrans_unpriv_users(newrole_t)
 } else {
@@ -352,9 +336,6 @@ allow run_init_t self:capability setuid;
 allow run_init_t self:fifo_file rw_file_perms;
 logging_send_audit_msgs(run_init_t)
 
-# often the administrator runs such programs from a directory that is owned
-# by a different user or has restrictive SE permissions, do not want to audit
-# the failed access to the current directory
 dontaudit run_init_t self:capability { dac_override dac_read_search };
 
 corecmd_exec_bin(run_init_t)
@@ -396,7 +377,6 @@ userdom_use_user_terminals(run_init_t)
 
 ifndef(`direct_sysadm_daemon',`
 	ifdef(`distro_gentoo',`
-		# Gentoo integrated run_init:
 		init_script_file_entry_type(run_init_t)
 	')
 ')
@@ -435,7 +415,6 @@ seutil_manage_file_contexts(semanage_t)
 seutil_manage_config(semanage_t)
 seutil_domtrans_setfiles(semanage_t)
 
-# netfilter_contexts:
 seutil_manage_default_contexts(semanage_t)
 
 ifdef(`distro_debian',`
@@ -456,15 +435,11 @@ ifdef(`distro_ubuntu',`
 ')
 
 optional_policy(`
-	#signal mcstrans on reload
 	init_spec_domtrans_script(semanage_t)
 ')
 
-# cjp: need a more general way to handle this:
 ifdef(`enable_mls',`
-	# read secadm tmp files
 ',`
-	# Handle pp files created in homedir and /tmp
 	userdom_read_user_home_content_files(semanage_t)
 	userdom_read_user_tmp_files(semanage_t)
 ')
@@ -475,12 +450,12 @@ userdom_search_admin_dir(semanage_t)
 #
 # setsebool local policy
 #
+
 seutil_semanage_policy(setsebool_t)
 selinux_set_all_booleans(setsebool_t)
 
 init_dontaudit_use_fds(setsebool_t)
 
-# Bug in semanage
 seutil_domtrans_setfiles(setsebool_t)
 seutil_manage_file_contexts(setsebool_t)
 seutil_manage_default_contexts(setsebool_t)
@@ -492,7 +467,7 @@ seutil_manage_config(setsebool_t)
 #
 
 seutil_setfiles(setfiles_t)
-# During boot in Rawhide
+
 term_use_generic_ptys(setfiles_t)
 
 seutil_setfiles(setfiles_mac_t)

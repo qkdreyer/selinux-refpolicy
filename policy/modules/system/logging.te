@@ -102,7 +102,6 @@ allow auditctl_t self:netlink_audit_socket nlmsg_readpriv;
 read_files_pattern(auditctl_t, auditd_etc_t, auditd_etc_t)
 allow auditctl_t auditd_etc_t:dir list_dir_perms;
 
-# Needed for adding watches
 files_getattr_all_dirs(auditctl_t)
 files_getattr_all_files(auditctl_t)
 files_read_etc_files(auditctl_t)
@@ -150,8 +149,6 @@ manage_sock_files_pattern(auditd_t, auditd_var_run_t, auditd_var_run_t)
 files_pid_filetrans(auditd_t, auditd_var_run_t, { file sock_file })
 
 kernel_read_kernel_sysctls(auditd_t)
-# Needs to be able to run dispatcher.  see /etc/audit/auditd.conf
-# Probably want a transition, and a new auditd_helper app
 kernel_read_system_state(auditd_t)
 
 dev_read_sysfs(auditd_t)
@@ -171,8 +168,6 @@ corenet_tcp_bind_generic_node(auditd_t)
 corenet_tcp_bind_audit_port(auditd_t)
 corenet_sendrecv_audit_server_packets(auditd_t)
 
-# Needs to be able to run dispatcher.  see /etc/audit/auditd.conf
-# Probably want a transition, and a new auditd_helper app
 corecmd_exec_bin(auditd_t)
 corecmd_exec_shell(auditd_t)
 
@@ -193,7 +188,7 @@ auth_use_nsswitch(auditd_t)
 miscfiles_read_localization(auditd_t)
 
 mls_file_read_all_levels(auditd_t)
-mls_file_write_all_levels(auditd_t) # Need to be able to write to /var/run/ directory
+mls_file_write_all_levels(auditd_t)
 
 seutil_dontaudit_read_config(auditd_t)
 
@@ -312,7 +307,6 @@ files_pid_filetrans(klogd_t, klogd_var_run_t, file)
 kernel_read_system_state(klogd_t)
 kernel_read_messages(klogd_t)
 kernel_read_kernel_sysctls(klogd_t)
-# Control syslog and console logging
 kernel_clear_ring_buffer(klogd_t)
 kernel_change_ring_buffer_level(klogd_t)
 
@@ -327,7 +321,6 @@ fs_search_auto_mountpoints(klogd_t)
 domain_use_interactive_fds(klogd_t)
 
 files_read_etc_runtime_files(klogd_t)
-# read /etc/nsswitch.conf
 files_read_etc_files(klogd_t)
 
 logging_send_syslog_msg(klogd_t)
@@ -357,15 +350,9 @@ optional_policy(`
 # syslogd local policy
 #
 
-# chown fsetid for syslog-ng
-# sys_admin for the integrated klog of syslog-ng and metalog
-# cjp: why net_admin!
 allow syslogd_t self:capability { dac_override sys_resource sys_tty_config net_admin sys_admin chown fsetid };
 dontaudit syslogd_t self:capability sys_tty_config;
-# setpgid for metalog
-# setrlimit for syslog-ng
 allow syslogd_t self:process { signal_perms setpgid setrlimit };
-# receive messages to be logged
 allow syslogd_t self:unix_dgram_socket create_socket_perms;
 allow syslogd_t self:unix_stream_socket create_stream_socket_perms;
 allow syslogd_t self:unix_dgram_socket sendto;
@@ -375,18 +362,14 @@ allow syslogd_t self:tcp_socket create_stream_socket_perms;
 
 allow syslogd_t syslog_conf_t:file read_file_perms;
 
-# Create and bind to /dev/log or /var/run/log.
 allow syslogd_t devlog_t:sock_file manage_sock_file_perms;
 files_pid_filetrans(syslogd_t, devlog_t, sock_file)
 
-# create/append log files.
 manage_files_pattern(syslogd_t, var_log_t, var_log_t)
 rw_fifo_files_pattern(syslogd_t, var_log_t, var_log_t)
 
-# Allow access for syslog-ng
-allow syslogd_t var_log_t:dir { create setattr };
+allow syslogd_t var_log_t:dir { create_dir_perms setattr_dir_perms };
 
-# manage temporary files
 manage_dirs_pattern(syslogd_t, syslogd_tmp_t, syslogd_tmp_t)
 manage_files_pattern(syslogd_t, syslogd_tmp_t, syslogd_tmp_t)
 files_tmp_filetrans(syslogd_t, syslogd_tmp_t, { dir file })
@@ -399,14 +382,12 @@ manage_files_pattern(syslogd_t, syslogd_var_run_t, syslogd_var_run_t)
 manage_sock_files_pattern(syslogd_t, syslogd_var_run_t, syslogd_var_run_t)
 files_pid_filetrans(syslogd_t, syslogd_var_run_t, { dir file })
 
-# manage pid file
 manage_files_pattern(syslogd_t, syslogd_var_run_t, syslogd_var_run_t)
 files_pid_filetrans(syslogd_t, syslogd_var_run_t, file)
 
 kernel_read_system_state(syslogd_t)
 kernel_read_kernel_sysctls(syslogd_t)
 kernel_read_proc_symlinks(syslogd_t)
-# Allow access to /proc/kmsg for syslog-ng
 kernel_read_messages(syslogd_t)
 kernel_clear_ring_buffer(syslogd_t)
 kernel_change_ring_buffer_level(syslogd_t)
@@ -418,18 +399,14 @@ corenet_udp_sendrecv_generic_node(syslogd_t)
 corenet_udp_sendrecv_all_ports(syslogd_t)
 corenet_udp_bind_generic_node(syslogd_t)
 corenet_udp_bind_syslogd_port(syslogd_t)
-# syslog-ng can listen and connect on tcp port 514 (rsh)
 corenet_tcp_sendrecv_generic_if(syslogd_t)
 corenet_tcp_sendrecv_generic_node(syslogd_t)
 corenet_tcp_sendrecv_all_ports(syslogd_t)
 corenet_tcp_bind_generic_node(syslogd_t)
 corenet_tcp_bind_rsh_port(syslogd_t)
 corenet_tcp_connect_rsh_port(syslogd_t)
-# Allow users to define additional syslog ports to connect to
 corenet_tcp_bind_syslogd_port(syslogd_t)
 corenet_tcp_connect_syslogd_port(syslogd_t)
-
-# syslog-ng can send or receive logs
 corenet_sendrecv_syslogd_client_packets(syslogd_t)
 corenet_sendrecv_syslogd_server_packets(syslogd_t)
 corenet_sendrecv_rsh_client_packets(syslogd_t)
@@ -444,20 +421,17 @@ files_read_etc_files(syslogd_t)
 files_read_usr_files(syslogd_t)
 files_read_var_files(syslogd_t)
 files_read_etc_runtime_files(syslogd_t)
-# /initrd is not umounted before minilog starts
 files_dontaudit_search_isid_type_dirs(syslogd_t)
 files_read_kernel_symbol_table(syslogd_t)
 
 fs_getattr_all_fs(syslogd_t)
 fs_search_auto_mountpoints(syslogd_t)
 
-mls_file_write_all_levels(syslogd_t) # Need to be able to write to /var/run/ and /var/log directories
+mls_file_write_all_levels(syslogd_t)
 
 term_write_console(syslogd_t)
-# Allow syslog to a terminal
 term_write_unallocated_ttys(syslogd_t)
 
-# for sending messages to logged in users
 init_read_utmp(syslogd_t)
 init_dontaudit_write_utmp(syslogd_t)
 term_write_all_ttys(syslogd_t)
@@ -466,7 +440,6 @@ auth_use_nsswitch(syslogd_t)
 
 init_use_fds(syslogd_t)
 
-# cjp: this doesnt make sense
 logging_send_syslog_msg(syslogd_t)
 
 miscfiles_read_localization(syslogd_t)
@@ -489,14 +462,11 @@ optional_policy(`
 ')
 
 ifdef(`distro_gentoo',`
-	# default gentoo syslog-ng config appends kernel
-	# and high priority messages to /dev/tty12
 	term_append_unallocated_ttys(syslogd_t)
 	term_dontaudit_setattr_unallocated_ttys(syslogd_t)
 ')
 
 ifdef(`distro_suse',`
-	# suse creates a /dev/log under /var/lib/stunnel for chrooted stunnel
 	files_var_lib_filetrans(syslogd_t, devlog_t, sock_file)
 ')
 
@@ -527,6 +497,5 @@ optional_policy(`
 ')
 
 optional_policy(`
-	# log to the xconsole
 	xserver_rw_console(syslogd_t)
 ')

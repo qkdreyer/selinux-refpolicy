@@ -88,7 +88,6 @@ kernel_dgram_send(udev_t)
 kernel_signal(udev_t)
 kernel_search_debugfs(udev_t)
 
-#https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=235182
 kernel_rw_net_sysctls(udev_t)
 kernel_read_network_state(udev_t)
 kernel_read_software_raid_state(udev_t)
@@ -101,13 +100,11 @@ dev_rw_generic_files(udev_t)
 dev_delete_generic_files(udev_t)
 dev_search_usbfs(udev_t)
 dev_relabel_all_dev_nodes(udev_t)
-# udev_node.c/node_symlink() symlink labels are explicitly
-# preserved, instead of short circuiting the relabel
 dev_relabel_generic_symlinks(udev_t)
 dev_manage_generic_symlinks(udev_t)
 
 domain_read_all_domains_state(udev_t)
-domain_dontaudit_ptrace_all_domains(udev_t) #pidof triggers these
+domain_dontaudit_ptrace_all_domains(udev_t)
 
 files_read_usr_files(udev_t)
 files_read_etc_runtime_files(udev_t)
@@ -152,7 +149,6 @@ miscfiles_read_localization(udev_t)
 miscfiles_read_hwdata(udev_t)
 
 modutils_domtrans_insmod(udev_t)
-# read modules.inputmap:
 modutils_read_module_deps(udev_t)
 
 seutil_read_config(udev_t)
@@ -172,8 +168,6 @@ sysnet_etc_filetrans_config(udev_t)
 userdom_dontaudit_search_user_home_content(udev_t)
 
 ifdef(`distro_gentoo',`
-	# during boot, init scripts use /dev/.rcsysinit
-	# existance to determine if we are in early booting
 	init_getattr_script_status_files(udev_t)
 ')
 
@@ -189,7 +183,6 @@ ifdef(`distro_redhat',`
 
 	term_search_ptys(udev_t)
 
-	# for arping used for static IP addresses on PCMCIA ethernet
 	netutils_domtrans(udev_t)
 
 	optional_policy(`
@@ -254,7 +247,6 @@ optional_policy(`
 
 optional_policy(`
 	hotplug_read_config(udev_t)
-	# usb.agent searches /var/run/usb
 	hotplug_search_pids(udev_t)
 ')
 

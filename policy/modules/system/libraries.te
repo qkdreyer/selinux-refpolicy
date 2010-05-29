@@ -30,8 +30,6 @@ type textrel_shlib_t alias texrel_shlib_t;
 files_type(textrel_shlib_t)
 
 ifdef(`distro_gentoo',`
-	# openrc unfortunately mounts a tmpfs
-	# at /lib/rc/
 	files_mountpoint(lib_t)
 ')
 
@@ -99,7 +97,6 @@ userdom_manage_user_tmp_symlinks(ldconfig_t)
 
 ifdef(`hide_broken_symptoms',`
 	ifdef(`distro_gentoo',`
-		# leaked fds from portage
 		files_dontaudit_rw_var_files(ldconfig_t)
 
 		optional_policy(`
@@ -114,7 +111,6 @@ ifdef(`hide_broken_symptoms',`
 ')
 
 optional_policy(`
-	# dontaudit access to /usr/lib/apache, normal programs cannot read these libs anyway
 	apache_dontaudit_search_modules(ldconfig_t)
 ')
 
@@ -129,9 +125,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	# When you install a kernel the postinstall builds a initrd image in tmp 
-	# and executes ldconfig on it. If you dont allow this kernel installs 
-	# blow up.
 	rpm_manage_script_tmp_files(ldconfig_t)
 ')
 

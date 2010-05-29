@@ -33,8 +33,6 @@ files_pid_file(radiusd_var_run_t)
 # Local policy
 #
 
-# fsetid is for gzip which needs it when run from scripts
-# gzip also needs chown access to preserve GID for radwtmp files
 allow radiusd_t self:capability { chown dac_override fsetid kill setgid setuid sys_resource sys_tty_config };
 dontaudit radiusd_t self:capability sys_tty_config;
 allow radiusd_t self:process { getsched setsched sigkill signal };
@@ -83,7 +81,6 @@ corenet_sendrecv_radius_server_packets(radiusd_t)
 corenet_sendrecv_radacct_server_packets(radiusd_t)
 corenet_sendrecv_mysqld_client_packets(radiusd_t)
 corenet_sendrecv_snmp_client_packets(radiusd_t)
-# for RADIUS proxy port
 corenet_udp_bind_generic_port(radiusd_t)
 corenet_dontaudit_udp_bind_all_ports(radiusd_t)
 corenet_sendrecv_generic_server_packets(radiusd_t)

@@ -209,7 +209,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	# Red Hat bug 564565
 	su_exec(logrotate_t)
 ')
 

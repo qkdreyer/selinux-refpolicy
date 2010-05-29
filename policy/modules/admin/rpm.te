@@ -138,8 +138,6 @@ dev_list_sysfs(rpm_t)
 dev_list_usbfs(rpm_t)
 dev_read_urand(rpm_t)
 dev_read_raw_memory(rpm_t)
-#dev_manage_all_device_types(rpm_t)
-
 
 fs_getattr_all_dirs(rpm_t)
 fs_getattr_all_fs(rpm_t)
@@ -228,7 +226,6 @@ optional_policy(`
 
 optional_policy(`
 	unconfined_domain_noaudit(rpm_t)
-	# yum-updatesd requires this
 	unconfined_dbus_chat(rpm_t)
 ')
 
@@ -385,7 +382,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	# yum-updatesd requires dbus chat
 	unconfined_dbus_chat(rpm_script_t)
 	unconfined_domain(rpm_script_t)
 	unconfined_domtrans(rpm_script_t)

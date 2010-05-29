@@ -99,7 +99,6 @@ corenet_sendrecv_all_client_packets(dpkg_t)
 dev_list_sysfs(dpkg_t)
 dev_list_usbfs(dpkg_t)
 dev_read_urand(dpkg_t)
-#devices_manage_all_device_types(dpkg_t)
 
 domain_read_all_domains_state(dpkg_t)
 domain_getattr_all_domains(dpkg_t)
@@ -171,8 +170,6 @@ optional_policy(`
 	unconfined_domain(dpkg_t)
 ')
 
-# TODO: the following was copied from dpkg_script_t, and could probably
-# be removed again when dpkg_script_t is actually used...
 domain_signal_all_domains(dpkg_t)
 domain_signull_all_domains(dpkg_t)
 files_read_etc_runtime_files(dpkg_t)

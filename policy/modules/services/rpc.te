@@ -120,7 +120,6 @@ allow nfsd_t self:capability { dac_override dac_read_search sys_admin sys_resour
 allow nfsd_t exports_t:file read_file_perms;
 allow nfsd_t { nfsd_rw_t nfsd_ro_t }:dir list_dir_perms;
 
-# for /proc/fs/nfs/exports - should we have a new type?
 kernel_read_system_state(nfsd_t)
 kernel_read_network_state(nfsd_t)
 kernel_dontaudit_getattr_core_if(nfsd_t)
@@ -132,11 +131,8 @@ dev_dontaudit_getattr_all_blk_files(nfsd_t)
 dev_dontaudit_getattr_all_chr_files(nfsd_t)
 dev_rw_lvm_control(nfsd_t)
 
-# does not really need this, but it is easier to just allow it
 files_search_pids(nfsd_t)
-# for exportfs and rpc.mountd
 files_getattr_tmp_dirs(nfsd_t)
-# cjp: this should really have its own type
 files_manage_mounttab(nfsd_t)
 files_read_etc_runtime_files(nfsd_t)
 

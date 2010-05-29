@@ -90,7 +90,6 @@ dev_write_sysfs_dirs(cpuspeed_t)
 dev_rw_sysfs(cpuspeed_t)
 
 domain_use_interactive_fds(cpuspeed_t)
-# for demand/load-based scaling:
 domain_read_all_domains_state(cpuspeed_t)
 
 files_read_etc_files(cpuspeed_t)

@@ -53,7 +53,6 @@ files_pid_filetrans(sendmail_t, sendmail_var_run_t, file)
 
 kernel_read_network_state(sendmail_t)
 kernel_read_kernel_sysctls(sendmail_t)
-# for piping mail to a command
 kernel_read_system_state(sendmail_t)
 
 corenet_all_recvfrom_unlabeled(sendmail_t)
@@ -78,7 +77,6 @@ fs_rw_anon_inodefs_files(sendmail_t)
 term_dontaudit_use_console(sendmail_t)
 term_dontaudit_use_generic_ptys(sendmail_t)
 
-# for piping mail to a command
 corecmd_exec_shell(sendmail_t)
 corecmd_exec_bin(sendmail_t)
 
@@ -87,20 +85,17 @@ domain_use_interactive_fds(sendmail_t)
 files_read_etc_files(sendmail_t)
 files_read_usr_files(sendmail_t)
 files_search_spool(sendmail_t)
-# for piping mail to a command
 files_read_etc_runtime_files(sendmail_t)
 files_read_all_tmp_files(sendmail_t)
 
 init_use_fds(sendmail_t)
 init_use_script_ptys(sendmail_t)
-# sendmail wants to read /var/run/utmp if the controlling tty is /dev/console
 init_read_utmp(sendmail_t)
 init_dontaudit_write_utmp(sendmail_t)
 init_rw_script_tmp_files(sendmail_t)
 
 auth_use_nsswitch(sendmail_t)
 
-# Read /usr/lib/sasl2/.*
 libs_read_lib_files(sendmail_t)
 
 logging_send_syslog_msg(sendmail_t)
@@ -114,9 +109,7 @@ userdom_read_user_home_content_files(sendmail_t)
 
 mta_read_config(sendmail_t)
 mta_etc_filetrans_aliases(sendmail_t)
-# Write to /etc/aliases and /etc/mail.
 mta_manage_aliases(sendmail_t)
-# Write to /var/spool/mail and /var/spool/mqueue.
 mta_manage_queue(sendmail_t)
 mta_manage_spool(sendmail_t)
 mta_sendmail_exec(sendmail_t)
@@ -191,7 +184,6 @@ optional_policy(`
 ########################################
 #
 # Unconfined sendmail local policy
-# Allow unconfined domain to run newalias and have transitions work
 #
 
 optional_policy(`

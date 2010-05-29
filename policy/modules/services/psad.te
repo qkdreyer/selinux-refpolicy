@@ -10,26 +10,21 @@ type psad_t;
 type psad_exec_t;
 init_daemon_domain(psad_t, psad_exec_t)
 
-# config files
 type psad_etc_t;
 files_type(psad_etc_t)
 
 type psad_initrc_exec_t;
 init_script_file(psad_initrc_exec_t)
 
-# var/lib files
 type psad_var_lib_t;
 files_type(psad_var_lib_t)
 
-# log files
 type psad_var_log_t;
 logging_log_file(psad_var_log_t)
 
-# pid files
 type psad_var_run_t;
 files_pid_file(psad_var_run_t)
 
-# tmp files
 type psad_tmp_t;
 files_tmp_file(psad_tmp_t)
 
@@ -44,26 +39,21 @@ allow psad_t self:process signull;
 allow psad_t self:fifo_file rw_fifo_file_perms;
 allow psad_t self:rawip_socket create_socket_perms;
 
-# config files
 read_files_pattern(psad_t, psad_etc_t, psad_etc_t)
 list_dirs_pattern(psad_t, psad_etc_t, psad_etc_t)
 
-# log files
 manage_files_pattern(psad_t, psad_var_log_t, psad_var_log_t)
 manage_dirs_pattern(psad_t, psad_var_log_t, psad_var_log_t)
 logging_log_filetrans(psad_t, psad_var_log_t, { file dir })
 
-# pid file
 manage_files_pattern(psad_t, psad_var_run_t, psad_var_run_t)
 manage_sock_files_pattern(psad_t, psad_var_run_t, psad_var_run_t)
 files_pid_filetrans(psad_t, psad_var_run_t, { file sock_file })
 
-# tmp files
 manage_dirs_pattern(psad_t, psad_tmp_t, psad_tmp_t)
 manage_files_pattern(psad_t, psad_tmp_t, psad_tmp_t)
 files_tmp_filetrans(psad_t, psad_tmp_t, { file dir })
 
-# /var/lib files
 search_dirs_pattern(psad_t, psad_var_lib_t, psad_var_lib_t)
 manage_fifo_files_pattern(psad_t, psad_var_lib_t, psad_var_lib_t)
 

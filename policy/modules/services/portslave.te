@@ -22,9 +22,6 @@ files_lock_file(portslave_lock_t)
 # Local policy
 #
 
-# setuid setgid net_admin fsetid for pppd
-# sys_admin for ctlportslave
-# net_bind_service for rlogin
 allow portslave_t self:capability { setuid setgid net_admin fsetid net_bind_service sys_tty_config };
 dontaudit portslave_t self:capability sys_admin;
 allow portslave_t self:process signal_perms;
@@ -66,7 +63,6 @@ corenet_udp_sendrecv_all_ports(portslave_t)
 corenet_rw_ppp_dev(portslave_t)
 
 dev_read_sysfs(portslave_t)
-# for ssh
 dev_read_urand(portslave_t)
 
 domain_use_interactive_fds(portslave_t)
@@ -94,13 +90,10 @@ logging_search_logs(portslave_t)
 sysnet_read_config(portslave_t)
 
 userdom_use_unpriv_users_fds(portslave_t)
-# for ~/.ppprc - if it actually exists then you need some policy to read it
 userdom_search_user_home_dirs(portslave_t)
 
 mta_send_mail(portslave_t)
 
-# this should probably be a domtrans to pppd
-# instead of exec.
 ppp_read_rw_config(portslave_t)
 ppp_exec(portslave_t)
 ppp_read_secrets(portslave_t)

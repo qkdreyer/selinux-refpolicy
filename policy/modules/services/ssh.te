@@ -141,7 +141,6 @@ corenet_tcp_sendrecv_all_ports(ssh_t)
 corenet_tcp_connect_ssh_port(ssh_t)
 corenet_sendrecv_ssh_client_packets(ssh_t)
 corenet_tcp_bind_generic_node(ssh_t)
-# user_tcp_server?
 # corenet_tcp_bind_all_unreserved_ports(ssh_t)
 
 dev_read_urand(ssh_t)
@@ -172,7 +171,6 @@ seutil_read_config(ssh_t)
 userdom_dontaudit_list_user_home_dirs(ssh_t)
 userdom_search_user_home_dirs(ssh_t)
 userdom_use_user_terminals(ssh_t)
-# needs to read krb/write tgt
 userdom_read_user_tmp_files(ssh_t)
 userdom_write_user_tmp_files(ssh_t)
 userdom_read_user_home_content_symlinks(ssh_t)
@@ -209,9 +207,6 @@ optional_policy(`
 #
 # ssh_keygen local policy
 #
-
-# ssh_keygen_t is the type of the ssh-keygen program when run at install time
-# and by sysadm_t
 
 dontaudit ssh_keygen_t self:capability sys_tty_config;
 allow ssh_keygen_t self:process { sigchld sigkill sigstop signull signal };
@@ -279,10 +274,7 @@ optional_policy(`
 #
 # sshd local policy
 #
-# sshd_t is the domain for the sshd program.
-#
 
-# so a tunnel can point to another ssh tunnel
 allow sshd_t self:netlink_route_socket r_netlink_socket_perms;
 allow sshd_t self:key { search link write };
 
@@ -309,10 +301,6 @@ userdom_read_user_home_content_symlinks(sshd_t)
 userdom_search_admin_dir(sshd_t)
 
 tunable_policy(`ssh_sysadm_login',`
-	# Relabel and access ptys created by sshd
-	# ioctl is necessary for logout() processing for utmp entry and for w to
-	# display the tty.
-	# some versions of sshd on the new SE Linux require setattr
 	userdom_signal_all_users(sshd_t)
 ')
 
@@ -371,35 +359,25 @@ optional_policy(`
 ')
 
 ifdef(`TODO',`
-tunable_policy(`ssh_sysadm_login',`
-	# Relabel and access ptys created by sshd
-	# ioctl is necessary for logout() processing for utmp entry and for w to
-	# display the tty.
-	# some versions of sshd on the new SE Linux require setattr
-	allow sshd_t ptyfile:chr_file relabelto;
+	tunable_policy(`ssh_sysadm_login',`
+		allow sshd_t ptyfile:chr_file relabelto;
 
-	optional_policy(`
-		domain_trans(sshd_t, xauth_exec_t, userdomain)
+		optional_policy(`
+			domain_trans(sshd_t, xauth_exec_t, userdomain)
+		')
+	',`
+		optional_policy(`
+			domain_trans(sshd_t, xauth_exec_t, unpriv_userdomain)
+		')
+
+		allow sshd_t userpty_type:chr_file { relabelto read write getattr ioctl setattr };
 	')
-',`
-	optional_policy(`
-		domain_trans(sshd_t, xauth_exec_t, unpriv_userdomain)
-	')
-	# Relabel and access ptys created by sshd
-	# ioctl is necessary for logout() processing for utmp entry and for w to
-	# display the tty.
-	# some versions of sshd on the new SE Linux require setattr
-	allow sshd_t userpty_type:chr_file { relabelto read write getattr ioctl setattr };
-')
 ') dnl endif TODO
 
 ########################################
 #
 # ssh_keygen local policy
 #
-
-# ssh_keygen_t is the type of the ssh-keygen program when run at install time
-# and by sysadm_t
 
 dontaudit ssh_keygen_t self:capability sys_tty_config;
 allow ssh_keygen_t self:process { sigchld sigkill sigstop signull signal };

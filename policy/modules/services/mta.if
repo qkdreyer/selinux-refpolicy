@@ -1005,7 +1005,7 @@ interface(`mta_rw_user_mail_stream_sockets',`
 #
 interface(`mta_read_mail_home',`
 	gen_require(`
-		type procmail_home_t;
+		type mail_home_t;
 	')
 
 	search_dirs_pattern($1, mail_home_t, mail_home_t)
@@ -1051,7 +1051,7 @@ interface(`mta_relabel_mail_home',`
 #
 interface(`mta_read_mail_home_files',`
 	gen_require(`
-		type procmail_home_t;
+		type mail_home_t;
 	')
 
 	allow $1 mail_home_t:file read_file_perms;

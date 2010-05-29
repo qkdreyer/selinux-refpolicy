@@ -47,7 +47,6 @@ manage_dirs_pattern(automount_t, automount_tmp_t, automount_tmp_t)
 manage_files_pattern(automount_t, automount_tmp_t, automount_tmp_t)
 files_tmp_filetrans(automount_t, automount_tmp_t, { file dir })
 
-# Allow automount to create and delete directories in / and /home
 allow automount_t automount_tmp_t:dir manage_dir_perms;
 files_home_filetrans(automount_t, automount_tmp_t, dir)
 files_root_filetrans(automount_t, automount_tmp_t, dir)
@@ -66,7 +65,6 @@ kernel_list_proc(automount_t)
 kernel_dontaudit_search_xen_state(automount_t)
 
 files_search_boot(automount_t)
-# Automount is slowly adding all mount functionality internally
 files_search_all(automount_t)
 files_mounton_all_mountpoints(automount_t)
 files_mount_all_file_type_fs(automount_t)
@@ -94,16 +92,14 @@ corenet_tcp_connect_portmap_port(automount_t)
 corenet_tcp_connect_all_ports(automount_t)
 corenet_dontaudit_tcp_connect_all_reserved_ports(automount_t)
 corenet_sendrecv_all_client_packets(automount_t)
-# Automount execs showmount when you browse /net.  This is required until
-# Someone writes a showmount policy
 corenet_tcp_bind_reserved_port(automount_t)
 corenet_tcp_bind_all_rpc_ports(automount_t)
 corenet_udp_bind_reserved_port(automount_t)
 corenet_udp_bind_all_rpc_ports(automount_t)
+corenet_sendrecv_generic_server_packets(automount_t)
 
 dev_read_sysfs(automount_t)
 dev_rw_autofs(automount_t)
-# for SSP
 dev_read_rand(automount_t)
 dev_read_urand(automount_t)
 
@@ -116,10 +112,8 @@ files_list_mnt(automount_t)
 files_getattr_home_dir(automount_t)
 files_read_etc_files(automount_t)
 files_read_etc_runtime_files(automount_t)
-# for if the mount point is not labelled
 files_getattr_isid_type_dirs(automount_t)
 files_getattr_default_dirs(automount_t)
-# because config files can be shell scripts
 files_exec_etc_files(automount_t)
 files_mounton_mnt(automount_t)
 

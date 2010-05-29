@@ -26,7 +26,7 @@ allow backup_t self:fifo_file rw_fifo_file_perms;
 allow backup_t self:tcp_socket create_socket_perms;
 allow backup_t self:udp_socket create_socket_perms;
 
-allow backup_t backup_store_t:file setattr;
+allow backup_t backup_store_t:file setattr_file_perms;
 manage_files_pattern(backup_t, backup_store_t, backup_store_t)
 rw_files_pattern(backup_t, backup_store_t, backup_store_t)
 read_lnk_files_pattern(backup_t, backup_store_t, backup_store_t)

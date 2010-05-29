@@ -69,13 +69,6 @@ files_tmp_file(dccm_tmp_t)
 type dccm_var_run_t;
 files_pid_file(dccm_var_run_t)
 
-# NOTE: DCC has writeable files in /etc/dcc that should probably be in
-# /var/lib/dcc.  For now this policy supports both directories being
-# writable.
-
-# cjp: dccifd and dccm should be merged, as
-# they have the same rules.
-
 ########################################
 #
 # dcc daemon controller local policy

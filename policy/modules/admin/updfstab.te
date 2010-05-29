@@ -24,7 +24,6 @@ kernel_use_fds(updfstab_t)
 kernel_read_kernel_sysctls(updfstab_t)
 kernel_dontaudit_write_kernel_sysctl(updfstab_t)
 kernel_read_system_state(updfstab_t)
-# cjp: why is this required
 kernel_change_ring_buffer_level(updfstab_t)
 
 dev_read_sysfs(updfstab_t)

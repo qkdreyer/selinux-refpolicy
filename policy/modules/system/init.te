@@ -61,9 +61,6 @@ type initrc_exec_t, init_script_file_type;
 domain_type(initrc_t)
 domain_entry_file(initrc_t, initrc_exec_t)
 role system_r types initrc_t;
-# should be part of the true block
-# of the below init_upstart tunable
-# but this has a typeattribute in it
 corecmd_shell_entry_type(initrc_t)
 corecmd_bin_entry_type(initrc_t)
 
@@ -89,14 +86,7 @@ ifdef(`enable_mls',`
 # Init local policy
 #
 
-# Use capabilities. old rule:
 allow init_t self:capability ~{ audit_control audit_write sys_module };
-# is ~sys_module really needed? observed: 
-# sys_boot
-# sys_tty_config
-# kill: now provided by domain_kill_all_domains()
-# setuid (from /sbin/shutdown)
-# sys_chroot (from /usr/bin/chroot): now provided by corecmd_chroot_exec_chroot()
 allow init_t self:process setsched;
 allow init_t self:fifo_file rw_fifo_file_perms;
 
@@ -137,14 +127,11 @@ files_rw_generic_pids(init_t)
 files_dontaudit_search_isid_type_dirs(init_t)
 files_manage_etc_runtime_files(init_t)
 files_etc_filetrans_etc_runtime(init_t, file)
-# Run /etc/X11/prefdm:
 files_exec_etc_files(init_t)
-# file descriptors inherited from the rootfs:
 files_dontaudit_rw_root_files(init_t)
 files_dontaudit_rw_root_chr_files(init_t)
 
 fs_list_inotifyfs(init_t)
-# cjp: this may be related to /dev/log
 fs_write_ramfs_sockets(init_t)
 
 mcs_process_set_categories(init_t)
@@ -159,7 +146,6 @@ selinux_set_all_booleans(init_t)
 
 term_use_all_terms(init_t)
 
-# Run init scripts.
 init_domtrans_script(init_t)
 
 libs_rw_ld_so_cache(init_t)
@@ -178,15 +164,13 @@ ifdef(`distro_gentoo',`
 ifdef(`distro_redhat',`
 	fs_read_tmpfs_symlinks(init_t)
 	# This is a bug and it should probably be removed.
-	fs_rw_tmpfs_chr_files(init_t)
+	# fs_rw_tmpfs_chr_files(init_t)
 	fs_tmpfs_filetrans(init_t, initctl_t, fifo_file)
 ')
 
 tunable_policy(`init_upstart',`
 	corecmd_shell_domtrans(init_t, initrc_t)
 ',`
-	# Run the shell in the sysadm role for single-user mode.
-	# causes problems with upstart
 	sysadm_shell_domtrans(init_t)
 ')
 
@@ -204,10 +188,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	# /var/run/dovecot/login/ssl-parameters.dat is a hard link to
-	# /var/lib/dovecot/ssl-parameters.dat and init tries to clean up
-	# the directory. But we do not want to allow this.
-	# The master process of dovecot will manage this file.
 	dovecot_dontaudit_unlink_lib_files(initrc_t)
 ')
 
@@ -243,7 +223,6 @@ allow initrc_t self:fifo_file rw_file_perms;
 allow initrc_t initrc_devpts_t:chr_file rw_term_perms;
 term_create_pty(initrc_t, initrc_devpts_t)
 
-# Going to single user mode
 init_telinit(initrc_t)
 
 can_exec(initrc_t, init_script_file_type)
@@ -277,7 +256,6 @@ kernel_get_sysvipc_info(initrc_t)
 kernel_read_all_sysctls(initrc_t)
 kernel_request_load_module(initrc_t)
 kernel_rw_all_sysctls(initrc_t)
-# for lsof which is used by alsa shutdown:
 kernel_dontaudit_getattr_message_if(initrc_t)
 kernel_stream_connect(initrc_t)
 files_read_kernel_modules(initrc_t)
@@ -320,7 +298,6 @@ dev_rw_lvm_control(initrc_t)
 dev_delete_lvm_control_dev(initrc_t)
 dev_manage_generic_symlinks(initrc_t)
 dev_manage_generic_files(initrc_t)
-# Wants to remove udev.tbl:
 dev_delete_generic_symlinks(initrc_t)
 dev_getattr_all_blk_files(initrc_t)
 dev_getattr_all_chr_files(initrc_t)
@@ -339,7 +316,6 @@ domain_getattr_all_domains(initrc_t)
 domain_dontaudit_ptrace_all_domains(initrc_t)
 domain_getsession_all_domains(initrc_t)
 domain_use_interactive_fds(initrc_t)
-# for lsof which is used by alsa shutdown:
 domain_dontaudit_getattr_all_udp_sockets(initrc_t)
 domain_dontaudit_getattr_all_tcp_sockets(initrc_t)
 domain_dontaudit_getattr_all_dgram_sockets(initrc_t)
@@ -364,8 +340,6 @@ files_exec_etc_files(initrc_t)
 files_read_usr_files(initrc_t)
 files_manage_urandom_seed(initrc_t)
 files_manage_generic_spool(initrc_t)
-# Mount and unmount file systems.
-# cjp: not sure why these are here; should use mount policy
 files_list_isid_type_dirs(initrc_t)
 files_mounton_isid_type_dirs(initrc_t)
 files_list_default(initrc_t)
@@ -375,9 +349,7 @@ files_manage_mnt_files(initrc_t)
 
 fs_list_inotifyfs(initrc_t)
 fs_register_binary_executable_type(initrc_t)
-# rhgb-console writes to ramfs
 fs_write_ramfs_pipes(initrc_t)
-# cjp: not sure why these are here; should use mount policy
 fs_mount_all_fs(initrc_t)
 fs_unmount_all_fs(initrc_t)
 fs_remount_all_fs(initrc_t)
@@ -385,7 +357,6 @@ fs_getattr_all_fs(initrc_t)
 fs_search_all(initrc_t)
 fs_getattr_nfsd_files(initrc_t)
 
-# initrc_t needs to do a pidof which requires ptrace
 mcs_ptrace_all(initrc_t)
 mcs_killall(initrc_t)
 mcs_process_set_categories(initrc_t)
@@ -427,7 +398,6 @@ logging_append_all_logs(initrc_t)
 logging_read_audit_config(initrc_t)
 
 miscfiles_read_localization(initrc_t)
-# slapd needs to read cert files from its initscript
 miscfiles_manage_cert_files(initrc_t)
 
 modutils_read_module_config(initrc_t)
@@ -437,9 +407,6 @@ seutil_read_config(initrc_t)
 
 userdom_read_admin_home_files(initrc_t)
 userdom_read_user_home_content_files(initrc_t)
-# Allow access to the sysadm TTYs. Note that this will give access to the 
-# TTYs to any process in the initrc_t domain. Therefore, daemons and such
-# started from init should be placed in their own domain.
 userdom_use_user_terminals(initrc_t)
 
 ifdef(`distro_debian',`
@@ -447,7 +414,6 @@ ifdef(`distro_debian',`
 
 	fs_tmpfs_filetrans(initrc_t, initrc_var_run_t, dir)
 
-	# for storing state under /dev/shm
 	fs_setattr_tmpfs_dirs(initrc_t)
 	storage_manage_fixed_disk(initrc_t)
 	storage_tmpfs_filetrans_fixed_disk(initrc_t)
@@ -458,35 +424,25 @@ ifdef(`distro_debian',`
 ifdef(`distro_gentoo',`
 	kernel_dontaudit_getattr_core_if(initrc_t)
 
-	# seed udev /dev
 	allow initrc_t self:process setfscreate;
 	dev_create_null_dev(initrc_t)
 	dev_create_zero_dev(initrc_t)
 	dev_create_generic_dirs(initrc_t)
 	term_create_console_dev(initrc_t)
 
-	# unfortunately /sbin/rc does stupid tricks
-	# with /dev/.rcboot to decide if we are in
-	# early init
 	dev_create_generic_dirs(initrc_t)
 	dev_delete_generic_dirs(initrc_t)
 
-	# allow bootmisc to create /var/lock/.keep.
 	files_manage_generic_locks(initrc_t)
 
-	# openrc uses tmpfs for its state data
 	fs_tmpfs_filetrans(initrc_t, initrc_state_t, { dir file fifo_file lnk_file })
 
-	# init scripts touch this
 	clock_dontaudit_write_adjtime(initrc_t)
 
 	logging_send_audit_msgs(initrc_t)
 
-	# for integrated run_init to read run_init_type.
-	# happens during boot (/sbin/rc execs init scripts)
 	seutil_read_default_contexts(initrc_t)
 
-	# /lib/rcscripts/net/system.sh rewrites resolv.conf :(
 	sysnet_create_config(initrc_t)
 	sysnet_write_config(initrc_t)
 	sysnet_setattr_config(initrc_t)
@@ -501,17 +457,12 @@ ifdef(`distro_gentoo',`
 ')
 
 ifdef(`distro_redhat',`
-	# this is from kmodule, which should get its own policy:
 	allow initrc_t self:capability sys_admin;
 	allow initrc_t self:process setfscreate;
 
-	# Red Hat systems seem to have a stray
-	# fd open from the initrd
 	kernel_use_fds(initrc_t)
 	files_dontaudit_read_root_files(initrc_t)
 
-	# These seem to be from the initrd
-	# during device initialization:
 	dev_create_generic_dirs(initrc_t)
 	dev_rwx_zero(initrc_t)
 	dev_rx_raw_memory(initrc_t)
@@ -522,25 +473,20 @@ ifdef(`distro_redhat',`
 	files_create_boot_dirs(initrc_t)
 	files_create_boot_flag(initrc_t)
 	files_rw_boot_symlinks(initrc_t)
-	# wants to read /.fonts directory
 	files_read_default_files(initrc_t)
 	files_mountpoint(initrc_tmp_t)
-	# Needs to cp localtime to /var dirs
 	files_write_var_dirs(initrc_t)
 
 	fs_read_tmpfs_symlinks(initrc_t)
-	
-	# /sbin/cgclear
+
 	fs_delete_cgroupfs_dirs(initrc_t)
-	fs_list_cgroupfs_dirs(initrc_t)
-	# w for /bin/cgexec and rw for /sbin/cgclear 
+	fs_list_cgroupfs_dirs(initrc_t) 
 	fs_rw_cgroupfs_files(initrc_t)
 
 	storage_manage_fixed_disk(initrc_t)
 	storage_dev_filetrans_fixed_disk(initrc_t)
 	storage_getattr_removable_dev(initrc_t)
 
-	# readahead asks for these
 	auth_dontaudit_read_shadow(initrc_t)
 
 	# init scripts cp /etc/localtime over other directories localtime
@@ -562,9 +508,7 @@ ifdef(`distro_redhat',`
 	')
 
 	optional_policy(`
-		# /sbin/cgclear
 		cgroup_delete_cgroup_dirs(initrc_t)
-		# /bin/cgexec
 		cgroup_stream_connect(initrc_t)
 	')
 
@@ -586,7 +530,6 @@ ifdef(`distro_redhat',`
 	')
 
 	optional_policy(`
-		#for /etc/rc.d/init.d/nfs to create /etc/exports
 		rpc_write_exports(initrc_t)
 		rpc_manage_nfs_state_data(initrc_t)
 	')
@@ -605,7 +548,6 @@ ifdef(`distro_redhat',`
 
 ifdef(`distro_suse',`
 	optional_policy(`
-		# set permissions on /tmp/.X11-unix
 		xserver_setattr_xdm_tmp_dirs(initrc_t)
 	')
 ')
@@ -626,8 +568,7 @@ tunable_policy(`allow_daemons_use_tty',`
 	term_dontaudit_use_all_ttys(daemon)
 	term_dontaudit_use_all_ptys(daemon)
  ')
- 
-# system-config-services causes avc messages that should be dontaudited
+
 tunable_policy(`allow_daemons_dump_core',`
 	files_manage_root_files(daemon)
 ')
@@ -651,14 +592,11 @@ optional_policy(`
 optional_policy(`
 	apache_read_config(initrc_t)
 	apache_list_modules(initrc_t)
-	# webmin seems to cause this.
-	apache_search_sys_content(daemon)
 ')
 
 optional_policy(`
 	bind_read_config(initrc_t)
 
-	# for chmod in start script
 	bind_setattr_pid_dirs(initrc_t)
 ')
 
@@ -681,7 +619,6 @@ optional_policy(`
 
 	cups_read_log(initrc_t)
 	cups_read_rw_config(initrc_t)
-#cups init script clears error log
 	cups_write_log(initrc_t)
 ')
 
@@ -709,10 +646,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	# /var/run/dovecot/login/ssl-parameters.dat is a hard link to
-	# /var/lib/dovecot/ssl-parameters.dat and init tries to clean up
-	# the directory. But we do not want to allow this.
-	# The master process of dovecot will manage this file.
 	dovecot_dontaudit_unlink_lib_files(initrc_t)
 ')
 
@@ -730,8 +663,6 @@ optional_policy(`
 
 optional_policy(`
 	dev_read_usbfs(initrc_t)
-
-	# init scripts run /etc/hotplug/usb.rc
 	hotplug_read_config(initrc_t)
 
 	modutils_read_module_deps(initrc_t)
@@ -765,24 +696,16 @@ optional_policy(`
 ')
 
 optional_policy(`
-	# in emergency/recovery situations use sulogin
 	locallogin_domtrans_sulogin(initrc_t)
 ')
 
 optional_policy(`
-	# This is needed to permit chown to read /var/spool/lpd/lp.
-	# This is opens up security more than necessary; this means that ANYTHING
-	# running in the initrc_t domain can read the printer spool directory.
-	# Perhaps executing /etc/rc.d/init.d/lpd should transition
-	# to domain lpd_t, instead of waiting for executing lpd.
 	lpd_list_spool(initrc_t)
 
 	lpd_read_config(initrc_t)
 ')
 
 optional_policy(`
-	#allow initrc_t lvm_control_t:chr_file unlink;
-
 	dev_read_lvm_control(initrc_t)
 	dev_create_generic_chr_files(initrc_t)
 
@@ -860,13 +783,8 @@ optional_policy(`
 ')
 
 optional_policy(`
-	# bash tries to access a block device in the initrd
 	kernel_dontaudit_getattr_unlabeled_blk_files(initrc_t)
-
-	# for a bug in rm
 	files_dontaudit_write_all_pids(initrc_t)
-
-	# bash tries ioctl for some reason
 	files_dontaudit_ioctl_all_pids(initrc_t)
 ')
 
@@ -882,7 +800,6 @@ optional_policy(`
 
 ifdef(`enabled_mls',`
 optional_policy(`
-	# allow init scripts to su
 	su_restricted_domain_template(initrc, initrc_t, system_r)
 ')
 ')
@@ -911,7 +828,6 @@ optional_policy(`
 	virt_manage_cache(initrc_t)
 ')
 
-# Cron jobs used to start and stop services
 optional_policy(`
 	cron_rw_pipes(daemon)
 	cron_rw_inherited_user_spool_files(daemon)
@@ -922,7 +838,6 @@ optional_policy(`
 	domain_role_change_exemption(initrc_t)
 
 	ifdef(`distro_redhat',`
-		# system-config-services causes avc messages that should be dontaudited
 		unconfined_dontaudit_rw_pipes(daemon)
 	')
 
@@ -930,7 +845,6 @@ optional_policy(`
 		mono_domtrans(initrc_t)
 	')
 
-	# Allow SELinux aware applications to request rpm_script_t execution
 	rpm_transition_script(initrc_t)
 
 	
@@ -957,16 +871,11 @@ optional_policy(`
 
 optional_policy(`
 	miscfiles_manage_fonts(initrc_t)
-
-	# cjp: is this really needed?
 	xfs_read_sockets(initrc_t)
 ')
 
 optional_policy(`
-	# Set device ownerships/modes.
 	xserver_setattr_console_pipes(initrc_t)
-
-	# init script wants to check if it needs to update windowmanagerlist
 	xserver_read_xdm_rw_config(initrc_t)
 ')
 
@@ -974,25 +883,24 @@ optional_policy(`
 	zebra_read_config(initrc_t)
 ')
 
-# if I start an initrc script from an random director I can generate this avc
 files_dontaudit_search_all_dirs(daemon)
 
 init_rw_script_stream_sockets(daemon)
 
-# userdom_inherit_append_user_home_content_files(daemon)
-# userdom_inherit_append_user_tmp_files(daemon)
 userdom_dontaudit_rw_stream(daemon)
 
 logging_append_all_logs(daemon)
 
 optional_policy(`
 	xserver_dontaudit_append_xdm_home_files(daemon)
+		
 	tunable_policy(`use_nfs_home_dirs',`
-		fs_dontaudit_rw_nfs_files(daemon)
-	')
-	tunable_policy(`use_samba_home_dirs',`
-		fs_dontaudit_rw_cifs_files(daemon)
-	')
+			fs_dontaudit_rw_nfs_files(daemon)
+		')
+
+		tunable_policy(`use_samba_home_dirs',`
+			fs_dontaudit_rw_cifs_files(daemon)
+		')
 ')
 
 optional_policy(`
@@ -1000,6 +908,5 @@ optional_policy(`
 ')
 
 optional_policy(`
-	# sudo service restart causes this 
 	unconfined_signull(daemon)
 ')

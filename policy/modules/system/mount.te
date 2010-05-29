@@ -24,7 +24,7 @@ domain_entry_file(mount_t, fusermount_exec_t)
 typealias mount_t alias mount_ntfs_t;
 typealias mount_exec_t alias mount_ntfs_exec_t;
 
-type mount_loopback_t; # customizable
+type mount_loopback_t;
 files_type(mount_loopback_t)
 typealias mount_loopback_t alias mount_loop_t;
 

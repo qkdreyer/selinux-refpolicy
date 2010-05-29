@@ -138,7 +138,6 @@ mta_read_config(exim_t)
 mta_manage_spool(exim_t)
 mta_mailserver_delivery(exim_t)
 
-# Not tested.
 mta_manage_mail_home(exim_t)
 mta_user_home_filetrans_mail_home(exim_t)
 

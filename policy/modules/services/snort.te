@@ -78,8 +78,6 @@ corenet_sendrecv_prelude_client_packets(snort_t)
 dev_read_sysfs(snort_t)
 dev_read_rand(snort_t)
 dev_read_urand(snort_t)
-# Red Hat bug 559861: Snort wants read, write, and ioctl on /dev/usbmon
-# Snort uses libpcap, which can also monitor USB traffic. Maybe this is a side effect?
 dev_rw_generic_usb_dev(snort_t)
 
 domain_use_interactive_fds(snort_t)

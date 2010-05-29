@@ -34,9 +34,6 @@ allow bootloader_t self:process { sigkill sigstop signull signal execmem };
 allow bootloader_t self:fifo_file rw_fifo_file_perms;
 
 allow bootloader_t bootloader_etc_t:file read_file_perms;
-# uncomment the following lines if you use "lilo -p"
-#allow bootloader_t bootloader_etc_t:file manage_file_perms;
-#files_etc_filetrans(bootloader_t,bootloader_etc_t,file)
 
 manage_dirs_pattern(bootloader_t, bootloader_tmp_t, bootloader_tmp_t)
 manage_files_pattern(bootloader_t, bootloader_tmp_t, bootloader_tmp_t)
@@ -136,7 +133,7 @@ ifdef(`distro_debian',`
 ifdef(`distro_redhat',`
 	allow bootloader_t self:capability ipc_lock;
 
-	allow bootloader_t boot_runtime_t:file { read_file_perms unlink };
+	allow bootloader_t boot_runtime_t:file { read_file_perms delete_file_perms };
 
 	files_manage_isid_type_dirs(bootloader_t)
 	files_manage_isid_type_files(bootloader_t)

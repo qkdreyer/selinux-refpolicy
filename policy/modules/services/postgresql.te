@@ -54,12 +54,10 @@ files_tmp_file(postgresql_tmp_t)
 type postgresql_var_run_t;
 files_pid_file(postgresql_var_run_t)
 
-# database clients attribute
 attribute sepgsql_admin_type;
 attribute sepgsql_client_type;
 attribute sepgsql_unconfined_type;
 
-# database objects attribute
 attribute sepgsql_database_type;
 attribute sepgsql_table_type;
 attribute sepgsql_sysobj_table_type;
@@ -67,7 +65,6 @@ attribute sepgsql_procedure_type;
 attribute sepgsql_blob_type;
 attribute sepgsql_module_type;
 
-# database object types
 type sepgsql_blob_t;
 postgresql_blob_object(sepgsql_blob_t)
 
@@ -102,13 +99,11 @@ postgresql_table_object(sepgsql_table_t)
 type sepgsql_trusted_proc_exec_t;
 postgresql_procedure_object(sepgsql_trusted_proc_exec_t)
 
-# Trusted Procedure Domain
 type sepgsql_trusted_proc_t;
 domain_type(sepgsql_trusted_proc_t)
 postgresql_unconfined(sepgsql_trusted_proc_t)
 role system_r types sepgsql_trusted_proc_t;
 
-# Types for unprivileged client
 type unpriv_sepgsql_blob_t;
 postgresql_blob_object(unpriv_sepgsql_blob_t)
 
@@ -121,7 +116,6 @@ postgresql_system_table_object(unpriv_sepgsql_sysobj_t)
 type unpriv_sepgsql_table_t;
 postgresql_table_object(unpriv_sepgsql_table_t)
 
-# Types for UBAC
 type user_sepgsql_blob_t;
 typealias user_sepgsql_blob_t alias { staff_sepgsql_blob_t sysadm_sepgsql_blob_t };
 typealias user_sepgsql_blob_t alias { auditadm_sepgsql_blob_t secadm_sepgsql_blob_t };
@@ -164,7 +158,6 @@ allow postgresql_t sepgsql_database_type:db_database *;
 type_transition postgresql_t postgresql_t:db_database sepgsql_db_t;
 
 allow postgresql_t sepgsql_module_type:db_database install_module;
-# Database/Loadable module
 allow sepgsql_database_type sepgsql_module_type:db_database load_module;
 
 allow postgresql_t sepgsql_table_type:{ db_table db_column db_tuple } *;
@@ -342,17 +335,6 @@ allow sepgsql_client_type sepgsql_blob_t:db_blob { create drop getattr setattr r
 allow sepgsql_client_type sepgsql_ro_blob_t:db_blob { getattr read };
 allow sepgsql_client_type sepgsql_secret_blob_t:db_blob getattr;
 
-# The purpose of the dontaudit rule in row-level access control is to prevent a flood of logs.
-# If a client tries to SELECT a table including violated tuples, these are filtered from
-# the result set as if not exist, but its access denied longs can be recorded within log files.
-# In generally, the number of tuples are much larger than the number of columns, tables and so on.
-# So, it makes a flood of logs when many tuples are violated.
-#
-# The default policy does not prevent anything for sepgsql_client_type sepgsql_unconfined_type,
-# so we don't need "dontaudit" rules in Type-Enforcement. However, MLS/MCS can prevent them
-# to access classified tuples and can make a audit record.
-#
-# Therefore, the following rule is applied for any domains which can connect SE-PostgreSQL.
 dontaudit { postgresql_t sepgsql_admin_type sepgsql_client_type sepgsql_unconfined_type } { sepgsql_table_type -sepgsql_sysobj_table_type }:db_tuple { use select update insert delete };
 
 ########################################
@@ -408,8 +390,6 @@ type_transition sepgsql_unconfined_type sepgsql_database_type:db_blob sepgsql_bl
 
 allow sepgsql_unconfined_type sepgsql_table_type:{ db_table db_column db_tuple } *;
 
-# unconfined domain is not allowed to invoke user defined procedure directly.
-# They have to confirm and relabel it at first.
 allow sepgsql_unconfined_type sepgsql_proc_exec_t:db_procedure *;
 allow sepgsql_unconfined_type sepgsql_trusted_proc_exec_t:db_procedure ~install;
 allow sepgsql_unconfined_type sepgsql_procedure_type:db_procedure ~{ execute install };

@@ -63,12 +63,10 @@ files_config_file(virt_etc_t)
 type virt_etc_rw_t;
 files_type(virt_etc_rw_t)
 
-# virt Image files
-type virt_image_t; # customizable
+type virt_image_t;
 virt_image(virt_image_t)
 
-# virt Image files
-type virt_content_t; # customizable
+type virt_content_t;
 virt_image(virt_content_t)
 userdom_user_home_content(virt_content_t)
 
@@ -135,7 +133,7 @@ corenet_udp_bind_generic_node(svirt_t)
 corenet_udp_bind_all_ports(svirt_t)
 corenet_tcp_bind_all_ports(svirt_t)
 corenet_tcp_connect_all_ports(svirt_t)
-corenet_sendrecv_all_client_packets(svirt_t)
+corenet_sendrecv_all_packets(svirt_t)
 
 dev_list_sysfs(svirt_t)
 
@@ -286,8 +284,7 @@ files_read_etc_runtime_files(virtd_t)
 files_search_all(virtd_t)
 files_read_kernel_modules(virtd_t)
 files_read_usr_src_files(virtd_t)
-	
-# Manages /etc/sysconfig/system-config-firewall
+
 files_etc_filetrans_system_conf(virtd_t)
 files_manage_system_conf_files(virtd_t)
 
@@ -394,8 +391,6 @@ optional_policy(`
 optional_policy(`
 	iptables_domtrans(virtd_t)
 	iptables_initrc_domtrans(virtd_t)
-
-	# Manages /etc/sysconfig/system-config-firewall
 	iptables_manage_config(virtd_t)
 ')
 

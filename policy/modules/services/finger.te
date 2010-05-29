@@ -57,6 +57,7 @@ corenet_tcp_sendrecv_all_ports(fingerd_t)
 corenet_udp_sendrecv_all_ports(fingerd_t)
 corenet_tcp_bind_generic_node(fingerd_t)
 corenet_tcp_bind_fingerd_port(fingerd_t)
+corenet_sendrecv_fingerd_server_packets(fingerd_t)
 
 dev_read_sysfs(fingerd_t)
 
@@ -88,9 +89,8 @@ sysnet_read_config(fingerd_t)
 
 miscfiles_read_localization(fingerd_t)
 
-# stop it accessing sub-directories, prevents checking a Maildir for new mail,
-# have to change this when we create a type for Maildir
-userdom_read_user_home_content_files(fingerd_t)
+mta_read_mail_home(fingerd_t)
+
 userdom_dontaudit_use_unpriv_user_fds(fingerd_t)
 
 optional_policy(`

@@ -43,9 +43,14 @@ kernel_write_xen_state(vhostmd_t)
 corecmd_exec_bin(vhostmd_t)
 corecmd_exec_shell(vhostmd_t)
 
+corenet_all_recvfrom_unlabeled(vhostmd_t)
+corenet_all_recvfrom_netlabel(vhostmd_t)
+corenet_tcp_sendrecv_generic_if(vhostmd_t)
+corenet_tcp_sendrecv_generic_node(vhostmd_t)
+corenet_tcp_sendrecv_all_ports(vhostmd_t)
 corenet_tcp_connect_soundd_port(vhostmd_t)
+corenet_sendrecv_soundd_client_packets(vhostmd_t)
 
-# 579803
 files_list_tmp(vhostmd_t)
 files_read_etc_files(vhostmd_t)
 files_read_usr_files(vhostmd_t)

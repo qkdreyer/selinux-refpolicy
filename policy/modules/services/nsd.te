@@ -10,7 +10,6 @@ type nsd_t;
 type nsd_exec_t;
 init_daemon_domain(nsd_t, nsd_exec_t)
 
-# A type for configuration files of nsd
 type nsd_conf_t;
 files_type(nsd_conf_t)
 
@@ -19,14 +18,12 @@ domain_type(nsd_crond_t)
 domain_entry_file(nsd_crond_t, nsd_exec_t)
 role system_r types nsd_crond_t;
 
-# a type for nsd.db
 type nsd_db_t;
 files_type(nsd_db_t)
 
 type nsd_var_run_t;
 files_pid_file(nsd_var_run_t)
 
-# A type for zone files
 type nsd_zone_t;
 files_type(nsd_zone_t)
 
@@ -112,7 +109,6 @@ optional_policy(`
 # Zone update cron job local policy
 #
 
-# kill capability for root cron job and non-root daemon
 allow nsd_crond_t self:capability { dac_override kill };
 dontaudit nsd_crond_t self:capability sys_nice;
 allow nsd_crond_t self:process { setsched signal_perms };
@@ -151,7 +147,6 @@ corenet_udp_sendrecv_all_ports(nsd_crond_t)
 corenet_tcp_connect_all_ports(nsd_crond_t)
 corenet_sendrecv_all_client_packets(nsd_crond_t)
 
-# for SSP
 dev_read_urand(nsd_crond_t)
 
 domain_dontaudit_read_all_domains_state(nsd_crond_t)

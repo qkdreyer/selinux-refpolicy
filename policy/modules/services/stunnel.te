@@ -66,6 +66,7 @@ corenet_tcp_sendrecv_all_ports(stunnel_t)
 corenet_udp_sendrecv_all_ports(stunnel_t)
 corenet_tcp_bind_generic_node(stunnel_t)
 corenet_tcp_connect_all_ports(stunnel_t)
+corenet_sendrecv_all_client_packets(stunnel_t)
 
 fs_getattr_all_fs(stunnel_t)
 
@@ -115,9 +116,8 @@ ifdef(`distro_gentoo', `
 	')
 ')
 
-# hack since this port has no interfaces since it doesnt
-# have net_contexts
 gen_require(`
 	type stunnel_port_t;
 ')
+
 allow stunnel_t stunnel_port_t:tcp_socket name_bind;

@@ -262,7 +262,6 @@ dev_getattr_all_chr_files(nagios_admin_plugin_t)
 dev_getattr_all_blk_files(nagios_admin_plugin_t)
 
 files_read_etc_files(nagios_admin_plugin_t)
-# for check_file_age plugin
 files_getattr_all_dirs(nagios_admin_plugin_t)
 files_getattr_all_files(nagios_admin_plugin_t)
 files_getattr_all_symlinks(nagios_admin_plugin_t)

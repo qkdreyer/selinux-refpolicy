@@ -19,7 +19,7 @@ inetd_tcp_service_domain(cvs_t, cvs_exec_t)
 application_executable_file(cvs_exec_t)
 role system_r types cvs_t;
 
-type cvs_data_t; # customizable
+type cvs_data_t;
 files_type(cvs_data_t)
 
 type cvs_initrc_exec_t;
@@ -39,7 +39,6 @@ files_pid_file(cvs_var_run_t)
 allow cvs_t self:process signal_perms;
 allow cvs_t self:fifo_file rw_fifo_file_perms;
 allow cvs_t self:tcp_socket connected_stream_socket_perms;
-# for identd; cjp: this should probably only be inetd_child rules?
 allow cvs_t self:netlink_tcpdiag_socket r_netlink_socket_perms;
 allow cvs_t self:capability { setuid setgid };
 
@@ -79,7 +78,6 @@ corecmd_exec_shell(cvs_t)
 
 files_read_etc_files(cvs_t)
 files_read_etc_runtime_files(cvs_t)
-# for identd; cjp: this should probably only be inetd_child rules?
 files_search_home(cvs_t)
 
 logging_send_syslog_msg(cvs_t)
@@ -89,7 +87,6 @@ miscfiles_read_localization(cvs_t)
 
 mta_send_mail(cvs_t)
 
-# cjp: typeattribute doesnt work in conditionals yet
 auth_can_read_shadow_passwords(cvs_t)
 tunable_policy(`allow_cvs_read_shadow',`
 	allow cvs_t self:capability dac_override;

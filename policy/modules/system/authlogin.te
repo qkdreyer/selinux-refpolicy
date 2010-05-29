@@ -67,10 +67,6 @@ type utempter_t;
 type utempter_exec_t;
 application_domain(utempter_t, utempter_exec_t)
 
-#
-# var_auth_t is the type of /var/lib/auth, usually
-# used for auth data in pam_able
-#
 type var_auth_t;
 files_type(var_auth_t)
 
@@ -89,7 +85,6 @@ allow chkpwd_t self:process getattr;
 allow chkpwd_t shadow_t:file read_file_perms;
 files_list_etc(chkpwd_t)
 
-# is_selinux_enabled
 kernel_read_system_state(chkpwd_t)
 
 domain_dontaudit_use_interactive_fds(chkpwd_t)
@@ -98,7 +93,6 @@ dev_read_rand(chkpwd_t)
 dev_read_urand(chkpwd_t)
 
 files_read_etc_files(chkpwd_t)
-# for nscd
 files_dontaudit_search_var(chkpwd_t)
 
 fs_dontaudit_getattr_xattr_fs(chkpwd_t)
@@ -127,7 +121,6 @@ ifdef(`distro_ubuntu',`
 ')
 
 optional_policy(`
-	# apache leaks file descriptors
 	apache_dontaudit_rw_tcp_sockets(chkpwd_t)
 ')
 
@@ -244,7 +237,6 @@ files_read_etc_files(pam_console_t)
 files_search_pids(pam_console_t)
 files_list_mnt(pam_console_t)
 files_dontaudit_search_isid_type_dirs(pam_console_t)
-# read /etc/mtab
 files_read_etc_runtime_files(pam_console_t)
 
 fs_list_auto_mountpoints(pam_console_t)
@@ -376,7 +368,6 @@ domain_use_interactive_fds(utempter_t)
 logging_search_logs(utempter_t)
 
 userdom_use_user_terminals(utempter_t)
-# Allow utemper to write to /tmp/.xses-*
 userdom_write_user_tmp_files(utempter_t)
 
 ifdef(`distro_ubuntu',`

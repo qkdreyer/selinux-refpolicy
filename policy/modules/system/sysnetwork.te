@@ -45,7 +45,6 @@ files_type(net_conf_t)
 
 allow dhcpc_t self:capability { dac_override fsetid net_admin net_raw net_bind_service setpcap sys_nice sys_resource sys_tty_config };
 dontaudit dhcpc_t self:capability { sys_tty_config sys_ptrace };
-# for access("/etc/bashrc", X_OK) on Red Hat
 dontaudit dhcpc_t self:capability { dac_read_search sys_module };
 allow dhcpc_t self:process { getsched getcap setcap setfscreate ptrace signal_perms };
 
@@ -53,7 +52,7 @@ allow dhcpc_t self:fifo_file rw_fifo_file_perms;
 allow dhcpc_t self:tcp_socket create_stream_socket_perms;
 allow dhcpc_t self:udp_socket create_socket_perms;
 allow dhcpc_t self:packet_socket create_socket_perms;
-allow dhcpc_t self:netlink_route_socket { create_socket_perms nlmsg_read };
+allow dhcpc_t self:netlink_route_socket create_netlink_socket_perms;
 
 allow dhcpc_t dhcp_etc_t:dir list_dir_perms;
 read_lnk_files_pattern(dhcpc_t, dhcp_etc_t, dhcp_etc_t)
@@ -267,12 +266,10 @@ allow ifconfig_t self:shm create_shm_perms;
 allow ifconfig_t self:sem create_sem_perms;
 allow ifconfig_t self:msgq create_msgq_perms;
 allow ifconfig_t self:msg { send receive };
-# Create UDP sockets, necessary when called from dhcpc
 allow ifconfig_t self:udp_socket create_socket_perms;
-# for /sbin/ip
 allow ifconfig_t self:packet_socket create_socket_perms;
 allow ifconfig_t self:netlink_route_socket create_netlink_socket_perms;
-allow ifconfig_t self:netlink_xfrm_socket { create_netlink_socket_perms nlmsg_read };
+allow ifconfig_t self:netlink_xfrm_socket create_netlink_socket_perms;
 allow ifconfig_t self:tcp_socket { create ioctl };
 
 kernel_use_fds(ifconfig_t)
@@ -285,7 +282,6 @@ kernel_rw_net_sysctls(ifconfig_t)
 corenet_rw_tun_tap_dev(ifconfig_t)
 
 dev_read_sysfs(ifconfig_t)
-# for IPSEC setup:
 dev_read_urand(ifconfig_t)
 
 domain_use_interactive_fds(ifconfig_t)

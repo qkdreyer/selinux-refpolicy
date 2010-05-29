@@ -22,7 +22,6 @@ files_type(soundd_state_t)
 type soundd_tmp_t;
 files_tmp_file(soundd_tmp_t)
 
-# for yiff - probably need some rules for the client support too
 type soundd_tmpfs_t;
 files_tmpfs_file(soundd_tmpfs_t)
 
@@ -41,7 +40,6 @@ allow soundd_t self:tcp_socket create_stream_socket_perms;
 allow soundd_t self:udp_socket create_socket_perms;
 allow soundd_t self:unix_stream_socket { connectto create_stream_socket_perms };
 
-# for yiff
 allow soundd_t self:shm create_shm_perms;
 
 read_files_pattern(soundd_t, soundd_etc_t, soundd_etc_t)

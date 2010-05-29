@@ -36,7 +36,6 @@ files_type(svc_svc_t)
 # multilog local policy
 #
 
-# multilog creates /service/*/log/status
 manage_files_pattern(svc_multilog_t, svc_svc_t, svc_svc_t)
 
 term_write_console(svc_multilog_t)
@@ -44,7 +43,6 @@ term_write_console(svc_multilog_t)
 init_use_fds(svc_multilog_t)
 init_dontaudit_use_script_fds(svc_multilog_t)
 
-# writes to /var/log/*/*
 logging_manage_generic_logs(svc_multilog_t)
 
 daemontools_ipc_domain(svc_multilog_t)
@@ -114,7 +112,6 @@ corecmd_exec_bin(svc_start_t)
 corecmd_exec_shell(svc_start_t)
 
 corenet_tcp_bind_generic_node(svc_start_t)
-corenet_tcp_bind_generic_port(svc_start_t)
 
 term_write_console(svc_start_t)
 

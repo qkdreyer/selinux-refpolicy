@@ -5,6 +5,7 @@ policy_module(xen, 1.10.0)
 #
 # Declarations
 #
+
 attribute xm_transition_domain;
 
 ## <desc>
@@ -30,7 +31,6 @@ files_type(xen_devpts_t)
 
 type xen_image_t;
 files_type(xen_image_t)
-# xen_image_t can be assigned to blk devices
 dev_node(xen_image_t)
 
 type xenctl_t;
@@ -46,7 +46,6 @@ files_tmp_file(xend_tmp_t)
 
 type xend_var_lib_t;
 files_type(xend_var_lib_t)
-# for mounting an NFS store
 files_mountpoint(xend_var_lib_t)
 
 type xend_var_log_t;
@@ -107,7 +106,6 @@ allow xend_t self:capability { mknod dac_override ipc_lock net_admin setuid sys_
 dontaudit xend_t self:capability { sys_ptrace };
 allow xend_t self:process { signal sigkill };
 dontaudit xend_t self:process ptrace;
-# internal communication is often done using fifo and unix sockets.
 allow xend_t self:fifo_file rw_fifo_file_perms;
 allow xend_t self:unix_stream_socket create_stream_socket_perms;
 allow xend_t self:unix_dgram_socket create_socket_perms;
@@ -167,7 +165,6 @@ corenet_tcp_sendrecv_all_ports(xend_t)
 corenet_tcp_bind_generic_node(xend_t)
 corenet_tcp_bind_xen_port(xend_t)
 corenet_tcp_bind_soundd_port(xend_t)
-# corenet_tcp_bind_generic_port(xend_t)
 corenet_tcp_bind_vnc_port(xend_t)
 corenet_tcp_connect_xserver_port(xend_t)
 corenet_tcp_connect_xen_port(xend_t)
@@ -175,7 +172,6 @@ corenet_sendrecv_xserver_client_packets(xend_t)
 corenet_sendrecv_xen_server_packets(xend_t)
 corenet_sendrecv_xen_client_packets(xend_t)
 corenet_sendrecv_soundd_server_packets(xend_t)
-# corenet_sendrecv_generic_server_packets(xend_t)
 corenet_sendrecv_vnc_server_packets(xend_t)
 corenet_rw_tun_tap_dev(xend_t)
 
@@ -450,7 +446,6 @@ optional_policy(`
 
 	userdom_search_admin_dir(xm_ssh_t)
 
-	#Should have a boolean wrapping these
 	fs_list_auto_mountpoints(xend_t)
 	files_search_mnt(xend_t)
 	fs_getattr_all_fs(xend_t)

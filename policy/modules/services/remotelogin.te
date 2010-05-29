@@ -58,10 +58,6 @@ auth_domtrans_pam_console(remote_login_t)
 
 corecmd_list_bin(remote_login_t)
 corecmd_read_bin_symlinks(remote_login_t)
-# cjp: these are probably not needed:
-corecmd_read_bin_files(remote_login_t)
-corecmd_read_bin_pipes(remote_login_t)
-corecmd_read_bin_sockets(remote_login_t)
 
 domain_read_all_entry_files(remote_login_t)
 
@@ -75,7 +71,6 @@ files_read_world_readable_symlinks(remote_login_t)
 files_read_world_readable_pipes(remote_login_t)
 files_read_world_readable_sockets(remote_login_t)
 files_list_mnt(remote_login_t)
-# for when /var/mail is a sym-link
 files_read_var_symlinks(remote_login_t)
 
 sysnet_dns_name_resolve(remote_login_t)
@@ -84,12 +79,9 @@ miscfiles_read_localization(remote_login_t)
 
 userdom_use_unpriv_users_fds(remote_login_t)
 userdom_search_user_home_content(remote_login_t)
-# Only permit unprivileged user domains to be entered via rlogin,
-# since very weak authentication is used.
 userdom_signal_unpriv_users(remote_login_t)
 userdom_spec_domtrans_unpriv_users(remote_login_t)
 
-# Search for mail spool file.
 mta_getattr_spool(remote_login_t)
 
 tunable_policy(`use_nfs_home_dirs',`

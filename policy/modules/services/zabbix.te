@@ -13,11 +13,9 @@ init_daemon_domain(zabbix_t, zabbix_exec_t)
 type zabbix_initrc_exec_t;
 init_script_file(zabbix_initrc_exec_t)
 
-# log files
 type zabbix_log_t;
 logging_log_file(zabbix_log_t)
 
-# pid files
 type zabbix_var_run_t;
 files_pid_file(zabbix_var_run_t)
 
@@ -30,12 +28,10 @@ allow zabbix_t self:capability { setuid setgid };
 allow zabbix_t self:fifo_file rw_file_perms;
 allow zabbix_t self:unix_stream_socket create_stream_socket_perms;
 
-# log files
 allow zabbix_t zabbix_log_t:dir setattr;
 manage_files_pattern(zabbix_t, zabbix_log_t, zabbix_log_t)
 logging_log_filetrans(zabbix_t, zabbix_log_t, file)
 
-# pid file
 manage_files_pattern(zabbix_t, zabbix_var_run_t, zabbix_var_run_t)
 files_pid_filetrans(zabbix_t, zabbix_var_run_t, file)
 

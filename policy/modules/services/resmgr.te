@@ -48,7 +48,6 @@ fs_search_auto_mountpoints(resmgrd_t)
 storage_dontaudit_read_fixed_disk(resmgrd_t)
 storage_read_scsi_generic(resmgrd_t)
 storage_raw_read_removable_device(resmgrd_t)
-# not sure if it needs write access, needs to be investigated further...
 storage_write_scsi_generic(resmgrd_t)
 storage_raw_write_removable_device(resmgrd_t)
 

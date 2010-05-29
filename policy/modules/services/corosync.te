@@ -101,7 +101,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	# to communication with RHCS
 	rhcs_rw_dlm_controld_semaphores(corosync_t)
 	rhcs_rw_fenced_semaphores(corosync_t)
 	rhcs_rw_gfs_controld_semaphores(corosync_t)

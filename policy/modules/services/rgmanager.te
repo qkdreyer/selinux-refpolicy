@@ -73,7 +73,6 @@ corecmd_exec_bin(rgmanager_t)
 corecmd_exec_shell(rgmanager_t)
 consoletype_exec(rgmanager_t)
 
-# need to write to /dev/misc/dlm-control
 dev_rw_dlm_control(rgmanager_t)
 dev_setattr_dlm_control(rgmanager_t)
 dev_search_sysfs(rgmanager_t)
@@ -93,9 +92,8 @@ fs_getattr_all_fs(rgmanager_t)
 storage_getattr_fixed_disk_dev(rgmanager_t)
 
 term_getattr_pty_fs(rgmanager_t)
-#term_use_ptmx(rgmanager_t)
+# term_use_ptmx(rgmanager_t)
 
-# needed by resources scripts
 auth_read_all_files_except_shadow(rgmanager_t)
 auth_dontaudit_getattr_shadow(rgmanager_t)
 auth_use_nsswitch(rgmanager_t)

@@ -17,12 +17,9 @@ gen_tunable(nscd_use_shm, false)
 # Declarations
 #
 
-# cjp: this is out of order because of an
-# ordering problem with loadable modules
 type nscd_var_run_t;
 files_pid_file(nscd_var_run_t)
 
-# nscd is both the client program and the daemon.
 type nscd_t;
 type nscd_exec_t;
 init_daemon_domain(nscd_t, nscd_exec_t)
@@ -48,8 +45,6 @@ allow nscd_t self:netlink_selinux_socket create_socket_perms;
 allow nscd_t self:tcp_socket create_socket_perms;
 allow nscd_t self:udp_socket create_socket_perms;
 
-# For client program operation, invoked from sysadm_t.
-# Transition occurs to nscd_t due to direct_sysadm_daemon. 
 allow nscd_t self:nscd { admin getstat };
 
 allow nscd_t nscd_log_t:file manage_file_perms;
@@ -74,7 +69,6 @@ fs_getattr_all_fs(nscd_t)
 fs_search_auto_mountpoints(nscd_t)
 fs_list_inotifyfs(nscd_t)
 
-# for when /etc/passwd has just been updated and has the wrong type
 auth_getattr_shadow(nscd_t)
 auth_use_nsswitch(nscd_t)
 
@@ -102,7 +96,6 @@ domain_search_all_domains_state(nscd_t)
 
 files_read_etc_files(nscd_t)
 files_read_generic_tmp_symlinks(nscd_t)
-# Needed to read files created by firstboot "/etc/hesiod.conf"
 files_read_etc_runtime_files(nscd_t)
 
 logging_send_audit_msgs(nscd_t)
@@ -146,6 +139,7 @@ optional_policy(`
 		samba_append_log(nscd_t)
 		samba_dontaudit_use_fds(nscd_t)
 	')
+
 	samba_read_config(nscd_t)
 	samba_read_var_files(nscd_t)
 ')

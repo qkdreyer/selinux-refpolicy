@@ -125,11 +125,9 @@ miscfiles_read_localization(mysqld_t)
 sysnet_read_config(mysqld_t)
 
 userdom_dontaudit_use_unpriv_user_fds(mysqld_t)
-# for /root/.my.cnf - should not be needed:
 userdom_read_user_home_content_files(mysqld_t)
 
 ifdef(`distro_redhat',`
-	# because Fedora has the sock_file in the database directory
 	type_transition mysqld_t mysqld_db_t:sock_file mysqld_var_run_t;
 ')
 

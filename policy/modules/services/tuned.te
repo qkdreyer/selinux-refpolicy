@@ -42,7 +42,7 @@ kernel_read_network_state(tuned_t)
 
 dev_read_urand(tuned_t)
 dev_read_sysfs(tuned_t)
-# to allow cpu tuning
+
 dev_rw_netcontrol(tuned_t)
 
 files_read_etc_files(tuned_t)
@@ -55,7 +55,6 @@ miscfiles_read_localization(tuned_t)
 
 userdom_dontaudit_search_user_home_dirs(tuned_t)
 
-# to allow disk tuning
 optional_policy(`
 	fstools_domtrans(tuned_t)
 ')
@@ -64,7 +63,6 @@ optional_policy(`
 	gnome_dontaudit_search_config(tuned_t)
 ')
 
-# to allow network interface tuning
 optional_policy(`
 	sysnet_domtrans_ifconfig(tuned_t)
 ')

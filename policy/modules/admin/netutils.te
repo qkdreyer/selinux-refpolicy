@@ -73,7 +73,6 @@ fs_getattr_xattr_fs(netutils_t)
 domain_use_interactive_fds(netutils_t)
 
 files_read_etc_files(netutils_t)
-# for nscd
 files_dontaudit_search_var(netutils_t)
 
 init_use_fds(netutils_t)

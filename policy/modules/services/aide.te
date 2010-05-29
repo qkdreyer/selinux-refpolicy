@@ -10,11 +10,9 @@ type aide_t;
 type aide_exec_t;
 application_domain(aide_t, aide_exec_t)
 
-# log files
 type aide_log_t;
 logging_log_file(aide_log_t)
 
-# aide database
 type aide_db_t;
 files_type(aide_db_t)
 
@@ -25,10 +23,8 @@ files_type(aide_db_t)
 
 allow aide_t self:capability { dac_override fowner };
 
-# database actions
 manage_files_pattern(aide_t, aide_db_t, aide_db_t)
 
-# logs
 manage_files_pattern(aide_t, aide_log_t, aide_log_t)
 logging_log_filetrans(aide_t, aide_log_t, file)
 

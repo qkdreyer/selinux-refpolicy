@@ -71,14 +71,13 @@ domain_use_interactive_fds(fsdaemon_t)
 
 files_exec_etc_files(fsdaemon_t)
 files_read_etc_runtime_files(fsdaemon_t)
-# for config
 files_read_etc_files(fsdaemon_t)
 
 fs_getattr_all_fs(fsdaemon_t)
 fs_search_auto_mountpoints(fsdaemon_t)
 
 mls_file_read_all_levels(fsdaemon_t)
-#mls_rangetrans_target(fsdaemon_t)
+# mls_rangetrans_target(fsdaemon_t)
 
 storage_raw_read_fixed_disk(fsdaemon_t)
 storage_raw_write_fixed_disk(fsdaemon_t)

@@ -166,9 +166,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	# this seems like fds that arent being
-	# closed. these should probably be
-	# dontaudits instead.
 	networkmanager_rw_udp_sockets(named_t)
 	networkmanager_rw_packet_sockets(named_t)
 	networkmanager_rw_routing_sockets(named_t)
@@ -187,7 +184,6 @@ optional_policy(`
 # NDC local policy
 #
 
-# cjp: why net_admin?!
 allow ndc_t self:capability { dac_override net_admin };
 allow ndc_t self:process { fork signal_perms };
 allow ndc_t self:fifo_file rw_fifo_file_perms;
@@ -237,7 +233,6 @@ userdom_use_user_terminals(ndc_t)
 
 term_dontaudit_use_console(ndc_t)
 
-# for /etc/rndc.key
 ifdef(`distro_redhat',`
 	allow ndc_t named_conf_t:dir search;
 ')

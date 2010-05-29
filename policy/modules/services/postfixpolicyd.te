@@ -43,6 +43,8 @@ corenet_tcp_sendrecv_all_ports(postfix_policyd_t)
 corenet_tcp_bind_generic_node(postfix_policyd_t)
 corenet_tcp_bind_postfix_policyd_port(postfix_policyd_t)
 corenet_tcp_bind_mysqld_port(postfix_policyd_t)
+corenet_sendrecv_mysqld_server_packets(postfix_policyd_t)
+corenet_sendrecv_postfix_policyd_server_packets(postfix_policyd_t)
 
 files_read_etc_files(postfix_policyd_t)
 files_read_usr_files(postfix_policyd_t)

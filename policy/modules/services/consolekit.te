@@ -51,7 +51,6 @@ domain_dontaudit_ptrace_all_domains(consolekit_t)
 
 files_read_etc_files(consolekit_t)
 files_read_usr_files(consolekit_t)
-# needs to read /var/lib/dbus/machine-id
 files_read_var_lib_files(consolekit_t)
 files_search_all_mountpoints(consolekit_t)
 
@@ -73,7 +72,6 @@ logging_send_audit_msgs(consolekit_t)
 
 miscfiles_read_localization(consolekit_t)
 
-# consolekit needs to be able to ptrace all logged in users 
 userdom_ptrace_all_users(consolekit_t)
 userdom_dontaudit_read_user_home_content_files(consolekit_t)
 userdom_dontaudit_getattr_admin_home_files(consolekit_t)

@@ -11,7 +11,7 @@ type telnetd_exec_t;
 inetd_service_domain(telnetd_t, telnetd_exec_t)
 role system_r types telnetd_t;
 
-type telnetd_devpts_t; #, userpty_type;
+type telnetd_devpts_t;
 term_login_pty(telnetd_devpts_t)
 
 type telnetd_tmp_t;
@@ -30,11 +30,10 @@ allow telnetd_t self:process signal_perms;
 allow telnetd_t self:fifo_file rw_fifo_file_perms;
 allow telnetd_t self:tcp_socket connected_stream_socket_perms;
 allow telnetd_t self:udp_socket create_socket_perms;
-# for identd; cjp: this should probably only be inetd_child rules?
 allow telnetd_t self:netlink_tcpdiag_socket r_netlink_socket_perms;
 allow telnetd_t self:capability { setuid setgid };
 
-allow telnetd_t telnetd_devpts_t:chr_file { rw_chr_file_perms setattr };
+allow telnetd_t telnetd_devpts_t:chr_file { rw_chr_file_perms setattr_chr_file_perms };
 term_create_pty(telnetd_t, telnetd_devpts_t)
 
 manage_dirs_pattern(telnetd_t, telnetd_tmp_t, telnetd_tmp_t)
@@ -71,7 +70,6 @@ corecmd_search_bin(telnetd_t)
 files_read_usr_files(telnetd_t)
 files_read_etc_files(telnetd_t)
 files_read_etc_runtime_files(telnetd_t)
-# for identd; cjp: this should probably only be inetd_child rules?
 files_search_home(telnetd_t)
 
 init_rw_utmp(telnetd_t)

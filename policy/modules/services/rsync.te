@@ -59,12 +59,7 @@ allow rsync_t self:process signal_perms;
 allow rsync_t self:fifo_file rw_fifo_file_perms;
 allow rsync_t self:tcp_socket create_stream_socket_perms;
 allow rsync_t self:udp_socket connected_socket_perms;
-
-# for identd
-# cjp: this should probably only be inetd_child_t rules?
-# search home and kerberos also.
 allow rsync_t self:netlink_tcpdiag_socket r_netlink_socket_perms;
-#end for identd
 
 read_files_pattern(rsync_t, rsync_etc_t, rsync_etc_t)
 
@@ -105,8 +100,7 @@ fs_getattr_xattr_fs(rsync_t)
 files_read_etc_files(rsync_t)
 files_search_home(rsync_t)
 
-# Really?
-auth_can_read_shadow_passwords(rsync_t)
+# auth_can_read_shadow_passwords(rsync_t)
 auth_use_nsswitch(rsync_t)
 
 logging_send_syslog_msg(rsync_t)
@@ -146,6 +140,7 @@ tunable_policy(`rsync_client',`
 	corenet_sendrecv_rsync_client_packets(rsync_t)
 	corenet_tcp_connect_ssh_port(rsync_t)
 	corenet_sendrecv_ssh_client_packets(rsync_t)
+
 	manage_dirs_pattern(rsync_t, rsync_data_t, rsync_data_t)
 	manage_files_pattern(rsync_t, rsync_data_t, rsync_data_t)
 	manage_lnk_files_pattern(rsync_t, rsync_data_t, rsync_data_t)

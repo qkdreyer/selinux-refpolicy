@@ -6,10 +6,7 @@ policy_module(application, 1.2.0)
 # Declarations
 #
 
-# Attribute of user applications
 attribute application_domain_type;
-
-# Executables to be run by user
 attribute application_exec_type;
 
 ########################################

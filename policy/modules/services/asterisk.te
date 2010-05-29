@@ -107,7 +107,6 @@ corenet_sendrecv_asterisk_server_packets(asterisk_t)
 corenet_sendrecv_snmp_client_packets(asterisk_t)
 corenet_sendrecv_sip_client_packets(asterisk_t)
 corenet_sendrecv_sip_server_packets(asterisk_t)
-# for VOIP voice channels.
 corenet_tcp_bind_generic_port(asterisk_t)
 corenet_udp_bind_generic_port(asterisk_t)
 corenet_dontaudit_udp_bind_all_ports(asterisk_t)

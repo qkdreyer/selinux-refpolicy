@@ -16,7 +16,6 @@ role system_r types netlabel_mgmt_t;
 # NetLabel Management Tools Local policy
 #
 
-# modify the network subsystem configuration
 allow netlabel_mgmt_t self:capability net_admin;
 allow netlabel_mgmt_t self:netlink_socket create_socket_perms;
 

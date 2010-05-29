@@ -94,16 +94,16 @@ corecmd_exec_bin(amavis_t)
 corenet_all_recvfrom_unlabeled(amavis_t)
 corenet_all_recvfrom_netlabel(amavis_t)
 corenet_sendrecv_smtp_beforequeue_client_packets(amavis_t)
+corenet_sendrecv_amavisd_recv_server_packets(amavis_t)
+# corenet_sendrecv_generic_server_packets(amavis_t)
 corenet_tcp_sendrecv_generic_if(amavis_t)
 corenet_tcp_sendrecv_generic_node(amavis_t)
 corenet_tcp_bind_generic_node(amavis_t)
 corenet_udp_bind_generic_node(amavis_t)
 corenet_tcp_sendrecv_all_ports(amavis_t)
-# connect to backchannel port
 corenet_tcp_connect_smtp_beforequeue_port(amavis_t)
-# bind to incoming port
 corenet_tcp_bind_amavisd_recv_port(amavis_t)
-corenet_udp_bind_generic_port(amavis_t)
+# corenet_udp_bind_generic_port(amavis_t)
 corenet_dontaudit_udp_bind_all_ports(amavis_t)
 corenet_tcp_connect_razor_port(amavis_t)
 
@@ -120,7 +120,6 @@ fs_getattr_xattr_fs(amavis_t)
 
 auth_dontaudit_read_shadow(amavis_t)
 
-# uses uptime which reads utmp - redhat bug 561383
 init_read_utmp(amavis_t)
 init_stream_connect_script(amavis_t)
 

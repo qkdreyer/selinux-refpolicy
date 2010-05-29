@@ -27,15 +27,8 @@ allow dbskkd_t self:fifo_file rw_fifo_file_perms;
 allow dbskkd_t self:tcp_socket connected_stream_socket_perms;
 allow dbskkd_t self:udp_socket create_socket_perms;
 
-# for identd
-# cjp: this should probably only be inetd_child rules?
 allow dbskkd_t self:netlink_tcpdiag_socket r_netlink_socket_perms;
 allow dbskkd_t self:capability { setuid setgid };
-files_search_home(dbskkd_t)
-optional_policy(`
-	kerberos_use(dbskkd_t)
-')
-#end for identd
 
 manage_dirs_pattern(dbskkd_t, dbskkd_tmp_t, dbskkd_tmp_t)
 manage_files_pattern(dbskkd_t, dbskkd_tmp_t, dbskkd_tmp_t)
@@ -62,9 +55,14 @@ dev_read_urand(dbskkd_t)
 fs_getattr_xattr_fs(dbskkd_t)
 
 files_read_etc_files(dbskkd_t)
+files_search_home(dbskkd_t)
 
 auth_use_nsswitch(dbskkd_t)
 
 logging_send_syslog_msg(dbskkd_t)
 
 miscfiles_read_localization(dbskkd_t)
+
+optional_policy(`
+	kerberos_use(dbskkd_t)
+')

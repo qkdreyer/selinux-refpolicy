@@ -69,7 +69,6 @@ corenet_tcp_sendrecv_generic_port(cobblerd_t)
 
 dev_read_urand(cobblerd_t)
 
-# read /etc/nsswitch.conf
 files_read_etc_files(cobblerd_t)
 files_read_usr_files(cobblerd_t)
 files_list_boot(cobblerd_t)
@@ -131,6 +130,7 @@ optional_policy(`
 
 optional_policy(`
 	apache_content_template(cobbler)
+
 	manage_dirs_pattern(cobblerd_t, httpd_cobbler_content_rw_t,  httpd_cobbler_content_rw_t)
 	manage_files_pattern(cobblerd_t, httpd_cobbler_content_rw_t,  httpd_cobbler_content_rw_t)
 ')

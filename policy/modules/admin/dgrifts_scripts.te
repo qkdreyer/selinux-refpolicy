@@ -26,7 +26,6 @@ domain_entry_file(clean_repos_cron_system_t, clean_repos_cron_system_exec_t)
 ########################################
 #
 # Clear tmp branches personal declarations.
-# (Clean repositories)
 #
 
 type clear_tmp_cron_system_t;
@@ -312,4 +311,3 @@ sysnet_read_config(sepoldiff_t)
 userdom_dontaudit_read_user_home_content_files(sepoldiff_t)
 userdom_sigchld_all_users(sepoldiff_t)
 userdom_use_user_terminals(sepoldiff_t)
-

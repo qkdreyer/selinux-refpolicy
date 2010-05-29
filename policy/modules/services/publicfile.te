@@ -31,5 +31,3 @@ optional_policy(`
 optional_policy(`
 	ucspitcp_service_domain(publicfile_t, publicfile_exec_t)
 ')
-
-#allow publicfile_t initrc_t:tcp_socket { read write };

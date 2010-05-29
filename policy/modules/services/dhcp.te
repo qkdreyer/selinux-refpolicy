@@ -106,7 +106,6 @@ ifdef(`distro_gentoo',`
 ')
 
 optional_policy(`
-	# used for dynamic DNS
 	bind_read_dnssec_keys(dhcpd_t)
 ')
 

@@ -5,6 +5,7 @@ policy_module(bluetooth, 3.3.0)
 #
 # Declarations
 #
+
 type bluetooth_t;
 type bluetooth_exec_t;
 init_daemon_domain(bluetooth_t, bluetooth_exec_t)
@@ -54,7 +55,6 @@ files_pid_file(bluetooth_var_run_t)
 # Bluetooth services local policy
 #
 
-#sys_admin capability - redhat bug 573015
 allow bluetooth_t self:capability { dac_override net_bind_service net_admin net_raw setpcap sys_admin sys_tty_config ipc_lock };
 dontaudit bluetooth_t self:capability sys_tty_config;
 allow bluetooth_t self:process { getcap setcap getsched signal_perms };
@@ -97,7 +97,6 @@ kernel_read_kernel_sysctls(bluetooth_t)
 kernel_read_system_state(bluetooth_t)
 kernel_read_network_state(bluetooth_t)
 kernel_request_load_module(bluetooth_t)
-#search debugfs - redhat bug 548206
 kernel_search_debugfs(bluetooth_t)
 
 corenet_all_recvfrom_unlabeled(bluetooth_t)
@@ -122,7 +121,6 @@ fs_getattr_all_fs(bluetooth_t)
 fs_search_auto_mountpoints(bluetooth_t)
 fs_list_inotifyfs(bluetooth_t)
 
-#Handle bluetooth serial devices
 term_use_unallocated_ttys(bluetooth_t)
 
 corecmd_exec_bin(bluetooth_t)

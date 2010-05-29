@@ -30,14 +30,12 @@ kernel_list_proc(openct_t)
 kernel_read_proc_symlinks(openct_t)
 
 dev_read_sysfs(openct_t)
-# openct asks for this
 dev_rw_usbfs(openct_t)
 dev_rw_smartcard(openct_t)
 dev_rw_generic_usb_dev(openct_t)
 
 domain_use_interactive_fds(openct_t)
 
-# openct asks for this
 files_read_etc_files(openct_t)
 
 fs_getattr_all_fs(openct_t)

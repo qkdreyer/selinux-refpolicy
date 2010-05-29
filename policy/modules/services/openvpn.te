@@ -13,12 +13,10 @@ policy_module(openvpn, 1.10.0)
 ## </desc>
 gen_tunable(openvpn_enable_homedirs, false)
 
-# main openvpn domain
 type openvpn_t;
 type openvpn_exec_t;
 init_daemon_domain(openvpn_t, openvpn_exec_t)
 
-# configuration files
 type openvpn_etc_t;
 files_config_file(openvpn_etc_t)
 

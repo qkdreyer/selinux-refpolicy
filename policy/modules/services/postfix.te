@@ -44,8 +44,6 @@ files_tmp_file(postfix_map_tmp_t)
 
 postfix_domain_template(master)
 typealias postfix_master_t alias postfix_t;
-# alias is a hack to make the disable trans bool
-# generation macro work
 mta_mailserver(postfix_t, postfix_master_exec_t)
 
 type postfix_initrc_exec_t;
@@ -445,7 +443,6 @@ optional_policy(`
 # Postfix postdrop local policy
 #
 
-# usually it does not need a UDP socket
 allow postfix_postdrop_t self:capability sys_resource;
 allow postfix_postdrop_t self:tcp_socket create;
 allow postfix_postdrop_t self:udp_socket create_socket_perms;
@@ -471,7 +468,6 @@ optional_policy(`
 	cron_system_entry(postfix_postdrop_t, postfix_postdrop_exec_t)
 ')
 
-# https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=239951
 optional_policy(`
 	fstools_read_pipes(postfix_postdrop_t)
 ')

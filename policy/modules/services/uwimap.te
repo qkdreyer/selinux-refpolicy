@@ -51,13 +51,11 @@ corenet_sendrecv_pop_server_packets(imapd_t)
 corenet_sendrecv_all_client_packets(imapd_t)
 
 dev_read_sysfs(imapd_t)
-#urandom, for ssl
 dev_read_rand(imapd_t)
 dev_read_urand(imapd_t)
 
 domain_use_interactive_fds(imapd_t)
 
-#read /etc/ for hostname nsswitch.conf
 files_read_etc_files(imapd_t)
 
 fs_getattr_all_fs(imapd_t)
@@ -72,15 +70,9 @@ miscfiles_read_localization(imapd_t)
 sysnet_read_config(imapd_t)
 
 userdom_dontaudit_use_unpriv_user_fds(imapd_t)
-# cjp: this is excessive, should be limited to the
-# mail directories
-userdom_manage_user_home_content_dirs(imapd_t)
-userdom_manage_user_home_content_files(imapd_t)
-userdom_manage_user_home_content_symlinks(imapd_t)
-userdom_manage_user_home_content_pipes(imapd_t)
-userdom_manage_user_home_content_sockets(imapd_t)
-userdom_user_home_dir_filetrans_user_home_content(imapd_t, { dir file lnk_file fifo_file sock_file })
 
+mta_manage_mail_home(imapd_t)
+mta_user_home_filetrans_mail_home(imapd_t)
 mta_rw_spool(imapd_t)
 
 optional_policy(`

@@ -71,17 +71,10 @@ domain_use_interactive_fds(apcupsd_t)
 
 files_read_etc_files(apcupsd_t)
 files_search_locks(apcupsd_t)
-# Creates /etc/nologin
 files_manage_etc_runtime_files(apcupsd_t)
 files_etc_filetrans_etc_runtime(apcupsd_t, file)
 
-# https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=240805
 term_use_unallocated_ttys(apcupsd_t)
-
-# SHUTDOWN DOMAIN IS IMPLEMENTED NOW
-# apcupsd runs shutdown, probably need a shutdown domain
-# init_rw_utmp(apcupsd_t)
-# init_telinit(apcupsd_t)
 
 logging_send_syslog_msg(apcupsd_t)
 
@@ -124,6 +117,7 @@ optional_policy(`
 	corenet_udp_sendrecv_generic_if(httpd_apcupsd_cgi_script_t)
 	corenet_udp_sendrecv_generic_node(httpd_apcupsd_cgi_script_t)
 	corenet_udp_sendrecv_all_ports(httpd_apcupsd_cgi_script_t)
+	corenet_sendrecv_apcupsd_client_packets(httpd_apcupsd_cgi_script_t)
 
 	sysnet_dns_name_resolve(httpd_apcupsd_cgi_script_t)
 ')

@@ -43,7 +43,6 @@ kernel_read_proc_symlinks(roundup_t)
 
 dev_read_sysfs(roundup_t)
 
-# execute python
 corecmd_exec_bin(roundup_t)
 
 corenet_all_recvfrom_unlabeled(roundup_t)
@@ -62,12 +61,10 @@ corenet_tcp_connect_smtp_port(roundup_t)
 corenet_sendrecv_http_cache_server_packets(roundup_t)
 corenet_sendrecv_smtp_client_packets(roundup_t)
 
-# /usr/share/mysql/charsets/Index.xml
 dev_read_urand(roundup_t)
 
 domain_use_interactive_fds(roundup_t)
 
-# /usr/share/mysql/charsets/Index.xml
 files_read_usr_files(roundup_t)
 files_read_etc_files(roundup_t)
 

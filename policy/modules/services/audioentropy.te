@@ -35,9 +35,6 @@ dev_write_urand(entropyd_t)
 dev_read_rand(entropyd_t)
 dev_write_rand(entropyd_t)
 dev_read_sound(entropyd_t)
-# set sound card parameters such as
-# sample format, number of channels
-# and sample rate.
 dev_write_sound(entropyd_t)
 
 files_read_etc_files(entropyd_t)

@@ -75,10 +75,8 @@ corenet_tcp_sendrecv_all_reserved_ports(tor_t)
 corenet_tcp_bind_generic_node(tor_t)
 corenet_tcp_bind_tor_port(tor_t)
 corenet_sendrecv_tor_server_packets(tor_t)
-# TOR will need to connect to various ports
 corenet_tcp_connect_all_ports(tor_t)
 corenet_sendrecv_all_client_packets(tor_t)
-# ... especially including port 80 and other privileged ports
 corenet_tcp_connect_all_reserved_ports(tor_t)
 
 dev_read_urand(tor_t)
@@ -97,6 +95,7 @@ miscfiles_read_localization(tor_t)
 
 tunable_policy(`tor_bind_all_unreserved_ports',`
 	corenet_tcp_bind_all_unreserved_ports(tor_t)
+	corenet_sendrecv_all_server_packets(tor_t)
 ')
 
 optional_policy(`

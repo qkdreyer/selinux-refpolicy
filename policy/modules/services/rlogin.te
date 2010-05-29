@@ -11,7 +11,7 @@ type rlogind_exec_t;
 inetd_service_domain(rlogind_t, rlogind_exec_t)
 role system_r types rlogind_t;
 
-type rlogind_devpts_t; #, userpty_type;
+type rlogind_devpts_t;
 term_login_pty(rlogind_devpts_t)
 
 type rlogind_home_t;
@@ -32,14 +32,12 @@ allow rlogind_t self:capability { fsetid chown fowner sys_tty_config dac_overrid
 allow rlogind_t self:process signal_perms;
 allow rlogind_t self:fifo_file rw_fifo_file_perms;
 allow rlogind_t self:tcp_socket connected_stream_socket_perms;
-# for identd; cjp: this should probably only be inetd_child rules?
 allow rlogind_t self:netlink_tcpdiag_socket r_netlink_socket_perms;
 allow rlogind_t self:capability { setuid setgid };
 
 allow rlogind_t rlogind_devpts_t:chr_file { rw_chr_file_perms setattr };
 term_create_pty(rlogind_t, rlogind_devpts_t)
 
-# for /usr/lib/telnetlogin
 can_exec(rlogind_t, rlogind_exec_t)
 
 manage_dirs_pattern(rlogind_t, rlogind_tmp_t, rlogind_tmp_t)
@@ -87,7 +85,6 @@ miscfiles_read_localization(rlogind_t)
 seutil_read_config(rlogind_t)
 
 userdom_setattr_user_ptys(rlogind_t)
-# cjp: this is egregious
 userdom_read_user_home_content_files(rlogind_t)
 userdom_search_admin_dir(rlogind_t)
 

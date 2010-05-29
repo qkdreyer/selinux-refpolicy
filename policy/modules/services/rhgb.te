@@ -72,7 +72,6 @@ files_mounton_mnt(rhgb_t)
 files_dontaudit_rw_root_dir(rhgb_t)
 files_dontaudit_read_default_files(rhgb_t)
 files_dontaudit_search_pids(rhgb_t)
-# for nscd
 files_dontaudit_search_var(rhgb_t)
 
 fs_search_auto_mountpoints(rhgb_t)
@@ -93,7 +92,6 @@ term_getattr_pty_fs(rhgb_t)
 
 init_write_initctl(rhgb_t)
 
-# for localization
 libs_read_lib_files(rhgb_t)
 
 logging_send_syslog_msg(rhgb_t)
@@ -113,7 +111,6 @@ userdom_dontaudit_search_user_home_content(rhgb_t)
 
 xserver_read_tmp_files(rhgb_t)
 xserver_kill(rhgb_t)
-# for running setxkbmap
 xserver_read_xkb_libs(rhgb_t)
 xserver_domtrans(rhgb_t)
 xserver_signal(rhgb_t)
@@ -137,7 +134,6 @@ optional_policy(`
 ')
 
 ifdef(`TODO',`
-	#this seems a bit much
-	allow domain rhgb_devpts_t:chr_file { read write };
+	allow domain rhgb_devpts_t:chr_file rw_inherited_chr_file_perms;
 	allow initrc_t rhgb_gph_t:fd use;
 ')

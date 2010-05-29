@@ -70,7 +70,6 @@ allow nut_upsmon_t self:tcp_socket create_socket_perms;
 
 read_files_pattern(nut_upsmon_t, nut_conf_t, nut_conf_t)
 
-# pid file
 manage_files_pattern(nut_upsmon_t, nut_var_run_t, nut_var_run_t)
 manage_dirs_pattern(nut_upsmon_t, nut_var_run_t, nut_var_run_t)
 files_pid_filetrans(nut_upsmon_t, nut_var_run_t, file)
@@ -81,23 +80,23 @@ kernel_read_system_state(nut_upsmon_t)
 corecmd_exec_bin(nut_upsmon_t)
 corecmd_exec_shell(nut_upsmon_t)
 
+
+corenet_all_recvfrom_unlabeled(nut_upsmon_t)
+corenet_all_recvfrom_netlabel(nut_upsmon_t)
+corenet_tcp_sendrecv_generic_if(nut_upsmon_t)
+corenet_tcp_sendrecv_generic_node(nut_upsmon_t)
+corenet_tcp_sendrecv_all_ports(nut_upsmon_t)
+corenet_tcp_bind_generic_node(nut_upsmon_t)
 corenet_tcp_connect_ups_port(nut_upsmon_t)
 corenet_tcp_connect_generic_port(nut_upsmon_t)
 corenet_sendrecv_ups_client_packets(nut_upsmon_t)
 corenet_sendrecv_generic_client_packets(nut_upsmon_t)
 
-# Creates /etc/killpower
 files_manage_etc_runtime_files(nut_upsmon_t)
 files_etc_filetrans_etc_runtime(nut_upsmon_t, file)
 files_search_usr(nut_upsmon_t)
 
-# /usr/bin/wall
 term_write_all_terms(nut_upsmon_t)
-
-# upsmon runs shutdown, probably need a shutdown domain
-# shutdown domain implemented see shutdown_domtrans below
-# init_rw_utmp(nut_upsmon_t)
-# init_telinit(nut_upsmon_t)
 
 logging_send_syslog_msg(nut_upsmon_t)
 
@@ -132,7 +131,6 @@ files_pid_filetrans(nut_upsdrvctl_t, nut_var_run_t, { file sock_file })
 
 kernel_read_kernel_sysctls(nut_upsdrvctl_t)
 
-# /sbin/upsdrvctl executes other drivers
 corecmd_exec_bin(nut_upsdrvctl_t)
 
 dev_read_urand(nut_upsdrvctl_t)
@@ -151,7 +149,6 @@ miscfiles_read_localization(nut_upsdrvctl_t)
 #######################################
 #
 # Local policy for upscgi scripts
-# requires httpd_enable_cgi and httpd_can_network_connect
 #
 
 optional_policy(`

@@ -39,8 +39,6 @@ init_system_domain(ntpd_t, ntpdate_exec_t)
 # Local policy
 #
 
-# sys_resource and setrlimit is for locking memory
-# ntpdate wants sys_nice
 allow ntpd_t self:capability { chown dac_override kill setgid setuid sys_time ipc_lock ipc_owner sys_chroot sys_nice sys_resource };
 dontaudit ntpd_t self:capability { net_admin sys_tty_config fsetid sys_nice };
 allow ntpd_t self:process { signal_perms getcap setcap setsched setrlimit };
@@ -62,7 +60,6 @@ allow ntpd_t ntpd_log_t:dir setattr;
 manage_files_pattern(ntpd_t, ntpd_log_t, ntpd_log_t)
 logging_log_filetrans(ntpd_t, ntpd_log_t, { file dir })
 
-# for some reason it creates a file in /tmp
 manage_dirs_pattern(ntpd_t, ntpd_tmp_t, ntpd_tmp_t)
 manage_files_pattern(ntpd_t, ntpd_tmp_t, ntpd_tmp_t)
 files_tmp_filetrans(ntpd_t, ntpd_tmp_t, { file dir })
@@ -101,7 +98,6 @@ dev_rw_realtime_clock(ntpd_t)
 
 fs_getattr_all_fs(ntpd_t)
 fs_search_auto_mountpoints(ntpd_t)
-# Necessary to communicate with gpsd devices
 fs_rw_tmpfs_files(ntpd_t)
 
 term_use_ptmx(ntpd_t)
@@ -129,7 +125,6 @@ userdom_dontaudit_use_unpriv_user_fds(ntpd_t)
 userdom_list_user_home_dirs(ntpd_t)
 
 optional_policy(`
-	# for cron jobs
 	cron_system_entry(ntpd_t, ntpdate_exec_t)
 ')
 

@@ -51,16 +51,13 @@ gen_tunable(user_ttyfile_stat, false)
 
 attribute admindomain;
 
-# all user domains
 attribute userdomain;
 
 attribute untrusted_content_type;
 attribute untrusted_content_tmp_type;
 
-# unprivileged user domains
 attribute unpriv_userdomain;
 
-# unprivileged user domains
 attribute user_home_type;
 
 type admin_home_t;
@@ -120,5 +117,4 @@ tunable_policy(`allow_console_login',`
 
 allow userdomain userdomain:process signull;
 
-# Nautilus causes this avc
-dontaudit unpriv_userdomain self:dir setattr;
+dontaudit unpriv_userdomain self:dir setattr_dir_perms;

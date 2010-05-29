@@ -71,7 +71,6 @@ files_read_etc_files(dictd_t)
 files_read_etc_runtime_files(dictd_t)
 files_read_usr_files(dictd_t)
 files_search_var_lib(dictd_t)
-# for checking for nscd
 files_dontaudit_search_pids(dictd_t)
 
 logging_send_syslog_msg(dictd_t)

@@ -5,6 +5,7 @@ policy_module(apm, 1.11.0)
 #
 # Declarations
 #
+
 type apmd_t;
 type apmd_exec_t;
 init_daemon_domain(apmd_t, apmd_exec_t)
@@ -57,8 +58,6 @@ logging_send_syslog_msg(apm_t)
 # apm daemon Local policy
 #
 
-# mknod: controlling an orderly resume of PCMCIA requires creating device
-# nodes 254,{0,1,2} for some reason.
 allow apmd_t self:capability { sys_admin sys_nice sys_time kill mknod };
 dontaudit apmd_t self:capability { setuid dac_override dac_read_search sys_ptrace sys_tty_config };
 allow apmd_t self:process { signal_perms getsession };
@@ -115,10 +114,7 @@ files_dontaudit_getattr_all_symlinks(apmd_t)
 files_dontaudit_getattr_all_pipes(apmd_t)
 files_dontaudit_getattr_all_sockets(apmd_t)
 
-# use shutdown_domtrans instead?
 init_domtrans_script(apmd_t)
-# init_rw_utmp(apmd_t)
-# init_telinit(apmd_t)
 
 libs_exec_ld_so(apmd_t)
 libs_exec_lib_files(apmd_t)
@@ -136,7 +132,7 @@ seutil_dontaudit_read_config(apmd_t)
 
 userdom_dontaudit_use_unpriv_user_fds(apmd_t)
 userdom_dontaudit_search_user_home_dirs(apmd_t)
-userdom_dontaudit_search_user_home_content(apmd_t) # Excessive?
+userdom_dontaudit_search_user_home_content(apmd_t)
 
 ifdef(`distro_redhat',`
 	allow apmd_t apmd_lock_t:file manage_file_perms;
@@ -144,7 +140,6 @@ ifdef(`distro_redhat',`
 
 	can_exec(apmd_t, apmd_var_run_t)
 
-	# ifconfig_exec_t needs to be run in its own domain for Red Hat
 	optional_policy(`
 		sysnet_domtrans_ifconfig(apmd_t)
 	')
@@ -158,7 +153,6 @@ ifdef(`distro_redhat',`
 	')
 
 ',`
-	# for ifconfig which is run all the time
 	kernel_dontaudit_search_sysctl(apmd_t)
 ')
 
