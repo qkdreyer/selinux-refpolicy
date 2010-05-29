@@ -27,7 +27,8 @@ allow hddtemp_t self:udp_socket create_socket_perms;
 corenet_tcp_bind_all_nodes(hddtemp_t)
 corenet_tcp_bind_hddtemp_port(hddtemp_t)
 
-# read hddtemp db file
+
+files_read_etc_files(hddtemp_t)
 files_read_usr_files(hddtemp_t)
 
 storage_raw_read_fixed_disk(hddtemp_t)

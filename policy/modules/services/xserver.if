@@ -404,7 +404,7 @@ template(`xserver_common_x_domain_template',`
 	# dont audit send failures
 	dontaudit $2 input_xevent_type:x_event send;
 
-	allow $2 xdm_t:x_drawable { read add_child };
+	allow $2 xdm_t:x_drawable { hide read add_child manage };
 	allow $2 xdm_t:x_client destroy;
 
 	allow $2 root_xdrawable_t:x_drawable write;

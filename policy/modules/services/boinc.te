@@ -10,8 +10,6 @@ type boinc_t;
 type boinc_exec_t;
 init_daemon_domain(boinc_t, boinc_exec_t)
 
-permissive boinc_t;
-
 type boinc_initrc_exec_t;
 init_script_file(boinc_initrc_exec_t)
 
@@ -29,8 +27,8 @@ files_type(boinc_var_lib_t)
 # boinc local policy
 #
 
-allow boinc_t self:capability { kill };
-allow boinc_t self:process { execmem fork setsched signal sigkill };
+allow boinc_t self:capability kill;
+allow boinc_t self:process { execmem fork setsched signal signull sigkill };
 
 allow boinc_t self:fifo_file rw_fifo_file_perms;
 allow boinc_t self:unix_stream_socket create_stream_socket_perms;

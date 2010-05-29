@@ -9,8 +9,6 @@ type qpidd_t;
 type qpidd_exec_t;
 init_daemon_domain(qpidd_t, qpidd_exec_t)
 
-permissive qpidd_t;
-
 type qpidd_initrc_exec_t;
 init_script_file(qpidd_initrc_exec_t)
 

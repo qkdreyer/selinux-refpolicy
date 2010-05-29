@@ -146,6 +146,10 @@ optional_policy(`
 		avahi_dbus_chat(unconfined_usertype)
 	')
 
+ 	optional_policy(`
+		certmonger_dbus_chat(unconfined_usertype)
+	')
+
 	optional_policy(`
 		devicekit_dbus_chat(unconfined_usertype)
 		devicekit_dbus_chat_disk(unconfined_usertype)
