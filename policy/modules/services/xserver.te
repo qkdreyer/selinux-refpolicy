@@ -1044,7 +1044,7 @@ optional_policy(`
 allow xserver_t xdm_t:process { signal getpgid };
 allow xserver_t xdm_t:shm rw_shm_perms;
 
-allow xserver_t xdm_var_lib_t:file list_dir_perms;
+allow xserver_t xdm_var_lib_t:file read_file_perms;
 dontaudit xserver_t xdm_var_lib_t:dir search_dir_perms;
 
 read_files_pattern(xserver_t, xdm_var_run_t, xdm_var_run_t)

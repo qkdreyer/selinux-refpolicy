@@ -89,7 +89,7 @@ seutil_dontaudit_read_config(saslauthd_t)
 userdom_dontaudit_use_unpriv_user_fds(saslauthd_t)
 userdom_dontaudit_search_user_home_dirs(saslauthd_t)
 
-# auth_can_read_shadow_passwords(saslauthd_t)
+auth_can_read_shadow_passwords(saslauthd_t)
 
 tunable_policy(`allow_saslauthd_read_shadow',`
 	auth_tunable_read_shadow(saslauthd_t) 

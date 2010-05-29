@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.1
-Release: 3.2%{?dist}
+Release: 3.3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,9 @@ exit 0
 %endif
 
 %changelog
+* Sat May 29 2010 Dominick Grift <domg472@gmail.com> 3.8.1-3.3
+- Remove some redundant and not so redundant comments. Some of these been here longer then i am it seems.
+
 * Sat May 29 2010 Dominick Grift <domg472@gmail.com> 3.8.1-3.2
 - Allow dnsmasq to bind udp sockets to dhcpd port.
 
