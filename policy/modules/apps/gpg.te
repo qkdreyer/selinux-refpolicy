@@ -84,7 +84,7 @@ role system_r types gpg_web_t;
 #
 
 allow gpgdomain self:capability { ipc_lock setuid };
-# setrlimit is for ulimit -c 0
+
 allow gpgdomain self:process { getsched setsched signal signull setrlimit getcap setcap setpgid };
 
 allow gpgdomain self:fifo_file rw_fifo_file_perms;
@@ -139,7 +139,6 @@ logging_send_syslog_msg(gpg_t)
 miscfiles_read_localization(gpg_t)
 
 userdom_use_user_terminals(gpg_t)
-# sign/encrypt user files
 userdom_manage_user_tmp_files(gpg_t)
 userdom_manage_user_home_content_files(gpg_t)
 userdom_user_home_dir_filetrans_user_home_content(gpg_t, file)
@@ -218,9 +217,9 @@ tunable_policy(`use_samba_home_dirs',`
 #
 # GPG agent local policy
 #
+
 domtrans_pattern(gpg_t, gpg_agent_exec_t, gpg_agent_t)
 
-# rlimit: gpg-agent wants to prevent coredumps
 allow gpg_agent_t self:process setrlimit;
 
 allow gpg_agent_t self:unix_stream_socket create_stream_socket_perms ;
@@ -259,9 +258,6 @@ ifdef(`hide_broken_symptoms',`
 ')
 
 tunable_policy(`gpg_agent_env_file',`
-	# write ~/.gpg-agent-info or a similar to the users home dir
-	# or subdir (gpg-agent --write-env-file option)
-	#
 	userdom_user_home_dir_filetrans_user_home_content(gpg_agent_t, file)
 	userdom_manage_user_home_content_dirs(gpg_agent_t)
 	userdom_manage_user_home_content_files(gpg_agent_t)
@@ -340,10 +336,8 @@ miscfiles_read_localization(gpg_pinentry_t)
 term_dontaudit_use_all_ttys(gpg_pinentry_t)
 term_dontaudit_use_all_ptys(gpg_pinentry_t)
 
-# for .Xauthority
 userdom_read_user_home_content_files(gpg_pinentry_t)
 userdom_read_user_tmpfs_files(gpg_pinentry_t)
-# Bug: user pulseaudio files need open,read and unlink:
 allow gpg_pinentry_t user_tmpfs_t:file unlink;
 userdom_signull_unpriv_users(gpg_pinentry_t)
 userdom_write_user_tmp_sockets(gpg_pinentry_t)

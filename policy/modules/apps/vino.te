@@ -1,5 +1,5 @@
 
-policy_module(vino,1.0.0) 
+policy_module(vino, 1.0.0) 
 
 ########################################
 #
@@ -21,8 +21,6 @@ ubac_constrained(vino_server_tmp_t)
 type vino_server_tmpfs_t;
 files_tmpfs_file(vino_server_tmpfs_t)
 ubac_constrained(vino_server_tmpfs_t)
-
-# vnc-tube tcp:26570-26575
 
 ########################################
 #
@@ -63,16 +61,16 @@ corenet_tcp_connect_http_port(vino_server_t)
 corenet_tcp_connect_pulseaudio_port(vino_server_t)
 corenet_tcp_sendrecv_generic_if(vino_server_t)
 corenet_tcp_sendrecv_generic_node(vino_server_t)
-corenet_tcp_sendrecv_generic_port(vino_server_t)
+corenet_tcp_sendrecv_vnc_port(vino_server_t)
+corenet_tcp_sendrecv_http_port(vino_server_t)
+corenet_tcp_sendrecv_pulseaudio_port(vino_server_t)
 
-# /usr/bin/vino-preferences
 can_exec(vino_server_t, vino_server_exec_t)
 
 kernel_read_network_state(vino_server_t)
 
 dev_read_urand(vino_server_t)
 
-# /etc/nsswitch.conf
 files_read_etc_files(vino_server_t)
 files_read_usr_files(vino_server_t)
 files_search_home(vino_server_t)
@@ -86,8 +84,9 @@ miscfiles_read_localization(vino_server_t)
 
 sysnet_read_config(vino_server_t)
 
+application_signull(vino_server_t)
+
 userdom_read_user_tmpfs_files(vino_server_t)
-# Bug: user pulseaudio files need open,read and unlink:
 allow vino_server_t user_tmpfs_t:file unlink;
 
 userdom_setattr_user_tmp_dirs(vino_server_t)
@@ -95,7 +94,6 @@ userdom_stream_connect(vino_server_t)
 userdom_signull_unpriv_users(vino_server_t)
 userdom_use_user_terminals(vino_server_t)
 
-# We need a non-generic type for ~/.icons
 userdom_dontaudit_read_user_home_content_files(vino_server_t)
 
 tunable_policy(`use_nfs_home_dirs',`
@@ -127,7 +125,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	# sound-event-cache
 	gnome_read_generic_cache_files(vino_server_t)
 	gnome_write_generic_cache_files(vino_server_t)
 ')
@@ -144,7 +141,6 @@ optional_policy(`
 	pulseaudio_exec(vino_server_t)
 	pulseaudio_rw_home_files(vino_server_t)
 	pulseaudio_setattr_home_dir(vino_server_t)
-	pulseaudio_signull(vino_server_t)
 	pulseaudio_stream_connect(vino_server_t)
 ')
 
@@ -162,4 +158,3 @@ optional_policy(`
 	xserver_user_x_domain_template(vino_server, vino_server_t, vino_server_tmpfs_t)
 	xserver_append_xdm_home_files(vino_server_t)
 ')
-

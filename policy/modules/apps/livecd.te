@@ -1,3 +1,4 @@
+
 policy_module(livecd, 1.0.0)
 
 ########################################
@@ -17,10 +18,12 @@ files_tmp_file(livecd_tmp_t)
 #
 # livecd local policy
 #
+
 dontaudit livecd_t self:capability2 mac_admin;
 
-unconfined_domain_noaudit(livecd_t)
 domain_ptrace_all_domains(livecd_t)
+
+seutil_domtrans_setfiles_mac(livecd_t)
 
 manage_dirs_pattern(livecd_t, livecd_tmp_t, livecd_tmp_t)
 manage_files_pattern(livecd_t, livecd_tmp_t, livecd_tmp_t)
@@ -30,5 +33,6 @@ optional_policy(`
 	hal_dbus_chat(livecd_t)
 ')
 
-seutil_domtrans_setfiles_mac(livecd_t)
-
+optional_policy(`
+	unconfined_domain_noaudit(livecd_t)
+')

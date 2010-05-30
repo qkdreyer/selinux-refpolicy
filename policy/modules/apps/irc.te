@@ -120,7 +120,6 @@ kernel_read_proc_symlinks(irc_t)
 
 corenet_tcp_sendrecv_all_ports(irc_t)
 corenet_udp_sendrecv_all_ports(irc_t)
-# cjp: this seems excessive:
 corenet_tcp_connect_all_ports(irc_t)
 corenet_sendrecv_all_client_packets(irc_t)
 
@@ -158,16 +157,13 @@ corecmd_read_bin_symlinks(irssi_t)
 corenet_udp_sendrecv_generic_node(irssi_t)
 corenet_tcp_connect_ircd_port(irssi_t)
 
-# Privoxy
 corenet_tcp_connect_http_cache_port(irssi_t)
 corenet_sendrecv_http_cache_client_packets(irssi_t)
 
-# FreenodeSSL tcp:7000
 corenet_tcp_connect_gatekeeper_port(irssi_t)
 corenet_sendrecv_gatekeeper_client_packets(irssi_t)
 
 dev_read_urand(irssi_t)
-# irssi-otr genkey.
 dev_read_rand(irssi_t)
 
 miscfiles_read_certs(irssi_t)

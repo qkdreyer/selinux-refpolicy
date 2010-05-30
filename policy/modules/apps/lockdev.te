@@ -24,7 +24,6 @@ ubac_constrained(lockdev_lock_t)
 # Local policy
 #
 
-# Use capabilities.
 allow lockdev_t self:capability setgid;
 
 allow lockdev_t lockdev_lock_t:file manage_file_perms;
@@ -37,4 +36,3 @@ fs_getattr_xattr_fs(lockdev_t)
 logging_send_syslog_msg(lockdev_t)
 
 userdom_use_user_terminals(lockdev_t)
-

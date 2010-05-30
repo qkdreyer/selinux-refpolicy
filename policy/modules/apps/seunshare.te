@@ -13,6 +13,7 @@ type seunshare_exec_t;
 #
 # seunshare local policy
 #
+
 allow seunshare_domain self:capability { setuid dac_override setpcap sys_admin };
 allow seunshare_domain self:process { fork setexec signal getcap setcap };
 
@@ -34,7 +35,7 @@ miscfiles_read_localization(seunshare_domain)
 
 userdom_use_user_terminals(seunshare_domain)
 
-ifdef(`hide_broken_symptoms', `
+ifdef(`hide_broken_symptoms',`
 	fs_dontaudit_rw_anon_inodefs_files(seunshare_domain)
  	fs_dontaudit_list_inotifyfs(seunshare_domain)
 

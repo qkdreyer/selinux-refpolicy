@@ -38,7 +38,6 @@ allow thunderbird_t self:unix_stream_socket { create accept connect write getatt
 allow thunderbird_t self:tcp_socket create_socket_perms;
 allow thunderbird_t self:shm { read write create destroy unix_read unix_write };
 
-# Access ~/.thunderbird
 manage_dirs_pattern(thunderbird_t, thunderbird_home_t, thunderbird_home_t)
 manage_files_pattern(thunderbird_t, thunderbird_home_t, thunderbird_home_t)
 manage_lnk_files_pattern(thunderbird_t, thunderbird_home_t, thunderbird_home_t)
@@ -50,12 +49,10 @@ manage_fifo_files_pattern(thunderbird_t, thunderbird_tmpfs_t, thunderbird_tmpfs_
 manage_sock_files_pattern(thunderbird_t, thunderbird_tmpfs_t, thunderbird_tmpfs_t)
 fs_tmpfs_filetrans(thunderbird_t, thunderbird_tmpfs_t,{ dir file lnk_file sock_file fifo_file })
 
-# Allow netstat
 kernel_read_network_state(thunderbird_t)
 kernel_read_net_sysctls(thunderbird_t)
 kernel_read_system_state(thunderbird_t)
 
-# Startup shellscript
 corecmd_exec_shell(thunderbird_t)
 
 corenet_all_recvfrom_unlabeled(thunderbird_t)
@@ -97,7 +94,6 @@ files_dontaudit_search_mnt(thunderbird_t)
 
 fs_getattr_xattr_fs(thunderbird_t)
 fs_list_inotifyfs(thunderbird_t)
-# Access ~/.thunderbird
 fs_search_auto_mountpoints(thunderbird_t)
 
 auth_use_nsswitch(thunderbird_t)
@@ -107,15 +103,14 @@ miscfiles_read_localization(thunderbird_t)
 
 userdom_manage_user_tmp_dirs(thunderbird_t)
 userdom_read_user_tmp_files(thunderbird_t)
+# I am pretty sure that this socket can be created with a thunderbird type instead.
 userdom_manage_user_tmp_sockets(thunderbird_t)
-# .kde/....gtkrc
 userdom_read_user_home_content_files(thunderbird_t)
 
 xserver_user_x_domain_template(thunderbird, thunderbird_t, thunderbird_tmpfs_t)
 xserver_read_xdm_tmp_files(thunderbird_t)
 xserver_dontaudit_getattr_xdm_tmp_sockets(thunderbird_t)
 
-# Access ~/.thunderbird
 tunable_policy(`use_nfs_home_dirs',`
 	fs_manage_nfs_dirs(thunderbird_t)
 	fs_manage_nfs_files(thunderbird_t)
@@ -130,13 +125,11 @@ tunable_policy(`use_samba_home_dirs',`
 
 tunable_policy(`mail_read_content && use_nfs_home_dirs',`
 	files_list_home(thunderbird_t)
-
 	fs_list_auto_mountpoints(thunderbird_t)
 	fs_read_nfs_files(thunderbird_t)
 	fs_read_nfs_symlinks(thunderbird_t)
 ',`
 	files_dontaudit_list_home(thunderbird_t)
-
 	fs_dontaudit_list_auto_mountpoints(thunderbird_t)
 	fs_dontaudit_list_nfs(thunderbird_t)
 	fs_dontaudit_read_nfs_files(thunderbird_t)
@@ -144,13 +137,11 @@ tunable_policy(`mail_read_content && use_nfs_home_dirs',`
 
 tunable_policy(`mail_read_content && use_samba_home_dirs',`
 	files_list_home(thunderbird_t)
-
 	fs_list_auto_mountpoints(thunderbird_t)
 	fs_read_cifs_files(thunderbird_t)
 	fs_read_cifs_symlinks(thunderbird_t)
 ',`
 	files_dontaudit_list_home(thunderbird_t)
-
 	fs_dontaudit_list_auto_mountpoints(thunderbird_t)
 	fs_dontaudit_read_cifs_files(thunderbird_t)
 	fs_dontaudit_list_cifs(thunderbird_t)
@@ -160,8 +151,7 @@ tunable_policy(`mail_read_content',`
 	userdom_list_user_tmp(thunderbird_t)
 	userdom_read_user_tmp_files(thunderbird_t)
 	userdom_read_user_tmp_symlinks(thunderbird_t)
-	userdom_search_user_home_dirs(thunderbird_t)
-	userdom_read_user_home_content_files(thunderbird_t)
+	mta_read_mail_home_files(thunderbird_t)
 
 	ifndef(`enable_mls',`
 		fs_search_removable(thunderbird_t)

@@ -25,13 +25,11 @@ application_executable_file(consolehelper_exec_t)
 
 allow consolehelper_domain self:capability { setgid setuid }; 
 
-dontaudit consolehelper_domain  userhelper_conf_t:file write;
+dontaudit consolehelper_domain userhelper_conf_t:file rw_inherited_file_perms;
 read_files_pattern(consolehelper_domain, userhelper_conf_t, userhelper_conf_t)
 
-# Init script handling
 domain_use_interactive_fds(consolehelper_domain)
 
-# internal communication is often done using fifo and unix sockets.
 allow consolehelper_domain self:fifo_file rw_fifo_file_perms;
 allow consolehelper_domain self:unix_stream_socket create_stream_socket_perms;
 

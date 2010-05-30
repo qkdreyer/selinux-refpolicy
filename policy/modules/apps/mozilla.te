@@ -71,7 +71,6 @@ kernel_read_network_state(mozilla_t)
 kernel_read_system_state(mozilla_t)
 kernel_read_net_sysctls(mozilla_t)
 
-# Look for plugins
 corecmd_list_bin(mozilla_t)
 corecmd_exec_shell(mozilla_t)
 corecmd_exec_bin(mozilla_t)
@@ -102,6 +101,10 @@ corenet_sendrecv_flash_client_packets(mozilla_t)
 corenet_dontaudit_tcp_sendrecv_generic_port(mozilla_t)
 corenet_dontaudit_tcp_bind_generic_port(mozilla_t)
 corenet_tcp_connect_speech_port(mozilla_t)
+corenet_sendrecv_speech_client_packets(mozilla_t)
+corenet_sendrecv_soundd_client_packets(mozilla_t)
+corenet_tcp_sendrecv_soundd_port(mozilla_t)
+corenet_tcp_sendrecv_speech_port(mozilla_t)
 
 dev_read_urand(mozilla_t)
 dev_read_rand(mozilla_t)
@@ -116,7 +119,6 @@ files_read_etc_runtime_files(mozilla_t)
 files_read_usr_files(mozilla_t)
 files_read_etc_files(mozilla_t)
 files_read_var_lib_files(mozilla_t)
-# interacting with gstreamer
 files_read_var_files(mozilla_t)
 files_read_var_symlinks(mozilla_t)
 files_dontaudit_getattr_boot_dirs(mozilla_t)
@@ -158,7 +160,6 @@ tunable_policy(`use_samba_home_dirs',`
 	fs_manage_cifs_symlinks(mozilla_t)
 ')
 
-# Uploads, local html
 tunable_policy(`mozilla_read_content && use_nfs_home_dirs',`
 	fs_list_auto_mountpoints(mozilla_t)
 	files_list_home(mozilla_t)

@@ -1,3 +1,4 @@
+
 policy_module(kdumpgui,1.0.0)
 
 ########################################
@@ -36,13 +37,11 @@ storage_raw_write_fixed_disk(kdumpgui_t)
 dev_dontaudit_getattr_all_chr_files(kdumpgui_t)
 dev_read_sysfs(kdumpgui_t)
 
-# for blkid.tab
 files_manage_etc_runtime_files(kdumpgui_t)
 files_etc_filetrans_etc_runtime(kdumpgui_t, file)
 
 files_manage_boot_files(kdumpgui_t)
 files_manage_boot_symlinks(kdumpgui_t)
-# Needed for running chkconfig
 files_manage_etc_symlinks(kdumpgui_t)
 
 auth_use_nsswitch(kdumpgui_t)
@@ -56,7 +55,7 @@ init_dontaudit_read_all_script_files(kdumpgui_t)
 userdom_dontaudit_search_admin_dir(kdumpgui_t)
 
 optional_policy(`
-        dev_rw_lvm_control(kdumpgui_t)
+	dev_rw_lvm_control(kdumpgui_t)
 ')
 
 optional_policy(`
@@ -64,5 +63,5 @@ optional_policy(`
 ')
 
 optional_policy(`
-        policykit_dbus_chat(kdumpgui_t)
+	policykit_dbus_chat(kdumpgui_t)
 ')

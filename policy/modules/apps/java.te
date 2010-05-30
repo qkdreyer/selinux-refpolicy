@@ -140,7 +140,6 @@ optional_policy(`
 #
 
 optional_policy(`
-	# execheap is needed for itanium/BEA jrocket
 	allow unconfined_java_t self:process { execstack execmem execheap };
 
 	init_dbus_chat_script(unconfined_java_t)

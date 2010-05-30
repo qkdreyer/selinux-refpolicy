@@ -58,7 +58,6 @@ dev_read_urand(elinks_t)
 
 files_read_etc_files(elinks_t)
 files_read_usr_files(elinks_t)
-# why?
 files_list_tmp(elinks_t)
 
 fs_search_auto_mountpoints(elinks_t)

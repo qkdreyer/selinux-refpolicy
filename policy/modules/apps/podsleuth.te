@@ -27,6 +27,7 @@ ubac_constrained(podsleuth_tmpfs_t)
 #
 # podsleuth local policy
 #
+
 allow podsleuth_t self:capability { kill dac_override sys_admin sys_rawio };
 allow podsleuth_t self:process { ptrace signal getsched execheap execmem execstack };
 allow podsleuth_t self:fifo_file rw_file_perms;
@@ -61,6 +62,7 @@ corenet_tcp_sendrecv_generic_node(podsleuth_t)
 corenet_tcp_bind_generic_node(podsleuth_t)
 corenet_tcp_connect_http_port(podsleuth_t)
 corenet_sendrecv_http_client_packets(podsleuth_t)
+corenet_tcp_sendrecv_http_port(podsleuth_t)
 
 dev_read_urand(podsleuth_t)
 

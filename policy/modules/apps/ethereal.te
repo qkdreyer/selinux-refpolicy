@@ -53,17 +53,14 @@ allow ethereal_t self:packet_socket { setopt bind ioctl getopt create read };
 allow ethereal_t self:tcp_socket create_socket_perms;
 allow ethereal_t self:udp_socket create_socket_perms;
 
-# Re-execute itself (why?)
 can_exec(ethereal_t, ethereal_exec_t)
 corecmd_search_bin(ethereal_t)
 
-# /home/.ethereal
 manage_dirs_pattern(ethereal_t, ethereal_home_t, ethereal_home_t)
 manage_files_pattern(ethereal_t, ethereal_home_t, ethereal_home_t)
 manage_lnk_files_pattern(ethereal_t, ethereal_home_t, ethereal_home_t)
 userdom_user_home_dir_filetrans(ethereal_t, ethereal_home_t, dir)
 
-# Store temporary files
 manage_dirs_pattern(ethereal_t, ethereal_tmp_t, ethereal_tmp_t)
 manage_files_pattern(ethereal_t, ethereal_tmp_t, ethereal_tmp_t)
 files_tmp_filetrans(ethereal_t, ethereal_tmp_t, { dir file })
@@ -120,7 +117,6 @@ optional_policy(`
 	nscd_socket_use(ethereal_t)
 ')
 
-# Manual transition from userhelper 
 optional_policy(`
 	userhelper_use_fd(ethereal_t)
 	userhelper_sigchld(ethereal_t)
@@ -143,18 +139,14 @@ allow tethereal_t self:packet_socket create_socket_perms;
 allow tethereal_t self:tcp_socket create_socket_perms;
 allow tethereal_t self:udp_socket create_socket_perms;
 
-# Store temporary files
 manage_dirs_pattern(tethereal_t, tethereal_tmp_t, tethereal_tmp_t)
 manage_files_pattern(tethereal_t, tethereal_tmp_t, tethereal_tmp_t)
 files_tmp_filetrans(tethereal_t, tethereal_tmp_t, { dir file })
 
-# /proc
 kernel_read_all_sysctls(tethereal_t)
 kernel_read_system_state(tethereal_t)
 
-# Read ethereal files in /usr
 files_read_usr_files(tethereal_t)
-# /etc/nsswitch.conf
 files_read_etc_files(tethereal_t)
 
 miscfiles_read_localization(tethereal_t)

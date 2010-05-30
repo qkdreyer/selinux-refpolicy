@@ -57,15 +57,12 @@ allow uml_t self:fifo_file rw_fifo_file_perms;
 allow uml_t self:process { signal_perms ptrace };
 allow uml_t self:unix_stream_socket create_stream_socket_perms;
 allow uml_t self:unix_dgram_socket create_socket_perms;
-# Use the network.
 allow uml_t self:tcp_socket create_stream_socket_perms;
 allow uml_t self:udp_socket create_socket_perms;
 allow uml_t self:tun_socket create;
-# for mconsole
 allow uml_t self:unix_dgram_socket sendto;
 
-# allow the UML thing to happen
-allow uml_t uml_devpts_t:chr_file { rw_file_perms setattr };
+allow uml_t uml_devpts_t:chr_file { rw_chr_file_perms setattr_chr_file_perms };
 term_create_pty(uml_t, uml_devpts_t)
 
 manage_dirs_pattern(uml_t, uml_tmp_t, uml_tmp_t)
@@ -80,7 +77,6 @@ manage_sock_files_pattern(uml_t, uml_tmpfs_t, uml_tmpfs_t)
 fs_tmpfs_filetrans(uml_t, uml_tmpfs_t, { file lnk_file sock_file fifo_file })
 can_exec(uml_t, uml_tmpfs_t)
 
-# access config files
 allow uml_t { uml_ro_t uml_ro_t }:dir list_dir_perms;
 read_files_pattern(uml_t, { uml_ro_t uml_ro_t }, { uml_ro_t uml_ro_t })
 read_lnk_files_pattern(uml_t, { uml_ro_t uml_ro_t }, { uml_ro_t uml_ro_t })
@@ -92,13 +88,11 @@ manage_fifo_files_pattern(uml_t, uml_rw_t, uml_rw_t)
 manage_sock_files_pattern(uml_t, uml_rw_t, uml_rw_t)
 userdom_user_home_dir_filetrans(uml_t, uml_rw_t, { file lnk_file sock_file fifo_file })
 
-can_exec(uml_t, { uml_exec_t uml_exec_t })
+can_exec(uml_t, uml_exec_t)
 
 kernel_read_system_state(uml_t)
-# for SKAS - need something better
 kernel_write_proc_files(uml_t)
 
-# for xterm
 corecmd_exec_bin(uml_t)
 
 corenet_all_recvfrom_unlabeled(uml_t)
@@ -115,10 +109,8 @@ corenet_rw_tun_tap_dev(uml_t)
 
 domain_use_interactive_fds(uml_t)
 
-# for xterm
 files_read_etc_files(uml_t)
 files_dontaudit_read_etc_runtime_files(uml_t)
-# putting uml data under /var is usual...
 files_search_var(uml_t)
 
 fs_getattr_xattr_fs(uml_t)
@@ -126,13 +118,10 @@ fs_getattr_xattr_fs(uml_t)
 init_read_utmp(uml_t)
 init_dontaudit_write_utmp(uml_t)
 
-# for xterm
 libs_exec_lib_files(uml_t)
 
-# Inherit and use descriptors from newrole.
 seutil_use_newrole_fds(uml_t)
 
-# Use the network.
 sysnet_read_config(uml_t)
 
 userdom_use_user_terminals(uml_t)

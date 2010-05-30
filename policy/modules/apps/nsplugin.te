@@ -49,11 +49,11 @@ domain_entry_file(nsplugin_config_t, nsplugin_config_exec_t)
 application_executable_file(nsplugin_exec_t)
 application_executable_file(nsplugin_config_exec_t)
 
-
 ########################################
 #
 # nsplugin local policy
 #
+
 dontaudit nsplugin_t self:capability { sys_nice sys_tty_config };
 allow nsplugin_t self:fifo_file rw_file_perms;
 allow nsplugin_t self:process { ptrace setpgid getsched setsched signal_perms };
@@ -71,6 +71,7 @@ tunable_policy(`allow_nsplugin_execmem',`
 	
 tunable_policy(`nsplugin_can_network',`
 	corenet_tcp_connect_all_unreserved_ports(nsplugin_t)
+	corenet_sendrecv_all_client_packets(nsplugin_t)
 ')
 
 manage_dirs_pattern(nsplugin_t, nsplugin_home_t, nsplugin_home_t)
@@ -98,6 +99,13 @@ corenet_tcp_sendrecv_generic_if(nsplugin_t)
 corenet_tcp_sendrecv_generic_node(nsplugin_t)
 corenet_tcp_connect_ipp_port(nsplugin_t)
 corenet_tcp_connect_speech_port(nsplugin_t)
+corenet_tcp_sendrecv_all_ports(nsplugin_t)
+corenet_sendrecv_streaming_client_packets(nsplugin_t)
+corenet_sendrecv_pulseaudio_client_packets(nsplugin_t)
+corenet_sendrecv_http_client_packets(nsplugin_t)
+corenet_sendrecv_http_cache_client_packets(nsplugin_t)
+corenet_sendrecv_ipp_client_packets(nsplugin_t)
+corenet_sendrecv_speech_client_packets(nsplugin_t)
 
 domain_dontaudit_read_all_domains_state(nsplugin_t)
 
@@ -129,6 +137,8 @@ storage_dontaudit_getattr_fixed_disk_dev(nsplugin_t)
 
 term_dontaudit_getattr_all_ptys(nsplugin_t)
 term_dontaudit_getattr_all_ttys(nsplugin_t)
+
+application_signull(nsplugin_t)
 
 auth_use_nsswitch(nsplugin_t)
 
@@ -189,6 +199,7 @@ optional_policy(`
 	gen_require(`
 		type user_tmpfs_t;
 	')
+
 	xserver_user_x_domain_template(nsplugin, nsplugin_t, user_tmpfs_t)
 	xserver_rw_shm(nsplugin_t)
 	xserver_read_xdm_pid(nsplugin_t)
@@ -206,16 +217,12 @@ optional_policy(`
 
 allow nsplugin_config_t self:capability { dac_override dac_read_search sys_nice setuid setgid };
 allow nsplugin_config_t self:process { setsched signal_perms getsched execmem };
-#execing pulseaudio
 dontaudit nsplugin_t self:process { getcap setcap };
 
 allow nsplugin_config_t self:fifo_file rw_file_perms;
 allow nsplugin_config_t self:unix_stream_socket create_stream_socket_perms;
 
-dev_dontaudit_read_rand(nsplugin_config_t)
-
-fs_search_auto_mountpoints(nsplugin_config_t)
-fs_list_inotifyfs(nsplugin_config_t)
+domtrans_pattern(nsplugin_config_t, nsplugin_exec_t, nsplugin_t)
 
 can_exec(nsplugin_config_t, nsplugin_rw_t)
 manage_dirs_pattern(nsplugin_config_t, nsplugin_rw_t, nsplugin_rw_t)
@@ -228,6 +235,11 @@ manage_lnk_files_pattern(nsplugin_config_t, nsplugin_home_t, nsplugin_home_t)
 
 corecmd_exec_bin(nsplugin_config_t)
 corecmd_exec_shell(nsplugin_config_t)
+
+dev_dontaudit_read_rand(nsplugin_config_t)
+
+fs_search_auto_mountpoints(nsplugin_config_t)
+fs_list_inotifyfs(nsplugin_config_t)
 
 kernel_read_system_state(nsplugin_config_t)
 
@@ -270,8 +282,6 @@ tunable_policy(`use_samba_home_dirs',`
 	fs_read_cifs_symlinks(nsplugin_config_t)
 ')
 
-domtrans_pattern(nsplugin_config_t, nsplugin_exec_t, nsplugin_t)
-
 optional_policy(`
 	xserver_use_user_fonts(nsplugin_config_t)
 ')
@@ -281,18 +291,13 @@ optional_policy(`
 	mozilla_write_user_home_files(nsplugin_config_t)
 ')
 
-application_signull(nsplugin_t)
-
 optional_policy(`
 	pulseaudio_exec(nsplugin_t)
 	pulseaudio_rw_home_files(nsplugin_t)
 	pulseaudio_setattr_home_dir(nsplugin_t)
 	pulseaudio_stream_connect(nsplugin_t)
-	# pulseaudio_manage_home_files(nsplugin_t)
 ')
 
 optional_policy(`
 	unconfined_execmem_exec(nsplugin_t)
 ')
-
-

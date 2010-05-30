@@ -1,5 +1,5 @@
 
-policy_module(mail,1.0.0) 
+policy_module(mail, 1.0.0) 
 
 ########################################
 #
@@ -138,4 +138,3 @@ corecmd_search_bin(mutt_pgpewrap_t)
 files_search_home(mutt_pgpewrap_t)
 
 mutt_rw_tmp_files(mutt_pgpewrap_t)
-

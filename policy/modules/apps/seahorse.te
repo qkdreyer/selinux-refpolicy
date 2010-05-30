@@ -1,5 +1,5 @@
 
-policy_module(seahorse,1.0.0) 
+policy_module(seahorse, 1.0.0) 
 
 ########################################
 #
@@ -59,9 +59,10 @@ logging_send_syslog_msg(seahorsed_t)
 
 miscfiles_read_localization(seahorsed_t)
 
+application_signull(seahorsed_t)
+
 userdom_list_user_tmp(seahorsed_t)
 userdom_read_user_tmpfs_files(seahorsed_t)
-# Bug: user pulseaudio files need open,read and unlink:
 allow seahorsed_t user_tmpfs_t:file unlink;
 
 userdom_setattr_user_tmp_dirs(seahorsed_t)
@@ -69,7 +70,6 @@ userdom_stream_connect(seahorsed_t)
 userdom_signull_unpriv_users(seahorsed_t)
 userdom_use_user_terminals(seahorsed_t)
 
-# We need a non-generic type for ~/.icons
 userdom_dontaudit_read_user_home_content_files(seahorsed_t)
 
 tunable_policy(`use_nfs_home_dirs',`
@@ -105,7 +105,6 @@ optional_policy(`
 
 optional_policy(`
 	ssh_manage_user_home_files(seahorsed_t)
-	# deal with this
 	ssh_create_user_home(seahorsed_t)
 ') 
 
@@ -119,16 +118,13 @@ optional_policy(`
 
 optional_policy(`
 	pulseaudio_exec(seahorsed_t)
-	pulseaudio_signull(seahorsed_t)
 ')
 
 optional_policy(`
 	vino_server_delete_tmpfs_files(seahorsed_t)
 	vino_server_read_tmpfs_files(seahorsed_t)
-	vino_server_signull(seahorsed_t)
 ')
 
 optional_policy(`
 	xserver_user_x_domain_template(seahorsed, seahorsed_t, seahorsed_tmpfs_t)
 ')
-

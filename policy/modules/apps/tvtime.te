@@ -41,7 +41,6 @@ allow tvtime_t self:process setsched;
 allow tvtime_t self:unix_dgram_socket rw_socket_perms;
 allow tvtime_t self:unix_stream_socket rw_stream_socket_perms;
 
-# X access, Home files
 manage_dirs_pattern(tvtime_t, tvtime_home_t, tvtime_home_t)
 manage_files_pattern(tvtime_t, tvtime_home_t, tvtime_home_t)
 manage_lnk_files_pattern(tvtime_t, tvtime_home_t, tvtime_home_t)
@@ -49,13 +48,13 @@ userdom_user_home_dir_filetrans(tvtime_t, tvtime_home_t, dir)
 
 manage_dirs_pattern(tvtime_t, tvtime_tmp_t, tvtime_tmp_t)
 manage_files_pattern(tvtime_t, tvtime_tmp_t, tvtime_tmp_t)
-files_tmp_filetrans(tvtime_t, tvtime_tmp_t,{ file dir })
+files_tmp_filetrans(tvtime_t, tvtime_tmp_t, { file dir })
 
 manage_files_pattern(tvtime_t, tvtime_tmpfs_t, tvtime_tmpfs_t)
 manage_lnk_files_pattern(tvtime_t, tvtime_tmpfs_t, tvtime_tmpfs_t)
 manage_fifo_files_pattern(tvtime_t, tvtime_tmpfs_t, tvtime_tmpfs_t)
 manage_sock_files_pattern(tvtime_t, tvtime_tmpfs_t, tvtime_tmpfs_t)
-fs_tmpfs_filetrans(tvtime_t, tvtime_tmpfs_t,{ file lnk_file sock_file fifo_file })
+fs_tmpfs_filetrans(tvtime_t, tvtime_tmpfs_t, { file lnk_file sock_file fifo_file })
 
 kernel_read_all_sysctls(tvtime_t)
 kernel_get_sysvipc_info(tvtime_t)
@@ -66,10 +65,8 @@ dev_read_sound(tvtime_t)
 
 files_read_usr_files(tvtime_t)
 files_search_pids(tvtime_t)
-# Read /etc/tvtime
 files_read_etc_files(tvtime_t)
 
-# X access, Home files
 fs_search_auto_mountpoints(tvtime_t)
 
 miscfiles_read_localization(tvtime_t)
@@ -78,7 +75,6 @@ miscfiles_read_fonts(tvtime_t)
 userdom_use_user_terminals(tvtime_t)
 userdom_read_user_home_content_files(tvtime_t)
 
-# X access, Home files
 tunable_policy(`use_nfs_home_dirs',`
 	fs_manage_nfs_dirs(tvtime_t)
 	fs_manage_nfs_files(tvtime_t)

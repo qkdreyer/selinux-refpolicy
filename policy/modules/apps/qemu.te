@@ -66,8 +66,7 @@ tunable_policy(`qemu_full_network',`
 	corenet_udp_bind_all_ports(qemu_t)
 	corenet_tcp_bind_all_ports(qemu_t)
 	corenet_tcp_connect_all_ports(qemu_t)
-	corenet_sendrecv_all_client_packets(qemu_t)
-	corenet_sendrecv_all_server_packets(qemu_t)
+	corenet_sendrecv_all_packets(qemu_t)
 ')
 
 tunable_policy(`qemu_use_cifs',`

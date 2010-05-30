@@ -1,5 +1,5 @@
 
-policy_module(telepathy,1.0.0) 
+policy_module(telepathy, 1.0.0) 
 
 ########################################
 #
@@ -163,6 +163,7 @@ userdom_stream_connect(tp_domains)
 userdom_use_user_terminals(tp_domains)
 
 tunable_policy(`telepathy_tcp_connect_generic_network_ports',`
+	corenet_tcp_sendrecv_generic_port(tp_domains)
 	corenet_tcp_connect_generic_port(tp_domains)
 	corenet_sendrecv_generic_client_packets(tp_domains)
 ')
@@ -207,6 +208,9 @@ corenet_sendrecv_msnp_client_packets(tp_butterfly_t)
 corenet_tcp_connect_http_port(tp_butterfly_t)
 corenet_tcp_connect_msnp_port(tp_butterfly_t)
 
+corenet_tcp_sendrecv_http_port(tp_butterfly_t)
+corenet_tcp_sendrecv_msnp_port(tp_butterfly_t)
+
 corecmd_exec_bin(tp_butterfly_t)
 corecmd_exec_shell(tp_butterfly_t)
 corecmd_read_bin_symlinks(tp_butterfly_t)
@@ -243,7 +247,6 @@ manage_dirs_pattern(tp_gabble_t, tp_gabble_tmp_t, tp_gabble_tmp_t)
 manage_sock_files_pattern(tp_gabble_t, tp_gabble_tmp_t, tp_gabble_tmp_t)
 files_tmp_filetrans(tp_gabble_t, tp_gabble_tmp_t, { dir sock_file })
 
-# ~/.cache/gabble/caps-cache.db-journal.
 optional_policy(`
 	manage_dirs_pattern(tp_gabble_t, tp_gabble_cache_home_t, tp_gabble_cache_home_t)
 	manage_files_pattern(tp_gabble_t, tp_gabble_cache_home_t, tp_gabble_cache_home_t)
@@ -252,15 +255,19 @@ optional_policy(`
 
 corenet_sendrecv_jabber_client_client_packets(tp_gabble_t)
 corenet_tcp_connect_jabber_client_port(tp_gabble_t)
+corenet_tcp_sendrecv_jabber_client_port(tp_gabble_t)
 
 corenet_sendrecv_http_client_packets(tp_gabble_t)
 corenet_tcp_connect_http_port(tp_gabble_t)
+corenet_tcp_sendrecv_http_port(tp_gabble_t)
 
 corenet_sendrecv_vnc_client_packets(tp_gabble_t)
 corenet_tcp_connect_vnc_port(tp_gabble_t)
+corenet_tcp_sendrecv_vnc_port(tp_gabble_t)
 
 corenet_sendrecv_commplex_client_packets(tp_gabble_t)
 corenet_tcp_connect_commplex_port(tp_gabble_t)
+corenet_tcp_sendrecv_commplex_port(tp_gabble_t)
 
 dev_read_rand(tp_gabble_t)
 dev_read_urand(tp_gabble_t)
@@ -330,6 +337,7 @@ allow tp_idle_t self:udp_socket create_socket_perms;
 
 corenet_sendrecv_ircd_client_packets(tp_idle_t)
 corenet_tcp_connect_ircd_port(tp_idle_t)
+corenet_tcp_sendrecv_ircd_port(tp_idle_t)
 
 files_read_etc_files(tp_idle_t)
 
@@ -345,7 +353,6 @@ manage_files_pattern(tp_mission_control_t, tp_mission_control_home_t, tp_mission
 userdom_user_home_dir_filetrans(tp_mission_control_t, tp_mission_control_home_t, { dir file })
 userdom_search_user_home_dirs(tp_mission_control_t)
 
-# ~/.cache/.mc_connections.
 optional_policy(`
 	manage_files_pattern(tp_mission_control_t, tp_mission_control_cache_home_t, tp_mission_control_cache_home_t)
 	gnome_cache_filetrans(tp_mission_control_t, tp_mission_control_cache_home_t, file)
@@ -382,8 +389,10 @@ manage_sock_files_pattern(tp_salut_t, tp_salut_tmp_t, tp_salut_tmp_t)
 files_tmp_filetrans(tp_salut_t, tp_salut_tmp_t, sock_file)
 
 corenet_sendrecv_presence_server_packets(tp_salut_t)
+corenet_sendrecv_presence_client_packets(tp_salut_t)
 corenet_tcp_bind_presence_port(tp_salut_t)
 corenet_tcp_connect_presence_port(tp_salut_t)
+corenet_tcp_sendrecv_presence_port(tp_salut_t)
 
 dev_read_urand(tp_salut_t)
 
@@ -411,6 +420,7 @@ allow tp_sofiasip_t self:udp_socket create_socket_perms;
 
 corenet_sendrecv_sip_client_packets(tp_sofiasip_t)
 corenet_tcp_connect_sip_port(tp_sofiasip_t)
+corenet_tcp_sendrecv_sip_port(tp_sofiasip_t)
 
 kernel_request_load_module(tp_sofiasip_t)
 
@@ -445,4 +455,3 @@ optional_policy(`
 	xserver_read_xdm_pid(tp_sunshine_t)
 	xserver_stream_connect(tp_sunshine_t)
 ')
-
