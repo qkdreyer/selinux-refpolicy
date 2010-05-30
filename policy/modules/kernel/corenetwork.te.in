@@ -20,9 +20,6 @@ attribute corenet_unconfined_type;
 type ppp_device_t;
 dev_node(ppp_device_t)
 
-#
-# tun_tap_device_t is the type of /dev/net/tun/* and /dev/net/tap/*
-#
 type tun_tap_device_t;
 dev_node(tun_tap_device_t)
 mls_trusted_object(tun_tap_device_t)
@@ -32,37 +29,18 @@ mls_trusted_object(tun_tap_device_t)
 # Ports and packets
 #
 
-#
-# client_packet_t is the default type of IPv4 and IPv6 client packets.
-#
 type client_packet_t, packet_type, client_packet_type;
 
-#
-# The netlabel_peer_t is used by the kernel's NetLabel subsystem for network
-# connections using NetLabel which do not carry full SELinux contexts.
-#
 type netlabel_peer_t;
 sid netmsg gen_context(system_u:object_r:netlabel_peer_t,mls_systemhigh)
 
-#
-# port_t is the default type of INET port numbers.
-#
 type port_t, port_type;
 sid port gen_context(system_u:object_r:port_t,s0)
 
-#
-# reserved_port_t is the type of INET port numbers below 1024.
-#
 type reserved_port_t, port_type, reserved_port_type;
 
-#
-# hi_reserved_port_t is the type of INET port numbers between 600-1023.
-#
 type hi_reserved_port_t, port_type, reserved_port_type, rpc_port_type;
 
-#
-# server_packet_t is the default type of IPv4 and IPv6 server packets.
-#
 type server_packet_t, packet_type, server_packet_type;
 
 network_port(afs_bos, udp,7007,s0)
@@ -236,9 +214,6 @@ network_port(xserver, tcp,6000-6150,s0)
 network_port(zebra, tcp,2600-2604,s0, tcp,2606,s0, udp,2600-2604,s0, udp,2606,s0)
 network_port(zope, tcp,8021,s0)
 
-# Defaults for reserved ports.  Earlier portcon entries take precedence;
-# these entries just cover any remaining reserved ports not otherwise declared.
-
 portcon tcp 600-1023 gen_context(system_u:object_r:hi_reserved_port_t, s0)
 portcon udp 600-1023 gen_context(system_u:object_r:hi_reserved_port_t, s0)
 portcon tcp 1-599 gen_context(system_u:object_r:reserved_port_t, s0)
@@ -249,34 +224,26 @@ portcon udp 1-599 gen_context(system_u:object_r:reserved_port_t, s0)
 # Network nodes
 #
 
-#
-# node_t is the default type of network nodes.
-# The node_*_t types are used for specific network
-# nodes in net_contexts or net_contexts.mls.
-#
 type node_t, node_type;
 typealias node_t alias { compat_ipv4_node_t lo_node_t link_local_node_t inaddr_any_node_t unspec_node_t };
 sid node gen_context(system_u:object_r:node_t,s0 - mls_systemhigh)
 
 # network_node examples:
-#network_node(lo, s0 - mls_systemhigh, 127.0.0.1, 255.255.255.255)
-#network_node(multicast, s0 - mls_systemhigh, ff00::, ff00::)
+# network_node(lo, s0 - mls_systemhigh, 127.0.0.1, 255.255.255.255)
+# network_node(multicast, s0 - mls_systemhigh, ff00::, ff00::)
 
 ########################################
 #
 # Network Interfaces
 #
 
-#
-# netif_t is the default type of network interfaces.
-#
 type netif_t, netif_type;
 sid netif gen_context(system_u:object_r:netif_t,s0 - mls_systemhigh)
 
 build_option(`enable_mls',`
-network_interface(lo, lo, s0 - mls_systemhigh)
+	network_interface(lo, lo, s0 - mls_systemhigh)
 ',`
-typealias netif_t alias { lo_netif_t netif_lo_t };
+	typealias netif_t alias { lo_netif_t netif_lo_t };
 ')
 
 ########################################
@@ -290,6 +257,5 @@ allow corenet_unconfined_type packet_type:packet *;
 allow corenet_unconfined_type port_type:tcp_socket { send_msg recv_msg name_connect };
 allow corenet_unconfined_type port_type:udp_socket { send_msg recv_msg };
 
-# Bind to any network address.
 allow corenet_unconfined_type port_type:{ tcp_socket udp_socket } name_bind;
 allow corenet_unconfined_type node_type:{ tcp_socket udp_socket rawip_socket } node_bind;

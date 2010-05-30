@@ -32,9 +32,6 @@ neverallow { domain -mmap_low_domain_type } self:memprotect mmap_zero;
 
 attribute set_curr_context;
 
-# enabling setcurrent breaks process tranquility.  If you do not
-# know what this means or do not understand the implications of a
-# dynamic transition, you should not be using it!!!
 neverallow { domain -set_curr_context } self:process setcurrent;
 
 attribute entry_type;
@@ -45,34 +42,20 @@ attribute privfd;
 # constraint related attributes
 #
 
-# [1] types that can change SELinux identity on transition
 attribute can_change_process_identity;
 
-# [2] types that can change SELinux role on transition
 attribute can_change_process_role;
 
-# [3] types that can change the SELinux identity on a filesystem
-# object or a socket object on a create or relabel
 attribute can_change_object_identity;
 
-# [3] types that can change to system_u:system_r
 attribute can_system_change;
 
-# [4] types that have attribute 1 can change the SELinux
-# identity only if the target domain has this attribute.
-# Types that have attribute 2 can change the SELinux role
-# only if the target domain has this attribute.
 attribute process_user_target;
 
-# For cron jobs
-# [5] types used for cron daemons
 attribute cron_source_domain;
-# [6] types used for cron jobs
 attribute cron_job_domain;
 
-# [7] types that are unconditionally exempt from
-# SELinux identity and role change constraints
-attribute process_uncond_exempt;	# add userhelperdomain to this one
+attribute process_uncond_exempt;
 
 neverallow { domain unlabeled_t } ~{ domain unlabeled_t }:process *;
 neverallow ~{ domain unlabeled_t } *:process *;
@@ -88,9 +71,6 @@ allow domain self:file rw_file_perms;
 kernel_read_proc_symlinks(domain)
 kernel_read_crypto_sysctls(domain)
 
-# Every domain gets the key ring, so we should default
-# to no one allowed to look at it; afs kernel support creates
-# a keyring
 kernel_dontaudit_search_key(domain)
 kernel_dontaudit_link_key(domain)
 kernel_dontaudit_search_debugfs(domain)
@@ -136,10 +116,6 @@ optional_policy(`
 #
 # Unconfined access to this module
 #
-
-# unconfined access also allows constraints, but this
-# is handled in the interface as typeattribute cannot
-# be used on an attribute.
 
 allow unconfined_domain_type domain:{ socket_class_set socket key_socket } *;
 
@@ -223,7 +199,6 @@ optional_policy(`
 	unconfined_sigchld(domain)
 ')
 
-# broken kernel
 dontaudit can_change_object_identity can_change_object_identity:key link;
 
 tunable_policy(`allow_polyinstantiation',`
