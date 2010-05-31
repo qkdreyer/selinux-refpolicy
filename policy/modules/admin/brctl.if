@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute a domain transition to run brctl.
+##	Execute a domain transition to
+##	run Brctl.
 ## </summary>
 ## <param name="domain">
 ## <summary>

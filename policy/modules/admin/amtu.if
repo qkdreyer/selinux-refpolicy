@@ -2,11 +2,12 @@
 
 ########################################
 ## <summary>
-##	Execute amtu in the amtu domain.
+##	Execute a domain transition to
+##	run AMTU.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -21,17 +22,18 @@ interface(`amtu_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute amtu in the amtu domain, and
-##	allow the specified role the amtu domain.
+##	Execute a domain transition to
+##	run AMTU and allow the
+##	specified role the AMTU domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the amtu domain.
+##	The role to be allowed the AMTU domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>

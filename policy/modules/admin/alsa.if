@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Domain transition to alsa
+##	Execute a domain transition to
+##	run Alsa.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -21,7 +22,8 @@ interface(`alsa_domtrans',`
 
 ########################################
 ## <summary>
-##	Allow read and write access to alsa semaphores.
+##	Read and write access to Alsa
+##	semaphores.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -34,12 +36,13 @@ interface(`alsa_rw_semaphores',`
 		type alsa_t;
 	')
 
-	allow $1 alsa_t:sem { unix_read unix_write associate read write };
+	allow $1 alsa_t:sem rw_sem_perms;
 ')
 
 ########################################
 ## <summary>
-##	Allow read and write access to alsa shared memory.
+##	Read and write access to Alsa
+##	shared memory.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -52,12 +55,12 @@ interface(`alsa_rw_shared_mem',`
 		type alsa_t;
 	')
 
-	allow $1 alsa_t:shm { unix_read unix_write create_shm_perms };
+	allow $1 alsa_t:shm rw_shm_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read alsa writable config files.
+##	Read Alsa writable config files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -78,7 +81,7 @@ interface(`alsa_read_rw_config',`
 
 ########################################
 ## <summary>
-##	Manage alsa writable config files.
+##	Manage Alsa writable config files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -99,7 +102,7 @@ interface(`alsa_manage_rw_config',`
 
 ########################################
 ## <summary>
-##	Read alsa lib files.
+##	Read Alsa lib files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -118,7 +121,7 @@ interface(`alsa_read_lib',`
 
 ########################################
 ## <summary>
-##	Read alsa home files.
+##	Read Alsa home files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

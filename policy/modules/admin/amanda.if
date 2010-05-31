@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute amrecover in the amanda_recover domain.
+##	Execute a domain transition to
+##	run Amanda Recover.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -21,8 +22,10 @@ interface(`amanda_domtrans_recover',`
 
 ########################################
 ## <summary>
-##	Execute amrecover in the amanda_recover domain, and
-##	allow the specified role the amanda_recover domain.
+##	Execute a domain transition to
+##	run Amanda Recover and allow the
+##	specified role the Amanda Recover
+##	domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -31,7 +34,8 @@ interface(`amanda_domtrans_recover',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the amanda_recover domain.
+##	The role to be allowed the Amanda
+##	Recover domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -47,7 +51,7 @@ interface(`amanda_run_recover',`
 
 ########################################
 ## <summary>
-##	Search amanda library directories.
+##	Search Amanda lib directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -67,7 +71,8 @@ interface(`amanda_search_lib',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to read /etc/dumpdates.
+##	Do not audit attempts to read
+##	dumpdates files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -85,7 +90,7 @@ interface(`amanda_dontaudit_read_dumpdates',`
 
 ########################################
 ## <summary>
-##	Allow read/writing /etc/dumpdates.
+##	Read and write dumpdates files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -104,7 +109,7 @@ interface(`amanda_rw_dumpdates_files',`
 
 ########################################
 ## <summary>
-##	Search amanda library directories.
+##	Search Amanda lib directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -124,7 +129,7 @@ interface(`amanda_manage_lib',`
 
 ########################################
 ## <summary>
-##	Allow read/writing amanda logs
+##	Read and write Amanda logs.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -143,7 +148,7 @@ interface(`amanda_append_log_files',`
 
 #######################################
 ## <summary>
-##	Search amanda var library directories.
+##	Search Amanda lib directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

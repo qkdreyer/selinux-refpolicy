@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Domain transition to certwatch.
+##	Execute a domain transition to
+##	run Certwatch.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -22,10 +23,9 @@ interface(`certwatch_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute certwatch in the certwatch domain, and
-##	allow the specified role the certwatch domain,
-##	and use the caller's terminal. Has a sigchld
-##	backchannel.
+##	Execute a domain transition to
+##	run Certwatch and allow the
+##	specified role the Certwatch domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -34,7 +34,7 @@ interface(`certwatch_domtrans',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the certwatch domain.
+##	The role to be allowed the Certwatch domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -46,33 +46,4 @@ interface(`certwatch_run',`
 
 	certwatch_domtrans($1)
 	role $2 types certwatch_t;
-')
-
-########################################
-## <summary>
-##	Execute certwatch in the certwatch domain, and
-##	allow the specified role the certwatch domain,
-##	and use the caller's terminal. Has a sigchld
-##	backchannel.  (Deprecated)
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed to transition.
-##	</summary>
-## </param>
-## <param name="role">
-##	<summary>
-##	The role to be allowed the certwatch domain.
-##	</summary>
-## </param>
-## <param name="terminal">
-##	<summary>
-##	The type of the terminal allow the certwatch domain to use.
-##	</summary>
-## </param>
-## <rolecap/>
-#
-interface(`certwatach_run',`
-	refpolicywarn(`$0($*) has been deprecated, please use certwatch_run() instead.')
-	certwatch_run($*)
 ')

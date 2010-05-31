@@ -4,12 +4,12 @@
 ## <summary>
 ##	Role access for dgrifts scripts.
 ## </summary>
-## <param name="role">
+## <param name="user_role">
 ##	<summary>
 ##	Role allowed access.
 ##	</summary>
 ## </param>
-## <param name="domain">
+## <param name="user_domain">
 ##	<summary>
 ##	User domain for the role.
 ##	</summary>

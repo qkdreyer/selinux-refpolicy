@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute bootloader in the bootloader domain.
+##	Execute a domain transition to
+##	run Bootloader.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -21,8 +22,9 @@ interface(`bootloader_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute bootloader interactively and do
-##	a domain transition to the bootloader domain.
+##	Execute a domain transition to
+##	run Bootloader and allow the
+##	specified role the Bootloader domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -31,7 +33,8 @@ interface(`bootloader_domtrans',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the bootloader domain.
+##	The role to be allowed the Bootloader
+##	domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -45,14 +48,13 @@ interface(`bootloader_run',`
 	role $2 types bootloader_t;
 
 	ifdef(`distro_redhat',`
-		# for mke2fs
 		mount_run(bootloader_t, $2)
 	')
 ')
 
 ########################################
 ## <summary>
-##	Read the bootloader configuration file.
+##	Read Bootloader configuration files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -71,8 +73,8 @@ interface(`bootloader_read_config',`
 
 ########################################
 ## <summary>
-##	Read and write the bootloader
-##	configuration file.
+##	Read and write Bootloader
+##	configuration files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -91,8 +93,8 @@ interface(`bootloader_rw_config',`
 
 ########################################
 ## <summary>
-##	Read and write the bootloader
-##	temporary data in /tmp.
+##	Read and write Bootloader
+##	temporary files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -105,14 +107,13 @@ interface(`bootloader_rw_tmp_files',`
 		type bootloader_tmp_t;
 	')
 
-	# FIXME: read tmp_t dir
 	allow $1 bootloader_tmp_t:file rw_file_perms;
 	files_search_tmp($1)
 ')
 
 ########################################
 ## <summary>
-##	Create bootloader runtime files.
+##	Create Bootloader runtime files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

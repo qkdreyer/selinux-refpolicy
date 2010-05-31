@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute a domain transition to run accountsd.
+##	Execute a domain transition to
+##	run Account Service daemon.
 ## </summary>
 ## <param name="domain">
 ## <summary>
@@ -22,7 +23,8 @@ interface(`accountsd_domtrans',`
 
 ########################################
 ## <summary>
-##	Search accountsd lib directories.
+##	Search Accounts  Service daemon
+##	lib directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -41,7 +43,8 @@ interface(`accountsd_search_lib',`
 
 ########################################
 ## <summary>
-##	Read accountsd lib files.
+##	Read Accounts Service Daemon
+##	lib files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -60,8 +63,8 @@ interface(`accountsd_read_lib_files',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete
-##	accountsd lib files.
+##	Manage Account Service daemon
+##	lib files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -80,7 +83,8 @@ interface(`accountsd_manage_lib_files',`
 
 ########################################
 ## <summary>
-##	Manage accountsd var_lib files.
+##	Manage Account Service daemon
+##	lib content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -102,7 +106,7 @@ interface(`accountsd_manage_var_lib',`
 ########################################
 ## <summary>
 ##	Send and receive messages from
-##	accountsd over dbus.
+##	Account Service daemon over dbus.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -122,8 +126,8 @@ interface(`accountsd_dbus_chat',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to read and write Accounts Daemon
-##	fifo file.
+##	Do not audit attempts to read and 
+##	write Account Service daemon pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -142,7 +146,7 @@ interface(`accountsd_dontaudit_rw_fifo_file',`
 ########################################
 ## <summary>
 ##	All of the rules required to administrate 
-##	an accountsd environment
+##	an Account Service daemon environment.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -158,11 +162,12 @@ interface(`accountsd_dontaudit_rw_fifo_file',`
 #
 interface(`accountsd_admin',`
 	gen_require(`
-		type accountsd_t;
+		type accountsd_t, accountsd_var_lib_t;
 	')
 
-	allow $1 accountsd_t:process { ptrace signal_perms getattr };
+	allow $1 accountsd_t:process { ptrace signal_perms	};
 	read_files_pattern($1, accountsd_t, accountsd_t)
 
-	accountsd_manage_var_lib($1)
+	admin_pattern($1, accountsd_var_lib_t)
+	files_search_var_lib($1)
 ')

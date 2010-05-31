@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute dmesg in the dmesg domain.
+##	Execute a domain transition to
+##	run Dmesg.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -21,7 +22,7 @@ interface(`dmesg_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute dmesg in the caller domain.
+##	Execute Dmesg.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

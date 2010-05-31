@@ -2,11 +2,12 @@
 
 ########################################
 ## <summary>
-##	Execute ddcprobe in the ddcprobe domain.
+##	Execute a domain transition to
+##	run Ddcprobe.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -21,8 +22,9 @@ interface(`ddcprobe_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute ddcprobe in the ddcprobe domain, and
-##	allow the specified role the ddcprobe domain.
+##	Execute a domain transition to
+##	run Ddcprobe and allow the
+##	specified role the Ddcprobe domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -31,7 +33,8 @@ interface(`ddcprobe_domtrans',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the ddcprobe domain.
+##	The role to be allowed the Ddcprobe
+##	domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>

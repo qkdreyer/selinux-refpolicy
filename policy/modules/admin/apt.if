@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute apt programs in the apt domain.
+##	Execute a domain transition to
+##	run APT.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -22,7 +23,9 @@ interface(`apt_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute apt programs in the apt domain.
+##	Execute a domain transition to
+##	run APT and allow the
+##	specified role the APT domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -31,7 +34,7 @@ interface(`apt_domtrans',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to allow the apt domain.
+##	The role to allow the APT domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -43,12 +46,12 @@ interface(`apt_run',`
 
 	apt_domtrans($1)
 	role $2 types apt_t;
-	# TODO: likely have to add dpkg_run here.
 ')
 
 ########################################
 ## <summary>
-##	Inherit and use file descriptors from apt.
+##	Inherit and use file descriptors
+##	from APT.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -62,12 +65,12 @@ interface(`apt_use_fds',`
 	')
 
 	allow $1 apt_t:fd use;
-	# TODO: enforce dpkg_use_fd?
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to use file descriptors from apt.
+##	Do not audit attempts to use file
+##	descriptors from APT.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -85,7 +88,7 @@ interface(`apt_dontaudit_use_fds',`
 
 ########################################
 ## <summary>
-##	Read from an unnamed apt pipe.
+##	Read APT pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -99,12 +102,11 @@ interface(`apt_read_pipes',`
 	')
 
 	allow $1 apt_t:fifo_file read_fifo_file_perms;
-	# TODO: enforce dpkg_read_pipes?
 ')
 
 ########################################
 ## <summary>
-##	Read and write an unnamed apt pipe.
+##	Read and write APT pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -118,12 +120,12 @@ interface(`apt_rw_pipes',`
 	')
 
 	allow $1 apt_t:fifo_file rw_file_perms;
-	# TODO: enforce dpkg_rw_pipes?
 ')
 
 ########################################
 ## <summary>
-##	Read from and write to apt ptys.
+##	Read from and write APT
+##	pseudo terminals.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -141,7 +143,7 @@ interface(`apt_use_ptys',`
 
 ########################################
 ## <summary>
-##	Read the apt package cache.
+##	Read APT package cache.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -162,7 +164,7 @@ interface(`apt_read_cache',`
 
 ########################################
 ## <summary>
-##	Read the apt package database.
+##	Read APT package database.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -183,7 +185,7 @@ interface(`apt_read_db',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete the apt package database.
+##	Manage APT package database.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -204,8 +206,8 @@ interface(`apt_manage_db',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to create, read, 
-##	write, and delete the apt package database.
+##	Do not audit attempts to manage APT
+##	package database.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

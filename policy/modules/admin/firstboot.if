@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute firstboot in the firstboot domain.
+##	Execute a domain transition to
+##	run Firstboot.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -21,8 +22,9 @@ interface(`firstboot_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute firstboot in the firstboot domain, and
-##	allow the specified role the firstboot domain.
+##	Execute a domain transition to
+##	run Firstboot and allow the
+##	specified role the Firstboot domain
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -31,7 +33,8 @@ interface(`firstboot_domtrans',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the firstboot domain.
+##	The role to be allowed the Firstboot
+##	domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -47,7 +50,8 @@ interface(`firstboot_run',`
 
 ########################################
 ## <summary>
-##	Inherit and use a file descriptor from firstboot.
+##	Inherit and use Firstboot file
+##	descriptors.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -65,8 +69,8 @@ interface(`firstboot_use_fds',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to inherit a
-##	file descriptor from firstboot.
+##	Do not audit attempts to inherit
+##	Firstboot file descriptors.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -84,7 +88,7 @@ interface(`firstboot_dontaudit_use_fds',`
 
 ########################################
 ## <summary>
-##	Write to a firstboot unnamed pipe.
+##	Write Firstboot pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -102,7 +106,7 @@ interface(`firstboot_write_pipes',`
 
 ########################################
 ## <summary>
-##	Read and Write to a firstboot unnamed pipe.
+##	Read and Write Firstboot pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -120,7 +124,8 @@ interface(`firstboot_rw_pipes',`
 
 ########################################
 ## <summary>
-## 	Do not audit attemps to read and write to a firstboot unnamed pipe.
+## 	Do not audit attemps to read and
+##	write Firstboot Pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -138,8 +143,9 @@ interface(`firstboot_dontaudit_rw_pipes',`
 
 ########################################
 ## <summary>
-## 	Do not audit attemps to read and write to a firstboot
-##	unix domain stream socket.
+## 	Do not audit attemps to read and
+##	write Firstboot unix domain stream
+##	sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

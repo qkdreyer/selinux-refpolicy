@@ -2,11 +2,12 @@
 
 ########################################
 ## <summary>
-##	Execute backup in the backup domain.
+##	Execute a domain transition to
+##	run Back-up.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain allowed to transition.
 ##	</summary>
 ## </param>
 #
@@ -21,8 +22,9 @@ interface(`backup_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute backup in the backup domain, and
-##	allow the specified role the backup domain.
+##	Execute a domain transition to
+##	run Back-up and allow the
+##	specified role the Back-up domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -31,7 +33,7 @@ interface(`backup_domtrans',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the backup domain.
+##	The role to be allowed the Back-up domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>

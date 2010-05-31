@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute dpkg programs in the dpkg domain.
+##	Execute a domain transition to
+##	run Dpkg.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -22,7 +23,8 @@ interface(`dpkg_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute dpkg_script programs in the dpkg_script domain.
+##	Execute a domain transition to
+##	run Dpkg Script.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -43,7 +45,9 @@ interface(`dpkg_domtrans_script',`
 
 ########################################
 ## <summary>
-##	Execute dpkg programs in the dpkg domain.
+##	Execute a domain transition to
+##	run Dpkg and allow the
+##	specified role the Dpkg domain
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -52,7 +56,7 @@ interface(`dpkg_domtrans_script',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the dpkg domain.
+##	The role to be allowed the Dpkg domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -70,7 +74,7 @@ interface(`dpkg_run',`
 
 ########################################
 ## <summary>
-##	Inherit and use file descriptors from dpkg.
+##	Inherit and use Dpkg file descriptors.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -88,7 +92,7 @@ interface(`dpkg_use_fds',`
 
 ########################################
 ## <summary>
-##	Read from an unnamed dpkg pipe.
+##	Read Dpkg pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -106,7 +110,7 @@ interface(`dpkg_read_pipes',`
 
 ########################################
 ## <summary>
-##	Read and write an unnamed dpkg pipe.
+##	Read and write Dpkg pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -124,7 +128,8 @@ interface(`dpkg_rw_pipes',`
 
 ########################################
 ## <summary>
-##	Inherit and use file descriptors from dpkg scripts.
+##	Inherit and use Dpkg Script file
+##	descriptors.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -142,7 +147,7 @@ interface(`dpkg_use_script_fds',`
 
 ########################################
 ## <summary>
-##	Read the dpkg package database.
+##	Read Dpkg package databases.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -163,7 +168,7 @@ interface(`dpkg_read_db',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete the dpkg package database.
+##	Manage Dpkg package databases.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -183,8 +188,8 @@ interface(`dpkg_manage_db',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to create, read, 
-##	write, and delete the dpkg package database.
+##	Do not audit attempts to Manage Dpkg
+##	package databases.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -204,7 +209,7 @@ interface(`dpkg_dontaudit_manage_db',`
 
 ########################################
 ## <summary>
-##	Lock the dpkg package database.
+##	Lock Dpkg package databases.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

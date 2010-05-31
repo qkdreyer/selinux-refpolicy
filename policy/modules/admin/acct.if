@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Transition to the accounting management domain.
+##	Execute a domain transition to
+##	run Accounting Management.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -21,7 +22,7 @@ interface(`acct_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute accounting management tools in the caller domain.
+##	Execute Accounting Management.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -40,7 +41,7 @@ interface(`acct_exec',`
 
 ########################################
 ## <summary>
-##	Execute accounting management data in the caller domain.
+##	Execute Accounting Management data.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -59,7 +60,7 @@ interface(`acct_exec_data',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete process accounting data.
+##	Manage process accounting data.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

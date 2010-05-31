@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute dmidecode in the dmidecode domain.
+##	Execute a domain transition to
+##	run Dmidecode.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -26,8 +27,9 @@ interface(`dmidecode_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute dmidecode in the dmidecode domain, and
-##	allow the specified role the dmidecode domain.
+##	Execute a domain transition to
+##	run Dmidecode and allow the
+##	specified role the Dmidecode domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -36,7 +38,8 @@ interface(`dmidecode_domtrans',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the dmidecode domain.
+##	The role to be allowed the Dmidecode
+##	domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>

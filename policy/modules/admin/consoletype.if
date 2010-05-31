@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute consoletype in the consoletype domain.
+##	Execute a domain transition to
+##	run Consoletype.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -19,14 +20,15 @@ interface(`consoletype_domtrans',`
 	corecmd_search_bin($1)
 
 	ifdef(`hide_broken_symptoms',`
-		dontaudit consoletype_t $1:socket_class_set { read write };
+		dontaudit consoletype_t $1:socket_class_set rw_inherited_sock_file_perms;
 	')
 ')
 
 ########################################
 ## <summary>
-##	Execute consoletype in the consoletype domain, and
-##	allow the specified role the consoletype domain.
+##	Execute a domain transition to
+##	run Consoletype and allow the
+##	specified role the Consoletype domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -35,7 +37,8 @@ interface(`consoletype_domtrans',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the consoletype domain.
+##	The role to be allowed the Consoletype
+##	domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -51,7 +54,7 @@ interface(`consoletype_run',`
 
 ########################################
 ## <summary>
-##	Execute consoletype in the caller domain.
+##	Execute Consoletype.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
