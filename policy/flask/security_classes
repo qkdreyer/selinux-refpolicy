@@ -1,5 +1,3 @@
-# FLASK
-
 #
 # Define the security object classes 
 #
@@ -54,7 +52,7 @@ class ipc
 
 class passwd
 
-# X Access control extenstion
+# X Access control extension
 
 class x_drawable
 class x_screen
@@ -138,5 +136,3 @@ class tun_socket
 
 class x_pointer
 class x_keyboard
-
-# FLASK
