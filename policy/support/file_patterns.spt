@@ -6,6 +6,7 @@
 # 2. container (directory) type
 # 3. directory type
 #
+
 define(`getattr_dirs_pattern',`
 	allow $1 $2:dir search_dir_perms;
 	allow $1 $3:dir getattr_dir_perms;
@@ -84,6 +85,7 @@ define(`relabel_dirs_pattern',`
 # 2. container (directory) type
 # 3. file type
 #
+
 define(`getattr_files_pattern',`
 	allow $1 $2:dir search_dir_perms;
 	allow $1 $3:file getattr_file_perms;
@@ -167,6 +169,7 @@ define(`relabel_files_pattern',`
 # 2. container (directory) type
 # 3. file type
 #
+
 define(`getattr_lnk_files_pattern',`
 	allow $1 $2:dir search_dir_perms;
 	allow $1 $3:lnk_file getattr_lnk_file_perms;
@@ -240,6 +243,7 @@ define(`relabel_lnk_files_pattern',`
 # 2. container (directory) type
 # 3. file type
 #
+
 define(`getattr_fifo_files_pattern',`
 	allow $1 $2:dir search_dir_perms;
 	allow $1 $3:fifo_file getattr_fifo_file_perms;
@@ -313,6 +317,7 @@ define(`relabel_fifo_files_pattern',`
 # 2. container (directory) type
 # 3. file type
 #
+
 define(`getattr_sock_files_pattern',`
 	allow $1 $2:dir search_dir_perms;
 	allow $1 $3:sock_file getattr_sock_file_perms;
@@ -381,6 +386,7 @@ define(`relabel_sock_files_pattern',`
 # 2. container (directory) type
 # 3. file type
 #
+
 define(`getattr_blk_files_pattern',`
 	allow $1 $2:dir search_dir_perms;
 	allow $1 $3:blk_file getattr_blk_file_perms;
@@ -456,6 +462,7 @@ define(`relabel_blk_files_pattern',`
 # 2. container (directory) type
 # 3. file type
 #
+
 define(`getattr_chr_files_pattern',`
 	allow $1 $2:dir search_dir_perms;
 	allow $1 $3:chr_file getattr_chr_file_perms;
@@ -528,6 +535,7 @@ define(`relabel_chr_files_pattern',`
 #
 # pattern(domain,dirtype,newtype,class(es))
 #
+
 define(`filetrans_add_pattern',`
 	allow $1 $2:dir { list_dir_perms add_entry_dir_perms };
 	type_transition $1 $2:$4 $3;

@@ -36,6 +36,7 @@ vpath %.fc $(all_layers)
 #
 # default action: create all module packages
 #
+
 default: policy
 
 all policy: base modules
@@ -50,6 +51,7 @@ install: $(instpkg) $(appfiles)
 #
 # Load all configured modules
 #
+
 load: $(instpkg) $(appfiles)
 # make sure two directories exist since they are not
 # created by semanage
@@ -61,6 +63,7 @@ load: $(instpkg) $(appfiles)
 #
 # Install policy packages
 #
+
 $(modpkgdir)/%.pp: $(builddir)%.pp
 	@mkdir -p $(modpkgdir)
 	@echo "Installing $(NAME) $(@F) policy package."
@@ -70,6 +73,7 @@ $(modpkgdir)/%.pp: $(builddir)%.pp
 #
 # Build module packages
 #
+
 $(tmpdir)/%.mod: $(m4support) $(tmpdir)/generated_definitions.conf $(tmpdir)/all_interfaces.conf %.te
 	@echo "Compliling $(NAME) $(@F) module"
 	@test -d $(tmpdir) || mkdir -p $(tmpdir)
@@ -90,6 +94,7 @@ $(builddir)%.pp: $(tmpdir)/%.mod $(tmpdir)/%.mod.fc
 #
 # Create a base module package
 #
+
 $(base_pkg): $(base_mod) $(base_fc) $(users_extra) $(tmpdir)/seusers
 	@echo "Creating $(NAME) base module package"
 	@test -d $(builddir) || mkdir -p $(builddir)
@@ -115,6 +120,7 @@ $(users_extra): $(m4support) $(user_files)
 #
 # Construct a base.conf
 #
+
 $(base_conf): $(base_sections)
 	@echo "Creating $(NAME) base module $(@F)"
 	@test -d $(@D) || mkdir -p $(@D)
@@ -179,6 +185,7 @@ $(tmpdir)/all_attrs_types.conf $(tmpdir)/only_te_rules.conf $(tmpdir)/all_post.c
 #
 # Construct a base.fc
 #
+
 $(base_fc): $(tmpdir)/$(notdir $(base_fc)).tmp $(fcsort)
 	$(verbose) $(fcsort) $< $@
 
@@ -194,6 +201,7 @@ endif
 #
 # Appconfig files
 #
+
 $(appdir)/customizable_types: $(base_conf)
 	@mkdir -p $(appdir)
 	$(verbose) $(GREP) '^[[:blank:]]*type .*customizable' $< | cut -d';' -f1 | cut -d',' -f1 | cut -d' ' -f2 | $(SORT) -u > $(tmpdir)/customizable_types
@@ -203,6 +211,7 @@ $(appdir)/customizable_types: $(base_conf)
 #
 # Validate linking and expanding of modules
 #
+
 validate: $(base_pkg) $(mod_pkgs)
 	@echo "Validating policy linking."
 	$(verbose) $(SEMOD_LNK) -o $(tmpdir)/test.lnk $^
@@ -213,6 +222,7 @@ validate: $(base_pkg) $(mod_pkgs)
 #
 # Clean the sources
 #
+
 clean:
 	rm -f $(base_conf)
 	rm -f $(base_fc)

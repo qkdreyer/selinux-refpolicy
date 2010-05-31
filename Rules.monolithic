@@ -46,6 +46,7 @@ vpath %.fc $(all_layers)
 #
 # default action: build policy locally
 #
+
 default: policy
 
 policy: $(polver)
@@ -63,6 +64,7 @@ resetlabels:  $(fcpath)
 #
 # Build a binary policy locally
 #
+
 ifneq "$(UNK_PERMS)" ""
 $(polver): CHECKPOLICY += -U $(UNK_PERMS)
 endif
@@ -79,6 +81,7 @@ endif
 #
 # Install a binary policy
 #
+
 ifneq "$(UNK_PERMS)" ""
 $(loadpath): CHECKPOLICY += -U $(UNK_PERMS)
 endif
@@ -96,6 +99,7 @@ endif
 #
 # Load the binary policy
 #
+
 reload $(tmpdir)/load: $(loadpath) $(fcpath) $(appfiles)
 	@echo "Loading $(NAME) $(loadpath)"
 	$(verbose) $(LOADPOLICY) -q $(loadpath)
@@ -105,6 +109,7 @@ reload $(tmpdir)/load: $(loadpath) $(fcpath) $(appfiles)
 #
 # Construct a monolithic policy.conf
 #
+
 $(policy_conf): $(policy_sections)
 	@echo "Creating $(NAME) $(@F)"
 	@test -d $(@D) || mkdir -p $(@D)
@@ -164,6 +169,7 @@ $(tmpdir)/all_attrs_types.conf $(tmpdir)/only_te_rules.conf $(tmpdir)/all_post.c
 #
 # Remove the dontaudit rules from the policy.conf
 #
+
 enableaudit: $(policy_conf)
 	@test -d $(tmpdir) || mkdir -p $(tmpdir)
 	@echo "Removing dontaudit rules from $(notdir $(policy_conf))"
@@ -174,6 +180,7 @@ enableaudit: $(policy_conf)
 #
 # Construct file_contexts
 #
+
 $(fc): $(tmpdir)/$(notdir $(fc)).tmp $(fcsort)
 	$(verbose) $(fcsort) $< $@
 	$(verbose) $(GREP) -e HOME -e ROLE -e USER $@ > $(homedir_template)
@@ -193,6 +200,7 @@ $(homedir_template): $(fc)
 #
 # Install file_contexts
 #
+
 $(fcpath): $(fc) $(loadpath) $(userpath)/system.users
 	@echo "Validating $(NAME) file_contexts."
 	$(verbose) $(SETFILES) -q -c $(loadpath) $(fc)
@@ -213,6 +221,7 @@ endif
 #
 # Intall netfilter_contexts
 #
+
 $(ncpath): $(net_contexts)
 	@echo "Installing $(NAME) netfilter_contexts."
 	$(verbose) $(INSTALL) -m 0644 $^ $@
@@ -221,6 +230,7 @@ $(ncpath): $(net_contexts)
 #
 # Run policy source checks
 #
+
 check: $(builddir)check.res
 $(builddir)check.res: $(policy_conf) $(fc)
 	$(SECHECK) -s --profile=development --policy=$(policy_conf) --fcfile=$(fc) > $@
@@ -233,6 +243,7 @@ $(builddir)longcheck.res: $(policy_conf) $(fc)
 #
 # Appconfig files
 #
+
 $(appdir)/customizable_types: $(policy_conf)
 	@mkdir -p $(appdir)
 	$(verbose) $(GREP) '^[[:blank:]]*type .*customizable' $< | cut -d';' -f1 | cut -d',' -f1 | cut -d' ' -f2 | $(SORT) -u > $(tmpdir)/customizable_types
@@ -246,6 +257,7 @@ $(installdir)/seusers: $(seusers)
 #
 # Clean the sources
 #
+
 clean:
 	rm -f $(policy_conf)
 	rm -f $(polver)

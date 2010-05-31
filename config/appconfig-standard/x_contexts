@@ -1,9 +1,4 @@
 #
-# Config file for XSELinux extension
-#
-
-
-#
 ##
 ### Rules for X Clients
 ##
@@ -13,8 +8,8 @@
 # The default client rule defines a context to be used for all clients
 # connecting to the server from a remote host.
 #
-client	*				system_u:object_r:remote_t
 
+client	*									system_u:object_r:remote_t
 
 #
 ##
@@ -26,15 +21,18 @@ client	*				system_u:object_r:remote_t
 # Property rules map a property name to a context.  A default property
 # rule indicated by an asterisk should follow all other property rules.
 #
+
 # Properties that normal clients may only read
-property _SELINUX_*			system_u:object_r:seclabel_xproperty_t
+
+property _SELINUX_*							system_u:object_r:seclabel_xproperty_t
 
 # Clipboard and selection properties
-property CUT_BUFFER?			system_u:object_r:clipboard_xproperty_t
+
+property CUT_BUFFER?						system_u:object_r:clipboard_xproperty_t
 
 # Default fallback type
-property *	   			system_u:object_r:xproperty_t
 
+property *	   								system_u:object_r:xproperty_t
 
 #
 ##
@@ -46,12 +44,13 @@ property *	   			system_u:object_r:xproperty_t
 # Extension rules map an extension name to a context.  A default extension
 # rule indicated by an asterisk should follow all other extension rules.
 #
+
 # Restricted extensions
-extension SELinux			system_u:object_r:security_xextension_t
+
+extension SELinux							system_u:object_r:security_xextension_t
 
 # Standard extensions
-extension *	   			system_u:object_r:xextension_t
-
+extension *	  					 			system_u:object_r:xextension_t
 
 #
 ##
@@ -59,16 +58,19 @@ extension *	   			system_u:object_r:xextension_t
 ##
 #
 
+#
 # Selection rules map a selection name to a context.  A default selection
 # rule indicated by an asterisk should follow all other selection rules.
 #
+
 # Standard selections
-selection PRIMARY			system_u:object_r:clipboard_xselection_t
-selection CLIPBOARD			system_u:object_r:clipboard_xselection_t
+
+selection PRIMARY							system_u:object_r:clipboard_xselection_t
+selection CLIPBOARD							system_u:object_r:clipboard_xselection_t
 
 # Default fallback type
-selection *				system_u:object_r:xselection_t
 
+selection *									system_u:object_r:xselection_t
 
 #
 ##
@@ -80,26 +82,30 @@ selection *				system_u:object_r:xselection_t
 # Event rules map an event protocol name to a context.  A default event
 # rule indicated by an asterisk should follow all other event rules.
 #
+
 # Input events
-event X11:KeyPress			system_u:object_r:input_xevent_t
-event X11:KeyRelease			system_u:object_r:input_xevent_t
-event X11:ButtonPress			system_u:object_r:input_xevent_t
-event X11:ButtonRelease			system_u:object_r:input_xevent_t
-event X11:MotionNotify			system_u:object_r:input_xevent_t
-event XInputExtension:DeviceKeyPress	system_u:object_r:input_xevent_t
-event XInputExtension:DeviceKeyRelease	system_u:object_r:input_xevent_t
-event XInputExtension:DeviceButtonPress	system_u:object_r:input_xevent_t
+
+event X11:KeyPress							system_u:object_r:input_xevent_t
+event X11:KeyRelease						system_u:object_r:input_xevent_t
+event X11:ButtonPress						system_u:object_r:input_xevent_t
+event X11:ButtonRelease						system_u:object_r:input_xevent_t
+event X11:MotionNotify						system_u:object_r:input_xevent_t
+event XInputExtension:DeviceKeyPress		system_u:object_r:input_xevent_t
+event XInputExtension:DeviceKeyRelease		system_u:object_r:input_xevent_t
+event XInputExtension:DeviceButtonPress		system_u:object_r:input_xevent_t
 event XInputExtension:DeviceButtonRelease	system_u:object_r:input_xevent_t
 event XInputExtension:DeviceMotionNotify	system_u:object_r:input_xevent_t
-event XInputExtension:DeviceValuator	system_u:object_r:input_xevent_t
-event XInputExtension:ProximityIn	system_u:object_r:input_xevent_t
-event XInputExtension:ProximityOut	system_u:object_r:input_xevent_t
+event XInputExtension:DeviceValuator		system_u:object_r:input_xevent_t
+event XInputExtension:ProximityIn			system_u:object_r:input_xevent_t
+event XInputExtension:ProximityOut			system_u:object_r:input_xevent_t
 
 # Client message events
-event X11:ClientMessage			system_u:object_r:client_xevent_t
-event X11:SelectionNotify		system_u:object_r:client_xevent_t
-event X11:UnmapNotify			system_u:object_r:client_xevent_t
-event X11:ConfigureNotify		system_u:object_r:client_xevent_t
+
+event X11:ClientMessage						system_u:object_r:client_xevent_t
+event X11:SelectionNotify					system_u:object_r:client_xevent_t
+event X11:UnmapNotify						system_u:object_r:client_xevent_t
+event X11:ConfigureNotify					system_u:object_r:client_xevent_t
 
 # Default fallback type
-event *					system_u:object_r:xevent_t
+
+event *										system_u:object_r:xevent_t

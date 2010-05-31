@@ -393,6 +393,7 @@ endif
 #
 # NOTE: There is no "local" version of these files.
 #
+
 generate: $(generated_te) $(generated_if) $(generated_fc)
 
 $(moddir)/kernel/corenetwork.if: $(moddir)/kernel/corenetwork.te.in $(moddir)/kernel/corenetwork.if.m4 $(moddir)/kernel/corenetwork.if.in
@@ -417,6 +418,7 @@ $(moddir)/kernel/corenetwork.te: $(moddir)/kernel/corenetwork.te.m4 $(moddir)/ke
 #
 # Network packet labeling
 #
+
 $(net_contexts): $(moddir)/kernel/corenetwork.te.in
 	@echo "Creating netfilter network labeling rules"
 	$(verbose) $(gennetfilter) $^ > $@
@@ -425,6 +427,7 @@ $(net_contexts): $(moddir)/kernel/corenetwork.te.in
 #
 # Create config files
 #
+
 conf: $(mod_conf) $(booleans) $(generated_te) $(generated_if) $(generated_fc)
 
 $(mod_conf) $(booleans): $(polxml)
@@ -435,6 +438,7 @@ $(mod_conf) $(booleans): $(polxml)
 #
 # Generate the fc_sort program
 #
+
 $(fcsort) : $(support)/fc_sort.c
 	$(verbose) $(CC) $(CFLAGS) $^ -o $@
 
@@ -442,6 +446,7 @@ $(fcsort) : $(support)/fc_sort.c
 #
 # Documentation generation
 #
+
 $(layerxml): %.xml: $(all_metaxml) $(filter $(addprefix $(moddir)/, $(notdir $*))%, $(detected_mods)) $(subst .te,.if, $(filter $(addprefix $(moddir)/, $(notdir $*))%, $(detected_mods)))
 	@test -d $(tmpdir) || mkdir -p $(tmpdir)
 	$(verbose) cat $(filter %$(notdir $*)/$(metaxml), $(all_metaxml)) > $@
@@ -484,6 +489,7 @@ html $(tmpdir)/html: $(polxml)
 #
 # Runtime binary policy patching of users
 #
+
 $(userpath)/system.users: $(m4support) $(tmpdir)/generated_definitions.conf $(user_files)
 	@mkdir -p $(tmpdir)
 	@mkdir -p $(userpath)
@@ -506,6 +512,7 @@ $(userpath)/local.users: config/local.users
 #
 # Build Appconfig files
 #
+
 $(tmpdir)/initrc_context: $(appconf)/initrc_context
 	@mkdir -p $(tmpdir)
 	$(verbose) $(M4) $(M4PARAM) $(m4support) $^ | $(GREP) '^[a-z]' > $@
@@ -514,6 +521,7 @@ $(tmpdir)/initrc_context: $(appconf)/initrc_context
 #
 # Install Appconfig files
 #
+
 install-appconfig: $(appfiles)
 
 $(installdir)/booleans: $(booleans)
@@ -539,6 +547,7 @@ $(appdir)/%: $(appconf)/%
 #
 # Install policy headers
 #
+
 install-headers: $(layerxml) $(tunxml) $(boolxml)
 	@mkdir -p $(headerdir)
 	@echo "Installing $(NAME) policy headers."
@@ -568,6 +577,7 @@ endif
 #
 # Install policy documentation
 #
+
 install-docs: $(tmpdir)/html
 	@mkdir -p $(docsdir)/html
 	@echo "Installing policy documentation"
@@ -578,6 +588,7 @@ install-docs: $(tmpdir)/html
 #
 # Install policy sources
 #
+
 install-src:
 	rm -rf $(srcpath)/policy.old
 	-mv $(srcpath)/policy $(srcpath)/policy.old
@@ -588,6 +599,7 @@ install-src:
 #
 # Generate tags file
 #
+
 tags: $(tags)
 $(tags):
 	@($(CTAGS) --version | grep -q Exuberant) || (echo ERROR: Need exuberant-ctags to function!; exit 1)
@@ -604,6 +616,7 @@ $(tags):
 #
 # Filesystem labeling
 #
+
 checklabels:
 	@echo "Checking labels on filesystem types: $(fs_names)"
 	@if test -z "$(filesystems)"; then \
@@ -640,6 +653,7 @@ resetlabels:
 #
 # Clean everything
 #
+
 bare: clean
 	rm -f $(polxml)
 	rm -f $(layerxml)

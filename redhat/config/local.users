@@ -18,4 +18,4 @@
 # user jadmin roles { staff_r sysadm_r };
 
 # sample for regular user
-#user jdoe roles { user_r }; 
+# user jdoe roles { user_r }; 

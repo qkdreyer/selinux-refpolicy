@@ -15,6 +15,7 @@
 # and a user process should never be assigned the system user
 # identity.
 #
+
 gen_user(system_u,, system_r, s0, s0 - mls_systemhigh, mcs_allcats)
 
 #
@@ -24,6 +25,7 @@ gen_user(system_u,, system_r, s0, s0 - mls_systemhigh, mcs_allcats)
 # SELinux user identity for a Linux user.  If you do not want to
 # permit any access to such users, then remove this entry.
 #
+
 gen_user(user_u, user, user_r, s0, s0)
 gen_user(staff_u, user, staff_r system_r sysadm_r secadm_r auditadm_r, s0, s0 - mls_systemhigh, mcs_allcats)
 gen_user(sysadm_u, user, sysadm_r, s0, s0 - mls_systemhigh, mcs_allcats)
@@ -35,4 +37,5 @@ gen_user(sysadm_u, user, sysadm_r, s0, s0 - mls_systemhigh, mcs_allcats)
 # role should use the staff_r role instead of the user_r role when
 # not in the sysadm_r.
 #
+
 gen_user(root, user, sysadm_r staff_r secadm_r auditadm_r system_r, s0, s0 - mls_systemhigh, mcs_allcats)

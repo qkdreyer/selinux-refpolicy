@@ -3,7 +3,6 @@
 #
 # common common_name { permission_name ... }
 
-
 #
 # Define a common prefix for file access vectors.
 #
@@ -29,14 +28,15 @@ common file
 	mounton
 }
 
-
 #
 # Define a common prefix for socket access vectors.
 #
 
 common socket
 {
+
 # inherited from file
+
 	ioctl
 	read
 	write
@@ -47,7 +47,9 @@ common socket
 	relabelfrom
 	relabelto
 	append
+
 # socket-specific
+
 	bind
 	connect
 	listen
@@ -123,8 +125,8 @@ common x_device
 #
 # Define the access vectors.
 #
-# class class_name [ inherits common_name ] { permission_name ... }
 
+# class class_name [ inherits common_name ] { permission_name ... }
 
 #
 # Define the access vector interpretation for file-related objects.
@@ -359,12 +361,11 @@ class security
 	load_policy
 	compute_relabel
 	compute_user
-	setenforce     # was avc_toggle in system class
+	setenforce
 	setbool
 	setsecparam
 	setcheckreqprot
 }
-
 
 #
 # Define the access vector interpretation for system operations.
@@ -426,14 +427,15 @@ class capability
 
 class capability2 
 {
-	mac_override	# unused by SELinux
-	mac_admin	# unused by SELinux
+	mac_override
+	mac_admin
 }
 
 #
 # Define the access vector interpretation for controlling
 # changes to passwd information.
 #
+
 class passwd
 {
 	passwd	# change another user passwd
@@ -444,8 +446,9 @@ class passwd
 }
 
 #
-# SE-X Windows stuff
+# X access control extension
 #
+
 class x_drawable
 {
 	create
@@ -592,6 +595,7 @@ class x_synthetic_event
 #
 # Extended Netlink classes
 #
+
 class netlink_route_socket
 inherits socket
 {
@@ -646,19 +650,23 @@ inherits socket
 class netlink_dnrt_socket
 inherits socket
 
+#
 # Define the access vector interpretation for controlling
 # access and communication through the D-BUS messaging
 # system.
 #
+
 class dbus
 {
 	acquire_svc
 	send_msg
 }
 
+#
 # Define the access vector interpretation for controlling
 # access through the name service cache daemon (nscd).
 #
+
 class nscd
 {
 	getpwd
@@ -673,9 +681,11 @@ class nscd
 	shmemserv
 }
 
+#
 # Define the access vector interpretation for controlling
 # access to IPSec network data by association
 #
+
 class association
 {
 	sendto
@@ -685,6 +695,7 @@ class association
 }
 
 # Updated Netlink class for KOBJECT_UEVENT family.
+
 class netlink_kobject_uevent_socket
 inherits socket
 
@@ -696,8 +707,8 @@ class packet
 	send
 	recv
 	relabelto
-	flow_in		# deprecated
-	flow_out	# deprecated
+	flow_in
+	flow_out
 	forward_in
 	forward_out
 }
@@ -790,6 +801,7 @@ inherits database
 }
 
 # network peer labels
+
 class peer
 {
 	recv

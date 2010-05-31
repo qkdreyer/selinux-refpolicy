@@ -13,6 +13,7 @@ class system
 class capability
 
 # file-related classes
+
 class filesystem
 class file
 class dir
@@ -24,6 +25,7 @@ class sock_file
 class fifo_file
 
 # network-related classes
+
 class socket
 class tcp_socket
 class udp_socket
@@ -37,6 +39,7 @@ class unix_stream_socket
 class unix_dgram_socket
 
 # sysv-ipc-related classes
+
 class sem
 class msg
 class msgq
@@ -48,23 +51,26 @@ class ipc
 #
 
 # passwd/chfn/chsh
-class passwd			# userspace
 
-# SE-X Windows stuff (more classes below)
-class x_drawable		# userspace
-class x_screen			# userspace
-class x_gc			# userspace
-class x_font			# userspace
-class x_colormap		# userspace
-class x_property		# userspace
-class x_selection		# userspace
-class x_cursor			# userspace
-class x_client			# userspace
-class x_device			# userspace
-class x_server			# userspace
-class x_extension		# userspace
+class passwd
+
+# X Access control extenstion
+
+class x_drawable
+class x_screen
+class x_gc
+class x_font
+class x_colormap
+class x_property
+class x_selection
+class x_cursor
+class x_client
+class x_device
+class x_server
+class x_extension
 
 # extended netlink sockets
+
 class netlink_route_socket
 class netlink_firewall_socket
 class netlink_tcpdiag_socket
@@ -75,13 +81,15 @@ class netlink_audit_socket
 class netlink_ip6fw_socket
 class netlink_dnrt_socket
 
-class dbus			# userspace
-class nscd			# userspace
+class dbus
+class nscd
 
 # IPSec association
+
 class association
 
-# Updated Netlink class for KOBJECT_UEVENT family.
+# Updated Netlink class for KOBJECT_UEVENT family
+
 class netlink_kobject_uevent_socket
 
 class appletalk_socket
@@ -89,40 +97,46 @@ class appletalk_socket
 class packet
 
 # Kernel access key retention
+
 class key
 
-class context			# userspace
+class context
 
 class dccp_socket
 
 class memprotect
 
-class db_database		# userspace
-class db_table			# userspace
-class db_procedure		# userspace
-class db_column			# userspace
-class db_tuple			# userspace
-class db_blob			# userspace
+class db_database
+class db_table
+class db_procedure
+class db_column
+class db_tuple
+class db_blob
 
 # network peer labels
+
 class peer
 
 # Capabilities >= 32
+
 class capability2
 
-# More SE-X Windows stuff
-class x_resource		# userspace
-class x_event			# userspace
-class x_synthetic_event		# userspace
-class x_application_data	# userspace
+# X Access control extension
+
+class x_resource
+class x_event
+class x_synthetic_event
+class x_application_data
 
 # kernel services that need to override task security, e.g. cachefiles
+
 class kernel_service 
 
 class tun_socket
 
-# Still More SE-X Windows stuff
-class x_pointer			# userspace
-class x_keyboard		# userspace
+# X Access control extension
+
+class x_pointer
+class x_keyboard
 
 # FLASK

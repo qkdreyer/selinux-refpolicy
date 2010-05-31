@@ -156,9 +156,6 @@ mlsconstrain filesystem { mount remount unmount relabelfrom quotamod }
 # these access vectors have no MLS restrictions
 # filesystem { transition associate }
 
-
-
-
 #
 # MLS policy for the socket classes
 #
@@ -234,9 +231,6 @@ mlsconstrain unix_dgram_socket sendto
 # netlink_kobject_uevent_socket *
 #
 
-
-
-
 #
 # MLS policy for the ipc classes
 #
@@ -276,9 +270,6 @@ mlsconstrain msg send
 # these access vectors have no MLS restrictions
 # { ipc sem msgq shm } associate
 
-
-
-
 #
 # MLS policy for the fd class
 #
@@ -309,9 +300,6 @@ mlsconstrain { netif node } { tcp_send udp_send rawip_send }
 
 # these access vectors have no MLS restrictions
 # node enforce_dest
-
-
-
 
 #
 # MLS policy for the network ingress/egress controls
@@ -361,9 +349,6 @@ mlsconstrain { peer packet } { recv }
 	 (( t1 == mlsnetreadtoclr ) and ( h1 dom l2 )) or
 	 ( t1 == mlsnetread ));
 
-
-
-
 #
 # MLS policy for the process class
 #
@@ -393,18 +378,12 @@ mlsconstrain process { sigkill sigstop signal setsched setpgid setcap setexec se
 # these access vectors have no MLS restrictions
 # process { fork sigchld signull noatsecure siginh setrlimit rlimitinh execmem execstack execheap }
 
-
-
-
 #
 # MLS policy for the security class
 #
 
 # these access vectors have no MLS restrictions
 # security *
-
-
-
 
 #
 # MLS policy for the system class
@@ -413,9 +392,6 @@ mlsconstrain process { sigkill sigstop signal setsched setpgid setcap setexec se
 # these access vectors have no MLS restrictions
 # system *
 
-
-
-
 #
 # MLS policy for the capability class
 #
@@ -423,18 +399,12 @@ mlsconstrain process { sigkill sigstop signal setsched setpgid setcap setexec se
 # these access vectors have no MLS restrictions
 # capability *
 
-
-
-
 #
 # MLS policy for the passwd class
 #
 
 # these access vectors have no MLS restrictions
 # passwd *
-
-
-
 
 #
 # MLS policy for the x_drawable class
@@ -471,7 +441,6 @@ mlsconstrain x_gc { create destroy setattr }
 	 (( t1 == mlsxwinwritetoclr ) and ( h1 dom l2 ) and ( l1 domby l2 )) or
 	 ( t1 == mlsxwinwrite ));
 
-
 #
 # MLS policy for the x_font class
 #
@@ -491,7 +460,6 @@ mlsconstrain x_font { create destroy add_glyph remove_glyph }
 # these access vectors have no MLS restrictions
 # font use
 
-
 #
 # MLS policy for the x_colormap class
 #
@@ -509,7 +477,6 @@ mlsconstrain x_colormap { create destroy write add_color remove_color install un
 	 (( t1 == mlsxwinwritetoclr ) and ( h1 dom l2 ) and ( l1 domby l2 )) or
 	 ( t1 == mlsxwinwritecolormap ) or
 	 ( t1 == mlsxwinwrite ));
-
 
 #
 # MLS policy for the x_property class
@@ -529,7 +496,6 @@ mlsconstrain x_property { create destroy write append setattr }
 	 ( t1 == mlsxwinwriteproperty ) or
 	 ( t1 == mlsxwinwrite ));
 
-
 #
 # MLS policy for the x_selection class
 #
@@ -548,7 +514,6 @@ mlsconstrain x_selection { write setattr }
 	 ( t1 == mlsxwinwriteselection ) or
 	 ( t1 == mlsxwinwrite ));
 
-
 #
 # MLS policy for the x_cursor class
 #
@@ -565,7 +530,6 @@ mlsconstrain x_cursor { create destroy write setattr }
 	 (( t1 == mlsxwinwritetoclr ) and ( h1 dom l2 ) and ( l1 domby l2 )) or
 	 ( t1 == mlsxwinwrite ));
 
-
 #
 # MLS policy for the x_client class
 #
@@ -581,7 +545,6 @@ mlsconstrain x_client { destroy setattr manage }
 	(( l1 eq l2 ) or
 	 (( t1 == mlsxwinwritetoclr ) and ( h1 dom l2 ) and ( l1 domby l2 )) or
 	 ( t1 == mlsxwinwrite ));
-
 
 #
 # MLS policy for the x_device class
@@ -600,7 +563,6 @@ mlsconstrain x_device { setattr write setfocus bell force_cursor freeze manage }
 	 ( t1 == mlsxwinwritexinput ) or
 	 ( t1 == mlsxwinwrite ));
 
-
 #
 # MLS policy for the x_server class
 #
@@ -608,14 +570,12 @@ mlsconstrain x_device { setattr write setfocus bell force_cursor freeze manage }
 # these access vectors have no MLS restrictions
 # x_server *
 
-
 #
 # MLS policy for the x_extension class
 #
 
 # these access vectors have no MLS restrictions
 # x_extension { query use }
-
 
 #
 # MLS policy for the x_resource class
@@ -634,7 +594,6 @@ mlsconstrain x_resource { write }
 	 ( t1 == mlsxwinwritexinput ) or
 	 ( t1 == mlsxwinwrite ));
 
-
 #
 # MLS policy for the x_event class
 #
@@ -652,7 +611,6 @@ mlsconstrain x_event { send }
 	 ( t1 == mlsxwinwritexinput ) or
 	 ( t1 == mlsxwinwrite ));
 
-
 #
 # MLS policy for the x_application_data class
 #
@@ -664,8 +622,6 @@ mlsconstrain x_application_data { paste }
 # the x_application_data "paste_after_confirm" ops
 mlsconstrain x_application_data { paste_after_confirm }
 	( l1 dom l2 );
-
-
 
 #
 # MLS policy for the dbus class
@@ -679,18 +635,12 @@ mlsconstrain dbus { send_msg }
 # these access vectors have no MLS restrictions
 # dbus { acquire_svc }
 
-
-
-
 #
 # MLS policy for the nscd class
 #
 
 # these access vectors have no MLS restrictions
 # nscd { getpwd getgrp gethost getstat admin shmempwd shmemgrp shmemhost }
-
-
-
 
 #
 # MLS policy for the association class
@@ -709,8 +659,6 @@ mlsconstrain association { sendto }
 
 mlsconstrain association { polmatch }
 	(( l1 dom l2 ) and ( h1 domby h2 ));
-
-
 
 #
 # MLS policy for the context class
