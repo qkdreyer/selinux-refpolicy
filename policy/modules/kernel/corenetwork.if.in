@@ -1,4 +1,4 @@
-## <summary>Policy controlling access to network objects</summary>
+## <summary>Network objects.</summary>
 ## <required val="true">
 ##	Contains the initial SIDs for network objects.
 ## </required>
