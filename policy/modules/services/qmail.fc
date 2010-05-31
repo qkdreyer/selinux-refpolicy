@@ -1,5 +1,4 @@
-
-/var/qmail/alias		-d	gen_context(system_u:object_r:qmail_alias_home_t,s0)
+/var/qmail/alias			-d	gen_context(system_u:object_r:qmail_alias_home_t,s0)
 /var/qmail/alias(/.*)?			gen_context(system_u:object_r:qmail_alias_home_t,s0)
 
 /var/qmail/bin/qmail-clean	--	gen_context(system_u:object_r:qmail_clean_exec_t,s0)
@@ -20,12 +19,10 @@
 
 /var/qmail/queue(/.*)?			gen_context(system_u:object_r:qmail_spool_t,s0)
 
-ifdef(`distro_debian', `
-/etc/qmail(/.*)?			gen_context(system_u:object_r:qmail_etc_t,s0)
+ifdef(`distro_debian',`
+/etc/qmail(/.*)?				gen_context(system_u:object_r:qmail_etc_t,s0)
 
-/usr/bin/tcp-env		--	gen_context(system_u:object_r:qmail_tcp_env_exec_t,s0)
-
-#/usr/local/bin/serialmail/.*	--	gen_context(system_u:object_r:qmail_serialmail_exec_t,s0)
+/usr/bin/tcp-env			--	gen_context(system_u:object_r:qmail_tcp_env_exec_t,s0)
 
 /usr/sbin/qmail-clean		--	gen_context(system_u:object_r:qmail_clean_exec_t,s0)
 /usr/sbin/qmail-getpw		--	gen_context(system_u:object_r:qmail_exec_t,s0)
@@ -38,9 +35,9 @@ ifdef(`distro_debian', `
 /usr/sbin/qmail-send		--	gen_context(system_u:object_r:qmail_send_exec_t,s0)
 /usr/sbin/qmail-smtpd		--	gen_context(system_u:object_r:qmail_smtpd_exec_t,s0)
 /usr/sbin/qmail-start		--	gen_context(system_u:object_r:qmail_start_exec_t,s0)
-/usr/sbin/splogger		--	gen_context(system_u:object_r:qmail_splogger_exec_t,s0)
+/usr/sbin/splogger			--	gen_context(system_u:object_r:qmail_splogger_exec_t,s0)
 
-/var/qmail(/.*)?			gen_context(system_u:object_r:qmail_etc_t,s0)
+/var/qmail(/.*)?				gen_context(system_u:object_r:qmail_etc_t,s0)
 
 /var/spool/qmail(/.*)?			gen_context(system_u:object_r:qmail_spool_t,s0)
 ')

@@ -5,7 +5,7 @@
 /usr/sbin/groupd						--	gen_context(system_u:object_r:groupd_exec_t,s0)
 /usr/sbin/qdiskd						--	gen_context(system_u:object_r:qdiskd_exec_t,s0)
 
-/var/lock/fence_manual.lock			--	gen_context(system_u:object_r:fenced_lock_t,s0)
+/var/lock/fence_manual.lock				--	gen_context(system_u:object_r:fenced_lock_t,s0)
 
 /var/lib/qdiskd(/.*)?						gen_context(system_u:object_r:qdiskd_var_lib_t,s0)
 

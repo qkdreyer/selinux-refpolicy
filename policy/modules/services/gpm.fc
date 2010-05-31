@@ -1,5 +1,4 @@
-
-/dev/gpmctl		-s	gen_context(system_u:object_r:gpmctl_t,s0)
+/dev/gpmctl			-s	gen_context(system_u:object_r:gpmctl_t,s0)
 /dev/gpmdata		-p	gen_context(system_u:object_r:gpmctl_t,s0)
 
 /etc/gpm(/.*)?			gen_context(system_u:object_r:gpm_conf_t,s0)

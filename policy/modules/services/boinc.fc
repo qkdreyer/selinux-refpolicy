@@ -1,4 +1,3 @@
-
 /etc/rc\.d/init\.d/boinc_client		--  gen_context(system_u:object_r:boinc_initrc_exec_t,s0)
 
 /usr/bin/boinc_client				--	gen_context(system_u:object_r:boinc_exec_t,s0)

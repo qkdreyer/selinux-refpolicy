@@ -1,10 +1,3 @@
-#
-# /usr
-#
+/usr/bin/slrnpull			--	gen_context(system_u:object_r:slrnpull_exec_t,s0)
 
-/usr/bin/slrnpull	--	gen_context(system_u:object_r:slrnpull_exec_t,s0)
-
-#
-# /var
-#
-/var/spool/slrnpull(/.*)?	gen_context(system_u:object_r:slrnpull_spool_t,s0)
+/var/spool/slrnpull(/.*)?		gen_context(system_u:object_r:slrnpull_spool_t,s0)

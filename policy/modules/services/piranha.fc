@@ -1,7 +1,6 @@
 /etc/rc\.d/init\.d/pulse	--	gen_context(system_u:object_r:piranha_pulse_initrc_exec_t,s0)
 
-# RHEL6
-#/etc/sysconfig/ha/lvs\.cf	--	gen_context(system_u:object_r:piranha_etc_rw_t,s0)
+# /etc/sysconfig/ha/lvs.cf	--	gen_context(system_u:object_r:piranha_etc_rw_t,s0)
 
 /etc/piranha/lvs.cf			--	gen_context(system_u:object_r:piranha_etc_rw_t,s0)
 
@@ -16,5 +15,3 @@
 /var/run/lvs.pid			--	gen_context(system_u:object_r:piranha_lvs_var_run_t,s0)
 /var/run/piranha-httpd.pid	--	gen_context(system_u:object_r:piranha_web_var_run_t,s0)
 /var/run/pulse.pid			--	gen_context(system_u:object_r:piranha_pulse_var_run_t,s0)
-
-
