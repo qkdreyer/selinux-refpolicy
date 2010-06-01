@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute logrotate in the logrotate domain.
+##	Execute a domain transition to
+##	run Logrotate.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -21,8 +22,9 @@ interface(`logrotate_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute logrotate in the logrotate domain, and
-##	allow the specified role the logrotate domain.
+##	Execute a domain transition to
+##	run Logrotate and allow the
+##	specified role the Logrotate domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -31,7 +33,7 @@ interface(`logrotate_domtrans',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the logrotate domain.
+##	The role to be allowed the Logrotate domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -47,7 +49,7 @@ interface(`logrotate_run',`
 
 ########################################
 ## <summary>
-##	Execute logrotate in the caller domain.
+##	Execute Logrotate.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -66,7 +68,8 @@ interface(`logrotate_exec',`
 
 ########################################
 ## <summary>
-##	Inherit and use logrotate file descriptors.
+##	Inherit and use Logrotate file
+##	descriptors.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -84,7 +87,8 @@ interface(`logrotate_use_fds',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to inherit logrotate file descriptors.
+##	Do not audit attempts to inherit
+##	Logrotate file descriptors.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -102,7 +106,7 @@ interface(`logrotate_dontaudit_use_fds',`
 
 ########################################
 ## <summary>
-##	Read a logrotate temporary files.
+##	Read Logrotate temporary files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

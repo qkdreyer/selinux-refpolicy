@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute kudzu in the kudzu domain.
+##	Execute a domain transition to
+##	run Kudzu.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -21,8 +22,9 @@ interface(`kudzu_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute kudzu in the kudzu domain, and
-##	allow the specified role the kudzu domain.
+##	Execute a domain transition to
+##	run Kudzu and allow the
+##	specified role the Kudzu domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -31,7 +33,8 @@ interface(`kudzu_domtrans',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the kudzu domain.
+##	The role to be allowed the Kudzu
+##	domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -47,7 +50,8 @@ interface(`kudzu_run',`
 
 ########################################
 ## <summary>
-##	Get attributes of kudzu executable.
+##	Get attributes of Kudzu executable
+##	files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

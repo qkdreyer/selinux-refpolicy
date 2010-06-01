@@ -2,7 +2,7 @@
 
 ########################################
 ## <summary>
-##	Create and append mrtg logs.
+##	Create and append Mrtg log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

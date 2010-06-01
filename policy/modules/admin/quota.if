@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute quota management tools in the quota domain.
+##	Execute a domain transition to
+##	run Quota utilities.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -21,8 +22,10 @@ interface(`quota_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute quota management tools in the quota domain, and
-##	allow the specified role the quota domain.
+##	Execute a domain transition to
+##	run Quota utilities and allow the
+##	specified role the Quota utilities
+##	domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -31,7 +34,8 @@ interface(`quota_domtrans',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the quota domain.
+##	The role to be allowed the Quota
+##	utilities domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -47,8 +51,9 @@ interface(`quota_run',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
-##	of filesystem quota data files.
+##	Do not audit attempts to get the
+##	attributes of filesystem Quota data
+##	files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -61,13 +66,12 @@ interface(`quota_dontaudit_getattr_db',`
 		type quota_db_t;
 	')
 
-	dontaudit $1 quota_db_t:file getattr;
+	dontaudit $1 quota_db_t:file getattr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete quota
-##	flag files.
+##	Manage Quota utilities flag files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

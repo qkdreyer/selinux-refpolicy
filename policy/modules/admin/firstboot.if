@@ -138,7 +138,7 @@ interface(`firstboot_dontaudit_rw_pipes',`
 		type firstboot_t;
 	')
 
-	dontaudit $1 firstboot_t:fifo_file { read write };
+	dontaudit $1 firstboot_t:fifo_file rw_inherited_fifo_file_perms;
 ')
 
 ########################################
@@ -158,5 +158,5 @@ interface(`firstboot_dontaudit_rw_stream_sockets',`
 		type firstboot_t;
 	')
 
-	dontaudit $1 firstboot_t:unix_stream_socket { read write };
+	dontaudit $1 firstboot_t:unix_stream_socket rw_inherited_sock_file_perms;
 ')

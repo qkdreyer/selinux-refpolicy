@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute a domain transition to run mcelog.
+##	Execute a domain transition to
+##	run Mcelog.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

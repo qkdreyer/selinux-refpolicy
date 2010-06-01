@@ -2,7 +2,7 @@
 
 ########################################
 ## <summary>
-##	Read logwatch temporary files.
+##	Read Logwatch temporary files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -15,13 +15,13 @@ interface(`logwatch_read_tmp_files',`
 		type logwatch_tmp_t;
 	')
 
-	files_search_tmp($1)
 	allow $1 logwatch_tmp_t:file read_file_perms;
+	files_search_tmp($1)
 ')
 
 ########################################
 ## <summary>
-##	Search logwatch cache directory.
+##	Search Logwatch cache directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -35,4 +35,5 @@ interface(`logwatch_search_cache_dir',`
 	')
 
 	allow $1 logwatch_cache_t:dir search_dir_perms;
+	files_search_var_lib($1)
 ')

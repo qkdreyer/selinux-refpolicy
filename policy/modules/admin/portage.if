@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute emerge in the portage domain.
+##	Execute a domain transition to
+##	run Emerge..
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -22,8 +23,9 @@ interface(`portage_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute emerge in the portage domain, and
-##	allow the specified role the portage domain.
+##	Execute a domain transition to
+##	run Portage and allow the
+##	specified role the Portage domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -32,7 +34,7 @@ interface(`portage_domtrans',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to allow the portage domain.
+##	The role to allow the Portage domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -48,7 +50,7 @@ interface(`portage_run',`
 
 ########################################
 ## <summary>
-##	Template for portage sandbox.
+##	Template for Portage sandbox.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -77,12 +79,9 @@ interface(`portage_compile_domain',`
 	allow $1 self:unix_stream_socket create_stream_socket_perms;
 	allow $1 self:unix_dgram_socket sendto;
 	allow $1 self:unix_stream_socket connectto;
-	# really shouldnt need this
 	allow $1 self:tcp_socket create_stream_socket_perms;
 	allow $1 self:udp_socket create_socket_perms;
-	# misc networking stuff (esp needed for compiling perl):
 	allow $1 self:rawip_socket { create ioctl };
-	# needed for merging dbus:
 	allow $1 self:netlink_selinux_socket { bind create read };
 	allow $1 self:dbus send_msg;
 
@@ -129,6 +128,7 @@ interface(`portage_compile_domain',`
 	corenet_udp_sendrecv_all_ports($1)
 	corenet_tcp_connect_all_reserved_ports($1)
 	corenet_tcp_connect_distccd_port($1)
+	corenet_sendrecv_distccd_client_packets($1)
 
 	dev_read_sysfs($1)
 	dev_read_rand($1)
@@ -174,7 +174,8 @@ interface(`portage_compile_domain',`
 
 ########################################
 ## <summary>
-##	Execute gcc-config in the gcc_config domain.
+##	Execute a domain transition to
+##	run GCC Config.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -194,8 +195,10 @@ interface(`portage_domtrans_gcc_config',`
 
 ########################################
 ## <summary>
-##	Execute gcc-config in the gcc_config domain, and
-##	allow the specified role the gcc_config domain.
+##	Execute a domain transition to
+##	run GCC Config and allow the
+##	specified role the GCC Config
+##	domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -204,7 +207,8 @@ interface(`portage_domtrans_gcc_config',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to allow the gcc_config domain.
+##	The role to allow the GCC Config
+##	domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -220,12 +224,12 @@ interface(`portage_run_gcc_config',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to search the
-##	portage temporary directories.
+##	Do not audit attempts to search
+##	Portage temporary directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -239,12 +243,12 @@ interface(`portage_dontaudit_search_tmp',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to read and write
-##	the portage temporary files.
+##	Do not audit attempts to read and
+##	write Portage temporary files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #

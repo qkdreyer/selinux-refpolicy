@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute a domain transition to run tzdata.
+##	Execute a domain transition to
+##	run Timezone date.
 ## </summary>
 ## <param name="domain">
 ## <summary>
@@ -21,7 +22,10 @@ interface(`tzdata_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute the tzdata program in the tzdata domain.
+##	Execute a domain transition to
+##	run Timezone data and allow the
+##	specified role the Timezone data
+##	domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -30,7 +34,8 @@ interface(`tzdata_domtrans',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to allow the tzdata domain.
+##	The role to allow the Timezone
+##	data domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>

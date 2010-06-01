@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute a domain transition to run kismet.
+##	Execute a domain transition to
+##	run Kismet.
 ## </summary>
 ## <param name="domain">
 ## <summary>
@@ -18,13 +19,14 @@ interface(`kismet_domtrans',`
 	domtrans_pattern($1, kismet_exec_t, kismet_t)
 	corecmd_search_bin($1)
 
-	allow kismet_t $1:process signull;
+	# allow kismet_t $1:process signull;
 ')
 
 ########################################
 ## <summary>
-##	Execute kismet in the kismet domain, and
-##	allow the specified role the kismet domain.
+##	Execute a domain transition to
+##	run Kismet and allow the
+##	specified role the Kismet domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -33,7 +35,8 @@ interface(`kismet_domtrans',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the kismet domain.
+##	The role to be allowed the Kismet
+##	domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -49,7 +52,7 @@ interface(`kismet_run',`
 
 ########################################
 ## <summary>
-##	Read kismet PID files.
+##	Read Kismet PID files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -68,7 +71,7 @@ interface(`kismet_read_pid_files',`
 
 ########################################
 ## <summary>
-##	Manage kismet var_run files.
+##	Manage Kismet PID files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -87,7 +90,7 @@ interface(`kismet_manage_pid_files',`
 
 ########################################
 ## <summary>
-##	Search kismet lib directories.
+##	Search Kismet lib directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -106,7 +109,7 @@ interface(`kismet_search_lib',`
 
 ########################################
 ## <summary>
-##	Read kismet lib files.
+##	Read Kismet lib files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -126,8 +129,7 @@ interface(`kismet_read_lib_files',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete
-##	kismet lib files.
+##	Manage Kismet lib files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -146,7 +148,7 @@ interface(`kismet_manage_lib_files',`
 
 ########################################
 ## <summary>
-##	Manage kismet var_lib files.
+##	Manage Kismet lib content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -167,7 +169,7 @@ interface(`kismet_manage_lib',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to read kismet's log files.
+##	Read Kismet log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -186,8 +188,7 @@ interface(`kismet_read_log',`
 
 ########################################
 ## <summary>
-##	Allow the specified domain to append
-##	kismet log files.
+##	Append Kismet log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -206,7 +207,7 @@ interface(`kismet_append_log',`
 
 ########################################
 ## <summary>
-##	Allow domain to manage kismet log files.
+##	Manage Kismet log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -227,7 +228,8 @@ interface(`kismet_manage_log',`
 
 ########################################
 ## <summary>
-##	All of the rules required to administrate an kismet environment.
+##	All of the rules required to
+##	administrate an Kismet environment.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -237,13 +239,19 @@ interface(`kismet_manage_log',`
 #
 interface(`kismet_admin',`
 	gen_require(`
-		type kismet_t;
+		type kismet_t, kismet_log_t, kismet_var_run_t;
+		type kismet_var_lib_t;
 	')
 
 	ps_process_pattern($1, kismet_t)
 	allow $1 kismet_t:process { ptrace signal_perms };
 
-	kismet_manage_pid_files($1)
-	kismet_manage_lib($1)
-	kismet_manage_log($1)
+	admin_pattern($1, kismet_var_run_t)
+	files_search_pids($1)
+
+	admin_pattern($1, kismet_var_lib_t)
+	files_search_var_lib($1)
+
+	admin_pattern($1, kismet_log_t)
+	logging_search_logs($1)
 ')

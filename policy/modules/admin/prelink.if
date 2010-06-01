@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute the prelink program in the prelink domain.
+##	Execute a domain transition to
+##	run Prelink.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -19,14 +20,14 @@ interface(`prelink_domtrans',`
 	corecmd_search_bin($1)
 
 	ifdef(`hide_broken_symptoms',`
-		dontaudit prelink_t $1:socket_class_set { read write };
-		dontaudit prelink_t $1:fifo_file setattr;
+		dontaudit prelink_t $1:socket_class_set rw_inherited_sock_file_perms;
+		dontaudit prelink_t $1:fifo_file setattr_fifo_file_perms;
 	')
 ')
 
 ########################################
 ## <summary>
-##	Execute the prelink program in the current domain.
+##	Execute the Prelink.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -45,7 +46,9 @@ interface(`prelink_exec',`
 
 ########################################
 ## <summary>
-##	Execute the prelink program in the prelink domain.
+##	Execute a domain transition to
+##	run Prelink and allow the
+##	specified role the Prelink domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -54,7 +57,7 @@ interface(`prelink_exec',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to allow the prelink domain.
+##	The role to allow the Prelink domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -70,7 +73,8 @@ interface(`prelink_run',`
 
 ########################################
 ## <summary>
-##	Make the specified file type prelinkable.
+##	Make the specified file type
+##	Prelinkable.
 ## </summary>
 ## <param name="file_type">
 ##	<summary>
@@ -88,7 +92,7 @@ interface(`prelink_object_file',`
 
 ########################################
 ## <summary>
-##	Read the prelink cache.
+##	Read Prelink cache files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -107,7 +111,7 @@ interface(`prelink_read_cache',`
 
 ########################################
 ## <summary>
-##	Delete the prelink cache.
+##	Delete Prelink cache files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -126,8 +130,7 @@ interface(`prelink_delete_cache',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete
-##	prelink log files.
+##	Manage Prelink log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -146,8 +149,7 @@ interface(`prelink_manage_log',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete
-##	prelink var_lib files.
+##	Manage Prelink lib files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -166,7 +168,7 @@ interface(`prelink_manage_lib',`
 
 ########################################
 ## <summary>
-##	Relabel from prelink var lib files.
+##	Relabel from Prelink lib files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -185,7 +187,7 @@ interface(`prelink_relabelfrom_lib',`
 
 ########################################
 ## <summary>
-##	Relabel prelink var lib files.
+##	Relabel Prelink lib files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

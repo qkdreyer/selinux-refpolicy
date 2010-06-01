@@ -2,7 +2,7 @@
 
 ########################################
 ## <summary>
-##	Execute tmpreaper in the caller domain.
+##	Execute Tmpreaper.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

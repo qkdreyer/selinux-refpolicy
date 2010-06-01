@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute chfn in the chfn domain.
+##	Execute a domain transition to
+##	run Chfn.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -19,15 +20,16 @@ interface(`usermanage_domtrans_chfn',`
 	files_search_usr($1)
 	corecmd_search_bin($1)
 
-	ifdef(`hide_broken_symptoms', `
-		dontaudit chfn_t $1:socket_class_set { read write };
+	ifdef(`hide_broken_symptoms',`
+		dontaudit chfn_t $1:socket_class_set rw_inherited_sock_file_perms;
 	')
 ')
 
 ########################################
 ## <summary>
-##	Execute chfn in the chfn domain, and
-##	allow the specified role the chfn domain.
+##	Execute a domain transition to
+##	run Chfn and allow the
+##	specified role the Chfn domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -36,7 +38,7 @@ interface(`usermanage_domtrans_chfn',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the chfn domain.
+##	The role to be allowed the Chfn domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -52,7 +54,8 @@ interface(`usermanage_run_chfn',`
 
 ########################################
 ## <summary>
-##	Execute groupadd in the groupadd domain.
+##	Execute a domain transition to
+##	run Groupadd.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -70,14 +73,15 @@ interface(`usermanage_domtrans_groupadd',`
 	corecmd_search_bin($1)
 
 	ifdef(`hide_broken_symptoms',`
-		dontaudit groupadd_t $1:socket_class_set { read write };
+		dontaudit groupadd_t $1:socket_class_set rw_inherited_sock_file_perms;
 	')
 ')
 
 ########################################
 ## <summary>
-##	Execute groupadd in the groupadd domain, and
-##	allow the specified role the groupadd domain.
+##	Execute a domain transition to
+##	run Groupadd and allow the
+##	specified role the Groupadd domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -86,7 +90,8 @@ interface(`usermanage_domtrans_groupadd',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the groupadd domain.
+##	The role to be allowed the Groupadd
+##	domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -106,7 +111,8 @@ interface(`usermanage_run_groupadd',`
 
 ########################################
 ## <summary>
-##	Execute passwd in the passwd domain.
+##	Execute a domain transition to
+##	run Passwd.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -124,13 +130,13 @@ interface(`usermanage_domtrans_passwd',`
 	corecmd_search_bin($1)
 
 	ifdef(`hide_broken_symptoms',`
-		dontaudit passwd_t $1:socket_class_set { read write };
+		dontaudit passwd_t $1:socket_class_set rw_inherited_sock_file_perms;
 	')
 ')
 
 ########################################
 ## <summary>
-##	Send sigkills to passwd.
+##	Send kill signal to Passwd.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -148,8 +154,9 @@ interface(`usermanage_kill_passwd',`
 
 ########################################
 ## <summary>
-##	Execute passwd in the passwd domain, and
-##	allow the specified role the passwd domain.
+##	Execute a domain transition to
+##	run Passwd and allow the
+##	specified role the Passwd domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -158,7 +165,8 @@ interface(`usermanage_kill_passwd',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the passwd domain.
+##	The role to be allowed the Passwd
+##	domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -175,8 +183,8 @@ interface(`usermanage_run_passwd',`
 
 ########################################
 ## <summary>
-##	Execute password admin functions in
-##	the admin passwd domain.
+##	Execute a domain transition to
+##	run Admin Passwd.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -196,9 +204,10 @@ interface(`usermanage_domtrans_admin_passwd',`
 
 ########################################
 ## <summary>
-##	Execute passwd admin functions in the admin
-##	passwd domain, and allow the specified role
-##	the admin passwd domain.
+##	Execute a domain transition to
+##	run Admin Passwd and allow the
+##	specified role the Admin Passwd
+##	domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -207,7 +216,8 @@ interface(`usermanage_domtrans_admin_passwd',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the admin passwd domain.
+##	The role to be allowed the Admin
+##	Passwd domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -227,7 +237,8 @@ interface(`usermanage_run_admin_passwd',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to use useradd fds.
+##	Do not audit attempts to use
+##	Useradd file descriptors.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -245,7 +256,8 @@ interface(`usermanage_dontaudit_use_useradd_fds',`
 
 ########################################
 ## <summary>
-##	Execute useradd in the useradd domain.
+##	Execute a domain transition to
+##	run Useradd.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -263,14 +275,15 @@ interface(`usermanage_domtrans_useradd',`
 	corecmd_search_bin($1)
 
 	ifdef(`hide_broken_symptoms',`
-		dontaudit useradd_t $1:socket_class_set { read write };
+		dontaudit useradd_t $1:socket_class_set rw_inherited_sock_file_perms;
 	')
 ')
 
 ########################################
 ## <summary>
-##	Execute useradd in the useradd domain, and
-##	allow the specified role the useradd domain.
+##	Execute a domain transition to
+##	run Useradd and allow the
+##	specified role the Useradd domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -279,7 +292,8 @@ interface(`usermanage_domtrans_useradd',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the useradd domain.
+##	The role to be allowed the Useradd
+##	domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -303,7 +317,7 @@ interface(`usermanage_run_useradd',`
 
 ########################################
 ## <summary>
-##	Read the crack database.
+##	Read crack database files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

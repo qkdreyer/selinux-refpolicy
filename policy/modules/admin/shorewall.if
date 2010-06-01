@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute a domain transition to run shorewall.
+##	Execute a domain transition to
+##	run Shorewall.
 ## </summary>
 ## <param name="domain">
 ## <summary>
@@ -21,7 +22,7 @@ interface(`shorewall_domtrans',`
 
 #######################################
 ## <summary>
-##	Read shorewall etc configuration files.
+##	Read Shorewall configuration files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -40,7 +41,7 @@ interface(`shorewall_read_config',`
 
 #######################################
 ## <summary>
-##	Read shorewall PID files.
+##	Read Shorewall PID files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -59,7 +60,7 @@ interface(`shorewall_read_pid_files',`
 
 #######################################
 ## <summary>
-##	Read and write shorewall PID files.
+##	Read and write Shorewall PID files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -78,7 +79,7 @@ interface(`shorewall_rw_pid_files',`
 
 ######################################
 ## <summary>
-##	Read shorewall /var/lib files.
+##	Read Shorewall lib files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -97,7 +98,7 @@ interface(`shorewall_read_lib_files',`
 
 #######################################
 ## <summary>
-##	Read and write shorewall /var/lib files.
+##	Read and write Shorewall lib files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -117,7 +118,7 @@ interface(`shorewall_rw_lib_files',`
 #######################################
 ## <summary>
 ##	All of the rules required to administrate 
-##	an shorewall environment
+##	an Shorewall environment
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -126,7 +127,7 @@ interface(`shorewall_rw_lib_files',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the shorewall domain.
+##	The role to be allowed the Shorewall domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>

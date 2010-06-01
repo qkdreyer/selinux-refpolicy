@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute VPN clients in the vpnc domain.
+##	Execute a domain transition to
+##	run VPN Client.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -21,8 +22,10 @@ interface(`vpn_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute VPN clients in the vpnc domain, and
-##	allow the specified role the vpnc domain.
+##	Execute a domain transition to
+##	run VPN Client and allow the
+##	specified role the VPN Client
+##	domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -31,7 +34,8 @@ interface(`vpn_domtrans',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the vpnc domain.
+##	The role to be allowed the VPN
+##	Client domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -48,7 +52,7 @@ interface(`vpn_run',`
 
 ########################################
 ## <summary>
-##	Send VPN clients the kill signal.
+##	Send kill signal to VPN Clients.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -84,7 +88,7 @@ interface(`vpn_signal',`
 
 ########################################
 ## <summary>
-##	Send signull to VPN clients.
+##	Send null signal to VPN clients.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -103,7 +107,7 @@ interface(`vpn_signull',`
 ########################################
 ## <summary>
 ##	Send and receive messages from
-##	Vpnc over dbus.
+##	VPN Clients over dbus.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -123,7 +127,7 @@ interface(`vpn_dbus_chat',`
 
 ########################################
 ## <summary>
-##	Relabelfrom from vpnc socket.
+##	Relabelfrom from VPN Clients sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

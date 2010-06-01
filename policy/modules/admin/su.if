@@ -2,7 +2,7 @@
 
 #######################################
 ## <summary>
-##	Restricted su domain template.
+##	Restricted Su domain template.
 ## </summary>
 ## <param name="userdomain_prefix">
 ##	<summary>
@@ -127,7 +127,7 @@ template(`su_restricted_domain_template',`
 
 #######################################
 ## <summary>
-##	The role template for the su module.
+##	The role template for the Su module.
 ## </summary>
 ## <param name="role_prefix">
 ##	<summary>
@@ -171,8 +171,8 @@ template(`su_role_template',`
 
 	domtrans_pattern($3, su_exec_t, $1_su_t)
 
-	ifdef(`hide_broken_symptoms', `
-		dontaudit $1_su_t $3:socket_class_set { read write };
+	ifdef(`hide_broken_symptoms',`
+		dontaudit $1_su_t $3:socket_class_set rw_inherited_sock_file_perms;
 	')
 
 	ps_process_pattern($3, $1_su_t)
@@ -294,7 +294,7 @@ template(`su_role_template',`
 
 #######################################
 ## <summary>
-##	Execute su in the caller domain.
+##	Execute Su.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

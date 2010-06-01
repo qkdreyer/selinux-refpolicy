@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute updfstab in the updfstab domain.
+##	Execute a domain transition to
+##	run Updfstab.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

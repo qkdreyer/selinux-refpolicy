@@ -2,7 +2,7 @@
 
 #######################################
 ## <summary>
-##	The role template for the sudo module.
+##	The role template for the Sudo module.
 ## </summary>
 ## <param name="role_prefix">
 ##	<summary>
@@ -64,13 +64,13 @@ template(`sudo_role_template',`
 	domtrans_pattern($3, sudo_exec_t, $1_sudo_t)
 
 	ifdef(`hide_broken_symptoms', `
-		dontaudit $1_sudo_t $3:socket_class_set { read write };
+		dontaudit $1_sudo_t $3:socket_class_set rw_inherited_sock_file_perms;
 	')
 
 	corecmd_shell_domtrans($1_sudo_t, $3)
 	corecmd_bin_domtrans($1_sudo_t, $3)
 	allow $3 $1_sudo_t:fd use;
-	allow $3 $1_sudo_t:fifo_file rw_file_perms;
+	allow $3 $1_sudo_t:fifo_file rw_fifo_file_perms;
 	allow $3 $1_sudo_t:process signal_perms;
 
 	kernel_read_kernel_sysctls($1_sudo_t)
@@ -149,7 +149,7 @@ template(`sudo_role_template',`
 
 ########################################
 ## <summary>
-##	Send a SIGCHLD signal to the sudo domain.
+##	Send a Child signal to Sudo.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute tripwire in the tripwire domain.
+##	Execute a domain transition to
+##	run Tripwire.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -21,8 +22,9 @@ interface(`tripwire_domtrans_tripwire',`
 
 ########################################
 ## <summary>
-##	Execute tripwire in the tripwire domain, and
-##	allow the specified role the tripwire domain.
+##	Execute a domain transition to
+##	run Tripwire and allow the
+##	specified role the Tripwire domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -31,7 +33,8 @@ interface(`tripwire_domtrans_tripwire',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the tripwire domain.
+##	The role to be allowed the Tripwire
+##	domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -47,7 +50,8 @@ interface(`tripwire_run_tripwire',`
 
 ########################################
 ## <summary>
-##	Execute twadmin in the twadmin domain.
+##	Execute a domain transition to
+##	run TWAdmin.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -66,8 +70,9 @@ interface(`tripwire_domtrans_twadmin',`
 
 ########################################
 ## <summary>
-##	Execute twadmin in the twadmin domain, and
-##	allow the specified role the twadmin domain.
+##	Execute a domain transition to
+##	run TWAdmin and allow the
+##	specified role the TWAdmin domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -76,7 +81,8 @@ interface(`tripwire_domtrans_twadmin',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the twadmin domain.
+##	The role to be allowed the TWAdmin
+##	domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -92,7 +98,8 @@ interface(`tripwire_run_twadmin',`
 
 ########################################
 ## <summary>
-##	Execute twprint in the twprint domain.
+##	Execute a domain transition to
+##	run TWPrint.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -111,8 +118,9 @@ interface(`tripwire_domtrans_twprint',`
 
 ########################################
 ## <summary>
-##	Execute twprint in the twprint domain, and
-##	allow the specified role the twprint domain.
+##	Execute a domain transition to
+##	run TWPrint and allow the
+##	specified role the TWPrint domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -121,7 +129,8 @@ interface(`tripwire_domtrans_twprint',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the twprint domain.
+##	The role to be allowed the TWPrint
+##	domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -137,7 +146,8 @@ interface(`tripwire_run_twprint',`
 
 ########################################
 ## <summary>
-##	Execute siggen in the siggen domain.
+##	Execute a domain transition to
+##	run Siggen.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -156,8 +166,9 @@ interface(`tripwire_domtrans_siggen',`
 
 ########################################
 ## <summary>
-##	Execute siggen in the siggen domain, and
-##	allow the specified role the siggen domain.
+##	Execute a domain transition to
+##	run Siggen and allow the
+##	specified role the Siggen domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -166,7 +177,8 @@ interface(`tripwire_domtrans_siggen',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the siggen domain.
+##	The role to be allowed the Siggen
+##	domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>

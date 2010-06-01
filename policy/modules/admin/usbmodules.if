@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute usbmodules in the usbmodules domain.
+##	Execute a domain transition to
+##	run USB Modules.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -21,9 +22,10 @@ interface(`usbmodules_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute usbmodules in the usbmodules domain, and
-##	allow the specified role the usbmodules domain,
-##	and use the caller's terminal.
+##	Execute a domain transition to
+##	run USB Modules and allow the
+##	specified role the USB Modules
+##	domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -32,7 +34,8 @@ interface(`usbmodules_domtrans',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the usbmodules domain.
+##	The role to be allowed the USB
+##	Modules domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
