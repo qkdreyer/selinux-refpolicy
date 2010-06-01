@@ -2,8 +2,8 @@
 
 ########################################
 ## <summary>
-##	Make the specified type usable for device
-##	nodes in a filesystem.
+##	Make the specified type usable for
+##	devices in a filesystem.
 ## </summary>
 ## <param name="type">
 ##	<summary>
@@ -21,11 +21,11 @@ interface(`dev_node',`
 
 ########################################
 ## <summary>
-##	Allow full relabeling (to and from) of all device nodes.
+##	Relabel all devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed to relabel.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -46,7 +46,7 @@ interface(`dev_relabel_all_dev_nodes',`
 
 ########################################
 ## <summary>
-##	List all of the device nodes in a device directory.
+##	List all devices in device directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -65,7 +65,8 @@ interface(`dev_list_all_dev_nodes',`
 
 ########################################
 ## <summary>
-##	Set the attributes of /dev directories.
+##	Set attributes of device
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -83,7 +84,8 @@ interface(`dev_setattr_generic_dirs',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to list all device nodes.
+##	Do not audit attempts to list all
+##	devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -101,11 +103,12 @@ interface(`dev_dontaudit_list_all_dev_nodes',`
 
 ########################################
 ## <summary>
-##	Add entries to directories in /dev.
+##	Add entries to directories in device
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed to add entries.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -119,11 +122,12 @@ interface(`dev_add_entry_generic_dirs',`
 
 ########################################
 ## <summary>
-##	Add entries to directories in /dev.
+##	Add entries to directories in
+##	device directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed to add entries.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -137,7 +141,8 @@ interface(`dev_remove_entry_generic_dirs',`
 
 ########################################
 ## <summary>
-##	Create a directory in the device directory.
+##	Create directories in device
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -156,7 +161,8 @@ interface(`dev_create_generic_dirs',`
 
 ########################################
 ## <summary>
-##	Delete a directory in the device directory.
+##	Delete directories in device
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -174,7 +180,8 @@ interface(`dev_delete_generic_dirs',`
 
 ########################################
 ## <summary>
-##	Manage of directories in /dev.
+##	Manage directories in device
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -192,7 +199,8 @@ interface(`dev_manage_generic_dirs',`
 
 ########################################
 ## <summary>
-##	Allow full relabeling (to and from) of directories in /dev.
+##	Relabel directories in device
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -210,7 +218,9 @@ interface(`dev_relabel_generic_dev_dirs',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to getattr generic files in /dev.
+##	Do not audit attempts to get
+##	attributes of generic files in
+##	device directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -223,12 +233,13 @@ interface(`dev_dontaudit_getattr_generic_files',`
 		type device_t;
 	')
 
-	dontaudit $1 device_t:file getattr;
+	dontaudit $1 device_t:file getattr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read and write generic files in /dev.
+##	Read and write generic files in
+##	device directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -246,7 +257,8 @@ interface(`dev_rw_generic_files',`
 
 ########################################
 ## <summary>
-##	Delete generic files in /dev.
+##	Delete generic files in device
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -264,7 +276,7 @@ interface(`dev_delete_generic_files',`
 
 ########################################
 ## <summary>
-##	Create a file in the device directory.
+##	Create files in device directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -282,7 +294,9 @@ interface(`dev_manage_generic_files',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to getattr on generic pipes.
+##	Do not audit attempts to get
+##	attributes of generic pipes in device
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -300,7 +314,7 @@ interface(`dev_dontaudit_getattr_generic_pipes',`
 
 ########################################
 ## <summary>
-##	Allow getattr on generic block devices.
+##	Get attributes of generic block devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -318,7 +332,8 @@ interface(`dev_getattr_generic_blk_files',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to getattr on generic block devices.
+##	Do not audit attempts to get
+##	attributes of generic block devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -331,12 +346,13 @@ interface(`dev_dontaudit_getattr_generic_blk_files',`
 		type device_t;
 	')
 
-	dontaudit $1 device_t:blk_file getattr;
+	dontaudit $1 device_t:blk_file getattr_blk_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to setattr on generic block devices.
+##	Do not audit attempts to set
+##	attributes of generic block devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -349,12 +365,12 @@ interface(`dev_dontaudit_setattr_generic_blk_files',`
 		type device_t;
 	')
 
-	dontaudit $1 device_t:blk_file setattr;
+	dontaudit $1 device_t:blk_file setattr_blk_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Create generic block device files.
+##	Create generic block devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -372,7 +388,7 @@ interface(`dev_create_generic_blk_files',`
 
 ########################################
 ## <summary>
-##	Delete generic block device files.
+##	Delete generic block devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -390,7 +406,8 @@ interface(`dev_delete_generic_blk_files',`
 
 ########################################
 ## <summary>
-##	Get attributes of generic character device files.
+##	Get attributes of generic character
+##	devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -409,7 +426,7 @@ interface(`dev_getattr_generic_chr_files',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to get attributes
-##	of generic character device files.
+##	of generic character devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -422,13 +439,13 @@ interface(`dev_dontaudit_getattr_generic_chr_files',`
 		type device_t;
 	')
 
-	dontaudit $1 device_t:chr_file getattr;
+	dontaudit $1 device_t:chr_file getattr_chr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to setattr of
-##	generic character device files.
+##	Do not audit attempts to set
+##	attributes of generic character devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -441,12 +458,13 @@ interface(`dev_dontaudit_setattr_generic_chr_files',`
 		type device_t;
 	')
 
-	dontaudit $1 device_t:chr_file setattr;
+	dontaudit $1 device_t:chr_file setattr_chr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read and write generic character device files.
+##	Read and write generic character
+##	devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -464,7 +482,7 @@ interface(`dev_rw_generic_chr_files',`
 
 ########################################
 ## <summary>
-##	Create generic character device files.
+##	Create generic character devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -482,7 +500,7 @@ interface(`dev_create_generic_chr_files',`
 
 ########################################
 ## <summary>
-##	Delete generic character device files.
+##	Delete generic character devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -500,8 +518,8 @@ interface(`dev_delete_generic_chr_files',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to set the attributes
-##	of symbolic links in device directories (/dev).
+##	Do not audit attempts to set attributes
+##	of symbolic links in device directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -514,12 +532,13 @@ interface(`dev_dontaudit_setattr_generic_symlinks',`
 		type device_t;
 	')
 
-	dontaudit $1 device_t:lnk_file setattr;
+	dontaudit $1 device_t:lnk_file setattr_lnk_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Create symbolic links in device directories.
+##	Create symbolic links in device
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -537,7 +556,8 @@ interface(`dev_create_generic_symlinks',`
 
 ########################################
 ## <summary>
-##	Delete symbolic links in device directories.
+##	Delete symbolic links in device
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -555,8 +575,8 @@ interface(`dev_delete_generic_symlinks',`
 
 ########################################
 ## <summary>
-##	Create, delete, read, and write symbolic
-##	links in device directories.
+##	Manage symbolic links in device
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -574,7 +594,8 @@ interface(`dev_manage_generic_symlinks',`
 
 ########################################
 ## <summary>
-##	Relabel symbolic links in device directories.
+##	Relabel symbolic links in device
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -592,8 +613,8 @@ interface(`dev_relabel_generic_symlinks',`
 
 ########################################
 ## <summary>
-##	Create, delete, read, and write device
-##	nodes in device directories.
+##	Manage devices in device
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -628,7 +649,7 @@ interface(`dev_manage_all_dev_nodes',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to get attributes
-##	of generic device files.
+##	of generic devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -641,12 +662,12 @@ interface(`dev_dontaudit_rw_generic_dev_nodes',`
 		type device_t;
 	')
 
-	dontaudit $1 device_t:{ chr_file blk_file } { getattr read write ioctl };
+	dontaudit $1 device_t:{ chr_file blk_file } { rw_blk_file_perms rw_chr_file_perms };
 ')
 
 ########################################
 ## <summary>
-##	Create, delete, read, and write block device files.
+##	Manage block devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -664,7 +685,7 @@ interface(`dev_manage_generic_blk_files',`
 
 ########################################
 ## <summary>
-##	Create, delete, read, and write character device files.
+##	Manage character devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -682,7 +703,7 @@ interface(`dev_manage_generic_chr_files',`
 
 ########################################
 ## <summary>
-##	Create, read, and write device nodes. The node
+##	Manage devices. The device
 ##	will be transitioned to the type provided.
 ## </summary>
 ## <param name="domain">
@@ -715,10 +736,8 @@ interface(`dev_filetrans',`
 
 ########################################
 ## <summary>
-##	Create, read, and write device nodes. The node
-##	will be transitioned to the type provided.  This is
-##	a temporary interface until devtmpfs functionality
-##	fixed.
+##	Manage devices. The node
+##	will be transitioned to the type provided.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -742,7 +761,7 @@ interface(`dev_tmpfs_filetrans_dev',`
 
 ########################################
 ## <summary>
-##	Get attributes of all block file device nodes.
+##	Get attributes of all block devices
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -762,7 +781,7 @@ interface(`dev_getattr_all_blk_files',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to get attributes
-##	of all block file device nodes.
+##	of all block devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -776,12 +795,13 @@ interface(`dev_dontaudit_getattr_all_blk_files',`
 		type device_t;
 	')
 
-	dontaudit $1 { device_t device_node }:blk_file getattr;
+	dontaudit $1 { device_t device_node }:blk_file getattr_blk_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Getattr on all character file device nodes.
+##	Get attributes of all character
+##	devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -799,8 +819,9 @@ interface(`dev_getattr_all_chr_files',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to getattr of
-##	all character file device nodes.
+##	Do not audit attempts to get
+##	attributes of all character
+##	devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -814,12 +835,13 @@ interface(`dev_dontaudit_getattr_all_chr_files',`
 		type device_t;
 	')
 
-	dontaudit $1 { device_t device_node }:chr_file getattr;
+	dontaudit $1 { device_t device_node }:chr_file getattr_chr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Set attributes of all block file device nodes.
+##	Set attributes of all block
+##	devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -837,7 +859,8 @@ interface(`dev_setattr_all_blk_files',`
 
 ########################################
 ## <summary>
-##	Set attributes of all character file device nodes.
+##	Set attributes of all character
+##	devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -856,7 +879,7 @@ interface(`dev_setattr_all_chr_files',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to read
-##	all block file device nodes.
+##	all block devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -869,13 +892,13 @@ interface(`dev_dontaudit_read_all_blk_files',`
 		attribute device_node;
 	')
 
-	dontaudit $1 device_node:blk_file { getattr read };
+	dontaudit $1 device_node:blk_file read_blk_file_perms;
 ')
 
 ########################################
 ## <summary>
 ##	Do not audit attempts to write to
-##	all block file device nodes.
+##	all block devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -888,13 +911,13 @@ interface(`dev_dontaudit_write_all_blk_files',`
 		attribute device_node;
 	')
 
-	dontaudit $1 device_node:blk_file write;
+	dontaudit $1 device_node:blk_file write_blk_file_perms;
 ')
 
 ########################################
 ## <summary>
 ##	Do not audit attempts to read
-##	all character file device nodes.
+##	all character devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -907,13 +930,13 @@ interface(`dev_dontaudit_read_all_chr_files',`
 		attribute device_node;
 	')
 
-	dontaudit $1 device_node:chr_file { getattr read };
+	dontaudit $1 device_node:chr_file read_chr_file_perms;
 ')
 
 ########################################
 ## <summary>
 ##	Do not audit attempts to write to
-##	all character file device nodes.
+##	all character devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -926,12 +949,12 @@ interface(`dev_dontaudit_write_all_chr_files',`
 		attribute device_node;
 	')
 
-	dontaudit $1 device_node:chr_file write;
+	dontaudit $1 device_node:chr_file write_chr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Create all block device files.
+##	Create all block devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -949,7 +972,7 @@ interface(`dev_create_all_blk_files',`
 
 ########################################
 ## <summary>
-##	Create all character device files.
+##	Create all character devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -967,7 +990,8 @@ interface(`dev_create_all_chr_files',`
 
 ########################################
 ## <summary>
-##	rw all inherited character device files.
+##	Read and write all inherited
+##	character devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -985,7 +1009,8 @@ interface(`dev_rw_all_inherited_chr_files',`
 
 ########################################
 ## <summary>
-##	rw all inherited blk device files.
+##	Read and write all inherited blk
+##	devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1003,7 +1028,7 @@ interface(`dev_rw_all_inherited_blk_files',`
 
 ########################################
 ## <summary>
-##	Delete all block device files.
+##	Delete all block devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1021,7 +1046,7 @@ interface(`dev_delete_all_blk_files',`
 
 ########################################
 ## <summary>
-##	Delete all character device files.
+##	Delete all character devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1039,7 +1064,7 @@ interface(`dev_delete_all_chr_files',`
 
 ########################################
 ## <summary>
-##	Rename all block device files.
+##	Rename all block devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1057,7 +1082,7 @@ interface(`dev_rename_all_blk_files',`
 
 ########################################
 ## <summary>
-##	Rename all character device files.
+##	Rename all character devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1075,7 +1100,7 @@ interface(`dev_rename_all_chr_files',`
 
 ########################################
 ## <summary>
-##	Read, write, create, and delete all block device files.
+##	Manage all block devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1098,7 +1123,7 @@ interface(`dev_manage_all_blk_files',`
 
 ########################################
 ## <summary>
-##	Read, write, create, and delete all character device files.
+##	Manage all character devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1118,7 +1143,7 @@ interface(`dev_manage_all_chr_files',`
 
 ########################################
 ## <summary>
-##	Getattr the agp devices.
+##	Get attributes of agp devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1136,7 +1161,7 @@ interface(`dev_getattr_agp_dev',`
 
 ########################################
 ## <summary>
-##	Read and write the agp devices.
+##	Read and write agp devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1154,7 +1179,8 @@ interface(`dev_rw_agp',`
 
 ########################################
 ## <summary>
-##	Get the attributes of the apm bios device node.
+##	Get attributes of apm bios
+##	devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1172,8 +1198,8 @@ interface(`dev_getattr_apm_bios_dev',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes of
-##	the apm bios device node.
+##	Do not audit attempts to get
+##	attributes of apm bios devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1186,12 +1212,12 @@ interface(`dev_dontaudit_getattr_apm_bios_dev',`
 		type apm_bios_t;
 	')
 
-	dontaudit $1 apm_bios_t:chr_file getattr;
+	dontaudit $1 apm_bios_t:chr_file getattr_chr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Set the attributes of the apm bios device node.
+##	Set attributes of apm bios devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1209,8 +1235,8 @@ interface(`dev_setattr_apm_bios_dev',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to set the attributes of
-##	the apm bios device node.
+##	Do not audit attempts to set
+##	attributes of apm bios devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1223,12 +1249,12 @@ interface(`dev_dontaudit_setattr_apm_bios_dev',`
 		type apm_bios_t;
 	')
 
-	dontaudit $1 apm_bios_t:chr_file setattr;
+	dontaudit $1 apm_bios_t:chr_file setattr_chr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read and write the apm bios.
+##	Read and write apm bios.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1246,7 +1272,7 @@ interface(`dev_rw_apm_bios',`
 
 ########################################
 ## <summary>
-##	Get the attributes of the autofs device node.
+##	Get attributes of autofs devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1264,8 +1290,8 @@ interface(`dev_getattr_autofs_dev',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes of
-##	the autofs device node.
+##	Do not audit attempts to get
+##	attributes of autofs devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1278,12 +1304,12 @@ interface(`dev_dontaudit_getattr_autofs_dev',`
 		type autofs_device_t;
 	')
 
-	dontaudit $1 autofs_device_t:chr_file getattr;
+	dontaudit $1 autofs_device_t:chr_file getattr_chr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Set the attributes of the autofs device node.
+##	Set attributes of autofs devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1301,8 +1327,8 @@ interface(`dev_setattr_autofs_dev',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to set the attributes of
-##	the autofs device node.
+##	Do not audit attempts to set
+##	attributes of autofs devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1315,12 +1341,12 @@ interface(`dev_dontaudit_setattr_autofs_dev',`
 		type autofs_device_t;
 	')
 
-	dontaudit $1 autofs_device_t:chr_file setattr;
+	dontaudit $1 autofs_device_t:chr_file setattr_chr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read and write the autofs device.
+##	Read and write autofs devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1338,7 +1364,8 @@ interface(`dev_rw_autofs',`
 
 ########################################
 ## <summary>
-##	Read and write the PCMCIA card manager device.
+##	Read and write PCMCIA card manager
+##	devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1357,7 +1384,7 @@ interface(`dev_rw_cardmgr',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to read and
-##	write the PCMCIA card manager device.
+##	write PCMCIA card manager devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1370,14 +1397,13 @@ interface(`dev_dontaudit_rw_cardmgr',`
 		type cardmgr_dev_t;
 	')
 
-	dontaudit $1 cardmgr_dev_t:chr_file { read write };
+	dontaudit $1 cardmgr_dev_t:chr_file rw_chr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete
-##	the PCMCIA card manager device
-##	with the correct type.
+##	Manage PCMCIA card manager devices
+##	with the correct types.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1396,8 +1422,7 @@ interface(`dev_create_cardmgr_dev',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete
-##	the PCMCIA card manager device.
+##	Manage PCMCIA card manager devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1417,8 +1442,8 @@ interface(`dev_manage_cardmgr_dev',`
 ########################################
 ## <summary>
 ##	Automatic type transition to the type
-##	for PCMCIA card manager device nodes when
-##	created in /dev.
+##	for PCMCIA card manager devices when
+##	created in device directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1436,8 +1461,8 @@ interface(`dev_filetrans_cardmgr',`
 
 ########################################
 ## <summary>
-##	Get the attributes of the CPU
-##	microcode and id interfaces.
+##	Get attributes of CPU
+##	microcode and id interface devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1455,8 +1480,8 @@ interface(`dev_getattr_cpu_dev',`
 
 ########################################
 ## <summary>
-##	Set the attributes of the CPU
-##	microcode and id interfaces.
+##	Set attributes of CPU
+##	microcode and id interface devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1474,7 +1499,7 @@ interface(`dev_setattr_cpu_dev',`
 
 ########################################
 ## <summary>
-##	Read the CPU identity.
+##	Read CPU identity devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1492,8 +1517,7 @@ interface(`dev_read_cpuid',`
 
 ########################################
 ## <summary>
-##	Read and write the the CPU microcode device. This
-##	is required to load CPU microcode.
+##	Read and write CPU microcode devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1511,7 +1535,8 @@ interface(`dev_rw_cpu_microcode',`
 
 ########################################
 ## <summary>
-##	Read and write the the hardware SSL accelerator.
+##	Read and write hardware SSL
+##	accelerator devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1529,7 +1554,7 @@ interface(`dev_rw_crypto',`
 
 #######################################
 ## <summary>
-##	Set the attributes of the dlm control devices.
+##	Set attributes of dlm control devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1547,7 +1572,7 @@ interface(`dev_setattr_dlm_control',`
 
 #######################################
 ## <summary>
-##	Read and write the the dlm control device
+##	Read and write dlm control devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1565,7 +1590,7 @@ interface(`dev_rw_dlm_control',`
 
 ########################################
 ## <summary>
-##	getattr the dri devices.
+##	Get attributes of dri devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1583,7 +1608,7 @@ interface(`dev_getattr_dri_dev',`
 
 ########################################
 ## <summary>
-##	Setattr the dri devices.
+##	Set attributes of dri devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1601,7 +1626,7 @@ interface(`dev_setattr_dri_dev',`
 
 ########################################
 ## <summary>
-##	Read and write the dri devices.
+##	Read and write dri devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1620,7 +1645,7 @@ interface(`dev_rw_dri',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to read and
-##	write to the dri devices.
+##	write dri devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1638,7 +1663,7 @@ interface(`dev_dontaudit_rw_dri',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete the dri devices.
+##	Manage dri devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1657,7 +1682,8 @@ interface(`dev_manage_dri_dev',`
 ########################################
 ## <summary>
 ##	Automatic type transition to the type
-##	for DRI device nodes when created in /dev.
+##	for DRI devices when created in
+##	device directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1675,7 +1701,7 @@ interface(`dev_filetrans_dri',`
 
 ########################################
 ## <summary>
-##	Get the attributes of the event devices.
+##	Get attributes of event devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1689,12 +1715,12 @@ interface(`dev_getattr_input_dev',`
 	')
 
 	allow $1 device_t:dir list_dir_perms;
-	allow $1 event_device_t:chr_file getattr;
+	allow $1 event_device_t:chr_file getattr_chr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Set the attributes of the event devices.
+##	Set attributes of event devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1708,12 +1734,12 @@ interface(`dev_setattr_input_dev',`
 	')
 
 	allow $1 device_t:dir list_dir_perms;
-	allow $1 event_device_t:chr_file setattr;
+	allow $1 event_device_t:chr_file setattr_chr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read input event devices (/dev/input).
+##	Read input event devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1731,7 +1757,7 @@ interface(`dev_read_input',`
 
 ########################################
 ## <summary>
-##	Read input event devices (/dev/input).
+##	Read and write input event devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1749,7 +1775,8 @@ interface(`dev_rw_input_dev',`
 
 ########################################
 ## <summary>
-##	Get the attributes of the framebuffer device node.
+##	Get attributes of framebuffer
+##	devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1767,7 +1794,8 @@ interface(`dev_getattr_framebuffer_dev',`
 
 ########################################
 ## <summary>
-##	Set the attributes of the framebuffer device node.
+##	Set attributes of framebuffer
+##	devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1785,8 +1813,8 @@ interface(`dev_setattr_framebuffer_dev',`
 
 ########################################
 ## <summary>
-##	Dot not audit attempts to set the attributes
-##	of the framebuffer device node.
+##	Dot not audit attempts to set attributes
+##	of framebuffer devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1799,12 +1827,12 @@ interface(`dev_dontaudit_setattr_framebuffer_dev',`
 		type framebuf_device_t;
 	')
 
-	dontaudit $1 framebuf_device_t:chr_file setattr;
+	dontaudit $1 framebuf_device_t:chr_file setattr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read the framebuffer.
+##	Read framebuffer devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1822,7 +1850,8 @@ interface(`dev_read_framebuffer',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to read the framebuffer.
+##	Do not audit attempts to read
+##	framebuffer devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1835,12 +1864,12 @@ interface(`dev_dontaudit_read_framebuffer',`
 		type framebuf_device_t;
 	')
 
-	dontaudit $1 framebuf_device_t:chr_file { getattr read };
+	dontaudit $1 framebuf_device_t:chr_file read_chr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Write the framebuffer.
+##	Write framebuffer devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1858,7 +1887,7 @@ interface(`dev_write_framebuffer',`
 
 ########################################
 ## <summary>
-##	Read and write the framebuffer.
+##	Read and write framebuffer devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1876,7 +1905,7 @@ interface(`dev_rw_framebuffer',`
 
 ########################################
 ## <summary>
-##	Read the kernel messages
+##	Read kernel message devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1894,7 +1923,7 @@ interface(`dev_read_kmsg',`
 
 ########################################
 ## <summary>
-##	Write to the kernel messages device
+##	Write kernel messages devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1912,7 +1941,7 @@ interface(`dev_write_kmsg',`
 
 ########################################
 ## <summary>
-##	Get the attributes of the ksm devices.
+##	Get attributes of ksm devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1930,7 +1959,7 @@ interface(`dev_getattr_ksm_dev',`
 
 ########################################
 ## <summary>
-##	Set the attributes of the ksm devices.
+##	Set attributes of ksm devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1948,7 +1977,7 @@ interface(`dev_setattr_ksm_dev',`
 
 ########################################
 ## <summary>
-##	Read the ksm devices.
+##	Read ksm devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1966,7 +1995,7 @@ interface(`dev_read_ksm',`
 
 ########################################
 ## <summary>
-##	Read and write to ksm devices.
+##	Read and write ksm devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1984,7 +2013,7 @@ interface(`dev_rw_ksm',`
 
 ########################################
 ## <summary>
-##	Get the attributes of the kvm devices.
+##	Get attributes of kvm devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2002,7 +2031,7 @@ interface(`dev_getattr_kvm_dev',`
 
 ########################################
 ## <summary>
-##	Set the attributes of the kvm devices.
+##	Set attributes of kvm devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2020,7 +2049,7 @@ interface(`dev_setattr_kvm_dev',`
 
 ########################################
 ## <summary>
-##	Read the kvm devices.
+##	Read kvm devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2038,7 +2067,7 @@ interface(`dev_read_kvm',`
 
 ########################################
 ## <summary>
-##	Read and write to kvm devices.
+##	Read and write kvm devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2056,7 +2085,7 @@ interface(`dev_rw_kvm',`
 
 ######################################
 ## <summary>
-##	Read the lirc device.
+##	Read lirc devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2074,7 +2103,7 @@ interface(`dev_read_lirc',`
 
 ######################################
 ## <summary>
-##	Read and write the lirc device.
+##	Read and write lirc devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2093,7 +2122,8 @@ interface(`dev_rw_lirc',`
 ######################################
 ## <summary>
 ##	Automatic type transition to the type
-##	for lirc device nodes when created in /dev.
+##	for lirc devices when created in
+##	device directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2111,7 +2141,7 @@ interface(`dev_filetrans_lirc',`
 
 ########################################
 ## <summary>
-##	Get the attributes of the lvm comtrol device.
+##	Get attributes of lvm comtrol devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2129,7 +2159,7 @@ interface(`dev_getattr_lvm_control',`
 
 ########################################
 ## <summary>
-##	Read the lvm comtrol device.
+##	Read lvm comtrol devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2147,7 +2177,7 @@ interface(`dev_read_lvm_control',`
 
 ########################################
 ## <summary>
-##	Read and write the lvm control device.
+##	Read and write lvm control devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2166,7 +2196,7 @@ interface(`dev_rw_lvm_control',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to read and
-##	write to lvm control devices.
+##	write lvm control devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2184,7 +2214,7 @@ interface(`dev_dontaudit_rw_lvm_control',`
 
 ########################################
 ## <summary>
-##	Delete the lvm control device.
+##	Delete lvm control devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2203,7 +2233,7 @@ interface(`dev_delete_lvm_control_dev',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to get attributes
-##	of raw memory devices (e.g. /dev/mem).
+##	of raw memory devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2221,7 +2251,7 @@ interface(`dev_dontaudit_getattr_memory_dev',`
 
 ########################################
 ## <summary>
-##	Read raw memory devices (e.g. /dev/mem).
+##	Read raw memory devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2243,8 +2273,8 @@ interface(`dev_read_raw_memory',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to read raw memory devices
-##	(e.g. /dev/mem).
+##	Do not audit attempts to read raw
+##	memory devices
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2262,7 +2292,7 @@ interface(`dev_dontaudit_read_raw_memory',`
 
 ########################################
 ## <summary>
-##	Write raw memory devices (e.g. /dev/mem).
+##	Write raw memory devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2284,7 +2314,7 @@ interface(`dev_write_raw_memory',`
 
 ########################################
 ## <summary>
-##	Read and execute raw memory devices (e.g. /dev/mem).
+##	Read and execute raw memory devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2303,7 +2333,7 @@ interface(`dev_rx_raw_memory',`
 
 ########################################
 ## <summary>
-##	Write and execute raw memory devices (e.g. /dev/mem).
+##	Write and execute raw memory devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2322,7 +2352,7 @@ interface(`dev_wx_raw_memory',`
 
 ########################################
 ## <summary>
-##	Get the attributes of miscellaneous devices.
+##	Get attributes of miscellaneous devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2340,7 +2370,7 @@ interface(`dev_getattr_misc_dev',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
+##	Do not audit attempts to get attributes
 ##	of miscellaneous devices.
 ## </summary>
 ## <param name="domain">
@@ -2354,12 +2384,12 @@ interface(`dev_dontaudit_getattr_misc_dev',`
 		type misc_device_t;
 	')
 
-	dontaudit $1 misc_device_t:chr_file getattr;
+	dontaudit $1 misc_device_t:chr_file getattr_chr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Set the attributes of miscellaneous devices.
+##	Set attributes of miscellaneous devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2377,7 +2407,7 @@ interface(`dev_setattr_misc_dev',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to set the attributes
+##	Do not audit attempts to set attributes
 ##	of miscellaneous devices.
 ## </summary>
 ## <param name="domain">
@@ -2391,7 +2421,7 @@ interface(`dev_dontaudit_setattr_misc_dev',`
 		type misc_device_t;
 	')
 
-	dontaudit $1 misc_device_t:chr_file setattr;
+	dontaudit $1 misc_device_t:chr_file setattr_chr_file_perms;
 ')
 
 ########################################
@@ -2432,7 +2462,8 @@ interface(`dev_write_misc',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to read and write miscellaneous devices.
+##	Do not audit attempts to read and
+##	write miscellaneous devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2450,7 +2481,7 @@ interface(`dev_dontaudit_rw_misc',`
 
 ########################################
 ## <summary>
-##	Get the attributes of the modem devices.
+##	Get attributes of modem devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2468,7 +2499,7 @@ interface(`dev_getattr_modem_dev',`
 
 ########################################
 ## <summary>
-##	Set the attributes of the modem devices.
+##	Set attributes of modem devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2486,7 +2517,7 @@ interface(`dev_setattr_modem_dev',`
 
 ########################################
 ## <summary>
-##	Read the modem devices.
+##	Read modem devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2504,7 +2535,7 @@ interface(`dev_read_modem',`
 
 ########################################
 ## <summary>
-##	Read and write to modem devices.
+##	Read and write modem devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2522,7 +2553,7 @@ interface(`dev_rw_modem',`
 
 ########################################
 ## <summary>
-##	Get the attributes of the mouse devices.
+##	Get attributes of mouse devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2540,7 +2571,7 @@ interface(`dev_getattr_mouse_dev',`
 
 ########################################
 ## <summary>
-##	Set the attributes of the mouse devices.
+##	Set attributes of mouse devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2558,7 +2589,7 @@ interface(`dev_setattr_mouse_dev',`
 
 ########################################
 ## <summary>
-##	Read the mouse devices.
+##	Read mouse devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2576,7 +2607,7 @@ interface(`dev_read_mouse',`
 
 ########################################
 ## <summary>
-##	Read and write to mouse devices.
+##	Read and write mouse devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2594,8 +2625,8 @@ interface(`dev_rw_mouse',`
 
 ########################################
 ## <summary>
-##	Get the attributes of the memory type range
-##	registers (MTRR) device.
+##	Get attributes of memory type range
+##	registers devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2614,8 +2645,8 @@ interface(`dev_getattr_mtrr_dev',`
 
 ########################################
 ## <summary>
-##	Read the memory type range
-##	registers (MTRR).  (Deprecated)
+##	Read memory type range
+##	register devices. (Deprecated)
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2630,8 +2661,8 @@ interface(`dev_read_mtrr',`
 
 ########################################
 ## <summary>
-##	Write the memory type range
-##	registers (MTRR).  (Deprecated)
+##	Write memory type range
+##	register devices. (Deprecated)
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2646,8 +2677,8 @@ interface(`dev_write_mtrr',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to write the memory type
-##	range registers (MTRR).
+##	Do not audit attempts to write memory
+##	type range register devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2660,13 +2691,14 @@ interface(`dev_dontaudit_write_mtrr',`
 		type mtrr_device_t;
 	')
 
-	dontaudit $1 mtrr_device_t:file write;
-	dontaudit $1 mtrr_device_t:chr_file write;
+	dontaudit $1 mtrr_device_t:file write_file_perms;
+	dontaudit $1 mtrr_device_t:chr_file write_chr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read and write the memory type range registers (MTRR).
+##	Read and write memory type range
+##	register devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2685,7 +2717,8 @@ interface(`dev_rw_mtrr',`
 
 ########################################
 ## <summary>
-##	Get the attributes of the network control device
+##	Get attributes of network control
+##	devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2703,7 +2736,7 @@ interface(`dev_getattr_netcontrol_dev',`
 
 ########################################
 ## <summary>
-##	Read the network control identity.
+##	Read network control identity devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2721,7 +2754,7 @@ interface(`dev_read_netcontrol',`
 
 ########################################
 ## <summary>
-##	Read and write the the network control device.
+##	Read and write network control devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2739,7 +2772,7 @@ interface(`dev_rw_netcontrol',`
 
 ########################################
 ## <summary>
-##	Get the attributes of the null device nodes.
+##	Get attributes of null devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2757,7 +2790,7 @@ interface(`dev_getattr_null_dev',`
 
 ########################################
 ## <summary>
-##	Set the attributes of the null device nodes.
+##	Set attributes of null devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2775,7 +2808,7 @@ interface(`dev_setattr_null_dev',`
 
 ########################################
 ## <summary>
-##	Delete the null device (/dev/null).
+##	Delete null devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2793,7 +2826,7 @@ interface(`dev_delete_null',`
 
 ########################################
 ## <summary>
-##	Read and write to the null device (/dev/null).
+##	Read and write to null devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2811,7 +2844,7 @@ interface(`dev_rw_null',`
 
 ########################################
 ## <summary>
-##	Create the null device (/dev/null).
+##	Create null devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2829,8 +2862,8 @@ interface(`dev_create_null_dev',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
-##	of the BIOS non-volatile RAM device.
+##	Do not audit attempts to get attributes
+##	of BIOS non-volatile RAM devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2843,12 +2876,13 @@ interface(`dev_dontaudit_getattr_nvram_dev',`
 		type nvram_device_t;
 	')
 
-	dontaudit $1 nvram_device_t:chr_file getattr;
+	dontaudit $1 nvram_device_t:chr_file getattr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read and write BIOS non-volatile RAM.
+##	Read and write BIOS non-volatile RAM
+##	devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2866,7 +2900,7 @@ interface(`dev_rw_nvram',`
 
 ########################################
 ## <summary>
-##	Get the attributes of the printer device nodes.
+##	Get attributes of printer devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2884,7 +2918,7 @@ interface(`dev_getattr_printer_dev',`
 
 ########################################
 ## <summary>
-##	Set the attributes of the printer device nodes.
+##	Set attributes of printer devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2902,7 +2936,7 @@ interface(`dev_setattr_printer_dev',`
 
 ########################################
 ## <summary>
-##	Append the printer device.
+##	Append printer devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2920,7 +2954,7 @@ interface(`dev_append_printer',`
 
 ########################################
 ## <summary>
-##	Read and write the printer device.
+##	Read and write printer devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2938,7 +2972,7 @@ interface(`dev_rw_printer',`
 
 ########################################
 ## <summary>
-##	Read printk devices (e.g., /dev/kmsg /dev/mcelog)
+##	Read printk devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2956,8 +2990,8 @@ interface(`dev_read_printk',`
 
 ########################################
 ## <summary>
-##	Get the attributes of the QEMU
-##	microcode and id interfaces.
+##	Get attributes of QEMU
+##	microcode and id interface devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2975,8 +3009,8 @@ interface(`dev_getattr_qemu_dev',`
 
 ########################################
 ## <summary>
-##	Set the attributes of the QEMU
-##	microcode and id interfaces.
+##	Set attributes of QEMU
+##	microcode and id interface devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2994,7 +3028,7 @@ interface(`dev_setattr_qemu_dev',`
 
 ########################################
 ## <summary>
-##	Read the QEMU device
+##	Read QEMU devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3012,7 +3046,7 @@ interface(`dev_read_qemu',`
 
 ########################################
 ## <summary>
-##	Read and write the the QEMU device.
+##	Read and write QEMU devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3030,8 +3064,8 @@ interface(`dev_rw_qemu',`
 
 ########################################
 ## <summary>
-##	Read from random number generator
-##	devices (e.g., /dev/random).
+##	Read random number generator
+##	devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3049,8 +3083,8 @@ interface(`dev_read_rand',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to read from random
-##	number generator devices (e.g., /dev/random)
+##	Do not audit attempts to read random
+##	number generator devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3063,13 +3097,13 @@ interface(`dev_dontaudit_read_rand',`
 		type random_device_t;
 	')
 
-	dontaudit $1 random_device_t:chr_file { getattr read };
+	dontaudit $1 random_device_t:chr_file read_chr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to append to random
-##	number generator devices (e.g., /dev/random)
+##	Do not audit attempts to append random
+##	number generator devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3087,9 +3121,7 @@ interface(`dev_dontaudit_append_rand',`
 
 ########################################
 ## <summary>
-##	Write to the random device (e.g., /dev/random). This adds
-##	entropy used to generate the random data read from the
-##	random device.
+##	Write to random devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3107,7 +3139,7 @@ interface(`dev_write_rand',`
 
 ########################################
 ## <summary>
-##	Read the realtime clock (/dev/rtc).
+##	Read realtime clock devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3125,7 +3157,7 @@ interface(`dev_read_realtime_clock',`
 
 ########################################
 ## <summary>
-##	Set the realtime clock (/dev/rtc).
+##	Write realtime clock devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3140,12 +3172,13 @@ interface(`dev_write_realtime_clock',`
 
 	write_chr_files_pattern($1, device_t, clock_device_t)
 
-	allow $1 clock_device_t:chr_file setattr;
+	# This does not belong here
+	allow $1 clock_device_t:chr_file setattr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read and set the realtime clock (/dev/rtc).
+##	Read and write realtime clock devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3160,7 +3193,7 @@ interface(`dev_rw_realtime_clock',`
 
 ########################################
 ## <summary>
-##	Get the attributes of the scanner device.
+##	Get attributes of scanner devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3178,8 +3211,8 @@ interface(`dev_getattr_scanner_dev',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes of
-##	the scanner device.
+##	Do not audit attempts to get attributes
+##	of scanner devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3192,12 +3225,12 @@ interface(`dev_dontaudit_getattr_scanner_dev',`
 		type scanner_device_t;
 	')
 
-	dontaudit $1 scanner_device_t:chr_file getattr;
+	dontaudit $1 scanner_device_t:chr_file getattr_chr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Set the attributes of the scanner device.
+##	Set attributes of scanner devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3215,8 +3248,8 @@ interface(`dev_setattr_scanner_dev',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to set the attributes of
-##	the scanner device.
+##	Do not audit attempts to set attributes
+##	of scanner devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3229,12 +3262,12 @@ interface(`dev_dontaudit_setattr_scanner_dev',`
 		type scanner_device_t;
 	')
 
-	dontaudit $1 scanner_device_t:chr_file setattr;
+	dontaudit $1 scanner_device_t:chr_file setattr_chr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read and write the scanner device.
+##	Read and write scanner devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3252,7 +3285,7 @@ interface(`dev_rw_scanner',`
 
 ########################################
 ## <summary>
-##	Get the attributes of the sound devices.
+##	Get attributes of sound devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3270,7 +3303,7 @@ interface(`dev_getattr_sound_dev',`
 
 ########################################
 ## <summary>
-##	Set the attributes of the sound devices.
+##	Set attributes of sound devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3288,7 +3321,7 @@ interface(`dev_setattr_sound_dev',`
 
 ########################################
 ## <summary>
-##	Read the sound devices.
+##	Read sound devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3306,7 +3339,7 @@ interface(`dev_read_sound',`
 
 ########################################
 ## <summary>
-##	Write the sound devices.
+##	Write sound devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3324,7 +3357,7 @@ interface(`dev_write_sound',`
 
 ########################################
 ## <summary>
-##	Read the sound mixer devices.
+##	Read sound mixer devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3342,7 +3375,7 @@ interface(`dev_read_sound_mixer',`
 
 ########################################
 ## <summary>
-##	Write the sound mixer devices.
+##	Write sound mixer devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3360,7 +3393,7 @@ interface(`dev_write_sound_mixer',`
 
 ########################################
 ## <summary>
-##	Get the attributes of the the power management device.
+##	Get attributes of power management devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3378,7 +3411,8 @@ interface(`dev_getattr_power_mgmt_dev',`
 
 ########################################
 ## <summary>
-##	Set the attributes of the the power management device.
+##	Set attributes of power management
+##	devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3396,7 +3430,8 @@ interface(`dev_setattr_power_mgmt_dev',`
 
 ########################################
 ## <summary>
-##	Read and write the the power management device.
+##	Read and write power management
+##	devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3414,7 +3449,7 @@ interface(`dev_rw_power_management',`
 
 ########################################
 ## <summary>
-##	Getattr on smartcard devices
+##	Get attributes of smartcard devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3427,13 +3462,14 @@ interface(`dev_getattr_smartcard_dev',`
 		type smartcard_device_t;
 	')
 
-	allow $1 smartcard_device_t:chr_file getattr;
+	allow $1 smartcard_device_t:chr_file getattr_chr_file_perms;
 
 ')
 
 ########################################
 ## <summary>
-##	dontaudit getattr on smartcard devices
+##	Do not audit attempts to get
+##	attributes of smartcard devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3446,7 +3482,7 @@ interface(`dev_dontaudit_getattr_smartcard_dev',`
 		type smartcard_device_t;
 	')
 
-	dontaudit $1 smartcard_device_t:chr_file getattr;
+	dontaudit $1 smartcard_device_t:chr_file getattr_chr_file_perms;
 
 ')
 
@@ -3470,7 +3506,7 @@ interface(`dev_rw_smartcard',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete smartcard devices.
+##	Manage smartcard devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3488,7 +3524,7 @@ interface(`dev_manage_smartcard',`
 
 ########################################
 ## <summary>
-##	Associate a file to a sysfs filesystem.
+##	Associate files to sysfs filesystems.
 ## </summary>
 ## <param name="file_type">
 ##	<summary>
@@ -3506,11 +3542,11 @@ interface(`dev_associate_sysfs',`
 
 ########################################
 ## <summary>
-##	Get the attributes of sysfs directories.
+##	Get attributes of sysfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the process performing this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -3524,7 +3560,7 @@ interface(`dev_getattr_sysfs_dirs',`
 
 ########################################
 ## <summary>
-##	Search the sysfs directories.
+##	Search sysfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3542,7 +3578,8 @@ interface(`dev_search_sysfs',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to search sysfs.
+##	Do not audit attempts to search
+##	sysfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3560,7 +3597,7 @@ interface(`dev_dontaudit_search_sysfs',`
 
 ########################################
 ## <summary>
-##	List the contents of the sysfs directories.
+##	List sysfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3578,7 +3615,7 @@ interface(`dev_list_sysfs',`
 
 ########################################
 ## <summary>
-##	Write in a sysfs directories.
+##	Write sysfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3611,7 +3648,6 @@ interface(`dev_read_sysfs',`
 
 	read_files_pattern($1, sysfs_t, sysfs_t)
 	read_lnk_files_pattern($1, sysfs_t, sysfs_t)
-
 	list_dirs_pattern($1, sysfs_t, sysfs_t)
 ')
 
@@ -3632,13 +3668,12 @@ interface(`dev_rw_sysfs',`
 
 	rw_files_pattern($1, sysfs_t, sysfs_t)
 	read_lnk_files_pattern($1, sysfs_t, sysfs_t)
-
 	list_dirs_pattern($1, sysfs_t, sysfs_t)
 ')
 
 ########################################
 ## <summary>
-##	Read from pseudo random number generator devices (e.g., /dev/urandom).
+##	Read pseudo random number generator devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3656,8 +3691,8 @@ interface(`dev_read_urand',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to read from pseudo
-##	random devices (e.g., /dev/urandom)
+##	Do not audit attempts to read pseudo
+##	random devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3670,13 +3705,12 @@ interface(`dev_dontaudit_read_urand',`
 		type urandom_device_t;
 	')
 
-	dontaudit $1 urandom_device_t:chr_file { getattr read };
+	dontaudit $1 urandom_device_t:chr_file read_chr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Write to the pseudo random device (e.g., /dev/urandom). This
-##	sets the random number generator seed.
+##	Write to pseudo random devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3694,7 +3728,7 @@ interface(`dev_write_urand',`
 
 ########################################
 ## <summary>
-##	Getattr generic the USB devices.
+##	Get attributes of generic the USB devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3712,7 +3746,7 @@ interface(`dev_getattr_generic_usb_dev',`
 
 ########################################
 ## <summary>
-##	Setattr generic the USB devices.
+##	Set attributes of generic the USB devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3784,7 +3818,7 @@ interface(`dev_read_usbmon_dev',`
 
 ########################################
 ## <summary>
-##	Mount a usbfs filesystem.
+##	Mount usbfs filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3802,7 +3836,7 @@ interface(`dev_mount_usbfs',`
 
 ########################################
 ## <summary>
-##	Associate a file to a usbfs filesystem.
+##	Associate files to usbfs filesystems.
 ## </summary>
 ## <param name="file_type">
 ##	<summary>
@@ -3820,7 +3854,8 @@ interface(`dev_associate_usbfs',`
 
 ########################################
 ## <summary>
-##	Get the attributes of a directory in the usb filesystem.
+##	Get attributes of directories in
+##	usb filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3838,8 +3873,8 @@ interface(`dev_getattr_usbfs_dirs',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
-##	of a directory in the usb filesystem.
+##	Do not audit attempts to get attributes
+##	of directories in usb filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3857,7 +3892,8 @@ interface(`dev_dontaudit_getattr_usbfs_dirs',`
 
 ########################################
 ## <summary>
-##	Search the directory containing USB hardware information.
+##	Search directories containing USB
+##	hardware information.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3890,13 +3926,12 @@ interface(`dev_list_usbfs',`
 
 	read_lnk_files_pattern($1, usbfs_t, usbfs_t)
 	getattr_files_pattern($1, usbfs_t, usbfs_t)
-
 	list_dirs_pattern($1, usbfs_t, usbfs_t)
 ')
 
 ########################################
 ## <summary>
-##	Set the attributes of usbfs filesystem.
+##	Set attributes of usbfs filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3956,7 +3991,7 @@ interface(`dev_rw_usbfs',`
 
 ########################################
 ## <summary>
-##	Get the attributes of video4linux devices.
+##	Get attributes of video4linux devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3974,7 +4009,7 @@ interface(`dev_getattr_video_dev',`
 
 ######################################
 ## <summary>
-##	Read and write userio device.
+##	Read and write userio devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3992,8 +4027,8 @@ interface(`dev_rw_userio_dev',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
-##	of video4linux device nodes.
+##	Do not audit attempts to get attributes
+##	of video4linux devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4006,12 +4041,12 @@ interface(`dev_dontaudit_getattr_video_dev',`
 		type v4l_device_t;
 	')
 
-	dontaudit $1 v4l_device_t:chr_file getattr;
+	dontaudit $1 v4l_device_t:chr_file getattr_chr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Set the attributes of video4linux device nodes.
+##	Set attributes of video4linux devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4029,8 +4064,8 @@ interface(`dev_setattr_video_dev',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to set the attributes
-##	of video4linux device nodes.
+##	Do not audit attempts to set attributes
+##	of video4linux devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4043,12 +4078,12 @@ interface(`dev_dontaudit_setattr_video_dev',`
 		type v4l_device_t;
 	')
 
-	dontaudit $1 v4l_device_t:chr_file setattr;
+	dontaudit $1 v4l_device_t:chr_file setattr_chr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read the video4linux devices.
+##	Read video4linux devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4066,7 +4101,7 @@ interface(`dev_read_video_dev',`
 
 ########################################
 ## <summary>
-##	Write the video4linux devices.
+##	Write video4linux devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4121,7 +4156,7 @@ interface(`dev_rwx_vmware',`
 
 ########################################
 ## <summary>
-##	Write to watchdog devices.
+##	Write watchdog devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4139,7 +4174,7 @@ interface(`dev_write_watchdog',`
 
 ########################################
 ## <summary>
-##	Read and write the the wireless device.
+##	Read and write wireless devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4175,7 +4210,7 @@ interface(`dev_rw_xen',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete Xen devices.
+##	Manage Xen devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4193,8 +4228,9 @@ interface(`dev_manage_xen',`
 
 ########################################
 ## <summary>
-##	Automatic type transition to the type
-##	for xen device nodes when created in /dev.
+##	Automatic type transition to types
+##	for xen devices when created in
+##	device directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4212,7 +4248,8 @@ interface(`dev_filetrans_xen',`
 
 ########################################
 ## <summary>
-##	Get the attributes of X server miscellaneous devices.
+##	Get attributes of X server
+##	miscellaneous devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4230,7 +4267,8 @@ interface(`dev_getattr_xserver_misc_dev',`
 
 ########################################
 ## <summary>
-##	Set the attributes of X server miscellaneous devices.
+##	Set attributes of X server
+##	miscellaneous devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4248,7 +4286,8 @@ interface(`dev_setattr_xserver_misc_dev',`
 
 ########################################
 ## <summary>
-##	Read and write X server miscellaneous devices.
+##	Read and write X server
+##	miscellaneous devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4266,7 +4305,7 @@ interface(`dev_rw_xserver_misc',`
 
 ########################################
 ## <summary>
-##	Read and write to the zero device (/dev/zero).
+##	Read and write to zero devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4284,7 +4323,7 @@ interface(`dev_rw_zero',`
 
 ########################################
 ## <summary>
-##	Read, write, and execute the zero device (/dev/zero).
+##	Read, write, and execute zero devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4303,7 +4342,7 @@ interface(`dev_rwx_zero',`
 
 ########################################
 ## <summary>
-##	Execmod the zero device (/dev/zero).
+##	Execmod zero devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4322,7 +4361,7 @@ interface(`dev_execmod_zero',`
 
 ########################################
 ## <summary>
-##	Create the zero device (/dev/zero).
+##	Create zero devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

@@ -2,8 +2,8 @@
 
 ########################################
 ## <summary>
-##	Make the specified type usable for files
-##	that are exectuables, such as binary programs.
+##	Make specified types usable for files
+##	that are executables, such as binary programs.
 ##	This does not include shared libraries.
 ## </summary>
 ## <param name="type">
@@ -23,7 +23,8 @@ interface(`corecmd_executable_file',`
 
 ########################################
 ## <summary>
-##	Create a aliased type to generic bin files. (Deprecated)
+##	Create aliased types to generic bin
+##	files. (Deprecated)
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -38,7 +39,7 @@ interface(`corecmd_bin_alias',`
 ########################################
 ## <summary>
 ##	Make general progams in bin an entrypoint for
-##	the specified domain.
+##	specified domains.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -57,7 +58,7 @@ interface(`corecmd_bin_entry_type',`
 ########################################
 ## <summary>
 ##	Make general progams in sbin an entrypoint for
-##	the specified domain.  (Deprecated)
+##	specified domains. (Deprecated)
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -72,7 +73,8 @@ interface(`corecmd_sbin_entry_type',`
 
 ########################################
 ## <summary>
-##	Make the shell an entrypoint for the specified domain.
+##	Make shells an entrypoint for
+##	specified domains.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -90,7 +92,7 @@ interface(`corecmd_shell_entry_type',`
 
 ########################################
 ## <summary>
-##	Search the contents of bin directories.
+##	Search bin directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -108,7 +110,8 @@ interface(`corecmd_search_bin',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to search the contents of bin directories.
+##	Do not audit attempts to search
+##	bin directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -126,7 +129,7 @@ interface(`corecmd_dontaudit_search_bin',`
 
 ########################################
 ## <summary>
-##	List the contents of bin directories.
+##	List bin directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -144,7 +147,8 @@ interface(`corecmd_list_bin',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to write bin directories.
+##	Do not audit attempts to write bin
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -162,7 +166,8 @@ interface(`corecmd_dontaudit_write_bin_dirs',`
 
 ########################################
 ## <summary>
-##	Get the attributes of files in bin directories.
+##	Get attributes of files in bin
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -180,7 +185,7 @@ interface(`corecmd_getattr_bin_files',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
+##	Do not audit attempts to get attributes
 ##	of files in bin directories.
 ## </summary>
 ## <param name="domain">
@@ -272,8 +277,8 @@ interface(`corecmd_read_bin_sockets',`
 
 ########################################
 ## <summary>
-##	Execute generic programs in bin directories,
-##	in the caller domain.
+##	Execute generic programs in bin
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -293,7 +298,7 @@ interface(`corecmd_exec_bin',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete bin files.
+##	Manage bin files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -311,7 +316,7 @@ interface(`corecmd_manage_bin_files',`
 
 ########################################
 ## <summary>
-##	Relabel to and from the bin type.
+##	Relabel bin types.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -329,7 +334,7 @@ interface(`corecmd_relabel_bin_files',`
 
 ########################################
 ## <summary>
-##	Mmap a bin file as executable.
+##	Mmap bin files as executable.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -347,8 +352,8 @@ interface(`corecmd_mmap_bin_files',`
 
 ########################################
 ## <summary>
-##	Execute a file in a bin directory
-##	in the specified domain but do not
+##	Execute files in bin directories
+##	in specified domains but do not
 ##	do it automatically. This is an explicit
 ##	transition, requiring the caller to use setexeccon().
 ## </summary>
@@ -374,8 +379,8 @@ interface(`corecmd_bin_spec_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute a file in a bin directory
-##	in the specified domain.
+##	Execute files in bin directories
+##	in specified domains.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -399,7 +404,7 @@ interface(`corecmd_bin_domtrans',`
 
 ########################################
 ## <summary>
-##	Search the contents of sbin directories. (Deprecated)
+##	Search sbin directories. (Deprecated)
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -430,7 +435,7 @@ interface(`corecmd_dontaudit_search_sbin',`
 
 ########################################
 ## <summary>
-##	List the contents of sbin directories. (Deprecated)
+##	List sbin directories. (Deprecated)
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -461,7 +466,7 @@ interface(`corecmd_dontaudit_write_sbin_dirs',`
 
 ########################################
 ## <summary>
-##	Get the attributes of sbin files. (Deprecated)
+##	Get attributes of sbin files. (Deprecated)
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -476,7 +481,7 @@ interface(`corecmd_getattr_sbin_files',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attibutes
+##	Do not audit attempts to get attibutes
 ##	of sbin files. (Deprecated)
 ## </summary>
 ## <param name="domain">
@@ -552,8 +557,8 @@ interface(`corecmd_read_sbin_sockets',`
 
 ########################################
 ## <summary>
-##	Execute generic programs in sbin directories,
-##	in the caller domain. (Deprecated)
+##	Execute generic programs in sbin
+##	directories. (Deprecated)
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -568,7 +573,7 @@ interface(`corecmd_exec_sbin',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete sbin files. (Deprecated)
+##	Manage sbin files. (Deprecated)
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -583,7 +588,7 @@ interface(`corecmd_manage_sbin_files',`
 
 ########################################
 ## <summary>
-##	Relabel to and from the sbin type. (Deprecated)
+##	Relabel sbin types. (Deprecated)
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -598,7 +603,7 @@ interface(`corecmd_relabel_sbin_files',`
 
 ########################################
 ## <summary>
-##	Mmap a sbin file as executable. (Deprecated)
+##	Mmap sbin files as executable. (Deprecated)
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -613,8 +618,8 @@ interface(`corecmd_mmap_sbin_files',`
 
 ########################################
 ## <summary>
-##	Execute a file in a sbin directory
-##	in the specified domain.  (Deprecated)
+##	Execute files in sbin directories
+##	in specified domains. (Deprecated)
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -634,8 +639,8 @@ interface(`corecmd_sbin_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute a file in a sbin directory
-##	in the specified domain but do not
+##	Execute files in sbin directories
+##	in specified domains but do not
 ##	do it automatically. This is an explicit
 ##	transition, requiring the caller to use setexeccon(). (Deprecated)
 ## </summary>
@@ -657,7 +662,7 @@ interface(`corecmd_sbin_spec_domtrans',`
 
 ########################################
 ## <summary>
-##	Check if a shell is executable (DAC-wise).
+##	Check if shells are executable.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -672,12 +677,12 @@ interface(`corecmd_check_exec_shell',`
 
 	list_dirs_pattern($1, bin_t, bin_t)
 	read_lnk_files_pattern($1, bin_t, bin_t)
-	allow $1 shell_exec_t:file execute;
+	allow $1 shell_exec_t:file exec_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Execute shells in the caller domain.
+##	Execute shells.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -697,7 +702,7 @@ interface(`corecmd_exec_shell',`
 
 ########################################
 ## <summary>
-##	Execute ls in the caller domain. (Deprecated)
+##	Execute ls. (Deprecated)
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -712,7 +717,7 @@ interface(`corecmd_exec_ls',`
 
 ########################################
 ## <summary>
-##	Execute a shell in the target domain.  This
+##	Execute shells in target domains. This
 ##	is an explicit transition, requiring the
 ##	caller to use setexeccon().
 ## </summary>
@@ -739,7 +744,7 @@ interface(`corecmd_shell_spec_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute a shell in the specified domain.
+##	Execute shells in specified domains.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -763,7 +768,7 @@ interface(`corecmd_shell_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute chroot in the caller domain.
+##	Execute chroot.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -783,7 +788,8 @@ interface(`corecmd_exec_chroot',`
 
 ########################################
 ## <summary>
-##	Get the attributes of all executable files.
+##	Get attributes of all executable
+##	files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -842,7 +848,8 @@ interface(`corecmd_exec_all_executables',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to execute all executables.
+##	Do not audit attempts to execute
+##	all executable files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -860,7 +867,7 @@ interface(`corecmd_dontaudit_exec_all_executables',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and all executable files.
+##	Manage all executable files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -881,7 +888,7 @@ interface(`corecmd_manage_all_executables',`
 
 ########################################
 ## <summary>
-##	Relabel to and from the bin type.
+##	Relabel bin types.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -900,7 +907,7 @@ interface(`corecmd_relabel_all_executables',`
 
 ########################################
 ## <summary>
-##	Mmap all executables as executable.
+##	Mmap all executable files as executable.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
