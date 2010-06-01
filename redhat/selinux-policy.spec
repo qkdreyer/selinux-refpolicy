@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.1
-Release: 3.4%{?dist}
+Release: 3.5%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,10 @@ exit 0
 %endif
 
 %changelog
+* Tue Jun 01 2010 Dominick Grift <domg472@gmail.com> 3.8.1-3.5
+- Plenty clean ups.
+- Added ~/asoundrc to alsa.
+
 * Sun May 31 2010 Dominick Grift <domg472@gmail.com> 3.8.1-3.4
 - Clean ups. You can learn alot about policy just by looking at the source but it is important that this source is consistent so that it not confuse the reader.
 

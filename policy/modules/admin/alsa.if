@@ -129,7 +129,7 @@ interface(`alsa_read_lib',`
 ##	</summary>
 ## </param>
 #
-interface(`alsa_read_lib',`
+interface(`alsa_read_home_files',`
 	gen_require(`
 		type alsa_home_t;
 	')
