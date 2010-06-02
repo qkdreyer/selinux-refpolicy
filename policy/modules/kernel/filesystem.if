@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Transform specified type into a filesystem type.
+##	Transform specified types into
+##	filesystem types.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -20,9 +21,9 @@ interface(`fs_type',`
 
 ########################################
 ## <summary>
-##	Transform specified type into a filesystem
-##	type which does not have extended attribute
-##	support.
+##	Transform specified types into
+##	filesystem types that do not have
+##	extended attribute support.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -36,16 +37,17 @@ interface(`fs_noxattr_type',`
 	')
 
 	fs_type($1)
-
 	typeattribute $1 noxattrfs;
 ')
 
 ########################################
 ## <summary>
-##	Associate the specified file type to persistent
-##	filesystems with extended attributes.  This
-##	allows a file of this type to be created on
-##	a filesystem such as ext3, JFS, and XFS.
+##	Associate specified file types to
+##	persistent filesystems with extended
+##	attributes. This allows files of
+##	this type to be created on
+##	filesystems such as ext3, JFS,
+##	and XFS.
 ## </summary>
 ## <param name="file_type">
 ##	<summary>
@@ -63,15 +65,16 @@ interface(`fs_associate',`
 
 ########################################
 ## <summary>
-##	Associate the specified file type to
-##	filesystems which lack extended attributes
-##	support.  This allows a file of this type
-##	to be created on a filesystem such as
-##	FAT32, and NFS.
+##	Associate specified file types to
+##	filesystems that lack extended
+##	attributes support. This allows
+##	files of this type to be created
+##	on filesystems such as FAT32,
+##	and NFS.
 ## </summary>
 ## <param name="file_type">
 ##	<summary>
-##	The type of the to be associated.
+##	The type of to be associated.
 ##	</summary>
 ## </param>
 #
@@ -85,8 +88,8 @@ interface(`fs_associate_noxattr',`
 
 ########################################
 ## <summary>
-##	Execute files on a filesystem that does
-##	not support extended attributes.
+##	Execute files on filesystems that
+##	do not support extended attributes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -104,8 +107,8 @@ interface(`fs_exec_noxattr',`
 
 ########################################
 ## <summary>
-##	Mount a persistent filesystem which
-##	has extended attributes, such as
+##	Mount persistent filesystems that
+##	have extended attributes, such as
 ##	ext3, JFS, or XFS.
 ## </summary>
 ## <param name="domain">
@@ -124,9 +127,9 @@ interface(`fs_mount_xattr_fs',`
 
 ########################################
 ## <summary>
-##	Remount a persistent filesystem which
-##	has extended attributes, such as
-##	ext3, JFS, or XFS.  This allows
+##	Remount persistent filesystems that
+##	have extended attributes, such as
+##	ext3, JFS, or XFS. This allows
 ##	some mount options to be changed.
 ## </summary>
 ## <param name="domain">
@@ -145,8 +148,8 @@ interface(`fs_remount_xattr_fs',`
 
 ########################################
 ## <summary>
-##	Unmount a persistent filesystem which
-##	has extended attributes, such as
+##	Unmount persistent filesystems that
+##	have extended attributes, such as
 ##	ext3, JFS, or XFS.
 ## </summary>
 ## <param name="domain">
@@ -165,9 +168,10 @@ interface(`fs_unmount_xattr_fs',`
 
 ########################################
 ## <summary>
-##	Get the attributes of persistent
-##	filesystems which have extended
-##	attributes, such as ext3, JFS, or XFS.
+##	Get attributes of persistent
+##	filesystems that have extended
+##	attributes, such as ext3, JFS,
+##	or XFS.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -186,9 +190,10 @@ interface(`fs_getattr_xattr_fs',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to
-##	get the attributes of a persistent
-##	filesystem which has extended
-##	attributes, such as ext3, JFS, or XFS.
+##	get attributes of persistent
+##	filesystems that have extended
+##	attributes, such as ext3, JFS,
+##	or XFS.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -206,9 +211,9 @@ interface(`fs_dontaudit_getattr_xattr_fs',`
 
 ########################################
 ## <summary>
-##	Allow changing of the label of a
-##	filesystem with extended attributes
-##	using the context= mount option.
+##	Change labels of filesystems with
+##	extended attributes using the
+##	context= mount option.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -226,7 +231,7 @@ interface(`fs_relabelfrom_xattr_fs',`
 
 ########################################
 ## <summary>
-##	Get the filesystem quotas of a filesystem
+##	Get filesystem quotas of filesystems
 ##	with extended attributes.
 ## </summary>
 ## <param name="domain">
@@ -245,7 +250,7 @@ interface(`fs_get_xattr_fs_quotas',`
 
 ########################################
 ## <summary>
-##	Set the filesystem quotas of a filesystem
+##	Set filesystem quotas of filesystems
 ##	with extended attributes.
 ## </summary>
 ## <param name="domain">
@@ -264,7 +269,7 @@ interface(`fs_set_xattr_fs_quotas',`
 
 ########################################
 ## <summary>
-##	Read files on anon_inodefs file systems.
+##	Read anon inodefs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -283,8 +288,7 @@ interface(`fs_read_anon_inodefs_files',`
 
 ########################################
 ## <summary>
-##	Read and write files on anon_inodefs
-##	file systems.
+##	Read and write anon inodefs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -303,8 +307,8 @@ interface(`fs_rw_anon_inodefs_files',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to read or write files on
-##	anon_inodefs file systems.
+##	Do not audit attempts to read or
+##	write anon inodefs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -323,7 +327,7 @@ interface(`fs_dontaudit_rw_anon_inodefs_files',`
 
 ########################################
 ## <summary>
-##	Mount an automount pseudo filesystem.
+##	Mount automount pseudo filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -341,8 +345,7 @@ interface(`fs_mount_autofs',`
 
 ########################################
 ## <summary>
-##	Remount an automount pseudo filesystem
-##	This allows some mount options to be changed.
+##	Remount automount pseudo filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -360,7 +363,7 @@ interface(`fs_remount_autofs',`
 
 ########################################
 ## <summary>
-##	Unmount an automount pseudo filesystem.
+##	Unmount automount pseudo filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -378,8 +381,8 @@ interface(`fs_unmount_autofs',`
 
 ########################################
 ## <summary>
-##	Get the attributes of an automount
-##	pseudo filesystem.
+##	Get attributes of automount
+##	pseudo filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -397,8 +400,7 @@ interface(`fs_getattr_autofs',`
 
 ########################################
 ## <summary>
-##	Search automount filesystem to use automatically
-##	mounted filesystems.
+##	Search automount directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -416,8 +418,7 @@ interface(`fs_search_auto_mountpoints',`
 
 ########################################
 ## <summary>
-##	Read directories of automatically
-##	mounted filesystems.
+##	List automount directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -435,8 +436,8 @@ interface(`fs_list_auto_mountpoints',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to list directories of automatically
-##	mounted filesystems.
+##	Do not audit attempts to list
+##	automount directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -454,8 +455,7 @@ interface(`fs_dontaudit_list_auto_mountpoints',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete symbolic links
-##	on an autofs filesystem.
+##	Manage automount symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -473,8 +473,8 @@ interface(`fs_manage_autofs_symlinks',`
 
 ########################################
 ## <summary>
-##	Get the attributes of directories on
-##	binfmt_misc filesystems.
+##	Get attributes of binfmt misc
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -487,15 +487,13 @@ interface(`fs_getattr_binfmt_misc_dirs',`
 		type binfmt_misc_fs_t;
 	')
 
-	allow $1 binfmt_misc_fs_t:dir getattr;
+	allow $1 binfmt_misc_fs_t:dir getattr_dir_perms;
 
 ')
 
 ########################################
 ## <summary>
-##	Register an interpreter for new binary
-##	file types, using the kernel binfmt_misc
-##	support.
+##	Read and write binfmt misc fs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -513,7 +511,7 @@ interface(`fs_register_binary_executable_type',`
 
 ########################################
 ## <summary>
-##	Delete directories on cgroupfs.
+##	Delete cgroupfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -531,7 +529,7 @@ interface(`fs_delete_cgroupfs_dirs', `
 
 ########################################
 ## <summary>
-##	Mount a cgroup filesystem.
+##	Mount cgroup filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -549,8 +547,7 @@ interface(`fs_mount_cgroupfs', `
 
 ########################################
 ## <summary>
-##	Remount a cgroup filesystem  This allows
-##	some mount options to be changed.
+##	Remount cgroup filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -568,7 +565,7 @@ interface(`fs_remount_cgroupfs', `
 
 ########################################
 ## <summary>
-##	Unmount a cgroup file system.
+##	Unmount cgroup filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -586,7 +583,7 @@ interface(`fs_unmount_cgroupfs', `
 
 ########################################
 ## <summary>
-##	Get the attributes of a cgroup filesystem.
+##	Get attributes of cgroup filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -604,8 +601,7 @@ interface(`fs_getattr_cgroupfs',`
 
 ########################################
 ## <summary>
-##	list dirs on cgroup
-##	file systems.
+##	list cgroupfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -623,7 +619,7 @@ interface(`fs_list_cgroupfs_dirs', `
 
 ########################################
 ## <summary>
-##	Manage dirs on cgroup file systems.
+##	Manage cgroupfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -642,8 +638,7 @@ interface(`fs_manage_cgroupfs_dirs',`
 
 ########################################
 ## <summary>
-##	Set attributes of files on cgroup
-##	file systems.
+##	Set attributes of cgroupfs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -662,8 +657,7 @@ interface(`fs_setattr_cgroupfs_files',`
 
 ########################################
 ## <summary>
-##	Read files on cgroup
-##	file systems.
+##	Read cgroupfs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -682,8 +676,7 @@ interface(`fs_read_cgroupfs_files',`
 
 ########################################
 ## <summary>
-##	Write files on cgroup
-##	file systems.
+##	Write cgroupfs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -701,8 +694,7 @@ interface(`fs_write_cgroupfs_files', `
 
 ########################################
 ## <summary>
-##	Read and write files on cgroup
-##	file systems.
+##	Read and write cgroupfs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -721,9 +713,9 @@ interface(`fs_rw_cgroupfs_files',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to getattr,
-##	open, read and write files on cgroup
-##	file systems.
+##	Do not audit attempts to open,
+##	get attributes, read and write
+##	cgroupfs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -742,7 +734,7 @@ interface(`fs_dontaudit_rw_cgroupfs_files',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to read
-##	dirs on a CIFS or SMB filesystem.
+##	CIFS or SMB directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -760,7 +752,7 @@ interface(`fs_dontaudit_list_cifs_dirs',`
 
 ########################################
 ## <summary>
-##	Mount a CIFS or SMB network filesystem.
+##	Mount CIFS or SMB network filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -778,8 +770,7 @@ interface(`fs_mount_cifs',`
 
 ########################################
 ## <summary>
-##	Remount a CIFS or SMB network filesystem.
-##	This allows some mount options to be changed.
+##	Remount CIFS or SMB network filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -797,7 +788,7 @@ interface(`fs_remount_cifs',`
 
 ########################################
 ## <summary>
-##	Unmount a CIFS or SMB network filesystem.
+##	Unmount CIFS or SMB network filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -815,8 +806,8 @@ interface(`fs_unmount_cifs',`
 
 ########################################
 ## <summary>
-##	Get the attributes of a CIFS or
-##	SMB network filesystem.
+##	Get attributes of CIFS or
+##	SMB network filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -834,7 +825,7 @@ interface(`fs_getattr_cifs',`
 
 ########################################
 ## <summary>
-##	Search directories on a CIFS or SMB filesystem.
+##	Search CIFS or SMB directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -852,8 +843,7 @@ interface(`fs_search_cifs',`
 
 ########################################
 ## <summary>
-##	List the contents of directories on a
-##	CIFS or SMB filesystem.
+##	List  CIFS or SMB directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -871,8 +861,8 @@ interface(`fs_list_cifs',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to list the contents
-##	of directories on a CIFS or SMB filesystem.
+##	Do not audit attempts to list CIFS
+##	or SMB directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -890,7 +880,7 @@ interface(`fs_dontaudit_list_cifs',`
 
 ########################################
 ## <summary>
-##	Mounton a CIFS filesystem.
+##	Mount on CIFS directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -908,7 +898,7 @@ interface(`fs_mounton_cifs',`
 
 ########################################
 ## <summary>
-##	Read files on a CIFS or SMB filesystem.
+##	Read CIFS or SMB files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -927,7 +917,7 @@ interface(`fs_read_cifs_files',`
 
 ########################################
 ## <summary>
-##	Get the attributes of filesystems that
+##	Get attributes of filesystems that
 ##	do not have extended attribute support.
 ## </summary>
 ## <param name="domain">
@@ -964,7 +954,7 @@ interface(`fs_list_noxattr_fs',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete all noxattrfs directories.
+##	Manage all noxattrfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1000,11 +990,12 @@ interface(`fs_read_noxattr_fs_files',`
 
 ########################################
 ## <summary>
-##	Dont audit attempts to write to noxattrfs files.
+##	Do not audit attempts to write
+##	noxattrfs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1013,12 +1004,12 @@ interface(`fs_dontaudit_write_noxattr_fs_files',`
 		attribute noxattrfs;
 	')
 
-	dontaudit $1 noxattrfs:file write;
+	dontaudit $1 noxattrfs:file write_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete all noxattrfs files.
+##	Manage all noxattrfs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1055,7 +1046,7 @@ interface(`fs_read_noxattr_fs_symlinks',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to read
-##	files on a CIFS or SMB filesystem.
+##	CIFS or SMB files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1073,8 +1064,7 @@ interface(`fs_dontaudit_read_cifs_files',`
 
 ########################################
 ## <summary>
-##	Append files
-##	on a CIFS filesystem.
+##	Append CIFS or SMB files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1092,12 +1082,12 @@ interface(`fs_append_cifs_files',`
 
 ########################################
 ## <summary>
-##	dontaudit Append files
-##	on a CIFS filesystem.
+##	Do not audit attempts to append
+##	CIFS or SMB files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1112,7 +1102,7 @@ interface(`fs_dontaudit_append_cifs_files',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to read or
-##	write files on a CIFS or SMB filesystem.
+##	write CIFS or SMB files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1130,7 +1120,7 @@ interface(`fs_dontaudit_rw_cifs_files',`
 
 ########################################
 ## <summary>
-##	Read symbolic links on a CIFS or SMB filesystem.
+##	Read CIFS or SMB symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1149,8 +1139,7 @@ interface(`fs_read_cifs_symlinks',`
 
 ########################################
 ## <summary>
-##	Read named pipes
-##	on a CIFS or SMB network filesystem.
+##	Read CIFS or SMB pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1168,8 +1157,7 @@ interface(`fs_read_cifs_named_pipes',`
 
 ########################################
 ## <summary>
-##	Read named pipes
-##	on a CIFS or SMB network filesystem.
+##	Read CIFS or SMB sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1187,9 +1175,7 @@ interface(`fs_read_cifs_named_sockets',`
 
 ########################################
 ## <summary>
-##	Execute files on a CIFS or SMB
-##	network filesystem, in the caller
-##	domain.
+##	Execute CIFS or SMB files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1208,8 +1194,7 @@ interface(`fs_exec_cifs_files',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete directories
-##	on a CIFS or SMB network filesystem.
+##	Manage CIFS or SMB directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1227,13 +1212,12 @@ interface(`fs_manage_cifs_dirs',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to create, read,
-##	write, and delete directories
-##	on a CIFS or SMB network filesystem.
+##	Do not audit attempts to manage
+##	CIFS or SMB directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1247,8 +1231,7 @@ interface(`fs_dontaudit_manage_cifs_dirs',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete files
-##	on a CIFS or SMB network filesystem.
+##	Manage CIFS or SMB files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1266,9 +1249,8 @@ interface(`fs_manage_cifs_files',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to create, read,
-##	write, and delete files
-##	on a CIFS or SMB network filesystem.
+##	Do not audit attempts to manage
+##	CIFS or SMB files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1286,8 +1268,7 @@ interface(`fs_dontaudit_manage_cifs_files',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete symbolic links
-##	on a CIFS or SMB network filesystem.
+##	Manage CIFS or SMB symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1305,8 +1286,7 @@ interface(`fs_manage_cifs_symlinks',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete named pipes
-##	on a CIFS or SMB network filesystem.
+##	Manage CIFS or SMB pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1324,8 +1304,7 @@ interface(`fs_manage_cifs_named_pipes',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete named sockets
-##	on a CIFS or SMB network filesystem.
+##	Manage CIFS or SMB sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1343,8 +1322,8 @@ interface(`fs_manage_cifs_named_sockets',`
 
 ########################################
 ## <summary>
-##	Execute a file on a CIFS or SMB filesystem
-##	in the specified domain.
+##	Execute CIFS or SMB files
+##	in specified domains.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1368,8 +1347,8 @@ interface(`fs_cifs_domtrans',`
 
 ########################################
 ## <summary>
-##	Make general progams in cifs an entrypoint for
-##	the specified domain.
+##	Make general CIFS or SMB files
+##	entrypoints for specified domains.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1387,8 +1366,7 @@ interface(`fs_cifs_entry_type',`
 
 #######################################
 ## <summary>
-##	Create, read, write, and delete dirs
-##	on a configfs filesystem.
+##	Manage configfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1406,8 +1384,7 @@ interface(`fs_manage_configfs_dirs',`
 
 #######################################
 ## <summary>
-##	Create, read, write, and delete files
-##	on a configfs filesystem.
+##	Manage configfs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1425,8 +1402,7 @@ interface(`fs_manage_configfs_files',`
 
 ########################################
 ## <summary>
-##	Mount a DOS filesystem, such as
-##	FAT32 or NTFS.
+##	Mount DOS filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1444,9 +1420,7 @@ interface(`fs_mount_dos_fs',`
 
 ########################################
 ## <summary>
-##	Remount a DOS filesystem, such as
-##	FAT32 or NTFS.  This allows
-##	some mount options to be changed.
+##	Remount DOS filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1464,8 +1438,7 @@ interface(`fs_remount_dos_fs',`
 
 ########################################
 ## <summary>
-##	Unmount a DOS filesystem, such as
-##	FAT32 or NTFS.
+##	Unmount DOS filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1483,8 +1456,7 @@ interface(`fs_unmount_dos_fs',`
 
 ########################################
 ## <summary>
-##	Get the attributes of a DOS
-##	filesystem, such as FAT32 or NTFS.
+##	Get attributes of DOS filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1502,8 +1474,8 @@ interface(`fs_getattr_dos_fs',`
 
 ########################################
 ## <summary>
-##	Allow changing of the label of a
-##	DOS filesystem using the context= mount option.
+##	Change labels of DOS filesystems
+##	using the context= mount option.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1521,7 +1493,7 @@ interface(`fs_relabelfrom_dos_fs',`
 
 ########################################
 ## <summary>
-##	Search dosfs filesystem.
+##	Search dosfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1539,8 +1511,7 @@ interface(`fs_search_dos',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete dirs
-##	on a DOS filesystem.
+##	Manage dosfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1558,7 +1529,7 @@ interface(`fs_manage_dos_dirs',`
 
 ########################################
 ## <summary>
-##	Read files on a DOS filesystem.
+##	Read dosfs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1576,8 +1547,7 @@ interface(`fs_read_dos_files',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete files
-##	on a DOS filesystem.
+##	Manage dosfs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1609,7 +1579,7 @@ interface(`fs_read_eventpollfs',`
 
 ########################################
 ## <summary>
-##	Mount a FUSE filesystem.
+##	Mount FUSE filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1627,7 +1597,7 @@ interface(`fs_mount_fusefs',`
 
 ########################################
 ## <summary>
-##	Unmount a FUSE filesystem.
+##	Unmount FUSE filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1645,8 +1615,7 @@ interface(`fs_unmount_fusefs',`
 
 ########################################
 ## <summary>
-##	Search directories
-##	on a FUSEFS filesystem.
+##	Search fusefs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1664,8 +1633,8 @@ interface(`fs_search_fusefs',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to list the contents
-##	of directories on a FUSEFS filesystem.
+##	Do not audit attempts to list fusefs
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1683,8 +1652,7 @@ interface(`fs_dontaudit_list_fusefs',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete directories
-##	on a FUSEFS filesystem.
+##	Manage fusefs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1702,9 +1670,8 @@ interface(`fs_manage_fusefs_dirs',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to create, read,
-##	write, and delete directories
-##	on a FUSEFS filesystem.
+##	Do not audit attempts to manage
+##	fusefs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1722,7 +1689,7 @@ interface(`fs_dontaudit_manage_fusefs_dirs',`
 
 ########################################
 ## <summary>
-##	Read, a FUSEFS filesystem.
+##	Read fusefs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1740,8 +1707,7 @@ interface(`fs_read_fusefs_files',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete files
-##	on a FUSEFS filesystem.
+##	Manage fusefs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1759,9 +1725,8 @@ interface(`fs_manage_fusefs_files',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to create,
-##	read, write, and delete files
-##	on a FUSEFS filesystem.
+##	Do not audit attempts to manage
+##	fusefs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1779,7 +1744,7 @@ interface(`fs_dontaudit_manage_fusefs_files',`
 
 ########################################
 ## <summary>
-##	Read symbolic links on a FUSEFS filesystem.
+##	Read fusefs symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1798,8 +1763,8 @@ interface(`fs_read_fusefs_symlinks',`
 
 ########################################
 ## <summary>
-##	Get the attributes of an hugetlbfs 
-##	filesystem.
+##	Get attributes of hugetlbfs 
+##	filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1835,7 +1800,8 @@ interface(`fs_rw_hugetlbfs_files',`
 
 ########################################
 ## <summary>
-##	Allow the type to associate to hugetlbfs filesystems.
+##	Types to associate to hugetlbfs
+##	filesystems.
 ## </summary>
 ## <param name="type">
 ##	<summary>
@@ -1853,7 +1819,7 @@ interface(`fs_associate_hugetlbfs',`
 
 ########################################
 ## <summary>
-##	Search inotifyfs filesystem.
+##	Search inotifyfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1871,7 +1837,7 @@ interface(`fs_search_inotifyfs',`
 
 ########################################
 ## <summary>
-##	List inotifyfs filesystem.
+##	List inotifyfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1890,11 +1856,12 @@ interface(`fs_list_inotifyfs',`
 
 ########################################
 ## <summary>
-##	Dontaudit List inotifyfs filesystem.
+##	Do not audit attempts to list
+##	inotifyfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -1908,8 +1875,8 @@ interface(`fs_dontaudit_list_inotifyfs',`
 
 ########################################
 ## <summary>
-##	Create an object in a hugetlbfs filesystem, with a private
-##	type using a type transition.
+##	Create objects in hugetlbfs filesystems,
+##	with a private type using a type transition.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1938,8 +1905,7 @@ interface(`fs_hugetlbfs_filetrans',`
 
 ########################################
 ## <summary>
-##	Mount an iso9660 filesystem, which
-##	is usually used on CDs.
+##	Mount iso9660 filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1957,9 +1923,7 @@ interface(`fs_mount_iso9660_fs',`
 
 ########################################
 ## <summary>
-##	Remount an iso9660 filesystem, which
-##	is usually used on CDs.  This allows
-##	some mount options to be changed.
+##	Remount iso9660 filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1977,8 +1941,7 @@ interface(`fs_remount_iso9660_fs',`
 
 ########################################
 ## <summary>
-##	Unmount an iso9660 filesystem, which
-##	is usually used on CDs.
+##	Unmount iso9660 filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1996,8 +1959,8 @@ interface(`fs_unmount_iso9660_fs',`
 
 ########################################
 ## <summary>
-##	Get the attributes of an iso9660
-##	filesystem, which is usually used on CDs.
+##	Get attributes of iso9660
+##	filesystems
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2015,8 +1978,7 @@ interface(`fs_getattr_iso9660_fs',`
 
 ########################################
 ## <summary>
-##	Read files on an iso9660 filesystem, which
-##	is usually used on CDs.
+##	Get attributes of iso9660 files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2030,13 +1992,12 @@ interface(`fs_getattr_iso9660_files',`
 	')
 
 	allow $1 iso9660_t:dir list_dir_perms;
-	allow $1 iso9660_t:file getattr;
+	allow $1 iso9660_t:file getattr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read files on an iso9660 filesystem, which
-##	is usually used on CDs.
+##	Read iso9660 files
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2056,7 +2017,7 @@ interface(`fs_read_iso9660_files',`
 
 ########################################
 ## <summary>
-##	Mount a NFS filesystem.
+##	Mount NFS filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2074,8 +2035,7 @@ interface(`fs_mount_nfs',`
 
 ########################################
 ## <summary>
-##	Remount a NFS filesystem.  This allows
-##	some mount options to be changed.
+##	Remount NFS filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2093,7 +2053,7 @@ interface(`fs_remount_nfs',`
 
 ########################################
 ## <summary>
-##	Unmount a NFS filesystem.
+##	Unmount NFS filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2111,7 +2071,7 @@ interface(`fs_unmount_nfs',`
 
 ########################################
 ## <summary>
-##	Get the attributes of a NFS filesystem.
+##	Get attributes of NFS filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2129,7 +2089,7 @@ interface(`fs_getattr_nfs',`
 
 ########################################
 ## <summary>
-##	Search directories on a NFS filesystem.
+##	Search nfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2147,7 +2107,7 @@ interface(`fs_search_nfs',`
 
 ########################################
 ## <summary>
-##	List NFS filesystem.
+##	List nfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2165,8 +2125,8 @@ interface(`fs_list_nfs',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to list the contents
-##	of directories on a NFS filesystem.
+##	Do not audit attempts to list nfs
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2184,7 +2144,7 @@ interface(`fs_dontaudit_list_nfs',`
 
 ########################################
 ## <summary>
-##	Mounton a NFS filesystem.
+##	Mount on nfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2202,7 +2162,7 @@ interface(`fs_mounton_nfs',`
 
 ########################################
 ## <summary>
-##	Read files on a NFS filesystem.
+##	Read nfs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2221,8 +2181,8 @@ interface(`fs_read_nfs_files',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to read
-##	files on a NFS filesystem.
+##	Do not audit attempts to read nfs
+##	files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2240,7 +2200,7 @@ interface(`fs_dontaudit_read_nfs_files',`
 
 ########################################
 ## <summary>
-##	Read files on a NFS filesystem.
+##	Write nfs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2259,7 +2219,7 @@ interface(`fs_write_nfs_files',`
 
 ########################################
 ## <summary>
-##	Execute files on a NFS filesystem.
+##	Execute nfs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2278,8 +2238,8 @@ interface(`fs_exec_nfs_files',`
 
 ########################################
 ## <summary>
-##	Make general progams in nfs an entrypoint for
-##	the specified domain.
+##	Make general nfs files entrypoints
+##	for specified domains.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2297,8 +2257,7 @@ interface(`fs_nfs_entry_type',`
 
 ########################################
 ## <summary>
-##	Append files
-##	on a NFS filesystem.
+##	Append nfs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2316,12 +2275,12 @@ interface(`fs_append_nfs_files',`
 
 ########################################
 ## <summary>
-##	dontaudit Append files
-##	on a NFS filesystem.
+##	Do not audit attempts to append nfs
+##	files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -2336,7 +2295,7 @@ interface(`fs_dontaudit_append_nfs_files',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to read or
-##	write files on a NFS filesystem.
+##	write nfs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2354,7 +2313,7 @@ interface(`fs_dontaudit_rw_nfs_files',`
 
 ########################################
 ## <summary>
-##	Read symbolic links on a NFS filesystem.
+##	Read nfs symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2373,11 +2332,12 @@ interface(`fs_read_nfs_symlinks',`
 
 ########################################
 ## <summary>
-##	Dontaudit read symbolic links on a NFS filesystem.
+##	Do not audit attempts to read nfs
+##	symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -2391,7 +2351,7 @@ interface(`fs_dontaudit_read_nfs_symlinks',`
 
 #########################################
 ## <summary>
-##	Read named sockets on a NFS filesystem.
+##	Read nfs sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2409,7 +2369,7 @@ interface(`fs_read_nfs_named_sockets',`
 
 #########################################
 ## <summary>
-##	Read named pipes on a NFS network filesystem.
+##	Read nfs pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2427,7 +2387,7 @@ interface(`fs_read_nfs_named_pipes',`
 
 ########################################
 ## <summary>
-##	Read directories of RPC file system pipes.
+##	Read rpc pipefs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2440,13 +2400,13 @@ interface(`fs_getattr_rpc_dirs',`
 		type rpc_pipefs_t;
 	')
 
-	allow $1 rpc_pipefs_t:dir getattr;
+	allow $1 rpc_pipefs_t:dir getattr_dir_perms;
 
 ')
 
 ########################################
 ## <summary>
-##	Search directories of RPC file system pipes.
+##	Search rpc pipefs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2482,7 +2442,8 @@ interface(`fs_search_removable',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to list removable storage directories.
+##	Do not audit attempts to list
+##	removable storage directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2518,7 +2479,8 @@ interface(`fs_read_removable_files',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to read removable storage files.
+##	Do not audit attempts to read
+##	removable storage files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2536,7 +2498,8 @@ interface(`fs_dontaudit_read_removable_files',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to write removable storage files.
+##	Do not audit attempts to write
+##	removable storage files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2572,7 +2535,7 @@ interface(`fs_read_removable_symlinks',`
 
 ########################################
 ## <summary>
-##	Read and write block nodes on removable filesystems.
+##	Read and write removable block devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2591,7 +2554,7 @@ interface(`fs_rw_removable_blk_files',`
 
 ########################################
 ## <summary>
-##	Read directories of RPC file system pipes.
+##	List rpc pipefs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2609,7 +2572,7 @@ interface(`fs_list_rpc',`
 
 ########################################
 ## <summary>
-##	Read files of RPC file system pipes.
+##	Read rpc pipefs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2627,7 +2590,7 @@ interface(`fs_read_rpc_files',`
 
 ########################################
 ## <summary>
-##	Read symbolic links of RPC file system pipes.
+##	Read rpm pipefs symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2645,7 +2608,7 @@ interface(`fs_read_rpc_symlinks',`
 
 ########################################
 ## <summary>
-##	Read sockets of RPC file system pipes.
+##	Read rpc pipefs sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2658,12 +2621,12 @@ interface(`fs_read_rpc_sockets',`
 		type rpc_pipefs_t;
 	')
 
-	allow $1 rpc_pipefs_t:sock_file read;
+	allow $1 rpc_pipefs_t:sock_file read_sock_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read and write sockets of RPC file system pipes.
+##	Read and write rpm pipefs sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2676,13 +2639,12 @@ interface(`fs_rw_rpc_sockets',`
 		type rpc_pipefs_t;
 	')
 
-	allow $1 rpc_pipefs_t:sock_file { read write };
+	allow $1 rpc_pipefs_t:sock_file rw_sock_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete directories
-##	on a NFS filesystem.
+##	Manage nfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2700,9 +2662,8 @@ interface(`fs_manage_nfs_dirs',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to create, read,
-##	write, and delete directories
-##	on a NFS filesystem.
+##	Do not audit attempts to manage nfs
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2720,8 +2681,7 @@ interface(`fs_dontaudit_manage_nfs_dirs',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete files
-##	on a NFS filesystem.
+##	Manage nfs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2739,9 +2699,8 @@ interface(`fs_manage_nfs_files',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to create,
-##	read, write, and delete files
-##	on a NFS filesystem.
+##	Do not audit attempts to manage nfs
+##	files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2759,8 +2718,7 @@ interface(`fs_dontaudit_manage_nfs_files',`
 
 #########################################
 ## <summary>
-##	Create, read, write, and delete symbolic links
-##	on a NFS network filesystem.
+##	Manage nfs symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2778,8 +2736,7 @@ interface(`fs_manage_nfs_symlinks',`
 
 #########################################
 ## <summary>
-##	Create, read, write, and delete named pipes
-##	on a NFS filesystem.
+##	Manage nfs pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2797,8 +2754,7 @@ interface(`fs_manage_nfs_named_pipes',`
 
 #########################################
 ## <summary>
-##	Create, read, write, and delete named sockets
-##	on a NFS filesystem.
+##	Manage nfs sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2816,8 +2772,8 @@ interface(`fs_manage_nfs_named_sockets',`
 
 ########################################
 ## <summary>
-##	Execute a file on a NFS filesystem
-##	in the specified domain.
+##	Execute general files on NFS
+##	filesystems in specified domains.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2841,7 +2797,7 @@ interface(`fs_nfs_domtrans',`
 
 ########################################
 ## <summary>
-##	Mount a NFS server pseudo filesystem.
+##	Mount NFS server pseudo filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2859,8 +2815,7 @@ interface(`fs_mount_nfsd_fs',`
 
 ########################################
 ## <summary>
-##	Mount a NFS server pseudo filesystem.
-##	This allows some mount options to be changed.
+##	Remount NFS server pseudo filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2878,7 +2833,7 @@ interface(`fs_remount_nfsd_fs',`
 
 ########################################
 ## <summary>
-##	Unmount a NFS server pseudo filesystem.
+##	Unmount NFS server pseudo filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2896,8 +2851,8 @@ interface(`fs_unmount_nfsd_fs',`
 
 ########################################
 ## <summary>
-##	Get the attributes of a NFS server
-##	pseudo filesystem.
+##	Get attributes of NFS server
+##	pseudo filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2915,7 +2870,7 @@ interface(`fs_getattr_nfsd_fs',`
 
 ########################################
 ## <summary>
-##	Search NFS server directories.
+##	Search nfs server directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2933,7 +2888,7 @@ interface(`fs_search_nfsd_fs',`
 
 ########################################
 ## <summary>
-##	List NFS server directories.
+##	List nfs server directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2951,7 +2906,7 @@ interface(`fs_list_nfsd_fs',`
 
 ########################################
 ## <summary>
-##	Getattr files on an nfsd filesystem
+##	Get attributes of nfs server files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2969,7 +2924,7 @@ interface(`fs_getattr_nfsd_files',`
 
 ########################################
 ## <summary>
-##	Read and write NFS server files.
+##	Read and write nfs server files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2987,7 +2942,7 @@ interface(`fs_rw_nfsd_fs',`
 
 ########################################
 ## <summary>
-##	Allow the type to associate to ramfs filesystems.
+##	Types to associate to ramfs filesystems.
 ## </summary>
 ## <param name="type">
 ##	<summary>
@@ -3005,7 +2960,7 @@ interface(`fs_associate_ramfs',`
 
 ########################################
 ## <summary>
-##	Mount a RAM filesystem.
+##	Mount RAM filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3023,8 +2978,7 @@ interface(`fs_mount_ramfs',`
 
 ########################################
 ## <summary>
-##	Remount a RAM filesystem.  This allows
-##	some mount options to be changed.
+##	Remount RAM filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3042,7 +2996,7 @@ interface(`fs_remount_ramfs',`
 
 ########################################
 ## <summary>
-##	Unmount a RAM filesystem.
+##	Unmount RAM filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3060,7 +3014,7 @@ interface(`fs_unmount_ramfs',`
 
 ########################################
 ## <summary>
-##	Get the attributes of a RAM filesystem.
+##	Get attributes of RAM filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3078,7 +3032,7 @@ interface(`fs_getattr_ramfs',`
 
 ########################################
 ## <summary>
-##	Search directories on a ramfs
+##	Search ramfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3096,11 +3050,12 @@ interface(`fs_search_ramfs',`
 
 ########################################
 ## <summary>
-##	Dontaudit Search directories on a ramfs
+##	Do not audit attempts to search
+##	ramfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -3114,8 +3069,7 @@ interface(`fs_dontaudit_search_ramfs',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete
-##	directories on a ramfs.
+##	Manage ramfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3133,11 +3087,12 @@ interface(`fs_manage_ramfs_dirs',`
 
 ########################################
 ## <summary>
-##	Dontaudit read on a ramfs files.
+##	Do not audit attempts to read
+##	ramfs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -3146,16 +3101,17 @@ interface(`fs_dontaudit_read_ramfs_files',`
 		type ramfs_t;
 	')
 
-	dontaudit $1 ramfs_t:file read;
+	dontaudit $1 ramfs_t:file read_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Dontaudit read on a ramfs fifo_files.
+##	Do not audit attempts to read
+##	ramfs pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -3164,13 +3120,12 @@ interface(`fs_dontaudit_read_ramfs_pipes',`
 		type ramfs_t;
 	')
 
-	dontaudit $1 ramfs_t:fifo_file read;
+	dontaudit $1 ramfs_t:fifo_file read_fifo_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete
-##	files on a ramfs filesystem.
+##	Manage ramfs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3188,7 +3143,7 @@ interface(`fs_manage_ramfs_files',`
 
 ########################################
 ## <summary>
-##	Write to named pipe on a ramfs filesystem.
+##	Write ramfs pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3206,12 +3161,12 @@ interface(`fs_write_ramfs_pipes',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to write to named
-##	pipes on a ramfs filesystem.
+##	Do not audit attempts to write
+##	ramfs pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -3220,12 +3175,12 @@ interface(`fs_dontaudit_write_ramfs_pipes',`
 		type ramfs_t;
 	')
 
-	dontaudit $1 ramfs_t:fifo_file write;
+	dontaudit $1 ramfs_t:fifo_file write_fifo_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read and write a named pipe on a ramfs filesystem.
+##	Read and write ramfs pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3243,8 +3198,7 @@ interface(`fs_rw_ramfs_pipes',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete
-##	named pipes on a ramfs filesystem.
+##	Manage ramfs pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3262,7 +3216,7 @@ interface(`fs_manage_ramfs_pipes',`
 
 ########################################
 ## <summary>
-##	Write to named socket on a ramfs filesystem.
+##	Write ramfs sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3280,8 +3234,7 @@ interface(`fs_write_ramfs_sockets',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete
-##	named sockets on a ramfs filesystem.
+##	Manage ramfs sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3299,7 +3252,7 @@ interface(`fs_manage_ramfs_sockets',`
 
 ########################################
 ## <summary>
-##	Mount a ROM filesystem.
+##	Mount ROM filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3317,8 +3270,7 @@ interface(`fs_mount_romfs',`
 
 ########################################
 ## <summary>
-##	Remount a ROM filesystem.  This allows
-##	some mount options to be changed.
+##	Remount ROM filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3336,7 +3288,7 @@ interface(`fs_remount_romfs',`
 
 ########################################
 ## <summary>
-##	Unmount a ROM filesystem.
+##	Unmount ROM filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3354,8 +3306,8 @@ interface(`fs_unmount_romfs',`
 
 ########################################
 ## <summary>
-##	Get the attributes of a ROM
-##	filesystem.
+##	Get attributes of ROM
+##	filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3373,7 +3325,7 @@ interface(`fs_getattr_romfs',`
 
 ########################################
 ## <summary>
-##	Mount a RPC pipe filesystem.
+##	Mount RPC pipe filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3391,8 +3343,7 @@ interface(`fs_mount_rpc_pipefs',`
 
 ########################################
 ## <summary>
-##	Remount a RPC pipe filesystem.  This
-##	allows some mount option to be changed.
+##	Remount RPC pipe filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3410,7 +3361,7 @@ interface(`fs_remount_rpc_pipefs',`
 
 ########################################
 ## <summary>
-##	Unmount a RPC pipe filesystem.
+##	Unmount RPC pipe filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3428,8 +3379,8 @@ interface(`fs_unmount_rpc_pipefs',`
 
 ########################################
 ## <summary>
-##	Get the attributes of a RPC pipe
-##	filesystem.
+##	Get attributes of RPC pipe
+##	filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3447,7 +3398,7 @@ interface(`fs_getattr_rpc_pipefs',`
 
 #########################################
 ## <summary>
-##	Read and write RPC pipe filesystem named pipes.
+##	Read and rpc pipefs pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3465,7 +3416,7 @@ interface(`fs_rw_rpc_named_pipes',`
 
 ########################################
 ## <summary>
-##	Mount a tmpfs filesystem.
+##	Mount tmpfs filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3483,7 +3434,7 @@ interface(`fs_mount_tmpfs',`
 
 ########################################
 ## <summary>
-##	Remount a tmpfs filesystem.
+##	Remount tmpfs filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3501,7 +3452,7 @@ interface(`fs_remount_tmpfs',`
 
 ########################################
 ## <summary>
-##	Unmount a tmpfs filesystem.
+##	Unmount tmpfs filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3519,8 +3470,8 @@ interface(`fs_unmount_tmpfs',`
 
 ########################################
 ## <summary>
-##	Get the attributes of a tmpfs
-##	filesystem.
+##	Get attributes of tmpfs
+##	filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3538,7 +3489,7 @@ interface(`fs_getattr_tmpfs',`
 
 ########################################
 ## <summary>
-##	Allow the type to associate to tmpfs filesystems.
+##	Types to associate to tmpfs filesystems.
 ## </summary>
 ## <param name="type">
 ##	<summary>
@@ -3556,7 +3507,7 @@ interface(`fs_associate_tmpfs',`
 
 ########################################
 ## <summary>
-##	Get the attributes of tmpfs directories.
+##	Get attributes of generic tmpfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3569,17 +3520,17 @@ interface(`fs_getattr_tmpfs_dirs',`
 		type tmpfs_t;
 	')
 
-	allow $1 tmpfs_t:dir getattr;
+	allow $1 tmpfs_t:dir getattr_dir_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
-##	of tmpfs directories.
+##	Do not audit attempts to get attributes
+##	of generic tmpfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -3588,12 +3539,12 @@ interface(`fs_dontaudit_getattr_tmpfs_dirs',`
 		type tmpfs_t;
 	')
 
-	dontaudit $1 tmpfs_t:dir getattr;
+	dontaudit $1 tmpfs_t:dir getattr_dir_perms;
 ')
 
 ########################################
 ## <summary>
-##	Set the attributes of tmpfs directories.
+##	Set attributes of generic tmpfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3606,12 +3557,12 @@ interface(`fs_setattr_tmpfs_dirs',`
 		type tmpfs_t;
 	')
 
-	allow $1 tmpfs_t:dir setattr;
+	allow $1 tmpfs_t:dir setattr_dir_perms;
 ')
 
 ########################################
 ## <summary>
-##	Search tmpfs directories.
+##	Search generic tmpfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3629,7 +3580,7 @@ interface(`fs_search_tmpfs',`
 
 ########################################
 ## <summary>
-##	List the contents of generic tmpfs directories.
+##	List generic tmpfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3647,8 +3598,8 @@ interface(`fs_list_tmpfs',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to list the
-##	contents of generic tmpfs directories.
+##	Do not audit attempts to list generic
+##	tmpfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3666,8 +3617,7 @@ interface(`fs_dontaudit_list_tmpfs',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete
-##	tmpfs directories
+##	Manage generic tmpfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3685,8 +3635,9 @@ interface(`fs_manage_tmpfs_dirs',`
 
 ########################################
 ## <summary>
-##	Create an object in a tmpfs filesystem, with a private
-##	type using a type transition.
+##	Create objects in tmpfs filesystems,
+##	with private types using a type
+##	transition.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3715,8 +3666,8 @@ interface(`fs_tmpfs_filetrans',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to getattr
-##	generic tmpfs files.
+##	Do not audit attempts to get
+##	attributes of generic tmpfs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3729,7 +3680,7 @@ interface(`fs_dontaudit_getattr_tmpfs_files',`
 		type tmpfs_t;
 	')
 
-	dontaudit $1 tmpfs_t:file getattr;
+	dontaudit $1 tmpfs_t:file getattr_file_perms;
 ')
 
 ########################################
@@ -3753,8 +3704,7 @@ interface(`fs_dontaudit_rw_tmpfs_files',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete
-##	auto moutpoints.
+##	Manage automount directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3808,7 +3758,7 @@ interface(`fs_rw_tmpfs_files',`
 
 ########################################
 ## <summary>
-##	Read tmpfs link files.
+##	Read generic tmpfs symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3826,7 +3776,8 @@ interface(`fs_read_tmpfs_symlinks',`
 
 ########################################
 ## <summary>
-##	Read and write character nodes on tmpfs filesystems.
+##	Read and write generic tmpfs
+##	character devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3845,11 +3796,12 @@ interface(`fs_rw_tmpfs_chr_files',`
 
 ########################################
 ## <summary>
-##	dontaudit Read and write character nodes on tmpfs filesystems.
+##	Do not audit attempts to read and
+##	write generic tmpfs character devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -3864,7 +3816,8 @@ interface(`fs_dontaudit_use_tmpfs_chr_dev',`
 
 ########################################
 ## <summary>
-##	dontaudit Read and write block nodes on tmpfs filesystems.
+##	Do not audit attempts to read
+##	generic tmpfs block devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3882,7 +3835,7 @@ interface(`fs_dontaudit_read_tmpfs_blk_dev',`
 
 ########################################
 ## <summary>
-##	Relabel character nodes on tmpfs filesystems.
+##	Relabel generic tmpfs character devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3901,7 +3854,8 @@ interface(`fs_relabel_tmpfs_chr_file',`
 
 ########################################
 ## <summary>
-##	Read and write block nodes on tmpfs filesystems.
+##	Read and write generic tmpfs block
+##	devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3920,7 +3874,7 @@ interface(`fs_rw_tmpfs_blk_files',`
 
 ########################################
 ## <summary>
-##	Relabel block nodes on tmpfs filesystems.
+##	Relabel generic tmpfs block devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3939,8 +3893,7 @@ interface(`fs_relabel_tmpfs_blk_file',`
 
 ########################################
 ## <summary>
-##	Read and write, create and delete generic
-##	files on tmpfs filesystems.
+##	Manage generic tmpfs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3958,8 +3911,8 @@ interface(`fs_manage_tmpfs_files',`
 
 ########################################
 ## <summary>
-##	Read and write, create and delete symbolic
-##	links on tmpfs filesystems.
+##	Manage generic tmpfs symbolic
+##	links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3977,8 +3930,7 @@ interface(`fs_manage_tmpfs_symlinks',`
 
 ########################################
 ## <summary>
-##	Read and write, create and delete socket
-##	files on tmpfs filesystems.
+##	Manage generic tmpfs sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3996,8 +3948,8 @@ interface(`fs_manage_tmpfs_sockets',`
 
 ########################################
 ## <summary>
-##	Read and write, create and delete character
-##	nodes on tmpfs filesystems.
+##	Mamage generic tmpfs character
+##	devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4015,8 +3967,7 @@ interface(`fs_manage_tmpfs_chr_files',`
 
 ########################################
 ## <summary>
-##	Read and write, create and delete block nodes
-##	on tmpfs filesystems.
+##	Manage generic tmpfs block devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4034,7 +3985,7 @@ interface(`fs_manage_tmpfs_blk_files',`
 
 ########################################
 ## <summary>
-##	Mount a XENFS filesystem.
+##	Mount XENFS filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4052,7 +4003,7 @@ interface(`fs_mount_xenfs',`
 
 ########################################
 ## <summary>
-##	Search the XENFS filesystem.
+##	Search xenfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4070,8 +4021,7 @@ interface(`fs_search_xenfs',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete directories
-##	on a XENFS filesystem.
+##	Manage xenfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4089,9 +4039,8 @@ interface(`fs_manage_xenfs_dirs',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to create, read,
-##	write, and delete directories
-##	on a XENFS filesystem.
+##	Do not audit attempts to manage
+##	xenfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4109,8 +4058,7 @@ interface(`fs_dontaudit_manage_xenfs_dirs',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete files
-##	on a XENFS filesystem.
+##	Manage xenfs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4129,9 +4077,8 @@ interface(`fs_manage_xenfs_files',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to create,
-##	read, write, and delete files
-##	on a XENFS filesystem.
+##	Do not audit attempts to manage
+##	xenfs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4167,8 +4114,7 @@ interface(`fs_mount_all_fs',`
 
 ########################################
 ## <summary>
-##	Remount all filesystems.  This
-##	allows some mount options to be changed.
+##	Remount all filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4204,7 +4150,7 @@ interface(`fs_unmount_all_fs',`
 
 ########################################
 ## <summary>
-##	Get the attributes of all filesystems.
+##	Get attributes of all filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4223,8 +4169,8 @@ interface(`fs_getattr_all_fs',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
-##	all filesystems.
+##	Do not audit attempts to get
+##	attributes of all filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4242,7 +4188,7 @@ interface(`fs_dontaudit_getattr_all_fs',`
 
 ########################################
 ## <summary>
-##	Get the quotas of all filesystems.
+##	Get quotas of all filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4260,7 +4206,7 @@ interface(`fs_get_all_fs_quotas',`
 
 ########################################
 ## <summary>
-##	Set the quotas of all filesystems.
+##	Set quotas of all filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4296,8 +4242,8 @@ interface(`fs_relabelfrom_all_fs',`
 
 ########################################
 ## <summary>
-##	Get the attributes of all directories
-##	with a filesystem type.
+##	Get attributes of all filesystem
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4310,12 +4256,12 @@ interface(`fs_getattr_all_dirs',`
 		attribute filesystem_type;
 	')
 
-	allow $1 filesystem_type:dir getattr;
+	allow $1 filesystem_type:dir getattr_dir_perms;
 ')
 
 ########################################
 ## <summary>
-##	Search all directories with a filesystem type.
+##	Search all filesystem directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4333,7 +4279,7 @@ interface(`fs_search_all',`
 
 ########################################
 ## <summary>
-##	List all directories with a filesystem type.
+##	List all filesystem directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4351,8 +4297,8 @@ interface(`fs_list_all',`
 
 ########################################
 ## <summary>
-##	Get the attributes of all files with
-##	a filesystem type.
+##	Get attributes of all filesystem
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4370,8 +4316,8 @@ interface(`fs_getattr_all_files',`
 
 ########################################
 ## <summary>
-##	Get the attributes of all symbolic links with
-##	a filesystem type.
+##	Get attributes of all filesystem
+##	symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4389,8 +4335,7 @@ interface(`fs_getattr_all_symlinks',`
 
 ########################################
 ## <summary>
-##	Get the attributes of all named pipes with
-##	a filesystem type.
+##	Get attributes of all filesystem pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4408,8 +4353,7 @@ interface(`fs_getattr_all_pipes',`
 
 ########################################
 ## <summary>
-##	Get the attributes of all named sockets with
-##	a filesystem type.
+##	Get attributes of all filesystem sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4427,8 +4371,8 @@ interface(`fs_getattr_all_sockets',`
 
 ########################################
 ## <summary>
-##	Get the attributes of all blk files with
-##	a filesystem type.
+##	Get attributes of all filesystem
+##	block devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4446,8 +4390,8 @@ interface(`fs_getattr_all_blk_files',`
 
 ########################################
 ## <summary>
-##	Get the attributes of all chr files with
-##	a filesystem type.
+##	Get attributes of all filesystem
+##	character devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4465,12 +4409,12 @@ interface(`fs_getattr_all_chr_files',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
-##	of all files with a filesystem type.
+##	Do not audit attempts to get attributes
+##	of all filesystem files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -4479,17 +4423,17 @@ interface(`fs_dontaudit_getattr_all_files',`
 		attribute filesystem_type;
 	')
 
-	dontaudit $1 filesystem_type:file getattr;
+	dontaudit $1 filesystem_type:file getattr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
-##	of all symbolic links with a filesystem type.
+##	Do not audit attempts to get attributes
+##	of all filesystem symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -4498,17 +4442,17 @@ interface(`fs_dontaudit_getattr_all_symlinks',`
 		attribute filesystem_type;
 	')
 
-	dontaudit $1 filesystem_type:lnk_file getattr;
+	dontaudit $1 filesystem_type:lnk_file getattr_lnk_file_perms;
 ')
 
 ########################################
 ## <summary>
 ##	Do not audit attempts to get the attributes
-##	of all named pipes with a filesystem type.
+##	of all filesystem pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -4517,13 +4461,13 @@ interface(`fs_dontaudit_getattr_all_pipes',`
 		attribute filesystem_type;
 	')
 
-	dontaudit $1 filesystem_type:fifo_file getattr;
+	dontaudit $1 filesystem_type:fifo_file getattr_fifo_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
-##	of all named sockets with a filesystem type.
+##	Do not audit attempts to get attributes
+##	of all filesystem sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4536,7 +4480,7 @@ interface(`fs_dontaudit_getattr_all_sockets',`
 		attribute filesystem_type;
 	')
 
-	dontaudit $1 filesystem_type:sock_file getattr;
+	dontaudit $1 filesystem_type:sock_file getattr_sock_file_perms;
 ')
 
 ########################################
@@ -4559,7 +4503,7 @@ interface(`fs_unconfined',`
 
 ########################################
 ## <summary>
-##	Relabel all objets from filesystems that
+##	Relabel from all content on filesystems that
 ##	do not support extended attributes.
 ## </summary>
 ## <param name="domain">
@@ -4602,4 +4546,3 @@ interface(`fs_dontaudit_leaks',`
 	dontaudit $1 filesystem_type:file rw_inherited_file_perms;
 	dontaudit $1 filesystem_type:lnk_file { read };
 ')
-
