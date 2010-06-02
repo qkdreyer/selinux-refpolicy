@@ -38,7 +38,7 @@ interface(`corecmd_bin_alias',`
 
 ########################################
 ## <summary>
-##	Make general progams in bin an entrypoint for
+##	Make general progams in bin entrypoints for
 ##	specified domains.
 ## </summary>
 ## <param name="domain">
@@ -57,7 +57,7 @@ interface(`corecmd_bin_entry_type',`
 
 ########################################
 ## <summary>
-##	Make general progams in sbin an entrypoint for
+##	Make general progams in sbin entrypoints for
 ##	specified domains. (Deprecated)
 ## </summary>
 ## <param name="domain">
@@ -73,7 +73,7 @@ interface(`corecmd_sbin_entry_type',`
 
 ########################################
 ## <summary>
-##	Make shells an entrypoint for
+##	Make shells entrypoints for
 ##	specified domains.
 ## </summary>
 ## <param name="domain">

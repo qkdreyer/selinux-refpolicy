@@ -109,7 +109,7 @@ interface(`netutils_domtrans_ping',`
 
 ########################################
 ## <summary>
-##	Send a kill signal to Ping.
+##	Send kill signals to Ping.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

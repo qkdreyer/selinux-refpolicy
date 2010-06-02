@@ -120,7 +120,7 @@ interface(`selinux_dontaudit_getattr_dir',`
 		type security_t;
 	')
 
-	dontaudit $1 security_t:dir getattr;
+	dontaudit $1 security_t:dir getattr_dir_perms;
 ')
 
 ########################################

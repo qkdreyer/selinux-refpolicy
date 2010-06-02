@@ -147,7 +147,7 @@ interface(`dpkg_use_script_fds',`
 
 ########################################
 ## <summary>
-##	Read Dpkg package databases.
+##	Read Dpkg lib content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -168,7 +168,7 @@ interface(`dpkg_read_db',`
 
 ########################################
 ## <summary>
-##	Manage Dpkg package databases.
+##	Manage Dpkg lib content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -189,7 +189,7 @@ interface(`dpkg_manage_db',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to Manage Dpkg
-##	package databases.
+##	lib content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -209,7 +209,7 @@ interface(`dpkg_dontaudit_manage_db',`
 
 ########################################
 ## <summary>
-##	Lock Dpkg package databases.
+##	Manage Dpkg lock files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

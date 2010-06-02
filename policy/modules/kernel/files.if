@@ -1,10 +1,9 @@
 ## <summary>Basic filesystem types and interfaces.</summary>
 
-
 ########################################
 ## <summary>
-##	Make the specified type usable for files
-##	in a filesystem.
+##	Make specified types usable for
+##	files in filesystems.
 ## </summary>
 ## <param name="type">
 ##	<summary>
@@ -22,7 +21,7 @@ interface(`files_type',`
 
 ########################################
 ## <summary>
-##	Make the specified type a file that
+##	Make specified types files that
 ##	should not be dontaudited from
 ##	browsing from user domains.
 ## </summary>
@@ -43,7 +42,7 @@ interface(`files_security_file',`
 
 ########################################
 ## <summary>
-##	Make the specified type usable for
+##	Make specified types usable for
 ##	lock files.
 ## </summary>
 ## <param name="type">
@@ -63,7 +62,7 @@ interface(`files_lock_file',`
 
 ########################################
 ## <summary>
-##	Make the specified type usable for
+##	Make specified types usable for
 ##	filesystem mount points.
 ## </summary>
 ## <param name="type">
@@ -83,7 +82,7 @@ interface(`files_mountpoint',`
 
 ########################################
 ## <summary>
-##	Make the specified type usable for
+##	Make specified types usable for
 ##	security file filesystem mount points.
 ## </summary>
 ## <param name="type">
@@ -103,8 +102,8 @@ interface(`files_security_mountpoint',`
 
 ########################################
 ## <summary>
-##	Make the specified type usable for
-##	runtime process ID files.
+##	Make specified types usable for
+##	pid files.
 ## </summary>
 ## <param name="type">
 ##	<summary>
@@ -123,12 +122,13 @@ interface(`files_pid_file',`
 
 ########################################
 ## <summary>
-##	Make the specified type a
-##	configuration file.
+##	Make specified types
+##	configuration files.
 ## </summary>
 ## <param name="file_type">
 ##	<summary>
-##	Type to be used as a configuration file.
+##	Type to be used as a configuration
+##	file.
 ##	</summary>
 ## </param>
 #
@@ -142,8 +142,8 @@ interface(`files_config_file',`
 
 ########################################
 ## <summary>
-##	Make the specified type a
-##	polyinstantiated directory.
+##	Make specified types
+##	polyinstantiated directories.
 ## </summary>
 ## <param name="file_type">
 ##	<summary>
@@ -163,8 +163,8 @@ interface(`files_poly',`
 
 ########################################
 ## <summary>
-##	Make the specified type a parent
-##	of a polyinstantiated directory.
+##	Make specified types parents
+##	of polyinstantiated directories.
 ## </summary>
 ## <param name="file_type">
 ##	<summary>
@@ -184,8 +184,8 @@ interface(`files_poly_parent',`
 
 ########################################
 ## <summary>
-##	Make the specified type a
-##	polyinstantiation member directory.
+##	Make specified types
+##	polyinstantiation member directories.
 ## </summary>
 ## <param name="file_type">
 ##	<summary>
@@ -205,8 +205,9 @@ interface(`files_poly_member',`
 
 ########################################
 ## <summary>
-##	Make the domain use the specified
-##	type of polyinstantiated directory.
+##	Make domains use the specified
+##	types of polyinstantiated
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -231,7 +232,7 @@ interface(`files_poly_member_tmp',`
 
 ########################################
 ## <summary>
-##	Make the specified type a file
+##	Make specified types files
 ##	used for temporary files.
 ## </summary>
 ## <param name="file_type">
@@ -254,8 +255,8 @@ interface(`files_tmp_file',`
 
 ########################################
 ## <summary>
-##	Transform the type into a file, for use on a
-##	virtual memory filesystem (tmpfs).
+##	Transform types into files, for
+##	use on virtual memory filesystems.
 ## </summary>
 ## <param name="type">
 ##	<summary>
@@ -274,7 +275,7 @@ interface(`files_tmpfs_file',`
 
 ########################################
 ## <summary>
-##	Get the attributes of all directories.
+##	Get attributes of all directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -292,8 +293,8 @@ interface(`files_getattr_all_dirs',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
-##	of all directories.
+##	Do not audit attempts to get
+##	attributes of all directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -306,7 +307,7 @@ interface(`files_dontaudit_getattr_all_dirs',`
 		attribute file_type;
 	')
 
-	dontaudit $1 file_type:dir getattr;
+	dontaudit $1 file_type:dir getattr_dir_perms;
 ')
 
 ########################################
@@ -348,7 +349,7 @@ interface(`files_dontaudit_list_non_security',`
 
 ########################################
 ## <summary>
-##	Mount a filesystem on all non-security
+##	Mount filesystems on all non-security
 ##	directories and files.
 ## </summary>
 ## <param name="domain">
@@ -368,11 +369,11 @@ interface(`files_mounton_non_security',`
 
 ########################################
 ## <summary>
-##	Allow attempts to modify any directory
+##	Modify any directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain to allow
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -404,7 +405,7 @@ interface(`files_manage_non_security_dirs',`
 
 ########################################
 ## <summary>
-##	Get the attributes of all files.
+##	Get attributes of all files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -423,8 +424,8 @@ interface(`files_getattr_all_files',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
-##	of all files.
+##	Do not audit attempts to get
+##	attributes of all files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -437,13 +438,13 @@ interface(`files_dontaudit_getattr_all_files',`
 		attribute file_type;
 	')
 
-	dontaudit $1 file_type:file getattr;
+	dontaudit $1 file_type:file getattr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
-##	of non security files.
+##	Do not audit attempts to get
+##	attributes of non security files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -456,7 +457,7 @@ interface(`files_dontaudit_getattr_non_security_files',`
 		attribute non_security_file_type;
 	')
 
-	dontaudit $1 non_security_file_type:file getattr;
+	dontaudit $1 non_security_file_type:file getattr_file_perms;
 ')
 
 ########################################
@@ -484,7 +485,8 @@ interface(`files_read_all_files',`
 
 ########################################
 ## <summary>
-##	Allow shared library text relocations in all files.
+##	Shared library text relocations
+##	in all files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -521,17 +523,17 @@ interface(`files_read_non_security_files',`
 
 ########################################
 ## <summary>
-##	Read all directories on the filesystem, except
-##	the listed exceptions.
+##	Read all directories on filesystems,
+##	except listed exceptions.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the domain perfoming this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 ## <param name="exception_types" optional="true">
 ##	<summary>
-##	The types to be excluded.  Each type or attribute
+##	The types to be excluded. Each type or attribute
 ##	must be negated by the caller.
 ##	</summary>
 ## </param>
@@ -546,12 +548,12 @@ interface(`files_read_all_dirs_except',`
 
 ########################################
 ## <summary>
-##	Read all files on the filesystem, except
-##	the listed exceptions.
+##	Read all files on filesystems,
+##	except the listed exceptions.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the domain perfoming this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 ## <param name="exception_types" optional="true">
@@ -571,12 +573,12 @@ interface(`files_read_all_files_except',`
 
 ########################################
 ## <summary>
-##	Read all symbolic links on the filesystem, except
-##	the listed exceptions.
+##	Read all symbolic links on filesystems,
+##	except the listed exceptions.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the domain perfoming this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 ## <param name="exception_types" optional="true">
@@ -596,7 +598,7 @@ interface(`files_read_all_symlinks_except',`
 
 ########################################
 ## <summary>
-##	Get the attributes of all symbolic links.
+##	Get attributes of all symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -614,7 +616,7 @@ interface(`files_getattr_all_symlinks',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
+##	Do not audit attempts to get attributes
 ##	of all symbolic links.
 ## </summary>
 ## <param name="domain">
@@ -628,12 +630,13 @@ interface(`files_dontaudit_getattr_all_symlinks',`
 		attribute file_type;
 	')
 
-	dontaudit $1 file_type:lnk_file getattr;
+	dontaudit $1 file_type:lnk_file getattr_lnk_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to read all symbolic links.
+##	Do not audit attempts to read all
+##	symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -646,12 +649,12 @@ interface(`files_dontaudit_read_all_symlinks',`
 		attribute file_type;
 	')
 
-	dontaudit $1 file_type:lnk_file read;
+	dontaudit $1 file_type:lnk_file read_lnk_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
+##	Do not audit attempts to get attributes
 ##	of non security symbolic links.
 ## </summary>
 ## <param name="domain">
@@ -665,12 +668,12 @@ interface(`files_dontaudit_getattr_non_security_symlinks',`
 		attribute non_security_file_type;
 	')
 
-	dontaudit $1 non_security_file_type:lnk_file getattr;
+	dontaudit $1 non_security_file_type:lnk_file getattr_lnk_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
+##	Do not audit attempts to get attributes
 ##	of non security block devices.
 ## </summary>
 ## <param name="domain">
@@ -684,12 +687,12 @@ interface(`files_dontaudit_getattr_non_security_blk_files',`
 		attribute non_security_file_type;
 	')
 
-	dontaudit $1 non_security_file_type:blk_file getattr;
+	dontaudit $1 non_security_file_type:blk_file getattr_blk_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
+##	Do not audit attempts to get attributes
 ##	of non security character devices.
 ## </summary>
 ## <param name="domain">
@@ -703,7 +706,7 @@ interface(`files_dontaudit_getattr_non_security_chr_files',`
 		attribute non_security_file_type;
 	')
 
-	dontaudit $1 non_security_file_type:chr_file getattr;
+	dontaudit $1 non_security_file_type:chr_file getattr_chr_file_perms;
 ')
 
 ########################################
@@ -727,7 +730,7 @@ interface(`files_read_all_symlinks',`
 
 ########################################
 ## <summary>
-##	Get the attributes of all named pipes.
+##	Get attributes of all pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -746,8 +749,8 @@ interface(`files_getattr_all_pipes',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
-##	of all named pipes.
+##	Do not audit attempts to get attributes
+##	of all pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -760,13 +763,13 @@ interface(`files_dontaudit_getattr_all_pipes',`
 		attribute file_type;
 	')
 
-	dontaudit $1 file_type:fifo_file getattr;
+	dontaudit $1 file_type:fifo_file getattr_fifo_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
-##	of non security named pipes.
+##	Do not audit attempts to get attributes
+##	of non security pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -779,12 +782,12 @@ interface(`files_dontaudit_getattr_non_security_pipes',`
 		attribute non_security_file_type;
 	')
 
-	dontaudit $1 non_security_file_type:fifo_file getattr;
+	dontaudit $1 non_security_file_type:fifo_file getattr_fifo_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Get the attributes of all named sockets.
+##	Get attributes of all sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -803,8 +806,8 @@ interface(`files_getattr_all_sockets',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
-##	of all named sockets.
+##	Do not audit attempts to get attributes
+##	of all sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -817,13 +820,13 @@ interface(`files_dontaudit_getattr_all_sockets',`
 		attribute file_type;
 	')
 
-	dontaudit $1 file_type:sock_file getattr;
+	dontaudit $1 file_type:sock_file getattr_sock_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
-##	of non security named sockets.
+##	Do not audit attempts to get attributes
+##	of non security sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -836,12 +839,12 @@ interface(`files_dontaudit_getattr_non_security_sockets',`
 		attribute non_security_file_type;
 	')
 
-	dontaudit $1 non_security_file_type:sock_file getattr;
+	dontaudit $1 non_security_file_type:sock_file getattr_sock_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read all block nodes with file types.
+##	Read block devices with file types.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -859,7 +862,7 @@ interface(`files_read_all_blk_files',`
 
 ########################################
 ## <summary>
-##	Read all character nodes with file types.
+##	Read character devices with file types.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -877,12 +880,12 @@ interface(`files_read_all_chr_files',`
 
 ########################################
 ## <summary>
-##	Relabel all files on the filesystem, except
+##	Relabel all files on filesystems, except
 ##	the listed exceptions.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the domain perfoming this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 ## <param name="exception_types" optional="true">
@@ -905,18 +908,18 @@ interface(`files_relabel_all_files',`
 	relabel_sock_files_pattern($1, { file_type $2 }, { file_type $2 })
 	relabel_blk_files_pattern($1, { file_type $2 }, { file_type $2 })
 	relabel_chr_files_pattern($1, { file_type $2 }, { file_type $2 })
-
 	seutil_relabelto_bin_policy($1)
 ')
 
 ########################################
 ## <summary>
-##	rw all files on the filesystem, except
-##	the listed exceptions.
+##	Read and write all files on
+##	filesystems, except the listed
+##	exceptions.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the domain perfoming this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 ## <param name="exception_types" optional="true">
@@ -936,17 +939,17 @@ interface(`files_rw_all_files',`
 
 ########################################
 ## <summary>
-##	Manage all files on the filesystem, except
-##	the listed exceptions.
+##	Manage all files on filesystems,
+##	except the listed exceptions.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	The type of the domain perfoming this action.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 ## <param name="exception_types" optional="true">
 ##	<summary>
-##	The types to be excluded.  Each type or attribute
+##	The types to be excluded. Each type or attribute
 ##	must be negated by the caller.
 ##	</summary>
 ## </param>
@@ -961,14 +964,13 @@ interface(`files_manage_all_files',`
 	manage_lnk_files_pattern($1, { file_type $2 }, { file_type $2 })
 	manage_fifo_files_pattern($1, { file_type $2 }, { file_type $2 })
 	manage_sock_files_pattern($1, { file_type $2 }, { file_type $2 })
-
 	seutil_create_bin_policy($1)
 	files_manage_kernel_modules($1)
 ')
 
 ########################################
 ## <summary>
-##	Search the contents of all directories on
+##	Search all directories on
 ##	extended attribute filesystems.
 ## </summary>
 ## <param name="domain">
@@ -987,7 +989,7 @@ interface(`files_search_all',`
 
 ########################################
 ## <summary>
-##	List the contents of all directories on
+##	List all directories on
 ##	extended attribute filesystems.
 ## </summary>
 ## <param name="domain">
@@ -1006,9 +1008,9 @@ interface(`files_list_all',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to search the
-##	contents of any directories on extended
-##	attribute filesystems.
+##	Do not audit attempts to search all
+##	directories on extended attribute
+##	filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1026,8 +1028,8 @@ interface(`files_dontaudit_search_all_dirs',`
 
 ########################################
 ## <summary>
-##	Get the attributes of all filesystems
-##	with the type of a file.
+##	Get attributes of all filesystems
+##	with types of files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1045,7 +1047,8 @@ interface(`files_getattr_all_file_type_fs',`
 
 ########################################
 ## <summary>
-##	Relabel a filesystem to the type of a file.
+##	Relabel filesystems to the type
+##	of files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1063,7 +1066,8 @@ interface(`files_relabelto_all_file_type_fs',`
 
 ########################################
 ## <summary>
-##	Relabel a filesystem to the type of a file.
+##	Relabel filesystems to and from the
+##	type of files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1081,7 +1085,8 @@ interface(`files_relabel_all_file_type_fs',`
 
 ########################################
 ## <summary>
-##	Mount all filesystems with the type of a file.
+##	Mount filesystems with the type
+##	of files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1099,7 +1104,8 @@ interface(`files_mount_all_file_type_fs',`
 
 ########################################
 ## <summary>
-##	Unmount all filesystems with the type of a file.
+##	Unmount filesystems with the
+##	type of files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1117,7 +1123,8 @@ interface(`files_unmount_all_file_type_fs',`
 
 #############################################
 ## <summary>
-##	Manage all configuration directories on filesystem.
+##	Manage all configuration directories on
+##	filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1135,7 +1142,7 @@ interface(`files_manage_config_dirs',`
 
 #########################################
 ## <summary>
-##	Relabel configuration directories.
+##	Relabel all configuration directories.
 ## </summary>
 ## <param name="domain">
 ## 	<summary>
@@ -1153,7 +1160,7 @@ interface(`files_relabel_config_dirs',`
 
 ########################################
 ## <summary>
-##	Read config files in /etc.
+##	Read all configuration files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1173,7 +1180,7 @@ interface(`files_read_config_files',`
 
 ###########################################
 ## <summary>
-## 	Manage all configuration files on filesystem.
+## 	Manage all configuration files.
 ## </summary>
 ## <param name="domain">
 ## 	<summary>
@@ -1191,7 +1198,7 @@ interface(`files_manage_config_files',`
 
 #######################################
 ## <summary>
-##	Relabel configuration files.
+##	Relabel all configuration files.
 ## </summary>
 ## <param name="domain">
 ## 	<summary>
@@ -1209,7 +1216,7 @@ interface(`files_relabel_config_files',`
 
 ########################################
 ## <summary>
-##	Mount a filesystem on all mount points.
+##	Mount filesystems on all mount points.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1223,12 +1230,12 @@ interface(`files_mounton_all_mountpoints',`
 	')
 
 	allow $1 mountpoint:dir { search_dir_perms mounton };
-	allow $1 mountpoint:file { getattr mounton };
+	allow $1 mountpoint:file { getattr_file_perms mounton };
 ')
 
 ########################################
 ## <summary>
-##	Get the attributes of all mount points.
+##	Get attributes of all mount points.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1241,7 +1248,7 @@ interface(`files_getattr_all_mountpoints',`
 		attribute mountpoint;
 	')
 
-	allow $1 mountpoint:dir getattr;
+	allow $1 mountpoint:dir getattr_dir_perms;
 ')
 
 ########################################
@@ -1300,7 +1307,7 @@ interface(`files_write_all_mountpoints',`
 
 ########################################
 ## <summary>
-##	List the contents of the root directory.
+##	List root directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1320,7 +1327,7 @@ interface(`files_list_root',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to write
-##	files in the root directory.
+##	content in root directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1338,8 +1345,9 @@ interface(`files_dontaudit_rw_root_dir',`
 
 ########################################
 ## <summary>
-##	Create an object in the root directory, with a private
-##	type using a type transition.
+##	Create an object in root directories,
+##	with a private type using a type
+##	transition.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1367,8 +1375,7 @@ interface(`files_root_filetrans',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to read files in
-##	the root directory.
+##	Do not audit attempts to read root files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1381,13 +1388,13 @@ interface(`files_dontaudit_read_root_files',`
 		type root_t;
 	')
 
-	dontaudit $1 root_t:file { getattr read };
+	dontaudit $1 root_t:file read_file_perms;
 ')
 
 ########################################
 ## <summary>
 ##	Do not audit attempts to read or write
-##	files in the root directory.
+##	root files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1400,13 +1407,13 @@ interface(`files_dontaudit_rw_root_files',`
 		type root_t;
 	')
 
-	dontaudit $1 root_t:file { read write };
+	dontaudit $1 root_t:file rw_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to read or write
-##	character device nodes in the root directory.
+##	Do not audit attempts to read or
+##	write root character devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1419,12 +1426,12 @@ interface(`files_dontaudit_rw_root_chr_files',`
 		type root_t;
 	')
 
-	dontaudit $1 root_t:chr_file { read write };
+	dontaudit $1 root_t:chr_file rw_chr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Remove file entries from the root directory.
+##	Delete root files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1437,12 +1444,12 @@ interface(`files_delete_root_file',`
 		type root_t;
 	')
 
-	allow $1 root_t:file unlink;
+	allow $1 root_t:file delete_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Remove entries from the root directory.
+##	Remove entries from root directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1460,7 +1467,7 @@ interface(`files_delete_root_dir_entry',`
 
 ########################################
 ## <summary>
-##	Unmount a rootfs filesystem.
+##	Unmount root filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1478,7 +1485,7 @@ interface(`files_unmount_rootfs',`
 
 ########################################
 ## <summary>
-##	Get attributes of the /boot directory.
+##	Get attributes of boot directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1491,13 +1498,13 @@ interface(`files_getattr_boot_dirs',`
 		type boot_t;
 	')
 
-	allow $1 boot_t:dir getattr;
+	allow $1 boot_t:dir getattr_dir_perms;
 ')
 
 ########################################
 ## <summary>
 ##	Do not audit attempts to get attributes
-##	of the /boot directory.
+##	of boot directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1510,12 +1517,12 @@ interface(`files_dontaudit_getattr_boot_dirs',`
 		type boot_t;
 	')
 
-	dontaudit $1 boot_t:dir getattr;
+	dontaudit $1 boot_t:dir getattr_dir_perms;
 ')
 
 ########################################
 ## <summary>
-##	Search the /boot directory.
+##	Search boot directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1533,7 +1540,8 @@ interface(`files_search_boot',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to search the /boot directory.
+##	Do not audit attempts to search boot
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1551,7 +1559,7 @@ interface(`files_dontaudit_search_boot',`
 
 ########################################
 ## <summary>
-##	List the /boot directory.
+##	List boot directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1569,7 +1577,7 @@ interface(`files_list_boot',`
 
 ########################################
 ## <summary>
-##	Create directories in /boot
+##	Create boot directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1582,12 +1590,12 @@ interface(`files_create_boot_dirs',`
 		type boot_t;
 	')
 
-	allow $1 boot_t:dir { create rw_dir_perms };
+	allow $1 boot_t:dir { create_dir_perms rw_dir_perms };
 ')
 
 ########################################
 ## <summary>
-##	manage directories in /boot
+##	Manage boot directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1605,8 +1613,9 @@ interface(`files_manage_boot_dirs',`
 
 ########################################
 ## <summary>
-##	Create a private type object in boot
-##	with an automatic type transition
+##	Create private type objects in boot
+##	directories with a automatic type
+##	transition.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1634,14 +1643,13 @@ interface(`files_boot_filetrans',`
 
 ########################################
 ## <summary>
-##	read files in the /boot directory.
+##	read boot files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
 interface(`files_read_boot_files',`
 	gen_require(`
@@ -1653,8 +1661,7 @@ interface(`files_read_boot_files',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete files
-##	in the /boot directory.
+##	Manage boot files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1672,7 +1679,7 @@ interface(`files_manage_boot_files',`
 
 ########################################
 ## <summary>
-##	Relabel from files in the /boot directory.
+##	Relabel from boot files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1690,8 +1697,7 @@ interface(`files_relabelfrom_boot_files',`
 
 ########################################
 ## <summary>
-##	Read and write symbolic links
-##	in the /boot directory.
+##	Read and write boot symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1710,8 +1716,7 @@ interface(`files_rw_boot_symlinks',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete symbolic links
-##	in the /boot directory.
+##	Manage boot symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1729,7 +1734,7 @@ interface(`files_manage_boot_symlinks',`
 
 ########################################
 ## <summary>
-##	Read kernel files in the /boot directory.
+##	Read boot files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1749,7 +1754,7 @@ interface(`files_read_kernel_img',`
 
 ########################################
 ## <summary>
-##	Install a kernel into the /boot directory.
+##	Create boot files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1768,7 +1773,7 @@ interface(`files_create_kernel_img',`
 
 ########################################
 ## <summary>
-##	Delete a kernel from /boot.
+##	Delete boot files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1786,7 +1791,8 @@ interface(`files_delete_kernel',`
 
 ########################################
 ## <summary>
-##	Getattr of directories with the default file type.
+##	Get attributes of directories with
+##	default file types.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1799,13 +1805,14 @@ interface(`files_getattr_default_dirs',`
 		type default_t;
 	')
 
-	allow $1 default_t:dir getattr;
+	allow $1 default_t:dir getattr_dir_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes of
-##	directories with the default file type.
+##	Do not audit attempts to get
+##	attributes of directories with
+##	default file types.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1818,12 +1825,13 @@ interface(`files_dontaudit_getattr_default_dirs',`
 		type default_t;
 	')
 
-	dontaudit $1 default_t:dir getattr;
+	dontaudit $1 default_t:dir getattr_dir_perms;
 ')
 
 ########################################
 ## <summary>
-##	Search the contents of directories with the default file type.
+##	Search directories with
+##	default file types.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1841,7 +1849,8 @@ interface(`files_search_default',`
 
 ########################################
 ## <summary>
-##	List contents of directories with the default file type.
+##	List directories with default
+##	file types.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1859,8 +1868,8 @@ interface(`files_list_default',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to list contents of
-##	directories with the default file type.
+##	Do not audit attempts to list
+##	directories with default file types.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1878,8 +1887,8 @@ interface(`files_dontaudit_list_default',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete directories with
-##	the default file type.
+##	Manage directories with
+##	default file types.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1897,7 +1906,8 @@ interface(`files_manage_default_dirs',`
 
 ########################################
 ## <summary>
-##	Mount a filesystem on a directory with the default file type.
+##	Mount filesystems on directories
+##	with default file types.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1915,8 +1925,9 @@ interface(`files_mounton_default',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes of
-##	files with the default file type.
+##	Do not audit attempts to get
+##	attributes of files with default
+##	file types.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1929,12 +1940,12 @@ interface(`files_dontaudit_getattr_default_files',`
 		type default_t;
 	')
 
-	dontaudit $1 default_t:file getattr;
+	dontaudit $1 default_t:file getattr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read files with the default file type.
+##	Read files with default file types.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1953,7 +1964,7 @@ interface(`files_read_default_files',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to read files
-##	with the default file type.
+##	with default file types.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1971,8 +1982,8 @@ interface(`files_dontaudit_read_default_files',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete files with
-##	the default file type.
+##	Manage files with
+##	default file types.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1990,7 +2001,8 @@ interface(`files_manage_default_files',`
 
 ########################################
 ## <summary>
-##	Read symbolic links with the default file type.
+##	Read symbolic links with default
+##	file types.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2008,7 +2020,7 @@ interface(`files_read_default_symlinks',`
 
 ########################################
 ## <summary>
-##	Read sockets with the default file type.
+##	Read sockets with default file types.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2026,7 +2038,7 @@ interface(`files_read_default_sockets',`
 
 ########################################
 ## <summary>
-##	Read named pipes with the default file type.
+##	Read named pipes with default file types.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2044,7 +2056,7 @@ interface(`files_read_default_pipes',`
 
 ########################################
 ## <summary>
-##	Search the contents of /etc directories.
+##	Search generic etc directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2062,7 +2074,8 @@ interface(`files_search_etc',`
 
 ########################################
 ## <summary>
-##	Set the attributes of the /etc directories.
+##	Set attributes of generic etc
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2075,12 +2088,12 @@ interface(`files_setattr_etc_dirs',`
 		type etc_t;
 	')
 
-	allow $1 etc_t:dir setattr;
+	allow $1 etc_t:dir setattr_dir_perms;
 ')
 
 ########################################
 ## <summary>
-##	List the contents of /etc directories.
+##	List generic etc directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2098,7 +2111,8 @@ interface(`files_list_etc',`
 
 ########################################
 ## <summary>
-##	Add and remove entries from /etc directories.
+##	Add and remove entries from
+##	generic etc directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2116,7 +2130,8 @@ interface(`files_rw_etc_dirs',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to write to /etc dirs.
+##	Do not audit attempts to write
+##	generic etc directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2134,7 +2149,7 @@ interface(`files_dontaudit_write_etc_dirs',`
 
 ##########################################
 ## <summary>
-## 	Manage generic directories in /etc.
+## 	Manage generic etc directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2152,7 +2167,7 @@ interface(`files_manage_etc_dirs',`
 
 ########################################
 ## <summary>
-##	Read generic files in /etc.
+##	Read generic etc files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2172,7 +2187,8 @@ interface(`files_read_etc_files',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to write generic files in /etc.
+##	Do not audit attempts to write
+##	generic etc files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2190,7 +2206,7 @@ interface(`files_dontaudit_write_etc_files',`
 
 ########################################
 ## <summary>
-##	Read and write generic files in /etc.
+##	Read and write generic etc files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2210,8 +2226,7 @@ interface(`files_rw_etc_files',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete generic
-##	files in /etc.
+##	Manage generic etc files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2230,7 +2245,7 @@ interface(`files_manage_etc_files',`
 
 ########################################
 ## <summary>
-##	Delete system configuration files in /etc.
+##	Delete generic etc files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2248,7 +2263,8 @@ interface(`files_delete_etc_files',`
 
 ########################################
 ## <summary>
-##	Remove entries from the etc directory.
+##	Remove entries from generic etc
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2266,7 +2282,7 @@ interface(`files_delete_etc_dir_entry',`
 
 ########################################
 ## <summary>
-##	Execute generic files in /etc.
+##	Execute generic etc files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2286,7 +2302,7 @@ interface(`files_exec_etc_files',`
 
 #######################################
 ## <summary>
-##	Relabel from and to generic files in /etc.
+##	Relabel generic etc files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2305,7 +2321,7 @@ interface(`files_relabel_etc_files',`
 
 ########################################
 ## <summary>
-##	Read symbolic links in /etc.
+##	Read generic etc symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2323,7 +2339,7 @@ interface(`files_read_etc_symlinks',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete symbolic links in /etc.
+##	Manage generic etc symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2341,8 +2357,9 @@ interface(`files_manage_etc_symlinks',`
 
 ########################################
 ## <summary>
-##	Create objects in /etc with a private
-##	type using a type_transition.
+##	Create objects in generic etc
+##	directories with private types using a
+##	type_transition.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2370,7 +2387,7 @@ interface(`files_etc_filetrans',`
 
 ########################################
 ## <summary>
-##	Create a boot flag.
+##	Create boot flags.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2389,8 +2406,9 @@ interface(`files_create_boot_flag',`
 
 ########################################
 ## <summary>
-##	Read files in /etc that are dynamically
-##	created on boot, such as mtab.
+##	Read files in generic etc directories
+##	that are dynamically created on boot,
+##	such as mtab.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2411,8 +2429,9 @@ interface(`files_read_etc_runtime_files',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to read files
-##	in /etc that are dynamically
-##	created on boot, such as mtab.
+##	in generic etc directories that are
+##	dynamically created on boot, such
+##	as mtab.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2425,12 +2444,13 @@ interface(`files_dontaudit_read_etc_runtime_files',`
 		type etc_runtime_t;
 	')
 
-	dontaudit $1 etc_runtime_t:file { getattr read };
+	dontaudit $1 etc_runtime_t:file read_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read and write files in /etc that are dynamically
+##	Read and write files in generic etc
+##	directories that are dynamically
 ##	created on boot, such as mtab.
 ## </summary>
 ## <param name="domain">
@@ -2450,8 +2470,8 @@ interface(`files_rw_etc_runtime_files',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete files in
-##	/etc that are dynamically created on boot,
+##	Manage files in generic etc directories
+##	that are dynamically created on boot,
 ##	such as mtab.
 ## </summary>
 ## <param name="domain">
@@ -2470,8 +2490,8 @@ interface(`files_manage_etc_runtime_files',`
 
 ########################################
 ## <summary>
-##	Create, etc runtime objects with an automatic
-##	type transition.
+##	Create etc runtime objects with an
+##	automatic type transition.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2494,8 +2514,9 @@ interface(`files_etc_filetrans_etc_runtime',`
 
 ########################################
 ## <summary>
-##	Getattr of directories on new filesystems
-##	that have not yet been labeled.
+##	Get attributes of directories on new
+##	filesystems that have not yet been
+##	labeled.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2508,17 +2529,18 @@ interface(`files_getattr_isid_type_dirs',`
 		type file_t;
 	')
 
-	allow $1 file_t:dir getattr;
+	allow $1 file_t:dir getattr_dir_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to search directories on new filesystems
+##	Do not audit attempts to search
+##	directories on new filesystems
 ##	that have not yet been labeled.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -2532,7 +2554,7 @@ interface(`files_dontaudit_search_isid_type_dirs',`
 
 ########################################
 ## <summary>
-##	List the contents of directories on new filesystems
+##	List directories on new filesystems
 ##	that have not yet been labeled.
 ## </summary>
 ## <param name="domain">
@@ -2551,8 +2573,9 @@ interface(`files_list_isid_type_dirs',`
 
 ########################################
 ## <summary>
-##	Read and write directories on new filesystems
-##	that have not yet been labeled.
+##	Read and write directories on new
+##	filesystems that have not yet been
+##	labeled.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2589,12 +2612,12 @@ interface(`files_delete_isid_type_dirs',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to write to chr_files
-##	that have not yet been labeled.
+##	Do not audit attempts to write character
+##	devices that have not yet been labeled.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -2603,13 +2626,14 @@ interface(`files_dontaudit_write_isid_chr_files',`
 		type file_t;
 	')
 
-	dontaudit $1 file_t:chr_file write;
+	dontaudit $1 file_t:chr_file write_chr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete directories
-##	on new filesystems that have not yet been labeled.
+##	Manage directories on new
+##	filesystems that have not yet been
+##	labeled.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2627,8 +2651,9 @@ interface(`files_manage_isid_type_dirs',`
 
 ########################################
 ## <summary>
-##	Mount a filesystem on a directory on new filesystems
-##	that has not yet been labeled.
+##	Mount filesystems on directories on
+##	new filesystems that have not yet
+##	been labeled.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2684,7 +2709,7 @@ interface(`files_delete_isid_type_files',`
 
 ########################################
 ## <summary>
-##	Delete lnk_files on new filesystems
+##	Delete symbolic links on new filesystems
 ##	that have not yet been labeled.
 ## </summary>
 ## <param name="domain">
@@ -2703,7 +2728,7 @@ interface(`files_delete_isid_type_symlinks',`
 
 ########################################
 ## <summary>
-##	Delete fifo files on new filesystems
+##	Delete pipes on new filesystems
 ##	that have not yet been labeled.
 ## </summary>
 ## <param name="domain">
@@ -2722,7 +2747,7 @@ interface(`files_delete_isid_type_fifo_files',`
 
 ########################################
 ## <summary>
-##	Delete sock files on new filesystems
+##	Delete sockets on new filesystems
 ##	that have not yet been labeled.
 ## </summary>
 ## <param name="domain">
@@ -2741,7 +2766,7 @@ interface(`files_delete_isid_type_sock_files',`
 
 ########################################
 ## <summary>
-##	Delete blk files on new filesystems
+##	Delete block devices on new filesystems
 ##	that have not yet been labeled.
 ## </summary>
 ## <param name="domain">
@@ -2760,7 +2785,7 @@ interface(`files_delete_isid_type_blk_files',`
 
 ########################################
 ## <summary>
-##	Delete chr files on new filesystems
+##	Delete character devices on new filesystems
 ##	that have not yet been labeled.
 ## </summary>
 ## <param name="domain">
@@ -2779,8 +2804,8 @@ interface(`files_delete_isid_type_chr_files',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete files
-##	on new filesystems that have not yet been labeled.
+##	Manage files on new filesystems that
+##	have not yet been labeled.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2798,8 +2823,9 @@ interface(`files_manage_isid_type_files',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete symbolic links
-##	on new filesystems that have not yet been labeled.
+##	Manage symbolic links on new
+##	filesystems that have not yet been
+##	labeled.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2817,8 +2843,9 @@ interface(`files_manage_isid_type_symlinks',`
 
 ########################################
 ## <summary>
-##	Read and write block device nodes on new filesystems
-##	that have not yet been labeled.
+##	Read and write block devices on new
+##	filesystems that have not yet been
+##	labeled.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2836,8 +2863,9 @@ interface(`files_rw_isid_type_blk_files',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete block device nodes
-##	on new filesystems that have not yet been labeled.
+##	Manage block devices on new
+##	filesystems that have not yet been
+##	labeled.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2855,8 +2883,9 @@ interface(`files_manage_isid_type_blk_files',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete character device nodes
-##	on new filesystems that have not yet been labeled.
+##	Manages character devices on new
+##	filesystems that have not yet been
+##	labeled.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2874,8 +2903,8 @@ interface(`files_manage_isid_type_chr_files',`
 
 ########################################
 ## <summary>
-##	Get the attributes of the home directories root
-##	(/home).
+##	Get attributes of home directory
+##	roots.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2888,15 +2917,14 @@ interface(`files_getattr_home_dir',`
 		type home_root_t;
 	')
 
-	allow $1 home_root_t:dir getattr;
-	allow $1 home_root_t:lnk_file getattr;
+	allow $1 home_root_t:dir getattr_dir_perms;
+	allow $1 home_root_t:lnk_file getattr_lnk_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the
-##	attributes of the home directories root
-##	(/home).
+##	Do not audit attempts to get
+##	attributes of home directory roots.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2909,13 +2937,13 @@ interface(`files_dontaudit_getattr_home_dir',`
 		type home_root_t;
 	')
 
-	dontaudit $1 home_root_t:dir getattr;
-	dontaudit $1 home_root_t:lnk_file getattr;
+	dontaudit $1 home_root_t:dir getattr_dir_perms;
+	dontaudit $1 home_root_t:lnk_file getattr_lnk_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Search home directories root (/home).
+##	Search home directory roots.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2935,7 +2963,7 @@ interface(`files_search_home',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to search
-##	home directories root (/home).
+##	home directory roots.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2955,7 +2983,7 @@ interface(`files_dontaudit_search_home',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to list
-##	home directories root (/home).
+##	home directory roots.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2974,7 +3002,7 @@ interface(`files_dontaudit_list_home',`
 
 ########################################
 ## <summary>
-##	Get listing of home directories.
+##	List home directory roots.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2993,7 +3021,7 @@ interface(`files_list_home',`
 
 ########################################
 ## <summary>
-##	Relabel to user home root (/home).
+##	Relabel to home directory roots.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3011,7 +3039,8 @@ interface(`files_relabelto_home',`
 
 ########################################
 ## <summary>
-##	Create objects in /home.
+##	Create objects in home directory
+##	roots.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3039,7 +3068,7 @@ interface(`files_home_filetrans',`
 
 ########################################
 ## <summary>
-##	Get the attributes of lost+found directories.
+##	Get attributes of lost+found directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3052,13 +3081,13 @@ interface(`files_getattr_lost_found_dirs',`
 		type lost_found_t;
 	')
 
-	allow $1 lost_found_t:dir getattr;
+	allow $1 lost_found_t:dir getattr_dir_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes of
-##	lost+found directories.
+##	Do not audit attempts to get
+##	attributes of lost+found directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3071,13 +3100,13 @@ interface(`files_dontaudit_getattr_lost_found_dirs',`
 		type lost_found_t;
 	')
 
-	dontaudit $1 lost_found_t:dir getattr;
+	dontaudit $1 lost_found_t:dir getattr_dir_perms;
 ')
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete objects in
-##	lost+found directories.
+##	Manage content in lost+found
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3099,7 +3128,7 @@ interface(`files_manage_lost_found',`
 
 ########################################
 ## <summary>
-##	Search the contents of /mnt.
+##	Search mnt directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3117,7 +3146,8 @@ interface(`files_search_mnt',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to search /mnt.
+##	Do not audit attempts to search mnt
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3135,7 +3165,7 @@ interface(`files_dontaudit_search_mnt',`
 
 ########################################
 ## <summary>
-##	List the contents of /mnt.
+##	List mnt directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3153,7 +3183,7 @@ interface(`files_list_mnt',`
 
 ########################################
 ## <summary>
-##	Mount a filesystem on /mnt.
+##	Mount filesystems on mnt directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3171,7 +3201,7 @@ interface(`files_mounton_mnt',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete directories in /mnt.
+##	Manage mnt directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3189,7 +3219,7 @@ interface(`files_manage_mnt_dirs',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete files in /mnt.
+##	Manage mnt files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3207,7 +3237,7 @@ interface(`files_manage_mnt_files',`
 
 ########################################
 ## <summary>
-##	read files in /mnt.
+##	Read mnt files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3225,7 +3255,7 @@ interface(`files_read_mnt_files',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete symbolic links in /mnt.
+##	Manage mnt symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3243,7 +3273,7 @@ interface(`files_manage_mnt_symlinks',`
 
 ########################################
 ## <summary>
-##	Search the contents of the kernel module directories.
+##	Search kernel module directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3262,7 +3292,7 @@ interface(`files_search_kernel_modules',`
 
 ########################################
 ## <summary>
-##	List the contents of the kernel module directories.
+##	List kernel module directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3280,7 +3310,7 @@ interface(`files_list_kernel_modules',`
 
 ########################################
 ## <summary>
-##	Get the attributes of kernel module files.
+##	Get attributes of kernel module files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3355,8 +3385,7 @@ interface(`files_delete_kernel_modules',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete
-##	kernel module files.
+##	Manage kernel module files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3374,7 +3403,7 @@ interface(`files_manage_kernel_modules',`
 
 ########################################
 ## <summary>
-##	Relabel from and to kernel module files.
+##	Relabel kernel module files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3393,8 +3422,9 @@ interface(`files_relabel_kernel_modules',`
 
 ########################################
 ## <summary>
-##	Create objects in the kernel module directories
-##	with a private type via an automatic type transition.
+##	Create objects in kernel module
+##	directories with private types via
+##	an automatic type transition.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3476,7 +3506,7 @@ interface(`files_read_world_readable_symlinks',`
 
 ########################################
 ## <summary>
-##	Read world-readable named pipes.
+##	Read world-readable pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3512,7 +3542,8 @@ interface(`files_read_world_readable_sockets',`
 
 #######################################
 ## <summary>
-##  Read manageable system configuration files in /etc
+##  Read system configuration files in
+##	generic etc directories.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -3532,7 +3563,8 @@ interface(`files_read_system_conf_files',`
 
 ######################################
 ## <summary>
-##  Manage manageable system configuration files in /etc.
+##  Manage system configuration files
+##	in generic etc directories.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -3550,8 +3582,9 @@ interface(`files_manage_system_conf_files',`
 
 ###################################
 ## <summary>
-##  Create files in /etc with the type used for
-##  the manageable system config files.
+##  Create files in generic etc directories
+##	with types used for the system
+##	configuration files.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -3569,9 +3602,8 @@ interface(`files_etc_filetrans_system_conf',`
 
 ########################################
 ## <summary>
-##	Allow the specified type to associate
-##	to a filesystem with the type of the
-##	temporary directory (/tmp).
+##	Associate a filesystem with types of
+##	temporary directories.
 ## </summary>
 ## <param name="file_type">
 ##	<summary>
@@ -3589,7 +3621,7 @@ interface(`files_associate_tmp',`
 
 ########################################
 ## <summary>
-##	Get the	attributes of the tmp directory (/tmp).
+##	Get attributes of generic tmp directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3602,13 +3634,13 @@ interface(`files_getattr_tmp_dirs',`
 		type tmp_t;
 	')
 
-	allow $1 tmp_t:dir getattr;
+	allow $1 tmp_t:dir getattr_dir_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the
-##	attributes of the tmp directory (/tmp).
+##	Do not audit attempts to get
+##	attributes of generic tmp directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3621,12 +3653,12 @@ interface(`files_dontaudit_getattr_tmp_dirs',`
 		type tmp_t;
 	')
 
-	dontaudit $1 tmp_t:dir getattr;
+	dontaudit $1 tmp_t:dir getattr_dir_perms;
 ')
 
 ########################################
 ## <summary>
-##	Search the tmp directory (/tmp).
+##	Search generic tmp directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3644,7 +3676,8 @@ interface(`files_search_tmp',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to search the tmp directory (/tmp).
+##	Do not audit attempts to search
+##	generic tmp directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3662,7 +3695,7 @@ interface(`files_dontaudit_search_tmp',`
 
 ########################################
 ## <summary>
-##	Read the tmp directory (/tmp).
+##	Read generic tmp directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3680,7 +3713,8 @@ interface(`files_list_tmp',`
 
 ########################################
 ## <summary>
-##	Do not audit listing of the tmp directory (/tmp).
+##	Do not audit listing of generic tmp
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3698,7 +3732,8 @@ interface(`files_dontaudit_list_tmp',`
 
 ########################################
 ## <summary>
-##	Remove entries from the tmp directory.
+##	Remove entries from generic
+##	tmp directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3716,7 +3751,7 @@ interface(`files_delete_tmp_dir_entry',`
 
 ########################################
 ## <summary>
-##	Read files in the tmp directory (/tmp).
+##	Read generic tmp files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3734,7 +3769,7 @@ interface(`files_read_generic_tmp_files',`
 
 ########################################
 ## <summary>
-##	Manage temporary directories in /tmp.
+##	Manage generic tmp directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3752,7 +3787,8 @@ interface(`files_manage_generic_tmp_dirs',`
 
 ########################################
 ## <summary>
-##	Allow shared library text relocations in tmp files.
+##	Shared library text relocations in
+##	generic tmp files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3770,7 +3806,7 @@ interface(`files_execmod_tmp',`
 
 ########################################
 ## <summary>
-##	Manage temporary files and directories in /tmp.
+##	Manage generic tmp files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3788,7 +3824,7 @@ interface(`files_manage_generic_tmp_files',`
 
 ########################################
 ## <summary>
-##	Read symbolic links in the tmp directory (/tmp).
+##	Read generic tmp symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3806,7 +3842,7 @@ interface(`files_read_generic_tmp_symlinks',`
 
 ########################################
 ## <summary>
-##	Read and write generic named sockets in the tmp directory (/tmp).
+##	Read and write generic tmp named sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3824,7 +3860,7 @@ interface(`files_rw_generic_tmp_sockets',`
 
 ########################################
 ## <summary>
-##	Set the attributes of all tmp directories.
+##	Set attributes of all tmp directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3837,7 +3873,7 @@ interface(`files_setattr_all_tmp_dirs',`
 		attribute tmpfile;
 	')
 
-	allow $1 tmpfile:dir { search_dir_perms setattr };
+	allow $1 tmpfile:dir { search_dir_perms setattr_dir_perms };
 ')
 
 ########################################
@@ -3860,7 +3896,7 @@ interface(`files_list_all_tmp',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
+##	Do not audit attempts to get attributes
 ##	of all tmp files.
 ## </summary>
 ## <param name="domain">
@@ -3874,17 +3910,16 @@ interface(`files_dontaudit_getattr_all_tmp_files',`
 		attribute tmpfile;
 	')
 
-	dontaudit $1 tmpfile:file getattr;
+	dontaudit $1 tmpfile:file getattr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Allow attempts to get the attributes
-##	of all tmp files.
+##	Get attributes of all tmp files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain not to audit.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -3893,13 +3928,13 @@ interface(`files_getattr_all_tmp_files',`
 		attribute tmpfile;
 	')
 
-	allow $1 tmpfile:file getattr;
+	allow $1 tmpfile:file getattr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
-##	of all tmp sock_file.
+##	Do not audit attempts to get attributes
+##	of all tmp sock files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3912,7 +3947,7 @@ interface(`files_dontaudit_getattr_all_tmp_sockets',`
 		attribute tmpfile;
 	')
 
-	dontaudit $1 tmpfile:sock_file getattr;
+	dontaudit $1 tmpfile:sock_file getattr_sock_file_perms;
 ')
 
 ########################################
@@ -3935,8 +3970,9 @@ interface(`files_read_all_tmp_files',`
 
 ########################################
 ## <summary>
-##	Create an object in the tmp directories, with a private
-##	type using a type transition.
+##	Create objects in generic tmp directories,
+##	with private types using a type
+##	transition.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3964,7 +4000,7 @@ interface(`files_tmp_filetrans',`
 
 ########################################
 ## <summary>
-##	Delete the contents of /tmp.
+##	Delete all tmp content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3994,7 +4030,7 @@ interface(`files_purge_tmp',`
 
 ########################################
 ## <summary>
-##	Search the content of /etc.
+##	Search generic usr directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4012,8 +4048,7 @@ interface(`files_search_usr',`
 
 ########################################
 ## <summary>
-##	List the contents of generic
-##	directories in /usr.
+##	List generic usr directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4031,7 +4066,8 @@ interface(`files_list_usr',`
 
 ########################################
 ## <summary>
-##	Add and remove entries from /usr directories.
+##	Add and remove entries from generic
+##	usr directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4049,11 +4085,13 @@ interface(`files_rw_usr_dirs',`
 
 ########################################
 ## <summary>
-##	dontaudit Add and remove entries from /usr directories.
+##	Do not audit attempts to add and
+##	remove entries from generic
+##	usr directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -4067,7 +4105,7 @@ interface(`files_dontaudit_rw_usr_dirs',`
 
 ########################################
 ## <summary>
-##	Delete generic directories in /usr in the caller domain.
+##	Delete generic usr directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4085,7 +4123,7 @@ interface(`files_delete_usr_dirs',`
 
 ########################################
 ## <summary>
-##	Set the attributes of the /usr directory.
+##	Set attributes of generic usr directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4103,7 +4141,7 @@ interface(`files_setattr_usr_dirs',`
 
 ########################################
 ## <summary>
-##	Delete generic files in /usr in the caller domain.
+##	Delete generic usr files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4121,7 +4159,7 @@ interface(`files_delete_usr_files',`
 
 ########################################
 ## <summary>
-##	Get the attributes of files in /usr.
+##	Get attributes of generic usr files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4139,7 +4177,7 @@ interface(`files_getattr_usr_files',`
 
 ########################################
 ## <summary>
-##	Read generic files in /usr.
+##	Read generic usr files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4159,7 +4197,7 @@ interface(`files_read_usr_files',`
 
 ########################################
 ## <summary>
-##	Execute generic programs in /usr in the caller domain.
+##	Execute generic usr files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4179,7 +4217,8 @@ interface(`files_exec_usr_files',`
 
 ########################################
 ## <summary>
-##	dontaudit write of /usr dirs
+##	Do not audit attempts to write
+##	generic usr directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4197,7 +4236,8 @@ interface(`files_dontaudit_write_usr_dirs',`
 
 ########################################
 ## <summary>
-##	dontaudit write of /usr files
+##	Do not audit attempts to write
+##	generic usr files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4210,12 +4250,12 @@ interface(`files_dontaudit_write_usr_files',`
 		type usr_t;
 	')
 
-	dontaudit $1 usr_t:file write;
+	dontaudit $1 usr_t:file write_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete files in the /usr directory.
+##	Manage generic usr directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4233,7 +4273,7 @@ interface(`files_manage_usr_files',`
 
 ########################################
 ## <summary>
-##	Relabel a file to the type used in /usr.
+##	Relabel to generic usr files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4251,7 +4291,7 @@ interface(`files_relabelto_usr_files',`
 
 ########################################
 ## <summary>
-##	Relabel a file from the type used in /usr.
+##	Relabel from generic usr files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4269,7 +4309,7 @@ interface(`files_relabelfrom_usr_files',`
 
 ########################################
 ## <summary>
-##	Read symbolic links in /usr.
+##	Read generic usr symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4287,7 +4327,9 @@ interface(`files_read_usr_symlinks',`
 
 ########################################
 ## <summary>
-##	Create objects in the /usr directory
+##	Create objects in generic usr directories,
+##	with private types using a type
+##	transition.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4315,7 +4357,8 @@ interface(`files_usr_filetrans',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to search /usr/src.
+##	Do not audit attempts to search
+##	generic usr src directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4333,7 +4376,7 @@ interface(`files_dontaudit_search_src',`
 
 ########################################
 ## <summary>
-##	Get the attributes of files in /usr/src.
+##	Get attributes of generic usr src files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4352,7 +4395,7 @@ interface(`files_getattr_usr_src_files',`
 
 ########################################
 ## <summary>
-##	Read files in /usr/src.
+##	Read generic usr src files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4373,7 +4416,7 @@ interface(`files_read_usr_src_files',`
 
 ########################################
 ## <summary>
-##	Execute programs in /usr/src in the caller domain.
+##	Execute generic usr src files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4393,7 +4436,8 @@ interface(`files_exec_usr_src_files',`
 
 ########################################
 ## <summary>
-##	Install a system.map into the /boot directory.
+##	Install system.map into boot
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4412,7 +4456,7 @@ interface(`files_create_kernel_symbol_table',`
 
 ########################################
 ## <summary>
-##	Read system.map in the /boot directory.
+##	Read system.map in boot directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4431,7 +4475,7 @@ interface(`files_read_kernel_symbol_table',`
 
 ########################################
 ## <summary>
-##	Delete a system.map in the /boot directory.
+##	Delete system.map in boot directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4450,7 +4494,7 @@ interface(`files_delete_kernel_symbol_table',`
 
 ########################################
 ## <summary>
-##	Search the contents of /var.
+##	Search generic var directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4468,7 +4512,8 @@ interface(`files_search_var',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to write to /var.
+##	Do not audit attempts to write
+##	generic var directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4486,7 +4531,7 @@ interface(`files_dontaudit_write_var_dirs',`
 
 ########################################
 ## <summary>
-##	Allow write to /var dirs.
+##	Write generic var directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4505,7 +4550,7 @@ interface(`files_write_var_dirs',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to search
-##	the contents of /var.
+##	generic var directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4523,7 +4568,7 @@ interface(`files_dontaudit_search_var',`
 
 ########################################
 ## <summary>
-##	List the contents of /var.
+##	List generic var directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4541,8 +4586,7 @@ interface(`files_list_var',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete directories
-##	in the /var directory.
+##	Manage generic var directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4560,7 +4604,7 @@ interface(`files_manage_var_dirs',`
 
 ########################################
 ## <summary>
-##	Read files in the /var directory.
+##	Read generic var files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4578,7 +4622,7 @@ interface(`files_read_var_files',`
 
 ########################################
 ## <summary>
-##	Read and write files in the /var directory.
+##	Read and write generic var files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4597,11 +4641,11 @@ interface(`files_rw_var_files',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to read and write
-##	files in the /var directory.
+##	generic var files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -4615,7 +4659,7 @@ interface(`files_dontaudit_rw_var_files',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete files in the /var directory.
+##	Manage generic var files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4633,7 +4677,7 @@ interface(`files_manage_var_files',`
 
 ########################################
 ## <summary>
-##	Read symbolic links in the /var directory.
+##	Read generic var symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4651,8 +4695,7 @@ interface(`files_read_var_symlinks',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete symbolic
-##	links in the /var directory.
+##	Manage generic var symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4670,7 +4713,9 @@ interface(`files_manage_var_symlinks',`
 
 ########################################
 ## <summary>
-##	Create objects in the /var directory
+##	Create objects in generic var directories,
+##	with private types using a type
+##	transition.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4698,7 +4743,8 @@ interface(`files_var_filetrans',`
 
 ########################################
 ## <summary>
-##	Get the attributes of the /var/lib directory.
+##	Get attributes of generic
+##	var lib directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4716,7 +4762,7 @@ interface(`files_getattr_var_lib_dirs',`
 
 ########################################
 ## <summary>
-##	Search the /var/lib directory.
+##	Search generic var lib directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4734,8 +4780,8 @@ interface(`files_search_var_lib',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to search the
-##	contents of /var/lib.
+##	Do not audit attempts to search
+##	generic var lib directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4753,7 +4799,7 @@ interface(`files_dontaudit_search_var_lib',`
 
 ########################################
 ## <summary>
-##	List the contents of the /var/lib directory.
+##	List generic var lib directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4771,7 +4817,7 @@ interface(`files_list_var_lib',`
 
 ###########################################
 ## <summary>
-##	Read-write /var/lib directories
+##	Read and write generic var lib directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4789,7 +4835,9 @@ interface(`files_rw_var_lib_dirs',`
 
 ########################################
 ## <summary>
-##	Create objects in the /var/lib directory
+##	Create objects in generic var lib directories,
+##	with private types using a type
+##	transition.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4818,7 +4866,7 @@ interface(`files_var_lib_filetrans',`
 
 ########################################
 ## <summary>
-##	Read generic files in /var/lib.
+##	Read generic var lib files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4837,7 +4885,7 @@ interface(`files_read_var_lib_files',`
 
 ########################################
 ## <summary>
-##	Read generic symbolic links in /var/lib
+##	Read generic var lib symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4855,8 +4903,8 @@ interface(`files_read_var_lib_symlinks',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete the
-##	pseudorandom number generator seed.
+##	Manage pseudorandom number generator
+##	seeds (Deprecated).
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4871,12 +4919,31 @@ interface(`files_manage_urandom_seed',`
 
 	allow $1 var_t:dir search_dir_perms;
 	manage_files_pattern($1, var_lib_t, var_lib_t)
+	refpolicywarn(`$0() has been deprecated, please use files_manage_var_lib_files() instead.')
 ')
 
 ########################################
 ## <summary>
-##	Allow domain to manage mount tables
-##	necessary for rpcd, nfsd, etc.
+##	Manage generic var lib files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`files_manage_var_lib_files',`
+	gen_require(`
+		type var_t, var_lib_t;
+	')
+
+	allow $1 var_t:dir search_dir_perms;
+	manage_files_pattern($1, var_lib_t, var_lib_t)
+')
+
+########################################
+## <summary>
+##	Manage mount tables (Deprecated).
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4891,11 +4958,12 @@ interface(`files_manage_mounttab',`
 
 	allow $1 var_t:dir search_dir_perms;
 	manage_files_pattern($1, var_lib_t, var_lib_t)
+	refpolicywarn(`$0() has been deprecated, please use files_manage_var_lib_files() instead.')
 ')
 
 ########################################
 ## <summary>
-##	Search the locks directory (/var/lock).
+##	Search generic lock directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4913,8 +4981,8 @@ interface(`files_search_locks',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to search the
-##	locks directory (/var/lock).
+##	Do not audit attempts to search
+##	generic lock directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4932,8 +5000,8 @@ interface(`files_dontaudit_search_locks',`
 
 ########################################
 ## <summary>
-##	Add and remove entries in the /var/lock
-##	directories.
+##	Add and remove entries in
+##	generic lock directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4951,7 +5019,7 @@ interface(`files_rw_lock_dirs',`
 
 ########################################
 ## <summary>
-##	Get the attributes of generic lock files.
+##	Get attributes of generic lock files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4971,8 +5039,7 @@ interface(`files_getattr_generic_locks',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete generic
-##	lock files.
+##	Manage generic lock files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5055,8 +5122,9 @@ interface(`files_manage_all_locks',`
 
 ########################################
 ## <summary>
-##	Create an object in the locks directory, with a private
-##	type using a type transition.
+##	Create an object in generic lock directories,
+##	with private types using a type
+##	transition.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5085,8 +5153,8 @@ interface(`files_lock_filetrans',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
-##	of the /var/run directory.
+##	Do not audit attempts to get attributes
+##	of generic pid directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5099,13 +5167,12 @@ interface(`files_dontaudit_getattr_pid_dirs',`
 		type var_run_t;
 	')
 
-	dontaudit $1 var_run_t:dir getattr;
+	dontaudit $1 var_run_t:dir getattr_dir_perms;
 ')
 
 ########################################
 ## <summary>
-##	Search the contents of runtime process
-##	ID directories (/var/run).
+##	Search generic pid directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5123,7 +5190,7 @@ interface(`files_search_pids',`
 
 #######################################
 ## <summary>
-##	Create generic pid directory.
+##	Create generic pid directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5143,7 +5210,7 @@ interface(`files_create_var_run_dirs',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to search
-##	the /var/run directory.
+##	generic pid directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5161,8 +5228,7 @@ interface(`files_dontaudit_search_pids',`
 
 ########################################
 ## <summary>
-##	List the contents of the runtime process
-##	ID directories (/var/run).
+##	List generic pid directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5180,7 +5246,7 @@ interface(`files_list_pids',`
 
 ########################################
 ## <summary>
-##	Read generic process ID files.
+##	Read generic pid files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5199,7 +5265,7 @@ interface(`files_read_generic_pids',`
 
 ########################################
 ## <summary>
-##	Write named generic process ID pipes
+##	Write generic pid pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5212,12 +5278,14 @@ interface(`files_write_generic_pid_pipes',`
 		type var_run_t;
 	')
 
-	allow $1 var_run_t:fifo_file write;
+	allow $1 var_run_t:fifo_file write_fifo_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Create an object in the process ID directory, with a private type.
+##	Create an object in generic pid directories,
+##	with private types using a type
+##	transition.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5246,7 +5314,7 @@ interface(`files_pid_filetrans',`
 
 ########################################
 ## <summary>
-##	Read and write generic process ID files.
+##	Read and write generic pid files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5265,12 +5333,12 @@ interface(`files_rw_generic_pids',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes of
-##	daemon runtime data files.
+##	Do not audit attempts to get
+##	attributes of all pid files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -5279,12 +5347,13 @@ interface(`files_dontaudit_getattr_all_pids',`
 		attribute pidfile;
 	')
 
-	dontaudit $1 pidfile:file getattr;
+	dontaudit $1 pidfile:file getattr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to write to daemon runtime data files.
+##	Do not audit attempts to write to
+##	all pid files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5302,7 +5371,8 @@ interface(`files_dontaudit_write_all_pids',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to ioctl daemon runtime data files.
+##	Do not audit attempts to ioctl
+##	all pid files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5320,7 +5390,7 @@ interface(`files_dontaudit_ioctl_all_pids',`
 
 ########################################
 ## <summary>
-##	Read all process ID files.
+##	Read all pid files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5360,7 +5430,7 @@ interface(`files_mounton_all_poly_members',`
 
 ########################################
 ## <summary>
-##	Delete all process IDs.
+##	Delete all pid content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5384,7 +5454,7 @@ interface(`files_delete_all_pids',`
 
 ########################################
 ## <summary>
-##	Delete all process ID directories.
+##	Delete all pid directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5404,7 +5474,7 @@ interface(`files_delete_all_pid_dirs',`
 
 ########################################
 ## <summary>
-##	Set the attributes of the /var/run directory.
+##	Set attributes of generic pid directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5417,13 +5487,12 @@ interface(`files_setattr_pid_dirs',`
 		type var_run_t;
 	')
 
-	allow $1 var_run_t:dir setattr;
+	allow $1 var_run_t:dir setattr_dir_perms;
 ')
 
 ########################################
 ## <summary>
-##	Search the contents of generic spool
-##	directories (/var/spool).
+##	Search generic spool directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5441,8 +5510,8 @@ interface(`files_search_spool',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to search generic
-##	spool directories.
+##	Do not audit attempts to search
+##	generic spool directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5460,8 +5529,7 @@ interface(`files_dontaudit_search_spool',`
 
 ########################################
 ## <summary>
-##	List the contents of generic spool
-##	(/var/spool) directories.
+##	List generic spool directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5479,8 +5547,7 @@ interface(`files_list_spool',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete generic
-##	spool directories (/var/spool).
+##	Manage generic spool directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5518,8 +5585,7 @@ interface(`files_read_generic_spool',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete generic
-##	spool files.
+##	Manage generic spool files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5538,8 +5604,8 @@ interface(`files_manage_generic_spool',`
 
 ########################################
 ## <summary>
-##	Create objects in the spool directory
-##	with a private type with a type transition.
+##	Create objects in the generic spool directory
+##	with private types with a type transition.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5569,7 +5635,7 @@ interface(`files_spool_filetrans',`
 
 ########################################
 ## <summary>
-##	Allow access to manage all polyinstantiated
+##	Manage all polyinstantiated
 ##	directories on the system.
 ## </summary>
 ## <param name="domain">
@@ -5588,18 +5654,18 @@ interface(`files_polyinstantiate_all',`
 
 	allow $1 self:capability { chown fsetid sys_admin fowner };
 
-	allow $1 polydir:dir { create open getattr search write add_name setattr mounton rmdir };
+	allow $1 polydir:dir { create_dir_perms add_entry_dir_perms setattr_dir_perms mounton delete_dir_perms };
 
 	allow $1 polymember:dir search_dir_perms;
 
-	allow $1 polyparent:dir { getattr mounton };
+	allow $1 polyparent:dir { getattr_dir_perms mounton };
 
 	allow $1 self:process setfscreate;
-	allow $1 polymember: dir { create setattr relabelto };
-	allow $1 polydir: dir { write add_name open };
-	allow $1 polyparent:dir { open read write remove_name add_name relabelfrom relabelto };
+	allow $1 polymember: dir { create_dir_perms setattr_dir_perms relabelto_dir_perms };
+	allow $1 polydir: dir add_entry_dir_perms;
+	allow $1 polyparent:dir { add_entry_dir_perms del_entry_dir_perms list_dir_perms relabel_dir_perms };
 
-	allow $1 poly_t:dir { create mounton };
+	allow $1 poly_t:dir { create_dir_perms mounton };
 	fs_unmount_xattr_fs($1)
 
 	fs_mount_tmpfs($1)
@@ -5633,7 +5699,7 @@ interface(`files_unconfined',`
 
 ########################################
 ## <summary>
-##	Create a core files in /
+##	Create a core files in filesystem root directories
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5651,7 +5717,7 @@ interface(`files_manage_root_files',`
 
 ########################################
 ## <summary>
-##	Create a default directory.
+##	Create default directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5664,7 +5730,7 @@ interface(`files_create_default_dir',`
 		type default_t;
 	')
 
-	allow $1 default_t:dir create;
+	allow $1 default_t:dir create_dir_perms;
 ')
 
 ########################################
@@ -5693,8 +5759,7 @@ interface(`files_root_filetrans_default',`
 
 ########################################
 ## <summary>
-##	manage generic symbolic links
-##	in the /var/run directory.
+##	manage generic pid symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5707,13 +5772,13 @@ interface(`files_manage_generic_pids_symlinks',`
 		type var_run_t;
 	')
 
-	manage_lnk_files_pattern($1,var_run_t,var_run_t)
+	manage_lnk_files_pattern($1, var_run_t, var_run_t)
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to getattr
-##	all tmpfs files.
+##	Do not audit attempts to get attributes
+##	of all tmpfs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5726,12 +5791,12 @@ interface(`files_dontaudit_getattr_tmpfs_files',`
 		attribute tmpfsfile;
 	')
 
-	allow $1 tmpfsfile:file getattr;
+	allow $1 tmpfsfile:file getattr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to read security files 
+##	Do not audit attempts to read security files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5749,7 +5814,8 @@ interface(`files_dontaudit_read_security_files',`
 
 ########################################
 ## <summary>
-##	rw any files inherited from another process
+##	Read and write any files inherited
+##	from processes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5770,7 +5836,7 @@ interface(`files_rw_all_inherited_files',`
 
 ########################################
 ## <summary>
-##	Allow any file point to be the entrypoint of this domain
+##	Allow any file point to be the entrypoint of this domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5787,8 +5853,8 @@ interface(`files_entrypoint_all_files',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to rw inherited file perms
-##	of non security files.
+##	Do not audit attempts to read and write
+##	inherited file perms of non security files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -5821,12 +5887,12 @@ interface(`files_dontaudit_leaks',`
 	')
 
 	dontaudit $1 file_type:file rw_inherited_file_perms;
-	dontaudit $1 file_type:lnk_file { read };
+	dontaudit $1 file_type:lnk_file read;
 ')
 
 ########################################
 ## <summary>
-##	Allow domain to create_file_as all types
+##	Create file as all types.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

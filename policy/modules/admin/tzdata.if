@@ -22,7 +22,7 @@ interface(`tzdata_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute a domain transition to
+##	Execute domain transitions to
 ##	run Timezone data and allow the
 ##	specified role the Timezone data
 ##	domain.

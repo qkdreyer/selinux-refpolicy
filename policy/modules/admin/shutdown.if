@@ -84,7 +84,7 @@ interface(`shutdown_role',`
 
 ########################################
 ## <summary>
-##	Recieve Child singal from Shutdown.
+##	Recieve child signals from Shutdown.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

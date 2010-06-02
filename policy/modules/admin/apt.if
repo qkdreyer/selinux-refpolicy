@@ -143,7 +143,7 @@ interface(`apt_use_ptys',`
 
 ########################################
 ## <summary>
-##	Read APT package cache.
+##	Read APT package cache content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -164,11 +164,11 @@ interface(`apt_read_cache',`
 
 ########################################
 ## <summary>
-##	Read APT package database.
+##	Read APT package database content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowes access.
+##	Domain allowed access.
 ##	</summary>
 ## </param>
 #
@@ -185,7 +185,7 @@ interface(`apt_read_db',`
 
 ########################################
 ## <summary>
-##	Manage APT package database.
+##	Manage APT package database content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -207,7 +207,7 @@ interface(`apt_manage_db',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to manage APT
-##	package database.
+##	package database content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

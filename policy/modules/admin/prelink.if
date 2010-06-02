@@ -27,7 +27,7 @@ interface(`prelink_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute the Prelink.
+##	Execute Prelink.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -73,7 +73,7 @@ interface(`prelink_run',`
 
 ########################################
 ## <summary>
-##	Make the specified file type
+##	Make specified file types
 ##	Prelinkable.
 ## </summary>
 ## <param name="file_type">

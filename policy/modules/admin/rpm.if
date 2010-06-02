@@ -126,7 +126,7 @@ interface(`rpm_exec',`
 
 ########################################
 ## <summary>
-##	Send a null signal to RPM.
+##	Send null signals to RPM.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -496,7 +496,7 @@ interface(`rpm_manage_cache',`
 
 ########################################
 ## <summary>
-##	Read RPM package database content.
+##	Read RPM lib content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -518,7 +518,7 @@ interface(`rpm_read_db',`
 
 ########################################
 ## <summary>
-##	Delete RPM package database files.
+##	Delete RPM lib files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -537,7 +537,7 @@ interface(`rpm_delete_db',`
 
 ########################################
 ## <summary>
-##	Manage RPM package database content.
+##	Manage RPM lib content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -558,7 +558,7 @@ interface(`rpm_manage_db',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to manage
-##	RPM package database content.
+##	RPM lib content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -597,8 +597,8 @@ interface(`rpm_manage_pid_files',`
 
 ######################################
 ## <summary>
-##	Create files in /var/run with the
-##	RPM PID file type.
+##	Create files in PID directories
+##	with RPM PID file types.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

@@ -51,7 +51,7 @@ interface(`quota_run',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the
+##	Do not audit attempts to get
 ##	attributes of filesystem Quota data
 ##	files.
 ## </summary>

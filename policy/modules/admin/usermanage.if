@@ -136,7 +136,7 @@ interface(`usermanage_domtrans_passwd',`
 
 ########################################
 ## <summary>
-##	Send kill signal to Passwd.
+##	Send kill signals to Passwd.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

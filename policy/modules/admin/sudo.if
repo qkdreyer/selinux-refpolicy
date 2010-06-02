@@ -149,7 +149,7 @@ template(`sudo_role_template',`
 
 ########################################
 ## <summary>
-##	Send a Child signal to Sudo.
+##	Send child signals to Sudo.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

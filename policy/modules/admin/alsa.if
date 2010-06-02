@@ -22,8 +22,7 @@ interface(`alsa_domtrans',`
 
 ########################################
 ## <summary>
-##	Read and write access to Alsa
-##	semaphores.
+##	Read and write Alsa semaphores.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -41,8 +40,7 @@ interface(`alsa_rw_semaphores',`
 
 ########################################
 ## <summary>
-##	Read and write access to Alsa
-##	shared memory.
+##	Read and write Alsa shared memory.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

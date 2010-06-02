@@ -23,7 +23,7 @@ interface(`accountsd_domtrans',`
 
 ########################################
 ## <summary>
-##	Search Accounts  Service daemon
+##	Search Accounts Service daemon
 ##	lib directories.
 ## </summary>
 ## <param name="domain">
@@ -43,7 +43,7 @@ interface(`accountsd_search_lib',`
 
 ########################################
 ## <summary>
-##	Read Accounts Service Daemon
+##	Read Accounts Service daemon
 ##	lib files.
 ## </summary>
 ## <param name="domain">

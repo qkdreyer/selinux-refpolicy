@@ -24,7 +24,7 @@ interface(`amanda_domtrans_recover',`
 ## <summary>
 ##	Execute a domain transition to
 ##	run Amanda Recover and allow the
-##	specified role the Amanda Recover
+##	specified roles the Amanda Recover
 ##	domain.
 ## </summary>
 ## <param name="domain">
