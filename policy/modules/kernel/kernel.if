@@ -2,8 +2,8 @@
 
 ########################################
 ## <summary>
-##	Start userland processes
-##	by transitioning to the specified domain.
+##	Start userland processes by
+##	transitioning to specified domains.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -12,7 +12,7 @@
 ## </param>
 ## <param name="entrypoint">
 ##	<summary>
-##	The executable type for the entrypoint.
+##	The entryfile executable type.
 ##	</summary>
 ## </param>
 #
@@ -26,8 +26,8 @@ interface(`kernel_domtrans_to',`
 
 ########################################
 ## <summary>
-##	Start userland processes
-##	by transitioning to the specified domain,
+##	Start userland processes by
+##	transitioning to specified domains,
 ##	with a range transition.
 ## </summary>
 ## <param name="domain">
@@ -37,7 +37,7 @@ interface(`kernel_domtrans_to',`
 ## </param>
 ## <param name="entrypoint">
 ##	<summary>
-##	The executable type for the entrypoint.
+##	The entryfile executable type.
 ##	</summary>
 ## </param>
 ## <param name="range">
@@ -65,8 +65,9 @@ interface(`kernel_ranged_domtrans_to',`
 
 ########################################
 ## <summary>
-##	Allows the kernel to mount filesystems on
-##	the specified directory type.
+##	Allows the kernel to mount
+##	filesystems on specified directory
+##	types.
 ## </summary>
 ## <param name="directory_type">
 ##	<summary>
@@ -84,7 +85,7 @@ interface(`kernel_rootfs_mountpoint',`
 
 ########################################
 ## <summary>
-##	Set the process group of kernel threads.
+##	Set process groups of kernel threads.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -102,7 +103,7 @@ interface(`kernel_setpgid',`
 
 ########################################
 ## <summary>
-##	Set the priority of kernel threads.
+##	Set priorities of kernel threads.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -120,7 +121,7 @@ interface(`kernel_setsched',`
 
 ########################################
 ## <summary>
-##	Send a SIGCHLD signal to kernel threads.
+##	Send child signals to kernel threads.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -138,7 +139,7 @@ interface(`kernel_sigchld',`
 
 ########################################
 ## <summary>
-##	Send a kill signal to kernel threads.
+##	Send kill signals to kernel threads.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -156,7 +157,7 @@ interface(`kernel_kill',`
 
 ########################################
 ## <summary>
-##	Send a generic signal to kernel threads.
+##	Send generic signals to kernel threads.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -174,8 +175,8 @@ interface(`kernel_signal',`
 
 ########################################
 ## <summary>
-##	Allows the kernel to share state information with
-##	the caller.
+##	Allows the kernel to share state
+##	information with the caller.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -230,7 +231,7 @@ interface(`kernel_dontaudit_use_fds',`
 
 ########################################
 ## <summary>
-##	Read and write kernel unnamed pipes.
+##	Read and write kernel pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -243,12 +244,13 @@ interface(`kernel_rw_pipes',`
 		type kernel_t;
 	')
 
-	allow $1 kernel_t:fifo_file { read write };
+	allow $1 kernel_t:fifo_file rw_fifo_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read and write kernel unix datagram sockets.
+##	Read and write kernel unix datagram
+##	sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -261,12 +263,13 @@ interface(`kernel_rw_unix_dgram_sockets',`
 		type kernel_t;
 	')
 
-	allow $1 kernel_t:unix_dgram_socket { read write ioctl };
+	allow $1 kernel_t:unix_dgram_socket rw_socket_perms;
 ')
 
 ########################################
 ## <summary>
-##	Send messages to kernel unix datagram sockets.
+##	Send messages to kernel unix
+##	datagram sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -284,7 +287,7 @@ interface(`kernel_dgram_send',`
 
 ########################################
 ## <summary>
-##	Receive messages from kernel TCP sockets.  (Deprecated)
+##	Receive messages from kernel TCP sockets. (Deprecated)
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -298,7 +301,7 @@ interface(`kernel_tcp_recvfrom',`
 
 ########################################
 ## <summary>
-##	Send UDP network traffic to the kernel.  (Deprecated)
+##	Send UDP network traffic to the kernel. (Deprecated)
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -312,7 +315,7 @@ interface(`kernel_udp_send',`
 
 ########################################
 ## <summary>
-##	Receive messages from kernel UDP sockets.  (Deprecated)
+##	Receive messages from kernel UDP sockets. (Deprecated)
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -326,7 +329,7 @@ interface(`kernel_udp_recvfrom',`
 
 ########################################
 ## <summary>
-##	Load kernel modules
+##	Load kernel modules.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -348,7 +351,7 @@ interface(`kernel_load_module',`
 
 ########################################
 ## <summary>
-##	Allow search the kernel key ring.
+##	Search kernel key ring.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -366,11 +369,12 @@ interface(`kernel_search_key',`
 
 ########################################
 ## <summary>
-##	dontaudit search the kernel key ring.
+##	Do not audit attempts to search
+##	kernel key ring.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -384,7 +388,7 @@ interface(`kernel_dontaudit_search_key',`
 
 ########################################
 ## <summary>
-##	Allow link to the kernel key ring.
+##	Link to kernel key ring.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -402,11 +406,12 @@ interface(`kernel_link_key',`
 
 ########################################
 ## <summary>
-##	dontaudit link to the kernel key ring.
+##	Do not audit attempts to link
+##	kernel key ring.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -420,7 +425,7 @@ interface(`kernel_dontaudit_link_key',`
 
 ########################################
 ## <summary>
-##	Read the ring buffer.
+##	Read ring buffer.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -438,7 +443,7 @@ interface(`kernel_read_ring_buffer',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to read the ring buffer.
+##	Do not audit attempts to read ring buffer.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -456,7 +461,8 @@ interface(`kernel_dontaudit_read_ring_buffer',`
 
 ########################################
 ## <summary>
-##	Change the level of kernel messages logged to the console.
+##	Change the level of kernel messages
+##	logged to the console.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -492,7 +498,7 @@ interface(`kernel_clear_ring_buffer',`
 
 ########################################
 ## <summary>
-##	Request the kernel to load a module.
+##	Request kernel to load modules.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -510,8 +516,8 @@ interface(`kernel_request_load_module',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to request the
-##	kernel to load a module.
+##	Do not audit attempts to request
+##	kernel to load modules.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -529,7 +535,8 @@ interface(`kernel_dontaudit_request_load_module',`
 
 ########################################
 ## <summary>
-##	Get information on all System V IPC objects.
+##	Get information on all System V IPC
+##	objects.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -547,7 +554,8 @@ interface(`kernel_get_sysvipc_info',`
 
 ########################################
 ## <summary>
-##	Get the attributes of a kernel debugging filesystem.
+##	Get attributes of kernel debugging
+##	filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -565,7 +573,7 @@ interface(`kernel_getattr_debugfs',`
 
 ########################################
 ## <summary>
-##	Mount a kernel debugging filesystem.
+##	Mount kernel debugging filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -583,7 +591,7 @@ interface(`kernel_mount_debugfs',`
 
 ########################################
 ## <summary>
-##	Unmount a kernel debugging filesystem.
+##	Unmount kernel debugging filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -601,7 +609,7 @@ interface(`kernel_unmount_debugfs',`
 
 ########################################
 ## <summary>
-##	Remount a kernel debugging filesystem.
+##	Remount kernel debugging filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -619,7 +627,7 @@ interface(`kernel_remount_debugfs',`
 
 ########################################
 ## <summary>
-##	Search the contents of a kernel debugging filesystem.
+##	Search debugfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -637,7 +645,8 @@ interface(`kernel_search_debugfs',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to search the kernel debugging filesystem.
+##	Do not audit attempts to search
+##	debugfs directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -655,7 +664,7 @@ interface(`kernel_dontaudit_search_debugfs',`
 
 ########################################
 ## <summary>
-##	Read information from the debugging filesystem.
+##	Read dbugfs content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -675,7 +684,7 @@ interface(`kernel_read_debugfs',`
 
 ########################################
 ## <summary>
-##	Mount a kernel VM filesystem.
+##	Mount kernel VM filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -693,7 +702,7 @@ interface(`kernel_mount_kvmfs',`
 
 ########################################
 ## <summary>
-##	Unmount the proc filesystem.
+##	Unmount proc filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -711,7 +720,7 @@ interface(`kernel_unmount_proc',`
 
 ########################################
 ## <summary>
-##	Get the attributes of the proc filesystem.
+##	Get attributes of proc filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -729,7 +738,7 @@ interface(`kernel_getattr_proc',`
 
 ########################################
 ## <summary>
-##	Search directories in /proc.
+##	Search proc directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -747,7 +756,7 @@ interface(`kernel_search_proc',`
 
 ########################################
 ## <summary>
-##	List the contents of directories in /proc.
+##	List proc directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -765,8 +774,8 @@ interface(`kernel_list_proc',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to list the
-##	contents of directories in /proc.
+##	Do not audit attempts to list proc
+## 	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -784,7 +793,7 @@ interface(`kernel_dontaudit_list_proc',`
 
 ########################################
 ## <summary>
-##	Get the attributes of files in /proc.
+##	Get attributes of proc files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -802,7 +811,7 @@ interface(`kernel_getattr_proc_files',`
 
 ########################################
 ## <summary>
-##	Read generic symbolic links in /proc.
+##	Read generic proc symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -820,7 +829,7 @@ interface(`kernel_read_proc_symlinks',`
 
 ########################################
 ## <summary>
-##	Read system state information in /proc.
+##	Read proc content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -835,13 +844,12 @@ interface(`kernel_read_system_state',`
 
 	read_files_pattern($1, proc_t, proc_t)
 	read_lnk_files_pattern($1, proc_t, proc_t)
-
 	list_dirs_pattern($1, proc_t, proc_t)
 ')
 
 ########################################
 ## <summary>
-##	Write to generic proc entries.
+##	Write proc files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -859,8 +867,8 @@ interface(`kernel_write_proc_files',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts by caller to
-##	read system state information in proc.
+##	Do not audit attempts to read proc
+##	files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -878,8 +886,8 @@ interface(`kernel_dontaudit_read_system_state',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts by caller to
-##	read system state information in proc.
+##	Do not audit attempts to read proc
+##	symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -892,12 +900,12 @@ interface(`kernel_dontaudit_read_proc_symlinks',`
 		type proc_t;
 	')
 
-	dontaudit $1 proc_t:lnk_file read;
+	dontaudit $1 proc_t:lnk_file read_lnk_file_perms;
 ')
 
 #######################################
 ## <summary>
-##	Read and write state information for AFS.
+##	Read and write proc afs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -916,7 +924,7 @@ interface(`kernel_rw_afs_state',`
 
 #######################################
 ## <summary>
-##	Read the state information for software raid.
+##	Read proc mdstat files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -935,7 +943,7 @@ interface(`kernel_read_software_raid_state',`
 
 #######################################
 ## <summary>
-##	Read and set the state information for software raid.
+##	Read and write proc mdstat files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -954,7 +962,7 @@ interface(`kernel_rw_software_raid_state',`
 
 ########################################
 ## <summary>
-##	Get attribues of core kernel interface.
+##	Get attributes of proc kcore files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -973,8 +981,8 @@ interface(`kernel_getattr_core_if',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes of
-##	core kernel interfaces.
+##	Do not audit attempts to get the
+##	attributes of proc kcore files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -987,12 +995,12 @@ interface(`kernel_dontaudit_getattr_core_if',`
 		type proc_kcore_t;
 	')
 
-	dontaudit $1 proc_kcore_t:file getattr;
+	dontaudit $1 proc_kcore_t:file getattr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read the core kernel interface.
+##	Read core kernel interface.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1016,7 +1024,7 @@ interface(`kernel_read_core_if',`
 ########################################
 ## <summary>
 ##	Read kernel messages
-##	using the /proc/kmsg interface.
+##	using the proc kmsg interface.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1037,8 +1045,7 @@ interface(`kernel_read_messages',`
 
 ########################################
 ## <summary>
-##	Get the attributes of kernel message
-##	interface (/proc/kmsg).
+##	Get attributes of proc kmsg files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1056,9 +1063,8 @@ interface(`kernel_getattr_message_if',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes of kernel
-##	message interfaces.
-## </summary>
+##	Do not audit attempts to get
+##	attributes of proc kmesg files.
 ## <param name="domain">
 ##	<summary>
 ##	Domain to not audit.
@@ -1070,13 +1076,13 @@ interface(`kernel_dontaudit_getattr_message_if',`
 		type proc_kmsg_t, proc_t;
 	')
 
-	dontaudit $1 proc_kmsg_t:file getattr;
+	dontaudit $1 proc_kmsg_t:file getattr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to search the network
-##	state directory.
+##	Do not audit attempts to search
+##	proc net directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1089,12 +1095,12 @@ interface(`kernel_dontaudit_search_network_state',`
 		type proc_net_t;
 	')
 
-	dontaudit $1 proc_net_t:dir search;
+	dontaudit $1 proc_net_t:dir search_dir_perms;
 ')
 
 ########################################
 ## <summary>
-##	Allow searching of network state directory.
+##	Search proc net directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1112,7 +1118,7 @@ interface(`kernel_search_network_state',`
 
 ########################################
 ## <summary>
-##	Read the network state information.
+##	Read proc net content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1127,13 +1133,12 @@ interface(`kernel_read_network_state',`
 
 	read_files_pattern($1, { proc_t proc_net_t }, proc_net_t)
 	read_lnk_files_pattern($1, { proc_t proc_net_t }, proc_net_t)
-
 	list_dirs_pattern($1, proc_t, proc_net_t)
 ')
 
 ########################################
 ## <summary>
-##	Read the network state symbolic links.
+##	Read proc net symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1152,7 +1157,7 @@ interface(`kernel_read_network_state_symlinks',`
 
 ########################################
 ## <summary>
-##	Allow searching of xen state directory.
+##	Search proc xen directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1170,8 +1175,8 @@ interface(`kernel_search_xen_state',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to search the xen
-##	state directory.
+##	Do not audit attempts to search
+##	proc xen directories
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1184,12 +1189,12 @@ interface(`kernel_dontaudit_search_xen_state',`
 		type proc_xen_t;
 	')
 
-	dontaudit $1 proc_xen_t:dir search;
+	dontaudit $1 proc_xen_t:dir search_dir_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read the xen state information.
+##	Read proc xen content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1209,7 +1214,7 @@ interface(`kernel_read_xen_state',`
 
 ########################################
 ## <summary>
-##	Read the xen state symbolic links.
+##	Read proc xen symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1228,7 +1233,7 @@ interface(`kernel_read_xen_state_symlinks',`
 
 ########################################
 ## <summary>
-##	Write xen state information.
+##	Write proc xen files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1260,12 +1265,13 @@ interface(`kernel_list_all_proc',`
 	')
 
 	allow $1 proc_type:dir list_dir_perms;
-	allow $1 proc_type:file getattr;
+	allow $1 proc_type:file getattr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to list all proc directories.
+##	Do not audit attempts to list all
+##	proc directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1279,13 +1285,13 @@ interface(`kernel_dontaudit_list_all_proc',`
 	')
 
 	dontaudit $1 proc_type:dir list_dir_perms;
-	dontaudit $1 proc_type:file getattr;
+	dontaudit $1 proc_type:file getattr_file_perms;
 ')
 
 ########################################
 ## <summary>
 ##	Do not audit attempts to search
-##	the base directory of sysctls.
+##	sysctl directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1298,7 +1304,7 @@ interface(`kernel_dontaudit_search_sysctl',`
 		type sysctl_t;
 	')
 
-	dontaudit $1 sysctl_t:dir search;
+	dontaudit $1 sysctl_t:dir search_dir_perms;
 ')
 
 ########################################
@@ -1322,7 +1328,7 @@ interface(`kernel_read_sysctl',`
 
 ########################################
 ## <summary>
-##	Read the device sysctls.
+##	Read device sysctl content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1341,7 +1347,7 @@ interface(`kernel_read_device_sysctls',`
 
 ########################################
 ## <summary>
-##	Read and write device sysctls.
+##	Read and write device sysctl content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1360,7 +1366,8 @@ interface(`kernel_rw_device_sysctls',`
 
 ########################################
 ## <summary>
-##	Search virtual memory sysctls.
+##	Search virtual memory sysctl
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1378,7 +1385,7 @@ interface(`kernel_search_vm_sysctl',`
 
 ########################################
 ## <summary>
-##	Read virtual memory sysctls.
+##	Read virtual memory sysctl content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1397,7 +1404,8 @@ interface(`kernel_read_vm_sysctls',`
 
 ########################################
 ## <summary>
-##	Read and write virtual memory sysctls.
+##	Read and write virtual memory
+##	sysctl content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1436,7 +1444,8 @@ interface(`kernel_search_network_sysctl',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to search network sysctl directories.
+##	Do not audit attempts to search
+##	network sysctl directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1449,12 +1458,12 @@ interface(`kernel_dontaudit_search_network_sysctl',`
 		type sysctl_net_t;
 	')
 
-	dontaudit $1 sysctl_net_t:dir search;
+	dontaudit $1 sysctl_net_t:dir search_dir_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read network sysctls.
+##	Read network sysctl content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1473,7 +1482,8 @@ interface(`kernel_read_net_sysctls',`
 
 ########################################
 ## <summary>
-##	Modify contents of sysctl network files.
+##	Read and write network sysctl
+##	network files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1492,8 +1502,8 @@ interface(`kernel_rw_net_sysctls',`
 
 ########################################
 ## <summary>
-##	Read unix domain
-##	socket sysctls.
+##	Read unix domain socket sysctl
+##	content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1513,7 +1523,7 @@ interface(`kernel_read_unix_sysctls',`
 ########################################
 ## <summary>
 ##	Read and write unix domain
-##	socket sysctls.
+##	socket sysctl files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1532,7 +1542,7 @@ interface(`kernel_rw_unix_sysctls',`
 
 ########################################
 ## <summary>
-##	Read the hotplug sysctl.
+##	Read hotplug sysctl content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1551,7 +1561,7 @@ interface(`kernel_read_hotplug_sysctls',`
 
 ########################################
 ## <summary>
-##	Read and write the hotplug sysctl.
+##	Read and write hotplug sysctl files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1570,7 +1580,7 @@ interface(`kernel_rw_hotplug_sysctls',`
 
 ########################################
 ## <summary>
-##	Read the modprobe sysctl.
+##	Read modprobe sysctl content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1589,7 +1599,7 @@ interface(`kernel_read_modprobe_sysctls',`
 
 ########################################
 ## <summary>
-##	Read and write the modprobe sysctl.
+##	Read and write modprobe sysctl files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1608,7 +1618,8 @@ interface(`kernel_rw_modprobe_sysctls',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to search generic kernel sysctls.
+##	Do not audit attempts to search
+##	generic kernel sysctl directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1621,12 +1632,12 @@ interface(`kernel_dontaudit_search_kernel_sysctl',`
 		type sysctl_kernel_t;
 	')
 
-	dontaudit $1 sysctl_kernel_t:dir search;
+	dontaudit $1 sysctl_kernel_t:dir search_dir_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read generic crypto sysctls.
+##	Read generic crypto sysctl content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1645,7 +1656,7 @@ interface(`kernel_read_crypto_sysctls',`
 
 ########################################
 ## <summary>
-##	Read general kernel sysctls.
+##	Read general kernel sysctl content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1664,7 +1675,8 @@ interface(`kernel_read_kernel_sysctls',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to write generic kernel sysctls.
+##	Do not audit attempts to write
+##	generic kernel sysctl files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1677,12 +1689,13 @@ interface(`kernel_dontaudit_write_kernel_sysctl',`
 		type sysctl_kernel_t;
 	')
 
-	dontaudit $1 sysctl_kernel_t:file write;
+	dontaudit $1 sysctl_kernel_t:file write_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read and write generic kernel sysctls.
+##	Read and write generic kernel
+##	sysctl files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1701,7 +1714,7 @@ interface(`kernel_rw_kernel_sysctl',`
 
 ########################################
 ## <summary>
-##	Read filesystem sysctls.
+##	Read filesystem sysctl content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1720,7 +1733,7 @@ interface(`kernel_read_fs_sysctls',`
 
 ########################################
 ## <summary>
-##	Read and write fileystem sysctls.
+##	Read and write fileystem sysctl files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1739,7 +1752,7 @@ interface(`kernel_rw_fs_sysctls',`
 
 ########################################
 ## <summary>
-##	Read IRQ sysctls.
+##	Read IRQ sysctls content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1758,7 +1771,7 @@ interface(`kernel_read_irq_sysctls',`
 
 ########################################
 ## <summary>
-##	Read and write IRQ sysctls.
+##	Read and write IRQ sysctl files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1777,7 +1790,7 @@ interface(`kernel_rw_irq_sysctls',`
 
 ########################################
 ## <summary>
-##	Read RPC sysctls.
+##	Read RPC sysctl content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1796,7 +1809,7 @@ interface(`kernel_read_rpc_sysctls',`
 
 ########################################
 ## <summary>
-##	Read and write RPC sysctls.
+##	Read and write RPC sysctl files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1815,7 +1828,8 @@ interface(`kernel_rw_rpc_sysctls',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to list all sysctl directories.
+##	Do not audit attempts to list all
+##	sysctl directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1834,7 +1848,7 @@ interface(`kernel_dontaudit_list_all_sysctls',`
 
 ########################################
 ## <summary>
-##	Read all sysctls.
+##	Read all sysctl content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1854,7 +1868,7 @@ interface(`kernel_read_all_sysctls',`
 
 ########################################
 ## <summary>
-##	Read and write all sysctls.
+##	Read and write all sysctl files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1871,12 +1885,12 @@ interface(`kernel_rw_all_sysctls',`
 	rw_files_pattern($1, { proc_t proc_net_t sysctl_type }, sysctl_type)
 
 	allow $1 sysctl_type:dir list_dir_perms;
-	allow $1 sysctl_type:file setattr;
+	allow $1 sysctl_type:file setattr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Send a kill signal to unlabeled processes.
+##	Send kill signals to unlabeled processes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1894,7 +1908,7 @@ interface(`kernel_kill_unlabeled',`
 
 ########################################
 ## <summary>
-##	Mount a kernel unlabeled filesystem.
+##	Mount unlabeled filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1912,7 +1926,7 @@ interface(`kernel_mount_unlabeled',`
 
 ########################################
 ## <summary>
-##	Unmount a kernel unlabeled filesystem.
+##	Unmount unlabeled filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1930,7 +1944,8 @@ interface(`kernel_unmount_unlabeled',`
 
 ########################################
 ## <summary>
-##	Send general signals to unlabeled processes.
+##	Send general signals to unlabeled
+##	processes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1948,7 +1963,8 @@ interface(`kernel_signal_unlabeled',`
 
 ########################################
 ## <summary>
-##	Send a null signal to unlabeled processes.
+##	Send null signals to unlabeled
+##	processes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1966,7 +1982,8 @@ interface(`kernel_signull_unlabeled',`
 
 ########################################
 ## <summary>
-##	Send a stop signal to unlabeled processes.
+##	Send stop signals to unlabeled
+##	processes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1984,7 +2001,8 @@ interface(`kernel_sigstop_unlabeled',`
 
 ########################################
 ## <summary>
-##	Send a child terminated signal to unlabeled processes.
+##	Send child signals to unlabeled
+##	processes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2020,7 +2038,7 @@ interface(`kernel_list_unlabeled',`
 
 ########################################
 ## <summary>
-##	Read the process state (/proc/pid) of all unlabeled_t.
+##	Read unlabeled state content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2040,7 +2058,8 @@ interface(`kernel_read_unlabeled_state',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to list unlabeled directories.
+##	Do not audit attempts to list
+##	unlabeled directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2094,8 +2113,8 @@ interface(`kernel_rw_unlabeled_files',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the
-##	attributes of an unlabeled file.
+##	Do not audit attempts to get
+##	attributes of unlabeled files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2108,13 +2127,13 @@ interface(`kernel_dontaudit_getattr_unlabeled_files',`
 		type unlabeled_t;
 	')
 
-	dontaudit $1 unlabeled_t:file getattr;
+	dontaudit $1 unlabeled_t:file getattr_file_perms;
 ')
 
 ########################################
 ## <summary>
 ##	Do not audit attempts to
-##	read an unlabeled file.
+##	read unlabeled files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2127,12 +2146,12 @@ interface(`kernel_dontaudit_read_unlabeled_files',`
 		type unlabeled_t;
 	')
 
-	dontaudit $1 unlabeled_t:file { getattr read };
+	dontaudit $1 unlabeled_t:file read_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the
+##	Do not audit attempts to get
 ##	attributes of unlabeled symbolic links.
 ## </summary>
 ## <param name="domain">
@@ -2146,13 +2165,13 @@ interface(`kernel_dontaudit_getattr_unlabeled_symlinks',`
 		type unlabeled_t;
 	')
 
-	dontaudit $1 unlabeled_t:lnk_file getattr;
+	dontaudit $1 unlabeled_t:lnk_file getattr_lnk_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the
-##	attributes of unlabeled named pipes.
+##	Do not audit attempts to get
+##	attributes of unlabeled pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2165,13 +2184,13 @@ interface(`kernel_dontaudit_getattr_unlabeled_pipes',`
 		type unlabeled_t;
 	')
 
-	dontaudit $1 unlabeled_t:fifo_file getattr;
+	dontaudit $1 unlabeled_t:fifo_file getattr_fifo_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the
-##	attributes of unlabeled named sockets.
+##	Do not audit attempts to get
+##	attributes of unlabeled sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2184,13 +2203,13 @@ interface(`kernel_dontaudit_getattr_unlabeled_sockets',`
 		type unlabeled_t;
 	')
 
-	dontaudit $1 unlabeled_t:sock_file getattr;
+	dontaudit $1 unlabeled_t:sock_file getattr_sock_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get attributes for
-##	unlabeled block devices.
+##	Do not audit attempts to get attributes
+##	of unlabeled block devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2203,12 +2222,13 @@ interface(`kernel_dontaudit_getattr_unlabeled_blk_files',`
 		type unlabeled_t;
 	')
 
-	dontaudit $1 unlabeled_t:blk_file getattr;
+	dontaudit $1 unlabeled_t:blk_file getattr_blk_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read and write unlabeled block device nodes.
+##	Read and write unlabeled block
+##	devices.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2221,12 +2241,12 @@ interface(`kernel_rw_unlabeled_blk_files',`
 		type unlabeled_t;
 	')
 
-	allow $1 unlabeled_t:blk_file getattr;
+	allow $1 unlabeled_t:blk_file rw_blk_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get attributes for
+##	Do not audit attempts to get attributes of
 ##	unlabeled character devices.
 ## </summary>
 ## <param name="domain">
@@ -2240,12 +2260,12 @@ interface(`kernel_dontaudit_getattr_unlabeled_chr_files',`
 		type unlabeled_t;
 	')
 
-	dontaudit $1 unlabeled_t:chr_file getattr;
+	dontaudit $1 unlabeled_t:chr_file getattr_chr_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Relabel unlabeled directories.
+##	Relabel from unlabeled directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2257,13 +2277,14 @@ interface(`kernel_relabelfrom_unlabeled_dirs',`
 	gen_require(`
 		type unlabeled_t;
 	')
-
-	allow $1 unlabeled_t:dir { list_dir_perms relabelfrom };
+	
+	kernel_list_unlabeled($1)
+	allow $1 unlabeled_t:dir { getattr_dir_perms relabelfrom_dir_perms };
 ')
 
 ########################################
 ## <summary>
-##	Relabel unlabeled files.
+##	Relabel from unlabeled files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2277,12 +2298,12 @@ interface(`kernel_relabelfrom_unlabeled_files',`
 	')
 
 	kernel_list_unlabeled($1)
-	allow $1 unlabeled_t:file { getattr relabelfrom };
+	allow $1 unlabeled_t:file { getattr_file_perms relabelfrom_file_perms };
 ')
 
 ########################################
 ## <summary>
-##	Relabel unlabeled symbolic links.
+##	Relabel from unlabeled symbolic links.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2296,12 +2317,12 @@ interface(`kernel_relabelfrom_unlabeled_symlinks',`
 	')
 
 	kernel_list_unlabeled($1)
-	allow $1 unlabeled_t:lnk_file { getattr relabelfrom };
+	allow $1 unlabeled_t:lnk_file { getattr_lnk_file_perms relabelfrom_lnk_file_perms };
 ')
 
 ########################################
 ## <summary>
-##	Relabel unlabeled named pipes.
+##	Relabel from unlabeled pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2315,12 +2336,12 @@ interface(`kernel_relabelfrom_unlabeled_pipes',`
 	')
 
 	kernel_list_unlabeled($1)
-	allow $1 unlabeled_t:fifo_file { getattr relabelfrom };
+	allow $1 unlabeled_t:fifo_file { getattr_fifo_file_perms relabelfrom_fifo_file_perms };
 ')
 
 ########################################
 ## <summary>
-##	Relabel unlabeled named sockets.
+##	Relabel from unlabeled sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2334,13 +2355,13 @@ interface(`kernel_relabelfrom_unlabeled_sockets',`
 	')
 
 	kernel_list_unlabeled($1)
-	allow $1 unlabeled_t:sock_file { getattr relabelfrom };
+	allow $1 unlabeled_t:sock_file { getattr_sock_file_perms relabelfrom_sock_file_perms };
 ')
 
 ########################################
 ## <summary>
-##	Send and receive messages from an
-##	unlabeled IPSEC association.
+##	Send and receive messages from
+##	unlabeled IPSEC associations.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2354,14 +2375,13 @@ interface(`kernel_sendrecv_unlabeled_association',`
 	')
 
 	allow $1 unlabeled_t:association { sendto recvfrom };
-
 	allow $1 unlabeled_t:packet { send recv };
 ')
 
 ########################################
 ## <summary>
 ##	Do not audit attempts to send and receive messages
-##	from an	unlabeled IPSEC association.
+##	from unlabeled IPSEC associations.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2379,7 +2399,8 @@ interface(`kernel_dontaudit_sendrecv_unlabeled_association',`
 
 ########################################
 ## <summary>
-##	Receive TCP packets from an unlabeled connection.
+##	Receive TCP packets from unlabeled
+##	connections.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2397,8 +2418,9 @@ interface(`kernel_tcp_recvfrom_unlabeled',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to receive TCP packets from an unlabeled
-##	connection.
+##	Do not audit attempts to receive
+##	TCP packets from unlabeled
+##	connections.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2416,7 +2438,8 @@ interface(`kernel_dontaudit_tcp_recvfrom_unlabeled',`
 
 ########################################
 ## <summary>
-##	Receive UDP packets from an unlabeled connection.
+##	Receive UDP packets from unlabeled
+##	connections.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2434,8 +2457,9 @@ interface(`kernel_udp_recvfrom_unlabeled',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to receive UDP packets from an unlabeled
-##	connection.
+##	Do not audit attempts to receive
+##	UDP packets from unlabeled
+##	connections.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2453,7 +2477,8 @@ interface(`kernel_dontaudit_udp_recvfrom_unlabeled',`
 
 ########################################
 ## <summary>
-##	Receive Raw IP packets from an unlabeled connection.
+##	Receive Raw IP packets from
+##	unlabeled connections.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2471,8 +2496,9 @@ interface(`kernel_raw_recvfrom_unlabeled',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to receive Raw IP packets from an unlabeled
-##	connection.
+##	Do not audit attempts to receive
+##	Raw IP packets from unlabeled
+##	connections.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2508,7 +2534,7 @@ interface(`kernel_sendrecv_unlabeled_packets',`
 
 ########################################
 ## <summary>
-##	Receive packets from an unlabeled peer.
+##	Receive packets from unlabeled peers.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2526,7 +2552,8 @@ interface(`kernel_recvfrom_unlabeled_peer',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to receive packets from an unlabeled peer.
+##	Do not audit attempts to receive
+##	packets from unlabeled peers.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2573,7 +2600,7 @@ interface(`kernel_relabelfrom_unlabeled_database',`
 
 ########################################
 ## <summary>
-##	Relabel to unlabeled context.
+##	Relabel to unlabeled contexts.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2591,7 +2618,8 @@ interface(`kernel_relabelto_unlabeled',`
 
 ########################################
 ## <summary>
-##	Unconfined access to kernel module resources.
+##	Unconfined access to kernel module
+##	resources.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -2609,7 +2637,7 @@ interface(`kernel_unconfined',`
 
 ########################################
 ## <summary>
-##	Connect to the kernel with a unix socket.
+##	Connect to kernel with unix sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
