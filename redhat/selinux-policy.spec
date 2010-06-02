@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.1
-Release: 4.1%{?dist}
+Release: 4.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,9 @@ exit 0
 %endif
 
 %changelog
+* Wed Jun 02 2010 Dominick Grift <domg472@gmail.com> 3.8.1-4.2
+- pulseaudio really needs to get attributes of tmpfs filesystem: pulseaudio[2120]: shm.c: shm_open() failed: Function not implemented
+
 * Wed Jun 02 2010 Dominick Grift <domg472@gmail.com> 3.8.1-4.1
 - Merge branch fedora v3.8.1-4
 - Clean ups.
