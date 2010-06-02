@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.1
-Release: 3.5%{?dist}
+Release: 4.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,10 @@ exit 0
 %endif
 
 %changelog
+* Wed Jun 02 2010 Dominick Grift <domg472@gmail.com> 3.8.1-4.1
+- Merge branch fedora v3.8.1-4
+- Clean ups.
+
 * Tue Jun 01 2010 Dominick Grift <domg472@gmail.com> 3.8.1-3.5
 - Plenty clean ups.
 - Added ~/asoundrc to alsa.
