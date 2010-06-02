@@ -222,6 +222,7 @@ HOME_DIR/.*/plugins/nppdf\.so.* 														--	gen_context(system_u:object_r:t
 /usr/lib(64)?/ladspa/sc3_1427\.so														--	gen_context(system_u:object_r:textrel_shlib_t,s0)
 /usr/lib(64)?/ladspa/sc4_1882\.so														--	gen_context(system_u:object_r:textrel_shlib_t,s0)
 /usr/lib(64)?/ladspa/se4_1883\.so														--	gen_context(system_u:object_r:textrel_shlib_t,s0)
+/usr/lib(64)?/sane/libsane-epkowa\.so.*													--  gen_context(system_u:object_r:textrel_shlib_t,s0)
 /usr/lib(64)?/ocaml/stublibs/dllnums\.so												--	gen_context(system_u:object_r:textrel_shlib_t,s0)
 
 /usr/lib(64)?.*/libmpg123\.so(\.[^/]*)* 												--	gen_context(system_u:object_r:textrel_shlib_t,s0)

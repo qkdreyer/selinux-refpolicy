@@ -166,6 +166,8 @@ domain_sigstop_all_domains(gnomesystemmm_t)
 files_read_etc_files(gnomesystemmm_t)
 files_read_usr_files(gnomesystemmm_t)
 
+miscfiles_read_localization(gnomesystemmm_t)
+
 userdom_read_all_users_state(gnomesystemmm_t)
 userdom_dontaudit_search_admin_dir(gnomesystemmm_t)
 

@@ -191,7 +191,7 @@ corenet_sendrecv_ipp_server_packets(cupsd_t)
 dev_rw_printer(cupsd_t)
 dev_read_urand(cupsd_t)
 dev_read_sysfs(cupsd_t)
-dev_rw_input_dev(cupsd_t)	#447878
+dev_rw_input_dev(cupsd_t)
 dev_rw_generic_usb_dev(cupsd_t)
 dev_rw_usbfs(cupsd_t)
 dev_getattr_printer_dev(cupsd_t)
@@ -578,6 +578,7 @@ auth_use_nsswitch(cups_pdf_t)
 
 miscfiles_read_localization(cups_pdf_t)
 miscfiles_read_fonts(cups_pdf_t)
+miscfiles_setattr_fonts_cache_dirs(cups_pdf_t)
 
 userdom_home_filetrans_user_home_dir(cups_pdf_t)
 userdom_user_home_dir_filetrans_pattern(cups_pdf_t, { file dir })

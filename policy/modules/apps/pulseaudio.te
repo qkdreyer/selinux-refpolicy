@@ -85,7 +85,7 @@ files_read_etc_files(pulseaudio_t)
 files_read_usr_files(pulseaudio_t)
 
 fs_rw_anon_inodefs_files(pulseaudio_t)
-fs_getattr_tmpfs(pulseaudio_t)
+fs_read_tmpfs_files(pulseaudio_t)
 fs_list_inotifyfs(pulseaudio_t)
 
 term_use_all_ttys(pulseaudio_t)

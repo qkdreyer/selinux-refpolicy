@@ -133,6 +133,7 @@ miscfiles_read_certs(abrt_t)
 miscfiles_read_localization(abrt_t)
 
 userdom_dontaudit_read_user_home_content_files(abrt_t)
+userdom_dontaudit_read_admin_home_files(abrt_t)
 
 optional_policy(`
 	dbus_system_domain(abrt_t, abrt_exec_t)

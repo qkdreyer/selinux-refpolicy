@@ -28,8 +28,7 @@ files_type(boinc_var_lib_t)
 #
 
 allow boinc_t self:capability kill;
-allow boinc_t self:process { execmem fork setsched signal signull sigkill };
-
+allow boinc_t self:process { execmem ptrace setsched signal signull sigstop sigkill };
 allow boinc_t self:fifo_file rw_fifo_file_perms;
 allow boinc_t self:unix_stream_socket create_stream_socket_perms;
 allow boinc_t self:tcp_socket create_stream_socket_perms;
@@ -50,6 +49,7 @@ files_var_lib_filetrans(boinc_t, boinc_var_lib_t, { file dir } )
 
 kernel_read_system_state(boinc_t)
 kernel_read_kernel_sysctls(boinc_t)
+kernel_read_network_state(boinc_t)
 kernel_search_vm_sysctl(boinc_t)
 
 corecmd_exec_bin(boinc_t)

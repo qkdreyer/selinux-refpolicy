@@ -1858,6 +1858,26 @@ interface(`userdom_read_user_home_content_files',`
 
 ########################################
 ## <summary>
+##	Do not audit attempts to get
+##	attributes of user home files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain to not audit.
+##	</summary>
+## </param>
+#
+interface(`userdom_dontaudit_getattr_user_home_content',`
+	gen_require(`
+		attribute user_home_type;
+	')
+
+	dontaudit $1 user_home_type:dir getattr_dir_perms;
+	dontaudit $1 user_home_type:file getattr_file_perms;
+')
+
+########################################
+## <summary>
 ##	Do not audit attempts to read user home files.
 ## </summary>
 ## <param name="domain">
@@ -1876,6 +1896,25 @@ interface(`userdom_dontaudit_read_user_home_content_files',`
 	dontaudit $1 user_home_type:dir list_dir_perms;
 	dontaudit $1 user_home_type:file read_file_perms;
 	dontaudit $1 user_home_type:lnk_file read_lnk_file_perms;
+')
+
+########################################
+## <summary>
+##	Do not audit attempts to read admin
+##	home files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_dontaudit_read_admin_home_files',`
+	gen_require(`
+		type admin_home_t;
+	')
+
+	dontaudit $1 admin_home_t:file read_file_perms;
 ')
 
 ########################################

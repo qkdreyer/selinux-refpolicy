@@ -36,6 +36,7 @@ files_type(cobbler_var_lib_t)
 #
 
 allow cobblerd_t self:capability { chown dac_override fowner sys_nice };
+dontaudit cobblerd_t self:capability sys_tty_config;
 allow cobblerd_t self:process { getsched setsched signal };
 allow cobblerd_t self:fifo_file rw_fifo_file_perms;
 allow cobblerd_t self:tcp_socket create_stream_socket_perms;
@@ -74,6 +75,7 @@ files_read_usr_files(cobblerd_t)
 files_list_boot(cobblerd_t)
 files_list_tmp(cobblerd_t)
 
+term_dontaudit_use_console(cobblerd_t)
 
 miscfiles_read_localization(cobblerd_t)
 miscfiles_read_public_files(cobblerd_t)

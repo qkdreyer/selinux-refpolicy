@@ -40,10 +40,6 @@ init_script_file(sshd_initrc_exec_t)
 type sshd_key_t;
 files_type(sshd_key_t)
 
-type sshd_tmp_t;
-files_tmp_file(sshd_tmp_t)
-files_poly_parent(sshd_tmp_t)
-
 ifdef(`enable_mcs',`
 	init_ranged_daemon_domain(sshd_t, sshd_exec_t, s0 - mcs_systemhigh)
 ')
@@ -101,10 +97,6 @@ allow ssh_t self:msg { send receive };
 allow ssh_t self:tcp_socket create_stream_socket_perms;
 
 allow ssh_t sshd_key_t:file read_file_perms;
-
-allow ssh_t sshd_tmp_t:dir manage_dir_perms;
-allow ssh_t sshd_tmp_t:file manage_file_perms;
-files_tmp_filetrans(ssh_t, sshd_tmp_t, { file dir })
 
 manage_files_pattern(ssh_t, ssh_tmpfs_t, ssh_tmpfs_t)
 manage_lnk_files_pattern(ssh_t, ssh_tmpfs_t, ssh_tmpfs_t)
@@ -280,11 +272,6 @@ allow sshd_t self:key { search link write };
 
 allow sshd_t self:process setcurrent;
 
-manage_dirs_pattern(sshd_t, sshd_tmp_t, sshd_tmp_t)
-manage_files_pattern(sshd_t, sshd_tmp_t, sshd_tmp_t)
-manage_sock_files_pattern(sshd_t, sshd_tmp_t, sshd_tmp_t)
-files_tmp_filetrans(sshd_t, sshd_tmp_t, { dir file sock_file })
-
 kernel_search_key(sshd_t)
 kernel_link_key(sshd_t)
 
@@ -299,6 +286,7 @@ corenet_sendrecv_xserver_server_packets(sshd_t)
 userdom_read_user_home_content_files(sshd_t)
 userdom_read_user_home_content_symlinks(sshd_t)
 userdom_search_admin_dir(sshd_t)
+userdom_manage_tmp_role(system_r, sshd_t)
 
 tunable_policy(`ssh_sysadm_login',`
 	userdom_signal_all_users(sshd_t)
