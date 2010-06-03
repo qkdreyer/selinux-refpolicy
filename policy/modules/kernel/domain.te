@@ -110,6 +110,7 @@ optional_policy(`
 	xserver_dontaudit_use_xdm_fds(domain)
 	xserver_dontaudit_rw_xdm_pipes(domain)
 	xserver_dontaudit_append_xdm_home_files(domain)
+	xserver_dontaudit_write_log(domain)
 ')
 
 ########################################

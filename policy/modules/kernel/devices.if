@@ -3971,7 +3971,7 @@ interface(`dev_read_usbfs',`
 
 ########################################
 ## <summary>
-##	Modify usb hardware configuration files.
+##	Read and write usb fs files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3987,6 +3987,26 @@ interface(`dev_rw_usbfs',`
 	list_dirs_pattern($1, usbfs_t, usbfs_t)
 	rw_files_pattern($1, usbfs_t, usbfs_t)
 	read_lnk_files_pattern($1, usbfs_t, usbfs_t)
+')
+
+########################################
+## <summary>
+##	 Read and write vhost net devices.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`dev_rw_vhost',`
+	gen_require(`
+		type vhost_device_t;
+	')
+
+	list_dirs_pattern($1, vhost_device_t, vhost_device_t)
+	rw_chr_files_pattern($1, vhost_device_t, vhost_device_t)
+	read_lnk_files_pattern($1, vhost_device_t, vhost_device_t)
 ')
 
 ########################################

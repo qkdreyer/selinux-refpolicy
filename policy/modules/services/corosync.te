@@ -101,6 +101,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+	cmirrord_rw_shm(corosync_t)
+')
+
+optional_policy(`
 	rhcs_rw_dlm_controld_semaphores(corosync_t)
 	rhcs_rw_fenced_semaphores(corosync_t)
 	rhcs_rw_gfs_controld_semaphores(corosync_t)

@@ -133,6 +133,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+	mpd_read_tmpfs_files(pulseaudio_t)
+')
+
+optional_policy(`
 	policykit_domtrans_auth(pulseaudio_t)
 	policykit_read_lib(pulseaudio_t)
 	policykit_read_reload(pulseaudio_t)

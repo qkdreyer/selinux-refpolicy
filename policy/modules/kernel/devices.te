@@ -145,6 +145,9 @@ dev_node(usb_device_t)
 type usbmon_device_t;
 dev_node(usbmon_device_t)
 
+type vhost_device_t;
+dev_node(vhost_device_t)
+
 type userio_device_t;
 dev_node(userio_device_t)
 

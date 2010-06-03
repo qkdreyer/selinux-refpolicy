@@ -272,6 +272,7 @@ dev_read_rand(virtd_t)
 dev_rw_kvm(virtd_t)
 dev_getattr_all_chr_files(virtd_t)
 dev_rw_mtrr(virtd_t)
+dev_rw_vhost(virtd_t)
 
 domain_use_interactive_fds(virtd_t)
 domain_read_all_domains_state(virtd_t)
@@ -496,6 +497,7 @@ dev_write_sound(virt_domain)
 dev_rw_ksm(virt_domain)
 dev_rw_kvm(virt_domain)
 dev_rw_qemu(virt_domain)
+dev_rw_vhost(virt_domain)
 
 domain_use_interactive_fds(virt_domain)
 
@@ -509,7 +511,6 @@ fs_rw_anon_inodefs_files(virt_domain)
 fs_rw_tmpfs_files(virt_domain)
 fs_getattr_hugetlbfs(virt_domain)
 
-# I think we need these for now.
 miscfiles_read_public_files(virt_domain)
 storage_raw_read_removable_device(virt_domain)
 
