@@ -5,6 +5,7 @@ policy_module(domain, 1.8.0)
 #
 # Declarations
 #
+
 ## <desc>
 ## <p>
 ## Allow all domains to use other domains file descriptors
