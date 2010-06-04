@@ -134,7 +134,7 @@ optional_policy(`
 	rsync_exec(cobblerd_t)
 	rsync_read_config(cobblerd_t)
 	rsync_write_config(cobblerd_t)
-	rsync_filetrans_config(cobblerd, file)
+	rsync_filetrans_config(cobblerd_t, file)
 ')
 
 optional_policy(`

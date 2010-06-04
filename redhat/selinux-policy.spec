@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.1
-Release: 5.1%{?dist}
+Release: 5.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,10 @@ exit 0
 %endif
 
 %changelog
+* Fri Jun 04 2010 Dominick Grift <domg472@gmail.com> 3.8.1-5.2
+- Cobbler changes.
+- secmark fixes.
+
 * Thu Jun 03 2010 Dominick Grift <domg472@gmail.com> 3.8.1-5.1
 - Merge branch fedora (v3.8.1-5)
 
