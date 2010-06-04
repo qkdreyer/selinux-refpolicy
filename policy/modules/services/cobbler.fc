@@ -3,5 +3,6 @@
 
 /usr/bin/cobblerd			--	gen_context(system_u:object_r:cobblerd_exec_t,s0)
 
+/var/cache/cobbler(/.*)?		gen_context(system_u:object_r:cobbler_cache_t,s0)
 /var/lib/cobbler(/.*)?			gen_context(system_u:object_r:cobbler_var_lib_t,s0)
 /var/log/cobbler(/.*)?			gen_context(system_u:object_r:cobbler_var_log_t,s0)

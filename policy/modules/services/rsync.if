@@ -123,3 +123,27 @@ interface(`rsync_write_config',`
 	write_files_pattern($1, rsync_etc_t, rsync_etc_t)
 	files_search_etc($1)
 ')
+
+########################################
+## <summary>
+##	Create objects in the etc directories
+##	with rsync etc type.
+## </summary>
+## <param name="domain">
+## <summary>
+##	Domain allowed access.
+## </summary>
+## </param>
+## <param name="object_class">
+## <summary>
+##	Class of the object being created.
+## </summary>
+## </param>
+#
+interface(`rsync_filetrans_config',`
+	gen_require(`
+		type rsync_etc_t;
+	')
+
+	files_etc_filetrans($1, rsync_etc_t, $2)
+')

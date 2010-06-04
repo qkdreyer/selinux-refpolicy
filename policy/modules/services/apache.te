@@ -486,9 +486,9 @@ optional_policy(`
 	ccs_read_config(httpd_t)
 ')
 
-optional_policy(`
-	cobbler_search_lib(httpd_t)
-')
+# optional_policy(`
+#	cobbler_search_lib(httpd_t)
+# ')
 
 optional_policy(`
 	cron_system_entry(httpd_t, httpd_exec_t)

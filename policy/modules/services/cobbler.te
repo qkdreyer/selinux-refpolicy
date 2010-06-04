@@ -24,6 +24,9 @@ init_script_file(cobblerd_initrc_exec_t)
 type cobbler_etc_t;
 files_config_file(cobbler_etc_t)
 
+type cobbler_cache_t;
+files_type(cobbler_cache_t)
+
 type cobbler_var_log_t;
 logging_log_file(cobbler_var_log_t)
 
@@ -43,6 +46,10 @@ allow cobblerd_t self:tcp_socket create_stream_socket_perms;
 
 list_dirs_pattern(cobblerd_t, cobbler_etc_t, cobbler_etc_t)
 read_files_pattern(cobblerd_t, cobbler_etc_t, cobbler_etc_t)
+
+manage_dirs_pattern(cobblerd_t, cobbler_cache_t, cobbler_cache_t)
+manage_files_pattern(cobblerd_t, cobbler_cache_t, cobbler_cache_t)
+files_var_filetrans(cobblerd_t, cobbler_cache_t, { dir file })
 
 manage_dirs_pattern(cobblerd_t, cobbler_var_lib_t, cobbler_var_lib_t)
 manage_files_pattern(cobblerd_t, cobbler_var_lib_t, cobbler_var_lib_t)
@@ -68,6 +75,12 @@ corenet_tcp_sendrecv_generic_if(cobblerd_t)
 corenet_tcp_sendrecv_generic_node(cobblerd_t)
 corenet_tcp_sendrecv_generic_port(cobblerd_t)
 corenet_tcp_sendrecv_cobbler_port(cobblerd_t)
+corenet_tcp_connect_ftp_port(cobblerd_t)
+corenet_tcp_sendrecv_ftp_port(cobblerd_t)
+corenet_sendrecv_ftp_client_packets(cobblerd_t)
+corenet_tcp_connect_http_port(cobblerd_t)
+corenet_tcp_sendrecv_http_port(cobblerd_t)
+corenet_sendrecv_http_client_packets(cobblerd_t)
 
 dev_read_urand(cobblerd_t)
 
@@ -118,8 +131,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+	rsync_exec(cobblerd_t)
 	rsync_read_config(cobblerd_t)
 	rsync_write_config(cobblerd_t)
+	rsync_filetrans_config(cobblerd, file)
 ')
 
 optional_policy(`
@@ -133,7 +148,6 @@ optional_policy(`
 
 optional_policy(`
 	apache_content_template(cobbler)
-
 	manage_dirs_pattern(cobblerd_t, httpd_cobbler_content_rw_t,  httpd_cobbler_content_rw_t)
 	manage_files_pattern(cobblerd_t, httpd_cobbler_content_rw_t,  httpd_cobbler_content_rw_t)
 ')
