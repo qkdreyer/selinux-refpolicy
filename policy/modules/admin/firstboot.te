@@ -41,7 +41,7 @@ corenet_all_recvfrom_unlabeled(firstboot_t)
 corenet_all_recvfrom_netlabel(firstboot_t)
 corenet_tcp_sendrecv_generic_if(firstboot_t)
 corenet_tcp_sendrecv_generic_node(firstboot_t)
-corenet_tcp_sendrecv_all_ports(firstboot_t)
+corenet_tcp_sendrecv_generic_port(firstboot_t)
 
 dev_read_urand(firstboot_t)
 

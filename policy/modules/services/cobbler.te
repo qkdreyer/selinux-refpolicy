@@ -67,6 +67,7 @@ corenet_tcp_bind_generic_node(cobblerd_t)
 corenet_tcp_sendrecv_generic_if(cobblerd_t)
 corenet_tcp_sendrecv_generic_node(cobblerd_t)
 corenet_tcp_sendrecv_generic_port(cobblerd_t)
+corenet_tcp_sendrecv_cobbler_port(cobblerd_t)
 
 dev_read_urand(cobblerd_t)
 

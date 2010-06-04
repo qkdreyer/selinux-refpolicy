@@ -61,10 +61,11 @@ corenet_tcp_sendrecv_generic_node(netutils_t)
 corenet_raw_sendrecv_generic_node(netutils_t)
 corenet_udp_sendrecv_generic_node(netutils_t)
 corenet_tcp_sendrecv_all_ports(netutils_t)
-corenet_udp_sendrecv_all_ports(netutils_t)
+corenet_udp_sendrecv_generic_port(netutils_t)
 corenet_tcp_connect_all_ports(netutils_t)
 corenet_sendrecv_all_client_packets(netutils_t)
 corenet_udp_bind_generic_node(netutils_t)
+corenet_tcp_bind_generic_node(netutils_t)
 
 dev_read_sysfs(netutils_t)
 
@@ -122,7 +123,8 @@ corenet_raw_sendrecv_generic_if(ping_t)
 corenet_raw_sendrecv_generic_node(ping_t)
 corenet_tcp_sendrecv_generic_node(ping_t)
 corenet_raw_bind_generic_node(ping_t)
-corenet_tcp_sendrecv_all_ports(ping_t)
+corenet_tcp_bind_generic_node(ping_t
+corenet_tcp_sendrecv_generic_port(ping_t)
 
 fs_dontaudit_getattr_xattr_fs(ping_t)
 

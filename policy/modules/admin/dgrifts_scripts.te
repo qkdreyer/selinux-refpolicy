@@ -293,6 +293,7 @@ corenet_tcp_sendrecv_generic_node(sepoldiff_t)
 corenet_tcp_sendrecv_generic_port(sepoldiff_t)
 
 corenet_sendrecv_http_client_packets(sepoldiff_t)
+corenet_tcp_sendrecv_http_port(sepoldiff_t)
 
 corecmd_exec_bin(sepoldiff_t)
 
