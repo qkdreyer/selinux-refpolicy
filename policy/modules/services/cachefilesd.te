@@ -30,21 +30,20 @@ role system_r types cachefiles_kernel_t;
 # cachefilesd local policy
 #
 
-allow cachefilesd_t self : capability { setuid setgid sys_admin dac_override };
+allow cachefilesd_t self:capability { setuid setgid sys_admin dac_override };
 
-allow cachefilesd_t cachefilesd_var_run_t:file create_file_perms;
 manage_files_pattern(cachefilesd_t, cachefilesd_var_run_t, cachefilesd_var_run_t)
 manage_dirs_pattern(cachefilesd_t, cachefilesd_var_run_t, cachefilesd_var_run_t)
-files_pid_filetrans(cachefilesd_t, cachefilesd_var_run_t, file)
+files_pid_filetrans(cachefilesd_t, cachefilesd_var_run_t, { dir file })
 
 allow cachefilesd_t cachefiles_dev_t:chr_file rw_file_perms;
 
-allow cachefilesd_t cachefiles_var_t:dir { rw_dir_perms rmdir };
-allow cachefilesd_t cachefiles_var_t:file { getattr rename unlink };
+allow cachefilesd_t cachefiles_var_t:dir { rw_dir_perms delete_dir_perms };
+allow cachefilesd_t cachefiles_var_t:file { rename delete_file_perms };
 
-allow cachefilesd_t cachefiles_kernel_t:kernel_service { use_as_override };
+allow cachefilesd_t cachefiles_kernel_t:kernel_service use_as_override;
 
-allow cachefilesd_t cachefiles_var_t:kernel_service { create_files_as };
+allow cachefilesd_t cachefiles_var_t:kernel_service create_files_as;
 
 files_read_etc_files(cachefilesd_t)
 
