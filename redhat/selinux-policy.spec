@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.1
-Release: 5.3%{?dist}
+Release: 5.4%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,9 @@ exit 0
 %endif
 
 %changelog
+* Sat Jun 05 2010 Dominick Grift <domg472@gmail.com> 3.8.1-5.4
+- Cobbler fixes.
+
 * Sat Jun 05 2010 Dominick Grift <domg472@gmail.com> 3.8.1-5.3
 - More cobbler changes.
 

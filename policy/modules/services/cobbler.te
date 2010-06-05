@@ -132,6 +132,7 @@ optional_policy(`
 	
 		certmaster_exec(cobblerd_t)
 		rsync_exec(cobblerd_t)
+	')
 ')
 
 tunable_policy(`cobbler_can_reposync && cobbler_can_network_connect',`
