@@ -107,7 +107,7 @@ interface(`rsync_read_config',`
 
 ########################################
 ## <summary>
-##	Write to rsync config files.
+##	Write rsync config files.
 ## </summary>
 ## <param name="domain">
 ## <summary>
@@ -121,6 +121,25 @@ interface(`rsync_write_config',`
 	')
 
 	write_files_pattern($1, rsync_etc_t, rsync_etc_t)
+	files_search_etc($1)
+')
+
+########################################
+## <summary>
+##	Manage rsync config files.
+## </summary>
+## <param name="domain">
+## <summary>
+##	Domain allowed.
+## </summary>
+## </param>
+#
+interface(`rsync_manage_config',`
+	gen_require(`
+		type rsync_etc_t;
+	')
+
+	manage_files_pattern($1, rsync_etc_t, rsync_etc_t)
 	files_search_etc($1)
 ')
 

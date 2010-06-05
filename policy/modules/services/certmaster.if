@@ -19,6 +19,25 @@ interface(`certmaster_domtrans',`
 	corecmd_search_bin($1)
 ')
 
+####################################
+## <summary>
+##	Execute certmaster.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`certmaster_exec',`
+	gen_require(`
+		type certmaster_exec_t;
+	')
+
+	can_exec($1, certmaster_exec_t)
+	corecmd_search_bin($1)
+')
+
 #######################################
 ## <summary>
 ##	read certmaster logs.
