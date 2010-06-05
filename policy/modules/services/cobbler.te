@@ -22,6 +22,13 @@ gen_tunable(cobbler_anon_write, false)
 ## </desc>
 gen_tunable(cobbler_can_network_connect, false)
 
+## <desc>
+## <p>
+##	Allow Cobbler to use reposync.
+## </p>
+## </desc>
+gen_tunable(cobbler_can_reposync, false)
+
 type cobblerd_t;
 type cobblerd_exec_t;
 init_daemon_domain(cobblerd_t, cobblerd_exec_t)
@@ -46,13 +53,11 @@ files_type(cobbler_var_lib_t)
 # Cobbler personal policy.
 #
 
-allow cobblerd_t self:capability { chown dac_override fowner fsetid sys_nice };
+allow cobblerd_t self:capability { chown dac_override fowner sys_nice };
 dontaudit cobblerd_t self:capability sys_tty_config;
 allow cobblerd_t self:process { getsched setsched signal };
 allow cobblerd_t self:fifo_file rw_fifo_file_perms;
-allow cobblerd_t self:netlink_route_socket create_netlink_socket_perms;
 allow cobblerd_t self:tcp_socket create_stream_socket_perms;
-allow cobblerd_t self:udp_socket create_stream_socket_perms;
 
 list_dirs_pattern(cobblerd_t, cobbler_etc_t, cobbler_etc_t)
 read_files_pattern(cobblerd_t, cobbler_etc_t, cobbler_etc_t)
@@ -65,8 +70,9 @@ manage_dirs_pattern(cobblerd_t, cobbler_var_lib_t, cobbler_var_lib_t)
 manage_files_pattern(cobblerd_t, cobbler_var_lib_t, cobbler_var_lib_t)
 files_var_lib_filetrans(cobblerd_t, cobbler_var_lib_t, { dir file })
 
-# See if this does not cause any loss in functionality.
-dontaudit cobblerd_t cobbler_var_log_t:file write;
+# Causes loss of functionality: cobbler sync. This should be fixed.
+allow cobblerd_t cobbler_var_log_t:file write;
+
 append_files_pattern(cobblerd_t, cobbler_var_log_t, cobbler_var_log_t)
 create_files_pattern(cobblerd_t, cobbler_var_log_t, cobbler_var_log_t)
 read_files_pattern(cobblerd_t, cobbler_var_log_t, cobbler_var_log_t)
@@ -87,12 +93,6 @@ corenet_tcp_sendrecv_generic_port(cobblerd_t)
 corenet_tcp_bind_cobbler_port(cobblerd_t)
 corenet_tcp_sendrecv_cobbler_port(cobblerd_t)
 corenet_sendrecv_cobbler_server_packets(cobblerd_t)
-corenet_tcp_connect_ftp_port(cobblerd_t)
-corenet_tcp_sendrecv_ftp_port(cobblerd_t)
-corenet_sendrecv_ftp_client_packets(cobblerd_t)
-corenet_tcp_connect_http_port(cobblerd_t)
-corenet_tcp_sendrecv_http_port(cobblerd_t)
-corenet_sendrecv_http_client_packets(cobblerd_t)
 
 dev_read_urand(cobblerd_t)
 
@@ -117,14 +117,31 @@ tunable_policy(`cobbler_anon_write',`
 	miscfiles_manage_public_files(cobblerd_t)
 ')
 
-tunable_policy(`cobbler_can_network_connect',`
+optional_policy(`
+	tunable_policy(`cobbler_can_reposync',`
+		allow cobblerd_t self:capability fsetid;
+		allow cobblerd_t self:netlink_route_socket create_netlink_socket_perms;
+		allow cobblerd_t self:udp_socket create_stream_socket_perms;
+
+		corenet_tcp_connect_ftp_port(cobblerd_t)
+		corenet_tcp_sendrecv_ftp_port(cobblerd_t)
+		corenet_sendrecv_ftp_client_packets(cobblerd_t)
+		corenet_tcp_connect_http_port(cobblerd_t)
+		corenet_tcp_sendrecv_http_port(cobblerd_t)
+		corenet_sendrecv_http_client_packets(cobblerd_t)
+	
+		certmaster_exec(cobblerd_t)
+		rsync_exec(cobblerd_t)
+')
+
+tunable_policy(`cobbler_can_reposync && cobbler_can_network_connect',`
 	corenet_tcp_connect_all_ports(cobblerd_t)
 	corenet_tcp_sendrecv_all_ports(cobblerd_t)
 	corenet_sendrecv_all_client_packets(cobblerd_t)
 ')
 
 optional_policy(`
-	# Need to verify this.
+	# Compatibility with older versions.
 	apache_read_sys_content(cobblerd_t)
 ')
 
@@ -135,11 +152,6 @@ optional_policy(`
 	bind_domtrans(cobblerd_t)
 	bind_initrc_domtrans(cobblerd_t)
 	bind_manage_zone(cobblerd_t)
-')
-
-optional_policy(`
-	# Cobblerd gets attributes of this executable file. Assuming it runs it in some configurations. Need to verify.
-	certmaster_exec(cobblerd_t)
 ')
 
 optional_policy(`
@@ -158,7 +170,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	rsync_exec(cobblerd_t)
 	rsync_manage_config(cobblerd_t)
 	rsync_filetrans_config(cobblerd_t, file)
 ')
@@ -174,6 +185,7 @@ optional_policy(`
 
 optional_policy(`
 	apache_content_template(cobbler)
+	# This would not work i believe since cobbler (hard))links content to tftproot and tftp would need access.
 	manage_dirs_pattern(cobblerd_t, httpd_cobbler_content_rw_t,  httpd_cobbler_content_rw_t)
 	manage_files_pattern(cobblerd_t, httpd_cobbler_content_rw_t,  httpd_cobbler_content_rw_t)
 ')

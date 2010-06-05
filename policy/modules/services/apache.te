@@ -488,6 +488,9 @@ optional_policy(`
 
 optional_policy(`
 	cobbler_read_config(httpd_t)
+
+	# Compatibility with older versions:
+	cobbler_search_lib(httpd_t)
 ')
 
 optional_policy(`
