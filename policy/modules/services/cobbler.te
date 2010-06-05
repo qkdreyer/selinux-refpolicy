@@ -97,7 +97,7 @@ corenet_sendrecv_http_client_packets(cobblerd_t)
 dev_read_urand(cobblerd_t)
 
 files_read_etc_files(cobblerd_t)
-files_read_etc_runtime_files(cobbler_t)
+files_read_etc_runtime_files(cobblerd_t)
 files_read_usr_files(cobblerd_t)
 files_list_boot(cobblerd_t)
 files_list_tmp(cobblerd_t)
