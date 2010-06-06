@@ -177,8 +177,9 @@ optional_policy(`
 # Cobbler web local policy.
 #
 
-optional_policy(`
-	apache_content_template(cobbler)
-	manage_dirs_pattern(cobblerd_t, httpd_cobbler_content_rw_t,  httpd_cobbler_content_rw_t)
-	manage_files_pattern(cobblerd_t, httpd_cobbler_content_rw_t,  httpd_cobbler_content_rw_t)
-')
+# This is not going to work afaik. I should ask maintainer.
+# optional_policy(`
+#	apache_content_template(cobbler)
+#	manage_dirs_pattern(cobblerd_t, httpd_cobbler_content_rw_t,  httpd_cobbler_content_rw_t)
+#	manage_files_pattern(cobblerd_t, httpd_cobbler_content_rw_t,  httpd_cobbler_content_rw_t)
+# ')

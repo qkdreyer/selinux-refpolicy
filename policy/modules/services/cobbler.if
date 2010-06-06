@@ -98,6 +98,25 @@ interface(`cobbler_search_http_content',`
 
 ########################################
 ## <summary>
+##	Read and write Cobbler log files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`cobbler_rw_log',`
+	gen_require(`
+		type cobbler_var_log_t;
+	')
+
+	rw_files_pattern($1, cobbler_var_log_t, cobbler_var_log_t)
+	logging_search_logs($1)
+')
+
+########################################
+## <summary>
 ##	Do not audit attempts to read and write
 ##	Cobbler log files (leaked fd).
 ## </summary>
@@ -112,7 +131,7 @@ interface(`cobbler_dontaudit_rw_log',`
 		type cobbler_var_log_t;
 	')
 
-	dontaudit $1 cobbler_var_log_t:file rw_file_perms;
+	dontaudit $1 cobbler_var_log_t:file rw_inherited_file_perms;
 ')
 
 ########################################
