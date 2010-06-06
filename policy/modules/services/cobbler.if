@@ -77,27 +77,6 @@ interface(`cobbler_read_config',`
 
 ########################################
 ## <summary>
-##	Search Cobblers http directories.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`cobbler_search_http_content',`
-	optional_policy(`
-		gen_require(`
-			type httpd_cobbler_content_t, httpd_cobbler_content_rw_t;
-		')
-
-		allow $1 { httpd_cobbler_content_t httpd_cobbler_content_rw_t }:dir search_dir_perms;
-		apache_search_sys_content($1)
-	')
-')
-
-########################################
-## <summary>
 ##	Read and write Cobbler log files.
 ## </summary>
 ## <param name="domain">
@@ -211,7 +190,7 @@ interface(`cobbler_manage_lib_files',`
 interface(`cobblerd_admin',`
 	gen_require(`
 		type cobblerd_t, cobbler_var_lib_t, cobbler_var_log_t;
-		type cobbler_etc_t, cobblerd_initrc_exec_t, cobbler_cache_t;
+		type cobbler_etc_t, cobblerd_initrc_exec_t;
 	')
 
 	allow $1 cobblerd_t:process { ptrace signal_perms getattr };
@@ -222,16 +201,16 @@ interface(`cobblerd_admin',`
 	role_transition $2 cobblerd_initrc_exec_t system_r;
 	allow $2 system_r;
 
+	tunable_policy(`cobbler_anon_write',`
+		miscfiles_manage_public_files($1)
+	')
+
 	files_search_etc($1)
 	admin_pattern($1, cobbler_etc_t)
-
-	admin_pattern($1, cobbler_cache_t)
 
 	files_list_var_lib($1)
 	admin_pattern($1, cobbler_var_lib_t)
 
 	logging_search_logs($1)
 	admin_pattern($1, cobbler_var_log_t)
-
-	admin_pattern($1, httpd_cobbler_content_rw_t)
 ')

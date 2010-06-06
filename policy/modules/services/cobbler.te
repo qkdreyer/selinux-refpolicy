@@ -29,6 +29,20 @@ gen_tunable(cobbler_can_network_connect, false)
 ## </desc>
 gen_tunable(cobbler_can_reposync, false)
 
+## <desc>
+## <p>
+## Allow Cobbler to access cifs file systems.
+## </p>
+## </desc>
+gen_tunable(httpd_use_cifs, false)
+
+## <desc>
+## <p>
+## Allow Cobbler to access nfs file systems.
+## </p>
+## </desc>
+gen_tunable(httpd_use_nfs, false)
+
 type cobblerd_t;
 type cobblerd_exec_t;
 init_daemon_domain(cobblerd_t, cobblerd_exec_t)
@@ -134,6 +148,18 @@ tunable_policy(`cobbler_can_reposync && cobbler_can_network_connect',`
 	corenet_sendrecv_all_client_packets(cobblerd_t)
 ')
 
+tunable_policy(`cobbler_use_cifs',`
+	fs_manage_cifs_dirs(cobblerd_t)
+	fs_manage_cifs_files(cobblerd_t)
+	fs_manage_cifs_symlinks(cobblerd_t)
+')
+
+tunable_policy(`cobbler_use_nfs',`
+	fs_manage_nfs_dirs(cobblerd_t)
+	fs_manage_nfs_files(cobblerd_t)
+	fs_manage_nfs_symlinks(cobblerd_t)
+')
+
 optional_policy(`
 	# Compatibility with older versions.
 	apache_read_sys_content(cobblerd_t)
@@ -169,6 +195,7 @@ optional_policy(`
 ')
 
 optional_policy(`
+	# For backward compatibility. Although this conflicts with setfiles if cobbler hard links content here.
 	tftp_manage_rw_content(cobblerd_t)
 ')
 
@@ -183,3 +210,7 @@ optional_policy(`
 #	manage_dirs_pattern(cobblerd_t, httpd_cobbler_content_rw_t,  httpd_cobbler_content_rw_t)
 #	manage_files_pattern(cobblerd_t, httpd_cobbler_content_rw_t,  httpd_cobbler_content_rw_t)
 # ')
+
+# To do:
+# Inplement cobbler content type so that it works without use of public_content_rw_t. This also enables us
+# To implement file transitions for cobbler -> { httpd_sys_content_rw_t tftpboot_rw_t } -> cobbler_content_type.
