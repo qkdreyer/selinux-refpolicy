@@ -17,7 +17,9 @@ gen_tunable(cobbler_anon_write, false)
 ## <desc>
 ## <p>
 ##	Allow Cobbler to connect to the
-##	network using TCP.
+##	network using TCP (This requires that
+##	boolean cobbler_can_reposync is set to
+##	true as well).
 ## </p>
 ## </desc>
 gen_tunable(cobbler_can_network_connect, false)
@@ -31,14 +33,14 @@ gen_tunable(cobbler_can_reposync, false)
 
 ## <desc>
 ## <p>
-## Allow Cobbler to access cifs file systems.
+##	Allow Cobbler to access cifs file systems.
 ## </p>
 ## </desc>
 gen_tunable(httpd_use_cifs, false)
 
 ## <desc>
 ## <p>
-## Allow Cobbler to access nfs file systems.
+##	Allow Cobbler to access nfs file systems.
 ## </p>
 ## </desc>
 gen_tunable(httpd_use_nfs, false)
@@ -103,8 +105,6 @@ corenet_sendrecv_cobbler_server_packets(cobblerd_t)
 
 dev_read_urand(cobblerd_t)
 
-domain_use_interactive_fds(cobblerd_t)
-
 files_read_etc_files(cobblerd_t)
 files_read_etc_runtime_files(cobblerd_t)
 files_read_usr_files(cobblerd_t)
@@ -148,7 +148,8 @@ optional_policy(`
 		corenet_tcp_connect_http_port(cobblerd_t)
 		corenet_tcp_sendrecv_http_port(cobblerd_t)
 		corenet_sendrecv_http_client_packets(cobblerd_t)
-	
+
+		# Its getting attributes of certmaster exec file. I am assuming cobbler may want to run it in some configs.
 		certmaster_exec(cobblerd_t)
 		rsync_exec(cobblerd_t)
 	')
@@ -173,7 +174,7 @@ tunable_policy(`cobbler_use_nfs',`
 ')
 
 optional_policy(`
-	# Compatibility with older versions.
+	# Compatibility with older versions. This needs to be verified.
 	apache_read_sys_content(cobblerd_t)
 ')
 
