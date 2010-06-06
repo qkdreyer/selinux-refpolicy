@@ -39,6 +39,25 @@ interface(`cobblerd_initrc_domtrans',`
 
 ########################################
 ## <summary>
+##	List Cobbler etc directories.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`cobbler_list_config_dirs',`
+	gen_require(`
+		type cobbler_etc_t;
+	')
+
+	allow $1 cobbler_etc_t:dir list_dir_perms;
+	files_search_etc($1)
+')
+
+########################################
+## <summary>
 ##	Read Cobbler etc files.
 ## </summary>
 ## <param name="domain">

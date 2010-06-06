@@ -487,6 +487,7 @@ optional_policy(`
 ')
 
 optional_policy(`
+	cobbler_list_config_dirs(httpd_t)
 	cobbler_read_config(httpd_t)
 
 	# Compatibility with older versions:
