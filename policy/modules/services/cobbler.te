@@ -103,6 +103,8 @@ corenet_sendrecv_cobbler_server_packets(cobblerd_t)
 
 dev_read_urand(cobblerd_t)
 
+domain_use_interactive_fds(cobblerd_t)
+
 files_read_etc_files(cobblerd_t)
 files_read_etc_runtime_files(cobblerd_t)
 files_read_usr_files(cobblerd_t)
@@ -119,6 +121,16 @@ miscfiles_read_public_files(cobblerd_t)
 sysnet_read_config(cobblerd_t)
 sysnet_rw_dhcp_config(cobblerd_t)
 sysnet_write_config(cobblerd_t)
+
+# cobbler check
+init_dontaudit_read_all_script_files(cobblerd_t)
+
+userdom_dontaudit_use_unpriv_user_fds(cobblerd_t)
+userdom_dontaudit_use_user_terminals(cobblerd_t)
+userdom_dontaudit_search_user_home_dirs(cobblerd_t)
+userdom_dontaudit_search_admin_dir(cobblerd_t)
+
+selinux_dontaudit_read_fs(cobblerd_t)
 
 tunable_policy(`cobbler_anon_write',`
 	miscfiles_manage_public_files(cobblerd_t)
