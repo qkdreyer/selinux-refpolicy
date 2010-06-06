@@ -60,7 +60,7 @@ ifdef(`distro_redhat',`
 /var/lib/cobbler/ks_mirror(/.*)?      				gen_context(system_u:object_r:public_content_rw_t,s0)
 /var/lib/cobbler/links(/.*)? 	      				gen_context(system_u:object_r:public_content_rw_t,s0)
 
-# This should be installed by cobbler package.
+# This should be installed by cobbler package. Not adopted, commited and packaged yet.
 /var/lib/tftpboot/images(/.*)?						gen_context(system_u:object_r:public_content_rw_t,s0)
 
 /var/named/chroot/etc/pki(/.*)? 					gen_context(system_u:object_r:cert_t,s0)
@@ -72,6 +72,7 @@ ifdef(`distro_redhat',`
 /var/www//cobbler/repo_mirror(/.*)?					gen_context(system_u:object_r:public_content_rw_t,s0)
 /var/www/cobbler/links(/.*)? 	      				gen_context(system_u:object_r:public_content_rw_t,s0)
 /var/www/cobbler/pub(/.*)?							gen_context(system_u:object_r:public_content_rw_t,s0)
+# This should be installed by cobbler package. Change is commited to cobbler repo waiting for it to be packaged.
 /var/www/cobbler/rendered(/.*)?						gen_context(system_u:object_r:public_content_rw_t,s0)
 
 ifdef(`distro_debian',`
