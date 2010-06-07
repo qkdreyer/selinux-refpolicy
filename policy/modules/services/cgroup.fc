@@ -1,5 +1,3 @@
-/cgroup(/.*)?					gen_context(system_u:object_r:cgroup_t,s0)
-
 /etc/cgconfig.conf			--	gen_context(system_u:object_r:cgconfig_etc_t,s0)
 /etc/cgrules.conf			--	gen_context(system_u:object_r:cgrules_etc_t,s0)
 

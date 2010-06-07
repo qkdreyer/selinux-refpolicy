@@ -511,7 +511,7 @@ interface(`fs_register_binary_executable_type',`
 
 ########################################
 ## <summary>
-##	Delete cgroupfs directories.
+##	Get attributes of cgroup filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -519,12 +519,12 @@ interface(`fs_register_binary_executable_type',`
 ##	</summary>
 ## </param>
 #
-interface(`fs_delete_cgroupfs_dirs', `
+interface(`fs_getattr_cgroup',`
 	gen_require(`
-		type cgroupfs_t;
+		type cgroup_t;
 	')
 
-	delete_dirs_pattern($1, cgroupfs_t, cgroupfs_t)
+	allow $1 cgroup_t:filesystem getattr;
 ')
 
 ########################################
@@ -537,12 +537,30 @@ interface(`fs_delete_cgroupfs_dirs', `
 ##	</summary>
 ## </param>
 #
-interface(`fs_mount_cgroupfs', `
+interface(`fs_mount_cgroup', `
 	gen_require(`
-		type cgroupfs_t;
+		type cgroup_t;
 	')
 
-	allow $1 cgroupfs_t:filesystem mount;
+	allow $1 cgroup_t:filesystem mount;
+')
+
+########################################
+## <summary>
+##	Mount on cgroup directories.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`fs_mounton_cgroup', `
+	gen_require(`
+		type cgroup_t;
+	')
+
+	allow $1 cgroup_t:dir mounton;
 ')
 
 ########################################
@@ -555,12 +573,12 @@ interface(`fs_mount_cgroupfs', `
 ##	</summary>
 ## </param>
 #
-interface(`fs_remount_cgroupfs', `
+interface(`fs_remount_cgroup', `
 	gen_require(`
-		type cgroupfs_t;
+		type cgroup_t;
 	')
 
-	allow $1 cgroupfs_t:filesystem remount;
+	allow $1 cgroup_t:filesystem remount;
 ')
 
 ########################################
@@ -573,17 +591,17 @@ interface(`fs_remount_cgroupfs', `
 ##	</summary>
 ## </param>
 #
-interface(`fs_unmount_cgroupfs', `
+interface(`fs_unmount_cgroup', `
 	gen_require(`
-		type cgroupfs_t;
+		type cgroup_t;
 	')
 
-	allow $1 cgroupfs_t:filesystem unmount;
+	allow $1 cgroup_t:filesystem unmount;
 ')
 
 ########################################
 ## <summary>
-##	Get attributes of cgroup filesystems.
+##	Delete cgroup directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -591,17 +609,17 @@ interface(`fs_unmount_cgroupfs', `
 ##	</summary>
 ## </param>
 #
-interface(`fs_getattr_cgroupfs',`
+interface(`fs_delete_cgroup_dirs', `
 	gen_require(`
-		type cgroupfs_t;
+		type cgroup_t;
 	')
 
-	allow $1 cgroupfs_t:filesystem getattr;
+	delete_dirs_pattern($1, cgroup_t, cgroup_t)
 ')
 
 ########################################
 ## <summary>
-##	list cgroupfs directories.
+##	list cgroup directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -609,17 +627,17 @@ interface(`fs_getattr_cgroupfs',`
 ##	</summary>
 ## </param>
 #
-interface(`fs_list_cgroupfs_dirs', `
+interface(`fs_list_cgroup_dirs', `
 	gen_require(`
-		type cgroupfs_t;
+		type cgroup_t;
 	')
 
-	list_dirs_pattern($1, cgroupfs_t, cgroupfs_t)
+	list_dirs_pattern($1, cgroup_t, cgroup_t)
 ')
 
 ########################################
 ## <summary>
-##	Manage cgroupfs directories.
+##	Manage cgroup directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -627,18 +645,18 @@ interface(`fs_list_cgroupfs_dirs', `
 ##	</summary>
 ## </param>
 #
-interface(`fs_manage_cgroupfs_dirs',`
+interface(`fs_manage_cgroup_dirs',`
 	gen_require(`
-		type cgroupfs_t;
+		type cgroup_t;
 
 	')
 
-	manage_dirs_pattern($1, cgroupfs_t, cgroupfs_t)
+	manage_dirs_pattern($1, cgroup_t, cgroup_t)
 ')
 
 ########################################
 ## <summary>
-##	Set attributes of cgroupfs files.
+##	Search cgroup directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -646,18 +664,18 @@ interface(`fs_manage_cgroupfs_dirs',`
 ##	</summary>
 ## </param>
 #
-interface(`fs_setattr_cgroupfs_files',`
+interface(`fs_search_cgroup_dirs',`
 	gen_require(`
-		type cgroupfs_t;
+		type cgroup_t;
 
 	')
 
-	setattr_files_pattern($1, cgroupfs_t, cgroupfs_t)
+	search_dirs_pattern($1, cgroup_t, cgroup_t)
 ')
 
 ########################################
 ## <summary>
-##	Read cgroupfs files.
+##	Manage cgroup files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -665,18 +683,18 @@ interface(`fs_setattr_cgroupfs_files',`
 ##	</summary>
 ## </param>
 #
-interface(`fs_read_cgroupfs_files',`
+interface(`fs_manage_cgroup_files',`
 	gen_require(`
-		type cgroupfs_t;
+		type cgroup_t;
 
 	')
 
-	read_files_pattern($1, cgroupfs_t, cgroupfs_t)
+	manage_files_pattern($1, cgroup_t, cgroup_t)
 ')
 
 ########################################
 ## <summary>
-##	Write cgroupfs files.
+##	Read cgroup files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -684,17 +702,18 @@ interface(`fs_read_cgroupfs_files',`
 ##	</summary>
 ## </param>
 #
-interface(`fs_write_cgroupfs_files', `
+interface(`fs_read_cgroup_files',`
 	gen_require(`
-		type cgroupfs_t;
+		type cgroup_t;
+
 	')
 
-	write_files_pattern($1, cgroupfs_t, cgroupfs_t)
+	read_files_pattern($1, cgroup_t, cgroup_t)
 ')
 
 ########################################
 ## <summary>
-##	Read and write cgroupfs files.
+##	Read and write cgroup files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -702,20 +721,57 @@ interface(`fs_write_cgroupfs_files', `
 ##	</summary>
 ## </param>
 #
-interface(`fs_rw_cgroupfs_files',`
+interface(`fs_rw_cgroup_files',`
 	gen_require(`
-		type cgroupfs_t;
+		type cgroup_t;
 
 	')
 
-	rw_files_pattern($1, cgroupfs_t, cgroupfs_t)
+	rw_files_pattern($1, cgroup_t, cgroup_t)
+')
+
+########################################
+## <summary>
+##	Set attributes of cgroup files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`fs_setattr_cgroup_files',`
+	gen_require(`
+		type cgroup_t;
+
+	')
+
+	setattr_files_pattern($1, cgroup_t, cgroup_t)
+')
+
+########################################
+## <summary>
+##	Write cgroup files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`fs_write_cgroup_files', `
+	gen_require(`
+		type cgroup_t;
+	')
+
+	write_files_pattern($1, cgroup_t, cgroup_t)
 ')
 
 ########################################
 ## <summary>
 ##	Do not audit attempts to open,
 ##	get attributes, read and write
-##	cgroupfs files.
+##	cgroup files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -723,12 +779,12 @@ interface(`fs_rw_cgroupfs_files',`
 ##	</summary>
 ## </param>
 #
-interface(`fs_dontaudit_rw_cgroupfs_files',`
+interface(`fs_dontaudit_rw_cgroup_files',`
 	gen_require(`
-		type cgroupfs_t;
+		type cgroup_t;
 	')
 
-	dontaudit $1 cgroupfs_t:file rw_file_perms;
+	dontaudit $1 cgroup_t:file rw_file_perms;
 ')
 
 ########################################

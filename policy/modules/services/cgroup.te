@@ -3,14 +3,6 @@ policy_module(cgroup, 1.0.0)
 
 ########################################
 #
-# cgroup global declarations.
-#
-
-type cgroup_t;
-files_mountpoint(cgroup_t)
-
-########################################
-#
 # cgred personal declarations.
 #
 
@@ -60,7 +52,6 @@ kernel_read_system_state(cgred_t)
 
 domain_read_all_domains_state(cgred_t)
 
-# Verify this
 files_getattr_all_files(cgred_t)
 files_getattr_all_sockets(cgred_t)
 files_read_all_symlinks(cgred_t)
@@ -68,7 +59,7 @@ files_search_all(cgred_t)
 
 files_read_etc_files(cgred_t)
 
-fs_write_cgroupfs_files(cgred_t)
+fs_write_cgroup_files(cgred_t)
 
 logging_send_syslog_msg(cgred_t)
 
@@ -83,17 +74,13 @@ allow cgconfigparser_t self:capability { chown sys_admin };
 
 allow cgconfigparser_t cgconfig_etc_t:file read_file_perms;
 
-manage_dirs_pattern(cgconfigparser_t, cgroup_t, cgroup_t)
-manage_files_pattern(cgconfigparser_t, cgroup_t, cgroup_t)
-allow cgconfigparser_t cgroup_t:dir mounton;
-
 kernel_list_unlabeled(cgconfigparser_t)
 kernel_read_system_state(cgconfigparser_t)
 
 files_read_etc_files(cgconfigparser_t)
 
-fs_manage_cgroupfs_dirs(cgconfigparser_t)
-fs_mount_cgroupfs(cgconfigparser_t)
-fs_rw_cgroupfs_files(cgconfigparser_t)
-fs_setattr_cgroupfs_files(cgconfigparser_t)
-fs_unmount_cgroupfs(cgconfigparser_t)
+fs_manage_cgroup_dirs(cgconfigparser_t)
+fs_manage_cgroup_files(cgconfigparser_t)
+fs_mount_cgroup(cgconfigparser_t)
+fs_mounton_cgroup(cgconfigparser_t)
+fs_unmount_cgroup(cgconfigparser_t)

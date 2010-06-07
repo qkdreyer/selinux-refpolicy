@@ -16,27 +16,28 @@ gen_tunable(cobbler_anon_write, false)
 
 ## <desc>
 ## <p>
-##	Allow Cobbler to connect to the
+##	Allow Cobbler to use reposync.
+## </p>
+## </desc>
+gen_tunable(cobbler_can_rsync, false)
+
+## <desc>
+## <p>
+##	Allow Cobbler to use Cobbler check (It is encouraged
+##	that you leave this disabeled).
+## </p>
+## </desc>
+gen_tunable(cobbler_can_check, false)
+
+## <desc>
+## <p>
+##	Allow Cobbler reposync to connect to the
 ##	network using TCP (This requires that
 ##	boolean cobbler_can_reposync is set to
 ##	true as well).
 ## </p>
 ## </desc>
-gen_tunable(cobbler_can_network_connect, false)
-
-## <desc>
-## <p>
-##	Allow Cobbler to use reposync.
-## </p>
-## </desc>
-gen_tunable(cobbler_can_reposync, false)
-
-## <desc>
-## <p>
-##	Allow Cobbler to use Cobbler check (Not encouraged).
-## </p>
-## </desc>
-gen_tunable(cobbler_can_check, false)
+gen_tunable(cobbler_rsync_can_network_connect, false)
 
 ## <desc>
 ## <p>
@@ -52,9 +53,14 @@ gen_tunable(cobbler_use_cifs, false)
 ## </desc>
 gen_tunable(cobbler_use_nfs, false)
 
-type cobblerd_t;
+attribute cobblerd_domain;
+
+type cobblerd_t, cobblerd_domain;
 type cobblerd_exec_t;
 init_daemon_domain(cobblerd_t, cobblerd_exec_t)
+
+type cobblerd_rsync_t, cobblerd_domain;
+domain_type(cobblerd_rsync_t)
 
 type cobblerd_initrc_exec_t;
 init_script_file(cobblerd_initrc_exec_t)
@@ -73,7 +79,7 @@ files_type(cobbler_var_lib_t)
 
 ########################################
 #
-# Cobbler personal policy.
+# Cobblerd personal policy.
 #
 
 allow cobblerd_t self:capability { chown dac_override fowner sys_nice };
@@ -140,34 +146,15 @@ tunable_policy(`cobbler_anon_write',`
 ')
 
 optional_policy(`
-	tunable_policy(`cobbler_can_reposync',`
-		allow cobblerd_t self:capability fsetid;
-		allow cobblerd_t self:netlink_route_socket create_netlink_socket_perms;
-		allow cobblerd_t self:udp_socket create_stream_socket_perms;
-
-		corenet_tcp_connect_ftp_port(cobblerd_t)
-		corenet_tcp_sendrecv_ftp_port(cobblerd_t)
-		corenet_sendrecv_ftp_client_packets(cobblerd_t)
-		corenet_tcp_connect_http_port(cobblerd_t)
-		corenet_tcp_sendrecv_http_port(cobblerd_t)
-		corenet_sendrecv_http_client_packets(cobblerd_t)
-
-		certmaster_exec(cobblerd_t)
-		rsync_exec(cobblerd_t)
+	tunable_policy(`cobbler_can_rsync',`
+		rsync_entry_spec_domtrans(cobblerd_t, cobblerd_rsync_t)
 	')
-')
-
-tunable_policy(`cobbler_can_reposync && cobbler_can_network_connect',`
-	corenet_tcp_connect_all_ports(cobblerd_t)
-	corenet_tcp_sendrecv_all_ports(cobblerd_t)
-	corenet_sendrecv_all_client_packets(cobblerd_t)
 ')
 
 tunable_policy(`cobbler_can_check',`
 	allow cobblerd_t self:capability sys_ptrace;
 
 	kernel_read_network_state(cobblerd_t)
-	kernel_read_system_state(cobblerd_t)
 
 	domain_read_all_domains_state(cobblerd_t)
 
@@ -188,7 +175,6 @@ tunable_policy(`cobbler_can_check',`
 ',`
 	dontaudit cobblerd_t self:capability sys_ptrace;
 
-	kernel_dontaudit_read_system_state(cobblerd_t)
 	kernel_dontaudit_search_network_state(cobblerd_t)
 
 	domain_dontaudit_exec_all_entry_files(cobblerd_t)
@@ -245,7 +231,40 @@ optional_policy(`
 ')
 
 optional_policy(`
-	tftp_filetrans_tftpdir(cobblerd_t, cobbler_content_t, dir)
+	tftp_filetrans_tftpdir(cobblerd_t, cobbler_content_t, { dir file })
+')
+
+########################################
+#
+# Cobblerd global local policy.
+#
+
+########################################
+#
+# Cobbler reposync local policy.
+#
+
+optional_policy(`
+	tunable_policy(`cobbler_can_rsync',`
+		allow cobblerd_rsync_t self:capability fsetid;
+		allow cobblerd_rsync_t self:netlink_route_socket create_netlink_socket_perms;
+		allow cobblerd_rsync_t self:udp_socket create_stream_socket_perms;
+
+		corenet_tcp_connect_ftp_port(cobblerd_rsync_t)
+		corenet_tcp_sendrecv_ftp_port(cobblerd_rsync_t)
+		corenet_sendrecv_ftp_client_packets(cobblerd_rsync_t)
+		corenet_tcp_connect_http_port(cobblerd_rsync_t)
+		corenet_tcp_sendrecv_http_port(cobblerd_rsync_t)
+		corenet_sendrecv_http_client_packets(cobblerd_rsync_t)
+
+		certmaster_exec(cobblerd_rsync_t)
+	')
+')
+
+tunable_policy(`cobbler_can_rsync && cobbler_rsync_can_network_connect',`
+	corenet_tcp_connect_all_ports(cobblerd_rsync_t)
+	corenet_tcp_sendrecv_all_ports(cobblerd_rsync_t)
+	corenet_sendrecv_all_client_packets(cobblerd_rsync_t)
 ')
 
 ########################################
@@ -257,7 +276,3 @@ optional_policy(`
 	apache_content_template(cobbler)
 	filetrans_pattern(cobblerd_t, httpd_cobbler_content_t, cobbler_content_t, dir)
 ')
-
-# No need to create /var/www/cobbler/rendered
-# No need to create /var/lib/tftpboot/images
-# Make sure to restorecon after install

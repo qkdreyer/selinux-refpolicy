@@ -5,6 +5,7 @@
 
 /var/lib/cobbler(/.*)?					gen_context(system_u:object_r:cobbler_var_lib_t,s0)
 /var/lib/tftpboot/images(/.*)?			gen_context(system_u:object_r:cobbler_content_t,s0)
+/var/lib/tftpboot/pxelinux.0		--	gen_context(system_u:object_r:cobbler_content_t,s0)
 /var/log/cobbler(/.*)?					gen_context(system_u:object_r:cobbler_var_log_t,s0)
 
 /var/www/cobbler(/.*)?					gen_context(system_u:object_r:httpd_cobbler_content_t,s0)

@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute a domain transition to run cgconfig.
+##	Execute a domain transition to run
+##	CG config parser.
 ## </summary>
 ## <param name="domain">
 ## <summary>
@@ -21,8 +22,8 @@ interface(`cgroup_domtrans_cgconfigparser',`
 
 ########################################
 ## <summary>
-##	Execute cgconfigparser server in the
-##	cgconfigparser domain.
+##	Execute a domain transition to run
+##	CG config parser.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -41,7 +42,8 @@ interface(`cgroup_initrc_domtrans_cgconfigparser',`
 
 ########################################
 ## <summary>
-##	Execute a domain transition to run cgred.
+##	Execute a domain transition to run
+##	CG rules engine daemon.
 ## </summary>
 ## <param name="domain">
 ## <summary>
@@ -60,8 +62,9 @@ interface(`cgroup_domtrans_cgred',`
 
 ########################################
 ## <summary>
-##	Execute cgred server in the
-##	cgred domain.
+##	Execute a domain transition to run
+## 	CG rules engine daemon.
+##	domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -79,98 +82,8 @@ interface(`cgroup_initrc_domtrans_cgred',`
 
 ########################################
 ## <summary>
-##	Delete cgroup directories.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`cgroup_delete_cgroup_dirs', `
-	gen_require(`
-		type cgroup_t;
-	')
-
-	delete_dirs_pattern($1, cgroup_t, cgroup_t)
-	cgroup_search_cgroup_dirs($1)
-')
-
-########################################
-## <summary>
-##	List cgroup directories.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`cgroup_list_cgroup_dirs', `
-	gen_require(`
-		type cgroup_t;
-	')
-
-	allow $1 cgroup_t:dir list_dir_perms;
-')
-
-########################################
-## <summary>
-##	Manage cgroup directories.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`cgroup_manage_cgroup_dirs', `
-	gen_require(`
-		type cgroup_t;
-	')
-
-	allow $1 cgroup_t:dir manage_dir_perms;
-')
-
-########################################
-## <summary>
-##	Read and write cgroup directories.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`cgroup_rw_cgroup_dirs', `
-	gen_require(`
-		type cgroup_t;
-	')
-
-	allow $1 cgroup_t:dir rw_dir_perms;
-')
-
-########################################
-## <summary>
-##	Search cgroup directories.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`cgroup_search_cgroup_dirs', `
-	gen_require(`
-		type cgroup_t;
-	')
-
-	allow $1 cgroup_t:dir search_dir_perms;
-')
-
-########################################
-## <summary>
-##	Read and write cgred sock file in /var/run.
+##	Connect to CG rules engine daemon
+##	over unix stream sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -208,7 +121,7 @@ interface(`cgroup_admin',`
 	gen_require(`
 		type cgred_t, cgconfigparser_t, cgred_var_run_t;
 		type cgconfig_etc_t, cgconfig_initrc_exec_t, cgred_initrc_exec_t;
-		type cgred_etc_t, cgroup_t, cgroupfs_t;	
+		type cgred_etc_t, cgroup_t;	
 	')
 
 	allow $1 cgconfigparser_t:process { ptrace signal_perms getattr };
@@ -218,7 +131,6 @@ interface(`cgroup_admin',`
 	read_files_pattern($1, cgred_t, cgred_t)
 
 	admin_pattern($1, cgroup_t)
-	admin_pattern($1, cgroupfs_t)
 
 	files_search_etc($1)
 	admin_pattern($1, cgconfig_etc_t)
