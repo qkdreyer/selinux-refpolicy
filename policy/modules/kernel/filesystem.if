@@ -732,25 +732,6 @@ interface(`fs_rw_cgroup_files',`
 
 ########################################
 ## <summary>
-##	Set attributes of cgroup files.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`fs_setattr_cgroup_files',`
-	gen_require(`
-		type cgroup_t;
-
-	')
-
-	setattr_files_pattern($1, cgroup_t, cgroup_t)
-')
-
-########################################
-## <summary>
 ##	Write cgroup files.
 ## </summary>
 ## <param name="domain">
