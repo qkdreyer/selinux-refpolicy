@@ -209,7 +209,7 @@ interface(`cobbler_manage_lib_files',`
 interface(`cobblerd_admin',`
 	gen_require(`
 		type cobblerd_t, cobbler_var_lib_t, cobbler_var_log_t;
-		type cobbler_etc_t, cobblerd_initrc_exec_t;
+		type cobbler_etc_t, cobblerd_initrc_exec_t, cobbler_content_t;
 	')
 
 	allow $1 cobblerd_t:process { ptrace signal_perms getattr };
@@ -220,16 +220,31 @@ interface(`cobblerd_admin',`
 	role_transition $2 cobblerd_initrc_exec_t system_r;
 	allow $2 system_r;
 
+	admin_pattern($1, cobbler_etc_t)
+	files_search_etc($1)
+
+	admin_pattern($1, cobbler_content_t)
+
+	admin_pattern($1, cobbler_var_lib_t)
+	files_list_var_lib($1)
+
+	admin_pattern($1, cobbler_var_log_t)
+	logging_search_logs($1)
+
 	tunable_policy(`cobbler_anon_write',`
 		miscfiles_manage_public_files($1)
 	')
 
-	files_search_etc($1)
-	admin_pattern($1, cobbler_etc_t)
+	optional_policy(`
+		gen_require(`
+			type httpd_cobbler_content_t;
+		')
 
-	files_list_var_lib($1)
-	admin_pattern($1, cobbler_var_lib_t)
+		admin_pattern($1, httpd_cobbler_content_t)
+		apache_search_sys_content($1)
+	')
 
-	logging_search_logs($1)
-	admin_pattern($1, cobbler_var_log_t)
+	optional_policy(`
+		tftp_search_content($1)
+	')
 ')

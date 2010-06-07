@@ -16,6 +16,26 @@ interface(`tftp_read_content',`
 	')
 
 	read_files_pattern($1, tftpdir_t, tftpdir_t)
+	files_search_var_lib
+')
+
+########################################
+## <summary>
+##	Search tftpdir directories.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`tftp_search_content',`
+	gen_require(`
+		type tftpdir_t;
+	')
+
+	search_dirs_pattern($1, tftpdir_t, tftpdir_t)
+	files_search_var_lib
 ')
 
 ########################################
