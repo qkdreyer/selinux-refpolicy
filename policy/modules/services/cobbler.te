@@ -43,14 +43,14 @@ gen_tunable(cobbler_can_check, false)
 ##	Allow Cobbler to access cifs file systems.
 ## </p>
 ## </desc>
-gen_tunable(httpd_use_cifs, false)
+gen_tunable(cobbler_use_cifs, false)
 
 ## <desc>
 ## <p>
 ##	Allow Cobbler to access nfs file systems.
 ## </p>
 ## </desc>
-gen_tunable(httpd_use_nfs, false)
+gen_tunable(cobbler_use_nfs, false)
 
 type cobblerd_t;
 type cobblerd_exec_t;
@@ -163,45 +163,42 @@ tunable_policy(`cobbler_can_reposync && cobbler_can_network_connect',`
 	corenet_sendrecv_all_client_packets(cobblerd_t)
 ')
 
-optional_policy(`
-	tunable_policy(`cobbler_can_check',`
-		allow cobblerd_t self:capability sys_ptrace;
+tunable_policy(`cobbler_can_check',`
+	allow cobblerd_t self:capability sys_ptrace;
 
-		kernel_read_network_state(cobblerd_t)
-		kernel_read_system_state(cobblerd_t)
+	kernel_read_network_state(cobblerd_t)
+	kernel_read_system_state(cobblerd_t)
 
-		domain_read_all_domains_state(cobblerd_t)
+	domain_read_all_domains_state(cobblerd_t)
 
-		cobblerd_initrc_domtrans(cobblerd_t)
-		consoletype_domtrans(cobblerd_t)
-		iptables_initrc_domtrans(cobblerd_t)
-		iptables_domtrans(cobblerd_t)
-		modutils_domtrans_insmod(cobblerd_t)
+	# cobblerd_initrc_domtrans(cobblerd_t)
+	consoletype_domtrans(cobblerd_t)
+	# iptables_initrc_domtrans(cobblerd_t)
+	iptables_domtrans(cobblerd_t)
+	modutils_domtrans_insmod_uncond(cobblerd_t)
 
-		seutil_domtrans_semanage(cobblerd_t)
-		seutil_domtrans_setfiles(cobblerd_t)
+	seutil_domtrans_semanage(cobblerd_t)
+	seutil_domtrans_setfiles(cobblerd_t)
 
-		userdom_use_user_terminals(cobblerd_t)
-		userdom_search_user_home_dirs(cobblerd_t)
-		userdom_search_admin_dir(cobblerd_t)
+	userdom_use_user_terminals(cobblerd_t)
+	userdom_search_user_home_dirs(cobblerd_t)
+	userdom_search_admin_dir(cobblerd_t)
+',`
+	dontaudit cobblerd_t self:capability sys_ptrace;
 
-	',`
-		dontaudit cobblerd_t self:capability sys_ptrace;
+	kernel_dontaudit_read_system_state(cobblerd_t)
+	kernel_dontaudit_search_network_state(cobblerd_t)
 
-		kernel_dontaudit_read_system_state(cobblerd_t)
-		kernel_dontaudit_search_network_state(cobblerd_t)
+	domain_dontaudit_exec_all_entry_files(cobblerd_t)
+	domain_dontaudit_read_all_domains_state(cobblerd_t)
 
-		domain_dontaudit_exec_all_entry_files(cobblerd_t)
-		domain_dontaudit_read_all_domains_state(cobblerd_t)
+	init_dontaudit_read_all_script_files(cobblerd_t)
 
-		init_dontaudit_read_all_script_files(cobblerd_t)
+	selinux_dontaudit_read_fs(cobblerd_t)
 
-		selinux_dontaudit_read_fs(cobblerd_t)
-
-		userdom_dontaudit_use_user_terminals(cobblerd_t)
-		userdom_dontaudit_search_user_home_dirs(cobblerd_t)
-		userdom_dontaudit_search_admin_dir(cobblerd_t)
-	')
+	userdom_dontaudit_use_user_terminals(cobblerd_t)
+	userdom_dontaudit_search_user_home_dirs(cobblerd_t)
+	userdom_dontaudit_search_admin_dir(cobblerd_t)
 ')
 
 tunable_policy(`cobbler_use_cifs',`
