@@ -24,10 +24,8 @@ gen_tunable(cobbler_can_check, false)
 
 ## <desc>
 ## <p>
-##	Allow Cobbler reposync to connect to the
-##	network using TCP (This requires that
-##	boolean cobbler_can_reposync is set to
-##	true as well).
+##	Allow Cobbler to connect to the
+##	network using TCP.
 ## </p>
 ## </desc>
 gen_tunable(cobbler_can_network_connect, false)
@@ -114,7 +112,6 @@ corenet_all_recvfrom_unlabeled(cobblerd_t)
 corenet_tcp_bind_generic_node(cobblerd_t)
 corenet_tcp_sendrecv_generic_if(cobblerd_t)
 corenet_tcp_sendrecv_generic_node(cobblerd_t)
-corenet_tcp_sendrecv_generic_port(cobblerd_t)
 corenet_tcp_bind_cobbler_port(cobblerd_t)
 corenet_tcp_sendrecv_cobbler_port(cobblerd_t)
 corenet_sendrecv_cobbler_server_packets(cobblerd_t)
@@ -144,6 +141,10 @@ sysnet_read_config(cobblerd_t)
 sysnet_rw_dhcp_config(cobblerd_t)
 sysnet_write_config(cobblerd_t)
 
+userdom_dontaudit_use_user_terminals(cobblerd_t)
+userdom_dontaudit_search_user_home_dirs(cobblerd_t)
+userdom_dontaudit_search_admin_dir(cobblerd_t)
+
 tunable_policy(`cobbler_anon_write',`
 	miscfiles_manage_public_files(cobblerd_t)
 ')
@@ -159,10 +160,6 @@ tunable_policy(`cobbler_can_check',`',`
 	init_dontaudit_read_all_script_files(cobblerd_t)
 
 	selinux_dontaudit_read_fs(cobblerd_t)
-
-	userdom_dontaudit_use_user_terminals(cobblerd_t)
-	userdom_dontaudit_search_user_home_dirs(cobblerd_t)
-	userdom_dontaudit_search_admin_dir(cobblerd_t)
 ')
 
 tunable_policy(`cobbler_can_network_connect',`
