@@ -77,6 +77,25 @@ interface(`cobbler_read_config',`
 
 ########################################
 ## <summary>
+##	Read cobbler content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`cobbler_read_content',`
+	gen_require(`
+		type cobbler_content_t;
+	')
+
+	read_files_pattern($1, cobbler_content_t, cobbler_content_t)
+	read_lnk_files_pattern($1, cobbler_content_t, cobbler_content_t)
+')
+
+########################################
+## <summary>
 ##	Read and write Cobbler log files.
 ## </summary>
 ## <param name="domain">

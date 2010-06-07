@@ -33,6 +33,13 @@ gen_tunable(cobbler_can_reposync, false)
 
 ## <desc>
 ## <p>
+##	Allow Cobbler to use Cobbler check (Not encouraged).
+## </p>
+## </desc>
+gen_tunable(cobbler_can_check, false)
+
+## <desc>
+## <p>
 ##	Allow Cobbler to access cifs file systems.
 ## </p>
 ## </desc>
@@ -55,6 +62,9 @@ init_script_file(cobblerd_initrc_exec_t)
 type cobbler_etc_t;
 files_config_file(cobbler_etc_t)
 
+type cobbler_content_t;
+files_type(cobbler_content_t)
+
 type cobbler_var_log_t;
 logging_log_file(cobbler_var_log_t)
 
@@ -75,11 +85,14 @@ allow cobblerd_t self:tcp_socket create_stream_socket_perms;
 list_dirs_pattern(cobblerd_t, cobbler_etc_t, cobbler_etc_t)
 read_files_pattern(cobblerd_t, cobbler_etc_t, cobbler_etc_t)
 
+manage_dirs_pattern(cobblerd_t, cobbler_content_t, cobbler_content_t)
+manage_files_pattern(cobblerd_t, cobbler_content_t, cobbler_content_t)
+manage_lnk_files_pattern(cobblerd_t, cobbler_content_t, cobbler_content_t)
+
 manage_dirs_pattern(cobblerd_t, cobbler_var_lib_t, cobbler_var_lib_t)
 manage_files_pattern(cobblerd_t, cobbler_var_lib_t, cobbler_var_lib_t)
 files_var_lib_filetrans(cobblerd_t, cobbler_var_lib_t, { dir file })
 
-# Causes loss of functionality: cobbler sync. This should be fixed.
 allow cobblerd_t cobbler_var_log_t:file write;
 
 append_files_pattern(cobblerd_t, cobbler_var_log_t, cobbler_var_log_t)
@@ -122,16 +135,6 @@ sysnet_read_config(cobblerd_t)
 sysnet_rw_dhcp_config(cobblerd_t)
 sysnet_write_config(cobblerd_t)
 
-# cobbler check
-init_dontaudit_read_all_script_files(cobblerd_t)
-
-userdom_dontaudit_use_unpriv_user_fds(cobblerd_t)
-userdom_dontaudit_use_user_terminals(cobblerd_t)
-userdom_dontaudit_search_user_home_dirs(cobblerd_t)
-userdom_dontaudit_search_admin_dir(cobblerd_t)
-
-selinux_dontaudit_read_fs(cobblerd_t)
-
 tunable_policy(`cobbler_anon_write',`
 	miscfiles_manage_public_files(cobblerd_t)
 ')
@@ -149,7 +152,6 @@ optional_policy(`
 		corenet_tcp_sendrecv_http_port(cobblerd_t)
 		corenet_sendrecv_http_client_packets(cobblerd_t)
 
-		# Its getting attributes of certmaster exec file. I am assuming cobbler may want to run it in some configs.
 		certmaster_exec(cobblerd_t)
 		rsync_exec(cobblerd_t)
 	')
@@ -159,6 +161,47 @@ tunable_policy(`cobbler_can_reposync && cobbler_can_network_connect',`
 	corenet_tcp_connect_all_ports(cobblerd_t)
 	corenet_tcp_sendrecv_all_ports(cobblerd_t)
 	corenet_sendrecv_all_client_packets(cobblerd_t)
+')
+
+optional_policy(`
+	tunable_policy(`cobbler_can_check',`
+		allow cobblerd_t self:capability sys_ptrace;
+
+		kernel_read_network_state(cobblerd_t)
+		kernel_read_system_state(cobblerd_t)
+
+		domain_read_all_domains_state(cobblerd_t)
+
+		cobblerd_initrc_domtrans(cobblerd_t)
+		consoletype_domtrans(cobblerd_t)
+		iptables_initrc_domtrans(cobblerd_t)
+		iptables_domtrans(cobblerd_t)
+		modutils_domtrans_insmod(cobblerd_t)
+
+		seutil_domtrans_semanage(cobblerd_t)
+		seutil_domtrans_setfiles(cobblerd_t)
+
+		userdom_use_user_terminals(cobblerd_t)
+		userdom_search_user_home_dirs(cobblerd_t)
+		userdom_search_admin_dir(cobblerd_t)
+
+	',`
+		dontaudit cobblerd_t self:capability sys_ptrace;
+
+		kernel_dontaudit_read_system_state(cobblerd_t)
+		kernel_dontaudit_search_network_state(cobblerd_t)
+
+		domain_dontaudit_exec_all_entry_files(cobblerd_t)
+		domain_dontaudit_read_all_domains_state(cobblerd_t)
+
+		init_dontaudit_read_all_script_files(cobblerd_t)
+
+		selinux_dontaudit_read_fs(cobblerd_t)
+
+		userdom_dontaudit_use_user_terminals(cobblerd_t)
+		userdom_dontaudit_search_user_home_dirs(cobblerd_t)
+		userdom_dontaudit_search_admin_dir(cobblerd_t)
+	')
 ')
 
 tunable_policy(`cobbler_use_cifs',`
@@ -171,11 +214,6 @@ tunable_policy(`cobbler_use_nfs',`
 	fs_manage_nfs_dirs(cobblerd_t)
 	fs_manage_nfs_files(cobblerd_t)
 	fs_manage_nfs_symlinks(cobblerd_t)
-')
-
-optional_policy(`
-	# Compatibility with older versions. This needs to be verified.
-	apache_read_sys_content(cobblerd_t)
 ')
 
 optional_policy(`
@@ -208,8 +246,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-	# For backward compatibility. Although this conflicts with setfiles if cobbler hard links content here.
-	tftp_manage_rw_content(cobblerd_t)
+	tftp_filetrans_tftpdir(cobblerd_t, cobbler_content_t, dir)
 ')
 
 ########################################
@@ -217,13 +254,7 @@ optional_policy(`
 # Cobbler web local policy.
 #
 
-# This is not going to work afaik. I should ask maintainer.
-# optional_policy(`
-#	apache_content_template(cobbler)
-#	manage_dirs_pattern(cobblerd_t, httpd_cobbler_content_rw_t,  httpd_cobbler_content_rw_t)
-#	manage_files_pattern(cobblerd_t, httpd_cobbler_content_rw_t,  httpd_cobbler_content_rw_t)
-# ')
-
-# To do:
-# Inplement cobbler content type so that it works without use of public_content_rw_t. This also enables us
-# To implement file transitions for cobbler -> { httpd_sys_content_rw_t tftpboot_rw_t } -> cobbler_content_type.
+optional_policy(`
+	apache_content_template(cobbler)
+	filetrans_pattern(cobblerd_t, httpd_cobbler_content_t, cobbler_content_t, dir)
+')
