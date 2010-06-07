@@ -57,7 +57,7 @@ interface(`storage_setattr_fixed_disk_dev',`
 	')
 
 	dev_list_all_dev_nodes($1)
-	allow $1 fixed_disk_device_t:blk_file setattr;
+	allow $1 fixed_disk_device_t:blk_file setattr_blk_file_perms;
 ')
 
 ########################################
@@ -76,7 +76,7 @@ interface(`storage_dontaudit_setattr_fixed_disk_dev',`
 		type fixed_disk_device_t;
 	')
 
-	dontaudit $1 fixed_disk_device_t:blk_file setattr;
+	dontaudit $1 fixed_disk_device_t:blk_file setattr_blk_file_perms;
 ')
 
 ########################################
