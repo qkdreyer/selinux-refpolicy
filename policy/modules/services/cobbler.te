@@ -183,6 +183,10 @@ tunable_policy(`cobbler_use_nfs',`
 ')
 
 optional_policy(`
+	apache_search_sys_content(cobblerd_t)
+')
+
+optional_policy(`
 	bind_read_config(cobblerd_t)
 	bind_write_config(cobblerd_t)
 	bind_domtrans_ndc(cobblerd_t)
@@ -228,5 +232,5 @@ optional_policy(`
 optional_policy(`
 	apache_content_template(cobbler)
 	filetrans_pattern(cobblerd_t, httpd_cobbler_content_t, cobbler_content_t, dir)
-	dontaudit cobblerd_t httpdcontent:file relabel_file_perms;
+	dontaudit cobblerd_t httpdcontent:dir relabel_file_perms;
 ')
