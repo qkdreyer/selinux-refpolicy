@@ -82,6 +82,8 @@ allow cobblerd_t self:udp_socket create_stream_socket_perms;
 list_dirs_pattern(cobblerd_t, cobbler_etc_t, cobbler_etc_t)
 read_files_pattern(cobblerd_t, cobbler_etc_t, cobbler_etc_t)
 
+dontaudit cobblerd_t cobbler_content_t:dir relabel_dir_perms;
+
 manage_dirs_pattern(cobblerd_t, cobbler_content_t, cobbler_content_t)
 manage_files_pattern(cobblerd_t, cobbler_content_t, cobbler_content_t)
 manage_lnk_files_pattern(cobblerd_t, cobbler_content_t, cobbler_content_t)
@@ -232,5 +234,5 @@ optional_policy(`
 optional_policy(`
 	apache_content_template(cobbler)
 	filetrans_pattern(cobblerd_t, httpd_cobbler_content_t, cobbler_content_t, dir)
-	dontaudit cobblerd_t httpdcontent:dir relabel_file_perms;
+	dontaudit cobblerd_t httpdcontent:dir relabel_dir_perms;
 ')
