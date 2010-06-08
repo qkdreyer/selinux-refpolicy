@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.1
-Release: 5.9%{?dist}
+Release: 5.10%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,9 @@ exit 0
 %endif
 
 %changelog
+* Tue Jun 08 2010 Dominick Grift <domg472@gmail.com> 3.8.1-5.10
+- Allow cobblerd_t to search /var/www and dontaudit cobblerd_t relabel from httpdcontent dirs.
+
 * Tue Jun 08 2010 Dominick Grift <domg472@gmail.com> 3.8.1-5.9
 - Cobbler rsync domain isnt useful because i needs identical perms to cobbler sync which cannot be transitioned (wget).
 
