@@ -16,7 +16,7 @@ interface(`tftp_read_content',`
 	')
 
 	read_files_pattern($1, tftpdir_t, tftpdir_t)
-	files_search_var_lib
+	files_search_var_lib($1)
 ')
 
 ########################################
@@ -35,7 +35,7 @@ interface(`tftp_search_content',`
 	')
 
 	search_dirs_pattern($1, tftpdir_t, tftpdir_t)
-	files_search_var_lib
+	files_search_var_lib($1)
 ')
 
 ########################################
