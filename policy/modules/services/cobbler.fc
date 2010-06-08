@@ -14,6 +14,7 @@
 /var/lib/tftpboot/pxelinux.0			--	gen_context(system_u:object_r:cobbler_content_t,s0)
 /var/lib/tftpboot/pxelinux\.cfg(/.*)?		gen_context(system_u:object_r:cobbler_content_t,s0)
 /var/lib/tftpboot/s390x(/.*)?				gen_context(system_u:object_r:cobbler_content_t,s0)
+/var/lib/tftpboot/yaboot				--	gen_context(system_u:object_r:cobbler_content_t,s0)
 
 /var/log/cobbler(/.*)?						gen_context(system_u:object_r:cobbler_var_log_t,s0)
 
