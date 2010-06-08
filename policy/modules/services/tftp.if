@@ -16,12 +16,11 @@ interface(`tftp_read_content',`
 	')
 
 	read_files_pattern($1, tftpdir_t, tftpdir_t)
-	files_search_var_lib($1)
 ')
 
 ########################################
 ## <summary>
-##	Search tftpdir directories.
+##	Search tftp /var/lib directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -29,12 +28,12 @@ interface(`tftp_read_content',`
 ##	</summary>
 ## </param>
 #
-interface(`tftp_search_content',`
+interface(`tftp_search_rw_content',`
 	gen_require(`
-		type tftpdir_t;
+		type tftpdir_rw_t;
 	')
 
-	search_dirs_pattern($1, tftpdir_t, tftpdir_t)
+	search_dirs_pattern($1, tftpdir_rw_t, tftpdir_rw_t)
 	files_search_var_lib($1)
 ')
 

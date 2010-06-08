@@ -149,6 +149,7 @@ tunable_policy(`cobbler_anon_write',`
 	miscfiles_manage_public_files(cobblerd_t)
 ')
 
+# Not working yet.
 tunable_policy(`cobbler_can_check',`',`
 	dontaudit cobblerd_t self:capability sys_ptrace;
 

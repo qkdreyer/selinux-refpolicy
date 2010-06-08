@@ -245,6 +245,6 @@ interface(`cobblerd_admin',`
 	')
 
 	optional_policy(`
-		tftp_search_content($1)
+		tftp_search_rw_content($1)
 	')
 ')

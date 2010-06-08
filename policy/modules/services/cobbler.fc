@@ -17,7 +17,9 @@
 
 /var/log/cobbler(/.*)?						gen_context(system_u:object_r:cobbler_var_log_t,s0)
 
+# Not optional
 /var/www/cobbler(/.*)?						gen_context(system_u:object_r:httpd_cobbler_content_t,s0)
+
 /var/www/cobbler/images(/.*)?				gen_context(system_u:object_r:cobbler_content_t,s0)
 /var/www/cobbler/ks_mirror(/.*)?      		gen_context(system_u:object_r:cobbler_content_t,s0)
 /var/www/cobbler/repo_mirror(/.*)?			gen_context(system_u:object_r:cobbler_content_t,s0)
