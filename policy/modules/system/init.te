@@ -1,5 +1,5 @@
 
-policy_module(init, 1.15.0)
+policy_module(init, 1.15.1)
 
 gen_require(`
 	class passwd rootok;
@@ -347,6 +347,9 @@ files_mounton_default(initrc_t)
 files_manage_mnt_dirs(initrc_t)
 files_manage_mnt_files(initrc_t)
 
+fs_delete_cgroup_dirs(initrc_t)
+fs_list_cgroup_dirs(initrc_t)
+fs_rw_cgroup_files(initrc_t)
 fs_list_inotifyfs(initrc_t)
 fs_register_binary_executable_type(initrc_t)
 fs_write_ramfs_pipes(initrc_t)
@@ -489,7 +492,6 @@ ifdef(`distro_redhat',`
 
 	auth_dontaudit_read_shadow(initrc_t)
 
-	# init scripts cp /etc/localtime over other directories localtime
 	miscfiles_rw_localization(initrc_t)
 	miscfiles_setattr_localization(initrc_t)
 	miscfiles_relabel_localization(initrc_t)
@@ -602,6 +604,10 @@ optional_policy(`
 optional_policy(`
 	dev_read_usbfs(initrc_t)
 	bluetooth_read_config(initrc_t)
+')
+
+optional_policy(`
+	cgroup_stream_connect(initrc_t)
 ')
 
 optional_policy(`
@@ -798,9 +804,9 @@ optional_policy(`
 ')
 
 ifdef(`enabled_mls',`
-optional_policy(`
-	su_restricted_domain_template(initrc, initrc_t, system_r)
-')
+	optional_policy(`
+		su_restricted_domain_template(initrc, initrc_t, system_r)
+	')
 ')
 
 optional_policy(`

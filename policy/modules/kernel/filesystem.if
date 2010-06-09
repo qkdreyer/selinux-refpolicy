@@ -648,7 +648,6 @@ interface(`fs_list_cgroup_dirs', `
 interface(`fs_manage_cgroup_dirs',`
 	gen_require(`
 		type cgroup_t;
-
 	')
 
 	manage_dirs_pattern($1, cgroup_t, cgroup_t)
@@ -667,7 +666,6 @@ interface(`fs_manage_cgroup_dirs',`
 interface(`fs_search_cgroup_dirs',`
 	gen_require(`
 		type cgroup_t;
-
 	')
 
 	search_dirs_pattern($1, cgroup_t, cgroup_t)
@@ -724,7 +722,6 @@ interface(`fs_read_cgroup_files',`
 interface(`fs_rw_cgroup_files',`
 	gen_require(`
 		type cgroup_t;
-
 	')
 
 	rw_files_pattern($1, cgroup_t, cgroup_t)

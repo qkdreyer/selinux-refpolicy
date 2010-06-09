@@ -530,6 +530,7 @@ template(`userdom_common_user_template',`
 	seutil_read_file_contexts($1_usertype)
 	seutil_read_default_contexts($1_usertype)
 	seutil_run_newrole($1_t, $1_r)
+
 	seutil_exec_checkpolicy($1_t)
 	seutil_exec_setfiles($1_usertype)
 	seutil_dontaudit_signal_newrole($1_t)
@@ -2461,7 +2462,7 @@ interface(`userdom_dontaudit_write_user_tmp_files',`
 		type user_tmp_t;
 	')
 
-	dontaudit $1 user_tmp_t:file write;
+	dontaudit $1 user_tmp_t:file write_file_perms;
 ')
 
 ########################################

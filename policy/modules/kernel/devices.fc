@@ -156,6 +156,7 @@ ifdef(`distro_suse',`
 
 /dev/mapper/control				-c	gen_context(system_u:object_r:lvm_control_t,s0)
 
+/dev/mfpports/.*				-c	gen_context(system_u:object_r:printer_device_t,s0)
 /dev/mvideo/.*					-c	gen_context(system_u:object_r:xserver_misc_device_t,s0)
 
 /dev/pts(/.*)?						<<none>>
@@ -167,7 +168,6 @@ ifdef(`distro_suse',`
 
 /dev/usb/dc2xx.*				-c	gen_context(system_u:object_r:scanner_device_t,s0)
 /dev/usb/lp.*					-c	gen_context(system_u:object_r:printer_device_t,s0)
-/dev/mfpports/.*				-c	gen_context(system_u:object_r:printer_device_t,s0)
 /dev/usb/mdc800.*				-c	gen_context(system_u:object_r:scanner_device_t,s0)
 /dev/usb/scanner.*				-c	gen_context(system_u:object_r:scanner_device_t,s0)
 
