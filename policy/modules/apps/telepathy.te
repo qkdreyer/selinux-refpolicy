@@ -151,9 +151,11 @@ corenet_raw_sendrecv_generic_node(tp_domains)
 corenet_tcp_bind_generic_node(tp_domains)
 corenet_tcp_sendrecv_generic_if(tp_domains)
 corenet_tcp_sendrecv_generic_node(tp_domains)
+corenet_tcp_sendrecv_generic_port(tp_domains)
 corenet_udp_bind_generic_node(tp_domains)
 corenet_udp_sendrecv_generic_if(tp_domains)
 corenet_udp_sendrecv_generic_node(tp_domains)
+corenet_udp_sendrecv_generic_port(tp_domains)
 
 fs_search_auto_mountpoints(tp_domains)
 
@@ -163,7 +165,6 @@ userdom_stream_connect(tp_domains)
 userdom_use_user_terminals(tp_domains)
 
 tunable_policy(`telepathy_tcp_connect_generic_network_ports',`
-	corenet_tcp_sendrecv_generic_port(tp_domains)
 	corenet_tcp_connect_generic_port(tp_domains)
 	corenet_sendrecv_generic_client_packets(tp_domains)
 ')

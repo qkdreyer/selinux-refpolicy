@@ -2096,7 +2096,6 @@ interface(`kernel_rw_unlabeled_dirs',`
 
 ########################################
 ## <summary>
-<<<<<<< HEAD
 ##	Read and write unlabeled files.
 ## </summary>
 ## <param name="domain">
