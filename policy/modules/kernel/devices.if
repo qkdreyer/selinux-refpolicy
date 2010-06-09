@@ -4139,25 +4139,6 @@ interface(`dev_write_video_dev',`
 
 ########################################
 ## <summary>
-##	Allow read/write the vhost net device
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`dev_rw_vhost',`
-	gen_require(`
-		type vhost_device_t;
-	')
-
-	list_dirs_pattern($1, vhost_device_t, vhost_device_t)
-	rw_files_pattern($1, vhost_device_t, vhost_device_t)
-')
-
-########################################
-## <summary>
 ##	Read and write VMWare devices.
 ## </summary>
 ## <param name="domain">

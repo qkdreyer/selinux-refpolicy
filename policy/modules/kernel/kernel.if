@@ -1925,7 +1925,6 @@ interface(`kernel_mount_unlabeled',`
 	allow $1 unlabeled_t:filesystem mount;
 ')
 
-<<<<<<< HEAD
 ########################################
 ## <summary>
 ##	Unmount unlabeled filesystems.
@@ -1943,26 +1942,6 @@ interface(`kernel_unmount_unlabeled',`
 
 	allow $1 unlabeled_t:filesystem unmount;
 ')
-|||||||
-=======
-########################################
-## <summary>
-##	Unmount a kernel unlabeled filesystem.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`kernel_unmount_unlabeled',`
-	gen_require(`
-		type unlabeled_t;
-	')
-
-	allow $1 unlabeled_t:filesystem unmount;
-')
->>>>>>> refpolicy
 
 ########################################
 ## <summary>
@@ -2138,31 +2117,6 @@ interface(`kernel_rw_unlabeled_files',`
 ## <summary>
 ##	Do not audit attempts to get
 ##	attributes of unlabeled files.
-|||||||
-##	Do not audit attempts by caller to get the
-##	attributes of an unlabeled file.
-=======
-##	Read and write unlabeled files.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`kernel_rw_unlabeled_files',`
-	gen_require(`
-		type unlabeled_t;
-	')
-
-	allow $1 unlabeled_t:file rw_file_perms;
-')
-
-########################################
-## <summary>
-##	Do not audit attempts by caller to get the
-##	attributes of an unlabeled file.
->>>>>>> refpolicy
 ## </summary>
 ## <param name="domain">
 ##	<summary>

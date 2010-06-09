@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.1
-Release: 5.10%{?dist}
+Release: 5.11%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,10 @@ exit 0
 %endif
 
 %changelog
+* Wed Jun 09 2010 Dominick Grift <domg472@gmail.com> 3.8.1-5.11
+- add fc spec /var/lib/tftpboot/yaboot (cobbler)
+- Merge branch refpolicy.
+
 * Tue Jun 08 2010 Dominick Grift <domg472@gmail.com> 3.8.1-5.10
 - Allow cobblerd_t to search /var/www and dontaudit cobblerd_t relabel from httpdcontent dirs.
 
