@@ -49,8 +49,8 @@ template(`su_restricted_domain_template',`
 	allow $2 $1_su_t:fifo_file rw_file_perms;
 	allow $2 $1_su_t:process sigchld;
 
-	ifdef(`hide_broken_symptoms', `
-		dontaudit $1_su_t $2:socket_class_set { read write };
+	ifdef(`hide_broken_symptoms',`
+		dontaudit $1_su_t $2:socket_class_set rw_inherited_sock_file_perms;
 	')
 
 	kernel_read_system_state($1_su_t)
@@ -121,7 +121,7 @@ template(`su_restricted_domain_template',`
 	')
 
 	ifdef(`TODO',`
-	dontaudit $1_su_t initrc_devpts_t:chr_file { getattr ioctl };
+		dontaudit $1_su_t initrc_devpts_t:chr_file { getattr_chr_file_perms ioctl };
 	')
 ')
 

@@ -314,6 +314,7 @@ tunable_policy(`use_samba_home_dirs',`
 
 optional_policy(`
 	mta_manage_spool(dovecot_deliver_t)
+	mta_read_queue(dovecot_deliver_t)
 	mta_manage_mail_home(dovecot_deliver_t)
 	mta_user_home_filetrans_mail_home(dovecot_deliver_t)
 ')

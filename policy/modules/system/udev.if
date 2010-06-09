@@ -211,25 +211,6 @@ interface(`udev_rw_db',`
 
 ########################################
 ## <summary>
-##	Allow process to delete list of devices.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`udev_delete_db',`
-	gen_require(`
-		type udev_tbl_t;
-	')
-
-	allow $1 udev_tbl_t:file unlink;
-	dev_list_all_dev_nodes($1)
-')
-
-########################################
-## <summary>
 ##	Create, read, write, and delete
 ##	udev pid files.
 ## </summary>

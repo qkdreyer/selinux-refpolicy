@@ -1267,24 +1267,6 @@ interface(`domain_unconfined_signal',`
 
 ########################################
 ## <summary>
-##	Polyinstatiated access to domains.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`domain_poly',`
-	gen_require(`
-		attribute polydomain;
-	')
-
-	typeattribute $1 polydomain;
-')
-
-########################################
-## <summary>
 ##	Unconfined access to domains.
 ## </summary>
 ## <param name="domain">

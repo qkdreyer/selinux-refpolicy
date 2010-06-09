@@ -16,7 +16,7 @@ dbus_system_domain(kdumpgui_t, kdumpgui_exec_t)
 # system-config-kdump local policy
 #
 
-allow kdumpgui_t self:capability { net_admin sys_rawio };
+allow kdumpgui_t self:capability { net_admin sys_admin sys_rawio };
 allow kdumpgui_t self:fifo_file rw_fifo_file_perms;
 
 allow kdumpgui_t self:netlink_kobject_uevent_socket create_socket_perms;

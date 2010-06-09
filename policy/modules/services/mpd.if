@@ -96,6 +96,27 @@ interface(`mpd_manage_data_files',`
 	mpd_search_lib($1)
 ')
 
+###################################
+## <summary>
+##	Manage mpd tmpfs files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`mpd_manage_tmpfs_files',`
+	gen_require(`
+		type mpd_tmpfs_t;
+	')
+
+	manage_files_pattern($1, mpd_tmpfs_t, mpd_tmpfs_t)
+	manage_lnk_files_pattern($1, mpd_tmpfs_t, mpd_tmpfs_t)
+	files_search_var_lib($1)
+	mpd_search_lib($1)
+')
+
 ########################################
 ## <summary>
 ##	Search mpd lib directories.
@@ -222,7 +243,7 @@ interface(`mpd_manage_lib_dirs',`
 interface(`mpd_admin',`
 	gen_require(`
 		type mpd_t, mpd_initrc_exec_t, mpd_data_t;
-		type mpd_log_t, mpd_var_lib_t;
+		type mpd_log_t, mpd_var_lib_t, mpd_etc_t;
 	')
 
 	allow $1 mpd_t:process { ptrace signal_perms };
@@ -233,11 +254,11 @@ interface(`mpd_admin',`
 	role_transition $2 mpd_initrc_exec_t system_r;
 	allow $2 system_r;
 
+	admin_pattern($1, mpd_etc_t)
+	files_search_etc($1)
+
 	admin_pattern($1, mpd_var_lib_t)
 	files_search_var_lib($1)
 	
 	admin_pattern($1, mpd_data_t)
-
-	admin_pattern($1, mpd_log_t)
-	logging_search_logs($1)
 ')

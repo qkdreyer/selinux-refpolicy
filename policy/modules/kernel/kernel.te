@@ -42,11 +42,6 @@ fs_type(debugfs_t)
 allow debugfs_t self:filesystem associate;
 genfscon debugfs / gen_context(system_u:object_r:debugfs_t,s0)
 
-type infinibandeventfs_t;
-fs_type(infinibandeventfs_t)
-allow infinibandeventfs_t self:filesystem associate;
-genfscon infinibandeventfs / gen_context(system_u:object_r:infinibandeventfs_t,s0)
-
 type kvmfs_t;
 fs_type(kvmfs_t)
 genfscon kvmfs / gen_context(system_u:object_r:kvmfs_t,s0)
@@ -226,6 +221,8 @@ files_manage_mounttab(kernel_t)
 files_manage_generic_spool_dirs(kernel_t)
 
 mcs_process_set_categories(kernel_t)
+mcs_file_read_all(kernel_t)
+mcs_file_write_all(kernel_t)
 
 mls_process_read_up(kernel_t)
 mls_process_write_down(kernel_t)

@@ -301,6 +301,25 @@ interface(`userdom_exec_user_bin_files',`
 
 #######################################
 ## <summary>
+##	Do not audit attempts to search
+##	user bin directories.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain to not audit.
+##	</summary>
+## </param>
+#
+interface(`userdom_dontaudit_search_user_bin_dirs',`
+	gen_require(`
+		type home_bin_t;
+	')
+
+	dontaudit $1 home_bin_t:dir search_dir_perms;
+')
+
+#######################################
+## <summary>
 ##	The execute access user temporary files.
 ## </summary>
 ## <param name="domain">
@@ -1628,7 +1647,7 @@ interface(`userdom_relabel_user_home_files',`
 		type user_home_t;
 	')
 
-	allow $1 user_home_t:file { relabelto relabelfrom };
+	allow $1 user_home_t:file relabel_file_perms;
 ')
 
 ########################################
@@ -2482,6 +2501,25 @@ interface(`userdom_dontaudit_manage_user_tmp_files',`
 	')
 
 	dontaudit $1 user_tmp_t:file manage_file_perms;
+')
+
+########################################
+## <summary>
+##	Do not audit attempts to read
+##	and write users temporary pipes.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain to not audit.
+##	</summary>
+## </param>
+#
+interface(`userdom_dontaudit_rw_user_tmp_pipes',`
+	gen_require(`
+		type user_tmp_t;
+	')
+
+	dontaudit $1 user_tmp_t:fifo_file rw_inherited_fifo_file_perms;
 ')
 
 ########################################

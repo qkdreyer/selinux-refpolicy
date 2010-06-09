@@ -88,10 +88,11 @@ interface(`auth_use_pam',`
 interface(`auth_login_pgm_domain',`
 	gen_require(`
 		type var_auth_t, auth_cache_t;
+		attribute polydomain;
 	')
 
 	domain_type($1)
-	domain_poly($1)
+	typeattribute $1 polydomain;
 
 	domain_subj_id_change_exemption($1)
 	domain_role_change_exemption($1)
@@ -180,10 +181,6 @@ interface(`auth_login_pgm_domain',`
 		ssh_agent_exec($1)
 		ssh_read_user_home_files($1)
 		userdom_read_user_home_content_files($1)
-	')
-
-	tunable_policy(`allow_polyinstantiation',`
-		files_polyinstantiate_all($1)
 	')
 ')
 

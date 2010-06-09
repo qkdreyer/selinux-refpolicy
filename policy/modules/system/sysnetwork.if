@@ -527,6 +527,24 @@ interface(`sysnet_exec_ifconfig',`
 
 ########################################
 ## <summary>
+##	Send kill signals to iconfig.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`sysnet_kill_ifconfig',`
+	gen_require(`
+		type ifconfig_t;
+	')
+
+	allow $1 ifconfig_t:process sigkill;
+')
+
+########################################
+## <summary>
 ##	Send a generic signal to ifconfig.
 ## </summary>
 ## <param name="domain">

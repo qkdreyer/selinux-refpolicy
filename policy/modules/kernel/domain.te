@@ -26,8 +26,6 @@ neverallow domain ~domain:process { transition dyntransition };
 
 attribute unconfined_domain_type;
 
-attribute polydomain;
-
 attribute mmap_low_domain_type;
 neverallow { domain -mmap_low_domain_type } self:memprotect mmap_zero;
 
@@ -185,10 +183,16 @@ optional_policy(`
 	cron_dontaudit_write_system_job_tmp_files(domain)
 	cron_rw_pipes(domain)
 	cron_rw_system_job_pipes(domain)
+')
 
+ifdef(`hide_broken_symptoms',`
+	dontaudit domain self:udp_socket listen;
+	allow domain domain:key { link search };
+')
+
+optional_policy(`
 	ifdef(`hide_broken_symptoms',`
-		dontaudit domain self:udp_socket listen;
-		allow domain domain:key { link search };
+		afs_rw_udp_sockets(domain)
 	')
 ')
 
@@ -203,10 +207,3 @@ optional_policy(`
 
 dontaudit can_change_object_identity can_change_object_identity:key link;
 
-tunable_policy(`allow_polyinstantiation',`
-	files_polyinstantiate_all(polydomain)
-	userdom_manage_user_home_content_dirs(polydomain)
-	userdom_manage_user_home_content_files(polydomain)
-	userdom_relabelto_user_home_dirs(polydomain)
-	userdom_relabelto_user_home_files(polydomain)
-')

@@ -281,12 +281,13 @@ ifdef(`hide_broken_symptoms',`
 	dev_dontaudit_read_urand(iceauth_t)
 	dev_dontaudit_rw_dri(iceauth_t)
 	dev_dontaudit_rw_generic_dev_nodes(iceauth_t)
-	fs_list_inotifyfs(iceauth_t)
+	fs_dontaudit_list_inotifyfs(iceauth_t)
 	fs_dontaudit_rw_anon_inodefs_files(iceauth_t)
 	term_dontaudit_use_unallocated_ttys(iceauth_t)
 
 	userdom_dontaudit_read_user_home_content_files(iceauth_t)
 	userdom_dontaudit_write_user_home_content_files(iceauth_t)
+	userdom_dontaudit_write_user_tmp_files(iceauth_t)
 
 	optional_policy(`
 		mozilla_dontaudit_rw_user_home_files(iceauth_t)
@@ -351,11 +352,12 @@ userdom_read_user_tmp_files(xauth_t)
 userdom_read_all_users_state(xauth_t)
 
 ifdef(`hide_broken_symptoms',`
-     fs_dontaudit_rw_anon_inodefs_files(xauth_t)
-     userdom_manage_user_home_content_files(xauth_t)
-     userdom_manage_user_tmp_files(xauth_t)
-     dev_dontaudit_rw_generic_dev_nodes(xauth_t)
-     miscfiles_read_fonts(xauth_t)
+	fs_dontaudit_rw_anon_inodefs_files(xauth_t)
+	fs_dontaudit_list_inotifyfs(xauth_t)
+	userdom_manage_user_home_content_files(xauth_t)
+	userdom_manage_user_tmp_files(xauth_t)
+	dev_dontaudit_rw_generic_dev_nodes(xauth_t)
+	miscfiles_read_fonts(xauth_t)
 ')
 
 xserver_rw_xdm_tmp_files(xauth_t)
@@ -1013,6 +1015,10 @@ optional_policy(`
 optional_policy(`
 	rhgb_getpgid(xserver_t)
 	rhgb_signal(xserver_t)
+')
+
+optional_policy(`
+	setrans_translate_context(xserver_t)
 ')
 
 optional_policy(`

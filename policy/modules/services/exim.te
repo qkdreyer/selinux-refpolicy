@@ -183,6 +183,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+    nagios_search_spool(exim_t)
+')
+
+optional_policy(`
 	tunable_policy(`exim_can_connect_db',`
 		mysql_stream_connect(exim_t)
 		postgresql_stream_connect(exim_t)

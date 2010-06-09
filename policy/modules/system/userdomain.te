@@ -52,11 +52,10 @@ gen_tunable(user_ttyfile_stat, false)
 attribute admindomain;
 
 attribute userdomain;
+attribute unpriv_userdomain;
 
 attribute untrusted_content_type;
 attribute untrusted_content_tmp_type;
-
-attribute unpriv_userdomain;
 
 attribute user_home_type;
 

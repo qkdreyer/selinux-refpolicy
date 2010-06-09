@@ -45,7 +45,8 @@ userdom_search_admin_dir(pulseaudio_t)
 
 manage_dirs_pattern(pulseaudio_t, pulseaudio_var_lib_t, pulseaudio_var_lib_t)
 manage_files_pattern(pulseaudio_t, pulseaudio_var_lib_t, pulseaudio_var_lib_t)
-files_var_lib_filetrans(pulseaudio_t, pulseaudio_var_lib_t, { dir file })
+manage_lnk_files_pattern(pulseaudio_t, pulseaudio_var_lib_t, pulseaudio_var_lib_t)
+files_var_lib_filetrans(pulseaudio_t, pulseaudio_var_lib_t, { dir file lnk_file })
 
 manage_dirs_pattern(pulseaudio_t, pulseaudio_var_run_t, pulseaudio_var_run_t)
 manage_files_pattern(pulseaudio_t, pulseaudio_var_run_t, pulseaudio_var_run_t)

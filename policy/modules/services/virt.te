@@ -490,6 +490,7 @@ corenet_sendrecv_vnc_server_packets(virt_domain)
 corenet_sendrecv_virt_migration_client_packets(virt_domain)
 corenet_sendrecv_virt_migration_server_packets(virt_domain)
 
+dev_read_generic_symlinks(virt_domain)
 dev_read_rand(virt_domain)
 dev_read_sound(virt_domain)
 dev_read_urand(virt_domain)

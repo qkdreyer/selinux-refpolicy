@@ -309,7 +309,7 @@ interface(`dev_dontaudit_getattr_generic_pipes',`
 		type device_t;
 	')
 
-	dontaudit $1 device_t:fifo_file getattr;
+	dontaudit $1 device_t:fifo_file getattr_fifo_file_perms;
 ')
 
 ########################################
@@ -590,6 +590,24 @@ interface(`dev_manage_generic_symlinks',`
 	')
 
 	manage_lnk_files_pattern($1, device_t, device_t)
+')
+
+########################################
+## <summary>
+##	Read symbolic links in device directories.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`dev_read_generic_symlinks',`
+	gen_require(`
+		type device_t;
+	')
+
+	allow $1 device_t:lnk_file read_lnk_file_perms;
 ')
 
 ########################################
