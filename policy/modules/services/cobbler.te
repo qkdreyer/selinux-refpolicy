@@ -84,7 +84,7 @@ dontaudit cobblerd_t cobbler_content_t:dir relabel_dir_perms;
 manage_dirs_pattern(cobblerd_t, cobbler_content_t, cobbler_content_t)
 manage_files_pattern(cobblerd_t, cobbler_content_t, cobbler_content_t)
 manage_lnk_files_pattern(cobblerd_t, cobbler_content_t, cobbler_content_t)
-files_var_lib_filetrans(cobblerd_t, cobbler_var_lib_t, { dir file lnk_file })
+files_var_lib_filetrans(cobblerd_t, cobbler_content_t, { dir file lnk_file })
 
 allow cobblerd_t cobbler_var_log_t:file write;
 
