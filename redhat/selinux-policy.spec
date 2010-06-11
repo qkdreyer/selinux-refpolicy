@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.3
-Release: 1.2%{?dist}
+Release: 1.3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,9 @@ exit 0
 %endif
 
 %changelog
+* Fri Jun 11 2010 Dominick Grift <domg472@gmail.com> 3.8.3-1.3
+- aiccu fixes: https://bugzilla.redhat.com/show_bug.cgi?id=602821
+
 * Wed Jun 09 2010 Dominick Grift <domg472@gmail.com> 3.8.3-1.2
 - Change cobbler_var_lib_t to cobbler_content_t since cobbler stores content here besides stateful data.
 
