@@ -26,7 +26,7 @@ files_pid_file(aiccu_var_run_t)
 
 allow aiccu_t self:capability { kill net_admin };
 allow aiccu_t self:process { fork signal };
-allow aiccu_t self:fifo_file rw_file_perms;
+allow aiccu_t self:fifo_file rw_fifo_file_perms;
 allow aiccu_t self:netlink_route_socket create_netlink_socket_perms;
 allow aiccu_t self:tcp_socket create_stream_socket_perms;
 allow aiccu_t self:tun_socket create_socket_perms;
