@@ -1,5 +1,4 @@
-
-## <summary>Aiccu.</summary>
+## <summary>Automatic IPv6 Connectivity Client Utility.</summary>
 
 ########################################
 ## <summary>
@@ -60,7 +59,7 @@ interface(`aiccu_read_pid_files',`
 
 ########################################
 ## <summary>
-##	Manage aiccu var_run files.
+##	Manage aiccu PID files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -76,6 +75,7 @@ interface(`aiccu_manage_var_run',`
 	manage_dirs_pattern($1, aiccu_var_run_t, aiccu_var_run_t)
 	manage_files_pattern($1, aiccu_var_run_t, aiccu_var_run_t)
 	manage_lnk_files_pattern($1, aiccu_var_run_t, aiccu_var_run_t)
+	files_search_pids($1)
 ')
 
 
@@ -98,17 +98,21 @@ interface(`aiccu_manage_var_run',`
 #
 interface(`aiccu_admin',`
 	gen_require(`
-		type aiccu_t, aiccu_initrc_exec_t;
+		type aiccu_t, aiccu_initrc_exec_t, aiccu_etc_t;
+		type aiccu_var_run_t;
 	')
 
-	allow $1 aiccu_t:process { ptrace signal_perms getattr };
-	read_files_pattern($1, aiccu_t, aiccu_t)
+	allow $1 aiccu_t:process { ptrace signal_perms };
+	ps_process_pattern($1, aiccu_t)
 
 	aiccu_initrc_domtrans($1)
 	domain_system_change_exemption($1)
 	role_transition $2 aiccu_initrc_exec_t system_r;
 	allow $2 system_r;
 
-	admin_pattern($1, aiccu_var_run_t, aiccu_var_run_t)
+	admin_pattern($1, aiccu_etc_t)
+	files_search_etc($1)
+
+	admin_pattern($1, aiccu_var_run_t)
 	files_search_pids($1)
 ')

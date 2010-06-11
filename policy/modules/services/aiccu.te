@@ -1,5 +1,5 @@
 
-policy_module(aiccu,1.0.0)
+policy_module(aiccu, 1.0.0)
 
 ########################################
 #
@@ -13,6 +13,9 @@ init_daemon_domain(aiccu_t, aiccu_exec_t)
 type aiccu_initrc_exec_t;
 init_script_file(aiccu_initrc_exec_t)
 
+type aiccu_etc_t;
+files_config_file(aiccu_etc_t)
+
 type aiccu_var_run_t;
 files_pid_file(aiccu_var_run_t)
 
@@ -23,18 +26,23 @@ files_pid_file(aiccu_var_run_t)
 
 allow aiccu_t self:capability kill;
 allow aiccu_t self:process { fork signal };
-
-domain_use_interactive_fds(aiccu_t)
-
 allow aiccu_t self:fifo_file rw_file_perms;
 allow aiccu_t self:unix_stream_socket create_stream_socket_perms;
 
-corenet_rw_tun_tap_dev(aiccu_t)
-
-files_read_etc_files(aiccu_t)
-
-miscfiles_read_localization(aiccu_t)
+allow aiccu_t aiccu_etc_t:file read_file_perms;
 
 manage_dirs_pattern(aiccu_t, aiccu_var_run_t,  aiccu_var_run_t)
 manage_files_pattern(aiccu_t, aiccu_var_run_t,  aiccu_var_run_t)
 files_pid_filetrans(aiccu_t, aiccu_var_run_t, { file dir })
+
+kernel_read_system_state(aiccu_t)
+
+corecmd_exec_shell(aiccu_t)
+
+corenet_rw_tun_tap_dev(aiccu_t)
+
+miscfiles_read_localization(aiccu_t)
+
+modutils_domtrans_insmod(aiccu_t)
+
+sysnet_domtrans_ifconfig(aiccu_t)
