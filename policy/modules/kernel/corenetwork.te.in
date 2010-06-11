@@ -177,6 +177,7 @@ network_port(rwho, udp,513,s0)
 network_port(sap, tcp,9875,s0, udp,9875,s0)
 network_port(sieve, tcp,4190,s0)
 network_port(sip, tcp,5060-5061,s0, udp,5060-5061,s0)
+network_port(sixxsconfig, tcp,3874,s0 udp,3874,s0
 network_port(smbd, tcp,137-139,s0, tcp,445,s0)
 network_port(smtp, tcp,25,s0, tcp,465,s0, tcp,587,s0)
 network_port(smtp_afterqueue, tcp,10026,s0)
