@@ -62,11 +62,11 @@ template(`execmem_role_template',`
 		dontaudit $1_execmem_t $3:socket_class_set rw_inherited_sock_file_perms;
 	')
 	
-	files_execmod_tmp($1_execmem_t)
+	# files_execmod_tmp($1_execmem_t)
 
-#	optional_policy(`
-#		chrome_role($2, $1_execmem_t)
-#	')
+	optional_policy(`
+		chrome_role($2, $1_execmem_t)
+	')
 
 	optional_policy(`
 		mozilla_execmod_user_home_files($1_execmem_t)
@@ -85,9 +85,9 @@ template(`execmem_role_template',`
 #		mplayer_exec_domtrans($3, $1_execmem_t)
 #	')
 
-#	optional_policy(`
-#		xserver_role($2, $1_execmem_t)
-#	')
+	optional_policy(`
+		xserver_role($2, $1_execmem_t)
+	')
 ')
 
 ########################################
