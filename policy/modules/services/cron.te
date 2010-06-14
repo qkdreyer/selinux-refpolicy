@@ -571,8 +571,8 @@ corenet_tcp_sendrecv_generic_node(cronjob_t)
 corenet_udp_sendrecv_generic_node(cronjob_t)
 corenet_tcp_sendrecv_all_ports(cronjob_t)
 corenet_udp_sendrecv_all_ports(cronjob_t)
-corenet_tcp_connect_all_ports(cronjob_t)
-corenet_sendrecv_all_client_packets(cronjob_t)
+corenet_tcp_connect_generic_port(cronjob_t)
+corenet_sendrecv_generic_client_packets(cronjob_t)
 
 dev_read_urand(cronjob_t)
 
