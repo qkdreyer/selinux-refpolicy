@@ -139,11 +139,12 @@ cron_rw_pipes(clamd_t)
 mta_read_config(clamd_t)
 mta_send_mail(clamd_t)
 
-tunable_policy(`clamd_use_jit',`
-	allow clamd_t self:process execmem;
-',`
-	dontaudit clamd_t self:process execmem;
-')
+# This needs to be verified first
+# tunable_policy(`clamd_use_jit',`
+# 	allow clamd_t self:process execmem;
+# ',`
+# 	dontaudit clamd_t self:process execmem;
+# ')
 
 optional_policy(`
 	amavis_read_lib_files(clamd_t)
@@ -249,6 +250,13 @@ clamav_stream_connect(freshclam_t)
 
 userdom_stream_connect(freshclam_t)
 
+# This needs to be verified first
+# tunable_policy(`clamd_use_jit',`
+#	allow freshclam_t self:process execmem;
+# ',`
+#	dontaudit freshclam_t self:process execmem;
+# ')
+
 optional_policy(`
 	cron_system_entry(freshclam_t, freshclam_exec_t)
 ')
@@ -299,11 +307,12 @@ clamav_stream_connect(clamscan_t)
 
 mta_send_mail(clamscan_t)
 
-tunable_policy(`clamd_use_jit',`
-	allow clamscan_t self:process execmem;
-',`
-	dontaudit clamscan_t self:process execmem;
-')
+# This needs to be verified first
+# tunable_policy(`clamd_use_jit',`
+#	allow clamscan_t self:process execmem;
+# ',`
+#	dontaudit clamscan_t self:process execmem;
+# ')
 
 optional_policy(`
 	amavis_read_spool_files(clamscan_t)

@@ -1,5 +1,6 @@
 /etc/clamav(/.*)?						gen_context(system_u:object_r:clamd_etc_t,s0)
 /etc/clamsmtpd.conf					--	gen_context(system_u:object_r:clamsmtpd_etc_t,s0)
+/etc/cron\.daily/freshclam			--	gen_context(system_u:object_r:freshclam_exec_t,s0)
 /etc/rc\.d/init\.d/clamd-wrapper	--	gen_context(system_u:object_r:clamd_initrc_exec_t,s0)
 /etc/rc\.d/init\.d/clamsmtpd		--	gen_context(system_u:object_r:clamsmtpd_initrc_exec_t,s0)
 
