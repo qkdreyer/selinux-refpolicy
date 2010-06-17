@@ -17,7 +17,7 @@ interface(`ncftool_domtrans',`
 	')
 
 	domtrans_pattern($1, ncftool_exec_t, ncftool_t)
-	coremcd_search_bin($1)
+	corecmd_search_bin($1)
 ')
 
 ########################################

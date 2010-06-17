@@ -119,9 +119,9 @@ HOME_ROOT/lost\+found/.*								<<none>>
 /proc												-d	<<none>>
 /proc/.*												<<none>>
 
-+ifdef(`distro_redhat',`
-+/rhev												-d	gen_context(system_u:object_r:mnt_t,s0)
-+')
+ifdef(`distro_redhat',`
+/rhev												-d	gen_context(system_u:object_r:mnt_t,s0)
+')
 
 /selinux											-d	<<none>>
 /selinux/.*												<<none>>
