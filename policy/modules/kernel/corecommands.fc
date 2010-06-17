@@ -72,6 +72,8 @@ ifdef(`distro_redhat',`
 /etc/X11/xdm/TakeConsole												--	gen_context(system_u:object_r:bin_t,s0)
 /etc/X11/xdm/Xsetup_0													--	gen_context(system_u:object_r:bin_t,s0)
 /etc/X11/xinit(/.*)?														gen_context(system_u:object_r:bin_t,s0)
+/etc/pki/tls/certs/make-dummy-cert										--	gen_context(system_u:object_r:bin_t,s0)
+/etc/pki/tls/misc(/.*)?													--	gen_context(system_u:object_r:bin_t,s0)
 /etc/profile.d(/.*)?														gen_context(system_u:object_r:bin_t,s0)
 /etc/xen/qemu-ifup														--	gen_context(system_u:object_r:bin_t,s0)
 /etc/xen/scripts(/.*)?														gen_context(system_u:object_r:bin_t,s0)
@@ -279,6 +281,7 @@ ifdef(`distro_suse',`
 /usr/share/apache2/[^/]*												--	gen_context(system_u:object_r:bin_t,s0)
 ')
 
+/var/lib/asterisk/agi-bin(/.*)?												gen_context(system_u:object_r:bin_t,s0)
 /var/mailman/bin(/.*)?														gen_context(system_u:object_r:bin_t,s0)
 /var/ftp/bin(/.*)?															gen_context(system_u:object_r:bin_t,s0)
 /var/qmail/bin															-d	gen_context(system_u:object_r:bin_t,s0)

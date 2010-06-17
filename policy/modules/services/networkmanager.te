@@ -91,6 +91,8 @@ corenet_udp_bind_generic_node(NetworkManager_t)
 corenet_udp_bind_isakmp_port(NetworkManager_t)
 corenet_udp_bind_dhcpc_port(NetworkManager_t)
 corenet_tcp_connect_all_ports(NetworkManager_t)
+corenet_udp_sendrecv_isakmp_port(NetworkManager_t)
+corenet_udp_sendrecv_dhcpc_port(NetworkManager_t)
 corenet_sendrecv_isakmp_server_packets(NetworkManager_t)
 corenet_sendrecv_dhcpc_server_packets(NetworkManager_t)
 corenet_sendrecv_all_client_packets(NetworkManager_t)
@@ -215,6 +217,10 @@ optional_policy(`
 
 optional_policy(`
 	howl_signal(NetworkManager_t)
+')
+
+optional_policy(`
+	ipsec_domtrans_mgmt(NetworkManager_t)
 ')
 
 optional_policy(`

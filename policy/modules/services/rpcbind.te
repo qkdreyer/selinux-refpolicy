@@ -58,6 +58,8 @@ corenet_tcp_bind_portmap_port(rpcbind_t)
 corenet_udp_bind_portmap_port(rpcbind_t)
 corenet_udp_bind_all_rpc_ports(rpcbind_t)
 corenet_sendrecv_portmap_server_packets(rpcbind_t)
+corenet_tcp_sendrecv_portmap_port(rpcbind_t)
+corenet_udp_sendrecv_portmap_port(rpcbind_t)
 
 domain_use_interactive_fds(rpcbind_t)
 
@@ -72,4 +74,8 @@ sysnet_dns_name_resolve(rpcbind_t)
 
 ifdef(`hide_broken_symptoms',`
 	dontaudit rpcbind_t self:udp_socket listen;
+')
+
+optional_policy(`
+	nis_use_ypbind(rpcbind_t)
 ')

@@ -131,6 +131,7 @@ ifdef(`distro_redhat',`
 /usr/lib(64)?/fglrx/.*\.so(\.[^/]*)*													--	gen_context(system_u:object_r:textrel_shlib_t,s0)
 /usr/lib(64)?/libjs\.so.*																--	gen_context(system_u:object_r:textrel_shlib_t,s0)
 /usr/lib(64)?/sse2/libx264\.so(\.[^/]*)* 												--	gen_context(system_u:object_r:textrel_shlib_t,s0)
+/usr/lib(64)?/libzita-convolver\.so(\.[^/]*)*											--	gen_context(system_u:object_r:textrel_shlib_t,s0)
 /usr/lib(64)?(/.*)?/libnvidia.+\.so(\.[^/]*)* 											--	gen_context(system_u:object_r:textrel_shlib_t,s0)
 /usr/lib(64)?(/.*)?/nvidia_drv.*\.so(\.[^/]*)*											--	gen_context(system_u:object_r:textrel_shlib_t,s0)
 /usr/lib(64)?/nero/plug-ins/libMP3\.so(\.[^/]*)* 										--	gen_context(system_u:object_r:textrel_shlib_t,s0)

@@ -21,6 +21,26 @@ interface(`ipsec_domtrans',`
 
 ########################################
 ## <summary>
+##	Execute an domain transition to run
+##	ipsec mgmt.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed to transition.
+##	</summary>
+## </param>
+#
+interface(`ipsec_domtrans_mgmt',`
+	gen_require(`
+		type ipsec_mgmt_t, ipsec_mgmt_exec_t;
+	')
+
+	domtrans_pattern($1, ipsec_mgmt_exec_t, ipsec_mgmt_t)
+	corecmd_search_bin($1)
+')
+
+########################################
+## <summary>
 ##	Connect to IPSEC using a unix domain stream socket.
 ## </summary>
 ## <param name="domain">

@@ -31,3 +31,7 @@ corenet_sendrecv_ftp_client_packets(httpd_w3c_validator_script_t)
 miscfiles_read_certs(httpd_w3c_validator_script_t)
 
 sysnet_dns_name_resolve(httpd_w3c_validator_script_t)
+
+optional_policy(`
+	apache_dontaudit_rw_tmp_files(httpd_w3c_validator_script_t)
+')

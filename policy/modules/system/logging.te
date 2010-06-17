@@ -264,8 +264,11 @@ optional_policy(`
 #
 # Audit remote logger local policy
 #
-
+allow audisp_remote_t self:capability { setuid  setpcap };
+allow audisp_remote_t self:process { getcap setcap };
 allow audisp_remote_t self:tcp_socket create_socket_perms;
+
+corecmd_exec_bin(audisp_remote_t)
 
 corenet_all_recvfrom_unlabeled(audisp_remote_t)
 corenet_all_recvfrom_netlabel(audisp_remote_t)
@@ -277,12 +280,19 @@ corenet_tcp_bind_generic_node(audisp_remote_t)
 corenet_tcp_connect_audit_port(audisp_remote_t)
 corenet_sendrecv_audit_client_packets(audisp_remote_t)
 corenet_sendrecv_audit_server_packets(audisp_remote_t)
+corenet_tcp_sendrecv_audit_port(audisp_remote_t)
 
 files_read_etc_files(audisp_remote_t)
 
+logging_search_logs(audisp_remote_t)
+logging_send_audit_msgs(audisp_remote_t)
 logging_send_syslog_msg(audisp_remote_t)
 
 auth_use_nsswitch(audisp_remote_t)
+
+init_telinit(audisp_remote_t)
+init_read_utmp(audisp_remote_t)
+init_dontaudit_write_utmp(audisp_remote_t)
 
 miscfiles_read_localization(audisp_remote_t)
 

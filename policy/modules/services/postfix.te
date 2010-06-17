@@ -57,6 +57,7 @@ postfix_user_domain_template(postdrop)
 mta_mailserver_user_agent(postfix_postdrop_t)
 
 postfix_user_domain_template(postqueue)
+mta_mailserver_user_agent(postfix_postqueue_t)
 
 type postfix_private_t;
 files_type(postfix_private_t)
@@ -135,7 +136,7 @@ manage_files_pattern(postfix_master_t, postfix_spool_t, postfix_spool_t)
 files_spool_filetrans(postfix_master_t, postfix_spool_t, dir)
 
 allow postfix_master_t postfix_spool_bounce_t:dir manage_dir_perms;
-allow postfix_master_t postfix_spool_bounce_t:file getattr;
+allow postfix_master_t postfix_spool_bounce_t:file getattr_file_perms;
 
 manage_dirs_pattern(postfix_master_t, postfix_spool_flush_t, postfix_spool_flush_t)
 manage_files_pattern(postfix_master_t, postfix_spool_flush_t, postfix_spool_flush_t)
@@ -225,8 +226,8 @@ optional_policy(`
 allow postfix_bounce_t self:capability dac_read_search;
 allow postfix_bounce_t self:tcp_socket create_socket_perms;
 
-allow postfix_bounce_t postfix_public_t:sock_file write;
-allow postfix_bounce_t postfix_public_t:dir search;
+allow postfix_bounce_t postfix_public_t:sock_file write_sock_file_perms;
+allow postfix_bounce_t postfix_public_t:dir search_dir_perms;
 
 manage_dirs_pattern(postfix_bounce_t, postfix_spool_t, postfix_spool_t)
 manage_files_pattern(postfix_bounce_t, postfix_spool_t, postfix_spool_t)
@@ -292,7 +293,7 @@ mta_send_mail(postfix_local_t)
 
 domtrans_pattern(postfix_local_t, postfix_postdrop_exec_t, postfix_postdrop_t)
 
-allow postfix_postdrop_t postfix_local_t:unix_stream_socket { read write };    
+allow postfix_postdrop_t postfix_local_t:unix_stream_socket rw_inherited_sock_file_perms;
 
 userdom_read_user_home_content_files(postfix_local_t)
 
@@ -319,10 +320,15 @@ optional_policy(`
 	procmail_domtrans(postfix_local_t)
 ')
 
+optional_policy(`
+	zarafa_deliver_domtrans(postfix_local_t)
+')
+
 ########################################
 #
 # Postfix map local policy
 #
+
 allow postfix_map_t self:capability { dac_override setgid setuid };
 allow postfix_map_t self:unix_stream_socket create_stream_socket_perms;
 allow postfix_map_t self:unix_dgram_socket create_socket_perms;

@@ -14,6 +14,7 @@
 template(`rhcs_domain_template',`
 	gen_require(`
 		attribute cluster_domain;
+		attribute cluster_tmpfs;
 	')
 
 	##############################
@@ -25,7 +26,7 @@ template(`rhcs_domain_template',`
 	type $1_exec_t;
 	init_daemon_domain($1_t, $1_exec_t)
 
-	type $1_tmpfs_t;
+	type $1_tmpfs_t, cluster_tmpfs;
 	files_tmpfs_file($1_tmpfs_t)
 
 	type $1_var_log_t;
@@ -169,7 +170,7 @@ interface(`rhcs_stream_connect_fenced',`
 	')
 
 	allow $1 fenced_t:unix_stream_socket connectto;
-	allow $1 fenced_var_run_t:sock_file { getattr write };
+	allow $1 fenced_var_run_t:sock_file { getattr_sock_file_perms write_sock_file_perms };
 	files_search_pids($1)
 ')
 
@@ -334,6 +335,48 @@ interface(`rhcs_rw_groupd_shm',`
 	fs_search_tmpfs($1)
 ')
 
+########################################
+## <summary>
+##	Read and write to group shared
+##	memory.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`rhcs_rw_cluster_shm',`
+	gen_require(`
+		attribute cluster_domain;
+		attribute cluster_tmpfs;
+	')
+
+	allow $1 cluster_domain:shm { rw_shm_perms destroy };
+
+	manage_files_pattern($1, cluster_tmpfs, cluster_tmpfs)
+	fs_search_tmpfs($1)
+')
+
+####################################
+## <summary>
+##	Read and write access to cluster
+##	domains semaphores.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`rhcs_rw_cluster_semaphores',`
+	gen_require(`
+		type cluster_domain;
+	')
+
+	allow $1 cluster_domain:sem { rw_sem_perms destroy };
+')
+
 ######################################
 ## <summary>
 ##	Execute a domain transition to run qdiskd.
@@ -351,4 +394,23 @@ interface(`rhcs_domtrans_qdiskd',`
 
 	domtrans_pattern($1, qdiskd_exec_t, qdiskd_t)
 	corecmd_search_bin($1)
+')
+
+########################################
+## <summary>
+##	Read qdiskd tmpfs files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`rhcs_read_qdiskd_tmpfs_files',`
+	gen_require(`
+		type qdiskd_tmpfs_t;
+	')
+
+	allow $1 qdiskd_tmpfs_t:file read_file_perms;
+	fs_search_tmpfs($1)
 ')

@@ -51,6 +51,8 @@ files_tmp_filetrans(netutils_t, netutils_tmp_t, { file dir })
 
 kernel_search_proc(netutils_t)
 kernel_read_all_sysctls(netutils_t)
+kernel_read_network_state(netutils_t)
+kernel_request_load_module(netutils_t)
 
 corenet_all_recvfrom_unlabeled(netutils_t)
 corenet_all_recvfrom_netlabel(netutils_t)
@@ -221,6 +223,8 @@ miscfiles_read_localization(traceroute_t)
 
 dev_read_rand(traceroute_t)
 dev_read_urand(traceroute_t)
+# Either this is in the wrong place or it is called by the wrong domain.
+dev_read_usbmon_dev(netutils_t)
 
 tunable_policy(`user_ping',`
 	term_use_all_ttys(traceroute_t)

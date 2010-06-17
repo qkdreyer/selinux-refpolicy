@@ -44,7 +44,7 @@ ifdef(`enable_mcs',`
 
 allow abrt_t self:capability { chown kill setuid setgid sys_nice dac_override };
 dontaudit abrt_t self:capability sys_rawio;
-allow abrt_t self:process { signal signull setsched getsched };
+allow abrt_t self:process { sigkill signal signull setsched getsched };
 
 allow abrt_t self:fifo_file rw_fifo_file_perms;
 allow abrt_t self:tcp_socket create_stream_socket_perms;

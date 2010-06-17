@@ -119,6 +119,7 @@ optional_policy(`
 
 optional_policy(`
 	psad_rw_tmp_files(iptables_t)
+	psad_write_log(iptables_t)
 ')
 
 optional_policy(`

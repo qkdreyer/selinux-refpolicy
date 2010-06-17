@@ -552,6 +552,8 @@ interface(`init_telinit',`
 		type initctl_t;
 	')
 
+	corecmd_exec_bin($1)
+
 	dev_list_all_dev_nodes($1)
 	allow $1 initctl_t:fifo_file rw_fifo_file_perms;
 

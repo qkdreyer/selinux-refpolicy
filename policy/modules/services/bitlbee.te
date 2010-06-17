@@ -29,11 +29,12 @@ files_type(bitlbee_var_t)
 #
 #
 
+allow bitlbee_t self:capability { setgid setuid };
+allow bitlbee_t self:process signal;
 allow bitlbee_t self:udp_socket create_socket_perms;
 allow bitlbee_t self:tcp_socket { create_stream_socket_perms connected_stream_socket_perms };
 allow bitlbee_t self:unix_stream_socket create_stream_socket_perms;
 allow bitlbee_t self:fifo_file rw_fifo_file_perms;
-allow bitlbee_t self:process signal;
 
 bitlbee_read_config(bitlbee_t)
 
@@ -50,6 +51,8 @@ corenet_udp_sendrecv_generic_if(bitlbee_t)
 corenet_udp_sendrecv_generic_node(bitlbee_t)
 corenet_tcp_sendrecv_generic_if(bitlbee_t)
 corenet_tcp_sendrecv_generic_node(bitlbee_t)
+corenet_tcp_sendrecv_all_ports(bitlbee_t)
+corenet_udp_sendrecv_all_ports(bitlbee_t)
 corenet_tcp_connect_jabber_client_port(bitlbee_t)
 corenet_tcp_sendrecv_jabber_client_port(bitlbee_t)
 corenet_sendrecv_jabber_client_client_packets(bitlbee_t)
@@ -77,6 +80,10 @@ files_search_pids(bitlbee_t)
 files_read_usr_files(bitlbee_t)
 
 libs_legacy_use_shared_libs(bitlbee_t)
+
+auth_use_nsswitch(bitlbee_t)
+
+logging_send_syslog_msg(bitlbee_t)
 
 miscfiles_read_localization(bitlbee_t)
 

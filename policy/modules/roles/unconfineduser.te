@@ -132,8 +132,8 @@ optional_policy(`
 
 	optional_policy(`
 		tunable_policy(`allow_unconfined_nsplugin_transition',`
-		      nsplugin_domtrans(unconfined_usertype)
-		      nsplugin_domtrans_config(unconfined_usertype)
+			nsplugin_domtrans(unconfined_usertype)
+			nsplugin_domtrans_config(unconfined_usertype)
 		')
 	')
 
@@ -319,6 +319,10 @@ optional_policy(`
 	mono_role_template(unconfined, unconfined_r, unconfined_t)
 	unconfined_domain_noaudit(unconfined_mono_t)
 	role system_r types unconfined_mono_t;
+')
+
+optional_policy(`
+	ncftool_run(unconfined_t, unconfined_r)
 ')
 
 optional_policy(`

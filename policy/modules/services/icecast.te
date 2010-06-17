@@ -38,10 +38,16 @@ manage_dirs_pattern(icecast_t, icecast_var_run_t, icecast_var_run_t)
 manage_files_pattern(icecast_t, icecast_var_run_t, icecast_var_run_t)
 files_pid_filetrans(icecast_t, icecast_var_run_t, { file dir })
 
-corenet_tcp_bind_soundd_port(icecast_t)
+kernel_read_system_state(icecast_t)
 
-# Init script handling
-domain_use_interactive_fds(icecast_t)
+corenet_all_recvfrom_unlabeled(icecast_t)
+corenet_all_recvfrom_netlabel(icecast_t)
+corenet_tcp_sendrecv_generic_if(icecast_t)
+corenet_tcp_sendrecv_generic_node(icecast_t)
+corenet_tcp_sendrecv_all_ports(icecast_t)
+corenet_tcp_bind_soundd_port(icecast_t)
+corenet_tcp_sendrecv_soundd_port(icecast_t)
+corenet_sendrecv_soundd_server_packets(icecast_t)
 
 files_read_etc_files(icecast_t)
 
@@ -50,6 +56,10 @@ auth_use_nsswitch(icecast_t)
 miscfiles_read_localization(icecast_t)
 
 sysnet_dns_name_resolve(icecast_t)
+
+optional_policy(`
+	apache_read_sys_content(icecast_t)
+')
 
 optional_policy(`
 	rtkit_scheduled(icecast_t)

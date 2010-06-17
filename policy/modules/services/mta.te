@@ -100,12 +100,16 @@ optional_policy(`
 	apache_dontaudit_rw_tcp_sockets(system_mail_t)
 	apache_dontaudit_rw_sys_script_stream_sockets(system_mail_t)
 	apache_dontaudit_write_tmp_files(system_mail_t)
+
+	apache_dontaudit_rw_stream_sockets(mta_user_agent)
+	apache_dontaudit_rw_sys_script_stream_sockets(mta_user_agent)
+	apache_append_log(mta_user_agent)
 ')
 
 optional_policy(`
 	arpwatch_manage_tmp_files(system_mail_t)
 
-	ifdef(`hide_broken_symptoms', `
+	ifdef(`hide_broken_symptoms',`
 		arpwatch_dontaudit_rw_packet_sockets(system_mail_t)
 	')
 ')
@@ -215,7 +219,7 @@ optional_policy(`
 	arpwatch_search_data(mailserver_delivery)
 	arpwatch_manage_tmp_files(mta_user_agent)
 
-	ifdef(`hide_broken_symptoms', `
+	ifdef(`hide_broken_symptoms',`
 		arpwatch_dontaudit_rw_packet_sockets(mta_user_agent)
 	')
 

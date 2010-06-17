@@ -77,6 +77,7 @@ fs_getattr_all_fs(shorewall_t)
 
 init_rw_utmp(shorewall_t)
 
+logging_read_generic_logs(shorewall_t)
 logging_send_syslog_msg(shorewall_t)
 
 miscfiles_read_localization(shorewall_t)

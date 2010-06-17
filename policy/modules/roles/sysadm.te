@@ -249,7 +249,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-    daemonstools_run_start(sysadm_t, sysadm_r)
+	daemonstools_run_start(sysadm_t, sysadm_r)
 ')
 
 optional_policy(`
@@ -350,6 +350,10 @@ optional_policy(`
 
 optional_policy(`
 	mysql_stream_connect(sysadm_t)
+')
+
+optional_policy(`
+	ncftool_run(sysadm_t, sysadm_r)
 ')
 
 optional_policy(`

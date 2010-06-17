@@ -326,11 +326,6 @@ interface(`mta_mailserver_user_agent',`
 
 	typeattribute $1 mta_user_agent;
 
-	optional_policy(`
-		apache_dontaudit_rw_stream_sockets($1)
-		apache_dontaudit_rw_sys_script_stream_sockets($1)
-		apache_append_log($1)
-	')
 ')
 
 ########################################

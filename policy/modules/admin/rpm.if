@@ -107,6 +107,25 @@ interface(`rpm_run',`
 
 ########################################
 ## <summary>
+##	Make rpm_exec_t an entry point for
+##	the specified domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+# 
+interface(`rpm_entry_type',`
+	gen_require(`
+		type rpm_exec_t;
+	')
+
+	domain_entry_file($1, rpm_exec_t)
+')
+
+########################################
+## <summary>
 ##	Execute RPM client.
 ## </summary>
 ## <param name="domain">
@@ -215,8 +234,8 @@ interface(`rpm_dontaudit_leaks',`
 	')
 
 	dontaudit $1 rpm_t:fifo_file rw_inherited_fifo_file_perms;
- 	dontaudit $1 rpm_t:tcp_socket { read write };
-	dontaudit $1 rpm_t:unix_dgram_socket { read write };
+ 	dontaudit $1 rpm_t:tcp_socket rw_inherited_sock_file_perms;
+	dontaudit $1 rpm_t:unix_dgram_socket rw_inherited_sock_file_perms;
 	dontaudit $1 rpm_t:shm rw_shm_perms;
 
 	dontaudit $1 rpm_script_t:fd use;
@@ -629,7 +648,7 @@ interface(`rpm_read_pid_files',`
 		type rpm_var_run_t;
 	')
 
-	read_files_pattern($1,rpm_var_run_t,rpm_var_run_t)
+	read_files_pattern($1, rpm_var_run_t, rpm_var_run_t)
 	files_search_pids($1)
 ')
 

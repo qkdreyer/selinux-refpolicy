@@ -576,6 +576,10 @@ optional_policy(`
 	yam_read_content(httpd_t)
 ')
 
+optional_policy(`
+	zarafa_stream_connect_server(httpd_t)
+')
+
 ########################################
 #
 # Apache helper local policy

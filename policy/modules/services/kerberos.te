@@ -129,7 +129,11 @@ corenet_tcp_bind_kerberos_password_port(kadmind_t)
 corenet_udp_bind_kerberos_password_port(kadmind_t)
 # corenet_tcp_bind_reserved_port(kadmind_t)
 corenet_dontaudit_tcp_bind_all_reserved_ports(kadmind_t)
+corenet_tcp_sendrecv_kerberos_admin_port(kadmind_t)
+corenet_udp_sendrecv_kerberos_admin_port(kadmind_t)
 corenet_sendrecv_kerberos_admin_server_packets(kadmind_t)
+corenet_tcp_sendrecv_kerberos_password_port(kadmind_t)
+corenet_udp_sendrecv_kerberos_password_port(kadmind_t)
 corenet_sendrecv_kerberos_password_server_packets(kadmind_t)
 
 dev_read_sysfs(kadmind_t)
@@ -187,20 +191,19 @@ allow krb5kdc_t self:udp_socket create_socket_perms;
 allow krb5kdc_t self:fifo_file rw_fifo_file_perms;
 
 allow krb5kdc_t krb5_conf_t:file read_file_perms;
-dontaudit krb5kdc_t krb5_conf_t:file write;
+dontaudit krb5kdc_t krb5_conf_t:file write_file_perms;
 
 can_exec(krb5kdc_t, krb5kdc_exec_t)
 
 read_files_pattern(krb5kdc_t, krb5kdc_conf_t, krb5kdc_conf_t)
-dontaudit krb5kdc_t krb5kdc_conf_t:file write;
+dontaudit krb5kdc_t krb5kdc_conf_t:file write_file_perms;
 
-allow krb5kdc_t krb5kdc_lock_t:file { rw_file_perms setattr };
+allow krb5kdc_t krb5kdc_lock_t:file { rw_file_perms setattr_file_perms };
 
 allow krb5kdc_t krb5kdc_log_t:file manage_file_perms;
 logging_log_filetrans(krb5kdc_t, krb5kdc_log_t, file)
 
-allow krb5kdc_t krb5kdc_principal_t:file read_file_perms;
-dontaudit krb5kdc_t krb5kdc_principal_t:file write;
+allow krb5kdc_t krb5kdc_principal_t:file rw_file_perms;
 
 manage_dirs_pattern(krb5kdc_t, krb5kdc_tmp_t, krb5kdc_tmp_t)
 manage_files_pattern(krb5kdc_t, krb5kdc_tmp_t, krb5kdc_tmp_t)

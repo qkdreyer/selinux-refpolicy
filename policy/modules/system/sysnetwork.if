@@ -303,6 +303,42 @@ interface(`sysnet_setattr_config',`
 
 #######################################
 ## <summary>
+##	Relabel to network configuration files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`sysnet_relabelfrom_net_conf',`
+	gen_require(`
+		type net_conf_t;
+	')
+
+	allow $1 net_conf_t:file relabelfrom;
+')
+
+######################################
+## <summary>
+##	Relabel to network configuration files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`sysnet_relabelto_net_conf',`
+	gen_require(`
+		type net_conf_t;
+	')
+
+	allow $1 net_conf_t:file relabelto;
+')
+
+#######################################
+## <summary>
 ##	Read network config files.
 ## </summary>
 ## <param name="domain">
