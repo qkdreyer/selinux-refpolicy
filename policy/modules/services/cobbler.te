@@ -1,4 +1,3 @@
-
 policy_module(cobbler, 1.1.0)
 
 # Cobbler check is not supported and is silently ignored.

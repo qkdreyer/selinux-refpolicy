@@ -1,4 +1,3 @@
-
 policy_module(git, 1.0.3)
 
 ## <desc>
@@ -120,26 +119,26 @@ list_dirs_pattern(git_system_t, git_content, git_content)
 read_files_pattern(git_system_t, git_content, git_content)
 files_search_var_lib(git_system_t)
 
-tunable_policy(`git_system_enable_homedirs', `
+tunable_policy(`git_system_enable_homedirs',`
 	userdom_search_user_home_dirs(git_system_t)
 ')
 
-tunable_policy(`git_system_enable_homedirs && use_nfs_home_dirs', `
+tunable_policy(`git_system_enable_homedirs && use_nfs_home_dirs',`
 	fs_list_nfs(git_system_t)
 	fs_read_nfs_files(git_system_t)
 ')
 
-tunable_policy(`git_system_enable_homedirs && use_samba_home_dirs', `
+tunable_policy(`git_system_enable_homedirs && use_samba_home_dirs',`
 	fs_list_cifs(git_system_t)
 	fs_read_cifs_files(git_system_t)
 ')
 
-tunable_policy(`git_system_use_cifs', `
+tunable_policy(`git_system_use_cifs',`
 	fs_list_cifs(git_system_t)
 	fs_read_cifs_files(git_system_t)
 ')
 
-tunable_policy(`git_system_use_nfs', `
+tunable_policy(`git_system_use_nfs',`
 	fs_list_nfs(git_system_t)
 	fs_read_nfs_files(git_system_t)
 ')

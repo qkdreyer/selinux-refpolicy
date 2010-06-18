@@ -2201,7 +2201,7 @@ interface(`files_dontaudit_write_etc_files',`
 		type etc_t;
 	')
 
-	dontaudit $1 etc_t:file write;
+	dontaudit $1 etc_t:file write_file_perms;
 ')
 
 ########################################
@@ -2859,6 +2859,8 @@ interface(`files_rw_isid_type_blk_files',`
 	')
 
 	allow $1 file_t:blk_file rw_blk_file_perms;
+	allow $1 home_root_t:dir search_dir_perms;
+	allow $1 home_root_t:lnk_file read_lnk_file_perms;
 ')
 
 ########################################
@@ -2879,6 +2881,8 @@ interface(`files_manage_isid_type_blk_files',`
 	')
 
 	allow $1 file_t:blk_file manage_blk_file_perms;
+	allow $1 home_root_t:dir search_dir_perms;
+	allow $1 home_root_t:lnk_file read_lnk_file_perms;
 ')
 
 ########################################
@@ -2899,6 +2903,8 @@ interface(`files_manage_isid_type_chr_files',`
 	')
 
 	allow $1 file_t:chr_file manage_chr_file_perms;
+	allow $1 home_root_t:dir search_dir_perms;
+	allow $1 home_root_t:lnk_file read_lnk_file_perms;
 ')
 
 ########################################
@@ -3552,13 +3558,13 @@ interface(`files_read_world_readable_sockets',`
 ## </param>
 #
 interface(`files_read_system_conf_files',`
-    gen_require(`
-        type etc_t, system_conf_t;
-    ')
+	gen_require(`
+		type etc_t, system_conf_t;
+	')
 
-    allow $1 etc_t:dir list_dir_perms;
-    read_files_pattern($1, etc_t, system_conf_t)
-    read_lnk_files_pattern($1, etc_t, system_conf_t)
+	allow $1 etc_t:dir list_dir_perms;
+	read_files_pattern($1, etc_t, system_conf_t)
+	read_lnk_files_pattern($1, etc_t, system_conf_t)
 ')
 
 ######################################
@@ -3573,11 +3579,11 @@ interface(`files_read_system_conf_files',`
 ## </param>
 #
 interface(`files_manage_system_conf_files',`
-    gen_require(`
-        type etc_t, system_conf_t;
-    ')
+	gen_require(`
+		type etc_t, system_conf_t;
+	')
 
-    manage_files_pattern($1, { etc_t system_conf_t }, system_conf_t)
+	manage_files_pattern($1, { etc_t system_conf_t }, system_conf_t)
 ')
 
 ###################################
@@ -3593,11 +3599,11 @@ interface(`files_manage_system_conf_files',`
 ## </param>
 #
 interface(`files_etc_filetrans_system_conf',`
-    gen_require(`
-        type etc_t, system_conf_t;
-    ')
+	gen_require(`
+		type etc_t, system_conf_t;
+	')
 
-    filetrans_pattern($1, etc_t, system_conf_t, file)
+	filetrans_pattern($1, etc_t, system_conf_t, file)
 ')
 
 ########################################

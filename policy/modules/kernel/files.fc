@@ -21,6 +21,7 @@ ifdef(`distro_suse',`
 /success											--	gen_context(system_u:object_r:etc_runtime_t,s0)
 ')
 
+<<<<<<< HEAD
 /boot												-d	gen_context(system_u:object_r:boot_t,s0)
 /boot/.*												gen_context(system_u:object_r:boot_t,s0)
 /boot/\.journal											<<none>>

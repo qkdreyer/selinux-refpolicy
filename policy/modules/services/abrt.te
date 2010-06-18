@@ -1,5 +1,4 @@
-
-policy_module(abrt, 1.1.0)
+policy_module(abrt, 1.1.1)
 
 ########################################
 #
@@ -194,6 +193,7 @@ allow abrt_helper_t self:process signal;
 
 read_files_pattern(abrt_helper_t, abrt_etc_t, abrt_etc_t)
 
+files_search_spool(abrt_helper_t)
 manage_dirs_pattern(abrt_helper_t, abrt_var_cache_t, abrt_var_cache_t)
 manage_files_pattern(abrt_helper_t, abrt_var_cache_t, abrt_var_cache_t)
 manage_lnk_files_pattern(abrt_helper_t, abrt_var_cache_t, abrt_var_cache_t)
@@ -241,7 +241,7 @@ ifdef(`hide_broken_symptoms',`
 		attribute domain;
 	')
 
-	allow abrt_t self:capability sys_resource;    
+	allow abrt_t self:capability sys_resource;
 	allow abrt_t domain:file write;
 	allow abrt_t domain:process setrlimit;
 ')
