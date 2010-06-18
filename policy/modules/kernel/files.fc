@@ -21,7 +21,6 @@ ifdef(`distro_suse',`
 /success											--	gen_context(system_u:object_r:etc_runtime_t,s0)
 ')
 
-<<<<<<< HEAD
 /boot												-d	gen_context(system_u:object_r:boot_t,s0)
 /boot/.*												gen_context(system_u:object_r:boot_t,s0)
 /boot/\.journal											<<none>>
@@ -50,12 +49,12 @@ ifdef(`distro_suse',`
 /etc/motd											--	gen_context(system_u:object_r:etc_runtime_t,s0)
 /etc/nohotplug										--	gen_context(system_u:object_r:etc_runtime_t,s0)
 /etc/nologin.*										--	gen_context(system_u:object_r:etc_runtime_t,s0)
-/etc/reader\.conf									-- 	gen_context(system_u:object_r:etc_runtime_t,s0)
+/etc/reader\.conf									--	gen_context(system_u:object_r:etc_runtime_t,s0)
 /etc/smartd\.conf.*									--	gen_context(system_u:object_r:etc_runtime_t,s0)
 
-/etc/sysctl\.conf(\.old)?               			--	gen_context(system_u:object_r:system_conf_t,s0)
-/etc/sysconfig/ip6?tables.*             			--	gen_context(system_u:object_r:system_conf_t,s0)
-/etc/sysconfig/ipvsadm.*               				--	gen_context(system_u:object_r:system_conf_t,s0)
+/etc/sysctl\.conf(\.old)?							--	gen_context(system_u:object_r:system_conf_t,s0)
+/etc/sysconfig/ip6?tables.*							--	gen_context(system_u:object_r:system_conf_t,s0)
+/etc/sysconfig/ipvsadm.*							--	gen_context(system_u:object_r:system_conf_t,s0)
 /etc/sysconfig/system-config-firewall.* 			--	gen_context(system_u:object_r:system_conf_t,s0)
 
 /etc/cups/client\.conf								--	gen_context(system_u:object_r:etc_t,s0)
