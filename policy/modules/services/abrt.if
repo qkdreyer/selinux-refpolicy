@@ -21,7 +21,7 @@ interface(`abrt_domtrans',`
 
 ######################################
 ## <summary>
-##	Execute abrt in the caller domain.
+##	Execute abrt.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

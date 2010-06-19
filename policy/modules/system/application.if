@@ -1,4 +1,4 @@
-## <summary>Policy for user executable applications.</summary>
+## <summary>User executable applications.</summary>
 
 ########################################
 ## <summary>
@@ -102,7 +102,8 @@ interface(`application_domain',`
 
 ########################################
 ## <summary>
-##	Send signull to all application domains.
+##	Send null signals to all application
+##	domains.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

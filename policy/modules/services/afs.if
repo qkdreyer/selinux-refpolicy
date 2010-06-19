@@ -97,7 +97,7 @@ interface(`afs_admin',`
 		type afs_t, afs_initrc_exec_t;
 	')
 
-	allow $1 afs_t:process { ptrace signal_perms getattr };
+	allow $1 afs_t:process { ptrace signal_perms };
 	read_files_pattern($1, afs_t, afs_t)
 
 	afs_initrc_domtrans($1)
