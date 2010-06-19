@@ -19,6 +19,9 @@ files_lock_file(logwatch_lock_t)
 type logwatch_tmp_t;
 files_tmp_file(logwatch_tmp_t)
 
+type logwatch_var_run_t;
+files_pid_file(logwatch_var_run_t)
+
 ########################################
 #
 # Local policy
@@ -26,7 +29,7 @@ files_tmp_file(logwatch_tmp_t)
 
 allow logwatch_t self:capability { dac_override dac_read_search setgid };
 allow logwatch_t self:process signal;
-allow logwatch_t self:fifo_file rw_file_perms;
+allow logwatch_t self:fifo_file rw_fifo_file_perms;
 allow logwatch_t self:unix_stream_socket create_stream_socket_perms;
 
 manage_dirs_pattern(logwatch_t, logwatch_cache_t, logwatch_cache_t)
@@ -38,6 +41,9 @@ files_lock_filetrans(logwatch_t, logwatch_lock_t, file)
 manage_dirs_pattern(logwatch_t, logwatch_tmp_t, logwatch_tmp_t)
 manage_files_pattern(logwatch_t, logwatch_tmp_t, logwatch_tmp_t)
 files_tmp_filetrans(logwatch_t, logwatch_tmp_t, { file dir })
+
+allow logwatch_t logwatch_var_run_t:file manage_file_perms;
+files_pid_filetrans(logwatch_t, logwatch_var_run_t, file)
 
 kernel_read_fs_sysctls(logwatch_t)
 kernel_read_kernel_sysctls(logwatch_t)

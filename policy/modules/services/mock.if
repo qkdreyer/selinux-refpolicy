@@ -95,6 +95,44 @@ interface(`mock_manage_lib_dirs',`
 	files_search_var_lib($1)
 ')
 
+#########################################
+## <summary>
+##	Manage mock lib symbolic links.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`mock_manage_lib_symlinks',`
+	gen_require(`
+		type mock_var_lib_t;
+	')
+
+	manage_lnk_files_pattern($1, mock_var_lib_t, mock_var_lib_t)
+	files_search_var_lib($1)
+')
+
+########################################
+## <summary>
+##	Manage mock lib files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`mock_manage_lib_chr_files',`
+	gen_require(`
+		type mock_var_lib_t;
+	')
+
+	manage_chr_files_pattern($1, mock_var_lib_t, mock_var_lib_t)
+	files_search_var_lib($1)
+')
+
 ########################################
 ## <summary>
 ##	Execute an domain transition to run
@@ -148,6 +186,24 @@ interface(`mock_role',`
 
 	ps_process_pattern($2, mock_t)
 	allow $2 mock_t:process { signal_perms ptrace };
+')
+
+#######################################
+## <summary>
+##	Send generic signals to mock.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`mock_signal',`
+	gen_require(`
+		type mock_t;
+	')
+
+	allow $1 mock_t:process signal;
 ')
 
 ########################################

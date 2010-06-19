@@ -28,7 +28,7 @@ files_type(mock_var_lib_t)
 #
 
 allow mock_t self:capability { sys_admin setfcap setuid sys_ptrace sys_chroot chown audit_write dac_override sys_nice mknod fsetid setgid fowner };
-allow mock_t self:process { siginh noatsecure signull transition rlimitinh setsched setpgid };
+allow mock_t self:process { siginh noatsecure signull transition rlimitinh setsched setpgid sigkill };
 dontaudit mock_t self:process { siginh noatsecure rlimitinh };
 allow mock_t self:fifo_file manage_fifo_file_perms;
 allow mock_t self:unix_stream_socket create_stream_socket_perms;
@@ -55,6 +55,7 @@ kernel_list_proc(mock_t)
 kernel_read_irq_sysctls(mock_t)
 kernel_read_system_state(mock_t)
 kernel_read_kernel_sysctls(mock_t)
+kernel_request_load_module(mock_t)
 
 corecmd_exec_bin(mock_t)
 corecmd_exec_shell(mock_t)
@@ -93,6 +94,10 @@ logging_send_syslog_msg(mock_t)
 miscfiles_read_localization(mock_t)
 
 mount_domtrans(mock_t)
+
+optional_policy(`
+	apache_read_sys_content_rw_files(mock_t)
+')
 
 optional_policy(`
 	rpm_exec(mock_t)

@@ -148,7 +148,7 @@ interface(`abrt_cache_manage',`
 
 ####################################
 ## <summary>
-##	Read abrt configuration file.
+##	Read abrt configuration files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -167,7 +167,7 @@ interface(`abrt_read_config',`
 
 ######################################
 ## <summary>
-##	Read abrt logs.
+##	Read abrt log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -224,7 +224,7 @@ interface(`abrt_manage_pid_files',`
 
 ########################################
 ## <summary>
-##	Allow the domain to read abrt state files in /proc.
+##	Read abrt state files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -238,11 +238,12 @@ interface(`abrt_read_state',`
 	')
 
 	ps_process_pattern($1, abrt_t)
+	kernel_search_proc($1)
 ')
 
 ########################################
 ## <summary>
-##	Send a null signal to abrt.
+##	Send null signals to abrt.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -260,7 +261,7 @@ interface(`abrt_signull',`
 
 ########################################
 ## <summary>
-##	Read and write abrt fifo files.
+##	Read and write abrt pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

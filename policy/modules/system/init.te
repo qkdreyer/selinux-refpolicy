@@ -18,6 +18,13 @@ gen_tunable(init_upstart, false)
 
 ## <desc>
 ## <p>
+## Enable support for systemd as the init program.
+## </p>
+## </desc>
+gen_tunable(init_systemd, false)
+
+## <desc>
+## <p>
 ## Allow all daemons the ability to read/write terminals
 ## </p>
 ## </desc>
@@ -171,6 +178,10 @@ tunable_policy(`init_upstart',`
 	corecmd_shell_domtrans(init_t, initrc_t)
 ',`
 	sysadm_shell_domtrans(init_t)
+')
+
+tunable_policy(`init_systemd',`
+	allow daemon init_t:socket_class_set { getopt read getattr ioctl setopt write };
 ')
 
 optional_policy(`
@@ -329,7 +340,7 @@ files_purge_tmp(initrc_t)
 files_manage_all_locks(initrc_t)
 files_manage_boot_files(initrc_t)
 files_read_all_pids(initrc_t)
-files_delete_root_file(initrc_t)
+files_delete_root_files(initrc_t)
 files_delete_all_pids(initrc_t)
 files_delete_all_pid_dirs(initrc_t)
 files_read_etc_files(initrc_t)
@@ -802,6 +813,7 @@ optional_policy(`
 	squid_manage_logs(initrc_t)
 ')
 
+
 ifdef(`enabled_mls',`
 	optional_policy(`
 		su_restricted_domain_template(initrc, initrc_t, system_r)
@@ -886,10 +898,10 @@ optional_policy(`
 	zebra_read_config(initrc_t)
 ')
 
-files_dontaudit_search_all_dirs(daemon)
-
 init_rw_script_stream_sockets(daemon)
 
+userdom_inherit_append_user_home_content_files(daemon)
+userdom_inherit_append_user_tmp_files(daemon)
 userdom_dontaudit_rw_stream(daemon)
 
 logging_append_all_logs(daemon)

@@ -313,9 +313,10 @@ corenet_all_recvfrom_unlabeled(gpg_pinentry_t)
 corenet_sendrecv_pulseaudio_client_packets(gpg_pinentry_t)
 corenet_tcp_bind_generic_node(gpg_pinentry_t)
 corenet_tcp_connect_pulseaudio_port(gpg_pinentry_t)
+corenet_tcp_sendrecv_pulseaudio_port(gpg_pinentry_t)
 corenet_tcp_sendrecv_generic_if(gpg_pinentry_t)
 corenet_tcp_sendrecv_generic_node(gpg_pinentry_t)
-corenet_tcp_sendrecv_generic_port(gpg_pinentry_t)
+corenet_tcp_sendrecv_all_ports(gpg_pinentry_t)
 
 dev_read_urand(gpg_pinentry_t)
 dev_read_rand(gpg_pinentry_t)
@@ -391,7 +392,7 @@ files_read_usr_files(gpg_web_t)
 miscfiles_read_localization(gpg_web_t)
  
 tunable_policy(`gpg_web_anon_write',`
-    miscfiles_manage_public_files(gpg_web_t)
+	miscfiles_manage_public_files(gpg_web_t)
 ')
 
 optional_policy(`

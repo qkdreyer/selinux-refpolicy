@@ -305,26 +305,26 @@ interface(`apache_domtrans',`
 ######################################
 ## <summary>
 ##	execute apache
-##  in the caller domain.
+##	in the caller domain.
 ## </summary>
 ## <param name="domain">
-##  <summary>
-##  Domain allowed access.
-##  </summary>
+##	<summary>
+##	Domain allowed access.
+##	</summary>
 ## </param>
 #
 interface(`apache_exec',`
-    gen_require(`
-        type httpd_exec_t;
-    ')
+	gen_require(`
+		type httpd_exec_t;
+	')
 
-    can_exec($1, httpd_exec_t)
+	can_exec($1, httpd_exec_t)
 	corecmd_search_bin($1)
 ')
 
 #######################################
 ## <summary>
-##	Send a generic signal to apache.
+##	Send generic signals to apache.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -342,7 +342,7 @@ interface(`apache_signal',`
 
 ########################################
 ## <summary>
-##	Send a null signal to apache.
+##	Send null signals to apache.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -360,7 +360,7 @@ interface(`apache_signull',`
 
 ########################################
 ## <summary>
-##	Send a SIGCHLD signal to apache.
+##	Send SIGCHLD signals to apache.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -453,7 +453,7 @@ interface(`apache_dontaudit_rw_tcp_sockets',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete all web content.
+##	Manage all web content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -477,8 +477,8 @@ interface(`apache_manage_all_content',`
 
 ########################################
 ## <summary>
-##	Set the attributes
-##	of the APACHE cache directory.
+##	Set attributes
+##	of Apache cache directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -678,7 +678,7 @@ interface(`apache_read_log',`
 
 ########################################
 ## <summary>
-##	Append to apache log files.
+##	Append apache log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -851,6 +851,25 @@ interface(`apache_manage_sys_content',`
 	manage_files_pattern($1, httpd_sys_content_t, httpd_sys_content_t)
 	manage_lnk_files_pattern($1, httpd_sys_content_t, httpd_sys_content_t)
 	files_search_var($1)
+')
+
+######################################
+## <summary>
+##	Read Apache system
+##	content rw files.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain allowed access.
+##  </summary>
+## </param>
+#
+interface(`apache_read_sys_content_rw_files',`
+	gen_require(`
+		type httpd_sys_rw_content_t;
+	')
+
+	read_files_pattern($1, httpd_sys_rw_content_t, httpd_sys_rw_content_t)
 ')
 
 ######################################

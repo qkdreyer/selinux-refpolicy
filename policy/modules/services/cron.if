@@ -48,7 +48,7 @@ template(`cron_common_crontab_template',`
 	filetrans_pattern($1_t, cron_spool_t, user_cron_spool_t, file)
 	files_list_spool($1_t)
 
-	allow $1_t cron_spool_t:dir setattr;
+	allow $1_t cron_spool_t:dir setattr_dir_perms;
 
 	kernel_read_system_state($1_t)
 
@@ -320,7 +320,7 @@ interface(`cron_use_fds',`
 
 ########################################
 ## <summary>
-##	Send a SIGCHLD signal to the cron daemon.
+##	Send SIGCHLD signals to the cron daemon.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -338,7 +338,7 @@ interface(`cron_sigchld',`
 
 ########################################
 ## <summary>
-##	Read a cron daemon unnamed pipe.
+##	Read cron daemon pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -356,7 +356,8 @@ interface(`cron_read_pipes',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to write cron daemon unnamed pipes.
+##	Do not audit attempts to write
+##	cron daemon pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -369,12 +370,12 @@ interface(`cron_dontaudit_write_pipes',`
 		type crond_t;
 	')
 
-	dontaudit $1 crond_t:fifo_file write;
+	dontaudit $1 crond_t:fifo_file write_fifo_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Read and write a cron daemon unnamed pipe.
+##	Read and write cron daemon pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -423,7 +424,7 @@ interface(`cron_rw_tcp_sockets',`
 		type crond_t;
 	')
 
-	allow $1 crond_t:tcp_socket { read write };
+	allow $1 crond_t:tcp_socket rw_inherited_sock_file_perms;
 ')
 
 ########################################

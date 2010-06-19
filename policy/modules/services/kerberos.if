@@ -64,10 +64,6 @@ interface(`kerberos_use',`
 	selinux_dontaudit_validate_context($1)
 	seutil_dontaudit_read_file_contexts($1)
 
-	optional_policy(`
-		sssd_read_public_files($1)
-	')
-
 	tunable_policy(`allow_kerberos',`
 		allow $1 self:tcp_socket create_socket_perms;
 		allow $1 self:udp_socket create_socket_perms;
@@ -78,6 +74,8 @@ interface(`kerberos_use',`
 		corenet_udp_sendrecv_generic_if($1)
 		corenet_tcp_sendrecv_generic_node($1)
 		corenet_udp_sendrecv_generic_node($1)
+		corenet_udp_sendrecv_all_ports($1)
+		corenet_tcp_sendrecv_all_ports($1)
 		corenet_tcp_sendrecv_kerberos_port($1)
 		corenet_udp_sendrecv_kerberos_port($1)
 		corenet_tcp_bind_generic_node($1)
@@ -87,7 +85,7 @@ interface(`kerberos_use',`
 		corenet_sendrecv_kerberos_client_packets($1)
 		corenet_sendrecv_ocsp_client_packets($1)
 
-		allow $1 krb5_host_rcache_t:file getattr;
+		allow $1 krb5_host_rcache_t:file getattr_file_perms;
 	')
 
 	optional_policy(`
@@ -137,7 +135,7 @@ interface(`kerberos_dontaudit_write_config',`
 		type krb5_conf_t;
 	')
 
-	dontaudit $1 krb5_conf_t:file write;
+	dontaudit $1 krb5_conf_t:file write_file_perms;
 ')
 
 ########################################
