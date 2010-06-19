@@ -1439,7 +1439,7 @@ interface(`files_dontaudit_rw_root_chr_files',`
 ##	</summary>
 ## </param>
 #
-interface(`files_delete_root_file',`
+interface(`files_delete_root_files',`
 	gen_require(`
 		type root_t;
 	')

@@ -443,7 +443,25 @@ interface(`cron_dontaudit_rw_tcp_sockets',`
 		type crond_t;
 	')
 
-	dontaudit $1 crond_t:tcp_socket { read write };
+	dontaudit $1 crond_t:tcp_socket rw_inherited_sock_file_perms;
+')
+
+########################################
+## <summary>
+##	Read and write inherited spool files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`cron_rw_inherited_spool_files',`
+	gen_require(`
+		type cron_spool_t;
+	')
+
+	allow $1 cron_spool_t:file rw_inherited_file_perms;
 ')
 
 ########################################
@@ -537,7 +555,7 @@ interface(`cron_write_system_job_pipes',`
 		type system_cronjob_t;
 	')
 
-	allow $1 system_cronjob_t:file write;
+	allow $1 system_cronjob_t:file write_file_perms;
 ')
 
 ########################################
@@ -573,7 +591,7 @@ interface(`cron_rw_system_job_stream_sockets',`
 		type system_cronjob_t;
 	')
 
-	allow $1 system_cronjob_t:unix_stream_socket { read write };
+	allow $1 system_cronjob_t:unix_stream_socket rw_inherited_sock_file_perms;
 ')
 
 ########################################
