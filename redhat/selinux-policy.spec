@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.3
-Release: 4.2%{?dist}
+Release: 4.3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,9 @@ exit 0
 %endif
 
 %changelog
+* Sat Jun 19 2010 Dominick Grift <domg472@gmail.com> 3.8.3-4.3
+- Merge branch refpolicy.
+
 * Fri Jun 18 2010 Dominick Grift <domg472@gmail.com> 3.8.3-4.2
 - Merge branch refpolicy.
 
