@@ -25,7 +25,8 @@ interface(`loadkeys_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute the loadkeys program in the loadkeys domain.
+##	Execute an domain transition to run
+##	Loadkeys.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -50,7 +51,7 @@ interface(`loadkeys_run',`
 
 ########################################
 ## <summary>
-##	Execute the loadkeys program in the caller domain.
+##	Execute Loadkeys.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

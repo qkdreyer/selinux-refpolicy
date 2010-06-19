@@ -1,8 +1,10 @@
-policy_module(sudo, 1.6.0)
+policy_module(sudo, 1.6.1)
 
 ########################################
 #
 # Declarations
+#
+
 attribute sudodomain;
 
 type sudo_exec_t;
