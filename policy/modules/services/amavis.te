@@ -150,7 +150,7 @@ optional_policy(`
 	dcc_stream_connect_dccifd(amavis_t)
 ')
 
-optional_policy(!
+optional_policy(`
 	mta_read_config(amavis_t)
 ')
 

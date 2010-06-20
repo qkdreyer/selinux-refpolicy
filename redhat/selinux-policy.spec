@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.4
-Release: 1.1%{?dist}
+Release: 1.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,10 @@ exit 0
 %endif
 
 %changelog
+* Sun Jun 20 2010 Dominick Grift <domg472@gmail.com> 3.8.4-1.2
+- Various clean ups.
+- Allow hddtemp to bind to generic nodes.
+
 * Sat Jun 19 2010 Dominick Grift <domg472@gmail.com> 3.8.4-1.1
 - Merge branch fedora (v3.8.4-1)
 
