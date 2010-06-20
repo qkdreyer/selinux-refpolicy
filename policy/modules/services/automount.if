@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute automount in the automount domain.
+##	Execute a domain transition to run
+##	Automount.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -21,7 +22,7 @@ interface(`automount_domtrans',`
 
 ########################################
 ## <summary>
-##	Send automount a signal.
+##	Send generic signals to Automount.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -39,7 +40,7 @@ interface(`automount_signal',`
 
 ########################################
 ## <summary>
-##	Execute automount in the caller domain.
+##	Execute Automount.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -54,7 +55,7 @@ interface(`automount_exec_config',`
 
 ########################################
 ## <summary>
-##	Read state files in /proc.
+##	Read Automount state files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -67,13 +68,14 @@ interface(`automount_read_state',`
 		type automount_t;
 	')
 
-	read_files_pattern($1, automount_t, automount_t)
+	ps_process_pattern($1, automount_t)
 	kernel_search_proc($1)
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to file descriptors for automount.
+##	Do not audit attempts to use
+##	Automount file descriptors.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -91,7 +93,8 @@ interface(`automount_dontaudit_use_fds',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to write automount daemon unnamed pipes.
+##	Do not audit attempts to write
+##	automount daemon pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -104,13 +107,14 @@ interface(`automount_dontaudit_write_pipes',`
 		type automount_t;
 	')
 
-	dontaudit $1 automount_t:fifo_file write;
+	dontaudit $1 automount_t:fifo_file write_fifo_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
-##	of automount temporary directories.
+##	Do not audit attempts to get
+##	attributes of automount temporary
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -123,7 +127,7 @@ interface(`automount_dontaudit_getattr_tmp_dirs',`
 		type automount_tmp_t;
 	')
 
-	dontaudit $1 automount_tmp_t:dir getattr;
+	dontaudit $1 automount_tmp_t:dir getattr_dir_perms;
 ')
 
 ########################################
@@ -138,7 +142,7 @@ interface(`automount_dontaudit_getattr_tmp_dirs',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed to manage the automount domain.
+##	Role allowed access.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -157,12 +161,12 @@ interface(`automount_admin',`
 	role_transition $2 automount_initrc_exec_t system_r;
 	allow $2 system_r;
 
-	files_list_var($1)
 	admin_pattern($1, automount_lock_t)
+	files_search_var($1)
 
-	files_list_tmp($1)
 	admin_pattern($1, automount_tmp_t)
+	files_search_tmp($1)
 
-	files_list_pids($1)
 	admin_pattern($1, automount_var_run_t)
+	files_search_pids($1)
 ')

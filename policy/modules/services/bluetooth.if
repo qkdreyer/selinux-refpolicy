@@ -32,14 +32,21 @@ interface(`bluetooth_role',`
 	manage_files_pattern($2, bluetooth_helper_tmp_t, bluetooth_helper_tmp_t)
 	manage_sock_files_pattern($2, bluetooth_helper_tmp_t, bluetooth_helper_tmp_t)
 
+	relabel_dirs_pattern($2, bluetooth_helper_tmp_t, bluetooth_helper_tmp_t)
+	relabel_files_pattern($2, bluetooth_helper_tmp_t, bluetooth_helper_tmp_t)
+	relabel_sock_files_pattern($2, bluetooth_helper_tmp_t, bluetooth_helper_tmp_t)
+
 	manage_dirs_pattern($2, bluetooth_helper_tmpfs_t, bluetooth_helper_tmpfs_t)
 	manage_files_pattern($2, bluetooth_helper_tmpfs_t, bluetooth_helper_tmpfs_t)
+
+	relabel_dirs_pattern($2, bluetooth_helper_tmpfs_t, bluetooth_helper_tmpfs_t)
+	relabel_files_pattern($2, bluetooth_helper_tmpfs_t, bluetooth_helper_tmpfs_t)
 ')
 
 #####################################
 ## <summary>
-##	Connect to bluetooth over a unix domain
-##	stream socket.
+##	Connect to bluetooth over unix
+##	stream sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -59,7 +66,8 @@ interface(`bluetooth_stream_connect',`
 
 ########################################
 ## <summary>
-##	Execute bluetooth in the bluetooth domain.
+##	Execute a domain transition to run
+##	Bluetooth.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -78,7 +86,7 @@ interface(`bluetooth_domtrans',`
 
 ########################################
 ## <summary>
-##	Read bluetooth daemon configuration.
+##	Read bluetooth configuration files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -91,7 +99,7 @@ interface(`bluetooth_read_config',`
 		type bluetooth_conf_t;
 	')
 
-	allow $1 bluetooth_conf_t:file { getattr read ioctl };
+	allow $1 bluetooth_conf_t:file read_file_perms;
 ')
 
 ########################################
@@ -117,8 +125,9 @@ interface(`bluetooth_dbus_chat',`
 
 ########################################
 ## <summary>
-##	dontaudit Send and receive messages from
-##	bluetooth over dbus.
+##	Do not audit attempts to send and
+##	receive messages from Bluetooth
+##	over dbus.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -138,7 +147,8 @@ interface(`bluetooth_dontaudit_dbus_chat',`
 
 ########################################
 ## <summary>
-##	Execute bluetooth_helper in the bluetooth_helper domain.  (Deprecated)
+##	Execute a domain transition to run
+##	Bluetooth helper. (Deprecated)
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -152,8 +162,10 @@ interface(`bluetooth_domtrans_helper',`
 
 ########################################
 ## <summary>
-##	Execute bluetooth_helper in the bluetooth_helper domain, and
-##	allow the specified role the bluetooth_helper domain.  (Deprecated)
+##	Execute a domain transition to run
+##	Bluetooth helper, and allow the
+##	specified role the bluetooth helper
+##	domain. (Deprecated)
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -165,11 +177,6 @@ interface(`bluetooth_domtrans_helper',`
 ##	The role to be allowed the bluetooth_helper domain.
 ##	</summary>
 ## </param>
-## <param name="terminal">
-##	<summary>
-##	The type of the terminal allow the bluetooth_helper domain to use.
-##	</summary>
-## </param>
 ## <rolecap/>
 #
 interface(`bluetooth_run_helper',`
@@ -178,11 +185,12 @@ interface(`bluetooth_run_helper',`
 
 ########################################
 ## <summary>
-##	Read bluetooth helper state files.
+##	Do not audit attempts to read
+##	Bluetooth helper state files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
-##	Domain allowed access.
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -191,8 +199,8 @@ interface(`bluetooth_dontaudit_read_helper_state',`
 		type bluetooth_helper_t;
 	')
 
-	dontaudit $1 bluetooth_helper_t:dir search;
-	dontaudit $1 bluetooth_helper_t:file { read getattr };
+	dontaudit $1 bluetooth_helper_t:dir search_dir_perms;
+	dontaudit $1 bluetooth_helper_t:file read_file_perms;
 ')
 
 ########################################
@@ -207,7 +215,7 @@ interface(`bluetooth_dontaudit_read_helper_state',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed to manage the bluetooth domain.
+##	Role allowed access.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -228,22 +236,22 @@ interface(`bluetooth_admin',`
 	role_transition $2 bluetooth_initrc_exec_t system_r;
 	allow $2 system_r;
 
-	files_list_tmp($1)
 	admin_pattern($1, bluetooth_tmp_t)
+	files_search_tmp($1)
 
-	files_list_var($1)
 	admin_pattern($1, bluetooth_lock_t)
+	files_search_var($1)
 
-	files_list_etc($1)
 	admin_pattern($1, bluetooth_conf_t)
 	admin_pattern($1, bluetooth_conf_rw_t)
+	files_search_etc($1)
 
-	files_list_spool($1)
 	admin_pattern($1, bluetooth_spool_t)
+	files_search_spool($1)
 
-	files_list_var_lib($1)
 	admin_pattern($1, bluetooth_var_lib_t)
+	files_search_var_lib($1)
 
-	files_list_pids($1)
 	admin_pattern($1, bluetooth_var_run_t)
+	files_search_pids($1)
 ')

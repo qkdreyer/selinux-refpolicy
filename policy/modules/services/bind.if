@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute bind server in the bind domain.
+##	Execute a domain transition to run
+##	Bind.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -20,7 +21,8 @@ interface(`bind_initrc_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute ndc in the ndc domain.
+##	Execute a domain transition to run
+##	Ndc.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -39,7 +41,7 @@ interface(`bind_domtrans_ndc',`
 
 ########################################
 ## <summary>
-##	Send generic signals to BIND.
+##	Send generic signals to Bind.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -57,7 +59,7 @@ interface(`bind_signal',`
 
 ########################################
 ## <summary>
-##	Send null sigals to BIND.
+##	Send null signals to Bind.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -75,7 +77,7 @@ interface(`bind_signull',`
 
 ########################################
 ## <summary>
-##	Send BIND the kill signal
+##	Send kill signals to Bind.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -93,8 +95,9 @@ interface(`bind_kill',`
 
 ########################################
 ## <summary>
-##	Execute ndc in the ndc domain, and
-##	allow the specified role the ndc domain.
+##	Execute a domain transition to run
+##	Ndc, and allow the specified role
+##	the ndc domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -103,7 +106,7 @@ interface(`bind_kill',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the bind domain.
+##	The role to be allowed the Ndc domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -119,7 +122,8 @@ interface(`bind_run_ndc',`
 
 ########################################
 ## <summary>
-##	Execute bind in the named domain.
+##	Execute a domain transition to run
+##	Bind.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -156,7 +160,7 @@ interface(`bind_read_dnssec_keys',`
 
 ########################################
 ## <summary>
-##	Read BIND named configuration files.
+##	Read Bind named configuration files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -174,7 +178,7 @@ interface(`bind_read_config',`
 
 ########################################
 ## <summary>
-##	Write BIND named configuration files.
+##	Write Bind named configuration files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -193,8 +197,7 @@ interface(`bind_write_config',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete
-##	BIND configuration directories.
+##	Manage Bind configuration directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -212,7 +215,7 @@ interface(`bind_manage_config_dirs',`
 
 ########################################
 ## <summary>
-##	Search the BIND cache directory.
+##	Search bind cache directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -233,8 +236,7 @@ interface(`bind_search_cache',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete
-##	BIND cache files.
+##	Manage Bind cache files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -255,7 +257,7 @@ interface(`bind_manage_cache',`
 
 ########################################
 ## <summary>
-##	Set the attributes of the BIND pid directory.
+##	Set attributes of Bind pid directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -273,7 +275,7 @@ interface(`bind_setattr_pid_dirs',`
 
 ########################################
 ## <summary>
-##	Set the attributes of the BIND zone directory.
+##	Set attributes of Bind zone directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -291,7 +293,7 @@ interface(`bind_setattr_zone_dirs',`
 
 ########################################
 ## <summary>
-##	Read BIND zone files.
+##	Read Bind zone files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -310,7 +312,7 @@ interface(`bind_read_zone',`
 
 ########################################
 ## <summary>
-##	Manage BIND zone files.
+##	Manage Bind zone files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -329,7 +331,8 @@ interface(`bind_manage_zone',`
 
 ########################################
 ## <summary>
-##	Send and receive datagrams to and from named.  (Deprecated)
+##	Send and receive datagrams to and
+##	from named. (Deprecated)
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -353,7 +356,7 @@ interface(`bind_udp_chat_named',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed to manage the bind domain.
+##	Role allowed access.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -380,22 +383,22 @@ interface(`bind_admin',`
 	role_transition $2 named_initrc_exec_t system_r;
 	allow $2 system_r;
 
-	files_list_tmp($1)
 	admin_pattern($1, named_tmp_t)
+	files_search_tmp($1)
 
-	logging_list_logs($1)
 	admin_pattern($1, named_log_t)
+	logging_search_logs($1)
 
-	files_list_etc($1)
 	admin_pattern($1, named_conf_t)
+	files_search_etc($1)
 
 	admin_pattern($1, named_cache_t)
 	admin_pattern($1, named_zone_t)
 	admin_pattern($1, dnssec_t)
 
-	files_list_var_lib($1)
 	admin_pattern($1, named_var_lib_t)
+	files_search_var_lib($1)
 
-	files_list_pids($1)
 	admin_pattern($1, named_var_run_t)
+	files_search_pids($1)
 ')

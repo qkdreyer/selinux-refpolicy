@@ -18,4 +18,4 @@
 /var/lib/bluetooth(/.*)?			gen_context(system_u:object_r:bluetooth_var_lib_t,s0)
 
 /var/run/bluetoothd_address			gen_context(system_u:object_r:bluetooth_var_run_t,s0)
-/var/run/sdp						-s	gen_context(system_u:object_r:bluetooth_var_run_t,s0)
+/var/run/sdp					-s	gen_context(system_u:object_r:bluetooth_var_run_t,s0)

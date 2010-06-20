@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute avahi server in the avahi domain.
+##	Execute a domain transition to run
+##	Avahi.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -21,7 +22,7 @@ interface(`avahi_domtrans',`
 
 ########################################
 ## <summary>
-##	Send avahi a signal
+##	Send generic signals to Avahi.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -39,7 +40,7 @@ interface(`avahi_signal',`
 
 ########################################
 ## <summary>
-##	Send avahi a kill signal.
+##	Send kill signals to Avahi.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -57,7 +58,7 @@ interface(`avahi_kill',`
 
 ########################################
 ## <summary>
-##	Send avahi a signull.
+##	Send null signals to Avahi.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -76,7 +77,7 @@ interface(`avahi_signull',`
 ########################################
 ## <summary>
 ##	Send and receive messages from
-##	avahi over dbus.
+##	Avahi over dbus.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -90,14 +91,14 @@ interface(`avahi_dbus_chat',`
 		class dbus send_msg;
 	')
 
-	# allow avahi_t $1:file read;
 	allow $1 avahi_t:dbus send_msg;
 	allow avahi_t $1:dbus send_msg;
 ')
 
 ########################################
 ## <summary>
-##	Connect to avahi using a unix domain stream socket.
+##	Connect to Avahi using unix stream
+##	sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -116,7 +117,8 @@ interface(`avahi_stream_connect',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to search the avahi pid directory.
+##	Do not audit attempts to search Avahi
+##	pid directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -144,7 +146,7 @@ interface(`avahi_dontaudit_search_pid',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed to manage the avahi domain.
+##	Role allowed access.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -163,6 +165,6 @@ interface(`avahi_admin',`
 	role_transition $2 avahi_initrc_exec_t system_r;
 	allow $2 system_r;
 
-	files_list_pids($1)
 	admin_pattern($1, avahi_var_run_t)
+	files_search_pids($1)
 ')

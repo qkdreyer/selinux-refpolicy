@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute arpwatch server in the arpwatch domain.
+##	Execute a domain transition to run
+##	Arpwatch.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -20,7 +21,7 @@ interface(`arpwatch_initrc_domtrans',`
 
 ########################################
 ## <summary>
-##	Search arpwatch's data file directories.
+##	Search arpwatch data directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -39,7 +40,7 @@ interface(`arpwatch_search_data',`
 
 ########################################
 ## <summary>
-##	Create arpwatch data files.
+##	Manage arpwatch data files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -77,7 +78,7 @@ interface(`arpwatch_rw_tmp_files',`
 
 ########################################
 ## <summary>
-##	Read and write arpwatch temporary files.
+##	Manage arpwatch temporary files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -110,7 +111,7 @@ interface(`arpwatch_dontaudit_rw_packet_sockets',`
 		type arpwatch_t;
 	')
 
-	dontaudit $1 arpwatch_t:packet_socket { read write };
+	dontaudit $1 arpwatch_t:packet_socket rw_inherited_sock_file_perms;
 ')
 
 ########################################
@@ -125,7 +126,7 @@ interface(`arpwatch_dontaudit_rw_packet_sockets',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed to manage the arpwatch domain.
+##	Role allowed access.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -145,12 +146,12 @@ interface(`arpwatch_admin',`
 	role_transition $2 arpwatch_initrc_exec_t system_r;
 	allow $2 system_r;
 
-	files_list_tmp($1)
 	admin_pattern($1, arpwatch_tmp_t)
+	files_search_tmp($1)
 
-	files_list_var($1)
 	admin_pattern($1, arpwatch_data_t)
+	files_search_var($1)
 
-	files_list_pids($1)
 	admin_pattern($1, arpwatch_var_run_t)
+	files_search_pids($1)
 ')

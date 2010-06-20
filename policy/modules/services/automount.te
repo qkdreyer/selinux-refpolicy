@@ -96,6 +96,8 @@ corenet_tcp_bind_all_rpc_ports(automount_t)
 corenet_udp_bind_reserved_port(automount_t)
 corenet_udp_bind_all_rpc_ports(automount_t)
 corenet_sendrecv_generic_server_packets(automount_t)
+corenet_sendrecv_portmap_client_packets(automount_t)
+corenet_tcp_sendrecv_portmap_port(automount_t)
 
 dev_read_sysfs(automount_t)
 dev_rw_autofs(automount_t)
