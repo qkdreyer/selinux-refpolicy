@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute aide in the aide domain
+##	Execute a domain transition to run
+##	Aide.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -21,7 +22,10 @@ interface(`aide_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute aide programs in the AIDE domain.
+##	Execute a domain transition to run
+##	Aide, and allow the
+##	specified role the Aide
+##	domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -47,7 +51,7 @@ interface(`aide_run',`
 ########################################
 ## <summary>
 ##	All of the rules required to administrate 
-##	an aide environment
+##	an Aide environment
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -63,9 +67,9 @@ interface(`aide_admin',`
 	allow $1 aide_t:process { ptrace signal_perms };
 	ps_process_pattern($1, aide_t)
 
-	files_list_etc($1)
 	admin_pattern($1, aide_db_t)
+	files_list_etc($1)
 
-	logging_list_logs($1)
 	admin_pattern($1, aide_log_t)
+	logging_list_logs($1)
 ')

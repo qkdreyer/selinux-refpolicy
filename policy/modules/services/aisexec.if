@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute a domain transition to run aisexec.
+##	Execute a domain transition to run
+##	aisexec.
 ## </summary>
 ## <param name="domain">
 ## <summary>
@@ -21,8 +22,8 @@ interface(`aisexec_domtrans',`
 
 #####################################
 ## <summary>
-##	Connect to aisexec over a unix domain
-##	stream socket.
+##	Connect to aisexec over unix domain
+##	stream sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -41,7 +42,7 @@ interface(`aisexec_stream_connect',`
 
 #######################################
 ## <summary>
-##	Allow the specified domain to read aisexec's log files.
+##	Read aisexec log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -71,7 +72,8 @@ interface(`aisexec_read_log',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed to manage the aisexecd domain.
+##	The role to be allowed to manage the
+##	aisexecd domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -91,17 +93,17 @@ interface(`aisexecd_admin',`
 	role_transition $2 aisexec_initrc_exec_t system_r;
 	allow $2 system_r;
 
-	files_list_var_lib($1)
 	admin_pattern($1, aisexec_var_lib_t)
+	files_list_var_lib($1)
 
-	logging_list_logs($1)
 	admin_pattern($1, aisexec_var_log_t)
+	logging_list_logs($1)
 
-	files_list_pids($1)
 	admin_pattern($1, aisexec_var_run_t)
+	files_list_pids($1)
 
-	files_list_tmp($1)
 	admin_pattern($1, aisexec_tmp_t)
+	files_list_tmp($1)
 
 	admin_pattern($1, aisexec_tmpfs_t)
 	fs_search_tmpfs($1)

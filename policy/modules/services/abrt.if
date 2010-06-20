@@ -2,7 +2,8 @@
 
 ######################################
 ## <summary>
-##	Execute abrt in the abrt domain.
+##	Execute a domain transition to run
+##	abrt.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -40,7 +41,8 @@ interface(`abrt_exec',`
 
 ########################################
 ## <summary>
-##	Connect to abrt over an unix stream socket.
+##	Connect to abrt over unix stream
+##	sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -80,7 +82,8 @@ interface(`abrt_dbus_chat',`
 
 #####################################
 ## <summary>
-##  Execute abrt-helper in the abrt-helper domain.
+##	Execute a domain transition to run
+##	abrt helper.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -103,8 +106,9 @@ interface(`abrt_domtrans_helper',`
 
 ########################################
 ## <summary>
-##	Execute abrt helper in the abrt_helper domain, and
-##	allow the specified role the abrt_helper domain.
+##	Execute a domain transition to run
+##	abrt helper, and allow the specified
+##	role the abrt helper domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -113,7 +117,8 @@ interface(`abrt_domtrans_helper',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the abrt_helper domain.
+##	The role to be allowed the abrt helper
+##	domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -289,7 +294,8 @@ interface(`abrt_rw_fifo_file',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed to manage the abrt domain.
+##	The role to be allowed to manage the
+##	abrt domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -310,18 +316,18 @@ interface(`abrt_admin',`
 	role_transition $2 abrt_initrc_exec_t system_r;
 	allow $2 system_r;
 
-	files_search_etc($1)
 	admin_pattern($1, abrt_etc_t)
+	files_search_etc($1)
 
-	logging_search_logs($1)
 	admin_pattern($1, abrt_var_log_t)
+	logging_search_logs($1)
 
-	files_search_var($1)
 	admin_pattern($1, abrt_var_cache_t)
+	files_search_var($1)
 
-	files_search_pids($1)
 	admin_pattern($1, abrt_var_run_t)
+	files_search_pids($1)
 
-	files_search_tmp($1)
 	admin_pattern($1, abrt_tmp_t)
+	files_search_tmp($1)
 ')

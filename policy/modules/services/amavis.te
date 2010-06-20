@@ -105,6 +105,8 @@ corenet_tcp_bind_amavisd_recv_port(amavis_t)
 # corenet_udp_bind_generic_port(amavis_t)
 corenet_dontaudit_udp_bind_all_ports(amavis_t)
 corenet_tcp_connect_razor_port(amavis_t)
+corenet_tcp_sendrecv_smtp_beforequeue_port(amavis_t)
+corenet_tcp_sendrecv_amavisd_recv_port(amavis_t)
 
 dev_read_rand(amavis_t)
 dev_read_urand(amavis_t)
@@ -132,20 +134,24 @@ sysnet_use_ldap(amavis_t)
 
 userdom_dontaudit_search_user_home_dirs(amavis_t)
 
-cron_use_fds(amavis_t)
-cron_use_system_job_fds(amavis_t)
-cron_rw_pipes(amavis_t)
-
-mta_read_config(amavis_t)
-
 optional_policy(`
 	clamav_stream_connect(amavis_t)
 	clamav_domtrans_clamscan(amavis_t)
 ')
 
 optional_policy(`
+	cron_use_fds(amavis_t)
+	cron_use_system_job_fds(amavis_t)
+	cron_rw_pipes(amavis_t)
+')
+
+optional_policy(`
 	dcc_domtrans_client(amavis_t)
 	dcc_stream_connect_dccifd(amavis_t)
+')
+
+optional_policy(!
+	mta_read_config(amavis_t)
 ')
 
 optional_policy(`

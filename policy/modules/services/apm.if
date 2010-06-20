@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute APM in the apm domain.
+##	Execute a domain transition to run
+##	Apm.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -39,7 +40,7 @@ interface(`apm_use_fds',`
 
 ########################################
 ## <summary>
-##	Write to apmd unnamed pipes.
+##	Write Apmd pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -52,12 +53,13 @@ interface(`apm_write_pipes',`
 		type apmd_t;
 	')
 
-	allow $1 apmd_t:fifo_file write; 
+	allow $1 apmd_t:fifo_file write_fifo_file_perms; 
 ')
 
 ########################################
 ## <summary>
-##	Read and write to an apm unix stream socket.
+##	Read and write to Apm unix stream
+##	sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -70,12 +72,12 @@ interface(`apm_rw_stream_sockets',`
 		type apmd_t;
 	')
 
-	allow $1 apmd_t:unix_stream_socket { read write };
+	allow $1 apmd_t:unix_stream_socket rw_inherited_sock_file_perms;
 ')
 
 ########################################
 ## <summary>
-##	Append to apm's log file.
+##	Append Apm log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -88,13 +90,14 @@ interface(`apm_append_log',`
 		type apmd_log_t;
 	')
 
-	allow $1 apmd_log_t:file append;
+	allow $1 apmd_log_t:file append_file_perms;
 	logging_search_logs($1)
 ')
 
 ########################################
 ## <summary>
-##	Connect to apmd over an unix stream socket.
+##	Connect to Apmd over unix stream
+##	sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -107,7 +110,7 @@ interface(`apm_stream_connect',`
 		type apmd_t, apmd_var_run_t;
 	')
 
-	allow $1 apmd_var_run_t:sock_file write;
+	allow $1 apmd_var_run_t:sock_file write_sock_file_perms;
 	allow $1 apmd_t:unix_stream_socket connectto;
 	files_search_pids($1)
 ')

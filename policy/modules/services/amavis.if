@@ -2,7 +2,8 @@
 
 ########################################
 ## <summary>
-##	Execute a domain transition to run amavis.
+##	Execute a domain transition to run
+##	amavis.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -21,7 +22,8 @@ interface(`amavis_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute amavis server in the amavis domain.
+##	Execute a domain transition to run
+##	Amavis.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -147,8 +149,7 @@ interface(`amavis_read_lib_files',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete
-##	amavis lib files.
+##	Manage Amavis lib files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -167,7 +168,7 @@ interface(`amavis_manage_lib_files',`
 
 ########################################
 ## <summary>
-##	Set the attributes of amavis pid files.
+##	Set attributes of amavis pid files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -186,7 +187,7 @@ interface(`amavis_setattr_pid_files',`
 
 ########################################
 ## <summary>
-##	Create of amavis pid files.
+##	Create Amavis pid files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -236,23 +237,23 @@ interface(`amavis_admin',`
  	role_transition $2 amavis_initrc_exec_t system_r;
  	allow $2 system_r;
 
-	files_list_etc($1)
 	admin_pattern($1, amavis_etc_t)
+	files_list_etc($1)
 
 	admin_pattern($1, amavis_quarantine_t)
 
-	files_list_spool($1)
 	admin_pattern($1, amavis_spool_t)
+	files_list_spool($1)
 
-	files_list_tmp($1)
 	admin_pattern($1, amavis_tmp_t)
+	files_list_tmp($1)
 
-	files_list_var_lib($1)
 	admin_pattern($1, amavis_var_lib_t)
+	files_list_var_lib($1)
 
-	logging_list_logs($1)
 	admin_pattern($1, amavis_var_log_t)
+	logging_list_logs($1)
 
-	files_list_pids($1)
 	admin_pattern($1, amavis_var_run_t)
+	files_list_pids($1)
 ')

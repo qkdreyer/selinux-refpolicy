@@ -285,7 +285,8 @@ interface(`apache_read_user_content',`
 
 ########################################
 ## <summary>
-##	Transition to apache.
+##	Execute a domain transition to run
+##	Apache.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -304,8 +305,7 @@ interface(`apache_domtrans',`
 
 ######################################
 ## <summary>
-##	execute apache
-##	in the caller domain.
+##	Execute Apache.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -324,7 +324,7 @@ interface(`apache_exec',`
 
 #######################################
 ## <summary>
-##	Send generic signals to apache.
+##	Send generic signals to Apache.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -342,7 +342,7 @@ interface(`apache_signal',`
 
 ########################################
 ## <summary>
-##	Send null signals to apache.
+##	Send null signals to Apache.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -360,7 +360,7 @@ interface(`apache_signull',`
 
 ########################################
 ## <summary>
-##	Send SIGCHLD signals to apache.
+##	Send SIGCHLD signals to Apache.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -378,7 +378,8 @@ interface(`apache_sigchld',`
 
 ########################################
 ## <summary>
-##	Inherit and use file descriptors from Apache.
+##	Inherit and use file descriptors
+##	from Apache.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -396,8 +397,8 @@ interface(`apache_use_fds',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to read and write Apache
-##	unnamed pipes.
+##	Do not audit attempts to read and
+##	write Apache pipes.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -415,8 +416,8 @@ interface(`apache_dontaudit_rw_fifo_file',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to read and write Apache
-##	unix domain stream sockets.
+##	Do not audit attempts to read and
+##	write Apache unix stream sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -434,8 +435,8 @@ interface(`apache_dontaudit_rw_stream_sockets',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to read and write Apache
-##	TCP sockets.
+##	Do not audit attempts to read and
+##	write Apache TCP sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -477,8 +478,8 @@ interface(`apache_manage_all_content',`
 
 ########################################
 ## <summary>
-##	Set attributes
-##	of Apache cache directories.
+##	Set attributes of Apache cache
+##	directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -610,8 +611,8 @@ interface(`apache_manage_config',`
 
 ########################################
 ## <summary>
-##	Execute the Apache helper program with
-##	a domain transition.
+##	Execute a domain transition to run
+##	Apache helper.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -630,8 +631,8 @@ interface(`apache_domtrans_helper',`
 
 ########################################
 ## <summary>
-##	Execute the Apache helper program with
-##	a domain transition, and allow the
+##	Execute a domain transition to run
+##	Apache helper, and allow the
 ##	specified role the Apache helper domain.
 ## </summary>
 ## <param name="domain">
@@ -641,7 +642,7 @@ interface(`apache_domtrans_helper',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	Role allowed access.
+##	Role allowed the Apache helper domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -698,7 +699,7 @@ interface(`apache_append_log',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to append to the
+##	Do not audit attempts to append
 ##	Apache logs.
 ## </summary>
 ## <param name="domain">
@@ -796,7 +797,8 @@ interface(`apache_exec_modules',`
 
 ########################################
 ## <summary>
-##	Execute a domain transition to run httpd_rotatelogs.
+##	Execute a domain transition to run
+##	Apache rotatelogs.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -815,7 +817,7 @@ interface(`apache_domtrans_rotatelogs',`
 
 ########################################
 ## <summary>
-##	List apache system content files.
+##	List Apache system content files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -834,7 +836,7 @@ interface(`apache_list_sys_content',`
 
 ########################################
 ## <summary>
-##	Manage apache system content files.
+##	Manage Apache system content files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -855,8 +857,7 @@ interface(`apache_manage_sys_content',`
 
 ######################################
 ## <summary>
-##	Read Apache system
-##	content rw files.
+##	Read Apache system content rw files.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -870,11 +871,12 @@ interface(`apache_read_sys_content_rw_files',`
 	')
 
 	read_files_pattern($1, httpd_sys_rw_content_t, httpd_sys_rw_content_t)
+	files_search_var($1)
 ')
 
 ######################################
 ## <summary>
-##  Manage apache system content rw files.
+##  Manage Apache system content rw files.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -895,8 +897,8 @@ interface(`apache_manage_sys_content_rw',`
 
 ########################################
 ## <summary>
-##	Execute all web scripts in the system
-##	script domain.
+##	Execute a domain transition to run
+##	Apache system scripts.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -919,7 +921,7 @@ interface(`apache_domtrans_sys_script',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to read and write Apache
-##	system script unix domain stream sockets.
+##	system script unix stream sockets.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -932,7 +934,7 @@ interface(`apache_dontaudit_rw_sys_script_stream_sockets',`
 		type httpd_sys_script_t;
 	')
 
-	dontaudit $1 httpd_sys_script_t:unix_stream_socket { read write };
+	dontaudit $1 httpd_sys_script_t:unix_stream_socket rw_inherited_sock_file_perms;
 ')
 
 ########################################
@@ -956,9 +958,9 @@ interface(`apache_domtrans_all_scripts',`
 
 ########################################
 ## <summary>
-##	Execute all user scripts in the user
-##	script domain.  Add user script domains
-##	to the specified role.
+##	Execute a domain transition to run
+##	Apache user scripts, and allow user
+##	script domains the specified role.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -967,7 +969,8 @@ interface(`apache_domtrans_all_scripts',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the script domains.
+##	The role to be allowed the script
+##	domains.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -1097,7 +1100,7 @@ interface(`apache_search_sys_scripts',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete all user web content.
+##	Manage all user web content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1139,7 +1142,7 @@ interface(`apache_search_sys_script_state',`
 
 ########################################
 ## <summary>
-##	Read apache tmp files.
+##	Read apache temporary files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1159,7 +1162,7 @@ interface(`apache_read_tmp_files',`
 ######################################
 ## <summary>
 ##  Dontaudit attempts to read and write
-##  apache tmp files.
+##  apache temporary files.
 ## </summary>
 ## <param name="domain">
 ##  <summary>
@@ -1172,13 +1175,13 @@ interface(`apache_dontaudit_rw_tmp_files',`
 		type httpd_tmp_t;
 	')
 
-	dontaudit $1 httpd_tmp_t:file { read write };
+	dontaudit $1 httpd_tmp_t:file rw_inherited_file_perms;
 ')
 
 ########################################
 ## <summary>
 ##	Do not audit attempts to write
-##	apache tmp files.
+##	apache temporary files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1224,12 +1227,6 @@ interface(`apache_cgi_domain',`
 ## <summary>
 ##	All of the rules required to administrate an apache environment
 ## </summary>
-## <param name="prefix">
-##	<summary>
-##	Prefix of the domain. Example, user would be
-##	the prefix for the uder_t domain.
-##	</summary>
-## </param>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.

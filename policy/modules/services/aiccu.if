@@ -22,7 +22,8 @@ interface(`aiccu_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute aiccu server in the aiccu domain.
+##	Execute a domain transition to run
+##	aiccu.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

@@ -40,7 +40,7 @@ interface(`afs_rw_udp_sockets',`
 
 ########################################
 ## <summary>
-##	read/write afs cache files
+##	Read and write afs cache files
 ## </summary>
 ## <param name="domain">
 ## <summary>
@@ -59,7 +59,8 @@ interface(`afs_rw_cache',`
 
 ########################################
 ## <summary>
-##	Execute afs server in the afs domain.
+##	Execute a domain transition to run
+##	afs domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -87,7 +88,8 @@ interface(`afs_initrc_domtrans',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed to manage the afs domain.
+##	The role to be allowed to manage the
+##	afs domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>

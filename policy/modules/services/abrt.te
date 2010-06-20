@@ -44,7 +44,6 @@ ifdef(`enable_mcs',`
 allow abrt_t self:capability { chown kill setuid setgid sys_nice dac_override };
 dontaudit abrt_t self:capability sys_rawio;
 allow abrt_t self:process { sigkill signal signull setsched getsched };
-
 allow abrt_t self:fifo_file rw_fifo_file_perms;
 allow abrt_t self:tcp_socket create_stream_socket_perms;
 allow abrt_t self:udp_socket create_socket_perms;
@@ -85,7 +84,7 @@ corenet_all_recvfrom_netlabel(abrt_t)
 corenet_all_recvfrom_unlabeled(abrt_t)
 corenet_tcp_sendrecv_generic_if(abrt_t)
 corenet_tcp_sendrecv_generic_node(abrt_t)
-corenet_tcp_sendrecv_generic_port(abrt_t)
+corenet_tcp_sendrecv_all_ports(abrt_t)
 corenet_tcp_bind_generic_node(abrt_t)
 corenet_tcp_connect_http_port(abrt_t)
 corenet_tcp_connect_ftp_port(abrt_t)
@@ -93,6 +92,8 @@ corenet_tcp_connect_all_ports(abrt_t)
 corenet_sendrecv_http_client_packets(abrt_t)
 corenet_sendrecv_ftp_client_packets(abrt_t)
 corenet_sendrecv_all_client_packets(abrt_t)
+corenet_tcp_sendrecv_http_port(abrt_t)
+corenet_tcp_sendrecv_ftp_port(abrt_t)
 
 dev_getattr_all_chr_files(abrt_t)
 dev_read_urand(abrt_t)
@@ -242,6 +243,6 @@ ifdef(`hide_broken_symptoms',`
 	')
 
 	allow abrt_t self:capability sys_resource;
-	allow abrt_t domain:file write;
+	allow abrt_t domain:file write_file_perms;
 	allow abrt_t domain:process setrlimit;
 ')

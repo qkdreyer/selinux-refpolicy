@@ -21,7 +21,8 @@ interface(`apcupsd_domtrans',`
 
 ########################################
 ## <summary>
-##	Execute apcupsd server in the apcupsd domain.
+##	Execute a domain transition to run
+##	apcupsd server.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -58,7 +59,7 @@ interface(`apcupsd_read_pid_files',`
 
 ########################################
 ## <summary>
-##	Read apcupsd's log files.
+##	Read apcupsd log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -132,7 +133,8 @@ interface(`apcupsd_cgi_script_domtrans',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed to manage the apcupsd domain.
+##	The role to be allowed to manage the
+##	apcupsd domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -153,15 +155,15 @@ interface(`apcupsd_admin',`
 	role_transition $2 apcupsd_initrc_exec_t system_r;
 	allow $2 system_r;
 
-	files_list_var($1)
 	admin_pattern($1, apcupsd_lock_t)
+	files_list_var($1)
 
-	logging_list_logs($1)
 	admin_pattern($1, apcupsd_log_t)
+	logging_list_logs($1)
 
-	files_list_tmp($1)
 	admin_pattern($1, apcupsd_tmp_t)
+	files_list_tmp($1)
 
-	files_list_pids($1)
 	admin_pattern($1, apcupsd_var_run_t)
+	files_list_pids($1)
 ')
