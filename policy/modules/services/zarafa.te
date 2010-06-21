@@ -6,6 +6,13 @@ policy_module(zarafa, 1.0.0)
 # Declarations
 #
 
+## <desc>
+##	<p>
+##	Allow zarafa server to connect to databases over the network.
+##	</p>
+## </desc>
+gen_tunable(zarafa_can_network_connect_db, false)
+
 attribute zarafa_domain;
 
 zarafa_domain_template(monitor)
@@ -53,11 +60,23 @@ logging_send_audit_msgs(zarafa_server_t)
 sysnet_dns_name_resolve(zarafa_server_t)
 
 optional_policy(`
-	mysql_stream_connect(zarafa_server_t)
+	kerberos_use(zarafa_server_t)
 ')
 
 optional_policy(`
-	kerberos_use(zarafa_server_t)
+	mysql_stream_connect(zarafa_server_t)
+
+	tunable_policy(`zarafa_can_network_connect_db',`
+		mysql_tcp_connect(zarafa_server_t)
+	')
+')
+
+optional_policy(`
+	postgresql_stream_connect(zarafa_server_t)
+
+	tunable_policy(`zarafa_can_network_connect_db',`
+		postgresql_tcp_connect(zarafa_server_t)
+	')
 ')
 
 ########################################
@@ -115,6 +134,7 @@ corenet_all_recvfrom_unlabeled(zarafa_domain)
 corenet_all_recvfrom_netlabel(zarafa_domain)
 corenet_tcp_sendrecv_generic_if(zarafa_domain)
 corenet_tcp_sendrecv_generic_node(zarafa_domain)
+corenet_tcp_bind_generic_node(zarafa_domain)
 corenet_tcp_sendrecv_all_ports(zarafa_domain)
 
 files_read_etc_files(zarafa_domain)
