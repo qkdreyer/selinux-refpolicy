@@ -9,6 +9,9 @@ type transproxy_t;
 type transproxy_exec_t;
 init_daemon_domain(transproxy_t, transproxy_exec_t)
 
+type transproxy_initrc_exec_t;
+init_script_file(transproxy_initrc_exec_t)
+
 type transproxy_var_run_t;
 files_pid_file(transproxy_var_run_t)
 
