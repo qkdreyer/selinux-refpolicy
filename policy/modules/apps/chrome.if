@@ -15,7 +15,7 @@ interface(`chrome_domtrans_sandbox',`
 		type chrome_sandbox_t, chrome_sandbox_exec_t;
 	')
 
-	domtrans_pattern($1,chrome_sandbox_exec_t,chrome_sandbox_t)
+	domtrans_pattern($1, chrome_sandbox_exec_t, chrome_sandbox_t)
 	files_search_usr($1)
 
 	ps_process_pattern(chrome_sandbox_t, $1)
@@ -69,8 +69,7 @@ interface(`chrome_run_sandbox',`
 #
 interface(`chrome_role',`
 	gen_require(`
-		type chrome_sandbox_t;
-		type chrome_sandbox_tmpfs_t;
+		type chrome_sandbox_t, chrome_sandbox_tmpfs_t;
 	')
 
 	role $1 types chrome_sandbox_t;
@@ -80,10 +79,10 @@ interface(`chrome_role',`
 	ps_process_pattern($2, chrome_sandbox_t)
 	allow $2 chrome_sandbox_t:process signal_perms;
 
-	allow chrome_sandbox_t $2:unix_dgram_socket { read write };
-	allow $2 chrome_sandbox_t:unix_dgram_socket { read write };
-	allow chrome_sandbox_t $2:unix_stream_socket { read write };
-	allow $2 chrome_sandbox_t:unix_stream_socket { read write };
+	allow chrome_sandbox_t $2:unix_dgram_socket rw_inherited_sock_file_perms;
+	allow $2 chrome_sandbox_t:unix_dgram_socket rw_inherited_sock_file_perms;
+	allow chrome_sandbox_t $2:unix_stream_socket rw_inherited_sock_file_perms;
+	allow $2 chrome_sandbox_t:unix_stream_socket rw_inherited_sock_file_perms;
 
 	allow $2 chrome_sandbox_t:shm rw_shm_perms;
 

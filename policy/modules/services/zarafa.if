@@ -176,7 +176,7 @@ interface(`zarafa_admin',`
 	logging_search_logs($1)
 
 	admin_pattern($1, zarafa_pid_file)
-	files_pid_filetrans($1, zarafa_pid_file, file)
+	files_search_pids($1)
 
 	allow $1 zarafa_domain:dir list_dir_perms;
 	read_lnk_files_pattern($1, zarafa_domain, zarafa_domain)

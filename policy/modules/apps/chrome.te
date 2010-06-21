@@ -1,5 +1,4 @@
-
-policy_module(chrome,1.0.0)
+policy_module(chrome, 1.0.0)
 
 ########################################
 #
