@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.4
-Release: 1.2%{?dist}
+Release: 1.3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,14 @@ exit 0
 %endif
 
 %changelog
+* Mon Jun 21 2010 Dominick Grift <domg472@gmail.com> 3.8.4-1.3
+- Zarafa: add postgres support.
+- Zarafa: network connect db.
+- Zarafa: add initrc file types.
+- Zarafa: admin
+- Zarafa: extend zarafa domain template.
+- Zarafa: remove zarafa_share_t.
+
 * Sun Jun 20 2010 Dominick Grift <domg472@gmail.com> 3.8.4-1.2
 - Various clean ups.
 - Allow hddtemp to bind to generic nodes.
