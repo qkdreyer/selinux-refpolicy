@@ -1,3 +1,10 @@
+/etc/rc\.d/init\.d/zarafa-dagent	--	gen_context(system_u:object_r:zarafa_deliver_initrc_exec_t,s0)
+/etc/rc\.d/init\.d/zarafa-gateway	--	gen_context(system_u:object_r:zarafa_gateway_initrc_exec_t,s0)
+/etc/rc\.d/init\.d/zarafa-ical		--	gen_context(system_u:object_r:zarafa_ical_initrc_exec_t,s0)
+/etc/rc\.d/init\.d/zarafa-monitor	--	gen_context(system_u:object_r:zarafa_monitor_initrc_exec_t,s0)
+/etc/rc\.d/init\.d/zarafa-server	--	gen_context(system_u:object_r:zarafa_server_initrc_exec_t,s0)
+/etc/rc\.d/init\.d/zarafa-spooler	--	gen_context(system_u:object_r:zarafa_spooler_initrc_exec_t,s0)
+
 /etc/zarafa(/.*)?						gen_context(system_u:object_r:zarafa_etc_t,s0)
 
 /usr/bin/zarafa-dagent				--	gen_context(system_u:object_r:zarafa_deliver_exec_t,s0)

@@ -14,21 +14,29 @@
 template(`zarafa_domain_template',`
 	gen_require(`
 		attribute zarafa_domain;
+		attribute zarafa_initrc_script;
+		attribute zarafa_log_file;
+		attribute zarafa_pid_file;
+
+		type zarafa_etc_t;
 	')
 
 	##############################
-	#    
+	#
 	#  $1_t declarations
-	#            
+	#
 
 	type zarafa_$1_t, zarafa_domain;
 	type zarafa_$1_exec_t;
 	init_daemon_domain(zarafa_$1_t, zarafa_$1_exec_t)
 
-	type zarafa_$1_log_t;
+	type zarafa_$1_initrc_exec_t, zarafa_initrc_script;
+	init_script_file(zarafa_$1_initrc_exec_t)
+
+	type zarafa_$1_log_t, zarafa_log_file;
 	logging_log_file(zarafa_$1_log_t)
 
-	type zarafa_$1_var_run_t;
+	type zarafa_$1_var_run_t, zarafa_pid_file;
 	files_pid_file(zarafa_$1_var_run_t)
 
 	##############################
@@ -36,13 +44,37 @@ template(`zarafa_domain_template',`
 	# $1_t local policy
 	#
 
+	allow zarafa_$1_t self:capability { chown dac_override setgid setuid };
+	allow zarafa_$1_t self:fifo_file rw_fifo_file_perms;
+	allow zarafa_$1_t self:tcp_socket create_stream_socket_perms;
+	allow zarafa_$1_t self:unix_stream_socket create_stream_socket_perms;
+
+	stream_connect_pattern(zarafa_$1_t, zarafa_server_var_run_t, zarafa_server_var_run_t, zarafa_server_t)
+
+	read_files_pattern(zarafa_$1_t, zarafa_etc_t, zarafa_etc_t)
+
 	manage_files_pattern(zarafa_$1_t, zarafa_$1_var_run_t, zarafa_$1_var_run_t)
 	manage_sock_files_pattern(zarafa_$1_t, zarafa_$1_var_run_t, zarafa_$1_var_run_t)
 	files_pid_filetrans(zarafa_$1_t, zarafa_$1_var_run_t, { file sock_file })
 
 	manage_files_pattern(zarafa_$1_t, zarafa_$1_log_t, zarafa_$1_log_t)
-	logging_log_filetrans(zarafa_$1_t,zarafa_$1_log_t, file)
-')	
+	logging_log_filetrans(zarafa_$1_t, zarafa_$1_log_t, file)
+
+	kernel_read_system_state(zarafa_$1_t)
+
+	corenet_all_recvfrom_unlabeled(zarafa_$1_t)
+	corenet_all_recvfrom_netlabel(zarafa_$1_t)
+	corenet_tcp_sendrecv_generic_if(zarafa_$1_t)
+	corenet_tcp_sendrecv_generic_node(zarafa_$1_t)
+	corenet_tcp_bind_generic_node(zarafa_$1_t)
+	corenet_tcp_sendrecv_all_ports(zarafa_$1_t)
+
+	files_read_etc_files(zarafa_$1_t)
+
+	auth_use_nsswitch(zarafa_$1_t)
+
+	miscfiles_read_localization(zarafa_$1_t)
+')
 
 ########################################
 ## <summary>
@@ -100,4 +132,56 @@ interface(`zarafa_stream_connect_server',`
 
 	stream_connect_pattern($1, zarafa_server_t, zarafa_server_var_run_t, zarafa_server_t)
 	files_search_pids($1)
+')
+
+########################################
+## <summary>
+##	All of the rules required to
+##	administrate an zarafa environment
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+## <param name="role">
+##	<summary>
+##	Role allowed access.
+##	</summary>
+## </param>
+## <rolecap/>
+#
+interface(`zarafa_admin',`
+	gen_require(`
+		attribute zarafa_domain;
+		attribute zarafa_initrc_script;
+		attribute zarafa_log_file;
+		attribute zarafa_pid_file;
+
+		type zarafa_deliver_tmp_t, zarafa_etc_t;
+	')
+
+	allow $1 zarafa_domain:process { ptrace signal_perms };
+	ps_process_pattern($1, zarafa_domain)
+
+	init_labeled_script_domtrans($1, zarafa_initrc_script)
+	domain_system_change_exemption($1)
+	role_transition $2 zarafa_initrc_script system_r;
+	allow $2 system_r;
+
+	admin_pattern($1, zarafa_etc_t)
+	files_search_etc($1)
+
+	admin_pattern($1, zarafa_log_file)
+	logging_search_logs($1)
+
+	admin_pattern($1, zarafa_pid_file)
+	files_pid_filetrans($1, zarafa_pid_file, file)
+
+	allow $1 zarafa_domain:dir list_dir_perms;
+	read_lnk_files_pattern($1, zarafa_domain, zarafa_domain)
+	kernel_search_proc($1)
+
+	admin_pattern($1, zarafa_deliver_tmp_t)
+	files_search_tmp($1)
 ')
