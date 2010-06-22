@@ -28,16 +28,21 @@ interface(`thunderbird_role',`
 	# This is ugly: fix me
 	allow $2 thunderbird_t:fd use;
 	allow $2 thunderbird_t:shm { associate getattr };
-	allow $2 thunderbird_t:unix_stream_socket connectto;
 	allow thunderbird_t $2:fd use;
 	allow thunderbird_t $2:process sigchld;
-	allow thunderbird_t $2:unix_stream_socket connectto;
 
 	ps_process_pattern($2, thunderbird_t)
 	allow $2 thunderbird_t:process { ptrace signal_perms };
 
+	manage_dirs_pattern($2, thunderbird_tmp_t, thunderbird_tmp_t)
+	manage_files_pattern($2, thunderbird_tmp_t, thunderbird_tmp_t)
 	manage_sock_files_pattern($2, thunderbird_tmp_t, thunderbird_tmp_t)
+	
+	relabel_dirs_pattern($2, thunderbird_tmp_t, thunderbird_tmp_t)
+	relabel_files_pattern($2, thunderbird_tmp_t, thunderbird_tmp_t)
 	relabel_sock_files_pattern($2, thunderbird_tmp_t, thunderbird_tmp_t)
+
+	thunderbird_stream_connect($2)
 
 	optional_policy(`
 		thunderbird_dbus_chat($2)
@@ -82,4 +87,80 @@ interface(`thunderbird_dbus_chat',`
 
 	allow $1 thunderbird_t:dbus send_msg;
 	allow thunderbird_t $1:dbus send_msg;
+')
+
+########################################
+## <summary>
+##	Stream connect to Thunderbird.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`thunderbird_stream_connect',`
+	gen_require(`
+		type thunderbird_t, thunderbird_tmp_t;
+	')
+
+	stream_connect_pattern($1, thunderbird_tmp_t, thunderbird_tmp_t, thunderbird_t)
+	files_search_tmp($1)
+')
+
+########################################
+## <summary>
+##	Read Thunderbird tmpfs files.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`thunderbird_read_tmpfs_files', `
+	gen_require(`
+		type thunderbird_tmpfs_t;
+	')
+
+	allow $1 thunderbird_tmpfs_t:file read_file_perms;
+	fs_search_tmpfs($1)
+')
+
+########################################
+## <summary>
+##	Delete Thunderbird tmpfs files.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`thunderbird_delete_tmpfs_files', `
+	gen_require(`
+		type thunderbird_tmpfs_t;
+	')
+
+	allow $1 thunderbird_tmpfs_t:file delete_file_perms;
+	fs_search_tmpfs($1)
+')
+
+
+########################################
+## <summary>
+##	Send signull signals to Thunderbird.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`thunderbird_signull',`
+	gen_require(`
+		type thunderbird_t;
+	')
+
+	allow $1 thunderbird_t:process signull;
 ')

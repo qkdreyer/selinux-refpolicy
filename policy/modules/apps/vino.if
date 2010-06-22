@@ -129,7 +129,7 @@ interface(`vino_server_delete_tmpfs_files', `
 		type vino_server_tmpfs_t;
 	')
 
-	allow $1 vino_server_tmpfs_t:file { getattr_file_perms unlink };
+	allow $1 vino_server_tmpfs_t:file delete_file_perms;
 	fs_search_tmpfs($1)
 ')
 

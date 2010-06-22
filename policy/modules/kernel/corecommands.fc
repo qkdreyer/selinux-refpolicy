@@ -225,6 +225,7 @@ ifdef(`distro_redhat',`
 /usr/lib(64)?/rpm/rpmq													-- 	gen_context(system_u:object_r:bin_t,s0)
 /usr/lib(64)?/rpm/rpmk													-- 	gen_context(system_u:object_r:bin_t,s0)
 /usr/lib(64)?/rpm/rpmv													-- 	gen_context(system_u:object_r:bin_t,s0)
+/usr/lib64/thunderbird-enigmail/wrappers/gpg-agent-wrapper.sh			--	gen_context(system_u:object_r:bin_t,s0)
 /usr/lib64/.*/program(/.*)?													gen_context(system_u:object_r:bin_t,s0)
 /usr/lib64/bluetooth(/.*)?												--	gen_context(system_u:object_r:bin_t,s0)
 /usr/share/authconfig/authconfig-gtk.py									--	gen_context(system_u:object_r:bin_t,s0)
