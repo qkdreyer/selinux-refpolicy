@@ -38,6 +38,10 @@ interface(`thunderbird_role',`
 
 	manage_sock_files_pattern($2, thunderbird_tmp_t, thunderbird_tmp_t)
 	relabel_sock_files_pattern($2, thunderbird_tmp_t, thunderbird_tmp_t)
+
+	optional_policy(`
+		thunderbird_dbus_chat($2)
+	')
 ')
 
 ########################################
@@ -57,4 +61,25 @@ interface(`thunderbird_domtrans',`
 
 	domtrans_pattern($1, thunderbird_exec_t, thunderbird_t)
 	corecmd_search_bin($1)
+')
+
+########################################
+## <summary>
+##	Send DBus messages to and from
+##	Thunderbird.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`thunderbird_dbus_chat',`
+	gen_require(`
+		type thunderbird_t;
+		class dbus send_msg;
+	')
+
+	allow $1 thunderbird_t:dbus send_msg;
+	allow thunderbird_t $1:dbus send_msg;
 ')
