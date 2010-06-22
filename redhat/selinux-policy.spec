@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.5
-Release: 1.6%{?dist}
+Release: 1.7%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,10 @@ exit 0
 %endif
 
 %changelog
+* Tue Jun 22 2010 Dominick Grift <domg472@gmail.com> 3.8.5-1.7
+- Thunderbird: removed execstack,heap,mem because i dont need it. and other fixes
+- renamed interfaces that provide access to gnome home type attribute *all*, and added type attribute gnome home type to the cache, config, and data file trans patterns,
+
 * Tue Jun 22 2010 Dominick Grift <domg472@gmail.com> 3.8.5-1.6
 - Various fixes related to thunderbird.
 
