@@ -12,7 +12,9 @@ policy_module(java, 2.3.0)
 ## </desc>
 gen_tunable(allow_java_execstack, false)
 
-type java_t;
+attribute java_domain;
+
+type java_t, java_domain;
 type java_exec_t;
 application_domain(java_t, java_exec_t)
 ubac_constrained(java_t)
@@ -32,7 +34,7 @@ files_tmpfs_file(java_tmpfs_t)
 typealias java_tmpfs_t alias { staff_javaplugin_tmpfs_t user_javaplugin_tmpfs_t sysadm_javaplugin_tmpfs_t };
 typealias java_tmpfs_t alias { auditadm_tmpfs_javaplugin_t secadm_tmpfs_javaplugin_t };
 
-type unconfined_java_t;
+type unconfined_java_t, java_domain;
 init_system_domain(unconfined_java_t, java_exec_t)
 
 ########################################

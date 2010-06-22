@@ -87,7 +87,7 @@ sysnet_read_config(vino_server_t)
 application_signull(vino_server_t)
 
 userdom_read_user_tmpfs_files(vino_server_t)
-allow vino_server_t user_tmpfs_t:file unlink;
+userdom_delete_user_tmpfs_files(vino_server_t)
 
 userdom_setattr_user_tmp_dirs(vino_server_t)
 userdom_stream_connect(vino_server_t)

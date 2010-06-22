@@ -63,7 +63,7 @@ application_signull(seahorsed_t)
 
 userdom_list_user_tmp(seahorsed_t)
 userdom_read_user_tmpfs_files(seahorsed_t)
-allow seahorsed_t user_tmpfs_t:file unlink;
+userdom_delete_user_tmpfs_files(seahorsed_t)
 
 userdom_setattr_user_tmp_dirs(seahorsed_t)
 userdom_stream_connect(seahorsed_t)

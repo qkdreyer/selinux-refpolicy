@@ -54,10 +54,11 @@ interface(`java_role',`
 #
 template(`java_role_template',`
 	gen_require(`
+		attribute java_domain;
 		type java_exec_t;
 	')
 
-	type $1_java_t;
+	type $1_java_t, java_domain;
 	domain_type($1_java_t)
 	domain_entry_file($1_java_t, java_exec_t)
 	role $2 types $1_java_t;
@@ -195,4 +196,22 @@ interface(`java_exec',`
 
 	can_exec($1, java_exec_t)
 	corecmd_search_bin($1)
+')
+
+########################################
+## <summary>
+##	Send null signals to java domains.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`java_signull',`
+	gen_require(`
+		attribute java_domain;
+	')
+
+	allow $1 java_domain:process signull;
 ')

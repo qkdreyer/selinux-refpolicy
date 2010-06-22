@@ -338,7 +338,7 @@ term_dontaudit_use_all_ptys(gpg_pinentry_t)
 
 userdom_read_user_home_content_files(gpg_pinentry_t)
 userdom_read_user_tmpfs_files(gpg_pinentry_t)
-allow gpg_pinentry_t user_tmpfs_t:file unlink;
+userdom_delete_user_tmpfs_files(gpg_pinentry_t)
 userdom_signull_unpriv_users(gpg_pinentry_t)
 userdom_write_user_tmp_sockets(gpg_pinentry_t)
 
