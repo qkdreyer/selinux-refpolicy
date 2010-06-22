@@ -168,6 +168,7 @@ optional_policy(`
 	gpg_pinentry_read_tmpfs_files(thunderbird_t)
 	gpg_pinentry_delete_tmpfs_files(thunderbird_t)
 	gpg_sigkill(thunderbird_t)
+	gpg_sigkill_agent(thunderbird_t)
 	gpg_signal_agent(thunderbird_t)
 ')
 

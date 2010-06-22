@@ -215,6 +215,25 @@ interface(`gpg_sigkill',`
 
 ########################################
 ## <summary>
+##	Send kill signals to user gpg
+##	agent processes.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`gpg_sigkill_agent',`
+	gen_require(`
+		type gpg_agent_t;
+	')
+
+	allow $1 gpg_agent_t:process sigkill;
+')
+
+########################################
+## <summary>
 ##	Read and write GPG agent pipes.
 ## </summary>
 ## <param name="domain">
