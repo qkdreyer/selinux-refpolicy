@@ -115,8 +115,6 @@ manage_fifo_files_pattern(irc_t, irc_tmp_t, irc_tmp_t)
 manage_sock_files_pattern(irc_t, irc_tmp_t, irc_tmp_t)
 files_tmp_filetrans(irc_t, irc_tmp_t, { file dir lnk_file sock_file fifo_file })
 
-kernel_read_proc_symlinks(irc_t)
-
 corenet_tcp_sendrecv_all_ports(irc_t)
 corenet_udp_sendrecv_all_ports(irc_t)
 corenet_tcp_connect_all_ports(irc_t)
@@ -130,7 +128,6 @@ files_search_var(irc_t)
 fs_getattr_xattr_fs(irc_t)
 
 term_use_controlling_term(irc_t)
-term_list_ptys(irc_t)
 
 init_read_utmp(irc_t)
 init_dontaudit_lock_utmp(irc_t)
