@@ -18,13 +18,14 @@
 interface(`thunderbird_role',`
 	gen_require(`
 		type thunderbird_t, thunderbird_exec_t;
-		type thunderbird_home_t, thunderbird_tmpfs_t;
+		type thunderbird_tmp_t;
 	')
 
 	role $1 types thunderbird_t;
 
 	domain_auto_trans($2, thunderbird_exec_t, thunderbird_t)
 
+	# This is ugly: fix me
 	allow $2 thunderbird_t:fd use;
 	allow $2 thunderbird_t:shm { associate getattr };
 	allow $2 thunderbird_t:unix_stream_socket connectto;
@@ -33,7 +34,10 @@ interface(`thunderbird_role',`
 	allow thunderbird_t $2:unix_stream_socket connectto;
 
 	ps_process_pattern($2, thunderbird_t)
-	allow $2 thunderbird_t:process signal;
+	allow $2 thunderbird_t:process { ptrace signal_perms };
+
+	manage_sock_files_pattern($2, thunderbird_tmp_t, thunderbird_tmp_t)
+	relabel_sock_files_pattern($2, thunderbird_tmp_t, thunderbird_tmp_t)
 ')
 
 ########################################

@@ -15,8 +15,11 @@ ubac_constrained(thunderbird_t)
 type thunderbird_home_t;
 typealias thunderbird_home_t alias { user_thunderbird_home_t staff_thunderbird_home_t sysadm_thunderbird_home_t };
 typealias thunderbird_home_t alias { auditadm_thunderbird_home_t secadm_thunderbird_home_t };
-files_poly_member(thunderbird_home_t)
 userdom_user_home_content(thunderbird_home_t)
+
+type thunderbird_tmp_t;
+files_tmp_file(thunderbird_tmp_t)
+ubac_constrained(thunderbird_tmp_t)
 
 type thunderbird_tmpfs_t;
 typealias thunderbird_tmpfs_t alias { user_thunderbird_tmpfs_t staff_thunderbird_tmpfs_t sysadm_thunderbird_tmpfs_t };
@@ -31,7 +34,7 @@ ubac_constrained(thunderbird_tmpfs_t)
 
 allow thunderbird_t self:capability sys_nice;
 allow thunderbird_t self:process { signal_perms setsched getsched execheap execmem execstack };
-allow thunderbird_t self:fifo_file { ioctl read write getattr };
+allow thunderbird_t self:fifo_file rw_fifo_file_perms;
 allow thunderbird_t self:unix_dgram_socket { create connect };
 allow thunderbird_t self:unix_stream_socket { create accept connect write getattr read listen bind };
 allow thunderbird_t self:tcp_socket create_socket_perms;
@@ -41,6 +44,9 @@ manage_dirs_pattern(thunderbird_t, thunderbird_home_t, thunderbird_home_t)
 manage_files_pattern(thunderbird_t, thunderbird_home_t, thunderbird_home_t)
 manage_lnk_files_pattern(thunderbird_t, thunderbird_home_t, thunderbird_home_t)
 userdom_search_user_home_dirs(thunderbird_t)
+
+manage_sock_files_pattern(thunderbird_t, thunderbird_tmp_t, thunderbird_tmp_t)
+userdom_user_tmp_filetrans(thunderbird_t, thunderbird_tmp_t, sock_file)
 
 manage_files_pattern(thunderbird_t, thunderbird_tmpfs_t, thunderbird_tmpfs_t)
 manage_lnk_files_pattern(thunderbird_t, thunderbird_tmpfs_t, thunderbird_tmpfs_t)
@@ -102,9 +108,9 @@ miscfiles_read_localization(thunderbird_t)
 
 userdom_manage_user_tmp_dirs(thunderbird_t)
 userdom_read_user_tmp_files(thunderbird_t)
-# I am pretty sure that this socket can be created with a thunderbird type instead.
-userdom_manage_user_tmp_sockets(thunderbird_t)
-userdom_read_user_home_content_files(thunderbird_t)
+userdom_read_user_tmp_symlinks(thunderbird_t)
+
+# userdom_read_user_home_content_files(thunderbird_t)
 
 xserver_user_x_domain_template(thunderbird, thunderbird_t, thunderbird_tmpfs_t)
 xserver_read_xdm_tmp_files(thunderbird_t)
@@ -122,52 +128,10 @@ tunable_policy(`use_samba_home_dirs',`
 	fs_manage_cifs_symlinks(thunderbird_t)
 ')
 
-tunable_policy(`mail_read_content && use_nfs_home_dirs',`
-	files_list_home(thunderbird_t)
-	fs_list_auto_mountpoints(thunderbird_t)
-	fs_read_nfs_files(thunderbird_t)
-	fs_read_nfs_symlinks(thunderbird_t)
-',`
-	files_dontaudit_list_home(thunderbird_t)
-	fs_dontaudit_list_auto_mountpoints(thunderbird_t)
-	fs_dontaudit_list_nfs(thunderbird_t)
-	fs_dontaudit_read_nfs_files(thunderbird_t)
-')
-
-tunable_policy(`mail_read_content && use_samba_home_dirs',`
-	files_list_home(thunderbird_t)
-	fs_list_auto_mountpoints(thunderbird_t)
-	fs_read_cifs_files(thunderbird_t)
-	fs_read_cifs_symlinks(thunderbird_t)
-',`
-	files_dontaudit_list_home(thunderbird_t)
-	fs_dontaudit_list_auto_mountpoints(thunderbird_t)
-	fs_dontaudit_read_cifs_files(thunderbird_t)
-	fs_dontaudit_list_cifs(thunderbird_t)
-')
-
-tunable_policy(`mail_read_content',`
-	userdom_list_user_tmp(thunderbird_t)
-	userdom_read_user_tmp_files(thunderbird_t)
-	userdom_read_user_tmp_symlinks(thunderbird_t)
-	mta_read_mail_home_files(thunderbird_t)
-
-	ifndef(`enable_mls',`
-		fs_search_removable(thunderbird_t)
-		fs_read_removable_files(thunderbird_t)
-		fs_read_removable_symlinks(thunderbird_t)
-	')
-',`
-	files_dontaudit_list_tmp(thunderbird_t)
-	files_dontaudit_list_home(thunderbird_t)
-
-	fs_dontaudit_list_removable(thunderbird_t)
-	fs_dontaudit_read_removable_files(thunderbird_t)
-
-	userdom_dontaudit_list_user_tmp(thunderbird_t)
-	userdom_dontaudit_read_user_tmp_files(thunderbird_t)
-	userdom_dontaudit_list_user_home_dirs(thunderbird_t)
-	userdom_dontaudit_read_user_home_content_files(thunderbird_t)
+ifndef(`enable_mls',`
+	fs_search_removable(thunderbird_t)
+	fs_read_removable_files(thunderbird_t)
+	fs_read_removable_symlinks(thunderbird_t)
 ')
 
 optional_policy(`
@@ -183,7 +147,7 @@ optional_policy(`
 optional_policy(`
 	gnome_stream_connect_gconf(thunderbird_t)
 	gnome_domtrans_gconfd(thunderbird_t)
-	gnome_manage_config(thunderbird_t)
+	# gnome_manage_config(thunderbird_t)
 ')
 
 optional_policy(`
@@ -198,4 +162,8 @@ optional_policy(`
 	mozilla_read_user_home_files(thunderbird_t)
 	mozilla_domtrans(thunderbird_t)
 	mozilla_dbus_chat(thunderbird_t)
+')
+
+optional_policy(`
+	mta_read_mail_home_files(thunderbird_t)
 ')
