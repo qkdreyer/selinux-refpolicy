@@ -57,16 +57,16 @@ allow dhcpc_t dhcp_etc_t:dir list_dir_perms;
 read_lnk_files_pattern(dhcpc_t, dhcp_etc_t, dhcp_etc_t)
 exec_files_pattern(dhcpc_t, dhcp_etc_t, dhcp_etc_t)
 
-allow dhcpc_t dhcp_state_t:file read_file_perms;
-allow dhcpc_t dhcp_state_t:file relabelfrom;
+relabel_files_pattern(dhcpc_t, dhcpc_state_t, dhcpc_state_t)
 manage_files_pattern(dhcpc_t, dhcpc_state_t, dhcpc_state_t)
 filetrans_pattern(dhcpc_t, dhcp_state_t, dhcpc_state_t, file)
 
 manage_files_pattern(dhcpc_t, dhcpc_var_run_t, dhcpc_var_run_t)
 files_pid_filetrans(dhcpc_t, dhcpc_var_run_t, file)
 
-allow dhcpc_t net_conf_t:file manage_file_perms;
-allow dhcpc_t net_conf_t:file relabel_file_perms;
+
+relabel_files_pattern(dhcpc_t, net_conf_t, net_conf_t)
+manage_files_pattern(dhcpc_t, net_conf_t, net_conf_t)
 
 sysnet_manage_config(dhcpc_t)
 files_etc_filetrans(dhcpc_t, net_conf_t, file)

@@ -302,6 +302,7 @@ ifdef(`distro_suse',`
 /var/spool/postfix/lib(64)?/ld.*\.so.*													--	gen_context(system_u:object_r:ld_so_t,s0)
 
 /usr/lib(64)?/libmyth[^/]+\.so.*														--	gen_context(system_u:object_r:textrel_shlib_t,s0)
+/usr/lib(64)?/mythtv/filters/.*\.so.*													--	gen_context(system_u:object_r:textrel_shlib_t,s0)
 
 /usr/lib/jvm/java(.*/)bin(/.*)?/.*\.so 													--	gen_context(system_u:object_r:textrel_shlib_t,s0)
 /usr/lib64/jvm/java(.*/)bin(/.*)?/.*\.so 												--	gen_context(system_u:object_r:textrel_shlib_t,s0)
