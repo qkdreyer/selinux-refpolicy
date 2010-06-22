@@ -162,6 +162,9 @@ corenet_sendrecv_gatekeeper_client_packets(irssi_t)
 dev_read_urand(irssi_t)
 dev_read_rand(irssi_t)
 
+auth_use_nsswitch(irssi_t)
+
+
 miscfiles_read_certs(irssi_t)
 
 tunable_policy(`irssi_use_full_network',`
