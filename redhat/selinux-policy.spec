@@ -19,8 +19,8 @@
 %define CHECKPOLICYVER 2.0.21-1
 Summary: SELinux policy configuration
 Name: selinux-policy
-Version: 3.8.4
-Release: 1.3%{?dist}
+Version: 3.8.5
+Release: 1.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,9 @@ exit 0
 %endif
 
 %changelog
+* Tue Jun 22 2010 Dominick Grift <domg472@gmail.com> 3.8.5-1.1
+- Merge branch fedora (v3.8.5-1).
+
 * Mon Jun 21 2010 Dominick Grift <domg472@gmail.com> 3.8.4-1.3
 - Zarafa: add postgres support.
 - Zarafa: network connect db.
