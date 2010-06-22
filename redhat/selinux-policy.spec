@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.5
-Release: 1.2%{?dist}
+Release: 1.3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,9 @@ exit 0
 %endif
 
 %changelog
+* Tue Jun 22 2010 Dominick Grift <domg472@gmail.com> 3.8.5-1.3
+- Thunderbird fixes.
+
 * Tue Jun 22 2010 Dominick Grift <domg472@gmail.com> 3.8.5-1.2
 - Merge branch refpolicy.
 

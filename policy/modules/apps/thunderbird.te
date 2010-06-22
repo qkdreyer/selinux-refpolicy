@@ -53,11 +53,13 @@ manage_lnk_files_pattern(thunderbird_t, thunderbird_tmpfs_t, thunderbird_tmpfs_t
 manage_fifo_files_pattern(thunderbird_t, thunderbird_tmpfs_t, thunderbird_tmpfs_t)
 manage_sock_files_pattern(thunderbird_t, thunderbird_tmpfs_t, thunderbird_tmpfs_t)
 fs_tmpfs_filetrans(thunderbird_t, thunderbird_tmpfs_t,{ dir file lnk_file sock_file fifo_file })
+fs_getattr_tmpfs(thunderbird_t)
 
 kernel_read_network_state(thunderbird_t)
 kernel_read_net_sysctls(thunderbird_t)
 kernel_read_system_state(thunderbird_t)
 
+corecmd_exec_bin(thunderbird_t)
 corecmd_exec_shell(thunderbird_t)
 
 corenet_all_recvfrom_unlabeled(thunderbird_t)
@@ -86,6 +88,9 @@ corenet_sendrecv_http_client_packets(thunderbird_t)
 dev_read_urand(thunderbird_t)
 dev_dontaudit_search_sysfs(thunderbird_t)
 
+# $1_java_t should make an attribute for this and use it for java_signull()
+domain_signull_all_domains(thunderbird_t)
+
 files_list_tmp(thunderbird_t)
 files_read_usr_files(thunderbird_t)
 files_read_etc_files(thunderbird_t)
@@ -106,11 +111,13 @@ auth_use_nsswitch(thunderbird_t)
 miscfiles_read_fonts(thunderbird_t)
 miscfiles_read_localization(thunderbird_t)
 
-userdom_manage_user_tmp_dirs(thunderbird_t)
-userdom_read_user_tmp_files(thunderbird_t)
-userdom_read_user_tmp_symlinks(thunderbird_t)
-
-# userdom_read_user_home_content_files(thunderbird_t)
+# userdom_manage_user_tmp_dirs(thunderbird_t)
+# userdom_read_user_tmp_files(thunderbird_t)
+# userdom_read_user_tmp_symlinks(thunderbird_t)
+userdom_write_user_tmp_sockets(thunderbird_t)
+userdom_list_user_home_dirs(thunderbird_t)
+userdom_read_user_tmpfs_files(thunderbird_t)
+userdom_signull_unpriv_users(thunderbird_t)
 
 xserver_user_x_domain_template(thunderbird, thunderbird_t, thunderbird_tmpfs_t)
 xserver_read_xdm_tmp_files(thunderbird_t)
@@ -147,11 +154,15 @@ optional_policy(`
 optional_policy(`
 	gnome_stream_connect_gconf(thunderbird_t)
 	gnome_domtrans_gconfd(thunderbird_t)
-	# gnome_manage_config(thunderbird_t)
+	gnome_read_generic_cache_files(thunderbird_t)
+	gnome_write_generic_cache_files(thunderbird_t)
+	gnome_read_gconf_home_files(thunderbird_t)
 ')
 
 optional_policy(`
 	gpg_domtrans(thunderbird_t)
+	gpg_pinentry_read_tmpfs_files(thunderbird_t)
+	gpg_pinentry_delete_tmpfs_files(thunderbird_t)
 ')
 
 optional_policy(`
@@ -159,11 +170,23 @@ optional_policy(`
 ')
 
 optional_policy(`
-	mozilla_read_user_home_files(thunderbird_t)
+	mozilla_manage_user_home_content(thunderbird_t)
 	mozilla_domtrans(thunderbird_t)
 	mozilla_dbus_chat(thunderbird_t)
 ')
 
 optional_policy(`
 	mta_read_mail_home_files(thunderbird_t)
+')
+
+optional_policy(`
+	pulseaudio_signull(thunderbird_t)
+	pulseaudio_stream_connect(thunderbird_t)
+	pulseaudio_rw_home_files(thunderbird_t)
+')
+
+optional_policy(`
+	vino_server_signull(thunderbird_t)
+	vino_server_delete_tmpfs_files(thunderbird_t)
+	vino_server_read_tmpfs_files(thunderbird_t)
 ')
