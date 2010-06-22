@@ -94,7 +94,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-	gnome_read_config(policykit_t)
+	gnome_read_all_config(policykit_t)
 ')
 
 ########################################

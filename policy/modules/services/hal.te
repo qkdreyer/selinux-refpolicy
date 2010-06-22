@@ -264,7 +264,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-	gnome_read_config(hald_t)
+	gnome_read_all_config(hald_t)
 ')
 
 optional_policy(`

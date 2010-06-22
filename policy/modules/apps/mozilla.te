@@ -235,8 +235,7 @@ optional_policy(`
 
 optional_policy(`
 	gnome_stream_connect_gconf(mozilla_t)
-	gnome_manage_config(mozilla_t)
-	gnome_manage_gconf_home_files(mozilla_t)
+	gnome_manage_all_config(mozilla_t)
 ')
 
 optional_policy(`

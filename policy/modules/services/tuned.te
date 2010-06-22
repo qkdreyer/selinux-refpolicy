@@ -59,7 +59,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-	gnome_dontaudit_search_config(tuned_t)
+	gnome_dontaudit_search_all_config(tuned_t)
 ')
 
 optional_policy(`

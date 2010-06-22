@@ -83,12 +83,11 @@ interface(`gnome_domtrans_gconfd',`
 ##	</summary>
 ## </param>
 #
-interface(`gnome_dontaudit_search_config',`
+interface(`gnome_dontaudit_search_all_config',`
 	gen_require(`
 		attribute gnome_home_type;
 	')
 
-	# should be gnome_dontaudit_search_all_config
 	dontaudit $1 gnome_home_type:dir search_dir_perms;
 ')
 
@@ -102,12 +101,11 @@ interface(`gnome_dontaudit_search_config',`
 ##	</summary>
 ## </param>
 #
-interface(`gnome_manage_config',`
+interface(`gnome_manage_all_config',`
 	gen_require(`
 		attribute gnome_home_type;
 	')
 
-	# should be gnome_manage_all_config
 	allow $1 gnome_home_type:dir manage_dir_perms;
 	allow $1 gnome_home_type:file manage_file_perms;
 	allow $1 gnome_home_type:lnk_file manage_lnk_file_perms;
@@ -156,8 +154,11 @@ interface(`gnome_signal_all',`
 #
 interface(`gnome_cache_filetrans',`
 	gen_require(`
+		attribute gnome_home_type;
 		type cache_home_t;
 	')
+
+	typeattribute $2 gnome_home_type;
 
 	filetrans_pattern($1, cache_home_t, $2, $3)
 	userdom_search_user_home_dirs($1)
@@ -187,8 +188,11 @@ interface(`gnome_cache_filetrans',`
 #
 interface(`gnome_config_filetrans',`
 	gen_require(`
+		attribute gnome_home_type;
 		type config_home_t;
 	')
+
+	typeattribute $2 gnome_home_type;
 
 	filetrans_pattern($1, config_home_t, $2, $3)
 	userdom_search_user_home_dirs($1)
@@ -280,12 +284,11 @@ interface(`gnome_manage_generic_config_files',`
 ##	</summary>
 ## </param>
 #
-interface(`gnome_read_config',`
+interface(`gnome_read_all_config',`
 	gen_require(`
 		attribute gnome_home_type;
 	')
 
-	# should be gnome_read_all_config
 	list_dirs_pattern($1, gnome_home_type, gnome_home_type)
 	read_files_pattern($1, gnome_home_type, gnome_home_type)
 	read_lnk_files_pattern($1, gnome_home_type, gnome_home_type)
@@ -302,12 +305,11 @@ interface(`gnome_read_config',`
 ##	</summary>
 ## </param>
 #
-interface(`gnome_setattr_config_dirs',`
+interface(`gnome_setattr_home_dirs',`
 	gen_require(`
 		type gnome_home_t;
 	')
 
-	# should be gnome_setattr_gnome_home_dirs
 	setattr_dirs_pattern($1, gnome_home_t, gnome_home_t)
 	files_search_home($1)
 ')
@@ -336,8 +338,11 @@ interface(`gnome_setattr_config_dirs',`
 #
 interface(`gnome_data_filetrans',`
 	gen_require(`
+		attribute gnome_home_type;
 		type data_home_t;
 	')
+
+	typeattribute $2 gnome_home_type;
 
 	filetrans_pattern($1, data_home_t, $2, $3)
 	gnome_search_gconf($1)
@@ -596,12 +601,11 @@ interface(`gnome_list_home_config',`
 ##	</summary>
 ## </param>
 #
-interface(`gnome_rw_inherited_config',`
+interface(`gnome_rw_inherited_all_config_files',`
 	gen_require(`
 		attribute gnome_home_type;
 	')
 
-	# should be gnome_rw_inherited_all_config
 	allow $1 gnome_home_type:file rw_inherited_file_perms;
 ')
 

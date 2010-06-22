@@ -440,7 +440,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-	gnome_dontaudit_search_config(cupsd_config_t)
+	gnome_dontaudit_search_all_config(cupsd_config_t)
 ')
 
 optional_policy(`
@@ -587,7 +587,7 @@ userdom_manage_user_home_content_files(cups_pdf_t)
 lpd_manage_spool(cups_pdf_t)
 
 optional_policy(`
-	gnome_read_config(cups_pdf_t)
+	gnome_read_all_config(cups_pdf_t)
 ')
 
 tunable_policy(`use_nfs_home_dirs',`

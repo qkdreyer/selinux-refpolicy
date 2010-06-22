@@ -179,8 +179,7 @@ optional_policy(`
 
 optional_policy(`
 	gnome_exec_gconf(nsplugin_t)
-	gnome_manage_config(nsplugin_t)
-	gnome_read_gconf_home_files(nsplugin_t)
+	gnome_manage_all_config(nsplugin_t)
 ')
 
 optional_policy(`

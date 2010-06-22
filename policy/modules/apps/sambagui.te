@@ -44,7 +44,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-	gnome_dontaudit_search_config(sambagui_t)
+	gnome_dontaudit_search_all_config(sambagui_t)
 ') 
 
 optional_policy(`

@@ -171,7 +171,7 @@ userdom_dontaudit_search_admin_dir(setroubleshoot_fixit_t)
 userdom_signull_unpriv_users(setroubleshoot_fixit_t)
 
 optional_policy(`
-	gnome_dontaudit_search_config(setroubleshoot_fixit_t)
+	gnome_dontaudit_search_all_config(setroubleshoot_fixit_t)
 ')
 
 optional_policy(`

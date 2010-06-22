@@ -277,7 +277,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-	gnome_setattr_config_dirs(mplayer_t)
+	gnome_setattr_home_dirs(mplayer_t)
 ')
 
 optional_policy(`

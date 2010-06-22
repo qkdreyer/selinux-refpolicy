@@ -59,7 +59,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-	gnome_dontaudit_search_config(kdumpgui_t)
+	gnome_dontaudit_search_all_config(kdumpgui_t)
 ')
 
 optional_policy(`

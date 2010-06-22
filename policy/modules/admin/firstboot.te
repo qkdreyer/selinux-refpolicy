@@ -120,7 +120,7 @@ optional_policy(`
 
 optional_policy(`
 	gnome_admin_home_gconf_filetrans(firstboot_t, dir)
-	gnome_manage_config(firstboot_t)
+	gnome_manage_all_config(firstboot_t)
 ')
 
 optional_policy(`
