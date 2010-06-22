@@ -166,6 +166,8 @@ optional_policy(`
 
 optional_policy(`
 	thunderbird_stream_connect(gpg_t)
+	thunderbird_write_tmp_files(gpg_t)
+	thunderbird_dontaudit_rw_inherited_home_files(gpg_t)
 ')
 
 optional_policy(`
@@ -282,6 +284,10 @@ optional_policy(`
 	mozilla_dontaudit_rw_user_home_files(gpg_agent_t)
 ')
 
+optional_policy(`
+	thunderbird_dontaudit_rw_inherited_home_files(gpg_agent_t)
+')
+
 ##############################
 #
 # Pinentry local policy
@@ -374,8 +380,14 @@ optional_policy(`
 ')
 
 optional_policy(`
+	thunderbird_signull(gpg_pinentry_t)
+	thunderbird_read_tmpfs_files(gpg_pinentry_t)
+')
+
+optional_policy(`
 	vino_server_read_tmpfs_files(gpg_pinentry_t)
 	vino_server_delete_tmpfs_files(gpg_pinentry_t)
+	vino_server_signull(gpg_pinentry_t)
 ')
 
 optional_policy(`

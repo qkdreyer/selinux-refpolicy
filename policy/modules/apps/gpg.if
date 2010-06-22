@@ -56,9 +56,9 @@ interface(`gpg_role',`
 	')
 
 	ifdef(`hide_broken_symptoms',`
-		dontaudit gpg_t $2:socket_class_set { read write };
+		dontaudit gpg_t $2:socket_class_set rw_inherited_sock_file_perms;
 		dontaudit gpg_t $2:fifo_file rw_fifo_file_perms;
-		dontaudit gpg_agent_t $2:socket_class_set { read write };
+		dontaudit gpg_agent_t $2:socket_class_set rw_inherited_sock_file_perms;
 		dontaudit gpg_agent_t $2:fifo_file rw_fifo_file_perms;
 	')
 ')
@@ -92,7 +92,7 @@ interface(`gpg_domtrans',`
 ##	</summary>
 ## </param>
 #
-interface(`gpg_agent_domtrans',`
+interface(`gpg_domtrans_agent',`
 	gen_require(`
 		type gpg_agent_t, gpg_agent_exec_t;
 	')
@@ -111,12 +111,12 @@ interface(`gpg_agent_domtrans',`
 ##	</summary>
 ## </param>
 #
-interface(`gpg_pinentry_domtrans',`
+interface(`gpg_domtrans_pinentry',`
 	gen_require(`
-		type gpg_t, gpg_pinentry_exec_t;
+		type gpg_pinentry_t, pinentry_exec_t;
 	')
 
-	domtrans_pattern($1, gpg_pinentry_exec_t, gpg_pinentry_t)
+	domtrans_pattern($1, pinentry_exec_t, gpg_pinentry_t)
 	corecmd_search_bin($1)
 ')
 
@@ -174,6 +174,25 @@ interface(`gpg_signal',`
 	')
 
 	allow $1 gpg_t:process signal;
+')
+
+########################################
+## <summary>
+##	Send generic signals to user gpg
+##	agent processes.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`gpg_signal_agent',`
+	gen_require(`
+		type gpg_agent_t;
+	')
+
+	allow $1 gpg_agent_t:process signal;
 ')
 
 ########################################

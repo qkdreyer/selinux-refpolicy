@@ -33,7 +33,7 @@ ubac_constrained(thunderbird_tmpfs_t)
 #
 
 allow thunderbird_t self:capability sys_nice;
-allow thunderbird_t self:process { signal_perms setsched getsched execheap execmem execstack };
+allow thunderbird_t self:process { signal_perms setsched getsched };
 allow thunderbird_t self:fifo_file rw_fifo_file_perms;
 allow thunderbird_t self:unix_dgram_socket { create connect };
 allow thunderbird_t self:unix_stream_socket { create accept connect write getattr read listen bind };
@@ -46,7 +46,7 @@ manage_lnk_files_pattern(thunderbird_t, thunderbird_home_t, thunderbird_home_t)
 userdom_search_user_home_dirs(thunderbird_t)
 
 manage_dirs_pattern(thunderbird_t, thunderbird_tmp_t, thunderbird_tmp_t)
-manage_files_pattern(thunderbird_t, thunder_bird_tmp_t, thunderbird_tmp_t)
+manage_files_pattern(thunderbird_t, thunderbird_tmp_t, thunderbird_tmp_t)
 files_tmp_filetrans(thunderbird_t, thunderbird_tmp_t, { dir file })
 
 manage_sock_files_pattern(thunderbird_t, thunderbird_tmp_t, thunderbird_tmp_t)
@@ -119,6 +119,8 @@ userdom_delete_user_tmpfs_files(thunderbird_t)
 userdom_read_user_tmpfs_files(thunderbird_t)
 userdom_signull_unpriv_users(thunderbird_t)
 userdom_stream_connect(thunderbird_t)
+# Read attachments
+userdom_read_user_home_content_files(thunderbird_t)
 
 tunable_policy(`use_nfs_home_dirs',`
 	fs_manage_nfs_dirs(thunderbird_t)
@@ -154,16 +156,19 @@ optional_policy(`
 	gnome_domtrans_gconfd(thunderbird_t)
 	gnome_read_generic_cache_files(thunderbird_t)
 	gnome_write_generic_cache_files(thunderbird_t)
-	gnome_read_gconf_home_files(thunderbird_t)
+	gnome_read_generic_data_files(thunderbird_t)
+	gnome_manage_generic_config_files(thunderbird_t)
+	
 ')
 
 optional_policy(`
 	gpg_domtrans(thunderbird_t)
-	gpg_pinentry_domtrans(thunderbird_t)
-	gpg_agent_domtrans(thunderbird_t)
+	gpg_domtrans_pinentry(thunderbird_t)
+	gpg_domtrans_agent(thunderbird_t)
 	gpg_pinentry_read_tmpfs_files(thunderbird_t)
 	gpg_pinentry_delete_tmpfs_files(thunderbird_t)
 	gpg_sigkill(thunderbird_t)
+	gpg_signal_agent(thunderbird_t)
 ')
 
 optional_policy(`
@@ -175,7 +180,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	mozilla_manage_user_home_content(thunderbird_t)
 	mozilla_domtrans(thunderbird_t)
 	mozilla_dbus_chat(thunderbird_t)
 ')

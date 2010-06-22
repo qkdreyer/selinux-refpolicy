@@ -98,13 +98,13 @@ optional_policy(`
 ')
 
 tunable_policy(`use_nfs_home_dirs',`
-        fs_manage_nfs_dirs(gconfdefaultsm_t)
-        fs_manage_nfs_files(gconfdefaultsm_t)
+	fs_manage_nfs_dirs(gconfdefaultsm_t)
+	fs_manage_nfs_files(gconfdefaultsm_t)
 ')
 
 tunable_policy(`use_samba_home_dirs',`
-        fs_manage_cifs_dirs(gconfdefaultsm_t)
-        fs_manage_cifs_files(gconfdefaultsm_t)
+	fs_manage_cifs_dirs(gconfdefaultsm_t)
+	fs_manage_cifs_files(gconfdefaultsm_t)
 ')
 
 #######################################
@@ -132,18 +132,18 @@ userdom_search_user_home_dirs(gconfdefaultsm_t)
 userdom_dontaudit_search_admin_dir(gconfdefaultsm_t)
 
 optional_policy(`
-        consolekit_dbus_chat(gconfdefaultsm_t)
+	consolekit_dbus_chat(gconfdefaultsm_t)
 ')
 
 optional_policy(`
-        nscd_dontaudit_search_pid(gconfdefaultsm_t)
+	nscd_dontaudit_search_pid(gconfdefaultsm_t)
 ')
 
 optional_policy(`
-        policykit_domtrans_auth(gconfdefaultsm_t)
-        policykit_dbus_chat(gconfdefaultsm_t)
-        policykit_read_lib(gconfdefaultsm_t)
-        policykit_read_reload(gconfdefaultsm_t)
+	policykit_domtrans_auth(gconfdefaultsm_t)
+	policykit_dbus_chat(gconfdefaultsm_t)
+	policykit_read_lib(gconfdefaultsm_t)
+	policykit_read_reload(gconfdefaultsm_t)
 ')
 
 #######################################
@@ -171,16 +171,16 @@ userdom_read_all_users_state(gnomesystemmm_t)
 userdom_dontaudit_search_admin_dir(gnomesystemmm_t)
 
 optional_policy(`
-        consolekit_dbus_chat(gnomesystemmm_t)
+	consolekit_dbus_chat(gnomesystemmm_t)
 ')
 
 optional_policy(`
-        nscd_dontaudit_search_pid(gnomesystemmm_t)
+	nscd_dontaudit_search_pid(gnomesystemmm_t)
 ')
 
 optional_policy(`
-        policykit_dbus_chat(gnomesystemmm_t)
-        policykit_domtrans_auth(gnomesystemmm_t)
-        policykit_read_lib(gnomesystemmm_t)
-        policykit_read_reload(gnomesystemmm_t)
+	policykit_dbus_chat(gnomesystemmm_t)
+	policykit_domtrans_auth(gnomesystemmm_t)
+	policykit_read_lib(gnomesystemmm_t)
+	policykit_read_reload(gnomesystemmm_t)
 ')

@@ -88,6 +88,7 @@ interface(`gnome_dontaudit_search_config',`
 		attribute gnome_home_type;
 	')
 
+	# should be gnome_dontaudit_search_all_config
 	dontaudit $1 gnome_home_type:dir search_dir_perms;
 ')
 
@@ -106,6 +107,7 @@ interface(`gnome_manage_config',`
 		attribute gnome_home_type;
 	')
 
+	# should be gnome_manage_all_config
 	allow $1 gnome_home_type:dir manage_dir_perms;
 	allow $1 gnome_home_type:file manage_file_perms;
 	allow $1 gnome_home_type:lnk_file manage_lnk_file_perms;
@@ -158,6 +160,37 @@ interface(`gnome_cache_filetrans',`
 	')
 
 	filetrans_pattern($1, cache_home_t, $2, $3)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
+##	Create objects in a Gnome config home directory
+##	with an automatic type transition to
+##	a specified private type.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+## <param name="private_type">
+##	<summary>
+##	The type of the object to create.
+##	</summary>
+## </param>
+## <param name="object_class">
+##	<summary>
+##	The class of the object to be created.
+##	</summary>
+## </param>
+#
+interface(`gnome_config_filetrans',`
+	gen_require(`
+		type config_home_t;
+	')
+
+	filetrans_pattern($1, config_home_t, $2, $3)
 	userdom_search_user_home_dirs($1)
 ')
 
@@ -220,6 +253,25 @@ interface(`gnome_write_generic_cache_files',`
 
 ########################################
 ## <summary>
+##	Manage generic conf home files (.config)
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`gnome_manage_generic_config_files',`
+	gen_require(`
+		type config_home_t;
+	')
+
+	manage_files_pattern($1, config_home_t, config_home_t)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
 ##	Read gnome homedir content (.config)
 ## </summary>
 ## <param name="user_domain">
@@ -228,11 +280,12 @@ interface(`gnome_write_generic_cache_files',`
 ##	</summary>
 ## </param>
 #
-template(`gnome_read_config',`
+interface(`gnome_read_config',`
 	gen_require(`
 		attribute gnome_home_type;
 	')
 
+	# should be gnome_read_all_config
 	list_dirs_pattern($1, gnome_home_type, gnome_home_type)
 	read_files_pattern($1, gnome_home_type, gnome_home_type)
 	read_lnk_files_pattern($1, gnome_home_type, gnome_home_type)
@@ -254,6 +307,7 @@ interface(`gnome_setattr_config_dirs',`
 		type gnome_home_t;
 	')
 
+	# should be gnome_setattr_gnome_home_dirs
 	setattr_dirs_pattern($1, gnome_home_t, gnome_home_t)
 	files_search_home($1)
 ')
@@ -291,6 +345,46 @@ interface(`gnome_data_filetrans',`
 
 ########################################
 ## <summary>
+##	Read generic data home files (.local/share)
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`gnome_read_generic_data_files',`
+	gen_require(`
+		type data_home_t;
+	')
+
+	read_files_pattern($1, data_home_t, data_home_t)
+	userdom_search_user_home_dirs($1)
+	gnome_search_gconf($1)
+')
+
+########################################
+## <summary>
+##	Search generic data home dirs (.local/share)
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`gnome_search_generic_data_dirs',`
+	gen_require(`
+		type data_home_t;
+	')
+
+	search_dirs_pattern($1, data_home_t, data_home_t)
+	userdom_search_user_home_dirs($1)
+	gnome_search_gconf($1)
+')
+
+########################################
+## <summary>
 ##	Create gconf_home_t objects in the /root directory
 ## </summary>
 ## <param name="domain">
@@ -322,7 +416,7 @@ interface(`gnome_admin_home_gconf_filetrans',`
 ##	</summary>
 ## </param>
 #
-template(`gnome_read_gconf_config',`
+interface(`gnome_read_gconf_config',`
 	gen_require(`
 		type gconf_etc_t;
 	')
@@ -387,9 +481,7 @@ interface(`gnome_read_gconf_home_files',`
 	')
 
 	allow $1 gconf_home_t:dir list_dir_perms;
-	allow $1 data_home_t:dir list_dir_perms;
 	read_files_pattern($1, gconf_home_t, gconf_home_t)
-	read_files_pattern($1, data_home_t, data_home_t)
 	userdom_search_user_home_dirs($1)
 ')
 
@@ -485,7 +577,7 @@ interface(`gnome_stream_connect',`
 ##	</summary>
 ## </param>
 #
-template(`gnome_list_home_config',`
+interface(`gnome_list_home_config',`
 	gen_require(`
 		type config_home_t;
 	')
@@ -509,6 +601,7 @@ interface(`gnome_rw_inherited_config',`
 		attribute gnome_home_type;
 	')
 
+	# should be gnome_rw_inherited_all_config
 	allow $1 gnome_home_type:file rw_inherited_file_perms;
 ')
 
