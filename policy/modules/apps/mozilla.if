@@ -128,6 +128,24 @@ interface(`mozilla_dontaudit_manage_user_home_files',`
 
 ########################################
 ## <summary>
+##	Execmod mozilla home directory content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`mozilla_execmod_user_home_files',`
+	gen_require(`
+		type mozilla_home_t;
+	')
+
+	allow $1 mozilla_home_t:file execmod;
+')
+
+########################################
+## <summary>
 ##	Run mozilla in the mozilla domain.
 ## </summary>
 ## <param name="domain">
@@ -182,25 +200,6 @@ interface(`mozilla_rw_tcp_sockets',`
 	')
 
 	allow $1 mozilla_t:tcp_socket rw_socket_perms;
-')
-
-########################################
-## <summary>
-##	Text relocation mozilla home files
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`mozilla_execmod_user_home_files',`
-	gen_require(`
-		type mozilla_home_t;
-	')
-
-	allow $1 mozilla_home_t:file execmod;
-	userdom_search_user_home_dirs($1)
 ')
 
 ########################################

@@ -1,4 +1,4 @@
-policy_module(mplayer, 2.1.0)
+policy_module(mplayer, 2.1.1)
 
 ########################################
 #
@@ -148,7 +148,6 @@ manage_dirs_pattern(mplayer_t, mplayer_home_t, mplayer_home_t)
 manage_files_pattern(mplayer_t, mplayer_home_t, mplayer_home_t)
 manage_lnk_files_pattern(mplayer_t, mplayer_home_t, mplayer_home_t)
 userdom_user_home_dir_filetrans(mplayer_t, mplayer_home_t, dir)
-userdom_search_user_home_dirs(mplayer_t)
 
 manage_files_pattern(mplayer_t, mplayer_tmpfs_t, mplayer_tmpfs_t)
 manage_lnk_files_pattern(mplayer_t, mplayer_tmpfs_t, mplayer_tmpfs_t)
@@ -178,14 +177,13 @@ corenet_tcp_connect_pulseaudio_port(mplayer_t)
 corecmd_exec_bin(mplayer_t)
 corecmd_exec_shell(mplayer_t)
 
+dev_read_rand(mplayer_t)
+dev_read_urand(mplayer_t)
 dev_rwx_zero(mplayer_t)
 dev_read_video_dev(mplayer_t)
 dev_read_sound_mixer(mplayer_t)
 dev_write_sound_mixer(mplayer_t)
 dev_read_realtime_clock(mplayer_t)
-
-dev_read_rand(mplayer_t)
-dev_read_urand(mplayer_t)
 
 storage_raw_read_removable_device(mplayer_t)
 
