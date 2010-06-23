@@ -1,4 +1,4 @@
-policy_module(pulseaudio, 1.2.0)
+policy_module(pulseaudio, 1.2.1)
 
 ########################################
 #
@@ -99,6 +99,8 @@ logging_send_syslog_msg(pulseaudio_t)
 
 miscfiles_read_localization(pulseaudio_t)
 
+userdom_stream_connect(pulseaudio_t)
+
 optional_policy(`
 	bluetooth_stream_connect(pulseaudio_t)
 ')
@@ -163,6 +165,7 @@ optional_policy(`
 ')
 
 optional_policy(`
+	udev_read_state(pulseaudio_t)
 	udev_read_db(pulseaudio_t)
 	udev_read_state(pulseaudio_t)
 ')

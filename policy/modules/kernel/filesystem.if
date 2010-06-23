@@ -1079,6 +1079,32 @@ interface(`fs_read_noxattr_fs_symlinks',`
 
 ########################################
 ## <summary>
+##	Relabel all objets from filesystems that
+##	do not support extended attributes.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`fs_relabelfrom_noxattr_fs',`
+	gen_require(`
+		attribute noxattrfs;
+	')
+
+	allow $1 noxattrfs:dir list_dir_perms;
+	relabelfrom_dirs_pattern($1, noxattrfs, noxattrfs)
+	relabelfrom_files_pattern($1, noxattrfs, noxattrfs)
+	relabelfrom_lnk_files_pattern($1, noxattrfs, noxattrfs)
+	relabelfrom_fifo_files_pattern($1, noxattrfs, noxattrfs)
+	relabelfrom_sock_files_pattern($1, noxattrfs, noxattrfs)
+	relabelfrom_blk_files_pattern($1, noxattrfs, noxattrfs)
+	relabelfrom_chr_files_pattern($1, noxattrfs, noxattrfs)
+')
+
+########################################
+## <summary>
 ##	Do not audit attempts to read
 ##	CIFS or SMB files.
 ## </summary>
@@ -4350,101 +4376,8 @@ interface(`fs_getattr_all_files',`
 
 ########################################
 ## <summary>
-##	Get attributes of all filesystem
-##	symbolic links.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`fs_getattr_all_symlinks',`
-	gen_require(`
-		attribute filesystem_type;
-	')
-
-	getattr_lnk_files_pattern($1, filesystem_type, filesystem_type)
-')
-
-########################################
-## <summary>
-##	Get attributes of all filesystem pipes.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`fs_getattr_all_pipes',`
-	gen_require(`
-		attribute filesystem_type;
-	')
-
-	getattr_fifo_files_pattern($1, filesystem_type, filesystem_type)
-')
-
-########################################
-## <summary>
-##	Get attributes of all filesystem sockets.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`fs_getattr_all_sockets',`
-	gen_require(`
-		attribute filesystem_type;
-	')
-
-	getattr_sock_files_pattern($1, filesystem_type, filesystem_type)
-')
-
-########################################
-## <summary>
-##	Get attributes of all filesystem
-##	block devices.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`fs_getattr_all_blk_files',`
-	gen_require(`
-		attribute filesystem_type;
-	')
-
-	getattr_blk_files_pattern($1, filesystem_type, filesystem_type)
-')
-
-########################################
-## <summary>
-##	Get attributes of all filesystem
-##	character devices.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`fs_getattr_all_chr_files',`
-	gen_require(`
-		attribute filesystem_type;
-	')
-
-	getattr_chr_files_pattern($1, filesystem_type, filesystem_type)
-')
-
-########################################
-## <summary>
 ##	Do not audit attempts to get attributes
-##	of all filesystem files.
+##	of all files with a filesystem type.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4462,8 +4395,27 @@ interface(`fs_dontaudit_getattr_all_files',`
 
 ########################################
 ## <summary>
+##	Get attributes of all symbolic links with
+##	a filesystem type.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`fs_getattr_all_symlinks',`
+	gen_require(`
+		attribute filesystem_type;
+	')
+
+	getattr_lnk_files_pattern($1, filesystem_type, filesystem_type)
+')
+
+########################################
+## <summary>
 ##	Do not audit attempts to get attributes
-##	of all filesystem symbolic links.
+##	of all symbolic links with a filesystem type.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4481,8 +4433,27 @@ interface(`fs_dontaudit_getattr_all_symlinks',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get the attributes
-##	of all filesystem pipes.
+##	Get attributes of all named pipes with
+##	a filesystem type.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`fs_getattr_all_pipes',`
+	gen_require(`
+		attribute filesystem_type;
+	')
+
+	getattr_fifo_files_pattern($1, filesystem_type, filesystem_type)
+')
+
+########################################
+## <summary>
+##	Do not audit attempts to get attributes
+##	of all named pipes with a filesystem type.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4500,12 +4471,32 @@ interface(`fs_dontaudit_getattr_all_pipes',`
 
 ########################################
 ## <summary>
-##	Do not audit attempts to get attributes
-##	of all filesystem sockets.
+##	Get attributes of all named sockets with
+##	a filesystem type.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`fs_getattr_all_sockets',`
+	gen_require(`
+		attribute filesystem_type;
+	')
+
+	getattr_sock_files_pattern($1, filesystem_type, filesystem_type)
+')
+
+
+########################################
+## <summary>
+##	Do not audit attempts to get attributes
+##	of all named sockets with a filesystem type.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain to not audit.
 ##	</summary>
 ## </param>
 #
@@ -4519,7 +4510,45 @@ interface(`fs_dontaudit_getattr_all_sockets',`
 
 ########################################
 ## <summary>
-##	Unconfined access to filesystems
+##	Get attributes of all block devices with
+##	a filesystem type.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`fs_getattr_all_blk_files',`
+	gen_require(`
+		attribute filesystem_type;
+	')
+
+	getattr_blk_files_pattern($1, filesystem_type, filesystem_type)
+')
+
+########################################
+## <summary>
+##	Get attributes of all character devices with
+##	a filesystem type.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`fs_getattr_all_chr_files',`
+	gen_require(`
+		attribute filesystem_type;
+	')
+
+	getattr_chr_files_pattern($1, filesystem_type, filesystem_type)
+')
+
+########################################
+## <summary>
+##	Unconfined access to filesystems.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4533,32 +4562,6 @@ interface(`fs_unconfined',`
 	')
 
 	typeattribute $1 filesystem_unconfined_type;
-')
-
-########################################
-## <summary>
-##	Relabel from all content on filesystems that
-##	do not support extended attributes.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`fs_relabelfrom_noxattr_fs',`
-	gen_require(`
-		attribute noxattrfs;
-	')
-
-	allow $1 noxattrfs:dir list_dir_perms;
-	relabelfrom_dirs_pattern($1, noxattrfs, noxattrfs)
-	relabelfrom_files_pattern($1, noxattrfs, noxattrfs)
-	relabelfrom_lnk_files_pattern($1, noxattrfs, noxattrfs)
-	relabelfrom_fifo_files_pattern($1, noxattrfs, noxattrfs)
-	relabelfrom_sock_files_pattern($1, noxattrfs, noxattrfs)
-	relabelfrom_blk_files_pattern($1, noxattrfs, noxattrfs)
-	relabelfrom_chr_files_pattern($1, noxattrfs, noxattrfs)
 ')
 
 ########################################
@@ -4578,5 +4581,5 @@ interface(`fs_dontaudit_leaks',`
 	')
 
 	dontaudit $1 filesystem_type:file rw_inherited_file_perms;
-	dontaudit $1 filesystem_type:lnk_file { read };
+	dontaudit $1 filesystem_type:lnk_file read;
 ')
