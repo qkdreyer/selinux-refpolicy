@@ -17,7 +17,7 @@
 #
 interface(`dvb_role',`
 	gen_require(`
-		dvbd_t, dvbd_exec_t;
+		type dvbd_t, dvbd_exec_t;
 	')
 
 	########################################
