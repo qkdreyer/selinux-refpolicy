@@ -247,7 +247,7 @@ fs_search_auto_mountpoints(tmw_t)
 logging_send_syslog_msg(tmw_t)
 
 userdom_read_user_tmpfs_files(tmw_t)
-allow tmw_t user_tmpfs_t:file unlink;
+userdom_delete_user_tmpfs_files(tmw_t)
 userdom_signull_unpriv_users(tmw_t)
 userdom_use_user_terminals(tmw_t)
 userdom_list_user_tmp(tmw_t)
@@ -281,6 +281,21 @@ optional_policy(`
 	pulseaudio_setattr_home_dir(tmw_t)
 	pulseaudio_signull(tmw_t)
 	pulseaudio_stream_connect(tmw_t)
+')
+
+optional_policy(`
+	seahorsed_read_tmpfs_files(tmw_t)
+	seahorsed_delete_tmpfs_files(tmw_t)
+')
+
+optional_policy(`
+	thunderbird_read_tmpfs_files(tmw_t)
+	thunderbird_delete_tmpfs_files(tmw_t)
+')
+
+optional_policy(`
+	vino_server_read_tmpfs_files(tmw_t)
+	vino_server_delete_tmpfs_files(tmw_t)
 ')
 
 optional_policy(`

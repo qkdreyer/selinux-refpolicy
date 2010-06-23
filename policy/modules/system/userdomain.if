@@ -1000,11 +1000,11 @@ template(`userdom_restricted_xwindows_user_template',`
 
 	optional_policy(`
 		setroubleshoot_dontaudit_stream_connect($1_t)
-        ')
+	')
 
 	optional_policy(`
 		udev_read_db($1_usertype)
-        ')
+	')
 
 	optional_policy(`
 		wm_role_template($1, $1_r, $1_t)
@@ -1081,6 +1081,8 @@ template(`userdom_unpriv_user_template', `
 
 	optional_policy(`
 		games_role($1_r, $1_t)
+		tmw_read_tmpfs_files($1_t)
+		tmw_delete_tmpfs_files($1_t)
 		games_rw_data($1_usertype)
 	')
 
@@ -1130,6 +1132,8 @@ template(`userdom_unpriv_user_template', `
 
 	optional_policy(`
 		seahorsed_role($1_r, $1_t)
+		seahorsed_read_tmpfs_files($1_t)
+		seahorsed_delete_tmpfs_files($1_t)
 	')
 
 	optional_policy(`
@@ -1138,10 +1142,14 @@ template(`userdom_unpriv_user_template', `
 
 	optional_policy(`
 		thunderbird_role($1_r, $1_t)
+		thunderbird_read_tmpfs_files($1_t)
+		thunderbird_delete_tmpfs_files($1_t)
 	')
 	
 	optional_policy(`
 		vino_role($1_r, $1_t)
+		vino_server_read_tmpfs_files($1_t)
+		vino_server_delete_tmpfs_files($1_t)
 	')
 ')
 

@@ -121,6 +121,16 @@ optional_policy(`
 ')
 
 optional_policy(`
+	thunderbird_read_tmpfs_files(seahorsed_t)
+	thunderbird_delete_tmpfs_files(seahorsed_t)
+')
+
+optional_policy(`
+	tmw_read_tmpfs_files(seahorsed_t)
+	tmw_delete_tmpfs_files(seahorsed_t)
+')
+
+optional_policy(`
 	vino_server_delete_tmpfs_files(seahorsed_t)
 	vino_server_read_tmpfs_files(seahorsed_t)
 ')

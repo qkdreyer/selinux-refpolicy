@@ -84,6 +84,27 @@ template(`java_role_template',`
 
 	fs_dontaudit_rw_tmpfs_files($1_java_t)
 
+	# Pulse Audio.
+	optional_policy(`
+		seahorsed_read_tmpfs_files($1_java_t)
+		seahorsed_delete_tmpfs_files($1_java_t)
+	')
+
+	optional_policy(`
+		thunderbird_read_tmpfs_files($1_java_t)
+		thunderbird_delete_tmpfs_files($1_java_t)
+	')
+
+	optional_policy(`
+		tmw_read_tmpfs_files($1_java_t)
+		tmw_delete_tmpfs_files($1_java_t)
+	')
+
+	optional_policy(`
+		vino_server_read_tmpfs_files($1_java_t)
+		vino_server_delete_tmpfs_files($1_java_t)
+	')
+
 	optional_policy(`
 		xserver_role($2, $1_java_t)
 	')
