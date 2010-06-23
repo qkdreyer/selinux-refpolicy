@@ -361,6 +361,8 @@ optional_policy(`
 	gnome_cache_filetrans(tp_mission_control_t, tp_mission_control_cache_home_t, file)
 ')
 
+dev_read_rand(tp_mission_control_t)
+
 files_read_etc_files(tp_mission_control_t)
 files_read_usr_files(tp_mission_control_t)
 
