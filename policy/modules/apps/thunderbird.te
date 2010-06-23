@@ -143,12 +143,22 @@ ifndef(`enable_mls',`
 optional_policy(`
 	dbus_system_bus_client(thunderbird_t)
 	dbus_session_bus_client(thunderbird_t)
-	networkmanager_dbus_chat(thunderbird_t)
+
+	optional_policy(`
+		cups_dbus_chat(thunderbird_t)
+	')
+
+	optional_policy(`
+		mozilla_dbus_chat(thunderbird_t)
+	')
+
+	optional_policy(`
+		networkmanager_dbus_chat(thunderbird_t)
+	')
 ')
 
 optional_policy(`
 	cups_read_rw_config(thunderbird_t)
-	cups_dbus_chat(thunderbird_t)
 ')
 
 optional_policy(`
@@ -158,7 +168,6 @@ optional_policy(`
 	gnome_write_generic_cache_files(thunderbird_t)
 	gnome_read_generic_data_files(thunderbird_t)
 	gnome_manage_generic_config_files(thunderbird_t)
-	
 ')
 
 optional_policy(`
@@ -182,7 +191,6 @@ optional_policy(`
 
 optional_policy(`
 	mozilla_domtrans(thunderbird_t)
-	mozilla_dbus_chat(thunderbird_t)
 ')
 
 optional_policy(`
