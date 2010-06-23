@@ -27,6 +27,16 @@ corenet_tcp_bind_rtsp_port(dvbd_t)
 corenet_sendrecv_rtsp_server_packets(dvbd_t)
 corenet_tcp_sendrecv_rtsp_port(dvbd_t)
 
+files_read_etc_files(dvbd_t)
+
+miscfiles_read_localization(dvbd_t)
+
+userdom_use_user_terminals(dvbd_t)
+
 optional_policy(`
 	dbus_session_domain(dvbd_t, dvbd_exec_t)
+')
+
+optional_policy(`
+	gnome_read_gstreamer_home_files(dvbd_t)
 ')
