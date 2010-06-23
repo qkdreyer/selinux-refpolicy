@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.5
-Release: 1.10%{?dist}
+Release: 1.11%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,12 @@ exit 0
 %endif
 
 %changelog
+* Wed Jun 23 2010 Dominick Grift <domg472@gmail.com> 3.8.5-1.11
+- had to allow xdm_t to read gconf etc files.
+- dvbd fixes, needs testing with tv card.
+- tp mission control needs read rand device.
+- various fixes
+
 * Wed Jun 23 2010 Dominick Grift <domg472@gmail.com> 3.8.5-1.10
 - Initial dvb module.
 - move some dbus calles by thunderbird to dbus optional policy block.
