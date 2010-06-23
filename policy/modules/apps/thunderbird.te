@@ -190,6 +190,8 @@ optional_policy(`
 ')
 
 optional_policy(`
+	pulseaudio_exec(thunderbird_t)
+	pulseaudio_search_home_dirs(thunderbird_t)
 	pulseaudio_signull(thunderbird_t)
 	pulseaudio_stream_connect(thunderbird_t)
 	pulseaudio_rw_home_files(thunderbird_t)
