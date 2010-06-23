@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.5
-Release: 1.8%{?dist}
+Release: 1.9%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,11 @@ exit 0
 %endif
 
 %changelog
+* Wed Jun 23 2010 Dominick Grift <domg472@gmail.com> 3.8.5-1.9
+- thunderbird runs pulseaudio.
+- thunderbird needs to read pa home lnk_files but it doesnt need to manage pa home content, so i decided to implement a pulseaudio_search_home_dirs, which provides access to read pa home symlinks.
+- Give GUI apps and userdomain read and delete access to eachother tmpfs files (pulse audio)
+
 * Wed Jun 23 2010 Dominick Grift <domg472@gmail.com> 3.8.5-1.8
 - Merge branch refpolicy.
 
