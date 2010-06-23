@@ -37,4 +37,28 @@ interface(`dvb_role',`
 	ps_process_pattern($2, dvbd_t)
 	allow $2 dvbd_t:process { ptrace signal_perms };
 
+	optional_policy(`
+		dvb_dbus_chat_dvbd($2)
+	')
+')
+
+########################################
+## <summary>
+##	Send DBus messages to and from
+##	GNOME DVB Daemon.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`dvb_dbus_chat_dvbd',`
+	gen_require(`
+		type dvbd_t;
+		class dbus send_msg;
+	')
+
+	allow $1 dvbd_t:dbus send_msg;
+	allow dvbd_t $1:dbus send_msg;
 ')

@@ -159,6 +159,8 @@ corenet_udp_sendrecv_generic_port(tp_domains)
 
 fs_search_auto_mountpoints(tp_domains)
 
+auth_use_nsswitch(tp_domains)
+
 miscfiles_read_localization(tp_domains)
 
 userdom_stream_connect(tp_domains)

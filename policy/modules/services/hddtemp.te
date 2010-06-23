@@ -20,8 +20,7 @@ files_config_file(hddtemp_etc_t)
 # hddtemp local policy
 #
 
-allow hddtemp_t self:capability sys_rawio;
-dontaudit hddtemp_t self:capability sys_admin;
+allow hddtemp_t self:capability { sys_admin sys_rawio };
 allow hddtemp_t self:netlink_route_socket r_netlink_socket_perms;
 allow hddtemp_t self:tcp_socket create_stream_socket_perms;
 allow hddtemp_t self:udp_socket create_socket_perms;

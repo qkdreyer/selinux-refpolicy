@@ -60,6 +60,7 @@ logging_send_syslog_msg(seahorsed_t)
 miscfiles_read_localization(seahorsed_t)
 
 application_signull(seahorsed_t)
+auth_use_nsswitch(seahorsed_t)
 
 userdom_list_user_tmp(seahorsed_t)
 userdom_read_user_tmpfs_files(seahorsed_t)

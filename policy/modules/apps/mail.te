@@ -103,6 +103,8 @@ dev_read_rand(mutt_t)
 files_read_etc_files(mutt_t)
 files_read_usr_files(mutt_t)
 
+auth_use_nsswitch(mutt_t)
+
 sysnet_read_config(mutt_t)
 
 tunable_policy(`use_nfs_home_dirs', `

@@ -372,6 +372,7 @@ optional_policy(`
 ')
 
 optional_policy(`
+	pulseaudio_search_home_dirs(gpg_pinentry_t)
 	pulseaudio_exec(gpg_pinentry_t)
 	pulseaudio_rw_home_files(gpg_pinentry_t)
 	pulseaudio_setattr_home_dir(gpg_pinentry_t)

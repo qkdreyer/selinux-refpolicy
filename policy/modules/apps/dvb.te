@@ -2,7 +2,7 @@ policy_module(dvb, 1.0.0)
 
 ########################################
 #
-# Declarations
+#	Personal declaration.
 #
 
 type dvbd_t;
@@ -10,12 +10,20 @@ type dvbd_exec_t;
 application_domain(dvbd_t, dvbd_exec_t)
 ubac_constrained(dvbd_t)
 
-permissive dvbd_t;
+type dvbd_config_home_t;
+userdom_user_home_content(dvbd_config_home_t)
 
 ########################################
 #
-# Declarations
+#	Personal policy
 #
+
+allow dvbd_t self:netlink_kobject_uevent_socket { bind create setopt getattr };
+allow dvbd_t self:tcp_socket { bind getattr listen create setopt };
+
+manage_dirs_pattern(dvbd_t, dvbd_config_home_t, dvbd_config_home_t)
+manage_files_pattern(dvbd_t, dvbd_config_home_t, dvbd_config_home_t)
+userdom_user_home_dir_filetrans(dvbd_t, dvbd_config_home_t, { dir file })
 
 corenet_all_recvfrom_unlabeled(dvbd_t)
 corenet_all_recvfrom_netlabel(dvbd_t)
@@ -27,11 +35,30 @@ corenet_tcp_bind_rtsp_port(dvbd_t)
 corenet_sendrecv_rtsp_server_packets(dvbd_t)
 corenet_tcp_sendrecv_rtsp_port(dvbd_t)
 
-files_read_etc_files(dvbd_t)
+dev_list_sysfs(dvbd_t)
+dev_read_urand(dvbd_t)
+
+fs_search_auto_mountpoints(dvbd_t)
+
+auth_use_nsswitch(dvbd_t)
 
 miscfiles_read_localization(dvbd_t)
 
 userdom_use_user_terminals(dvbd_t)
+
+tunable_policy(`use_nfs_home_dirs',`
+	fs_manage_nfs_dirs(dvbd_t)
+	fs_manage_nfs_files(dvbd_t)
+')
+
+tunable_policy(`use_samba_home_dirs',`
+	fs_manage_cifs_dirs(dvbd_t)
+	fs_manage_cifs_files(dvbd_t)
+')
+
+optional_policy(`
+	automount_dontaudit_getattr_tmp_dirs(dvbd_t)
+')
 
 optional_policy(`
 	dbus_session_domain(dvbd_t, dvbd_exec_t)
@@ -39,4 +66,18 @@ optional_policy(`
 
 optional_policy(`
 	gnome_read_gstreamer_home_files(dvbd_t)
+	gnome_config_filetrans(dvbd_t, dvbd_config_home_t, { dir file })
 ')
+
+optional_policy(`
+	nis_use_ypbind(dvbd_t)
+')
+
+optional_policy(`
+	nscd_socket_use(dvbd_t)
+')
+
+optional_policy(`
+	xserver_rw_xdm_pipes(dvbd_t)
+')
+
