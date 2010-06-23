@@ -1,0 +1,1 @@
+/usr/bin/gnome-dvb-daemon	--	gen_context(system_u:object_r:dvbd_exec_t,s0)

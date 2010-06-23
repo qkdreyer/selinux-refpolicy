@@ -1,0 +1,32 @@
+policy_module(dvb, 1.0.0)
+
+########################################
+#
+# Declarations
+#
+
+type dvbd_t;
+type dvbd_exec_t;
+application_domain(dvbd_t, dvbd_exec_t)
+ubac_constrained(dvbd_t)
+
+permissive dvbd_t;
+
+########################################
+#
+# Declarations
+#
+
+corenet_all_recvfrom_unlabeled(dvbd_t)
+corenet_all_recvfrom_netlabel(dvbd_t)
+corenet_tcp_sendrecv_generic_if(dvbd_t)
+corenet_tcp_sendrecv_generic_node(dvbd_t)
+corenet_tcp_bind_generic_node(dvbd_t)
+corenet_tcp_sendrecv_all_ports(dvbd_t)
+corenet_tcp_bind_rtsp_port(dvbd_t)
+corenet_sendrecv_rtsp_server_packets(dvbd_t)
+corenet_tcp_sendrecv_rtsp_port(dvbd_t)
+
+optional_policy(`
+	dbus_session_domain(dvbd_t, dvbd_exec_t)
+')

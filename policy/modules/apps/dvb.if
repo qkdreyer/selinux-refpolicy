@@ -1,0 +1,40 @@
+## <summary>GNOME DVB Daemon - setup DVB devices, record and watch TV shows and browse EPG.</summary>
+
+########################################
+## <summary>
+##	Role access for DVB Daemon.
+## </summary>
+## <param name="role">
+##	<summary>
+##	Role allowed access
+##	</summary>
+## </param>
+## <param name="domain">
+##	<summary>
+##	User domain for the role
+##	</summary>
+## </param>
+#
+interface(`dvb_role',`
+	gen_require(`
+		dvbd_t, dvbd_exec_t;
+	')
+
+	########################################
+	#
+	#	Shared declarations.
+	#
+
+	role $1 types dvbd_t;
+
+	########################################
+	#
+	#	Shared policy.
+	#
+
+	domtrans_pattern($2, dvbd_exec_t, dvbd_t)
+
+	ps_process_pattern($2, dvbd_t)
+	allow $2 dvbd_t:process { ptrace signal_perms };
+
+')
