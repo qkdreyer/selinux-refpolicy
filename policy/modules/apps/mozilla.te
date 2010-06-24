@@ -133,6 +133,8 @@ term_use_all_ttys(mozilla_t)
 
 logging_send_syslog_msg(mozilla_t)
 
+auth_use_nsswitch(mozilla_t)
+
 miscfiles_dontaudit_setattr_fonts_dirs(mozilla_t)
 miscfiles_read_fonts(mozilla_t)
 miscfiles_read_localization(mozilla_t)

@@ -145,11 +145,11 @@ awk '$1 !~ "/^#/" && $2 == "=" && $3 == "module" { printf "%%s.pp.bz2 ", $1 }' .
 
 %define saveFileContext() \
 if [ -s /etc/selinux/config ]; then \
-     . %{_sysconfdir}/selinux/config; \
-     FILE_CONTEXT=%{_sysconfdir}/selinux/%1/contexts/files/file_contexts; \
-     if [ "${SELINUXTYPE}" = %1 -a -f ${FILE_CONTEXT} ]; then \
-        [ -f ${FILE_CONTEXT}.pre ] || cp -f ${FILE_CONTEXT} ${FILE_CONTEXT}.pre; \
-     fi \
+	. %{_sysconfdir}/selinux/config; \
+	FILE_CONTEXT=%{_sysconfdir}/selinux/%1/contexts/files/file_contexts; \
+	if [ "${SELINUXTYPE}" = %1 -a -f ${FILE_CONTEXT} ]; then \
+		[ -f ${FILE_CONTEXT}.pre ] || cp -f ${FILE_CONTEXT} ${FILE_CONTEXT}.pre; \
+	fi \
 fi
 
 %define loadpolicy() \
@@ -162,10 +162,10 @@ semodule -b base.pp.bz2 -i %2 -s %1; \
 FILE_CONTEXT=%{_sysconfdir}/selinux/%1/contexts/files/file_contexts; \
 selinuxenabled; \
 if [ $? = 0  -a "${SELINUXTYPE}" = %1 -a -f ${FILE_CONTEXT}.pre ]; then \
-     fixfiles -C ${FILE_CONTEXT}.pre restore; \
-     restorecon -R /root /var/log /var/run /var/lib 2> /dev/null; \
-     rm -f ${FILE_CONTEXT}.pre; \
-fi; 
+	fixfiles -C ${FILE_CONTEXT}.pre restore; \
+	restorecon -R /root /var/log /var/run /var/lib 2> /dev/null; \
+	rm -f ${FILE_CONTEXT}.pre; \
+fi;
 
 %description
 SELinux Reference Policy - modular.
@@ -238,7 +238,7 @@ chmod +x %{buildroot}%{_usr}/share/selinux/devel/policyhelp
 %post
 if [ ! -s /etc/selinux/config ]; then
 #
-#     New install so we will default to targeted policy
+#	New install so we will default to targeted policy
 #
 echo "
 # This file controls the state of SELinux on the system.
@@ -254,24 +254,24 @@ SELINUXTYPE=targeted
 
 " > /etc/selinux/config
 
-     ln -sf ../selinux/config /etc/sysconfig/selinux 
-     restorecon /etc/selinux/config 2> /dev/null || :
+	ln -sf ../selinux/config /etc/sysconfig/selinux 
+	restorecon /etc/selinux/config 2> /dev/null || :
 else
-     . /etc/selinux/config
-     # if first time update booleans.local needs to be copied to sandbox
-     [ -f /etc/selinux/${SELINUXTYPE}/booleans.local ] && mv /etc/selinux/${SELINUXTYPE}/booleans.local /etc/selinux/targeted/modules/active/
-     [ -f /etc/selinux/${SELINUXTYPE}/seusers ] && cp -f /etc/selinux/${SELINUXTYPE}/seusers /etc/selinux/${SELINUXTYPE}/modules/active/seusers
+	. /etc/selinux/config
+	# if first time update booleans.local needs to be copied to sandbox
+	[ -f /etc/selinux/${SELINUXTYPE}/booleans.local ] && mv /etc/selinux/${SELINUXTYPE}/booleans.local /etc/selinux/targeted/modules/active/
+	[ -f /etc/selinux/${SELINUXTYPE}/seusers ] && cp -f /etc/selinux/${SELINUXTYPE}/seusers /etc/selinux/${SELINUXTYPE}/modules/active/seusers
 fi
 exit 0
 
 %postun
 if [ $1 = 0 ]; then
-     setenforce 0 2> /dev/null
-     if [ ! -s /etc/selinux/config ]; then
-          echo "SELINUX=disabled" > /etc/selinux/config
-     else
-          sed -i 's/^SELINUX=.*/SELINUX=disabled/g' /etc/selinux/config
-     fi
+	setenforce 0 2> /dev/null
+	if [ ! -s /etc/selinux/config ]; then
+		echo "SELINUX=disabled" > /etc/selinux/config
+	else
+		sed -i 's/^SELINUX=.*/SELINUX=disabled/g' /etc/selinux/config
+	fi
 fi
 exit 0
 
@@ -298,12 +298,12 @@ SELinux Reference policy targeted base module.
 %post targeted
 packages=`cat /usr/share/selinux/targeted/modules.lst`
 if [ $1 -eq 1 ]; then
-   %loadpolicy targeted $packages
-   restorecon -R /root /var/log /var/run /var/lib 2> /dev/null
+	%loadpolicy targeted $packages
+	restorecon -R /root /var/log /var/run /var/lib 2> /dev/null
 else
-   semodule -n -s targeted -r moilscanner -r mailscanner -r gamin -r audio_entropy -r iscsid -r polkit_auth -r polkit -r rtkit_daemon -r ModemManager 2>/dev/null
-   %loadpolicy targeted $packages
-   %relabel targeted
+	semodule -n -s targeted -r moilscanner -r mailscanner -r gamin -r audio_entropy -r iscsid -r polkit_auth -r polkit -r rtkit_daemon -r ModemManager 2>/dev/null
+	%loadpolicy targeted $packages
+	%relabel targeted
 fi
 exit 0
 
@@ -313,9 +313,9 @@ exit 0
 setsebool -P use_nfs_home_dirs=1
 semanage user -l | grep -s unconfined_u > /dev/null
 if [ $? -eq 0 ]; then
-   semanage user -m -R "unconfined_r system_r" -r s0-s0:c0.c1023 unconfined_u
+	semanage user -m -R "unconfined_r system_r" -r s0-s0:c0.c1023 unconfined_u
 else
-   semanage user -a -P user -R "unconfined_r system_r" -r s0-s0:c0.c1023 unconfined_u
+	semanage user -a -P user -R "unconfined_r system_r" -r s0-s0:c0.c1023 unconfined_u
 fi
 seuser=`semanage login -l | grep __default__ | awk '{ print $2 }'`
 [ "$seuser" != "unconfined_u" ]  && semanage login -m -s "unconfined_u"  -r s0-s0:c0.c1023 __default__
@@ -425,7 +425,7 @@ packages=`cat /usr/share/selinux/mls/modules.lst`
 %loadpolicy mls $packages
 
 if [ $1 -eq 1 ]; then
-   restorecon -R /root /var/log /var/run /var/lib 2> /dev/null
+	restorecon -R /root /var/log /var/run /var/lib 2> /dev/null
 else
 %relabel mls
 fi
