@@ -5,13 +5,6 @@ policy_module(mozilla, 2.2.1)
 # Declarations
 #
 
-## <desc>
-##	<p>
-##	Control mozilla content access
-##	</p>
-## </desc>
-gen_tunable(mozilla_read_content, false)
-
 type mozilla_t;
 type mozilla_exec_t;
 typealias mozilla_t alias { user_mozilla_t staff_mozilla_t sysadm_mozilla_t };
