@@ -116,11 +116,11 @@ miscfiles_read_fonts(thunderbird_t)
 miscfiles_read_localization(thunderbird_t)
 
 userdom_setattr_user_tmp_dirs(thunderbird_t)
-userdom_write_user_tmp_sockets(thunderbird_t)
 userdom_list_user_home_content(thunderbird_t)
 userdom_delete_user_tmpfs_files(thunderbird_t)
 userdom_read_user_tmpfs_files(thunderbird_t)
 userdom_signull_unpriv_users(thunderbird_t)
+userdom_sigchld_all_users(thunderbird_t)
 userdom_stream_connect(thunderbird_t)
 # Read attachments
 userdom_read_user_home_content_files(thunderbird_t)

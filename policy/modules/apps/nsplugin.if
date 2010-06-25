@@ -65,27 +65,42 @@ interface(`nsplugin_manage_rw',`
 interface(`nsplugin_role_notrans',`
 	gen_require(`
 		type nsplugin_rw_t;
-		type nsplugin_home_t;
-		type nsplugin_exec_t;
+		type nsplugin_home_t, nsplugin_tmp_t;
+		type nsplugin_exec_t, nsplugin_tmpfs_t;
 		type nsplugin_config_exec_t;
 		type nsplugin_t;
 		type nsplugin_config_t;
-		class x_drawable all_x_drawable_perms;
-		class x_resource all_x_resource_perms;
-		class dbus send_msg;
 	')
 
 	role $1 types nsplugin_t;
 	role $1 types nsplugin_config_t;
 
-	allow nsplugin_t $2:process signull;
-	allow nsplugin_t $2:dbus send_msg;
-	allow $2 nsplugin_t:dbus send_msg;
-
 	list_dirs_pattern($2, nsplugin_rw_t, nsplugin_rw_t)
 	read_files_pattern($2, nsplugin_rw_t, nsplugin_rw_t)
 	read_lnk_files_pattern($2, nsplugin_rw_t, nsplugin_rw_t)
 	can_exec($2, nsplugin_rw_t)
+
+	manage_dirs_pattern($2, nsplugin_tmp_t, nsplugin_tmp_t)
+	manage_files_pattern($2, nsplugin_tmp_t, nsplugin_tmp_t)
+	manage_sock_files_pattern($2, nsplugin_tmp_t, nsplugin_tmp_t)
+
+	relabel_dirs_pattern($2, nsplugin_tmp_t, nsplugin_tmp_t)
+	relabel_files_pattern($2, nsplugin_tmp_t, nsplugin_tmp_t)
+	relabel_sock_files_pattern($2, nsplugin_tmp_t, nsplugin_tmp_t)
+
+	manage_files_pattern($2, nsplugin_tmpfs_t, nsplugin_tmpfs_t)
+	relabel_files_pattern($2, nsplugin_tmpfs_t, nsplugin_tmpfs_t)
+
+	# Clean me
+	dontaudit nsplugin_t $2:process ptrace;
+	allow nsplugin_t $2:sem rw_sem_perms;
+	allow nsplugin_t $2:shm rw_shm_perms;
+	dontaudit nsplugin_t $2:shm destroy;
+	allow $2 nsplugin_t:sem rw_sem_perms;
+
+	allow $2 nsplugin_t:process { ptrace signal_perms };
+
+	nsplugin_stream_connect($2)
 
 	ifdef(`hide_broken_symptoms',`
 		dontaudit nsplugin_t $2:socket_class_set rw_inherited_sock_file_perms;
@@ -94,23 +109,13 @@ interface(`nsplugin_role_notrans',`
 		dontaudit nsplugin_config_t $2:fifo_file rw_inherited_fifo_file_perms;
 	')
 
-	allow nsplugin_t $2:unix_stream_socket connectto;
-	dontaudit nsplugin_t $2:process ptrace;
-	allow nsplugin_t $2:sem rw_sem_perms;
-	allow nsplugin_t $2:shm rw_shm_perms;
-	dontaudit nsplugin_t $2:shm destroy;
-	allow $2 nsplugin_t:sem rw_sem_perms;
+	optional_policy(`
+		gnome_stream_connect(nsplugin_t, $2)
+	')
 
-	allow $2 nsplugin_t:process { getattr ptrace signal_perms };
-	allow $2 nsplugin_t:unix_stream_socket connectto;
-
-	stream_connect_pattern(nsplugin_t, user_home_t, user_home_t, $2)
-	gnome_stream_connect(nsplugin_t, $2)
-
-	userdom_use_user_terminals(nsplugin_t)
-	userdom_use_user_terminals(nsplugin_config_t)
-	userdom_dontaudit_setattr_user_home_content_files(nsplugin_t)
-	userdom_manage_tmpfs_role($1, nsplugin_t)
+	optional_policy(`
+		nsplugin_dbus_chat($2)
+	')
 
 	optional_policy(`
 		pulseaudio_role($1, nsplugin_t)
@@ -140,24 +145,14 @@ interface(`nsplugin_role_notrans',`
 #
 interface(`nsplugin_role',`
 	gen_require(`
-		type nsplugin_exec_t, nsplugin_tmp_t;
-		type nsplugin_config_exec_t;
-		type nsplugin_t;
-		type nsplugin_config_t;
+		type nsplugin_exec_t, nsplugin_config_exec_t;
+		type nsplugin_t, nsplugin_config_t;
 	')
 
 	nsplugin_role_notrans($1, $2)
 
 	domtrans_pattern($2, nsplugin_exec_t, nsplugin_t)
 	domtrans_pattern($2, nsplugin_config_exec_t, nsplugin_config_t)
-
-	manage_dirs_pattern($2, nsplugin_tmp_t, nsplugin_tmp_t)
-	manage_files_pattern($2, nsplugin_tmp_t, nsplugin_tmp_t)
-	manage_sock_files_pattern($2, nsplugin_tmp_t, nsplugin_tmp_t)
-
-	relabel_dirs_pattern($2, nsplugin_tmp_t, nsplugin_tmp_t)
-	relabel_files_pattern($2, nsplugin_tmp_t, nsplugin_tmp_t)
-	relabel_sock_files_pattern($2, nsplugin_tmp_t, nsplugin_tmp_t)
 ')
 
 #######################################
@@ -381,4 +376,44 @@ interface(`nsplugin_exec_domtrans',`
 	allow $2 nsplugin_exec_t:file entrypoint;
 	domtrans_pattern($1, nsplugin_exec_t, $2)
 	corecmd_search_bin($1)
+')
+
+########################################
+## <summary>
+##	Send and receive messages from
+##	nsplugin over dbus.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`nsplugin_dbus_chat',`
+	gen_require(`
+		type nsplugin_t;
+		class dbus send_msg;
+	')
+
+	allow $1 nsplugin_t:dbus send_msg;
+	allow nsplugin_t $1:dbus send_msg;
+')
+
+########################################
+## <summary>
+##	Stream connect to nsplugin.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`nsplugin_stream_connect',`
+	gen_require(`
+		type nsplugin_t, nsplugin_tmp_t;
+	')
+
+	stream_connect_pattern($1, nsplugin_tmp_t, nsplugin_tmp_t, nsplugin_t)
+	files_search_tmp($1)
 ')

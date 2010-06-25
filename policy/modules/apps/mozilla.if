@@ -28,16 +28,13 @@ interface(`mozilla_role',`
 	# Clean this up.
 	allow $2 mozilla_t:process { noatsecure siginh rlimitinh };
 	allow mozilla_t $2:fd use;
-	allow mozilla_t $2:process { sigchld signull };
-	allow mozilla_t $2:unix_stream_socket connectto;
-
-	ps_process_pattern($2, mozilla_t)
-	allow $2 mozilla_t:process { ptrace signal_perms };
 
 	allow $2 mozilla_t:fd use;
 	allow $2 mozilla_t:shm { associate getattr };
 	allow $2 mozilla_t:shm { unix_read unix_write };
-	allow $2 mozilla_t:unix_stream_socket connectto;
+
+	ps_process_pattern($2, mozilla_t)
+	allow $2 mozilla_t:process { ptrace signal_perms };
 
 	manage_dirs_pattern($2, mozilla_tmp_t, mozilla_tmp_t)
 	manage_files_pattern($2, mozilla_tmp_t, mozilla_tmp_t)
@@ -56,6 +53,8 @@ interface(`mozilla_role',`
 	relabel_files_pattern($2, mozilla_tmpfs_t, mozilla_tmpfs_t)
 	relabel_lnk_files_pattern($2, mozilla_tmpfs_t, mozilla_tmpfs_t)
 	relabel_sock_files_pattern($2, mozilla_tmpfs_t, mozilla_tmpfs_t)
+
+	mozilla_stream_connect($2)
 
 	optional_policy(`
 		mozilla_dbus_chat($2)
@@ -305,4 +304,23 @@ interface(`mozilla_delete_tmpfs_files', `
 
 	allow $1 mozilla_tmpfs_t:file delete_file_perms;
 	fs_search_tmpfs($1)
+')
+
+########################################
+## <summary>
+##	Stream connect to Mozilla.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`mozilla_stream_connect',`
+	gen_require(`
+		type mozilla_t, mozilla_tmp_t;
+	')
+
+	stream_connect_pattern($1, mozilla_tmp_t, mozilla_tmp_t, mozilla_t)
+	files_search_tmp($1)
 ')

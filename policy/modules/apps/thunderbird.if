@@ -29,7 +29,6 @@ interface(`thunderbird_role',`
 	allow $2 thunderbird_t:fd use;
 	allow $2 thunderbird_t:shm { associate getattr };
 	allow thunderbird_t $2:fd use;
-	allow thunderbird_t $2:process sigchld;
 
 	ps_process_pattern($2, thunderbird_t)
 	allow $2 thunderbird_t:process { ptrace signal_perms };

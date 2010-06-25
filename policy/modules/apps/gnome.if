@@ -587,7 +587,6 @@ interface(`gnome_stream_connect',`
 		attribute gnome_home_type;
 	')
 
-	# Connect to pulseaudio server
 	stream_connect_pattern($1, gnome_home_type, gnome_home_type, $2)
 ')
 
