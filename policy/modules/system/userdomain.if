@@ -1119,6 +1119,12 @@ template(`userdom_unpriv_user_template', `
 	')
 
 	optional_policy(`
+		mozilla_role($1_r, $1_t)
+		mozilla_delete_tmpfs_files($1_t)
+		mozilla_read_tmpfs_files($1_t)
+	')
+
+	optional_policy(`
 		mplayer_role($1_r, $1_t)
 	')
 

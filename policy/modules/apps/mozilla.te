@@ -6,9 +6,9 @@ policy_module(mozilla, 2.2.1)
 #
 
 ## <desc>
-## <p>
-## Control mozilla content access
-## </p>
+##	<p>
+##	Control mozilla content access
+##	</p>
 ## </desc>
 gen_tunable(mozilla_read_content, false)
 
@@ -25,7 +25,6 @@ files_config_file(mozilla_conf_t)
 type mozilla_home_t;
 typealias mozilla_home_t alias { user_mozilla_home_t staff_mozilla_home_t sysadm_mozilla_home_t };
 typealias mozilla_home_t alias { auditadm_mozilla_home_t secadm_mozilla_home_t };
-files_poly_member(mozilla_home_t)
 userdom_user_home_content(mozilla_home_t)
 
 type mozilla_tmpfs_t;
@@ -126,7 +125,6 @@ files_dontaudit_getattr_boot_dirs(mozilla_t)
 
 fs_search_auto_mountpoints(mozilla_t)
 fs_list_inotifyfs(mozilla_t)
-fs_rw_tmpfs_files(mozilla_t)
 
 term_dontaudit_getattr_pty_dirs(mozilla_t)
 term_use_all_ttys(mozilla_t)
@@ -223,12 +221,15 @@ optional_policy(`
 
 optional_policy(`
 	cups_read_rw_config(mozilla_t)
-	cups_dbus_chat(mozilla_t)
 ')
 
 optional_policy(`
 	dbus_system_bus_client(mozilla_t)
 	dbus_session_bus_client(mozilla_t)
+
+	optional_policy(`
+		cups_dbus_chat(mozilla_t)
+	')
 
 	optional_policy(`
 		networkmanager_dbus_chat(mozilla_t)

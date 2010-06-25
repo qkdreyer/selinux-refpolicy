@@ -87,7 +87,7 @@ interface(`nsplugin_role_notrans',`
 	read_lnk_files_pattern($2, nsplugin_rw_t, nsplugin_rw_t)
 	can_exec($2, nsplugin_rw_t)
 
-	ifdef(`hide_broken_symptoms', `
+	ifdef(`hide_broken_symptoms',`
 		dontaudit nsplugin_t $2:socket_class_set rw_inherited_sock_file_perms;
 		dontaudit nsplugin_t $2:fifo_file rw_inherited_fifo_file_perms;
 		dontaudit nsplugin_config_t $2:socket_class_set rw_inherited_sock_file_perms;

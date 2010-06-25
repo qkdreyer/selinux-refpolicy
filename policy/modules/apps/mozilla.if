@@ -36,7 +36,9 @@ interface(`mozilla_role',`
 	allow $2 mozilla_t:shm { unix_read unix_write };
 	allow $2 mozilla_t:unix_stream_socket connectto;
 
-	mozilla_dbus_chat($2)
+	optional_policy(`
+		mozilla_dbus_chat($2)
+	')
 
 	userdom_manage_tmp_role($1, mozilla_t)
 
@@ -246,4 +248,42 @@ interface(`mozilla_exec_domtrans',`
 	allow $2 mozilla_exec_t:file entrypoint;
 	domtrans_pattern($1, mozilla_exec_t, $2)
 	corecmd_search_bin($1)
+')
+
+########################################
+## <summary>
+##	Read Mozilla tmpfs files.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`mozilla_read_tmpfs_files',`
+	gen_require(`
+		type mozilla_tmpfs_t;
+	')
+
+	allow $1 mozilla_tmpfs_t:file read_file_perms;
+	fs_search_tmpfs($1)
+')
+
+########################################
+## <summary>
+##	Delete Mozilla tmpfs files.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`mozilla_delete_tmpfs_files', `
+	gen_require(`
+		type mozilla_tmpfs_t;
+	')
+
+	allow $1 mozilla_tmpfs_t:file delete_file_perms;
+	fs_search_tmpfs($1)
 ')
