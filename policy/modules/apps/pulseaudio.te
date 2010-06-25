@@ -137,6 +137,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+	nsplugin_read_tmpfs_files(pulseaudio_t)
+')
+
+optional_policy(`
 	mozilla_read_tmpfs_files(pulseaudio_t)
 ')
 

@@ -252,5 +252,6 @@ optional_policy(`
 	thunderbird_domtrans(mozilla_t)
 	thunderbird_delete_tmpfs_files(mozilla_t)
 	thunderbird_read_tmpfs_files(mozilla_t)
+	thunderbird_signull(mozilla_t)
 ')
 

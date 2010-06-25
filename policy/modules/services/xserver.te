@@ -1013,6 +1013,11 @@ optional_policy(`
 ')
 
 optional_policy(`
+	nsplugin_read_tmpfs_files(xserver_t)
+	nsplugin_write_tmpfs_files(xserver_t)
+')
+
+optional_policy(`
 	rhgb_getpgid(xserver_t)
 	rhgb_signal(xserver_t)
 ')

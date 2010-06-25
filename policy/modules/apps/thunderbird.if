@@ -184,7 +184,6 @@ interface(`thunderbird_delete_tmpfs_files', `
 	fs_search_tmpfs($1)
 ')
 
-
 ########################################
 ## <summary>
 ##	Send signull signals to Thunderbird.

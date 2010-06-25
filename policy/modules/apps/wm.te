@@ -7,3 +7,6 @@ policy_module(wm, 1.0.0)
 
 type wm_exec_t;
 corecmd_executable_file(wm_exec_t)
+
+type wm_home_t;
+userdom_user_home_content(wm_home_t)

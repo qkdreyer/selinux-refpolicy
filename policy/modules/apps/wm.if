@@ -41,9 +41,6 @@ template(`wm_role_template',`
 	allow $3 $1_wm_t:process { signal sigchld };
 	allow $1_wm_t $3:process { signull sigkill };
 
-	allow $1_wm_t $3:dbus send_msg;
-	allow $3 $1_wm_t:dbus send_msg;
-
 	domtrans_pattern($3, wm_exec_t, $1_wm_t)
 
 	kernel_read_system_state($1_wm_t)
@@ -76,6 +73,7 @@ template(`wm_role_template',`
 	optional_policy(`
 		dbus_system_bus_client($1_wm_t)
 		dbus_session_bus_client($1_wm_t)
+		wm_dbus_chat($1, $3)
 	')
 
 	optional_policy(`
@@ -106,4 +104,51 @@ interface(`wm_exec',`
 
 	can_exec($1, wm_exec_t)
 	corecmd_search_bin($1)
+')
+
+########################################
+## <summary>
+##	Send and receive messages from
+##	wm over dbus.
+## </summary>
+## <param name="role_prefix">
+##	<summary>
+##	The prefix of the user domain (e.g., user
+##	is the prefix for user_t).
+##	</summary>
+## </param>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`wm_dbus_chat',`
+	gen_require(`
+		type $1_wm_t;
+		class dbus send_msg;
+	')
+
+	allow $2 $1_wm_t:dbus send_msg;
+	allow $1_wm_t $2:dbus send_msg;
+')
+
+########################################
+## <summary>
+##	Read wm home files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`wm_read_user_home_files',`
+	gen_require(`
+		type wm_home_t;
+	')
+
+	allow $1 wm_home_t:dir search_dir_perms;
+	allow $1 wm_home_t:file read_file_perms;
+	userdom_search_user_home_dirs($1)
 ')

@@ -110,10 +110,6 @@ interface(`nsplugin_role_notrans',`
 	')
 
 	optional_policy(`
-		gnome_stream_connect(nsplugin_t, $2)
-	')
-
-	optional_policy(`
 		nsplugin_dbus_chat($2)
 	')
 
@@ -416,4 +412,61 @@ interface(`nsplugin_stream_connect',`
 
 	stream_connect_pattern($1, nsplugin_tmp_t, nsplugin_tmp_t, nsplugin_t)
 	files_search_tmp($1)
+')
+
+########################################
+## <summary>
+##	Read nsplugin tmpfs files.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`nsplugin_read_tmpfs_files',`
+	gen_require(`
+		type nsplugin_tmpfs_t;
+	')
+
+	allow $1 nsplugin_tmpfs_t:file read_file_perms;
+	fs_search_tmpfs($1)
+')
+
+########################################
+## <summary>
+##	Delete nsplugin tmpfs files.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`nsplugin_delete_tmpfs_files',`
+	gen_require(`
+		type nsplugin_tmpfs_t;
+	')
+
+	allow $1 nsplugin_tmpfs_t:file delete_file_perms;
+	fs_search_tmpfs($1)
+')
+
+########################################
+## <summary>
+##	Write nsplugin tmpfs files.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`nsplugin_write_tmpfs_files',`
+	gen_require(`
+		type nsplugin_tmpfs_t;
+	')
+
+	allow $1 nsplugin_tmpfs_t:file write_file_perms;
+	fs_search_tmpfs($1)
 ')

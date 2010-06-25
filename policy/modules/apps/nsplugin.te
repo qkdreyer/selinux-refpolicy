@@ -176,6 +176,8 @@ userdom_stream_connect(nsplugin_t)
 userdom_dontaudit_append_user_home_content_files(nsplugin_t)
 userdom_dontaudit_setattr_user_home_content_files(nsplugin_t)
 userdom_signull_unpriv_users(nsplugin_t)
+userdom_read_user_tmpfs_files(nsplugin_t)
+userdom_delete_user_tmpfs_files(nsplugin_t)
 
 optional_policy(`
 	alsa_read_rw_config(nsplugin_t)
@@ -218,6 +220,11 @@ optional_policy(`
 	pulseaudio_rw_home_files(nsplugin_t)
 	pulseaudio_setattr_home_dir(nsplugin_t)
 	pulseaudio_stream_connect(nsplugin_t)
+')
+
+optional_policy(`
+	thunderbird_read_tmpfs_files(nsplugin_t)
+	thunderbird_delete_tmpfs_files(nsplugin_t)
 ')
 
 optional_policy(`
