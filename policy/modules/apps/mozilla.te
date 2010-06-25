@@ -162,10 +162,6 @@ ifdef(`enable_mls',`',`
 	fs_read_removable_symlinks(mozilla_t)
 ')
 
-tunable_policy(`allow_execmem',`
-	allow mozilla_t self:process { execmem execstack };
-')
-
 tunable_policy(`use_nfs_home_dirs',`
 	fs_manage_nfs_dirs(mozilla_t)
 	fs_manage_nfs_files(mozilla_t)
