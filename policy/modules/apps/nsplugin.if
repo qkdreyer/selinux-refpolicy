@@ -140,7 +140,7 @@ interface(`nsplugin_role_notrans',`
 #
 interface(`nsplugin_role',`
 	gen_require(`
-		type nsplugin_exec_t;
+		type nsplugin_exec_t, nsplugin_tmp_t;
 		type nsplugin_config_exec_t;
 		type nsplugin_t;
 		type nsplugin_config_t;
@@ -151,6 +151,13 @@ interface(`nsplugin_role',`
 	domtrans_pattern($2, nsplugin_exec_t, nsplugin_t)
 	domtrans_pattern($2, nsplugin_config_exec_t, nsplugin_config_t)
 
+	manage_dirs_pattern($2, nsplugin_tmp_t, nsplugin_tmp_t)
+	manage_files_pattern($2, nsplugin_tmp_t, nsplugin_tmp_t)
+	manage_sock_files_pattern($2, nsplugin_tmp_t, nsplugin_tmp_t)
+
+	relabel_dirs_pattern($2, nsplugin_tmp_t, nsplugin_tmp_t)
+	relabel_files_pattern($2, nsplugin_tmp_t, nsplugin_tmp_t)
+	relabel_sock_files_pattern($2, nsplugin_tmp_t, nsplugin_tmp_t)
 ')
 
 #######################################

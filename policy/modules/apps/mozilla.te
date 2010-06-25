@@ -19,13 +19,14 @@ typealias mozilla_t alias { auditadm_mozilla_t secadm_mozilla_t };
 application_domain(mozilla_t, mozilla_exec_t)
 ubac_constrained(mozilla_t)
 
-type mozilla_conf_t;
-files_config_file(mozilla_conf_t)
-
 type mozilla_home_t;
 typealias mozilla_home_t alias { user_mozilla_home_t staff_mozilla_home_t sysadm_mozilla_home_t };
 typealias mozilla_home_t alias { auditadm_mozilla_home_t secadm_mozilla_home_t };
 userdom_user_home_content(mozilla_home_t)
+
+type mozilla_tmp_t;
+files_tmp_file(mozilla_tmp_t)
+ubac_constrained(mozilla_tmp_t)
 
 type mozilla_tmpfs_t;
 typealias mozilla_tmpfs_t alias { user_mozilla_tmpfs_t staff_mozilla_tmpfs_t sysadm_mozilla_tmpfs_t };
@@ -39,13 +40,13 @@ ubac_constrained(mozilla_tmpfs_t)
 #
 
 allow mozilla_t self:capability { sys_nice setgid setuid };
-allow mozilla_t self:process { sigkill signal setsched getsched setrlimit };
-allow mozilla_t self:fifo_file rw_fifo_file_perms;
+allow mozilla_t self:process { sigkill signal signull setsched getsched setrlimit };
+allow mozilla_t self:fifo_file manage_fifo_file_perms;
 allow mozilla_t self:shm { unix_read unix_write read write destroy create };
 allow mozilla_t self:sem create_sem_perms;
 allow mozilla_t self:socket create_socket_perms;
 allow mozilla_t self:unix_stream_socket { listen accept };
-allow mozilla_t self:tcp_socket create_socket_perms;
+allow mozilla_t self:tcp_socket create_stream_socket_perms;
 allow mozilla_t self:netlink_route_socket r_netlink_socket_perms;
 
 can_exec(mozilla_t, mozilla_exec_t)
@@ -54,14 +55,22 @@ manage_dirs_pattern(mozilla_t, mozilla_home_t, mozilla_home_t)
 manage_files_pattern(mozilla_t, mozilla_home_t, mozilla_home_t)
 manage_lnk_files_pattern(mozilla_t, mozilla_home_t, mozilla_home_t)
 userdom_user_home_dir_filetrans(mozilla_t, mozilla_home_t, dir)
+userdom_user_home_content_filetrans(mozilla_t, mozilla_home_t, file)
 
-allow mozilla_t mozilla_conf_t:file read_file_perms;
+dontaudit mozilla_t mozilla_tmp_t:file relabelfrom;
+manage_dirs_pattern(mozilla_t, mozilla_tmp_t, mozilla_tmp_t)
+manage_files_pattern(mozilla_t, mozilla_tmp_t, mozilla_tmp_t)
+files_tmp_filetrans(mozilla_t, mozilla_tmp_t, { dir file })
+
+manage_sock_files_pattern(mozilla_t, mozilla_tmp_t, mozilla_tmp_t)
+userdom_user_tmp_filetrans(mozilla_t, mozilla_tmp_t, sock_file)
 
 manage_files_pattern(mozilla_t, mozilla_tmpfs_t, mozilla_tmpfs_t)
 manage_lnk_files_pattern(mozilla_t, mozilla_tmpfs_t, mozilla_tmpfs_t)
 manage_fifo_files_pattern(mozilla_t, mozilla_tmpfs_t, mozilla_tmpfs_t)
 manage_sock_files_pattern(mozilla_t, mozilla_tmpfs_t, mozilla_tmpfs_t)
 fs_tmpfs_filetrans(mozilla_t, mozilla_tmpfs_t, { file lnk_file sock_file fifo_file })
+fs_getattr_tmpfs(mozilla_t)
 
 kernel_read_kernel_sysctls(mozilla_t)
 kernel_read_network_state(mozilla_t)
@@ -129,6 +138,8 @@ fs_list_inotifyfs(mozilla_t)
 term_dontaudit_getattr_pty_dirs(mozilla_t)
 term_use_all_ttys(mozilla_t)
 
+libs_dontaudit_relabelto_lib_files(mozilla_t)
+
 logging_send_syslog_msg(mozilla_t)
 
 auth_use_nsswitch(mozilla_t)
@@ -141,10 +152,22 @@ miscfiles_dontaudit_setattr_fonts_dirs(mozilla_t)
 sysnet_dns_name_resolve(mozilla_t)
 
 userdom_use_user_ptys(mozilla_t)
+userdom_read_user_tmpfs_files(mozilla_t)
+userdom_delete_user_tmpfs_files(mozilla_t)
+userdom_read_user_home_content_symlinks(mozilla_t)
+userdom_read_user_home_content_files(mozilla_t)
+userdom_write_user_tmp_sockets(mozilla_t)
+userdom_setattr_user_tmp_dirs(mozilla_t)
 
 xserver_user_x_domain_template(mozilla, mozilla_t, mozilla_tmpfs_t)
 xserver_dontaudit_read_xdm_tmp_files(mozilla_t)
 xserver_dontaudit_getattr_xdm_tmp_sockets(mozilla_t)
+
+ifdef(`enable_mls',`',`
+	fs_search_removable(mozilla_t)
+	fs_read_removable_files(mozilla_t)
+	fs_read_removable_symlinks(mozilla_t)
+')
 
 tunable_policy(`allow_execmem',`
 	allow mozilla_t self:process { execmem execstack };
@@ -160,54 +183,6 @@ tunable_policy(`use_samba_home_dirs',`
 	fs_manage_cifs_dirs(mozilla_t)
 	fs_manage_cifs_files(mozilla_t)
 	fs_manage_cifs_symlinks(mozilla_t)
-')
-
-tunable_policy(`mozilla_read_content && use_nfs_home_dirs',`
-	fs_list_auto_mountpoints(mozilla_t)
-	files_list_home(mozilla_t)
-	fs_read_nfs_files(mozilla_t)
-	fs_read_nfs_symlinks(mozilla_t)
-
-',`
-	files_dontaudit_list_home(mozilla_t)
-	fs_dontaudit_list_auto_mountpoints(mozilla_t)
-	fs_dontaudit_read_nfs_files(mozilla_t)
-	fs_dontaudit_list_nfs(mozilla_t)
-')
-
-tunable_policy(`mozilla_read_content && use_samba_home_dirs',`
-	fs_list_auto_mountpoints(mozilla_t)
-	files_list_home(mozilla_t)
-	fs_read_cifs_files(mozilla_t)
-	fs_read_cifs_symlinks(mozilla_t)
-',`
-	files_dontaudit_list_home(mozilla_t)
-	fs_dontaudit_list_auto_mountpoints(mozilla_t)
-	fs_dontaudit_read_cifs_files(mozilla_t)
-	fs_dontaudit_list_cifs(mozilla_t)
-')
-
-tunable_policy(`mozilla_read_content',`
-	userdom_list_user_tmp(mozilla_t)
-	userdom_read_user_tmp_files(mozilla_t)
-	userdom_read_user_tmp_symlinks(mozilla_t)
-	userdom_read_user_home_content_files(mozilla_t)
-	userdom_read_user_home_content_symlinks(mozilla_t)
-
-	ifdef(`enable_mls',`',`
-		fs_search_removable(mozilla_t)
-		fs_read_removable_files(mozilla_t)
-		fs_read_removable_symlinks(mozilla_t)
-	')
-',`
-	files_dontaudit_list_tmp(mozilla_t)
-	files_dontaudit_list_home(mozilla_t)
-	fs_dontaudit_list_removable(mozilla_t)
-	fs_dontaudit_read_removable_files(mozilla_t)
-	userdom_dontaudit_list_user_tmp(mozilla_t)
-	userdom_dontaudit_read_user_tmp_files(mozilla_t)
-	userdom_dontaudit_list_user_home_dirs(mozilla_t)
-	userdom_dontaudit_read_user_home_content_files(mozilla_t)
 ')
 
 optional_policy(`
@@ -242,6 +217,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+	java_signull(mozilla_t)
+')
+
+optional_policy(`
 	java_domtrans(mozilla_t)
 ')
 
@@ -255,12 +234,20 @@ optional_policy(`
 ')
 
 optional_policy(`
+	nis_use_ypbind(mozilla_t)
+')
+
+optional_policy(`
 	nscd_socket_use(mozilla_t)
 ')
 
 optional_policy(`
 	nsplugin_manage_rw(mozilla_t)
 	nsplugin_manage_home_files(mozilla_t)
+')
+
+optional_policy(`
+	prelink_exec(mozilla_t)
 ')
 
 optional_policy(`
@@ -271,4 +258,7 @@ optional_policy(`
 
 optional_policy(`
 	thunderbird_domtrans(mozilla_t)
+	thunderbird_delete_tmpfs_files(mozilla_t)
+	thunderbird_read_tmpfs_files(mozilla_t)
 ')
+

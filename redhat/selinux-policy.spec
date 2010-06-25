@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.5
-Release: 1.11%{?dist}
+Release: 1.12%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,10 @@ exit 0
 %endif
 
 %changelog
+* Fri Jun 25 2010 Dominick Grift <domg472@gmail.com> 3.8.5-1.12
+- Unpriv users run mozilla in mozilla_t domain.
+- White space fixes and typos.
+
 * Wed Jun 23 2010 Dominick Grift <domg472@gmail.com> 3.8.5-1.11
 - had to allow xdm_t to read gconf etc files.
 - dvbd fixes, needs testing with tv card.

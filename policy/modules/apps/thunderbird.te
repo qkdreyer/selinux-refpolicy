@@ -34,7 +34,7 @@ ubac_constrained(thunderbird_tmpfs_t)
 
 allow thunderbird_t self:capability sys_nice;
 allow thunderbird_t self:process { signal_perms setsched getsched };
-allow thunderbird_t self:fifo_file rw_fifo_file_perms;
+allow thunderbird_t self:fifo_file manage_fifo_file_perms;
 allow thunderbird_t self:unix_dgram_socket { create connect };
 allow thunderbird_t self:unix_stream_socket { create accept connect write getattr read listen bind };
 allow thunderbird_t self:tcp_socket create_socket_perms;
@@ -45,6 +45,7 @@ manage_files_pattern(thunderbird_t, thunderbird_home_t, thunderbird_home_t)
 manage_lnk_files_pattern(thunderbird_t, thunderbird_home_t, thunderbird_home_t)
 userdom_user_home_dir_filetrans(thunderbird_t, thunderbird_home_t, { dir file lnk_file })
 
+dontaudit thunderbird_t thunderbird_tmp_t:file relabelfrom;
 manage_dirs_pattern(thunderbird_t, thunderbird_tmp_t, thunderbird_tmp_t)
 manage_files_pattern(thunderbird_t, thunderbird_tmp_t, thunderbird_tmp_t)
 files_tmp_filetrans(thunderbird_t, thunderbird_tmp_t, { dir file })
@@ -108,6 +109,8 @@ fs_list_inotifyfs(thunderbird_t)
 fs_search_auto_mountpoints(thunderbird_t)
 
 auth_use_nsswitch(thunderbird_t)
+
+libs_dontaudit_relabelto_lib_files(thunderbird_t)
 
 miscfiles_read_fonts(thunderbird_t)
 miscfiles_read_localization(thunderbird_t)

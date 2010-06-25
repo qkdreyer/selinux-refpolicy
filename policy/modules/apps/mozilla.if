@@ -18,29 +18,48 @@
 interface(`mozilla_role',`
 	gen_require(`
 		type mozilla_t, mozilla_exec_t, mozilla_home_t;
+		type mozilla_tmp_t, mozilla_tmpfs_t;
 	')
 
 	role $1 types mozilla_t;
 
 	domain_auto_trans($2, mozilla_exec_t, mozilla_t)
+
+	# Clean this up.
 	allow $2 mozilla_t:process { noatsecure siginh rlimitinh };
 	allow mozilla_t $2:fd use;
 	allow mozilla_t $2:process { sigchld signull };
 	allow mozilla_t $2:unix_stream_socket connectto;
 
 	ps_process_pattern($2, mozilla_t)
-	allow $2 mozilla_t:process signal_perms;
+	allow $2 mozilla_t:process { ptrace signal_perms };
 
 	allow $2 mozilla_t:fd use;
 	allow $2 mozilla_t:shm { associate getattr };
 	allow $2 mozilla_t:shm { unix_read unix_write };
 	allow $2 mozilla_t:unix_stream_socket connectto;
 
+	manage_dirs_pattern($2, mozilla_tmp_t, mozilla_tmp_t)
+	manage_files_pattern($2, mozilla_tmp_t, mozilla_tmp_t)
+	manage_sock_files_pattern($2, mozilla_tmp_t, mozilla_tmp_t)
+
+	relabel_dirs_pattern($2, mozilla_tmp_t, mozilla_tmp_t)
+	relabel_files_pattern($2, mozilla_tmp_t, mozilla_tmp_t)
+	relabel_sock_files_pattern($2, mozilla_tmp_t, mozilla_tmp_t)
+
+	manage_fifo_files_pattern($2, mozilla_tmpfs_t, mozilla_tmpfs_t)
+	manage_files_pattern($2, mozilla_tmpfs_t, mozilla_tmpfs_t)
+	manage_lnk_files_pattern($2, mozilla_tmpfs_t, mozilla_tmpfs_t)
+	manage_sock_files_pattern($2, mozilla_tmpfs_t, mozilla_tmpfs_t)
+
+	relabel_fifo_files_pattern($2, mozilla_tmpfs_t, mozilla_tmpfs_t)
+	relabel_files_pattern($2, mozilla_tmpfs_t, mozilla_tmpfs_t)
+	relabel_lnk_files_pattern($2, mozilla_tmpfs_t, mozilla_tmpfs_t)
+	relabel_sock_files_pattern($2, mozilla_tmpfs_t, mozilla_tmpfs_t)
+
 	optional_policy(`
 		mozilla_dbus_chat($2)
 	')
-
-	userdom_manage_tmp_role($1, mozilla_t)
 
 	optional_policy(`
 		nsplugin_role($1, mozilla_t)

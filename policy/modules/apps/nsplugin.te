@@ -32,6 +32,7 @@ userdom_user_home_content(nsplugin_rw_t)
 
 type nsplugin_tmp_t;
 files_tmp_file(nsplugin_tmp_t)
+ubac_constrained(nsplugin_tmp_t)
 
 type nsplugin_home_t;
 files_poly_member(nsplugin_home_t)
@@ -55,9 +56,8 @@ application_executable_file(nsplugin_config_exec_t)
 #
 
 dontaudit nsplugin_t self:capability { sys_nice sys_tty_config };
-allow nsplugin_t self:fifo_file rw_file_perms;
+allow nsplugin_t self:fifo_file manage_file_perms;
 allow nsplugin_t self:process { ptrace setpgid getsched setsched signal_perms };
-
 allow nsplugin_t self:sem create_sem_perms;
 allow nsplugin_t self:shm create_shm_perms;
 allow nsplugin_t self:msgq create_msgq_perms;
@@ -86,6 +86,14 @@ userdom_dontaudit_getattr_user_home_content(nsplugin_t)
 userdom_dontaudit_search_user_bin_dirs(nsplugin_t)
 userdom_dontaudit_write_user_home_content_files(nsplugin_t)
 userdom_dontaudit_search_admin_dir(nsplugin_t)
+
+dontaudit nsplugin_t nsplugin_tmp_t:file relabelfrom;
+manage_dirs_pattern(nsplugin_t, nsplugin_tmp_t, nsplugin_tmp_t)
+manage_files_pattern(nsplugin_t, nsplugin_tmp_t, nsplugin_tmp_t)
+files_tmp_filetrans(nsplugin_t, nsplugin_tmp_t, { dir file })
+
+manage_sock_files_pattern(nsplugin_t, nsplugin_tmp_t, nsplugin_tmp_t)
+userdom_user_tmp_filetrans(nsplugin_t, nsplugin_tmp_t, sock_file)
 
 corecmd_exec_bin(nsplugin_t)
 corecmd_exec_shell(nsplugin_t)
@@ -145,21 +153,17 @@ application_signull(nsplugin_t)
 auth_use_nsswitch(nsplugin_t)
 
 libs_exec_ld_so(nsplugin_t)
+libs_dontaudit_relabelto_lib_files(nsplugin_t)
 
 miscfiles_read_localization(nsplugin_t)
 miscfiles_read_fonts(nsplugin_t)
 miscfiles_dontaudit_write_fonts(nsplugin_t)
 miscfiles_setattr_fonts_cache_dirs(nsplugin_t)
 
-userdom_manage_user_tmp_dirs(nsplugin_t)
-userdom_manage_user_tmp_files(nsplugin_t)
-userdom_manage_user_tmp_sockets(nsplugin_t)
-userdom_tmp_filetrans_user_tmp(nsplugin_t, { file dir sock_file })
 userdom_rw_semaphores(nsplugin_t)
 userdom_dontaudit_rw_user_tmp_pipes(nsplugin_t)
 userdom_read_user_home_content_symlinks(nsplugin_t)
 userdom_read_user_home_content_files(nsplugin_t)
-userdom_read_user_tmp_files(nsplugin_t)
 userdom_write_user_tmp_sockets(nsplugin_t)
 userdom_dontaudit_append_user_home_content_files(nsplugin_t)
 
@@ -185,6 +189,8 @@ optional_policy(`
 optional_policy(`
 	mozilla_read_user_home_files(nsplugin_t)
 	mozilla_write_user_home_files(nsplugin_t)
+	mozilla_read_tmpfs_files(nsplugin_t)
+	mozilla_delete_tmpfs_files(nsplugin_t)
 ')
 
 optional_policy(`
@@ -193,6 +199,19 @@ optional_policy(`
 ')
 
 optional_policy(`
+	prelink_exec(nsplugin_t)
+')
+
+optional_policy(`
+	pulseaudio_exec(nsplugin_t)
+	pulseaudio_search_home_dirs(nsplugin_t)
+	pulseaudio_rw_home_files(nsplugin_t)
+	pulseaudio_setattr_home_dir(nsplugin_t)
+	pulseaudio_stream_connect(nsplugin_t)
+')
+
+optional_policy(`
+	unconfined_execmem_exec(nsplugin_t)
 	unconfined_execmem_signull(nsplugin_t)
 ')
 
@@ -292,13 +311,3 @@ optional_policy(`
 	mozilla_write_user_home_files(nsplugin_config_t)
 ')
 
-optional_policy(`
-	pulseaudio_exec(nsplugin_t)
-	pulseaudio_rw_home_files(nsplugin_t)
-	pulseaudio_setattr_home_dir(nsplugin_t)
-	pulseaudio_stream_connect(nsplugin_t)
-')
-
-optional_policy(`
-	unconfined_execmem_exec(nsplugin_t)
-')
