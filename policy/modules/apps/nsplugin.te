@@ -27,11 +27,11 @@ type nsplugin_config_exec_t;
 application_executable_file(nsplugin_config_exec_t)
 
 type nsplugin_rw_t;
-files_poly_member(nsplugin_rw_t)
 userdom_user_home_content(nsplugin_rw_t)
 
 type nsplugin_tmp_t;
 files_tmp_file(nsplugin_tmp_t)
+files_poly_member_tmp(nsplugin_t, nsplugin_tmp_t)
 ubac_constrained(nsplugin_tmp_t)
 
 type nsplugin_tmpfs_t;
@@ -230,6 +230,11 @@ optional_policy(`
 optional_policy(`
 	unconfined_execmem_exec(nsplugin_t)
 	unconfined_execmem_signull(nsplugin_t)
+')
+
+optional_policy(`
+	wm_signull(nsplugin_t)
+	wm_read_tmpfs_files(nsplugin_t)
 ')
 
 optional_policy(`

@@ -52,6 +52,7 @@ type games_tmp_t;
 typealias games_tmp_t alias { user_games_tmp_t staff_games_tmp_t sysadm_games_tmp_t };
 typealias games_tmp_t alias { auditadm_games_tmp_t secadm_games_tmp_t };
 files_tmp_file(games_tmp_t)
+files_poly_member_tmp(games_t, games_tmp_t)
 ubac_constrained(games_tmp_t)
 
 ########################################

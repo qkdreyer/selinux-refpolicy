@@ -454,7 +454,8 @@ interface(`nsplugin_delete_tmpfs_files',`
 
 ########################################
 ## <summary>
-##	Write nsplugin tmpfs files.
+##	Read and write inherited nsplugin
+##	tmpfs files.
 ## </summary>
 ## <param name="domain">
 ## 	<summary>
@@ -462,11 +463,11 @@ interface(`nsplugin_delete_tmpfs_files',`
 ##	</summary>
 ## </param>
 #
-interface(`nsplugin_write_tmpfs_files',`
+interface(`nsplugin_rw_inherited_tmpfs_files',`
 	gen_require(`
 		type nsplugin_tmpfs_t;
 	')
 
-	allow $1 nsplugin_tmpfs_t:file write_file_perms;
+	allow $1 nsplugin_tmpfs_t:file rw_inherited_file_perms;
 	fs_search_tmpfs($1)
 ')

@@ -257,6 +257,25 @@ interface(`gnome_write_generic_cache_files',`
 
 ########################################
 ## <summary>
+##	Search generic config home dirs (.config)
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`gnome_search_generic_config_dirs',`
+	gen_require(`
+		type config_home_t;
+	')
+
+	search_dirs_pattern($1, config_home_t, config_home_t)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
 ##	Manage generic conf home files (.config)
 ## </summary>
 ## <param name="domain">
@@ -384,6 +403,7 @@ interface(`gnome_search_generic_data_dirs',`
 	')
 
 	search_dirs_pattern($1, data_home_t, data_home_t)
+	read_lnk_files_pattern($1, data_home_t, data_home_t)
 	userdom_search_user_home_dirs($1)
 	gnome_search_gconf($1)
 ')

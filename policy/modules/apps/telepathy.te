@@ -28,6 +28,7 @@ ubac_constrained(tp_butterfly_t)
 
 type tp_butterfly_tmp_t;
 files_tmp_file(tp_butterfly_tmp_t)
+files_poly_member_tmp(tp_butterfly_t, tp_butterfly_tmp_t)
 ubac_constrained(tp_butterfly_tmp_t)
 
 ########################################
@@ -42,6 +43,7 @@ ubac_constrained(tp_gabble_t)
 
 type tp_gabble_tmp_t;
 files_tmp_file(tp_gabble_tmp_t)
+files_poly_member_tmp(tp_gabble_t, tp_gabble_tmp_t)
 ubac_constrained(tp_gabble_tmp_t)
 
 type tp_gabble_cache_home_t;
@@ -59,6 +61,7 @@ ubac_constrained(tp_haze_t)
 
 type tp_haze_tmp_t;
 files_tmp_file(tp_haze_tmp_t)
+files_poly_member_tmp(tp_haze_t, tp_haze_tmp_t)
 ubac_constrained(tp_haze_tmp_t)
 
 ########################################
@@ -99,6 +102,7 @@ ubac_constrained(tp_salut_t)
 
 type tp_salut_tmp_t;
 files_tmp_file(tp_salut_tmp_t)
+files_poly_member_tmp(tp_salut_t, tp_salut_tmp_t)
 ubac_constrained(tp_salut_tmp_t)
 
 ########################################
@@ -133,6 +137,7 @@ ubac_constrained(tp_sunshine_t)
 
 type tp_sunshine_tmp_t;
 files_tmp_file(tp_sunshine_tmp_t)
+files_poly_member_tmp(tp_sunshine_t, tp_sunshine_tmp_t)
 ubac_constrained(tp_sunshine_tmp_t)
 
 ########################################

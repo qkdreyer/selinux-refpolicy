@@ -19,6 +19,7 @@ userdom_user_home_content(mozilla_home_t)
 
 type mozilla_tmp_t;
 files_tmp_file(mozilla_tmp_t)
+files_poly_member_tmp(mozilla_t, mozilla_tmp_t)
 ubac_constrained(mozilla_tmp_t)
 
 type mozilla_tmpfs_t;
@@ -148,8 +149,8 @@ userdom_use_user_terminals(mozilla_t)
 userdom_read_user_tmpfs_files(mozilla_t)
 userdom_delete_user_tmpfs_files(mozilla_t)
 # ~/.themes
-userdom_read_user_home_content_symlinks(mozilla_t)
-userdom_read_user_home_content_files(mozilla_t)
+# userdom_read_user_home_content_symlinks(mozilla_t)
+# userdom_read_user_home_content_files(mozilla_t)
 userdom_stream_connect(mozilla_t)
 userdom_setattr_user_tmp_dirs(mozilla_t)
 userdom_sigchld_all_users(mozilla_t)
@@ -255,3 +256,9 @@ optional_policy(`
 	thunderbird_signull(mozilla_t)
 ')
 
+optional_policy(`
+	wm_signull(mozilla_t)
+	wm_read_tmpfs_files(mozilla_t)
+	wm_list_home_dirs(mozilla_t)
+	wm_read_user_home_files(mozilla_t)
+')

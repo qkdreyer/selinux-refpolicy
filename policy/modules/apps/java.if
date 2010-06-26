@@ -86,6 +86,12 @@ template(`java_role_template',`
 
 	# Pulse Audio.
 	optional_policy(`
+		mozilla_read_tmpfs_files($1_java_t)
+		mozilla_delete_tmpfs_files($1_java_t)
+		mozilla_signull($1_java_t)
+	')
+
+	optional_policy(`
 		seahorsed_read_tmpfs_files($1_java_t)
 		seahorsed_delete_tmpfs_files($1_java_t)
 	')
@@ -93,6 +99,7 @@ template(`java_role_template',`
 	optional_policy(`
 		thunderbird_read_tmpfs_files($1_java_t)
 		thunderbird_delete_tmpfs_files($1_java_t)
+		thunderbird_signull($1_java_t)
 	')
 
 	optional_policy(`
@@ -103,6 +110,12 @@ template(`java_role_template',`
 	optional_policy(`
 		vino_server_read_tmpfs_files($1_java_t)
 		vino_server_delete_tmpfs_files($1_java_t)
+		vino_server_signull($1_java_t)
+	')
+
+	optional_policy(`
+		wm_signull($1_java_t)
+		wm_read_tmpfs_files($1_java_t)
 	')
 
 	optional_policy(`

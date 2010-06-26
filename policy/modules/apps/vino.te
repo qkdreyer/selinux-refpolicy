@@ -16,6 +16,7 @@ userdom_user_home_content(vino_server_data_home_t)
 
 type vino_server_tmp_t;
 files_tmp_file(vino_server_tmp_t)
+files_poly_member_tmp(vino_server_t, vino_server_tmp_t)
 ubac_constrained(vino_server_tmp_t)
 
 type vino_server_tmpfs_t;
@@ -154,6 +155,10 @@ optional_policy(`
 optional_policy(`
 	tmw_delete_tmpfs_files(vino_server_t)
 	tmw_read_tmpfs_files(vino_server_t)
+')
+
+optional_policy(`
+	wm_read_user_home_files(vino_server_t)
 ')
 
 optional_policy(`

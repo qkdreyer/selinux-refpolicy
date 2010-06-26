@@ -19,6 +19,7 @@ userdom_user_home_content(thunderbird_home_t)
 
 type thunderbird_tmp_t;
 files_tmp_file(thunderbird_tmp_t)
+files_poly_member_tmp(thunderbird_t, thunderbird_tmp_t)
 ubac_constrained(thunderbird_tmp_t)
 
 type thunderbird_tmpfs_t;
@@ -216,6 +217,13 @@ optional_policy(`
 	vino_server_signull(thunderbird_t)
 	vino_server_delete_tmpfs_files(thunderbird_t)
 	vino_server_read_tmpfs_files(thunderbird_t)
+')
+
+optional_policy(`
+	wm_signull(thunderbird_t)
+	wm_read_tmpfs_files(thunderbird_t)
+	wm_list_home_dirs(thunderbird_t)
+	wm_read_user_home_files(thunderbird_t)
 ')
 
 optional_policy(`

@@ -61,9 +61,9 @@ interface(`seahorsed_role',`
 ##	</summary>
 ## </param>
 #
-interface(`seahorsed_stream_connect',`   
+interface(`seahorsed_stream_connect',`
 	gen_require(`
-		type seahorsed_t, seahorsed_tmp_t;   
+		type seahorsed_t, seahorsed_tmp_t;
 	')   
 
 	stream_connect_pattern($1, seahorsed_tmp_t, seahorsed_tmp_t, seahorsed_t)

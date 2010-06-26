@@ -14,6 +14,7 @@ ubac_constrained(seahorsed_t)
 type seahorsed_tmp_t;
 files_tmp_file(seahorsed_tmp_t)
 ubac_constrained(seahorsed_tmp_t)
+files_poly_member_tmp(seahorsed_t, seahorsed_tmp_t)
 
 type seahorsed_tmpfs_t;
 files_tmpfs_file(seahorsed_tmpfs_t)
