@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.5
-Release: 1.12%{?dist}
+Release: 1.13%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,11 @@ exit 0
 %endif
 
 %changelog
+* Sat Jun 26 2010 Dominick Grift <domg472@gmail.com> 3.8.5-1.13
+- Install wm module for targeted.
+- Changes to make wm work.
+- Various fixes.
+
 * Fri Jun 25 2010 Dominick Grift <domg472@gmail.com> 3.8.5-1.12
 - Unpriv users run mozilla in mozilla_t domain.
 - White space fixes and typos.
