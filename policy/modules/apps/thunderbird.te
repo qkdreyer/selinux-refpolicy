@@ -214,6 +214,11 @@ optional_policy(`
 ')
 
 optional_policy(`
+	nsplugin_read_tmpfs_files(thunderbird_t)
+	nsplugin_delete_tmpfs_files(thunderbird_t)
+')
+
+optional_policy(`
 	vino_server_signull(thunderbird_t)
 	vino_server_delete_tmpfs_files(thunderbird_t)
 	vino_server_read_tmpfs_files(thunderbird_t)
