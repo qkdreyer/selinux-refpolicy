@@ -2,7 +2,7 @@
 
 #######################################
 ## <summary>
-##	Execute hddtemp in the hddtemp domain.
+##	Execute a domain transition to run hddtemp.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -21,7 +21,7 @@ interface(`hddtemp_domtrans',`
 
 ######################################
 ## <summary>
-##	Execute hddtemp 
+##	Execute hddtemp.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -41,7 +41,7 @@ interface(`hddtemp_exec',`
 ########################################
 ## <summary>
 ##	All of the rules required to
-##	administrate an hddtemp environment
+##	administrate an hddtemp environment.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -74,5 +74,4 @@ interface(`hddtemp_admin',`
 	allow $1 hddtemp_t:dir list_dir_perms;
 	read_lnk_files_pattern($1, hddtemp_t, hddtemp_t)
 	kernel_search_proc($1)
-
 ')
