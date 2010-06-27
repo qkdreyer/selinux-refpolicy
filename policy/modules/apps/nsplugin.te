@@ -234,6 +234,8 @@ optional_policy(`
 
 optional_policy(`
 	wm_signull(nsplugin_t)
+	wm_list_home_dirs(nsplugin_t)
+	wm_read_user_home_files(nsplugin_t)
 	wm_read_tmpfs_files(nsplugin_t)
 ')
 
