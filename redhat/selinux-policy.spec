@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.5
-Release: 1.13%{?dist}
+Release: 1.14%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,10 @@ exit 0
 %endif
 
 %changelog
+* Mon Jun 28 2010 Dominick Grift <domg472@gmail.com> 3.8.5-1.14
+- Merge branch refpolicy.
+- let confined userapps read and delete eachother tmpfs files and then send null signals for pulseaudio.
+
 * Sat Jun 26 2010 Dominick Grift <domg472@gmail.com> 3.8.5-1.13
 - Install wm module for targeted.
 - Changes to make wm work.
