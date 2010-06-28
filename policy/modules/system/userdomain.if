@@ -1862,7 +1862,7 @@ interface(`userdom_mmap_user_home_content_files',`
 ##	</summary>
 ## </param>
 #
-interface(`userdom_read_all_user_home_content_files', `
+interface(`userdom_read_all_user_home_content_files',`
 	gen_require(`
 		type user_home_dir_t;
 		attribute user_home_type;
