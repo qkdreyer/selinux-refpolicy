@@ -161,6 +161,7 @@ userdom_setattr_user_tmp_dirs(mozilla_t)
 userdom_sigchld_all_users(mozilla_t)
 userdom_signull_unpriv_users(mozilla_t)
 userdom_read_user_home_content_symlinks(mozilla_t)
+userdom_getattr_all_user_home_content_files(mozilla_t)
 userdom_dontaudit_read_user_home_content_files(mozilla_t)
 
 xserver_user_x_domain_template(mozilla, mozilla_t, mozilla_tmpfs_t)

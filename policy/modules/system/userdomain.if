@@ -1868,9 +1868,31 @@ interface(`userdom_read_all_user_home_content_files',`
 		attribute user_home_type;
 	')
 
-	list_dirs_pattern($1, { user_home_dir_t user_home_type }, { user_home_dir_t user_home_type })
+	search_dirs_pattern($1, { user_home_dir_t user_home_type }, { user_home_dir_t user_home_type })
 	read_files_pattern($1, { user_home_dir_t user_home_type }, user_home_type)
-	files_search_home($1)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
+##	Get attributes of all user home files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_getattr_all_user_home_content_files',`
+	gen_require(`
+		type user_home_dir_t;
+		attribute user_home_type;
+	')
+
+	search_dirs_pattern($1, { user_home_dir_t user_home_type }, { user_home_dir_t user_home_type })
+	getattr_lnk_files_pattern($1, { user_home_dir_t user_home_type }, user_home_type)
+	getattr_files_pattern($1, { user_home_dir_t user_home_type }, user_home_type)
+	userdom_search_user_home_dirs($1)
 ')
 
 ########################################
