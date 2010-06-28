@@ -456,7 +456,7 @@ interface(`dbus_system_domain',`
 	')
 
 	ifdef(`hide_broken_symptoms', `
-		dontaudit $1 system_dbusd_t:netlink_selinux_socket { read write };
+		dontaudit $1 system_dbusd_t:netlink_selinux_socket rw_inherited_sock_file_perms;
 	')
 ')
 
@@ -475,7 +475,7 @@ interface(`dbus_dontaudit_system_bus_rw_tcp_sockets',`
 		type system_dbusd_t;
 	')
 
-	allow $1 system_dbusd_t:tcp_socket { read write };
+	allow $1 system_dbusd_t:tcp_socket rw_inherited_sock_file_perms;
 	allow $1 system_dbusd_t:fd use;
 ')
 

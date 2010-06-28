@@ -199,6 +199,7 @@ optional_policy(`
 ')
 
 optional_policy(`
+	mozilla_signull(nsplugin_t)
 	mozilla_read_user_home_files(nsplugin_t)
 	mozilla_write_user_home_files(nsplugin_t)
 	mozilla_read_tmpfs_files(nsplugin_t)
@@ -223,6 +224,7 @@ optional_policy(`
 ')
 
 optional_policy(`
+	thunderbird_signull(nsplugin_t)
 	thunderbird_read_tmpfs_files(nsplugin_t)
 	thunderbird_delete_tmpfs_files(nsplugin_t)
 ')
@@ -230,6 +232,12 @@ optional_policy(`
 optional_policy(`
 	unconfined_execmem_exec(nsplugin_t)
 	unconfined_execmem_signull(nsplugin_t)
+')
+
+optional_policy(`
+	vino_server_signull(nsplugin_t)
+	vino_server_read_tmpfs_files(nsplugin_t)
+	vino_server_delete_tmpfs_files(nsplugin_t)
 ')
 
 optional_policy(`
