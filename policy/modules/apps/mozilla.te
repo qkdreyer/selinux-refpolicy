@@ -4,6 +4,7 @@ policy_module(mozilla, 2.2.1)
 #
 # Declarations
 #
+
 ## <desc>
 ## <p>
 ##	Allow Mozilla to read all user home

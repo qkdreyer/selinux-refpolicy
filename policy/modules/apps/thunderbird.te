@@ -5,6 +5,14 @@ policy_module(thunderbird, 2.1.0)
 # Declarations
 #
 
+## <desc>
+## <p>
+##	Allow Thunderbird to read all user home
+##	files.
+## </p>
+## </desc>
+gen_tunable(thunderbird_read_content, false)
+
 type thunderbird_t;
 type thunderbird_exec_t;
 typealias thunderbird_t alias { user_thunderbird_t staff_thunderbird_t sysadm_thunderbird_t };
@@ -123,8 +131,19 @@ userdom_read_user_tmpfs_files(thunderbird_t)
 userdom_signull_unpriv_users(thunderbird_t)
 userdom_sigchld_all_users(thunderbird_t)
 userdom_stream_connect(thunderbird_t)
-# Read attachments
-userdom_read_user_home_content_files(thunderbird_t)
+userdom_read_user_home_content_symlinks(thunderbird_t)
+userdom_getattr_all_user_home_content_files(thunderbird_t)
+userdom_dontaudit_read_user_home_content_files(thunderbird_t)
+
+ifdef(`enable_mls',`',`
+	fs_search_removable(thunderbird_t)
+	fs_read_removable_files(thunderbird_t)
+	fs_read_removable_symlinks(thunderbird_t)
+')
+
+tunable_policy(`thunderbird_read_content',`
+	userdom_read_all_user_home_content_files(thunderbird_t)
+')
 
 tunable_policy(`use_nfs_home_dirs',`
 	fs_manage_nfs_dirs(thunderbird_t)
