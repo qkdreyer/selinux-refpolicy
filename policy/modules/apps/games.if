@@ -121,3 +121,22 @@ interface(`tmw_read_tmpfs_files',`
 	allow $1 tmw_tmpfs_t:file read_file_perms;
 	fs_search_tmpfs($1)
 ')
+
+########################################
+## <summary>
+##	Send null signals to user
+##	tmw processes.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`games_signull_tmw',`
+	gen_require(`
+		type tmw_t;
+	')
+
+	allow $1 tmw_t:process signull;
+')

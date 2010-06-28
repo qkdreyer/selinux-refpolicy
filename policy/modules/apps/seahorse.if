@@ -128,3 +128,22 @@ interface(`seahorsed_delete_tmpfs_files',`
 	allow $1 seahorsed_tmpfs_t:file delete_file_perms;
 	fs_search_tmpfs($1)
 ')
+
+########################################
+## <summary>
+##	Send null signals to user
+##	seahorse daemon processes.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`seahorsed_signull',`
+	gen_require(`
+		type seahorsed_t;
+	')
+
+	allow $1 seahorsed_t:process signull;
+')

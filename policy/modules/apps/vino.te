@@ -128,8 +128,20 @@ optional_policy(`
 ')
 
 optional_policy(`
+	gpg_signull_pinentry(vino_server_t)
+	gpg_pinentry_read_tmpfs_files(vino_server_t)
+	gpg_pinentry_delete_tmpfs_files(vino_server_t)
+')
+
+optional_policy(`
 	gnome_read_generic_cache_files(vino_server_t)
 	gnome_write_generic_cache_files(vino_server_t)
+')
+
+optional_policy(`
+	mozilla_signull(vino_server_t)
+	mozilla_read_tmpfs_files(vino_server_t)
+	mozilla_delete_tmpfs_files(vino_server_t)
 ')
 
 optional_policy(`
@@ -148,17 +160,29 @@ optional_policy(`
 ')
 
 optional_policy(`
+	seahorsed_signull(vino_server_t)
 	seahorsed_delete_tmpfs_files(vino_server_t)
 	seahorsed_read_tmpfs_files(vino_server_t)
 ')
 
 optional_policy(`
-	tmw_delete_tmpfs_files(vino_server_t)
-	tmw_read_tmpfs_files(vino_server_t)
+	thunderbird_signull(vino_server_t)
+	thunderbird_read_tmpfs_files(vino_server_t)
+	thunderbird_delete_tmpfs_files(vino_server_t)
 ')
 
 optional_policy(`
+	tmw_delete_tmpfs_files(vino_server_t)
+	tmw_read_tmpfs_files(vino_server_t)
+	games_signull_tmw(vino_server_t)
+')
+
+optional_policy(`
+	wm_signull(vino_server_t)
+	wm_list_home_dirs(vino_server_t)
 	wm_read_user_home_files(vino_server_t)
+	wm_read_tmpfs_files(vino_server_t)
+	wm_delete_tmpfs_files(vino_server_t)
 ')
 
 optional_policy(`

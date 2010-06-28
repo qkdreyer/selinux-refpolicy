@@ -203,6 +203,12 @@ optional_policy(`
 ')
 
 optional_policy(`
+	gpg_signull_pinentry(mozilla_t)
+	gpg_pinentry_read_tmpfs_files(mozilla_t)
+	gpg_pinentry_delete_tmpfs_files(mozilla_t)
+')
+
+optional_policy(`
 	gnome_stream_connect_gconf(mozilla_t)
 	# fix this
 	gnome_manage_all_config(mozilla_t)
@@ -262,8 +268,15 @@ optional_policy(`
 ')
 
 optional_policy(`
+	vino_server_read_tmpfs_files(mozilla_t)
+	vino_server_delete_tmpfs_files(mozilla_t)
+	vino_server_signull(mozilla_t)
+')
+
+optional_policy(`
 	wm_signull(mozilla_t)
 	wm_read_tmpfs_files(mozilla_t)
+	wm_delete_tmpfs_files(mozilla_t)
 	wm_list_home_dirs(mozilla_t)
 	wm_read_user_home_files(mozilla_t)
 ')

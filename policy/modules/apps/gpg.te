@@ -372,6 +372,12 @@ optional_policy(`
 ')
 
 optional_policy(`
+	mozilla_signull(gpg_pinentry_t)
+	mozilla_read_tmpfs_files(gpg_pinentry_t)
+	mozilla_delete_tmpfs_files(gpg_pinentry_t)
+')
+
+optional_policy(`
 	pulseaudio_search_home_dirs(gpg_pinentry_t)
 	pulseaudio_exec(gpg_pinentry_t)
 	pulseaudio_rw_home_files(gpg_pinentry_t)
@@ -383,12 +389,21 @@ optional_policy(`
 optional_policy(`
 	thunderbird_signull(gpg_pinentry_t)
 	thunderbird_read_tmpfs_files(gpg_pinentry_t)
+	thunderbird_delete_tmpfs_files(gpg_pinentry_t)
 ')
 
 optional_policy(`
 	vino_server_read_tmpfs_files(gpg_pinentry_t)
 	vino_server_delete_tmpfs_files(gpg_pinentry_t)
 	vino_server_signull(gpg_pinentry_t)
+')
+
+optional_policy(`
+	wm_signull(gpg_pinentry_t)
+	wm_read_tmpfs_files(gpg_pinentry_t)
+	wm_delete_tmpfs_files(gpg_pinentry_t)
+	wm_list_home_dirs(gpg_pinentry_t)
+	wm_read_user_home_files(gpg_pinentry_t)
 ')
 
 optional_policy(`

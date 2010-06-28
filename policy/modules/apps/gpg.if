@@ -197,6 +197,25 @@ interface(`gpg_signal_agent',`
 
 ########################################
 ## <summary>
+##	Send null signals to user gpg
+##	pinentry processes.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`gpg_signull_pinentry',`
+	gen_require(`
+		type gpg_pinentry_t;
+	')
+
+	allow $1 gpg_pinentry_t:process signull;
+')
+
+########################################
+## <summary>
 ##	Send kill signals to user gpg processes.
 ## </summary>
 ## <param name="domain">
