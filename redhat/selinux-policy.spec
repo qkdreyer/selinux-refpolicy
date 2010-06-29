@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.6
-Release: 1.1%{?dist}
+Release: 1.2%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,9 @@ exit 0
 %endif
 
 %changelog
+* Tue Jun 29 2010 Dominick Grift <domg472@gmail.com> 3.8.6-1.2
+- Merge branch refpolicy.
+
 * Tue Jun 29 2010 Dominick Grift <domg472@gmail.com> 3.8.6-1.1
 - Merge branch fedora (v3.8.6-1)
 
