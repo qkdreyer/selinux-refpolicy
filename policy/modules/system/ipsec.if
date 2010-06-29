@@ -296,3 +296,57 @@ interface(`ipsec_run_setkey',`
 	ipsec_domtrans_setkey($1)
 	role $2 types setkey_t;
 ')
+
+########################################
+## <summary>
+##	Send ipsec mgmt generic signals.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`ipsec_signal_mgmt',`
+	gen_require(`
+		type ipsec_mgmt_t;
+	')
+
+	allow $1 ipsec_mgmt_t:process signal;
+')
+
+########################################
+## <summary>
+##	Send ipsec mgmt null signals.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`ipsec_signull_mgmt',`
+	gen_require(`
+		type ipsec_mgmt_t;
+	')
+
+	allow $1 ipsec_mgmt_t:process signull;
+')
+
+########################################
+## <summary>
+##	Send ipsec mgmt kill signals.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`ipsec_kill_mgmt',`
+	gen_require(`
+		type ipsec_mgmt_t;
+	')
+
+	allow $1 ipsec_mgmt_t:process sigkill;
+')

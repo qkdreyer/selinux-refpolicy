@@ -423,6 +423,7 @@ corenet_sendrecv_rsh_server_packets(syslogd_t)
 
 dev_filetrans(syslogd_t, devlog_t, sock_file)
 dev_read_sysfs(syslogd_t)
+dev_read_rand(syslogd_t)
 
 domain_use_interactive_fds(syslogd_t)
 

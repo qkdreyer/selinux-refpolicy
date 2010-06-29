@@ -103,6 +103,9 @@ type user_tty_device_t alias { staff_tty_device_t sysadm_tty_device_t secadm_tty
 dev_node(user_tty_device_t)
 ubac_constrained(user_tty_device_t)
 
+type audio_home_t;
+userdom_user_home_content(audio_home_t)
+
 type home_bin_t;
 userdom_user_home_content(home_bin_t)
 

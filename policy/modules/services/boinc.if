@@ -1,4 +1,3 @@
-
 ## <summary>Boinc.</summary>
 
 ########################################
@@ -31,11 +30,11 @@ interface(`boinc_domtrans',`
 ## </param>
 #
 interface(`boinc_initrc_domtrans',`
-    gen_require(`
-        type boinc_initrc_exec_t;
-    ')
+	gen_require(`
+		type boinc_initrc_exec_t;
+	')
 
-    init_labeled_script_domtrans($1, boinc_initrc_exec_t)
+	init_labeled_script_domtrans($1, boinc_initrc_exec_t)
 ')
 
 ########################################
@@ -140,14 +139,14 @@ interface(`boinc_admin',`
 		type boinc_var_lib_t;
 	')
 
-	allow $1 boinc_t:process { ptrace signal_perms getattr };
-	read_files_pattern($1, boinc_t, boinc_t)
+	allow $1 boinc_t:process { ptrace signal_perms };
+	ps_process_pattern($1, boinc_t)
 
 	boinc_initrc_domtrans($1)
 	domain_system_change_exemption($1)
-	role_transition $2 myboinc_initrc_exec_t system_r;
+	role_transition $2 boinc_initrc_exec_t system_r;
 	allow $2 system_r;
-	        
-	files_list_var_lib($1)
+
 	admin_pattern($1, boinc_var_lib_t)
+	files_list_var_lib($1)
 ')

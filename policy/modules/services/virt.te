@@ -5,6 +5,8 @@ policy_module(virt, 1.4.0)
 # Declarations
 #
 
+attribute virsh_transition_domain;
+
 ## <desc>
 ## <p>
 ## Allow virt to use serial/parallell communication ports
@@ -116,6 +118,7 @@ read_lnk_files_pattern(svirt_t, virt_image_t, virt_image_t)
 allow svirt_t svirt_image_t:dir search_dir_perms;
 manage_dirs_pattern(svirt_t, svirt_image_t, svirt_image_t)
 manage_files_pattern(svirt_t, svirt_image_t, svirt_image_t)
+manage_fifo_files_pattern(svirt_t, svirt_image_t, svirt_image_t)
 fs_hugetlbfs_filetrans(svirt_t, svirt_image_t, file)
 
 list_dirs_pattern(svirt_t, virt_content_t, virt_content_t)
@@ -546,4 +549,114 @@ optional_policy(`
 	virt_read_lib_files(virt_domain)
 	virt_read_content(virt_domain)
 	virt_stream_connect(virt_domain)
+')
+
+########################################
+#
+# xm local policy
+#
+
+type virsh_t;
+type virsh_exec_t;
+domain_type(virsh_t)
+init_system_domain(virsh_t, virsh_exec_t)
+typealias virsh_t alias xm_t;
+typealias virsh_exec_t alias xm_exec_t;
+
+allow virsh_t self:capability { dac_override ipc_lock sys_tty_config };
+allow virsh_t self:process { getcap getsched setcap signal };
+allow virsh_t self:fifo_file rw_fifo_file_perms;
+allow virsh_t self:unix_stream_socket { create_stream_socket_perms connectto };
+allow virsh_t self:tcp_socket create_stream_socket_perms;
+
+manage_files_pattern(virsh_t, virt_image_type, virt_image_type)
+manage_blk_files_pattern(virsh_t, virt_image_type, virt_image_type)
+manage_lnk_files_pattern(virsh_t, virt_image_type, virt_image_type)
+
+dontaudit virsh_t virt_var_lib_t:file read_inherited_file_perms;
+
+kernel_read_system_state(virsh_t)
+kernel_read_network_state(virsh_t)
+kernel_read_kernel_sysctls(virsh_t)
+kernel_read_sysctl(virsh_t)
+kernel_read_xen_state(virsh_t)
+kernel_write_xen_state(virsh_t)
+
+corecmd_exec_bin(virsh_t)
+corecmd_exec_shell(virsh_t)
+
+corenet_all_recvfrom_unlabeled(virsh_t)
+corenet_all_recvfrom_netlabel(virsh_t)
+corenet_tcp_sendrecv_all_ports(virsh_t)
+corenet_tcp_sendrecv_generic_if(virsh_t)
+corenet_tcp_sendrecv_generic_node(virsh_t)
+corenet_tcp_connect_soundd_port(virsh_t)
+corenet_sendrecv_soundd_client_packets(virsh_t)
+corenet_tcp_sendrecv_soundd_port(virsh_t)
+
+dev_read_urand(virsh_t)
+dev_read_sysfs(virsh_t)
+
+files_read_etc_runtime_files(virsh_t)
+files_read_usr_files(virsh_t)
+files_list_mnt(virsh_t)
+files_read_etc_files(virsh_t)
+
+fs_getattr_all_fs(virsh_t)
+fs_manage_xenfs_dirs(virsh_t)
+fs_manage_xenfs_files(virsh_t)
+
+storage_raw_read_fixed_disk(virsh_t)
+
+term_use_all_terms(virsh_t)
+
+init_stream_connect_script(virsh_t)
+init_rw_script_stream_sockets(virsh_t)
+init_use_fds(virsh_t)
+
+miscfiles_read_localization(virsh_t)
+
+sysnet_dns_name_resolve(virsh_t)
+
+optional_policy(`
+	xen_manage_image_dirs(virsh_t)
+	xen_append_log(virsh_t)
+	xen_stream_connect(virsh_t)
+	xen_stream_connect_xenstore(virsh_t)
+')
+
+optional_policy(`
+	dbus_system_bus_client(virsh_t)
+
+	optional_policy(`
+		hal_dbus_chat(virsh_t)
+	')
+')
+
+optional_policy(`
+	vhostmd_rw_tmpfs_files(virsh_t)
+	vhostmd_stream_connect(virsh_t)
+	vhostmd_dontaudit_rw_stream_connect(virsh_t)
+')
+
+optional_policy(`
+	virt_domtrans(virsh_t)
+	virt_manage_images(virsh_t)
+	virt_manage_config(virsh_t)
+	virt_stream_connect(virsh_t)
+')
+
+optional_policy(`
+	ssh_basic_client_template(virsh, virsh_t, system_r)
+
+	kernel_read_xen_state(virsh_ssh_t)
+	kernel_write_xen_state(virsh_ssh_t)
+
+	dontaudit virsh_ssh_t virsh_transition_domain:fifo_file rw_inherited_fifo_file_perms;
+	files_search_tmp(virsh_ssh_t)
+
+	fs_manage_xenfs_dirs(virsh_ssh_t)
+	fs_manage_xenfs_files(virsh_ssh_t)
+
+	userdom_search_admin_dir(virsh_ssh_t)
 ')

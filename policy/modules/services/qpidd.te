@@ -24,7 +24,7 @@ files_type(qpidd_var_lib_t)
 # qpidd local policy
 #
 
-allow qpidd_t self:process signull;
+allow qpidd_t self:process { setsched signull };
 allow qpidd_t self:fifo_file rw_fifo_file_perms;
 allow qpidd_t self:sem create_sem_perms;
 allow qpidd_t self:shm create_shm_perms;

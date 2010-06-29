@@ -796,6 +796,7 @@ template(`userdom_login_user_template', `
 	allow $1_t self:context contains;
 
 	kernel_dontaudit_read_system_state($1_usertype)
+	kernel_dontaudit_list_all_proc($1_usertype)
 
 	dev_read_sysfs($1_usertype)
 	dev_read_urand($1_usertype)
@@ -880,8 +881,8 @@ template(`userdom_restricted_user_template',`
 	typeattribute $1_t unpriv_userdomain;
 	domain_interactive_fd($1_t)
 
-	allow $1_t self:netlink_kobject_uevent_socket create_socket_perms;
-	dontaudit $1_t self:netlink_audit_socket create_socket_perms;
+	allow $1_usertype self:netlink_kobject_uevent_socket create_socket_perms;
+	dontaudit $1_usertype self:netlink_audit_socket create_socket_perms;
 
 	##############################
 	#
@@ -3982,6 +3983,26 @@ interface(`userdom_inherit_append_user_tmp_files',`
 
 	allow $1 user_tmp_t:file { getattr append };
 	files_search_tmp($1)
+')
+
+######################################
+## <summary>
+##	Read audio files in the users home
+##	directories.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_read_home_audio_files',`
+	gen_require(`
+		type audio_home_t;
+	')
+
+	read_files_pattern($1, audio_home_t, audio_home_t)
+	userdom_search_user_home_dirs($1)
 ')
 
 ########################################

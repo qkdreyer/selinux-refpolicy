@@ -517,7 +517,7 @@ interface(`ssh_dontaudit_rw_tcp_sockets',`
 		type sshd_t;
 	')
 
-	dontaudit $1 sshd_t:tcp_socket { read write };
+	dontaudit $1 sshd_t:tcp_socket rw_inherited_sock_file_perms;
 ')
 
 ########################################
@@ -565,7 +565,7 @@ interface(`ssh_domtrans',`
 #
 interface(`ssh_initrc_domtrans',`
 	gen_require(`
-		type sshdd_initrc_exec_t;
+		type sshd_initrc_exec_t;
 	')
 
 	init_labeled_script_domtrans($1, sshd_initrc_exec_t)
@@ -624,7 +624,7 @@ interface(`ssh_setattr_key_files',`
 		type sshd_key_t;
 	')
 
-	allow $1 sshd_key_t:file setattr;
+	allow $1 sshd_key_t:file setattr_file_perms;
 	files_search_pids($1)
 ')
 
@@ -716,13 +716,13 @@ interface(`ssh_dontaudit_read_server_keys',`
 ## </param>
 #
 interface(`ssh_manage_user_home_files',`
-    gen_require(`
-        type ssh_home_t;
-    ')
+	gen_require(`
+		type ssh_home_t;
+	')
 
-    manage_dirs_pattern($1, ssh_home_t, ssh_home_t)
-    manage_files_pattern($1, ssh_home_t, ssh_home_t)
-    userdom_search_user_home_dirs($1)
+	manage_dirs_pattern($1, ssh_home_t, ssh_home_t)
+	manage_files_pattern($1, ssh_home_t, ssh_home_t)
+	userdom_search_user_home_dirs($1)
 ')
 
 ########################################
@@ -789,8 +789,8 @@ interface(`ssh_admin_server',`
 		type sshd_initrc_exec_t;
 	')
 
-	allow $1 sshd_t:process { ptrace signal_perms getattr };
-	read_files_pattern($1, sshd_t, sshd_t)
+	allow $1 sshd_t:process { ptrace signal_perms };
+	ps_process_pattern($1, sshd_t)
 
 	ssh_initrc_domtrans($1)
 	domain_system_change_exemption($1)

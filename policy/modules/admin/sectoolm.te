@@ -33,6 +33,9 @@ manage_dirs_pattern(sectoolm_t, sectool_tmp_t, sectool_tmp_t)
 manage_files_pattern(sectoolm_t, sectool_tmp_t, sectool_tmp_t)
 files_tmp_filetrans(sectoolm_t, sectool_tmp_t, { file dir })
 
+manage_sock_files_pattern(sectoolm_t, sectool_tmp_t, sectool_tmp_t)
+userdom_user_tmp_filetrans(sectoolm_t, sectool_tmp_t, sock_file)
+
 manage_files_pattern(sectoolm_t, sectool_var_lib_t, sectool_var_lib_t)
 manage_dirs_pattern(sectoolm_t, sectool_var_lib_t, sectool_var_lib_t)
 files_var_lib_filetrans(sectoolm_t, sectool_var_lib_t, { file dir })
@@ -75,7 +78,7 @@ logging_send_syslog_msg(sectoolm_t)
 
 sysnet_domtrans_ifconfig(sectoolm_t)
 
-userdom_manage_user_tmp_sockets(sectoolm_t)
+userdom_write_user_tmp_sockets(sectoolm_t)
 
 optional_policy(`
 	hostname_exec(sectoolm_t)

@@ -134,6 +134,25 @@ interface(`abrt_run_helper',`
 
 ########################################
 ## <summary>
+##	Append abrt cache files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`abrt_append_cache_files',`
+	gen_require(`
+		type abrt_var_cache_t;
+	')
+
+	append_files_pattern($1, abrt_var_cache_t, abrt_var_cache_t)
+	files_search_var($1)
+')
+
+########################################
+## <summary>
 ##	Manage abrt cache files.
 ## </summary>
 ## <param name="domain">
@@ -142,7 +161,7 @@ interface(`abrt_run_helper',`
 ##	</summary>
 ## </param>
 #
-interface(`abrt_cache_manage',`
+interface(`abrt_manage_cache_files',`
 	gen_require(`
 		type abrt_var_cache_t;
 	')

@@ -546,6 +546,10 @@ ifdef(`distro_redhat',`
 	')
 
 	optional_policy(`
+		rpcbind_stream_connect(initrc_t)
+	')
+
+	optional_policy(`
 		sysnet_rw_dhcp_config(initrc_t)
 		sysnet_manage_config(initrc_t)
 		sysnet_manage_dhcpc_state(initrc_t)

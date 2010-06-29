@@ -5,6 +5,14 @@ policy_module(abrt, 1.1.1)
 # Declarations
 #
 
+## <desc>
+##	<p>
+##	Allow ABRT to modify public files
+##	used for public file transfer services.
+##	</p>
+## </desc>
+gen_tunable(abrt_anon_write, false)
+
 type abrt_t;
 type abrt_exec_t;
 init_daemon_domain(abrt_t, abrt_exec_t)
@@ -124,7 +132,7 @@ fs_read_nfs_files(abrt_t)
 fs_read_nfs_symlinks(abrt_t)
 fs_search_all(abrt_t)
 
-sysnet_read_config(abrt_t)
+sysnet_dns_name_resolve(abrt_t)
 
 logging_read_generic_logs(abrt_t)
 logging_send_syslog_msg(abrt_t)
@@ -134,6 +142,10 @@ miscfiles_read_localization(abrt_t)
 
 userdom_dontaudit_read_user_home_content_files(abrt_t)
 userdom_dontaudit_read_admin_home_files(abrt_t)
+
+tunable_policy(`abrt_anon_write',`
+	miscfiles_manage_public_files(abrt_t)
+')
 
 optional_policy(`
 	dbus_system_domain(abrt_t, abrt_exec_t)

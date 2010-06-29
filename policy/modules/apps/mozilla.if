@@ -111,7 +111,8 @@ interface(`mozilla_write_user_home_files',`
 
 ########################################
 ## <summary>
-##	Dontaudit attempts to read/write mozilla home directory content
+##	Do not audit attempts to read/write
+##	Mozilla home directory content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -240,32 +241,6 @@ interface(`mozilla_rw_tcp_sockets',`
 	')
 
 	allow $1 mozilla_t:tcp_socket rw_socket_perms;
-')
-
-########################################
-## <summary>
-##	Execute mozilla_exec_t 
-##	in the specified domain.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed to transition.
-##	</summary>
-## </param>
-## <param name="target_domain">
-##	<summary>
-##	The type of the new process.
-##	</summary>
-## </param>
-#
-interface(`mozilla_exec_domtrans',`
-	gen_require(`
-		type mozilla_exec_t;
-	')
-
-	allow $2 mozilla_exec_t:file entrypoint;
-	domtrans_pattern($1, mozilla_exec_t, $2)
-	corecmd_search_bin($1)
 ')
 
 ########################################

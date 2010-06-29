@@ -43,9 +43,11 @@ template(`virt_domain_template',`
 
 	manage_dirs_pattern($1_t, $1_image_t, $1_image_t)
 	manage_files_pattern($1_t, $1_image_t, $1_image_t)
+	manage_fifo_files_pattern($1_t, $1_image_t, $1_image_t)
 	read_lnk_files_pattern($1_t, $1_image_t, $1_image_t)
 	rw_chr_files_pattern($1_t, $1_image_t, $1_image_t)
 	rw_blk_files_pattern($1_t, $1_image_t, $1_image_t)
+	fs_hugetlbfs_filetrans($1_t, $1_image_t, file)
 
 	manage_dirs_pattern($1_t, $1_tmp_t, $1_tmp_t)
 	manage_files_pattern($1_t, $1_tmp_t, $1_tmp_t)
@@ -60,6 +62,25 @@ template(`virt_domain_template',`
 	optional_policy(`
 		xserver_rw_shm($1_t)
 	')
+')
+
+########################################
+## <summary>
+##	Do not audit attempts to read inherited
+##	virt lib files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain to not audit.
+##	</summary>
+## </param>
+#
+interface(`virt_dontaudit_read_lib_files',`
+	gen_require(`
+		type virt_var_lib_t;
+	')
+
+	dontaudit $1 virt_var_lib_t:file read_inherited_file_perms;
 ')
 
 ########################################

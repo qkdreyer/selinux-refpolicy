@@ -96,7 +96,6 @@ corenet_tcp_sendrecv_mpd_port(mpd_t)
 
 dev_read_sysfs(mpd_t)
 
-files_read_etc_files(mpd_t)
 files_read_usr_files(mpd_t)
 
 fs_getattr_tmpfs(mpd_t)
@@ -110,6 +109,7 @@ logging_send_syslog_msg(mpd_t)
 miscfiles_read_localization(mpd_t)
 
 userdom_read_user_tmpfs_files(mpd_t)
+userdom_read_home_audio_files(mpd_t)
 
 optional_policy(`
 	dbus_system_bus_client(mpd_t)

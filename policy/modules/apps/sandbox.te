@@ -223,7 +223,7 @@ optional_policy(`
 
 userdom_dontaudit_use_user_terminals(sandbox_x_domain)
 userdom_read_user_home_content_symlinks(sandbox_x_domain)
-
+userdom_search_user_home_content(sandbox_x_domain)
 files_search_home(sandbox_x_t)
 userdom_use_user_ptys(sandbox_x_t)
 

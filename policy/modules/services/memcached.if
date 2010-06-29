@@ -70,4 +70,5 @@ interface(`memcached_admin',`
 	allow $2 system_r;
 
 	admin_pattern($1, memcached_var_run_t)
+	files_search_pids($1)
 ')

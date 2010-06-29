@@ -220,6 +220,9 @@ optional_policy(`
 
 optional_policy(`
 	ipsec_domtrans_mgmt(NetworkManager_t)
+	ipsec_kill_mgmt(NetworkManager_t)
+	ipsec_signal_mgmt(NetworkManager_t)
+	ipsec_signull_mgmt(NetworkManager_t)
 ')
 
 optional_policy(`

@@ -58,6 +58,25 @@ interface(`xen_dontaudit_use_fds',`
 
 ########################################
 ## <summary>
+##	Manage xend image directories.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+## 	</summary>
+## </param>
+#
+interface(`xen_manage_image_dirs',`
+	gen_require(`
+		type xend_var_lib_t;
+	')
+
+	files_list_var_lib($1)
+	manage_dirs_pattern($1, xend_var_lib_t, xend_var_lib_t)
+')
+
+########################################
+## <summary>
 ##	Read xend image files.
 ## </summary>
 ## <param name="domain">
@@ -153,7 +172,7 @@ interface(`xen_dontaudit_rw_unix_stream_sockets',`
 		type xend_t;
 	')
 
-	dontaudit $1 xend_t:unix_stream_socket { read write };
+	dontaudit $1 xend_t:unix_stream_socket rw_inherited_sock_file_perms;
 ')
 
 ########################################
@@ -208,12 +227,13 @@ interface(`xen_stream_connect',`
 ## </param>
 #
 interface(`xen_domtrans_xm',`
+	# this needs to be fixed
 	gen_require(`
 		type xm_t, xm_exec_t;
-		attribute xm_transition_domain;
+		attribute virsh_transition_domain;
 	')
 
-	typeattribute $1 xm_transition_domain;
+	typeattribute $1 virsh_transition_domain;
 
 	domtrans_pattern($1, xm_exec_t, xm_t)
 	corecmd_search_bin($1)

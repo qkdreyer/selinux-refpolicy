@@ -157,6 +157,7 @@ interface(`chronyd_admin',`
 		type chronyd_t, chronyd_var_log_t;
 		type chronyd_var_run_t, chronyd_var_lib_t;
 		type chronyd_initrc_exec_t, chronyd_keys_t;
+		type chronyd_tmpfs_t;
 	')
 
 	allow $1 chronyd_t:process { ptrace signal_perms };
@@ -179,6 +180,6 @@ interface(`chronyd_admin',`
 	files_search_pids($1)
 	admin_pattern($1, chronyd_var_run_t)
 
-	files_search_tmp($1)
-	admin_pattern($1, chronyd_tmp_t)
+	fs_search_tmpfs($1)
+	admin_pattern($1, chronyd_tmpfs_t)
 ')
