@@ -19,8 +19,8 @@
 %define CHECKPOLICYVER 2.0.21-1
 Summary: SELinux policy configuration
 Name: selinux-policy
-Version: 3.8.5
-Release: 1.14%{?dist}
+Version: 3.8.6
+Release: 1.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,9 @@ exit 0
 %endif
 
 %changelog
+* Tue Jun 29 2010 Dominick Grift <domg472@gmail.com> 3.8.6-1.1
+- Merge branch fedora (v3.8.6-1)
+
 * Mon Jun 28 2010 Dominick Grift <domg472@gmail.com> 3.8.5-1.14
 - Merge branch refpolicy.
 - let confined userapps read and delete eachother tmpfs files and then send null signals for pulseaudio.
