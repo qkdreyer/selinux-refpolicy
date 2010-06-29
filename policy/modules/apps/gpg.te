@@ -368,6 +368,7 @@ optional_policy(`
 optional_policy(`
 	gnome_write_generic_cache_files(gpg_pinentry_t)
 	gnome_read_generic_cache_files(gpg_pinentry_t)
+	gnome_read_generic_data_files(gpg_pinentry_t)
 	gnome_read_gconf_home_files(gpg_pinentry_t)
 ')
 
@@ -390,6 +391,7 @@ optional_policy(`
 	thunderbird_signull(gpg_pinentry_t)
 	thunderbird_read_tmpfs_files(gpg_pinentry_t)
 	thunderbird_delete_tmpfs_files(gpg_pinentry_t)
+	thunderbird_dontaudit_rw_inherited_home_files(gpg_pinentry_t)
 ')
 
 optional_policy(`

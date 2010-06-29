@@ -136,6 +136,7 @@ optional_policy(`
 optional_policy(`
 	gnome_read_generic_cache_files(vino_server_t)
 	gnome_write_generic_cache_files(vino_server_t)
+	gnome_read_generic_data_files(vino_server_t)
 ')
 
 optional_policy(`

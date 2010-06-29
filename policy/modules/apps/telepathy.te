@@ -286,10 +286,6 @@ miscfiles_read_certs(tp_gabble_t)
 
 sysnet_read_config(tp_gabble_t)
 
-optional_policy(`
-	dbus_system_bus_client(tp_gabble_t)
-')
-
 tunable_policy(`use_nfs_home_dirs',`
 	fs_manage_nfs_dirs(tp_gabble_t)
 	fs_manage_nfs_files(tp_gabble_t)
@@ -298,6 +294,14 @@ tunable_policy(`use_nfs_home_dirs',`
 tunable_policy(`use_samba_home_dirs',`
 	fs_manage_cifs_dirs(tp_gabble_t)
 	fs_manage_cifs_files(tp_gabble_t)
+')
+
+optional_policy(`
+	dbus_system_bus_client(tp_gabble_t)
+')
+
+optional_policy(`
+	gnome_search_generic_config_dirs(tp_gabble_t)
 ')
 
 ########################################
