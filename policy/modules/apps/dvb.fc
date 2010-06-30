@@ -1,1 +1,3 @@
-/usr/bin/gnome-dvb-daemon	--	gen_context(system_u:object_r:dvbd_exec_t,s0)
+HOME_DIR/\.config/gnome-dvb-daemon(/.*)?		gen_context(system_u:object_r:dvbd_config_home_t,s0)
+
+/usr/bin/gnome-dvb-daemon					--	gen_context(system_u:object_r:dvbd_exec_t,s0)

@@ -3998,10 +3998,30 @@ interface(`userdom_inherit_append_user_tmp_files',`
 #
 interface(`userdom_read_home_audio_files',`
 	gen_require(`
-		type audio_home_t;
+		type home_audio_t;
 	')
 
-	read_files_pattern($1, audio_home_t, audio_home_t)
+	read_files_pattern($1, home_audio_t, home_audio_t)
+	userdom_search_user_home_dirs($1)
+')
+
+######################################
+## <summary>
+##	Read video files in the users home
+##	directories.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_read_home_video_files',`
+	gen_require(`
+		type home_video_t;
+	')
+
+	read_files_pattern($1, home_video_t, home_video_t)
 	userdom_search_user_home_dirs($1)
 ')
 
