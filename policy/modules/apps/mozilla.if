@@ -17,13 +17,11 @@
 #
 interface(`mozilla_role',`
 	gen_require(`
-		type mozilla_t, mozilla_exec_t, mozilla_home_t;
+		type mozilla_t, mozilla_exec_t;
 		type mozilla_tmp_t, mozilla_tmpfs_t;
 	')
 
 	role $1 types mozilla_t;
-
-	domain_auto_trans($2, mozilla_exec_t, mozilla_t)
 
 	# Clean this up.
 	allow $2 mozilla_t:process { noatsecure siginh rlimitinh };
@@ -54,6 +52,7 @@ interface(`mozilla_role',`
 	relabel_lnk_files_pattern($2, mozilla_tmpfs_t, mozilla_tmpfs_t)
 	relabel_sock_files_pattern($2, mozilla_tmpfs_t, mozilla_tmpfs_t)
 
+	mozilla_domtrans($2)
 	mozilla_stream_connect($2)
 
 	optional_policy(`
@@ -64,9 +63,9 @@ interface(`mozilla_role',`
 		nsplugin_role($1, mozilla_t)
 	')
 
-	optional_policy(`
-		pulseaudio_role($1, mozilla_t)
-	')
+	# optional_policy(`
+	#	pulseaudio_role($1, mozilla_t)
+	# ')
 ')
 
 ########################################

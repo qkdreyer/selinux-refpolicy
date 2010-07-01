@@ -19,6 +19,7 @@ interface(`vino_role',`
 	gen_require(`
 		type vino_server_t, vino_server_exec_t;
 		type vino_server_data_home_t, vino_server_tmp_t;
+		type vino_server_tmpfs_t;
 	')
 
 	########################################
@@ -45,9 +46,10 @@ interface(`vino_role',`
 	manage_sock_files_pattern($2, vino_server_tmp_t, vino_server_tmp_t) 
 	relabel_sock_files_pattern($2, vino_server_tmp_t, vino_server_tmp_t) 
 
-	vino_server_delete_tmpfs_files($2)
-	vino_server_read_tmpfs_files($2)
+	manage_files_pattern($2, vino_server_tmpfs_t, vino_server_tmpfs_t)
+	relabel_files_pattern($2, vino_server_tmpfs_t, vino_server_tmpfs_t)
 
+	# vino_domtrans_server($2)
 	vino_server_stream_connect($2)
 
 	optional_policy(`

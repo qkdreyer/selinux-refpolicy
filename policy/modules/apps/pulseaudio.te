@@ -163,6 +163,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+	totem_read_tmpfs_files(pulseaudio_t)
+')
+
+optional_policy(`
 	tmw_read_tmpfs_files(pulseaudio_t)
 ')
 

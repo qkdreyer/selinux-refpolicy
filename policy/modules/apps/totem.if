@@ -1,0 +1,176 @@
+## <summary>Totem is the official movie player of the GNOME desktop environment based on GStreamer.</summary>
+
+########################################
+## <summary>
+##	Role access for Totem.
+## </summary>
+## <param name="role">
+##	<summary>
+##	Role allowed access.
+##	</summary>
+## </param>
+## <param name="domain">
+##	<summary>
+##	User domain for the role.
+##	</summary>
+## </param>
+#
+interface(`totem_role',`
+	gen_require(`
+		type totem_t, totem_exec_t;
+		type totem_tmp_t, totem_tmpfs_t;
+	')
+
+	role $1 types totem_t;
+
+	totem_domtrans($2)
+	totem_stream_connect($2)
+
+	ps_process_pattern($2, totem_t)
+	allow $2 totem_t:process { ptrace signal_perms };
+
+	manage_sock_files_pattern($2, totem_tmpfs_t, totem_tmpfs_t)
+	relabel_sock_files_pattern($2, totem_tmpfs_t, totem_tmpfs_t)
+
+	manage_files_pattern($2, totem_tmpfs_t, totem_tmpfs_t)
+	relabel_files_pattern($2, totem_tmpfs_t, totem_tmpfs_t)
+
+	optional_policy(`
+		totem_dbus_chat($2)
+	')
+')
+
+########################################
+## <summary>
+## Execute a domain transition to run Totem.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed to transition.
+##	</summary>
+## </param>
+#
+interface(`totem_domtrans',`
+	gen_require(`
+		type totem_t, totem_exec_t;
+	')
+
+	domtrans_pattern($1, totem_exec_t, totem_t)
+	corecmd_search_bin($1)
+')
+
+########################################
+## <summary>
+##	Send and receive messages from
+##	Totem over dbus.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`totem_dbus_chat',`
+	gen_require(`
+		type totem_t;
+		class dbus send_msg;
+	')
+
+	allow $1 totem_t:dbus send_msg;
+	allow totem_t $1:dbus send_msg;
+')
+
+########################################
+## <summary>
+##	Read Totem tmpfs files.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`totem_read_tmpfs_files',`
+	gen_require(`
+		type totem_tmpfs_t;
+	')
+
+	allow $1 totem_tmpfs_t:file read_file_perms;
+	fs_search_tmpfs($1)
+')
+
+########################################
+## <summary>
+##	Read and write inherited Totem
+##	tmpfs files.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`totem_rw_inherited_tmpfs_files',`
+	gen_require(`
+		type totem_tmpfs_t;
+	')
+
+	allow $1 totem_tmpfs_t:file rw_inherited_file_perms;
+	fs_search_tmpfs($1)
+')
+
+########################################
+## <summary>
+##	Delete Totem tmpfs files.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`totem_delete_tmpfs_files',`
+	gen_require(`
+		type totem_tmpfs_t;
+	')
+
+	allow $1 totem_tmpfs_t:file delete_file_perms;
+	fs_search_tmpfs($1)
+')
+
+########################################
+## <summary>
+##	Stream connect to Totem.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`totem_stream_connect',`
+	gen_require(`
+		type totem_t, totem_tmp_t;
+	')
+
+	stream_connect_pattern($1, totem_tmp_t, totem_tmp_t, totem_t)
+	userdom_search_user_tmp_dirs($1)
+')
+
+########################################
+## <summary>
+##	Send null signals to Totem.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`totem_signull',`
+	gen_require(`
+		type totem_t;
+	')
+
+	allow $1 totem_t:process signull;
+')

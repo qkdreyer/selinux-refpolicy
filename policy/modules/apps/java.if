@@ -92,6 +92,7 @@ template(`java_role_template',`
 	')
 
 	optional_policy(`
+		seahorsed_signull($1_java_t)
 		seahorsed_read_tmpfs_files($1_java_t)
 		seahorsed_delete_tmpfs_files($1_java_t)
 	')
@@ -103,8 +104,15 @@ template(`java_role_template',`
 	')
 
 	optional_policy(`
+		games_signull_tmw($1_java_t)
 		tmw_read_tmpfs_files($1_java_t)
 		tmw_delete_tmpfs_files($1_java_t)
+	')
+
+	optional_policy(`
+		totem_signull($1_java_t)
+		totem_read_tmpfs_files($1_java_t)
+		totem_delete_tmpfs_files($1_java_t)
 	')
 
 	optional_policy(`

@@ -18,12 +18,10 @@
 interface(`thunderbird_role',`
 	gen_require(`
 		type thunderbird_t, thunderbird_exec_t;
-		type thunderbird_tmp_t;
+		type thunderbird_tmp_t, thunderbird_tmpfs_t;
 	')
 
 	role $1 types thunderbird_t;
-
-	domain_auto_trans($2, thunderbird_exec_t, thunderbird_t)
 
 	# This is ugly: fix me
 	allow $2 thunderbird_t:fd use;
@@ -41,6 +39,10 @@ interface(`thunderbird_role',`
 	relabel_files_pattern($2, thunderbird_tmp_t, thunderbird_tmp_t)
 	relabel_sock_files_pattern($2, thunderbird_tmp_t, thunderbird_tmp_t)
 
+	manage_files_pattern($2, thunderbird_tmpfs_t, thunderbird_tmpfs_t)
+	relabel_files_pattern($2, thunderbird_tmpfs_t, thunderbird_tmpfs_t)
+
+	thunderbird_domtrans($2)
 	thunderbird_stream_connect($2)
 
 	optional_policy(`

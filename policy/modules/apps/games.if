@@ -19,7 +19,7 @@ interface(`games_role',`
 	gen_require(`
 		attribute games_domain;
 		type games_t, games_exec_t;
-		type tmw_t, tmw_exec_t;
+		type tmw_t, tmw_exec_t, tmw_tmpfs_t;
 	')
 
 	########################################
@@ -61,8 +61,8 @@ interface(`games_role',`
 
 	domtrans_pattern($2, tmw_exec_t, tmw_t)
 
-	tmw_delete_tmpfs_files($2)
-	tmw_read_tmpfs_files($2)
+	manage_files_pattern($2, tmw_tmpfs_t, tmw_tmpfs_t)
+	relabel_files_pattern($2, tmw_tmpfs_t, tmw_tmpfs_t)
 ')
 
 ########################################

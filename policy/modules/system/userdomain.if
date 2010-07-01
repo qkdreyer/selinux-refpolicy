@@ -1086,8 +1086,6 @@ template(`userdom_unpriv_user_template', `
 
 	optional_policy(`
 		games_role($1_r, $1_t)
-		tmw_read_tmpfs_files($1_t)
-		tmw_delete_tmpfs_files($1_t)
 		games_rw_data($1_usertype)
 	')
 
@@ -1121,8 +1119,6 @@ template(`userdom_unpriv_user_template', `
 
 	optional_policy(`
 		mozilla_role($1_r, $1_t)
-		mozilla_delete_tmpfs_files($1_t)
-		mozilla_read_tmpfs_files($1_t)
 	')
 
 	optional_policy(`
@@ -1143,8 +1139,6 @@ template(`userdom_unpriv_user_template', `
 
 	optional_policy(`
 		seahorsed_role($1_r, $1_t)
-		seahorsed_read_tmpfs_files($1_t)
-		seahorsed_delete_tmpfs_files($1_t)
 	')
 
 	optional_policy(`
@@ -1153,14 +1147,14 @@ template(`userdom_unpriv_user_template', `
 
 	optional_policy(`
 		thunderbird_role($1_r, $1_t)
-		thunderbird_read_tmpfs_files($1_t)
-		thunderbird_delete_tmpfs_files($1_t)
 	')
 	
 	optional_policy(`
+		totem_role($1_r, $1_t)
+	')
+
+	optional_policy(`
 		vino_role($1_r, $1_t)
-		vino_server_read_tmpfs_files($1_t)
-		vino_server_delete_tmpfs_files($1_t)
 	')
 ')
 
@@ -1517,6 +1511,26 @@ interface(`userdom_search_user_home_dirs',`
 	allow $1 user_home_dir_t:dir search_dir_perms;
 	allow $1 user_home_dir_t:lnk_file read_lnk_file_perms;
 	files_search_home($1)
+')
+
+########################################
+## <summary>
+##	Search user tmp directories.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_search_user_tmp_dirs',`
+	gen_require(`
+		type user_tmp_t;
+	')
+
+	allow $1 user_tmp_t:dir search_dir_perms;
+	allow $1 user_tmp_t:lnk_file read_lnk_file_perms;
+	files_search_tmp($1)
 ')
 
 ########################################
@@ -3886,6 +3900,23 @@ interface(`userdom_manage_all_users_keys',`
 	allow $1 userdomain:key manage_key_perms;
 ')
 
+########################################
+## <summary>
+##	Read and write userdomain stream.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_rw_stream',`
+	gen_require(`
+		attribute userdomain;
+	')
+
+	allow $1 userdomain:unix_stream_socket rw_socket_perms;
+')
 
 ########################################
 ## <summary>
@@ -3987,6 +4018,25 @@ interface(`userdom_inherit_append_user_tmp_files',`
 
 ######################################
 ## <summary>
+##	List audio home directories.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_list_home_audio_dirs',`
+	gen_require(`
+		type home_audio_t;
+	')
+
+	list_dirs_pattern($1, home_audio_t, home_audio_t)
+	userdom_search_user_home_dirs($1)
+')
+
+######################################
+## <summary>
 ##	Read audio files in the users home
 ##	directories.
 ## </summary>
@@ -4002,6 +4052,25 @@ interface(`userdom_read_home_audio_files',`
 	')
 
 	read_files_pattern($1, home_audio_t, home_audio_t)
+	userdom_search_user_home_dirs($1)
+')
+
+######################################
+## <summary>
+##	List video home directories.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_list_home_video_dirs',`
+	gen_require(`
+		type home_video_t;
+	')
+
+	list_dirs_pattern($1, home_video_t, home_video_t)
 	userdom_search_user_home_dirs($1)
 ')
 

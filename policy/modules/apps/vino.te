@@ -173,6 +173,12 @@ optional_policy(`
 ')
 
 optional_policy(`
+	totem_signull(vino_server_t)
+	totem_read_tmpfs_files(vino_server_t)
+	totem_delete_tmpfs_files(vino_server_t)
+')
+
+optional_policy(`
 	tmw_delete_tmpfs_files(vino_server_t)
 	tmw_read_tmpfs_files(vino_server_t)
 	games_signull_tmw(vino_server_t)

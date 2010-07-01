@@ -11,6 +11,9 @@ attribute gnome_home_type;
 type gconf_etc_t;
 files_config_file(gconf_etc_t)
 
+type gnome_bookmark_home_t, gnome_home_type;
+userdom_user_home_content(gnome_bookmark_home_t)
+
 type data_home_t, gnome_home_type;
 userdom_user_home_content(data_home_t)
 

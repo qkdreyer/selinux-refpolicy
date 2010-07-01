@@ -1,0 +1,227 @@
+policy_module(totem, 1.0.0) 
+
+########################################
+#
+# Declarations
+#
+
+## <desc>
+## <p>
+##	Allow Totem to read all user home
+##	files.
+## </p>
+## </desc>
+gen_tunable(totem_read_content, false)
+
+type totem_t;
+type totem_exec_t;
+application_domain(totem_t, totem_exec_t)
+ubac_constrained(totem_t)
+
+type totem_home_t;
+userdom_user_home_content(totem_home_t)
+
+type totem_tmp_t;
+files_tmp_file(totem_tmp_t)
+files_poly_member_tmp(totem_t, totem_tmp_t)
+ubac_constrained(totem_tmp_t)
+
+type totem_tmpfs_t;
+files_tmpfs_file(totem_tmpfs_t)
+ubac_constrained(totem_tmpfs_t)
+
+########################################
+#
+# Policy
+#
+
+allow totem_t self:process { signal signull };
+allow totem_t self:fifo_file rw_fifo_file_perms;
+
+manage_files_pattern(totem_t, totem_tmp_t, totem_tmp_t)
+files_tmp_filetrans(totem_t, totem_tmp_t, file)
+
+manage_sock_files_pattern(totem_t, totem_tmp_t, totem_tmp_t)
+userdom_user_tmp_filetrans(totem_t, totem_tmp_t, sock_file)
+
+manage_files_pattern(totem_t, totem_tmpfs_t, totem_tmpfs_t)
+fs_tmpfs_filetrans(totem_t, totem_tmpfs_t, file)
+fs_getattr_tmpfs(totem_t)
+
+kernel_read_system_state(totem_t)
+
+corecmd_exec_bin(totem_t)
+
+corenet_all_recvfrom_unlabeled(totem_t)
+corenet_all_recvfrom_netlabel(totem_t)
+corenet_tcp_sendrecv_generic_if(totem_t)
+corenet_tcp_sendrecv_generic_node(totem_t)
+corenet_tcp_bind_generic_node(totem_t)
+corenet_tcp_sendrecv_all_ports(totem_t)
+corenet_tcp_connect_http_port(totem_t)
+corenet_sendrecv_http_client_packets(totem_t)
+corenet_tcp_sendrecv_http_port(totem_t)
+corenet_tcp_connect_rtsp_port(totem_t)
+corenet_sendrecv_rtsp_client_packets(totem_t)
+corenet_tcp_sendrecv_rtsp_port(totem_t)
+corenet_tcp_connect_streaming_port(totem_t)
+corenet_sendrecv_streaming_client_packets(totem_t)
+corenet_tcp_sendrecv_streaming_port(totem_t)
+
+dev_read_sysfs(totem_t)
+
+files_read_usr_files(totem_t)
+
+fs_getattr_xattr_fs(totem_t)
+fs_search_auto_mountpoints(totem_t)
+fs_list_inotifyfs(totem_t)
+
+auth_use_nsswitch(totem_t)
+
+miscfiles_read_localization(totem_t)
+
+sysnet_dns_name_resolve(totem_t)
+
+userdom_use_user_terminals(totem_t)
+userdom_read_user_tmp_files(totem_t)
+userdom_setattr_user_tmp_dirs(totem_t)
+userdom_sigchld_all_users(totem_t)
+userdom_signull_unpriv_users(totem_t)
+userdom_stream_connect(totem_t)
+userdom_read_user_tmpfs_files(totem_t)
+userdom_delete_user_tmpfs_files(totem_t)
+userdom_list_user_home_dirs(totem_t)
+userdom_list_home_audio_dirs(totem_t)
+userdom_read_home_audio_files(totem_t)
+userdom_list_home_video_dirs(totem_t)
+userdom_read_home_video_files(totem_t)
+userdom_read_user_home_content_symlinks(totem_t)
+userdom_getattr_all_user_home_content_files(totem_t)
+userdom_dontaudit_read_user_home_content_files(totem_t)
+userdom_rw_stream(totem_t)
+
+ifndef(`enable_mls',`
+	fs_search_removable(totem_t)
+	fs_read_removable_files(totem_t)
+	fs_read_removable_symlinks(totem_t)
+')
+
+tunable_policy(`totem_read_content',`
+	userdom_list_user_home_content(totem_t)
+	userdom_read_all_user_home_content_files(totem_t)
+')
+
+tunable_policy(`use_nfs_home_dirs',`
+	fs_manage_nfs_dirs(totem_t)
+	fs_manage_nfs_files(totem_t)
+	fs_manage_nfs_symlinks(totem_t)
+')
+
+tunable_policy(`use_samba_home_dirs',`
+	fs_manage_cifs_dirs(totem_t)
+	fs_manage_cifs_files(totem_t)
+	fs_manage_cifs_symlinks(totem_t)
+')
+
+optional_policy(`
+	automount_dontaudit_getattr_tmp_dirs(totem_t)
+')
+
+optional_policy(`
+	dbus_connect_session_bus(totem_t)
+	dbus_read_lib_files(totem_t)
+	dbus_session_bus_client(totem_t)
+
+	optional_policy(`
+		dvb_dbus_chat_dvbd(totem_t)
+	')	
+')
+
+optional_policy(`
+	dvb_domtrans_dvbd(totem_t)
+')
+
+optional_policy(`
+	gnome_manage_generic_gstreamer_home_files(totem_t)
+	gnome_read_generic_cache_files(totem_t)
+	gnome_write_generic_cache_files(totem_t)
+	gnome_read_generic_data_files(totem_t)
+	gnome_manage_generic_config_files(totem_t)
+	gnome_manage_bookmark_home_files(totem_t)
+	gnome_create_bookmark_home_files(totem_t)
+')
+
+optional_policy(`
+	java_signull(totem_t)
+')
+
+optional_policy(`
+	mozilla_signull(totem_t)
+	mozilla_read_tmpfs_files(totem_t)
+	mozilla_delete_tmpfs_files(totem_t)
+	mozilla_read_user_home_files(totem_t)
+')
+
+optional_policy(`
+	nis_use_ypbind(totem_t)
+')
+
+optional_policy(`
+	nscd_socket_use(totem_t)
+')
+
+optional_policy(`
+	nsplugin_signull(totem_t)
+	nsplugin_read_tmpfs_files(totem_t)
+	nsplugin_delete_tmpfs_files(totem_t)
+')
+
+optional_policy(`
+	pulseaudio_exec(totem_t)
+	pulseaudio_search_home_dirs(totem_t)
+	pulseaudio_signull(totem_t)
+	pulseaudio_stream_connect(totem_t)
+	pulseaudio_rw_home_files(totem_t)
+	pulseaudio_setattr_home_dir(totem_t)
+')
+
+optional_policy(`
+	seahorsed_signull(totem_t)
+	seahorsed_read_tmpfs_files(totem_t)
+	seahorsed_delete_tmpfs_files(totem_t)
+')
+
+optional_policy(`
+	thunderbird_signull(totem_t)
+	thunderbird_read_tmpfs_files(totem_t)
+	thunderbird_delete_tmpfs_files(totem_t)
+')
+
+optional_policy(`
+	games_signull_tmw(totem_t)
+	tmw_read_tmpfs_files(totem_t)
+	tmw_delete_tmpfs_files(totem_t)
+')
+
+optional_policy(`
+	udev_read_db(totem_t)
+')
+
+optional_policy(`
+	vino_server_signull(totem_t)
+	vino_server_read_tmpfs_files(totem_t)
+	vino_server_delete_tmpfs_files(totem_t)
+')
+
+optional_policy(`
+	wm_signull(totem_t)
+	wm_read_tmpfs_files(totem_t)
+	wm_delete_tmpfs_files(totem_t)
+	wm_list_home_dirs(totem_t)
+	wm_read_user_home_files(totem_t)
+')
+
+optional_policy(`
+	xserver_user_x_domain_template(totem, totem_t, totem_tmpfs_t)
+	xserver_append_xdm_home_files(totem_t)
+')

@@ -116,19 +116,11 @@ corenet_sendrecv_speech_client_packets(mozilla_t)
 corenet_sendrecv_soundd_client_packets(mozilla_t)
 corenet_tcp_sendrecv_soundd_port(mozilla_t)
 corenet_tcp_sendrecv_speech_port(mozilla_t)
-# totem-plugin-viewer ( can also be confined ))
-corenet_tcp_connect_rtsp_port(mozilla_t)
-corenet_tcp_connect_streaming_port(mozilla_t)
-corenet_tcp_sendrecv_rtsp_client_packets(mozilla_t)
-corenet_tcp_sendrecv_streaming_client_packets(mozilla_t)
 
-fs_getattr_xattr_fs(mozilla_t)
 dev_read_urand(mozilla_t)
 dev_read_rand(mozilla_t)
-dev_write_sound(mozilla_t)
-dev_read_sound(mozilla_t)
 dev_dontaudit_rw_dri(mozilla_t)
-dev_read_sysfs(mozilla_t)
+dev_search_sysfs(mozilla_t)
 
 domain_dontaudit_read_all_domains_state(mozilla_t)
 
@@ -164,21 +156,19 @@ userdom_stream_connect(mozilla_t)
 userdom_setattr_user_tmp_dirs(mozilla_t)
 userdom_sigchld_all_users(mozilla_t)
 userdom_signull_unpriv_users(mozilla_t)
+userdom_list_user_home_dirs(mozilla_t)
 userdom_read_user_home_content_symlinks(mozilla_t)
 userdom_getattr_all_user_home_content_files(mozilla_t)
 userdom_dontaudit_read_user_home_content_files(mozilla_t)
 
-xserver_user_x_domain_template(mozilla, mozilla_t, mozilla_tmpfs_t)
-xserver_dontaudit_read_xdm_tmp_files(mozilla_t)
-xserver_dontaudit_getattr_xdm_tmp_sockets(mozilla_t)
-
-ifdef(`enable_mls',`',`
+ifndef(`enable_mls',`
 	fs_search_removable(mozilla_t)
 	fs_read_removable_files(mozilla_t)
 	fs_read_removable_symlinks(mozilla_t)
 ')
 
 tunable_policy(`mozilla_read_content',`
+	userdom_list_user_home_content(mozilla_t)
 	userdom_read_all_user_home_content_files(mozilla_t)
 ')
 
@@ -208,10 +198,8 @@ optional_policy(`
 ')
 
 optional_policy(`
-	dbus_system_bus_client(mozilla_t)
 	dbus_session_bus_client(mozilla_t)
-	# totem-plugin-viewer
-	dbus_connect_session_bus(mozilla_t)
+	dbus_system_bus_client(mozilla_t)
 
 	optional_policy(`
 		cups_dbus_chat(mozilla_t)
@@ -236,9 +224,6 @@ optional_policy(`
 
 optional_policy(`
 	java_signull(mozilla_t)
-')
-
-optional_policy(`
 	java_domtrans(mozilla_t)
 ')
 
@@ -272,8 +257,11 @@ optional_policy(`
 
 optional_policy(`
 	pulseaudio_exec(mozilla_t)
+	pulseaudio_search_home_dirs(mozilla_t)
 	pulseaudio_stream_connect(mozilla_t)
-	pulseaudio_manage_home_files(mozilla_t)
+	pulseaudio_rw_home_files(mozilla_t)
+	pulseaudio_signull(mozilla_t)
+	pulseaudio_setattr_home_dir(mozilla_t)
 ')
 
 optional_policy(`
@@ -284,7 +272,16 @@ optional_policy(`
 ')
 
 optional_policy(`
-	udev_read_db(mozilla_t)
+	tmw_delete_tmpfs_files(mozilla_t)
+	tmw_read_tmpfs_files(mozilla_t)
+	games_signull_tmw(mozilla_t)
+')
+
+optional_policy(`
+	totem_domtrans(mozilla_t)
+	totem_signull(mozilla_t)
+	totem_read_tmpfs_files(mozilla_t)
+	totem_delete_tmpfs_files(mozilla_t)
 ')
 
 optional_policy(`
@@ -299,4 +296,8 @@ optional_policy(`
 	wm_delete_tmpfs_files(mozilla_t)
 	wm_list_home_dirs(mozilla_t)
 	wm_read_user_home_files(mozilla_t)
+')
+
+optional_policy(`
+	xserver_user_x_domain_template(mozilla, mozilla_t, mozilla_tmpfs_t)
 ')

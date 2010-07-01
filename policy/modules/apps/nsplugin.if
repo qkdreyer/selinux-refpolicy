@@ -113,9 +113,9 @@ interface(`nsplugin_role_notrans',`
 		nsplugin_dbus_chat($2)
 	')
 
-	optional_policy(`
-		pulseaudio_role($1, nsplugin_t)
-	')
+#	optional_policy(`
+#		pulseaudio_role($1, nsplugin_t)
+#	')
 ')
 
 #######################################
@@ -470,4 +470,22 @@ interface(`nsplugin_rw_inherited_tmpfs_files',`
 
 	allow $1 nsplugin_tmpfs_t:file rw_inherited_file_perms;
 	fs_search_tmpfs($1)
+')
+
+########################################
+## <summary>
+##	Send null signals to nsplugin.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`nsplugin_signull',`
+	gen_require(`
+		type nsplugin_t;
+	')
+
+	allow $1 nsplugin_t:process signull;
 ')

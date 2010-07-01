@@ -131,17 +131,13 @@ userdom_read_user_tmpfs_files(thunderbird_t)
 userdom_signull_unpriv_users(thunderbird_t)
 userdom_sigchld_all_users(thunderbird_t)
 userdom_stream_connect(thunderbird_t)
+userdom_list_user_home_dirs(thunderbird_t)
 userdom_read_user_home_content_symlinks(thunderbird_t)
 userdom_getattr_all_user_home_content_files(thunderbird_t)
 userdom_dontaudit_read_user_home_content_files(thunderbird_t)
 
-ifdef(`enable_mls',`',`
-	fs_search_removable(thunderbird_t)
-	fs_read_removable_files(thunderbird_t)
-	fs_read_removable_symlinks(thunderbird_t)
-')
-
 tunable_policy(`thunderbird_read_content',`
+	userdom_list_user_home_content(thunderbird_t)
 	userdom_read_all_user_home_content_files(thunderbird_t)
 ')
 
@@ -161,6 +157,10 @@ ifndef(`enable_mls',`
 	fs_search_removable(thunderbird_t)
 	fs_read_removable_files(thunderbird_t)
 	fs_read_removable_symlinks(thunderbird_t)
+')
+
+optional_policy(`
+	automount_dontaudit_getattr_tmp_dirs(thunderbird_t)
 ')
 
 optional_policy(`
@@ -224,6 +224,14 @@ optional_policy(`
 ')
 
 optional_policy(`
+	nis_use_ypbind(thunderbird_t)
+')
+
+optional_policy(`
+	nscd_socket_use(thunderbird_t)
+')
+
+optional_policy(`
 	pulseaudio_exec(thunderbird_t)
 	pulseaudio_search_home_dirs(thunderbird_t)
 	pulseaudio_signull(thunderbird_t)
@@ -233,8 +241,21 @@ optional_policy(`
 ')
 
 optional_policy(`
+	nsplugin_signull(thunderbird_t)
 	nsplugin_read_tmpfs_files(thunderbird_t)
 	nsplugin_delete_tmpfs_files(thunderbird_t)
+')
+
+optional_policy(`
+	tmw_delete_tmpfs_files(thunderbird_t)
+	tmw_read_tmpfs_files(thunderbird_t)
+	games_signull_tmw(thunderbird_t)
+')
+
+optional_policy(`
+	totem_signull(thunderbird_t)
+	totem_read_tmpfs_files(thunderbird_t)
+	totem_delete_tmpfs_files(thunderbird_t)
 ')
 
 optional_policy(`

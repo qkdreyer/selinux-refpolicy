@@ -123,16 +123,25 @@ optional_policy(`
 ')
 
 optional_policy(`
+	thunderbird_signull(seahorsed_t)
 	thunderbird_read_tmpfs_files(seahorsed_t)
 	thunderbird_delete_tmpfs_files(seahorsed_t)
 ')
 
 optional_policy(`
+	games_signull_tmw(seahorsed_t)
 	tmw_read_tmpfs_files(seahorsed_t)
 	tmw_delete_tmpfs_files(seahorsed_t)
 ')
 
 optional_policy(`
+	totem_signull(seahorsed_t)
+	totem_read_tmpfs_files(seahorsed_t)
+	totem_delete_tmpfs_files(seahorsed_t)
+')
+
+optional_policy(`
+	vino_server_signull(seahorsed_t)
 	vino_server_delete_tmpfs_files(seahorsed_t)
 	vino_server_read_tmpfs_files(seahorsed_t)
 ')
