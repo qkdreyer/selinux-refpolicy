@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.6
-Release: 1.2%{?dist}
+Release: 1.3%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,12 @@ exit 0
 %endif
 
 %changelog
+* Thu Jul 01 2010 Dominick Grift <domg472@gmail.com> 3.8.6-1.3
+- Initial totem policy.
+- Implement gnome bookmark home type.
+- Implement home video type.
+- Various fixes.
+
 * Tue Jun 29 2010 Dominick Grift <domg472@gmail.com> 3.8.6-1.2
 - Merge branch refpolicy.
 
