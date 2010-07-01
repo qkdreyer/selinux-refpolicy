@@ -174,3 +174,21 @@ interface(`totem_signull',`
 
 	allow $1 totem_t:process signull;
 ')
+
+########################################
+## <summary>
+##	Send kill signals to Totem.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`totem_sigkill',`
+	gen_require(`
+		type totem_t;
+	')
+
+	allow $1 totem_t:process sigkill;
+')

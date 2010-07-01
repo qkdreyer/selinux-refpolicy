@@ -280,6 +280,7 @@ optional_policy(`
 optional_policy(`
 	totem_domtrans(mozilla_t)
 	totem_signull(mozilla_t)
+	totem_sigkill(mozilla_t)
 	totem_read_tmpfs_files(mozilla_t)
 	totem_delete_tmpfs_files(mozilla_t)
 ')
