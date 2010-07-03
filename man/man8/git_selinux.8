@@ -59,7 +59,7 @@ To also allow Git system daemon to read users personal repositories on NFS and S
 sudo setsebool -P git_system_enable_homedirs 1
 .EE
 .PP
-To allow the Git System daemon mass hosting of users personal repositories you can allow the to listen to any unreserved ports.
+To allow the Git System daemon mass hosting of users personal repositories you can allow the Git daemon to listen to any unreserved ports.
 .EX
 sudo setsebool -P git_session_bind_all_unreserved_ports 1
 .EE
