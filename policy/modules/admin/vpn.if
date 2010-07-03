@@ -127,7 +127,7 @@ interface(`vpn_dbus_chat',`
 
 ########################################
 ## <summary>
-##	Relabelfrom from VPN Clients sockets.
+##	Relabelfrom from vpnc socket.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -137,7 +137,7 @@ interface(`vpn_dbus_chat',`
 #
 interface(`vpn_relabelfrom_tun_socket',`
 	gen_require(`
-		type boot_t;
+		type vpnc_t;
 	')
 
 	allow $1 vpnc_t:tun_socket relabelfrom;

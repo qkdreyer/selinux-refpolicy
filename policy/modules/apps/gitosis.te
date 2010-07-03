@@ -1,4 +1,4 @@
-policy_module(gitosis, 1.1.0)
+policy_module(gitosis, 1.1.1)
 
 ########################################
 #
@@ -28,7 +28,7 @@ files_var_lib_filetrans(gitosis_t, gitosis_var_lib_t, { dir file lnk_file })
 
 kernel_read_system_state(gitosis_t)
 
-corecmd_exec_bin(gitosis_t) 
+corecmd_exec_bin(gitosis_t)
 corecmd_exec_shell(gitosis_t)
 
 dev_read_urand(gitosis_t)

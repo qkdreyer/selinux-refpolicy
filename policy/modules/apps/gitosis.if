@@ -21,8 +21,9 @@ interface(`gitosis_domtrans',`
 
 #######################################
 ## <summary>
-##	Execute gitosis-serve in the gitosis domain, and
-##	allow the specified role the gitosis domain.
+##	Execute a domain transition to run
+##	Gitosis, and allow the specified
+##	role the gitosis domain.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

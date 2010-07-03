@@ -1,4 +1,4 @@
-policy_module(firstboot, 1.11.0)
+policy_module(firstboot, 1.11.1)
 
 gen_require(`
 	class passwd rootok;
@@ -120,6 +120,7 @@ optional_policy(`
 
 optional_policy(`
 	gnome_admin_home_gconf_filetrans(firstboot_t, dir)
+	# Fix this
 	gnome_manage_all_config(firstboot_t)
 ')
 
