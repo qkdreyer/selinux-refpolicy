@@ -480,6 +480,7 @@ ifdef(`distro_redhat',`
 	dev_rwx_zero(initrc_t)
 	dev_rx_raw_memory(initrc_t)
 	dev_wx_raw_memory(initrc_t)
+
 	storage_raw_read_fixed_disk(initrc_t)
 	storage_raw_write_fixed_disk(initrc_t)
 
@@ -521,6 +522,8 @@ ifdef(`distro_redhat',`
 
 	optional_policy(`
 		cgroup_stream_connect(initrc_t)
+		# for libcgroup (/usr/bin/cgclear)
+		domain_setpriority_all_domains(initrc_t)
 	')
 
 	optional_policy(`
