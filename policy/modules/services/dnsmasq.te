@@ -71,6 +71,10 @@ corenet_udp_bind_dhcpd_port(dnsmasq_t)
 corenet_sendrecv_dns_server_packets(dnsmasq_t)
 corenet_sendrecv_dhcpd_server_packets(dnsmasq_t)
 
+# For some reason dnsmasq really needs to bind udp sockets to random high ports:
+corenet_udp_bind_all_ports(dnsmasq_t)
+corenet_sendrecv_all_server_packets(dnsmasq_t)
+
 dev_read_sysfs(dnsmasq_t)
 dev_read_urand(dnsmasq_t)
 
