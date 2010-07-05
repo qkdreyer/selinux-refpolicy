@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.6
-Release: 1.5%{?dist}
+Release: 1.6%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,11 @@ exit 0
 %endif
 
 %changelog
+* Mon Jul 05 2010 Dominick Grift <domg472@gmail.com> 3.8.6-1.6
+- Allow cgred_t sys_admin capability.
+- Allow initrc_t sedsched all domains.
+- Allow dnsmasq to bind udp sockets to all ports.
+
 * Sat Jul 03 2010 Dominick Grift <domg472@gmail.com> 3.8.6-1.5
 - cgroup fix.
 
