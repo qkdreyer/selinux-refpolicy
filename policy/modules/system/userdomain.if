@@ -277,6 +277,10 @@ interface(`userdom_manage_tmp_role',`
 	manage_fifo_files_pattern($2, user_tmp_t, user_tmp_t)
 	files_tmp_filetrans($2, user_tmp_t, { dir file lnk_file sock_file fifo_file })
 	relabel_files_pattern($2, user_tmp_t, user_tmp_t)
+	relabel_dirs_pattern($2, user_tmp_t, user_tmp_t)
+	relabel_lnk_files_pattern($2, user_tmp_t, user_tmp_t)
+	relabel_sock_files_pattern($2, user_tmp_t, user_tmp_t)
+	relabel_fifo_files_pattern($2, user_tmp_t, user_tmp_t)
 ')
 
 #######################################
