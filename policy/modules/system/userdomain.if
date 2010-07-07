@@ -2807,7 +2807,6 @@ interface(`userdom_rw_user_tmpfs_files',`
 
 ########################################
 ## <summary>
-<<<<<<< HEAD
 ##	Delete user tmpfs files.
 ## </summary>
 ## <param name="domain">
