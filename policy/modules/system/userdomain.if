@@ -3592,7 +3592,8 @@ interface(`userdom_ptrace_all_users',`
 
 ########################################
 ## <summary>
-##	dontaudit Search /root
+##	Do not audit attempts to search
+##	admin home directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3610,7 +3611,8 @@ interface(`userdom_dontaudit_search_admin_dir',`
 
 ########################################
 ## <summary>
-##	dontaudit list /root
+##	Do not audit attempts to list admin
+##	home directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3947,7 +3949,7 @@ interface(`userdom_rw_stream',`
 ########################################
 ## <summary>
 ##	Do not audit attempts to read and write
-##	unserdomain stream.
+##	userdomain stream.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3965,8 +3967,7 @@ interface(`userdom_dontaudit_rw_stream',`
 
 ########################################
 ## <summary>
-##	Append files
-##	in a user home subdirectory.
+##	Append user home content files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -3986,8 +3987,8 @@ interface(`userdom_append_user_home_content_files',`
 
 ########################################
 ## <summary>
-##	Read files inherited
-##	in a user home subdirectory.
+##	Read all inherited user home content
+##	files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4005,8 +4006,8 @@ interface(`userdom_read_inherited_user_home_content_files',`
 
 ########################################
 ## <summary>
-##	Append files inherited
-##	in a user home subdirectory.
+##	Append inherited generic user home
+##	content files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4024,8 +4025,7 @@ interface(`userdom_inherit_append_user_home_content_files',`
 
 ########################################
 ## <summary>
-##	Append files inherited
-##	in a user tmp files.
+##	Append inherited user temporary files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4063,7 +4063,7 @@ interface(`userdom_list_home_audio_dirs',`
 
 ######################################
 ## <summary>
-##	Read audio files in the users home
+##	Read audio files in user home
 ##	directories.
 ## </summary>
 ## <param name="domain">
@@ -4102,7 +4102,7 @@ interface(`userdom_list_home_video_dirs',`
 
 ######################################
 ## <summary>
-##	Read video files in the users home
+##	Read video files in user home
 ##	directories.
 ## </summary>
 ## <param name="domain">
@@ -4122,7 +4122,8 @@ interface(`userdom_read_home_video_files',`
 
 ########################################
 ## <summary>
-##	Read system SSL certificates in the users homedir.
+##	Read system SSL certificates in
+##	user home directories.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4143,7 +4144,8 @@ interface(`userdom_read_home_certs',`
 
 ########################################
 ## <summary>
-##	dontaudit Search getatrr /root files
+##	Do not audit attempts to get
+##	attributes of admin home files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4161,7 +4163,8 @@ interface(`userdom_dontaudit_getattr_admin_home_files',`
 
 ########################################
 ## <summary>
-##	dontaudit read /root lnk files
+##	Do not audit attempts to read admin
+##	home lnk files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4179,8 +4182,7 @@ interface(`userdom_dontaudit_read_admin_home_lnk_files',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete user
-##	temporary chr files.
+##	Manage user temporary chr files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4199,8 +4201,7 @@ interface(`userdom_manage_user_tmp_chr_files',`
 
 ########################################
 ## <summary>
-##	Create, read, write, and delete user
-##	temporary blk files.
+##	Manage user temporary blk files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4219,7 +4220,7 @@ interface(`userdom_manage_user_tmp_blk_files',`
 
 ########################################
 ## <summary>
-##	Write all inherited users files in /tmp
+##	Write all inherited users temporary files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -4238,7 +4239,7 @@ interface(`userdom_write_inherited_user_tmp_files',`
 
 ########################################
 ## <summary>
-##	Delete all users files in /tmp
+##	Delete all users temporary files
 ## </summary>
 ## <param name="domain">
 ##	<summary>
