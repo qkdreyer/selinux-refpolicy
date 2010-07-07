@@ -388,6 +388,8 @@ optional_policy(`
 	pulseaudio_setattr_home_dir(gpg_pinentry_t)
 	pulseaudio_stream_connect(gpg_pinentry_t)
 	pulseaudio_signull(gpg_pinentry_t)
+	pulseaudio_read_tmpfs_files(gpg_pinentry_t)
+	pulseaudio_write_tmp_sockets(gpg_pinentry_t)
 ')
 
 optional_policy(`

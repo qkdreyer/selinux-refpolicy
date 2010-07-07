@@ -238,6 +238,8 @@ optional_policy(`
 	pulseaudio_stream_connect(thunderbird_t)
 	pulseaudio_rw_home_files(thunderbird_t)
 	pulseaudio_setattr_home_dir(thunderbird_t)
+	pulseaudio_read_tmpfs_files(thunderbird_t)
+	pulseaudio_write_tmp_sockets(thunderbird_t)
 ')
 
 optional_policy(`

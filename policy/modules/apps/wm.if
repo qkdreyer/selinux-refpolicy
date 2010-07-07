@@ -141,6 +141,8 @@ template(`wm_role_template',`
 		pulseaudio_signull($1_wm_t)
 		pulseaudio_stream_connect($1_wm_t)
 		pulseaudio_search_home_dirs($1_wm_t)
+		pulseaudio_read_tmpfs_files($1_wm_t)
+		pulseaudio_write_tmp_sockets($1_wm_t)
 	')
 
 	optional_policy(`

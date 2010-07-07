@@ -158,6 +158,8 @@ optional_policy(`
 	pulseaudio_rw_home_files(vino_server_t)
 	pulseaudio_setattr_home_dir(vino_server_t)
 	pulseaudio_stream_connect(vino_server_t)
+	pulseaudio_read_tmpfs_files(vino_server_t)
+	pulseaudio_write_tmp_sockets(vino_server_t)
 ')
 
 optional_policy(`

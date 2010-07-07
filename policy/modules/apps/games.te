@@ -282,6 +282,8 @@ optional_policy(`
 	pulseaudio_setattr_home_dir(tmw_t)
 	pulseaudio_signull(tmw_t)
 	pulseaudio_stream_connect(tmw_t)
+	pulseaudio_read_tmpfs_files(tmw_t)
+	pulseaudio_write_tmp_sockets(tmw_t)
 ')
 
 optional_policy(`

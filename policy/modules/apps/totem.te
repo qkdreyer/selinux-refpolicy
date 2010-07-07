@@ -183,6 +183,8 @@ optional_policy(`
 	pulseaudio_stream_connect(totem_t)
 	pulseaudio_rw_home_files(totem_t)
 	pulseaudio_setattr_home_dir(totem_t)
+	pulseaudio_read_tmpfs_files(totem_t)
+	pulseaudio_write_tmp_sockets(totem_t)
 ')
 
 optional_policy(`

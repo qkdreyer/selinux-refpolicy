@@ -999,6 +999,8 @@ template(`userdom_restricted_xwindows_user_template',`
 
 	optional_policy(`
 		pulseaudio_role($1_r, $1_usertype)
+		pulseaudio_read_tmpfs_files($1_t)
+		pulseaudio_write_tmp_sockets($1_t)
 	')
 
 	optional_policy(`

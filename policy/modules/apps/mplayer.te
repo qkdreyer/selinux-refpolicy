@@ -287,4 +287,6 @@ optional_policy(`
 optional_policy(`
 	pulseaudio_exec(mplayer_t)
 	pulseaudio_stream_connect(mplayer_t)
+	pulseaudio_read_tmpfs_files(mplayer_t)
+	pulseaudio_write_tmp_sockets(mplayer_t)
 ')
