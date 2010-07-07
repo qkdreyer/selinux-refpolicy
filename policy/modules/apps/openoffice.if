@@ -82,6 +82,18 @@ interface(`openoffice_role_template',`
 	allow $1_openoffice_t $3:unix_stream_socket connectto;
 
 	optional_policy(`
+		mozilla_read_tmpfs_files($1_openoffice_t)
+		mozilla_delete_tmpfs_files($1_openoffice_t)
+		mozilla_signull($1_openoffice_t)
+	')
+
+	optional_policy(`
+		thunderbird_read_tmpfs_files($1_openoffice_t)
+		thunderbird_delete_tmpfs_files($1_openoffice_t)
+		thunderbird_signull($1_openoffice_t)
+	')
+
+	optional_policy(`
 		xserver_role($2, $1_openoffice_t)
 	')
 ')

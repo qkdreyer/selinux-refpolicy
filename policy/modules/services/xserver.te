@@ -669,7 +669,6 @@ optional_policy(`
 
 optional_policy(`
 	dbus_role_template(xdm, system_r, xdm_t)
-
 	dontaudit xdm_dbusd_t xdm_var_lib_t:dir search_dir_perms;
 	xserver_xdm_append_log(xdm_dbusd_t)
 	xserver_read_xdm_pid(xdm_dbusd_t)

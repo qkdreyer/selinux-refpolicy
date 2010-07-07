@@ -14,8 +14,14 @@ role system_r types pulseaudio_t;
 type pulseaudio_home_t;
 userdom_user_home_content(pulseaudio_home_t)
 
+type pulseaudio_tmp_t;
+files_tmp_file(pulseaudio_tmp_t)
+files_poly_member_tmp(pulseaudio_t, pulseaudio_tmp_t)
+ubac_constrained(pulseaudio_tmp_t)
+
 type pulseaudio_tmpfs_t;
 files_tmpfs_file(pulseaudio_tmpfs_t)
+ubac_constrained(pulseaudio_tmpfs_t)
 
 type pulseaudio_var_lib_t;
 files_type(pulseaudio_var_lib_t)
@@ -42,6 +48,15 @@ manage_files_pattern(pulseaudio_t, pulseaudio_home_t, pulseaudio_home_t)
 manage_lnk_files_pattern(pulseaudio_t, pulseaudio_home_t, pulseaudio_home_t)
 userdom_search_user_home_dirs(pulseaudio_t)
 userdom_search_admin_dir(pulseaudio_t)
+
+manage_dirs_pattern(pulseaudio_t, pulseaudio_tmp_t, pulseaudio_tmp_t)
+manage_files_pattern(pulseaudio_t, pulseaudio_tmp_t, pulseaudio_tmp_t)
+manage_sock_files_pattern(pulseaudio_t, pulseaudio_tmp_t, pulseaudio_tmp_t)
+files_tmp_filetrans(pulseaudio_t, pulseaudio_tmp_t, { dir file sock_file })
+userdom_user_tmp_filetrans(pulseaudio_t, pulseaudio_tmp_t, sock_file)
+
+manage_files_pattern(pulseaudio_t, pulseaudio_tmpfs_t, pulseaudio_tmpfs_t)
+fs_tmpfs_filetrans(pulseaudio_t, pulseaudio_tmpfs_t, file)
 
 manage_dirs_pattern(pulseaudio_t, pulseaudio_var_lib_t, pulseaudio_var_lib_t)
 manage_files_pattern(pulseaudio_t, pulseaudio_var_lib_t, pulseaudio_var_lib_t)
@@ -100,6 +115,7 @@ logging_send_syslog_msg(pulseaudio_t)
 
 miscfiles_read_localization(pulseaudio_t)
 
+userdom_setattr_user_tmp_dirs(pulseaudio_t)
 userdom_stream_connect(pulseaudio_t)
 
 # v3.8.6-1.7 see if this works.
@@ -196,5 +212,6 @@ optional_policy(`
 	xserver_manage_xdm_tmp_files(pulseaudio_t)
 	xserver_read_xdm_lib_files(pulseaudio_t)
 	xserver_read_xdm_pid(pulseaudio_t)
+	xserver_append_xdm_home_files(pulseaudio_t)
 	xserver_user_x_domain_template(pulseaudio, pulseaudio_t, pulseaudio_tmpfs_t)
 ')

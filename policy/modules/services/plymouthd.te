@@ -64,6 +64,7 @@ miscfiles_read_localization(plymouthd_t)
 miscfiles_read_fonts(plymouthd_t)
 miscfiles_manage_fonts_cache(plymouthd_t)
 
+term_use_console(plymouthd_t)
 term_use_all_ttys(plymouthd_t)
 term_use_unallocated_ttys(plymouthd_t)
 

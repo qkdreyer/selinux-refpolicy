@@ -70,6 +70,9 @@ template(`execmem_role_template',`
 
 	optional_policy(`
 		mozilla_execmod_user_home_files($1_execmem_t)
+		mozilla_read_tmpfs_files($1_execmem_t)
+		mozilla_delete_tmpfs_files($1_execmem_t)
+		mozilla_signull($1_execmem_t)
 	')
 
 	optional_policy(`
@@ -84,6 +87,12 @@ template(`execmem_role_template',`
 #	optional_policy(`
 #		mplayer_exec_domtrans($3, $1_execmem_t)
 #	')
+
+	optional_policy(`
+		thunderbird_read_tmpfs_files($1_execmem_t)
+		thunderbird_delete_tmpfs_files($1_execmem_t)
+		thunderbird_signull($1_execmem_t)
+	')
 
 	optional_policy(`
 		xserver_role($2, $1_execmem_t)
