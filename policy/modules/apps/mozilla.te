@@ -43,6 +43,7 @@ ubac_constrained(mozilla_tmpfs_t)
 
 allow mozilla_t self:capability { sys_nice setgid setuid };
 allow mozilla_t self:process { sigkill signal signull setsched getsched setrlimit };
+allow mozilla_t self:unix_dgram_socket sendto;
 allow mozilla_t self:fifo_file manage_fifo_file_perms;
 allow mozilla_t self:shm { unix_read unix_write read write destroy create };
 allow mozilla_t self:sem create_sem_perms;
