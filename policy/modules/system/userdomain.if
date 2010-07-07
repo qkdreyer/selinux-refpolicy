@@ -214,6 +214,7 @@ interface(`userdom_manage_home_role',`
 	manage_lnk_files_pattern($2, { user_home_dir_t user_home_type }, user_home_type)
 	manage_sock_files_pattern($2, { user_home_dir_t user_home_type }, user_home_type)
 	manage_fifo_files_pattern($2, { user_home_dir_t user_home_type }, user_home_type)
+	# fix me: seperate relabel perms
 	relabel_dirs_pattern($2, { user_home_dir_t user_home_type }, user_home_type)
 	relabel_files_pattern($2, { user_home_dir_t user_home_type }, user_home_type)
 	relabel_lnk_files_pattern($2, { user_home_dir_t user_home_type }, user_home_type)
@@ -276,6 +277,7 @@ interface(`userdom_manage_tmp_role',`
 	manage_sock_files_pattern($2, user_tmp_t, user_tmp_t)
 	manage_fifo_files_pattern($2, user_tmp_t, user_tmp_t)
 	files_tmp_filetrans($2, user_tmp_t, { dir file lnk_file sock_file fifo_file })
+	# fix me: seperate relabel perms
 	relabel_files_pattern($2, user_tmp_t, user_tmp_t)
 	relabel_dirs_pattern($2, user_tmp_t, user_tmp_t)
 	relabel_lnk_files_pattern($2, user_tmp_t, user_tmp_t)

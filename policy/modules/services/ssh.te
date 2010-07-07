@@ -285,6 +285,7 @@ corenet_sendrecv_xserver_server_packets(sshd_t)
 userdom_read_user_home_content_files(sshd_t)
 userdom_read_user_home_content_symlinks(sshd_t)
 userdom_search_admin_dir(sshd_t)
+# Fix me
 userdom_manage_tmp_role(system_r, sshd_t)
 
 tunable_policy(`ssh_sysadm_login',`
