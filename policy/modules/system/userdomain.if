@@ -2759,6 +2759,8 @@ interface(`userdom_manage_user_tmp_sockets',`
 ##	<summary>
 ##	Domain using the temporary user
 ##	content.
+##	</summary>
+##	</param>
 ## <param name="type">
 ##	<summary>
 ##	Type to be used as temporary user

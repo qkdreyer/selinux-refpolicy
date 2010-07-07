@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.6
-Release: 1.7%{?dist}
+Release: 1.8%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,11 @@ exit 0
 %endif
 
 %changelog
+* Wed Jul 07 2010 Dominick Grift <domg472@gmail.com> 3.8.6-1.8
+- Redo some pulseaudio.
+- Implement userdom_user_tmp_content and userdom_user_tmpfs_content.
+- Add relabel perms to userdom_manage_tmpfs_role
+
 * Wed Jul 07 2010 Dominick Grift <domg472@gmail.com> 3.8.6-1.7
 - Merge branch refpolicy:
 - Pay special attention to pulseaudio.
