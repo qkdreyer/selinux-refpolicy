@@ -267,6 +267,8 @@ optional_policy(`
 	pulseaudio_rw_home_files(mozilla_t)
 	pulseaudio_signull(mozilla_t)
 	pulseaudio_setattr_home_dir(mozilla_t)
+	pulseaudio_read_tmpfs_files(mozilla_t)
+	pulseaudio_write_tmp_sockets(mozilla_t)
 ')
 
 optional_policy(`
