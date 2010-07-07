@@ -1821,6 +1821,25 @@ interface(`userdom_delete_user_home_content_dirs',`
 
 ########################################
 ## <summary>
+##	Set the attributes of generic user
+##	user home content directories.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_setattr_user_home_content_dirs',`
+	gen_require(`
+		type user_home_t;
+	')
+
+	allow $1 user_home_t:dir setattr_dir_perms;
+')
+
+########################################
+## <summary>
 ##	Set the attributes of user home files.
 ## </summary>
 ## <param name="domain">
@@ -2015,6 +2034,24 @@ interface(`userdom_dontaudit_append_user_home_content_files',`
 	')
 
 	dontaudit $1 user_home_t:file append_file_perms;
+')
+
+########################################
+## <summary>
+##	Write user home files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_write_user_home_content_files',`
+	gen_require(`
+		type user_home_t;
+	')
+
+	allow $1 user_home_t:file write_file_perms;
 ')
 
 ########################################
