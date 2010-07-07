@@ -95,6 +95,11 @@ template(`java_role_template',`
 	')
 
 	optional_policy(`
+		pulseaudio_read_tmpfs_files($1_java_t)
+		pulseaudio_write_tmp_sockets($1_java_t)
+	')
+
+	optional_policy(`
 		seahorsed_signull($1_java_t)
 		seahorsed_read_tmpfs_files($1_java_t)
 		seahorsed_delete_tmpfs_files($1_java_t)
