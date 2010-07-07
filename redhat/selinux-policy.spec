@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.6
-Release: 1.6%{?dist}
+Release: 1.7%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,11 @@ exit 0
 %endif
 
 %changelog
+* Wed Jul 07 2010 Dominick Grift <domg472@gmail.com> 3.8.6-1.7
+- Merge branch refpolicy:
+- Pay special attention to pulseaudio.
+- extended the userdom_manage_tmp_role to allowed relabeling like userdom_manage_home_role does. (sshd_t needs to relabelfrom user_tmp_t for poly-inst.
+
 * Mon Jul 05 2010 Dominick Grift <domg472@gmail.com> 3.8.6-1.6
 - Allow cgred_t sys_admin capability.
 - Allow initrc_t sedsched all domains.

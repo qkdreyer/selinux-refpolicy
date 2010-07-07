@@ -4218,24 +4218,6 @@ interface(`userdom_manage_user_tmp_blk_files',`
 
 ########################################
 ## <summary>
-##	Dontaudit search user temporary directories.
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain to not audit.
-##	</summary>
-## </param>
-#
-interface(`userdom_dontaudit_search_user_tmp',`
-	gen_require(`
-		type user_tmp_t;
-	')
-
-	dontaudit $1 user_tmp_t:dir search_dir_perms;
-')
-
-########################################
-## <summary>
 ##	Write all inherited users files in /tmp
 ## </summary>
 ## <param name="domain">
