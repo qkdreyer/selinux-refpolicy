@@ -1,4 +1,4 @@
-policy_module(mono, 1.7.0)
+policy_module(mono, 1.7.1)
 
 ########################################
 #
@@ -19,6 +19,11 @@ allow mono_t self:process { ptrace signal getsched execheap execmem execstack };
 
 init_dbus_chat_script(mono_t)
 
+userdom_manage_user_home_content_dirs(mono_t)
+userdom_manage_user_home_content_files(mono_t)
+userdom_manage_user_home_content_symlinks(mono_t)
+userdom_manage_user_home_content_pipes(mono_t)
+userdom_manage_user_home_content_sockets(mono_t)
 userdom_user_home_dir_filetrans_user_home_content(mono_t, { dir file lnk_file fifo_file sock_file })
 
 optional_policy(`

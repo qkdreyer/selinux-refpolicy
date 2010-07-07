@@ -1,4 +1,4 @@
-policy_module(pulseaudio, 1.2.1)
+policy_module(pulseaudio, 1.2.2)
 
 ########################################
 #
@@ -100,6 +100,12 @@ logging_send_syslog_msg(pulseaudio_t)
 miscfiles_read_localization(pulseaudio_t)
 
 userdom_stream_connect(pulseaudio_t)
+
+# v3.8.6-1.7 see if this works.
+# cjp: this seems excessive. need to confirm
+userdom_manage_user_home_content_files(pulseaudio_t)
+userdom_manage_user_tmp_files(pulseaudio_t)
+userdom_manage_user_tmpfs_files(pulseaudio_t)
 
 optional_policy(`
 	bluetooth_stream_connect(pulseaudio_t)

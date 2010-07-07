@@ -1,4 +1,4 @@
-policy_module(java, 2.3.0)
+policy_module(java, 2.3.1)
 
 ########################################
 #
@@ -84,13 +84,12 @@ dev_read_rand(java_t)
 dev_dontaudit_append_rand(java_t)
 
 files_read_etc_files(java_t)
+files_read_etc_runtime_files(java_t)
 files_read_usr_files(java_t)
 files_search_home(java_t)
 files_search_var_lib(java_t)
-files_read_etc_runtime_files(java_t)
-# Read global fonts and font config
-files_read_etc_files(java_t)
 
+fs_getattr_tmpfs(java_t)
 fs_getattr_xattr_fs(java_t)
 fs_dontaudit_rw_tmpfs_files(java_t)
 
@@ -101,21 +100,22 @@ miscfiles_read_fonts(java_t)
 
 sysnet_read_config(java_t)
 
-userdom_dontaudit_use_user_terminals(java_t)
-userdom_dontaudit_setattr_user_home_content_files(java_t)
-userdom_dontaudit_exec_user_home_content_files(java_t)
 userdom_manage_user_home_content_dirs(java_t)
 userdom_manage_user_home_content_files(java_t)
 userdom_manage_user_home_content_symlinks(java_t)
 userdom_manage_user_home_content_pipes(java_t)
 userdom_manage_user_home_content_sockets(java_t)
 userdom_user_home_dir_filetrans_user_home_content(java_t, { file lnk_file sock_file fifo_file })
+
 userdom_write_user_tmp_sockets(java_t)
+userdom_dontaudit_exec_user_home_content_files(java_t)
+userdom_dontaudit_setattr_user_home_content_files(java_t)
+userdom_dontaudit_use_user_terminals(java_t)
 
 tunable_policy(`allow_java_execstack',`
 	allow java_t self:process execstack;
 
-	allow java_t java_tmp_t:file execute;
+	allow java_t java_tmp_t:file exec_file_perms;
 
 	libs_legacy_use_shared_libs(java_t)
 	libs_legacy_use_ld_so(java_t)

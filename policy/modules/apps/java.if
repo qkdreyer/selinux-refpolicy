@@ -23,12 +23,13 @@ interface(`java_role',`
 	role $1 types java_t;
 
 	domtrans_pattern($2, java_exec_t, java_t)
+
+	# Fix me
 	allow java_t $2:process signull;
 	allow $2 java_t:process { noatsecure siginh rlimitinh };
-
 	allow java_t $2:unix_stream_socket connectto;
-	allow java_t $2:unix_stream_socket { read write };
-	allow java_t $2:tcp_socket { read write };
+	allow java_t $2:unix_stream_socket rw_inherited_sock_file_perms;
+	allow java_t $2:tcp_socket rw_inherited_sock_file_perms;
 ')
 
 #######################################
@@ -66,13 +67,11 @@ template(`java_role_template',`
 	domain_interactive_fd($1_java_t)
 
 	userdom_unpriv_usertype($1, $1_java_t)
-	userdom_manage_tmpfs_role($2, $1_java_t)
+	userdom_manage_user_tmpfs_files($1_java_t)
 
 	allow $1_java_t self:process { ptrace signal getsched execmem execstack };
 
-	dontaudit $1_java_t $3:tcp_socket { read write };
-
-	allow $3 $1_java_t:process { getattr ptrace noatsecure signal_perms };
+	allow $3 $1_java_t:process { ptrace noatsecure signal_perms };
 
 	domtrans_pattern($3, java_exec_t, $1_java_t)
 
@@ -83,6 +82,10 @@ template(`java_role_template',`
 	files_execmod_all_files($1_java_t)
 
 	fs_dontaudit_rw_tmpfs_files($1_java_t)
+
+	ifdef(`hide_broken_symptoms',`
+		dontaudit $1_java_t $3:tcp_socket rw_inherited_sock_file_perms;
+	')
 
 	# Pulse Audio.
 	optional_policy(`
@@ -218,7 +221,10 @@ interface(`java_run_unconfined',`
 
 	java_domtrans_unconfined($1)
 	role $2 types unconfined_java_t;
-	nsplugin_role_notrans($2, unconfined_java_t)
+
+	optional_policy(`
+		nsplugin_role_notrans($2, unconfined_java_t)
+	')
 ')
 
 ########################################
