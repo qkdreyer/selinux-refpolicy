@@ -374,6 +374,11 @@ interface(`userdom_manage_tmpfs_role',`
 	manage_sock_files_pattern($2, user_tmpfs_t, user_tmpfs_t)
 	manage_fifo_files_pattern($2, user_tmpfs_t, user_tmpfs_t)
 	fs_tmpfs_filetrans($2, user_tmpfs_t, { dir file lnk_file sock_file fifo_file })
+	relabel_dirs_pattern($2, user_tmpfs_t, user_tmpfs_t)
+	relabel_files_pattern($2, user_tmpfs_t, user_tmpfs_t)
+	relabel_lnk_files_pattern($2, user_tmpfs_t, user_tmpfs_t)
+	relabel_sock_files_pattern($2, user_tmpfs_t, user_tmpfs_t)
+	relabel_fifo_files_pattern($2, user_tmpfs_t, user_tmpfs_t)
 ')
 
 #######################################
@@ -764,7 +769,6 @@ template(`userdom_login_user_template', `
 	userdom_base_user_template($1)
 
 	userdom_manage_home_role($1_r, $1_usertype)
-
 	userdom_manage_tmp_role($1_r, $1_usertype)
 	userdom_manage_tmpfs_role($1_r, $1_usertype)
 
@@ -2748,6 +2752,34 @@ interface(`userdom_manage_user_tmp_sockets',`
 
 ########################################
 ## <summary>
+##	Make the specified type usable 
+##	temporary user content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain using the temporary user
+##	content.
+## <param name="type">
+##	<summary>
+##	Type to be used as temporary user
+##	content.
+##	</summary>
+## </param>
+#
+interface(`userdom_user_tmp_content',`
+	gen_require(`
+		attribute user_tmp_type;
+	')
+
+	files_tmp_file($2)
+	files_poly_member_tmp($1, $2)
+	ubac_constrained($2)
+
+	typeattribute $2 user_tmp_type;
+')
+
+########################################
+## <summary>
 ##	Create objects in a user temporary directory
 ##	with an automatic type transition to
 ##	a specified private type.
@@ -2800,6 +2832,29 @@ interface(`userdom_tmp_filetrans_user_tmp',`
 	')
 
 	files_tmp_filetrans($1, user_tmp_t, $2)
+')
+
+########################################
+## <summary>
+##	Make the specified type usable 
+##	shared memory user content.
+## </summary>
+## <param name="type">
+##	<summary>
+##	Type to be used as shared memory
+##	user content.
+##	</summary>
+## </param>
+#
+interface(`userdom_user_tmpfs_content',`
+	gen_require(`
+		attribute user_tmpfs_type;
+	')
+
+	files_tmpfs_file($1)
+	ubac_constrained($1)
+
+	typeattribute $1 user_tmpfs_type;
 ')
 
 ########################################
