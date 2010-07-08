@@ -1,4 +1,8 @@
+*.pp
+base.conf
+base.fc
 .project
+.settings/
 doc/global_booleans.xml
 doc/global_tunables.xml
 doc/policy.xml
