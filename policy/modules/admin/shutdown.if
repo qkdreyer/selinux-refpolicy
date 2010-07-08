@@ -25,7 +25,6 @@ interface(`shutdown_domtrans',`
 	')
 ')
 
-
 ########################################
 ## <summary>
 ##	Execute a domain transition to
@@ -79,7 +78,7 @@ interface(`shutdown_role',`
 	role $1 types shutdown_t;
 
 	ps_process_pattern($2, shutdown_t)
-	allow $2 shutdown_t:process signal;
+	allow $2 shutdown_t:process { ptrace signal_perms };
 ')
 
 ########################################

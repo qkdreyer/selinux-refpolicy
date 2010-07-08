@@ -1,6 +1,10 @@
+- Remove ethereal module since the application was renamed to wireshark.
+- Remove duplicate/redundant rules, from Russell Coker.
 - Increased default number of categories to 1024, from Russell Coker.
 - Added modules:
 	cgroup (Dominick Grift)
+	livecd (Dan Walsh)
+	shutdown (Dan Walsh)
 
 * Mon May 24 2010 Chris PeBenito <selinux@tresys.com> - 2.20100524
 - Merged a significant portion of Fedora policy.

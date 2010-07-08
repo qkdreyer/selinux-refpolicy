@@ -109,7 +109,7 @@ typealias user_input_xevent_t alias { auditadm_input_xevent_t secadm_input_xeven
 
 type remote_t;
 xserver_object_types_template(remote)
-xserver_common_x_domain_template(remote,remote_t)
+xserver_common_x_domain_template(remote, remote_t)
 
 type user_fonts_t;
 typealias user_fonts_t alias { staff_fonts_t sysadm_fonts_t };
@@ -620,6 +620,7 @@ userdom_stream_connect(xdm_t)
 userdom_manage_user_tmp_dirs(xdm_t)
 userdom_manage_user_tmp_files(xdm_t)
 userdom_manage_user_tmp_sockets(xdm_t)
+# Fix me
 userdom_manage_tmpfs_role(system_r, xdm_t)
 
 xserver_rw_session(xdm_t, xdm_tmpfs_t)
@@ -1076,10 +1077,6 @@ userdom_read_all_users_state(xserver_t)
 
 xserver_use_user_fonts(xserver_t)
 
-optional_policy(`
-	userhelper_search_config(xserver_t)
-')
-
 tunable_policy(`use_nfs_home_dirs',`
 	fs_manage_nfs_dirs(xserver_t)
 	fs_manage_nfs_files(xserver_t)
@@ -1107,6 +1104,10 @@ optional_policy(`
 optional_policy(`
 	rhgb_rw_shm(xserver_t)
 	rhgb_rw_tmpfs_files(xserver_t)
+')
+
+optional_policy(`
+	userhelper_search_config(xserver_t)
 ')
 
 ########################################

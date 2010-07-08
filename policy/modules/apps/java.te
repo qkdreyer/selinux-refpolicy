@@ -6,9 +6,9 @@ policy_module(java, 2.3.1)
 #
 
 ## <desc>
-## <p>
-## Allow java executable stack
-## </p>
+##	<p>
+##	Allow java executable stack.
+##	</p>
 ## </desc>
 gen_tunable(allow_java_execstack, false)
 
@@ -142,8 +142,6 @@ optional_policy(`
 
 optional_policy(`
 	allow unconfined_java_t self:process { execstack execmem execheap };
-
-	init_dbus_chat_script(unconfined_java_t)
 
 	files_execmod_all_files(unconfined_java_t)
 

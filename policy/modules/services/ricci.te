@@ -152,7 +152,9 @@ optional_policy(`
 optional_policy(`
 	dbus_system_bus_client(ricci_t)
 
-	oddjob_dbus_chat(ricci_t)
+	optional_policy(`
+		oddjob_dbus_chat(ricci_t)
+	')
 ')
 
 optional_policy(`
@@ -252,7 +254,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-	rgmanager_stream_connect(ricci_modclusterd_t)
+	rgmanager_stream_connect(ricci_modcluster_t)
 ')
 
 optional_policy(`
@@ -410,7 +412,6 @@ corecmd_exec_shell(ricci_modservice_t)
 files_read_etc_files(ricci_modservice_t)
 files_read_etc_runtime_files(ricci_modservice_t)
 files_search_usr(ricci_modservice_t)
-# Needed for running chkconfig
 files_manage_etc_symlinks(ricci_modservice_t)
 
 consoletype_exec(ricci_modservice_t)
@@ -457,7 +458,6 @@ dev_manage_generic_blk_files(ricci_modstorage_t)
 
 domain_read_all_domains_state(ricci_modstorage_t)
 
-#Needed for editing /etc/fstab
 files_manage_etc_files(ricci_modstorage_t)
 files_read_etc_runtime_files(ricci_modstorage_t)
 files_read_usr_files(ricci_modstorage_t)

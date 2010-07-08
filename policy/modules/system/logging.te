@@ -166,6 +166,7 @@ corenet_tcp_sendrecv_all_ports(auditd_t)
 corenet_tcp_bind_generic_node(auditd_t)
 corenet_tcp_bind_audit_port(auditd_t)
 corenet_sendrecv_audit_server_packets(auditd_t)
+corenet_tcp_sendrecv_audit_port(auditd_t)
 
 corecmd_exec_bin(auditd_t)
 corecmd_exec_shell(auditd_t)
@@ -391,9 +392,6 @@ manage_files_pattern(syslogd_t, syslogd_var_run_t, syslogd_var_run_t)
 manage_sock_files_pattern(syslogd_t, syslogd_var_run_t, syslogd_var_run_t)
 files_pid_filetrans(syslogd_t, syslogd_var_run_t, { dir file })
 
-manage_files_pattern(syslogd_t, syslogd_var_run_t, syslogd_var_run_t)
-files_pid_filetrans(syslogd_t, syslogd_var_run_t, file)
-
 kernel_read_system_state(syslogd_t)
 kernel_read_kernel_sysctls(syslogd_t)
 kernel_read_proc_symlinks(syslogd_t)
@@ -499,7 +497,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-    daemontools_search_svc_dir(syslogd_t)
+	daemontools_search_svc_dir(syslogd_t)
 ')
 
 optional_policy(`

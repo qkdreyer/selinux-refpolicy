@@ -130,10 +130,6 @@ template(`userhelper_role_template',`
 	')
 
 	optional_policy(`
-		ethereal_domtrans($1_userhelper_t)
-	')
-
-	optional_policy(`
 		logging_send_syslog_msg($1_userhelper_t)
 	')
 
@@ -192,7 +188,7 @@ interface(`userhelper_dontaudit_search_config',`
 
 ########################################
 ## <summary>
-##	Use userhelper file descriptor.
+##	Use userhelper file descriptors.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -210,7 +206,7 @@ interface(`userhelper_use_fd',`
 
 ########################################
 ## <summary>
-##	Send sigchld to userhelper.
+##	Send chld signals to userhelper.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -228,7 +224,7 @@ interface(`userhelper_sigchld',`
 
 ########################################
 ## <summary>
-##	Execute the userhelper program in the caller domain.
+##	Execute userhelper.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
