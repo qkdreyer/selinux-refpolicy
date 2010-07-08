@@ -327,3 +327,23 @@ interface(`pulseaudio_read_tmpfs_files',`
 	fs_search_tmpfs($1)
 	fs_getattr_tmpfs($1)
 ')
+
+########################################
+## <summary>
+##	Read Pulse Audio temporary files.
+## </summary>
+## <param name="user_domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`pulseaudio_read_tmp_files',`
+	gen_require(`
+		type pulseaudio_tmp_t;
+	')
+
+	read_files_pattern($1, pulseaudio_tmp_t, pulseaudio_tmp_t)
+	userdom_search_user_tmp_dirs($1)
+	files_search_tmp($1)
+')
