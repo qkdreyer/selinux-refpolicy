@@ -25,7 +25,7 @@ role system_r types java_t;
 type java_tmp_t;
 typealias java_tmp_t alias { staff_javaplugin_tmp_t user_javaplugin_tmp_t sysadm_javaplugin_tmp_t };
 typealias java_tmp_t alias { auditadm_tmp_javaplugin_t secadm_javaplugin_tmp_t };
-# fix me
+# fix me please
 ubac_constrained(java_tmp_t)
 files_tmp_file(java_tmp_t)
 
