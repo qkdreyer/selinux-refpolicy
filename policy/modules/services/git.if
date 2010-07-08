@@ -38,10 +38,6 @@ interface(`git_session_role',`
 
 	allow $2 git_session_t:process { ptrace signal_perms };
 	ps_process_pattern($2, git_session_t)
-
-	# users will be able to circumvent the allow_$1_execute_content boolean by labeling their executable
-	# type git_session_content_t.
-	git_exec_session_content_files($2)
 ')
 
 ########################################
