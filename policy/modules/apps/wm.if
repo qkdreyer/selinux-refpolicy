@@ -24,10 +24,7 @@
 template(`wm_role_template',`
 	gen_require(`
 		attribute wm_domain;
-		type wm_exec_t;
-		type wm_tmp_t;
-		type wm_home_t;
-		type wm_tmpfs_t;
+		type wm_exec_t, wm_tmp_t, wm_home_t, wm_tmpfs_t;
 	')
 
 	type $1_wm_t;
@@ -36,8 +33,6 @@ template(`wm_role_template',`
 	domain_entry_file($1_wm_t, wm_exec_t)
 	ubac_constrained($1_wm_t)
 	role $2 types $1_wm_t;
-
-	files_poly_member_tmp($1_wm_t, wm_tmp_t)
 
 	allow $1_wm_t self:fifo_file rw_fifo_file_perms;
 	allow $1_wm_t self:process getsched;
@@ -57,19 +52,8 @@ template(`wm_role_template',`
 	manage_sock_files_pattern($1_wm_t, wm_tmp_t, wm_tmp_t)
 	userdom_user_tmp_filetrans($1_wm_t, wm_tmp_t, sock_file)
 
-	manage_dirs_pattern($3, wm_tmp_t, wm_tmp_t)
-	manage_files_pattern($3, wm_tmp_t, wm_tmp_t)
-	manage_sock_files_pattern($3, wm_tmp_t, wm_tmp_t)
-
-	relabel_dirs_pattern($3, wm_tmp_t, wm_tmp_t)
-	relabel_files_pattern($3, wm_tmp_t, wm_tmp_t)
-	relabel_sock_files_pattern($3, wm_tmp_t, wm_tmp_t)
-
 	manage_files_pattern($1_wm_t, wm_tmpfs_t, wm_tmpfs_t)
 	fs_tmpfs_filetrans($1_wm_t, wm_tmpfs_t, file)
-
-	manage_files_pattern($3, wm_tmpfs_t, wm_tmpfs_t)
-	relabel_files_pattern($3, wm_tmpfs_t, wm_tmpfs_t)
 
 	domtrans_pattern($3, wm_exec_t, $1_wm_t)
 

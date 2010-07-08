@@ -24,8 +24,6 @@ interface(`telepathy_role',`
 		type tp_butterfly_exec_t, tp_gabble_exec_t, tp_haze_exec_t;
 		type tp_idle_exec_t, tp_mission_control_exec_t, tp_salut_exec_t;
 		type tp_sofiasip_exec_t, tp_stream_engine_exec_t, tp_sunshine_exec_t;
-		type tp_butterfly_tmp_t, tp_haze_tmp_t, tp_sunshine_tmp_t;
-		type tp_salut_tmp_t, tp_gabble_tmp_t;
 	')
 
 	########################################
@@ -151,10 +149,6 @@ interface(`telepathy_role',`
 
 	domtrans_pattern($2, tp_butterfly_exec_t, tp_butterfly_t)
 
-	manage_files_pattern($2, tp_butterfly_tmp_t, tp_butterfly_tmp_t)
-
-	relabel_files_pattern($2, tp_butterfly_tmp_t, tp_butterfly_tmp_t)
-
 	libs_run_ldconfig(tp_butterfly_t, $1)
 
 	########################################
@@ -164,12 +158,6 @@ interface(`telepathy_role',`
 
 	domtrans_pattern($2, tp_gabble_exec_t, tp_gabble_t)
 
-	manage_dirs_pattern($2, tp_gabble_tmp_t, tp_gabble_tmp_t)
-	manage_sock_files_pattern($2, tp_gabble_tmp_t, tp_gabble_tmp_t)
-
-	relabel_dirs_pattern($2, tp_gabble_tmp_t, tp_gabble_tmp_t)
-	relabel_sock_files_pattern($2, tp_gabble_tmp_t, tp_gabble_tmp_t)
-
 	telepathy_gabble_stream_connect($2)
 
 	########################################
@@ -178,12 +166,6 @@ interface(`telepathy_role',`
 	#
 
 	domtrans_pattern($2, tp_haze_exec_t, tp_haze_t)
-
-	manage_dirs_pattern($2, tp_haze_tmp_t, tp_haze_tmp_t)
-	manage_files_pattern($2, tp_haze_tmp_t, tp_haze_tmp_t)
-
-	relabel_dirs_pattern($2, tp_haze_tmp_t, tp_haze_tmp_t)
-	relabel_files_pattern($2, tp_haze_tmp_t, tp_haze_tmp_t)
 
 	########################################
 	#
@@ -205,10 +187,6 @@ interface(`telepathy_role',`
 	#
 
 	domtrans_pattern($2, tp_salut_exec_t, tp_salut_t)
-
-	manage_sock_files_pattern($2, tp_salut_tmp_t, tp_salut_tmp_t)
-
-	relabel_sock_files_pattern($2, tp_salut_tmp_t, tp_salut_tmp_t)
 
 	telepathy_salut_stream_connect($2)	
 
@@ -232,10 +210,6 @@ interface(`telepathy_role',`
 	#
 
 	domtrans_pattern($2, tp_sunshine_exec_t, tp_sunshine_t)
-
-	manage_files_pattern($2, tp_sunshine_tmp_t, tp_sunshine_tmp_t)
-
-	relabel_files_pattern($2, tp_sunshine_tmp_t, tp_sunshine_tmp_t)
 ')
 
 ########################################

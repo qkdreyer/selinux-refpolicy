@@ -41,7 +41,7 @@ template(`wine_role',`
 	allow wine_t $2:unix_stream_socket connectto;
 
 	ps_process_pattern($2, wine_t)
-	allow $2 wine_t:process signal_perms;
+	allow $2 wine_t:process { ptrace signal_perms };
 
 	allow $2 wine_t:fd use;
 	allow $2 wine_t:shm { associate getattr };

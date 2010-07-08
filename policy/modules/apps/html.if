@@ -17,7 +17,7 @@
 #
 interface(`elinks_role',`
 	gen_require(`
-		type elinks_t, elinks_exec_t, elinks_home_t;
+		type elinks_t, elinks_exec_t;
 	')
 
 	########################################

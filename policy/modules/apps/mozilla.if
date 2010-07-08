@@ -18,7 +18,6 @@
 interface(`mozilla_role',`
 	gen_require(`
 		type mozilla_t, mozilla_exec_t;
-		type mozilla_tmp_t, mozilla_tmpfs_t;
 	')
 
 	role $1 types mozilla_t;
@@ -34,24 +33,6 @@ interface(`mozilla_role',`
 	ps_process_pattern($2, mozilla_t)
 	allow $2 mozilla_t:process { ptrace signal_perms };
 
-	manage_dirs_pattern($2, mozilla_tmp_t, mozilla_tmp_t)
-	manage_files_pattern($2, mozilla_tmp_t, mozilla_tmp_t)
-	manage_sock_files_pattern($2, mozilla_tmp_t, mozilla_tmp_t)
-
-	relabel_dirs_pattern($2, mozilla_tmp_t, mozilla_tmp_t)
-	relabel_files_pattern($2, mozilla_tmp_t, mozilla_tmp_t)
-	relabel_sock_files_pattern($2, mozilla_tmp_t, mozilla_tmp_t)
-
-	manage_fifo_files_pattern($2, mozilla_tmpfs_t, mozilla_tmpfs_t)
-	manage_files_pattern($2, mozilla_tmpfs_t, mozilla_tmpfs_t)
-	manage_lnk_files_pattern($2, mozilla_tmpfs_t, mozilla_tmpfs_t)
-	manage_sock_files_pattern($2, mozilla_tmpfs_t, mozilla_tmpfs_t)
-
-	relabel_fifo_files_pattern($2, mozilla_tmpfs_t, mozilla_tmpfs_t)
-	relabel_files_pattern($2, mozilla_tmpfs_t, mozilla_tmpfs_t)
-	relabel_lnk_files_pattern($2, mozilla_tmpfs_t, mozilla_tmpfs_t)
-	relabel_sock_files_pattern($2, mozilla_tmpfs_t, mozilla_tmpfs_t)
-
 	mozilla_domtrans($2)
 	mozilla_stream_connect($2)
 
@@ -62,10 +43,6 @@ interface(`mozilla_role',`
 	optional_policy(`
 		nsplugin_role($1, mozilla_t)
 	')
-
-	# optional_policy(`
-	#	pulseaudio_role($1, mozilla_t)
-	# ')
 ')
 
 ########################################

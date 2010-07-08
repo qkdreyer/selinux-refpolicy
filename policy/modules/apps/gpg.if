@@ -19,9 +19,7 @@ interface(`gpg_role',`
 	gen_require(`
 		type gpg_t, gpg_exec_t;
 		type gpg_agent_t, gpg_agent_exec_t;
-		type gpg_agent_tmp_t;
 		type gpg_helper_t, gpg_pinentry_t;
-		type gpg_pinentry_tmp_t;
 	')
 
 	role $1 types { gpg_t gpg_agent_t gpg_helper_t gpg_pinentry_t };
@@ -29,27 +27,15 @@ interface(`gpg_role',`
 	domtrans_pattern($2, gpg_exec_t, gpg_t)
 
 	ps_process_pattern($2, gpg_t)
-	allow $2 gpg_t:process { signull sigstop signal sigkill };
+	allow $2 gpg_t:process { ptrace signal_perms };
 
 	allow gpg_helper_t $2:fd use;
-	allow gpg_helper_t $2:fifo_file write;
+	allow gpg_helper_t $2:fifo_file write_fifo_file_perms;
 
 	ps_process_pattern($2, gpg_agent_t)
-
-	allow $2 gpg_agent_t:process { signal sigkill };
-
-	manage_dirs_pattern($2, gpg_agent_tmp_t, gpg_agent_tmp_t)
-	manage_files_pattern($2, gpg_agent_tmp_t, gpg_agent_tmp_t)
-	manage_sock_files_pattern($2, gpg_agent_tmp_t, gpg_agent_tmp_t)
-	files_tmp_filetrans(gpg_agent_t, gpg_agent_tmp_t, { file sock_file dir })
+	allow $2 gpg_agent_t:process { ptrace signal_perms };
 
 	domtrans_pattern($2, gpg_agent_exec_t, gpg_agent_t)
-
-	manage_sock_files_pattern($2, gpg_pinentry_tmp_t, gpg_pinentry_tmp_t)
-	relabel_sock_files_pattern($2, gpg_pinentry_tmp_t, gpg_pinentry_tmp_t)
-
-	gpg_pinentry_delete_tmpfs_files($2)
-	gpg_pinentry_read_tmpfs_files($2)
 
 	optional_policy(`
 		gpg_pinentry_dbus_chat($2)

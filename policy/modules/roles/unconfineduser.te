@@ -334,11 +334,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	procmail_manage_user_content_files(unconfined_t)
-	procmail_relabel_user_content_files(unconfined_t)
-')
-
-optional_policy(`
 	portmap_run_helper(unconfined_t, unconfined_r)
 ')
 

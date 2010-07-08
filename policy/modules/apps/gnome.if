@@ -18,20 +18,18 @@
 interface(`gnome_role',`
 	gen_require(`
 		type gconfd_t, gconfd_exec_t;
-		type gconf_tmp_t;
 	')
 
 	role $1 types gconfd_t;
 
 	domain_auto_trans($2, gconfd_exec_t, gconfd_t)
 	allow gconfd_t $2:fd use;
-	allow gconfd_t $2:fifo_file write;
+	allow gconfd_t $2:fifo_file write_fifo_file_perms;
 	allow gconfd_t $2:unix_stream_socket connectto;
 
 	ps_process_pattern($2, gconfd_t)
 
 	# gnome_stream_connect_gconf_template($1, $2)
-	read_files_pattern($2, gconf_tmp_t, gconf_tmp_t)
 	allow $2 gconfd_t:unix_stream_socket connectto;
 ')
 

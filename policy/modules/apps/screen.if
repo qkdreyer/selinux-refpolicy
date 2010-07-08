@@ -23,8 +23,8 @@
 #
 template(`screen_role_template',`
 	gen_require(`
-		type screen_exec_t, screen_tmp_t;
-		type screen_home_t, screen_var_run_t;
+		attribute screen_domain;
+		type screen_exec_t, screen_var_run_t, screen_home_t, screen_tmp_t;
 	')
 
 	########################################
@@ -33,6 +33,7 @@ template(`screen_role_template',`
 	#
 
 	type $1_screen_t;
+	typeattribute $1_screen_t screen_domain;
 	application_domain($1_screen_t, screen_exec_t)
 	domain_interactive_fd($1_screen_t)
 	ubac_constrained($1_screen_t)

@@ -65,8 +65,7 @@ interface(`nsplugin_manage_rw',`
 interface(`nsplugin_role_notrans',`
 	gen_require(`
 		type nsplugin_rw_t;
-		type nsplugin_home_t, nsplugin_tmp_t;
-		type nsplugin_exec_t, nsplugin_tmpfs_t;
+		type nsplugin_exec_t;
 		type nsplugin_config_exec_t;
 		type nsplugin_t;
 		type nsplugin_config_t;
@@ -75,21 +74,7 @@ interface(`nsplugin_role_notrans',`
 	role $1 types nsplugin_t;
 	role $1 types nsplugin_config_t;
 
-	list_dirs_pattern($2, nsplugin_rw_t, nsplugin_rw_t)
-	read_files_pattern($2, nsplugin_rw_t, nsplugin_rw_t)
-	read_lnk_files_pattern($2, nsplugin_rw_t, nsplugin_rw_t)
 	can_exec($2, nsplugin_rw_t)
-
-	manage_dirs_pattern($2, nsplugin_tmp_t, nsplugin_tmp_t)
-	manage_files_pattern($2, nsplugin_tmp_t, nsplugin_tmp_t)
-	manage_sock_files_pattern($2, nsplugin_tmp_t, nsplugin_tmp_t)
-
-	relabel_dirs_pattern($2, nsplugin_tmp_t, nsplugin_tmp_t)
-	relabel_files_pattern($2, nsplugin_tmp_t, nsplugin_tmp_t)
-	relabel_sock_files_pattern($2, nsplugin_tmp_t, nsplugin_tmp_t)
-
-	manage_files_pattern($2, nsplugin_tmpfs_t, nsplugin_tmpfs_t)
-	relabel_files_pattern($2, nsplugin_tmpfs_t, nsplugin_tmpfs_t)
 
 	# Clean me
 	dontaudit nsplugin_t $2:process ptrace;
@@ -112,10 +97,6 @@ interface(`nsplugin_role_notrans',`
 	optional_policy(`
 		nsplugin_dbus_chat($2)
 	')
-
-#	optional_policy(`
-#		pulseaudio_role($1, nsplugin_t)
-#	')
 ')
 
 #######################################

@@ -17,8 +17,7 @@
 #
 interface(`seahorsed_role',`
 	gen_require(`
-		type seahorsed_t, seahorsed_exec_t, seahorsed_tmp_t;
-		type seahorsed_tmpfs_t;
+		type seahorsed_t, seahorsed_exec_t;
 	')
 
 	########################################
@@ -38,13 +37,6 @@ interface(`seahorsed_role',`
 	allow $2 seahorsed_t:process { ptrace signal_perms };
 	ps_process_pattern($2, seahorsed_t)
 
-	manage_sock_files_pattern($2, seahorsed_tmp_t, seahorsed_tmp_t)
-	relabel_sock_files_pattern($2, seahorsed_tmp_t, seahorsed_tmp_t)
-
-	manage_files_pattern($2, seahorsed_tmpfs_t, seahorsed_tmpfs_t)
-	relabel_files_pattern($2, seahorsed_tmpfs_t, seahorsed_tmpfs_t)
-
-	# seahorsed_domtrans($2
 	seahorsed_stream_connect($2)
 
 	optional_policy(`
@@ -66,7 +58,7 @@ interface(`seahorsed_role',`
 interface(`seahorsed_stream_connect',`
 	gen_require(`
 		type seahorsed_t, seahorsed_tmp_t;
-	')   
+	')
 
 	stream_connect_pattern($1, seahorsed_tmp_t, seahorsed_tmp_t, seahorsed_t)
 	files_search_tmp($1)

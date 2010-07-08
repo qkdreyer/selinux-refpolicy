@@ -8,14 +8,12 @@ policy_module(chrome, 1.0.0)
 type chrome_sandbox_t;
 type chrome_sandbox_exec_t;
 application_domain(chrome_sandbox_t, chrome_sandbox_exec_t)
-role system_r types chrome_sandbox_t;
 
 type chrome_sandbox_tmp_t;
-files_tmp_file(chrome_sandbox_tmp_t)
+userdom_user_tmp_content(chrome_sandbox_t, chrome_sandbox_tmp_t)
 
 type chrome_sandbox_tmpfs_t;
-files_tmpfs_file(chrome_sandbox_tmpfs_t)
-ubac_constrained(chrome_sandbox_tmpfs_t)
+userdom_user_tmpfs_content(chrome_sandbox_tmpfs_t)
 
 ########################################
 #

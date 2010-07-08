@@ -27,7 +27,7 @@ interface(`vmware_role',`
 	corecmd_search_bin($2)
 
 	ps_process_pattern($2, vmware_t)
-	allow $2 vmware_t:process signal;
+	allow $2 vmware_t:process { ptrace signal_perms };
 ')
 
 ########################################
