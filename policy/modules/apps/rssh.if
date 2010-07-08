@@ -25,7 +25,7 @@ interface(`rssh_role',`
 	role $1 types rssh_t;
 
 	ps_process_pattern($2, rssh_t)
-	allow $2 rssh_t:process signal_perms;
+	allow $2 rssh_t:process { ptrace signal_perms };
 ')
 
 ########################################

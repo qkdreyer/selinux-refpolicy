@@ -67,6 +67,7 @@ template(`java_role_template',`
 	domain_interactive_fd($1_java_t)
 
 	userdom_unpriv_usertype($1, $1_java_t)
+	# Fix me
 	userdom_manage_user_tmpfs_files($1_java_t)
 
 	allow $1_java_t self:process { ptrace signal getsched execmem execstack };

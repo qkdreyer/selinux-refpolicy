@@ -45,7 +45,7 @@ interface(`xserver_restricted_role',`
 	manage_files_pattern($2, user_fonts_cache_t, user_fonts_cache_t)
 
 	stream_connect_pattern($2, xserver_tmp_t, xserver_tmp_t, xserver_t)
-	allow $2 xserver_tmp_t:sock_file unlink;
+	allow $2 xserver_tmp_t:sock_file delete_sock_file_perms;
 	files_search_tmp($2)
 
 	allow $2 xserver_t:shm r_shm_perms;

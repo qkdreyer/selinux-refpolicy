@@ -18,8 +18,7 @@
 interface(`irc_role',`
 	gen_require(`
 		attribute irc_domain;
-		type irc_t, irc_exec_t, irc_home_t, irc_tmp_t;
-		type irssi_t, irssi_exec_t;
+		type irc_t, irssi_t, irssi_exec_t, irc_exec_t;
 	')
 
 	########################################
@@ -47,7 +46,7 @@ interface(`irc_role',`
 	#
 
 	ps_process_pattern($2, irc_domain)
-	allow $2 irc_domain:process signal;
+	allow $2 irc_domain:process { ptrace signal_perms };
 
 	########################################
 	#
@@ -55,18 +54,6 @@ interface(`irc_role',`
 	#
 
 	domtrans_pattern($2, irc_exec_t, irc_t)
-
-	manage_dirs_pattern($2, irc_tmp_t, irc_tmp_t)
-	manage_files_pattern($2, irc_tmp_t, irc_tmp_t)
-	manage_lnk_files_pattern($2, irc_tmp_t, irc_tmp_t)
-	manage_fifo_files_pattern($2, irc_tmp_t, irc_tmp_t)
-	manage_sock_files_pattern($2, irc_tmp_t, irc_tmp_t)
-
-	relabel_dirs_pattern($2, irc_tmp_t, irc_tmp_t)
-	relabel_files_pattern($2, irc_tmp_t, irc_tmp_t)
-	relabel_lnk_files_pattern($2, irc_tmp_t, irc_tmp_t)
-	relabel_fifo_files_pattern($2, irc_tmp_t, irc_tmp_t)
-	relabel_sock_files_pattern($2, irc_tmp_t, irc_tmp_t)
 
 	########################################
 	#

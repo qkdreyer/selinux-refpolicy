@@ -18,7 +18,6 @@
 interface(`tvtime_role',`
 	gen_require(`
 		type tvtime_t, tvtime_exec_t;
-		type tvtime_home_t, tvtime_tmpfs_t;
 	')
 
 	role $1 types tvtime_t;
@@ -26,5 +25,5 @@ interface(`tvtime_role',`
 	domtrans_pattern($2, tvtime_exec_t, tvtime_t)
 
 	ps_process_pattern($2, tvtime_t)
-	allow $2 tvtime_t:process signal_perms;
+	allow $2 tvtime_t:process { ptrace signal_perms };
 ')

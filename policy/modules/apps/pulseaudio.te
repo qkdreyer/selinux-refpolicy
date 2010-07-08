@@ -15,13 +15,10 @@ type pulseaudio_home_t;
 userdom_user_home_content(pulseaudio_home_t)
 
 type pulseaudio_tmp_t;
-files_tmp_file(pulseaudio_tmp_t)
-files_poly_member_tmp(pulseaudio_t, pulseaudio_tmp_t)
-ubac_constrained(pulseaudio_tmp_t)
+userdom_user_tmp_content(pulseaudio_t, pulseaudio_tmp_t)
 
 type pulseaudio_tmpfs_t;
-files_tmpfs_file(pulseaudio_tmpfs_t)
-ubac_constrained(pulseaudio_tmpfs_t)
+userdom_user_tmpfs_content(pulseaudio_tmpfs_t)
 
 type pulseaudio_var_lib_t;
 files_type(pulseaudio_var_lib_t)

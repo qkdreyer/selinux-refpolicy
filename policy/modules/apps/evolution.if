@@ -17,10 +17,9 @@
 #
 interface(`evolution_role',`
 	gen_require(`
-		type evolution_t, evolution_exec_t, evolution_home_t;
+		type evolution_t, evolution_exec_t;
 		type evolution_alarm_t, evolution_alarm_exec_t;
 		type evolution_exchange_t, evolution_exchange_exec_t;
-		type evolution_exchange_orbit_tmp_t;
 		type evolution_server_t, evolution_server_exec_t;
 		type evolution_webcal_t, evolution_webcal_exec_t;
 	')
@@ -52,7 +51,6 @@ interface(`evolution_role',`
 	allow evolution_exchange_t $2:unix_stream_socket connectto;
 
 	allow $2 evolution_exchange_t:unix_stream_socket connectto;
-	allow $2 evolution_exchange_orbit_tmp_t:sock_file write;
 ')
 
 ########################################

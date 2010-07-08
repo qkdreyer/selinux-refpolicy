@@ -1,4 +1,3 @@
-
 policy_module(vino, 1.0.0) 
 
 ########################################
@@ -15,13 +14,10 @@ type vino_server_data_home_t;
 userdom_user_home_content(vino_server_data_home_t)
 
 type vino_server_tmp_t;
-files_tmp_file(vino_server_tmp_t)
-files_poly_member_tmp(vino_server_t, vino_server_tmp_t)
-ubac_constrained(vino_server_tmp_t)
+userdom_user_tmp_content(vino_server_t, vino_server_tmp_t)
 
 type vino_server_tmpfs_t;
-files_tmpfs_file(vino_server_tmpfs_t)
-ubac_constrained(vino_server_tmpfs_t)
+userdom_user_tmpfs_content(vino_server_tmpfs_t)
 
 ########################################
 #

@@ -83,6 +83,7 @@ interface(`seunshare_role_template',`
 
 	type $1_seunshare_t, seunshare_domain;
 	application_domain($1_seunshare_t, seunshare_exec_t)
+	# ubac_constrained($1_seunshare_t)
 	role $2 types $1_seunshare_t;
 
 	mls_process_set_level($1_seunshare_t)
@@ -91,12 +92,12 @@ interface(`seunshare_role_template',`
 	sandbox_transition($1_seunshare_t, $2)
 
 	ps_process_pattern($3, $1_seunshare_t)
-	allow $3 $1_seunshare_t:process signal_perms;
+	allow $3 $1_seunshare_t:process { ptrace signal_perms };
 
 	allow $1_seunshare_t $3:process transition;
 	dontaudit $1_seunshare_t $3:process { noatsecure siginh rlimitinh };
 
 	ifdef(`hide_broken_symptoms', `
-		dontaudit $1_seunshare_t $3:socket_class_set { read write };
+		dontaudit $1_seunshare_t $3:socket_class_set rw_inherited_sock_file_perms;
 	')
 ')

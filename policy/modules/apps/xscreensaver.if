@@ -27,5 +27,5 @@ interface(`xscreensaver_role',`
 	corecmd_search_bin($2)
 
 	ps_process_pattern($2, xscreensaver_t)
-	allow $2 xscreensaver_t:process signal_perms;
+	allow $2 xscreensaver_t:process { ptrace signal_perms };
 ')

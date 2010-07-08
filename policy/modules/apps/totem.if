@@ -18,7 +18,6 @@
 interface(`totem_role',`
 	gen_require(`
 		type totem_t, totem_exec_t;
-		type totem_tmp_t, totem_tmpfs_t;
 	')
 
 	role $1 types totem_t;
@@ -28,12 +27,6 @@ interface(`totem_role',`
 
 	ps_process_pattern($2, totem_t)
 	allow $2 totem_t:process { ptrace signal_perms };
-
-	manage_sock_files_pattern($2, totem_tmpfs_t, totem_tmpfs_t)
-	relabel_sock_files_pattern($2, totem_tmpfs_t, totem_tmpfs_t)
-
-	manage_files_pattern($2, totem_tmpfs_t, totem_tmpfs_t)
-	relabel_files_pattern($2, totem_tmpfs_t, totem_tmpfs_t)
 
 	optional_policy(`
 		totem_dbus_chat($2)

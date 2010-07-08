@@ -19,8 +19,6 @@
 interface(`wireshark_role',`
 	gen_require(`
 		type wireshark_t, wireshark_exec_t;
-		type wireshark_home_t, wireshark_tmp_t;
-		type wireshark_tmpfs_t;
 	')
 
 	role $1 types wireshark_t;
@@ -28,6 +26,10 @@ interface(`wireshark_role',`
 	domain_auto_trans($2, wireshark_exec_t, wireshark_t)
 	corecmd_search_bin($1)
 
+	ps_process_pattern($2, wireshark_t)
+	allow $2 wireshark_t:process { ptrace signal_perms };
+
+	# fix me
 	allow wireshark_t $2:fd use;
 	allow wireshark_t $2:process sigchld;
 ')

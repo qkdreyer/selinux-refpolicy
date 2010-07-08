@@ -8,6 +8,8 @@ policy_module(cpufreqselector, 1.1.1)
 type cpufreqselector_t;
 type cpufreqselector_exec_t;
 application_domain(cpufreqselector_t, cpufreqselector_exec_t)
+# no role is allowed the cpufreqselector_t domain.
+# is this ubac or a system service.
 
 ########################################
 #

@@ -265,24 +265,24 @@ interface(`userdom_manage_home_role',`
 interface(`userdom_manage_tmp_role',`
 	gen_require(`
 		type user_tmp_t;
+		attribute user_tmp_type;
 	')
 
 	role $1 types user_tmp_t;
-
 	files_poly_member_tmp($2, user_tmp_t)
 
-	manage_dirs_pattern($2, user_tmp_t, user_tmp_t)
-	manage_files_pattern($2, user_tmp_t, user_tmp_t)
-	manage_lnk_files_pattern($2, user_tmp_t, user_tmp_t)
-	manage_sock_files_pattern($2, user_tmp_t, user_tmp_t)
-	manage_fifo_files_pattern($2, user_tmp_t, user_tmp_t)
+	manage_dirs_pattern($2, user_tmp_type, user_tmp_type)
+	manage_files_pattern($2, user_tmp_type, user_tmp_type)
+	manage_lnk_files_pattern($2, user_tmp_type, user_tmp_type)
+	manage_sock_files_pattern($2, user_tmp_type, user_tmp_type)
+	manage_fifo_files_pattern($2, user_tmp_type, user_tmp_type)
 	files_tmp_filetrans($2, user_tmp_t, { dir file lnk_file sock_file fifo_file })
 	# fix me: seperate relabel perms
-	relabel_files_pattern($2, user_tmp_t, user_tmp_t)
-	relabel_dirs_pattern($2, user_tmp_t, user_tmp_t)
-	relabel_lnk_files_pattern($2, user_tmp_t, user_tmp_t)
-	relabel_sock_files_pattern($2, user_tmp_t, user_tmp_t)
-	relabel_fifo_files_pattern($2, user_tmp_t, user_tmp_t)
+	relabel_files_pattern($2, user_tmp_type, user_tmp_type)
+	relabel_dirs_pattern($2, user_tmp_type, user_tmp_type)
+	relabel_lnk_files_pattern($2, user_tmp_type, user_tmp_type)
+	relabel_sock_files_pattern($2, user_tmp_type, user_tmp_type)
+	relabel_fifo_files_pattern($2, user_tmp_type, user_tmp_type)
 ')
 
 #######################################
@@ -364,21 +364,22 @@ interface(`userdom_exec_user_tmp_files',`
 interface(`userdom_manage_tmpfs_role',`
 	gen_require(`
 		type user_tmpfs_t;
+		attribute user_tmpfs_type;
 	')
 
 	role $1 types user_tmpfs_t;
 
-	manage_dirs_pattern($2, user_tmpfs_t, user_tmpfs_t)
-	manage_files_pattern($2, user_tmpfs_t, user_tmpfs_t)
-	manage_lnk_files_pattern($2, user_tmpfs_t, user_tmpfs_t)
-	manage_sock_files_pattern($2, user_tmpfs_t, user_tmpfs_t)
-	manage_fifo_files_pattern($2, user_tmpfs_t, user_tmpfs_t)
+	manage_dirs_pattern($2, user_tmpfs_type, user_tmpfs_type)
+	manage_files_pattern($2, user_tmpfs_type, user_tmpfs_type)
+	manage_lnk_files_pattern($2, user_tmpfs_type, user_tmpfs_type)
+	manage_sock_files_pattern($2, user_tmpfs_type, user_tmpfs_type)
+	manage_fifo_files_pattern($2, user_tmpfs_type, user_tmpfs_type)
 	fs_tmpfs_filetrans($2, user_tmpfs_t, { dir file lnk_file sock_file fifo_file })
-	relabel_dirs_pattern($2, user_tmpfs_t, user_tmpfs_t)
-	relabel_files_pattern($2, user_tmpfs_t, user_tmpfs_t)
-	relabel_lnk_files_pattern($2, user_tmpfs_t, user_tmpfs_t)
-	relabel_sock_files_pattern($2, user_tmpfs_t, user_tmpfs_t)
-	relabel_fifo_files_pattern($2, user_tmpfs_t, user_tmpfs_t)
+	relabel_dirs_pattern($2, user_tmpfs_type, user_tmpfs_type)
+	relabel_files_pattern($2, user_tmpfs_type, user_tmpfs_type)
+	relabel_lnk_files_pattern($2, user_tmpfs_type, user_tmpfs_type)
+	relabel_sock_files_pattern($2, user_tmpfs_type, user_tmpfs_type)
+	relabel_fifo_files_pattern($2, user_tmpfs_type, user_tmpfs_type)
 ')
 
 #######################################
@@ -695,11 +696,6 @@ template(`userdom_common_user_template',`
 	')
 
 	optional_policy(`
-		oident_manage_user_content($1_t)
-		oident_relabel_user_content($1_t)
-	')
-
-	optional_policy(`
 		pcmcia_read_pid($1_usertype)
 	')
 
@@ -713,11 +709,6 @@ template(`userdom_common_user_template',`
 			postgresql_stream_connect($1_usertype)
 			postgresql_tcp_connect($1_usertype)
 		')
-	')
-
-	optional_policy(`
-		procmail_manage_user_content_files($1_usertype)
-		procmail_relabel_user_content_files($1_usertype)
 	')
 
 	optional_policy(`
@@ -1003,9 +994,6 @@ template(`userdom_restricted_xwindows_user_template',`
 
 	optional_policy(`
 		pulseaudio_role($1_r, $1_usertype)
-		pulseaudio_read_tmp_files($1_t)
-		pulseaudio_read_tmpfs_files($1_t)
-		pulseaudio_write_tmp_sockets($1_t)
 	')
 
 	optional_policy(`

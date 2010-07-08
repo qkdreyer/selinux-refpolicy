@@ -19,7 +19,6 @@ interface(`mplayer_role',`
 	gen_require(`
 		type mencoder_t, mencoder_exec_t;
 		type mplayer_t, mplayer_exec_t;
-		type mplayer_home_t;
 	')
 
 	role $1 types { mencoder_t mplayer_t };
@@ -27,12 +26,12 @@ interface(`mplayer_role',`
 	domtrans_pattern($2, mencoder_exec_t, mencoder_t)
 
 	ps_process_pattern($2, mencoder_t)
-	allow $2 mencoder_t:process signal_perms;
+	allow $2 mencoder_t:process { ptrace signal_perms };
 
 	domtrans_pattern($2, mplayer_exec_t, mplayer_t)
 
 	ps_process_pattern($2, mplayer_t)
-	allow $2 mplayer_t:process signal_perms;
+	allow $2 mplayer_t:process { ptrace signal_perms };
 ')
 
 ########################################
