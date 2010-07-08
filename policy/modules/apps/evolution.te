@@ -25,7 +25,7 @@ typealias evolution_alarm_tmpfs_t alias { user_evolution_alarm_tmpfs_t staff_evo
 typealias evolution_alarm_tmpfs_t alias { auditadm_evolution_alarm_tmpfs_t secadm_evolution_alarm_tmpfs_t };
 
 type evolution_alarm_orbit_tmp_t;
-userdom_user_tmp_content(evolution_alarm_t, evolution_orbit_tmp_t)
+userdom_user_tmp_content(evolution_alarm_t, evolution_alarm_orbit_tmp_t)
 typealias evolution_alarm_orbit_tmp_t alias { user_evolution_alarm_orbit_tmp_t staff_evolution_alarm_orbit_tmp_t sysadm_evolution_alarm_orbit_tmp_t };
 typealias evolution_alarm_orbit_tmp_t alias { auditadm_evolution_alarm_orbit_tmp_t secadm_evolution_alarm_orbit_tmp_t };
 
