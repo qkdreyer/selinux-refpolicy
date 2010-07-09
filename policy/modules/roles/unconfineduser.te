@@ -445,4 +445,4 @@ domain_ptrace_all_domains(unconfined_notrans_t)
 # Unconfined mount local policy
 #
 
-gen_user(unconfined_u, user, unconfined_r system_r, s0, s0 - mls_systemhigh, mcs_allcats)
+# gen_user(unconfined_u, user, unconfined_r system_r, s0, s0 - mls_systemhigh, mcs_allcats)

@@ -247,9 +247,10 @@ echo "
 #     permissive - SELinux prints warnings instead of enforcing.
 #     disabled - No SELinux policy is loaded.
 SELINUX=enforcing
-# SELINUXTYPE= can take one of these two values:
-#     targeted - Targeted processes are protected,
+# SELINUXTYPE= can take one of these three values:
+#     targeted - Targeted processes are protected.
 #     mls - Multi Level Security protection.
+#-----minimum - Everything operates in unconfined_t.
 SELINUXTYPE=targeted 
 
 " > /etc/selinux/config
@@ -305,24 +306,6 @@ else
 	%loadpolicy targeted $packages
 	%relabel targeted
 fi
-exit 0
-
-%triggerpostun targeted -- selinux-policy-targeted < 3.2.5-9.fc9
-. /etc/selinux/config
-[ "${SELINUXTYPE}" != "targeted" ] && exit 0
-setsebool -P use_nfs_home_dirs=1
-semanage user -l | grep -s unconfined_u > /dev/null
-if [ $? -eq 0 ]; then
-	semanage user -m -R "unconfined_r system_r" -r s0-s0:c0.c1023 unconfined_u
-else
-	semanage user -a -P user -R "unconfined_r system_r" -r s0-s0:c0.c1023 unconfined_u
-fi
-seuser=`semanage login -l | grep __default__ | awk '{ print $2 }'`
-[ "$seuser" != "unconfined_u" ]  && semanage login -m -s "unconfined_u"  -r s0-s0:c0.c1023 __default__
-seuser=`semanage login -l | grep root | awk '{ print $2 }'`
-[ "$seuser" = "system_u" ] && semanage login -m -s "unconfined_u"  -r s0-s0:c0.c1023 root
-restorecon -R /root /etc/selinux/targeted 2> /dev/null
-semodule -r qmail 2> /dev/null
 exit 0
 
 %files targeted
