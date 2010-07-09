@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.6
-Release: 1.13%{?dist}
+Release: 1.14%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -302,7 +302,7 @@ if [ $1 -eq 1 ]; then
 	%loadpolicy targeted $packages
 	restorecon -R /root /var/log /var/run /var/lib 2> /dev/null
 else
-	semodule -n -s targeted -r moilscanner -r mailscanner -r gamin -r audio_entropy -r iscsid -r polkit_auth -r polkit -r rtkit_daemon -r ModemManager 2>/dev/null
+	semodule -n -s targeted -r moilscanner -r mailscanner -r gamin -r audio_entropy -r iscsid -r polkit_auth -r polkit -r rtkit_daemon -r ModemManager -d unconfined 2>/dev/null
 	%loadpolicy targeted $packages
 	%relabel targeted
 fi
@@ -422,6 +422,15 @@ exit 0
 %endif
 
 %changelog
+* Fri Jul 09 2010 Dominick Grift <domg472@gmail.com> 3.8.6-1.14
+- Lock down booleans.
+- Dont allow unconfined logins by default.
+- Disable unconfined module on clean install.
+- map root login to root seuser.
+- default logins are mapped to user_u
+- disallow sysadmin login from ssh (no default contexts)
+- no unconfined_u seuser mapping
+
 * Fri Jul 09 2010 Dominick Grift <domg472@gmail.com> 3.8.6-1.13
 - Again various fixes wrt user home tmp tmpfs content.
 - Various ubac changes
