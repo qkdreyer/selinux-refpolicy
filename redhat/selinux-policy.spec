@@ -5,13 +5,13 @@
 %define BUILD_TARGETED 1
 %endif
 %if %{?BUILD_MINIMUM:0}%{!?BUILD_MINIMUM:1}
-%define BUILD_MINIMUM 1
+%define BUILD_MINIMUM 0
 %endif
 %if %{?BUILD_OLPC:0}%{!?BUILD_OLPC:1}
 %define BUILD_OLPC 0
 %endif
 %if %{?BUILD_MLS:0}%{!?BUILD_MLS:1}
-%define BUILD_MLS 1
+%define BUILD_MLS 0
 %endif
 %define POLICYVER 24
 %define libsepolver 2.0.41-1
@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.6
-Release: 1.12%{?dist}
+Release: 1.13%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -439,6 +439,12 @@ exit 0
 %endif
 
 %changelog
+* Fri Jul 09 2010 Dominick Grift <domg472@gmail.com> 3.8.6-1.13
+- Again various fixes wrt user home tmp tmpfs content.
+- Various ubac changes
+- Allowing pulse to read window manager tmpfs files.
+- Change spec to only build targeted policy.
+
 * Fri Jul 09 2010 Dominick Grift <domg472@gmail.com> 3.8.6-1.12
 - Various user tmp, home, tmpfs content fixes.
 
