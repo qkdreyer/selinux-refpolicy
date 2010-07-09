@@ -300,9 +300,10 @@ SELinux Reference policy targeted base module.
 packages=`cat /usr/share/selinux/targeted/modules.lst`
 if [ $1 -eq 1 ]; then
 	%loadpolicy targeted $packages
+	semodule -s targeted -d unconfined 2>/dev/null
 	restorecon -R /root /var/log /var/run /var/lib 2> /dev/null
 else
-	semodule -n -s targeted -r moilscanner -r mailscanner -r gamin -r audio_entropy -r iscsid -r polkit_auth -r polkit -r rtkit_daemon -r ModemManager -d unconfined 2>/dev/null
+	semodule -n -s targeted -r ethereal -r moilscanner -r mailscanner -r gamin -r audio_entropy -r iscsid -r polkit_auth -r polkit -r rtkit_daemon -r ModemManager 2>/dev/null
 	%loadpolicy targeted $packages
 	%relabel targeted
 fi
