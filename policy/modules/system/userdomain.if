@@ -195,7 +195,7 @@ interface(`userdom_manage_home_role',`
 		attribute user_home_type;
 	')
 
-	role $1 types { user_home_type user_home_dir_t };
+	role $1 types { user_home_t user_home_dir_t };
 
 	##############################
 	#
