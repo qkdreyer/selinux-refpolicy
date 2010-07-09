@@ -1,11 +1,11 @@
 policy_module(rpm, 1.11.1)
 
-attribute rpm_transition_domain;
-
 ########################################
 #
 # Declarations
 #
+
+attribute rpm_transition_domain;
 
 type debuginfo_exec_t;
 domain_entry_file(rpm_t, debuginfo_exec_t)
@@ -18,9 +18,6 @@ domain_role_change_exemption(rpm_t)
 domain_system_change_exemption(rpm_t)
 domain_interactive_fd(rpm_t)
 role system_r types rpm_t;
-
-type debuginfo_exec_t;
-domain_entry_file(rpm_t, debuginfo_exec_t)
 
 type rpm_file_t;
 files_type(rpm_file_t)
