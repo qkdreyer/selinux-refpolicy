@@ -160,9 +160,6 @@ interface(`mta_role',`
 	allow mta_user_agent $2:process sigchld;
 	allow mta_user_agent $2:fifo_file { read write };
 
-	manage_files_pattern($2, mail_forward_t, mail_forward_t)
-	relabel_files_pattern($2, mail_forward_t, mail_forward_t)	
-
 	mta_manage_mail_home($2)
 	mta_relabel_mail_home($2)
 ')
@@ -222,12 +219,12 @@ interface(`mta_agent_executable',`
 ## </param>
 #
 interface(`mta_dontaudit_leaks_system_mail',`
-    gen_require(`
-        type system_mail_t;
-    ')
+	gen_require(`
+		type system_mail_t;
+	')
 
-    dontaudit $1 system_mail_t:fifo_file write;
-    dontaudit $1 system_mail_t:tcp_socket { read write };
+	dontaudit $1 system_mail_t:fifo_file write;
+	dontaudit $1 system_mail_t:tcp_socket { read write };
 ')
 
 ########################################
