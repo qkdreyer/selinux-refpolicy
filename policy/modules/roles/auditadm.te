@@ -7,6 +7,7 @@ policy_module(auditadm, 2.1.0)
 
 role auditadm_r;
 
+# This should have to be a login user.
 userdom_unpriv_user_template(auditadm)
 
 ########################################

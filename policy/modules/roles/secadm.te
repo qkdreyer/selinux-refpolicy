@@ -7,6 +7,7 @@ policy_module(secadm, 2.1.0)
 
 role secadm_r;
 
+# this should have to be a login user.
 userdom_unpriv_user_template(secadm)
 userdom_security_admin_template(secadm_t, secadm_r)
 userdom_inherit_append_admin_home_files(secadm_t)

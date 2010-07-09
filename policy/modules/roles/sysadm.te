@@ -361,17 +361,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-	ntp_stub()
-	corenet_udp_bind_ntp_port(sysadm_t)
-')
-
-optional_policy(`
 	oav_run_update(sysadm_t, sysadm_r)
-')
-
-optional_policy(`
-	oident_manage_user_content(sysadm_t)
-	oident_relabel_user_content(sysadm_t)
 ')
 
 optional_policy(`
