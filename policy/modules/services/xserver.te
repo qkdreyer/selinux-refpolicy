@@ -121,7 +121,6 @@ type user_fonts_cache_t;
 typealias user_fonts_cache_t alias { staff_fonts_cache_t sysadm_fonts_cache_t };
 typealias user_fonts_cache_t alias { auditadm_fonts_cache_t secadm_fonts_cache_t };
 typealias user_fonts_cache_t alias { xguest_fonts_cache_t unconfined_fonts_cache_t };
-;
 userdom_user_home_content(user_fonts_cache_t)
 
 type user_fonts_config_t;
@@ -142,7 +141,6 @@ type iceauth_home_t;
 typealias iceauth_home_t alias { user_iceauth_home_t staff_iceauth_home_t sysadm_iceauth_home_t };
 typealias iceauth_home_t alias { auditadm_iceauth_home_t secadm_iceauth_home_t };
 typealias iceauth_home_t alias {  xguest_iceauth_home_t };
-files_poly_member(iceauth_home_t)
 userdom_user_home_content(iceauth_home_t)
 
 type xauth_t;
@@ -157,15 +155,13 @@ type xauth_home_t;
 typealias xauth_home_t alias { user_xauth_home_t staff_xauth_home_t sysadm_xauth_home_t };
 typealias xauth_home_t alias { auditadm_xauth_home_t secadm_xauth_home_t };
 typealias xauth_home_t alias { xguest_xauth_home_t unconfined_xauth_home_t };
-files_poly_member(xauth_home_t)
 userdom_user_home_content(xauth_home_t)
 
 type xauth_tmp_t;
 typealias xauth_tmp_t alias { user_xauth_tmp_t staff_xauth_tmp_t sysadm_xauth_tmp_t };
 typealias xauth_tmp_t alias { xguest_xauth_tmp_t unconfined_xauth_tmp_t };
 typealias xauth_tmp_t alias { auditadm_xauth_tmp_t secadm_xauth_tmp_t };
-files_tmp_file(xauth_tmp_t)
-ubac_constrained(xauth_tmp_t)
+userdom_user_tmp_content(xauth_t, xauth_tmp_t)
 
 type xconsole_device_t;
 files_type(xconsole_device_t)

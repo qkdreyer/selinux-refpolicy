@@ -36,6 +36,7 @@ template(`ssh_basic_client_template',`
 
 	type $1_ssh_t;
 	application_domain($1_ssh_t, ssh_exec_t)
+	ubac_constrained($1_ssh_t)
 	role $3 types $1_ssh_t;
 
 	##############################
@@ -70,10 +71,6 @@ template(`ssh_basic_client_template',`
 
 	ps_process_pattern($2, $1_ssh_t)
 
-	manage_files_pattern($2, ssh_home_t, ssh_home_t)
-	manage_lnk_files_pattern($2, ssh_home_t, ssh_home_t)
-	manage_sock_files_pattern($2, ssh_home_t, ssh_home_t)
-
 	manage_files_pattern($1_ssh_t, ssh_home_t, ssh_home_t)
 	read_lnk_files_pattern($1_ssh_t, ssh_home_t, ssh_home_t)
 
@@ -92,8 +89,8 @@ template(`ssh_basic_client_template',`
 	corenet_tcp_connect_ssh_port($1_ssh_t)
 	corenet_sendrecv_ssh_client_packets($1_ssh_t)
 	corenet_tcp_bind_generic_node($1_ssh_t)
-	corenet_tcp_bind_all_unreserved_ports($1_ssh_t)
-	corenet_sendrecv_all_server_packets($1_ssh_t)
+	# corenet_tcp_bind_all_unreserved_ports($1_ssh_t)
+	# corenet_sendrecv_all_server_packets($1_ssh_t)
 
 	dev_read_urand($1_ssh_t)
 
@@ -274,7 +271,6 @@ template(`ssh_server_template', `
 template(`ssh_role_template',`
 	gen_require(`
 		attribute ssh_server, ssh_agent_type;
-
 		type ssh_t, ssh_exec_t, ssh_tmpfs_t, ssh_home_t;
 		type ssh_agent_exec_t, ssh_keysign_t, ssh_tmpfs_t;
 		type ssh_agent_tmp_t;
@@ -293,6 +289,8 @@ template(`ssh_role_template',`
 	ubac_constrained($1_ssh_agent_t)
 	role $2 types $1_ssh_agent_t;
 
+	userdom_user_tmp_content($1_ssh_agent_t, ssh_agent_tmp_t)
+
 	##############################
 	#
 	# Local policy
@@ -303,16 +301,14 @@ template(`ssh_role_template',`
 	allow $3 ssh_server:unix_stream_socket rw_stream_socket_perms;
 
 	ps_process_pattern($3, ssh_t)
-	allow $3 ssh_t:process signal;
+	allow $3 ssh_t:process { ptrace signal_perms };
 
 	allow ssh_t $3:unix_stream_socket rw_socket_perms;
 	allow ssh_t $3:unix_stream_socket connectto;
 
-	manage_files_pattern($3, ssh_home_t, ssh_home_t)
-	manage_lnk_files_pattern($3, ssh_home_t, ssh_home_t)
-	manage_sock_files_pattern($3, ssh_home_t, ssh_home_t)
 	userdom_search_user_home_dirs($1_t)
 
+	# fix me
 	userdom_manage_tmp_role($2, ssh_t)
 
 	##############################

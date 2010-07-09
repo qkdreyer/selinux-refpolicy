@@ -550,7 +550,7 @@ interface(`xserver_domtrans_xauth',`
 	corecmd_search_bin($1)
 	
 	ifdef(`hide_broken_symptoms',`
-		dontaudit xauth_t $1:socket_class_set { read write };
+		dontaudit xauth_t $1:socket_class_set rw_inherited_sock_file_perms;
 	')
 ')
 
