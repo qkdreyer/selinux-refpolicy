@@ -204,6 +204,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+	wm_read_tmpfs_files(pulseaudio_t)
+')
+
+optional_policy(`
 	xserver_stream_connect(pulseaudio_t)
 	xserver_manage_xdm_tmp_files(pulseaudio_t)
 	xserver_read_xdm_lib_files(pulseaudio_t)
