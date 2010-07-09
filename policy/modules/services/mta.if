@@ -66,7 +66,7 @@ template(`mta_base_mail_template',`
 	corenet_tcp_sendrecv_generic_if($1_mail_t)
 	corenet_tcp_sendrecv_generic_node($1_mail_t)
 	corenet_tcp_sendrecv_all_ports($1_mail_t)
-	corenet_tcp_connect_all_ports($1_mail_t)
+	# corenet_tcp_connect_all_ports($1_mail_t)
 	corenet_tcp_connect_smtp_port($1_mail_t)
 	corenet_sendrecv_smtp_client_packets($1_mail_t)
 
@@ -131,16 +131,16 @@ template(`mta_base_mail_template',`
 
 ########################################
 ## <summary>
-##	Role access for mta
+##	Role access for mta.
 ## </summary>
 ## <param name="role">
 ##	<summary>
-##	Role allowed access
+##	Role allowed access.
 ##	</summary>
 ## </param>
 ## <param name="domain">
 ##	<summary>
-##	User domain for the role
+##	User domain for the role.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -148,20 +148,21 @@ template(`mta_base_mail_template',`
 interface(`mta_role',`
 	gen_require(`
 		attribute mta_user_agent;
-		type user_mail_t, sendmail_exec_t, mail_forward_t;
+		type user_mail_t, sendmail_exec_t;
 	')
 
 	role $1 types { user_mail_t mta_user_agent };
 
 	domtrans_pattern($2, sendmail_exec_t, user_mail_t)
-	allow $2 sendmail_exec_t:lnk_file { getattr read };
+	allow $2 sendmail_exec_t:lnk_file read_lnk_file_perms;
 
+	ps_process_pattern($2, { user_mail_t mta_user_agent })
+	allow $2 { user_mail_t mta_user_agent }:process { ptrace signal_perms };
+
+	# fix me
 	allow mta_user_agent $2:fd use;
 	allow mta_user_agent $2:process sigchld;
-	allow mta_user_agent $2:fifo_file { read write };
-
-	mta_manage_mail_home($2)
-	mta_relabel_mail_home($2)
+	allow mta_user_agent $2:fifo_file rw_fifo_file_perms;
 ')
 
 ########################################
@@ -224,7 +225,7 @@ interface(`mta_dontaudit_leaks_system_mail',`
 	')
 
 	dontaudit $1 system_mail_t:fifo_file write;
-	dontaudit $1 system_mail_t:tcp_socket { read write };
+	dontaudit $1 system_mail_t:tcp_socket rw_inherited_sock_file_perms;
 ')
 
 ########################################
@@ -637,7 +638,7 @@ interface(`mta_rw_aliases',`
 		type etc_aliases_t;
 	')
 
-	allow $1 etc_aliases_t:file { rw_file_perms setattr };
+	allow $1 etc_aliases_t:file { rw_file_perms setattr_file_perms };
 	files_search_etc($1)
 ')
 
@@ -657,7 +658,7 @@ interface(`mta_dontaudit_rw_delivery_tcp_sockets',`
 		attribute mailserver_delivery;
 	')
 
-	dontaudit $1 mailserver_delivery:tcp_socket { read write };
+	dontaudit $1 mailserver_delivery:tcp_socket rw_inherited_sock_file_perms;
 ')
 
 #######################################
