@@ -6,12 +6,12 @@
 ## </summary>
 ## <param name="role">
 ##	<summary>
-##	Role allowed access
+##	Role allowed access.
 ##	</summary>
 ## </param>
 ## <param name="domain">
 ##	<summary>
-##	User domain for the role
+##	User domain for the role.
 ##	</summary>
 ## </param>
 ## <rolecap/>
@@ -28,6 +28,25 @@ interface(`vmware_role',`
 
 	ps_process_pattern($2, vmware_t)
 	allow $2 vmware_t:process { ptrace signal_perms };
+')
+
+########################################
+## <summary>
+##	Execute vmware host.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`vmware_exec_host',`
+	gen_require(`
+		type vmware_host_exec_t;
+	')
+
+	can_exec($1, vmware_host_exec_t)
+	corecmd_search_bin($1)
 ')
 
 ########################################
@@ -50,7 +69,7 @@ interface(`vmware_read_system_config',`
 
 ########################################
 ## <summary>
-##	Append to VMWare system configuration files.
+##	Append VMWare system configuration files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -68,7 +87,7 @@ interface(`vmware_append_system_config',`
 
 ########################################
 ## <summary>
-##	Append to VMWare log files.
+##	Append VMWare log files.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -83,23 +102,4 @@ interface(`vmware_append_log',`
 
 	append_files_pattern($1, vmware_log_t, vmware_log_t)
 	logging_search_logs($1)
-')
-
-########################################
-## <summary>
-##	Execute vmware host executables
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`vmware_exec_host',`
-	gen_require(`
-		type vmware_host_exec_t;
-	')
-
-	can_exec($1, vmware_host_exec_t)
-	corecmd_search_bin($1)
 ')

@@ -1,4 +1,4 @@
-policy_module(rpm, 1.11.0)
+policy_module(rpm, 1.11.1)
 
 attribute rpm_transition_domain;
 
@@ -6,6 +6,9 @@ attribute rpm_transition_domain;
 #
 # Declarations
 #
+
+type debuginfo_exec_t;
+domain_entry_file(rpm_t, debuginfo_exec_t)
 
 type rpm_t;
 type rpm_exec_t;
@@ -208,6 +211,7 @@ optional_policy(`
 
 optional_policy(`
 	dbus_system_domain(rpm_t, rpm_exec_t)
+	dbus_system_domain(rpm_t, debuginfo_exec_t)
 
 	optional_policy(`
 		hal_dbus_chat(rpm_t)

@@ -38,8 +38,7 @@ interface(`rpm_domtrans',`
 #
 interface(`rpm_domtrans_debuginfo',`
 	gen_require(`
-		type rpm_t;
-		type debuginfo_exec_t;
+		type rpm_t, debuginfo_exec_t;
 	')
 
 	domtrans_pattern($1, debuginfo_exec_t, rpm_t)
