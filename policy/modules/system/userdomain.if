@@ -269,7 +269,6 @@ interface(`userdom_manage_tmp_role',`
 	')
 
 	role $1 types user_tmp_t;
-	files_poly_member_tmp($2, user_tmp_t)
 
 	manage_dirs_pattern($2, user_tmp_type, user_tmp_type)
 	manage_files_pattern($2, user_tmp_type, user_tmp_type)
@@ -277,7 +276,6 @@ interface(`userdom_manage_tmp_role',`
 	manage_sock_files_pattern($2, user_tmp_type, user_tmp_type)
 	manage_fifo_files_pattern($2, user_tmp_type, user_tmp_type)
 	files_tmp_filetrans($2, user_tmp_t, { dir file lnk_file sock_file fifo_file })
-	# fix me: seperate relabel perms
 	relabel_files_pattern($2, user_tmp_type, user_tmp_type)
 	relabel_dirs_pattern($2, user_tmp_type, user_tmp_type)
 	relabel_lnk_files_pattern($2, user_tmp_type, user_tmp_type)
