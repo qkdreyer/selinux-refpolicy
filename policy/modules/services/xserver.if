@@ -102,8 +102,12 @@ interface(`xserver_restricted_role',`
 	xserver_read_xdm_pid($2)
 	xserver_create_xdm_tmp_sockets($2)
 	xserver_manage_xdm_tmp_files($2)
+	# i know it is a configfile but restrictedx user do not have access to configfiles.
 	xserver_read_xdm_etc_files($2)
 	xserver_search_xdm_etc_dirs($2)
+
+	xserver_search_xdm_lib($2)
+	xserver_read_xdm_lib_files($2)
 
 	tunable_policy(`allow_write_xshm',`
 		allow $2 xserver_t:shm rw_shm_perms;

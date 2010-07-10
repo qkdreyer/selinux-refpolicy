@@ -532,7 +532,9 @@ template(`userdom_common_user_template',`
 	files_read_generic_spool($1_usertype)
 	files_read_var_lib_files($1_usertype)
 	files_getattr_lost_found_dirs($1_usertype)
+	# this is too coarse.
 	files_read_config_files($1_usertype)
+
 	fs_read_noxattr_fs_files($1_usertype)
 	fs_read_noxattr_fs_symlinks($1_usertype)
 	fs_rw_cgroup_files($1_usertype)
@@ -965,8 +967,6 @@ template(`userdom_restricted_xwindows_user_template',`
 	seutil_exec_restorecond($1_t)
 	seutil_read_file_contexts($1_t)
 	seutil_read_default_contexts($1_t)
-
-	xserver_restricted_role($1_r, $1_t)
 	
 	optional_policy(`
 		alsa_read_rw_config($1_usertype)
@@ -982,6 +982,16 @@ template(`userdom_restricted_xwindows_user_template',`
 		fprintd_dbus_chat($1_t)
 	')
 
+	optional_policy(`
+		gnome_read_gconf_config($1_t)
+		gnome_search_gconf($1_t)
+
+		optional_policy(`
+			gnomeclock_dbus_chat($1_t)
+		')
+	')
+
+	# Seems like a bad idea.
 	optional_policy(`
 		openoffice_role_template($1, $1_r, $1_usertype)
 	')
@@ -1011,8 +1021,7 @@ template(`userdom_restricted_xwindows_user_template',`
 	')
 
 	optional_policy(`
-		xserver_search_xdm_lib($1_t)
-		xserver_read_xdm_lib_files($1_t)
+		xserver_restricted_role($1_r, $1_t)
 	')
 ')
 
@@ -1090,10 +1099,6 @@ template(`userdom_unpriv_user_template', `
 
 	optional_policy(`
 		gpg_role($1_r, $1_usertype)
-	')
-
-	optional_policy(`
-		gnomeclock_dbus_chat($1_t)
 	')
 
 	optional_policy(`
