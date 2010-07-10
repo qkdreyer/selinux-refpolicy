@@ -967,7 +967,7 @@ template(`userdom_restricted_xwindows_user_template',`
 	seutil_read_default_contexts($1_t)
 
 	xserver_restricted_role($1_r, $1_t)
-
+	
 	optional_policy(`
 		alsa_read_rw_config($1_usertype)
 	')
