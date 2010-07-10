@@ -306,19 +306,17 @@ template(`ssh_role_template',`
 	allow ssh_t $3:unix_stream_socket rw_socket_perms;
 	allow ssh_t $3:unix_stream_socket connectto;
 
-	# userdom_search_user_home_dirs($1_t)
-
 	##############################
 	#
 	# SSH agent local policy
 	#
 
-	allow $1_ssh_agent_t self:capability setgid;
+#	allow $1_ssh_agent_t self:capability setgid;
 	allow $1_ssh_agent_t self:process { getattr signal setpgid setrlimit };
 	allow $1_ssh_agent_t self:fifo_file rw_fifo_file_perms;
-	dontaudit $1_ssh_agent_t self:netlink_audit_socket { nlmsg_relay write create };
-	allow $1_ssh_agent_t self:netlink_route_socket create_netlink_socket_perms;
-	allow $1_ssh_agent_t self:tcp_socket create_stream_socket_perms;
+#	dontaudit $1_ssh_agent_t self:netlink_audit_socket { nlmsg_relay write create };
+#	allow $1_ssh_agent_t self:netlink_route_socket create_netlink_socket_perms;
+#	allow $1_ssh_agent_t self:tcp_socket create_stream_socket_perms;
 
 	allow $1_ssh_agent_t { $1_ssh_agent_t $3 }:process signull;
 
@@ -335,17 +333,17 @@ template(`ssh_role_template',`
 
 	domtrans_pattern($3, ssh_agent_exec_t, $1_ssh_agent_t)
 
-	corenet_all_recvfrom_netlabel($1_ssh_agent_t)
-	corenet_all_recvfrom_unlabeled($1_ssh_agent_t)
-	corenet_tcp_sendrecv_generic_if($1_ssh_agent_t)
-	corenet_tcp_sendrecv_generic_node($1_ssh_agent_t)
-	corenet_tcp_sendrecv_all_ports($1_ssh_agent_t)
-	corenet_tcp_bind_generic_node($1_ssh_agent_t)
-	corenet_tcp_connect_ssh_port($1_ssh_agent_t)
-	corenet_tcp_sendrecv_ssh_port($1_ssh_agent_t)
-	corenet_sendrecv_ssh_client_packets($1_ssh_agent_t)
+#	corenet_all_recvfrom_netlabel($1_ssh_agent_t)
+#	corenet_all_recvfrom_unlabeled($1_ssh_agent_t)
+#	corenet_tcp_sendrecv_generic_if($1_ssh_agent_t)
+#	corenet_tcp_sendrecv_generic_node($1_ssh_agent_t)
+#	corenet_tcp_sendrecv_all_ports($1_ssh_agent_t)
+#	corenet_tcp_bind_generic_node($1_ssh_agent_t)
+#	corenet_tcp_connect_ssh_port($1_ssh_agent_t)
+#	corenet_tcp_sendrecv_ssh_port($1_ssh_agent_t)
+#	corenet_sendrecv_ssh_client_packets($1_ssh_agent_t)
 
-	kernel_read_system_state($1_ssh_agent_t)
+#	kernel_read_system_state($1_ssh_agent_t)
 	kernel_read_kernel_sysctls($1_ssh_agent_t)
 
 	dev_read_urand($1_ssh_agent_t)
@@ -356,8 +354,8 @@ template(`ssh_role_template',`
 
 	fs_search_auto_mountpoints($1_ssh_agent_t)
 
-	corecmd_exec_bin($1_ssh_agent_t)
-	corecmd_exec_shell($1_ssh_agent_t)
+#	corecmd_exec_bin($1_ssh_agent_t)
+#	corecmd_exec_shell($1_ssh_agent_t)
 	# corecmd_shell_domtrans($1_ssh_agent_t, $3)
 	# corecmd_bin_domtrans($1_ssh_agent_t, $3)
 
@@ -367,7 +365,7 @@ template(`ssh_role_template',`
 
 	files_read_etc_files($1_ssh_agent_t)
 	files_read_etc_runtime_files($1_ssh_agent_t)
-	files_read_usr_files($1_ssh_agent_t)
+#	files_read_usr_files($1_ssh_agent_t)
 	files_search_home($1_ssh_agent_t)
 
 	libs_read_lib_files($1_ssh_agent_t)
@@ -381,10 +379,10 @@ template(`ssh_role_template',`
 
 	seutil_dontaudit_read_config($1_ssh_agent_t)
 
-	sysnet_read_config($1_ssh_agent_t)
+#	sysnet_read_config($1_ssh_agent_t)
 
 	userdom_use_user_terminals($1_ssh_agent_t)
-	userdom_dontaudit_search_user_home_content($1_ssh_agent_t)
+#	userdom_dontaudit_search_user_home_content($1_ssh_agent_t)
 
 	# userdom_search_user_home_content($1_ssh_agent_t)
 	# userdom_user_home_domtrans($1_ssh_agent_t, $3)
@@ -408,9 +406,9 @@ template(`ssh_role_template',`
 		automount_dontaudit_getattr_tmp_dirs($1_ssh_agent_t)
 	')
 
-	optional_policy(`
-		mta_dontaudit_getattr_spool_files($1_ssh_agent_t)
-	')
+#	optional_policy(`
+#		mta_dontaudit_getattr_spool_files($1_ssh_agent_t)
+#	')
 
 	optional_policy(`
 		nis_use_ypbind($1_ssh_agent_t)
@@ -420,10 +418,10 @@ template(`ssh_role_template',`
 		nscd_socket_use($1_ssh_agent_t)
 	')
 
-	optional_policy(`
-		ssh_exec($1_ssh_agent_t)
-		ssh_read_user_home_files($1_ssh_agent_t)
-	')
+#	optional_policy(`
+#		ssh_exec($1_ssh_agent_t)
+#		ssh_read_user_home_files($1_ssh_agent_t)
+#	')
 
 	optional_policy(`
 		xserver_use_xdm_fds($1_ssh_agent_t)
