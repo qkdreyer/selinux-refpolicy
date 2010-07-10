@@ -202,6 +202,11 @@ interface(`userdom_manage_home_role',`
 	# Domain access to home dir
 	#
 
+	# TODO: split these up into:
+	# 1. userdom_manage_generic_home_role (for restricted users)
+	# 2. userdom_relabel_generic_home_role (for restricted users)
+	# 3. userdom_manage_all_home_role (for common users)
+	# 4. userdom_relabel_all_home_role (for common users)
 	type_member $2 user_home_dir_t:dir user_home_dir_t;
 
 	allow $2 user_home_t:dir mounton;
@@ -214,7 +219,6 @@ interface(`userdom_manage_home_role',`
 	manage_lnk_files_pattern($2, { user_home_dir_t user_home_type }, user_home_type)
 	manage_sock_files_pattern($2, { user_home_dir_t user_home_type }, user_home_type)
 	manage_fifo_files_pattern($2, { user_home_dir_t user_home_type }, user_home_type)
-	# fix me: seperate relabel perms
 	relabel_dirs_pattern($2, { user_home_dir_t user_home_type }, user_home_type)
 	relabel_files_pattern($2, { user_home_dir_t user_home_type }, user_home_type)
 	relabel_lnk_files_pattern($2, { user_home_dir_t user_home_type }, user_home_type)
@@ -267,6 +271,12 @@ interface(`userdom_manage_tmp_role',`
 		type user_tmp_t;
 		attribute user_tmp_type;
 	')
+
+	# TODO: split these up into:
+	# 1. userdom_manage_generic_tmp_role (for restricted users)
+	# 2. userdom_relabel_generic_tmp_role (for restricted users)
+	# 3. userdom_manage_all_tmp_role (for common users)
+	# 4. userdom_relabel_all_tmp_role (for common users)
 
 	role $1 types user_tmp_t;
 
@@ -364,6 +374,12 @@ interface(`userdom_manage_tmpfs_role',`
 		type user_tmpfs_t;
 		attribute user_tmpfs_type;
 	')
+
+	# TODO: split these up into:
+	# 1. userdom_manage_generic_tmpfs_role (for restricted users)
+	# 2. userdom_relabel_generic_tmpfs_role (for restricted users)
+	# 3. userdom_manage_all_tmpfs_role (for common users)
+	# 4. userdom_relabel_all_tmpfs_role (for common users)
 
 	role $1 types user_tmpfs_t;
 
