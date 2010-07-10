@@ -248,7 +248,7 @@ template(`ssh_server_template', `
 
 ########################################
 ## <summary>
-##	Role access for ssh
+##	Role access for ssh.
 ## </summary>
 ## <param name="role_prefix">
 ##	<summary>
@@ -309,7 +309,7 @@ template(`ssh_role_template',`
 	userdom_search_user_home_dirs($1_t)
 
 	# fix me
-	userdom_manage_tmp_role($2, ssh_t)
+	# userdom_manage_tmp_role($2, ssh_t)
 
 	##############################
 	#
@@ -329,8 +329,7 @@ template(`ssh_role_template',`
 
 	stream_connect_pattern($3, ssh_agent_tmp_t, ssh_agent_tmp_t, $1_ssh_agent_t)
 
-	allow $3 $1_ssh_agent_t:process signal;
-
+	allow $3 $1_ssh_agent_t:process { ptrace signal_perms };
 	ps_process_pattern($3, $1_ssh_agent_t)
 
 	domtrans_pattern($3, ssh_agent_exec_t, $1_ssh_agent_t)
@@ -342,8 +341,8 @@ template(`ssh_role_template',`
 
 	fs_search_auto_mountpoints($1_ssh_agent_t)
 
-	corecmd_shell_domtrans($1_ssh_agent_t, $3)
-	corecmd_bin_domtrans($1_ssh_agent_t, $3)
+	# corecmd_shell_domtrans($1_ssh_agent_t, $3)
+	# corecmd_bin_domtrans($1_ssh_agent_t, $3)
 
 	domain_use_interactive_fds($1_ssh_agent_t)
 
@@ -362,10 +361,12 @@ template(`ssh_role_template',`
 
 	userdom_use_user_terminals($1_ssh_agent_t)
 
-	userdom_search_user_home_content($1_ssh_agent_t)
-	userdom_user_home_domtrans($1_ssh_agent_t, $3)
+	# userdom_search_user_home_content($1_ssh_agent_t)
+	# userdom_user_home_domtrans($1_ssh_agent_t, $3)
+
+	# clean me
 	allow $3 $1_ssh_agent_t:fd use;
-	allow $3 $1_ssh_agent_t:fifo_file rw_file_perms;
+	allow $3 $1_ssh_agent_t:fifo_file rw_fifo_file_perms;
 	allow $3 $1_ssh_agent_t:process sigchld;
 
 	tunable_policy(`use_nfs_home_dirs',`
