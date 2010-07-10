@@ -1000,6 +1000,25 @@ interface(`xserver_read_xdm_etc_files',`
 
 ########################################
 ## <summary>
+##	Search xdm config directories.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`xserver_search_xdm_etc_dirs',`
+	gen_require(`
+		type xdm_etc_t;
+	')
+
+	read_lnk_files_pattern($1, xdm_etc_t, xdm_etc_t)
+ 	files_search_etc($1)
+')
+
+########################################
+## <summary>
 ##	Manage xdm config files.
 ## </summary>
 ## <param name="domain">
