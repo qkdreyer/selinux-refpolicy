@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.6
-Release: 1.14%{?dist}
+Release: 1.15%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -423,6 +423,16 @@ exit 0
 %endif
 
 %changelog
+* Sat Jul 10 2010 Dominick Grift <domg472@gmail.com> 3.8.6-1.15
+- Change root default context.
+- Fix userdom restricted x user template to work:
+- allow read/search gconf etc.
+- allow read/search xdm etc (via restricted x server role)
+- move read/search xmd libs to restricted x server role.
+- allow restricted x users to dbus chat to gnome clock.
+- disable unconfined module on clean install.
+- remove ethereal module on update.
+
 * Fri Jul 09 2010 Dominick Grift <domg472@gmail.com> 3.8.6-1.14
 - Lock down booleans.
 - Dont allow unconfined logins by default.
