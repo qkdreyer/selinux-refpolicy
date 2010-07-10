@@ -153,8 +153,6 @@ interface(`userdom_ro_home_role',`
 		type user_home_t, user_home_dir_t;
 	')
 
-	role $1 types { user_home_t user_home_dir_t };
-
 	##############################
 	#
 	# Domain access to home dir
@@ -194,8 +192,6 @@ interface(`userdom_manage_home_role',`
 		type user_home_t, user_home_dir_t;
 		attribute user_home_type;
 	')
-
-	role $1 types { user_home_t user_home_dir_t };
 
 	##############################
 	#
@@ -277,8 +273,7 @@ interface(`userdom_manage_tmp_role',`
 	# 2. userdom_relabel_generic_tmp_role (for restricted users)
 	# 3. userdom_manage_all_tmp_role (for common users)
 	# 4. userdom_relabel_all_tmp_role (for common users)
-
-	role $1 types user_tmp_t;
+	files_poly_member_tmp($2, user_tmp_t)
 
 	manage_dirs_pattern($2, user_tmp_type, user_tmp_type)
 	manage_files_pattern($2, user_tmp_type, user_tmp_type)
@@ -380,8 +375,6 @@ interface(`userdom_manage_tmpfs_role',`
 	# 2. userdom_relabel_generic_tmpfs_role (for restricted users)
 	# 3. userdom_manage_all_tmpfs_role (for common users)
 	# 4. userdom_relabel_all_tmpfs_role (for common users)
-
-	role $1 types user_tmpfs_t;
 
 	manage_dirs_pattern($2, user_tmpfs_type, user_tmpfs_type)
 	manage_files_pattern($2, user_tmpfs_type, user_tmpfs_type)
