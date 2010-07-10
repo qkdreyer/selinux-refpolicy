@@ -306,7 +306,7 @@ template(`ssh_role_template',`
 	allow ssh_t $3:unix_stream_socket rw_socket_perms;
 	allow ssh_t $3:unix_stream_socket connectto;
 
-	userdom_search_user_home_dirs($1_t)
+	# userdom_search_user_home_dirs($1_t)
 
 	##############################
 	#
@@ -314,7 +314,7 @@ template(`ssh_role_template',`
 	#
 
 	allow $1_ssh_agent_t self:capability setgid;
-	allow $1_ssh_agent_t self:process { getattr setpgid setrlimit };
+	allow $1_ssh_agent_t self:process { getattr signal setpgid setrlimit };
 	allow $1_ssh_agent_t self:fifo_file rw_fifo_file_perms;
 	dontaudit $1_ssh_agent_t self:netlink_audit_socket { nlmsg_relay write create };
 	allow $1_ssh_agent_t self:netlink_route_socket create_netlink_socket_perms;
