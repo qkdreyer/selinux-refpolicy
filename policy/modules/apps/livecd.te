@@ -8,7 +8,6 @@ policy_module(livecd, 1.0.0)
 type livecd_t;
 type livecd_exec_t;
 application_domain(livecd_t, livecd_exec_t)
-role system_r types livecd_t;
 
 type livecd_tmp_t;
 files_tmp_file(livecd_tmp_t)
