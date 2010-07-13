@@ -26,6 +26,9 @@ init_script_file(piranha_pulse_initrc_exec_t)
 
 piranha_domain_template(web)
 
+type piranha_web_tmpfs_t;
+files_tmpfs_file(piranha_web_tmpfs_t)
+
 type piranha_etc_rw_t;
 files_type(piranha_etc_rw_t)
 
@@ -62,6 +65,10 @@ rw_files_pattern(piranha_web_t, piranha_etc_rw_t, piranha_etc_rw_t)
 manage_dirs_pattern(piranha_web_t, piranha_log_t, piranha_log_t)
 manage_files_pattern(piranha_web_t, piranha_log_t, piranha_log_t)
 logging_log_filetrans(piranha_web_t, piranha_log_t, { dir file })
+
+manage_dirs_pattern(piranha_web_t, piranha_web_tmpfs_t, piranha_web_tmpfs_t)
+manage_files_pattern(piranha_web_t, piranha_web_tmpfs_t, piranha_web_tmpfs_t)
+fs_tmpfs_filetrans(piranha_web_t, piranha_web_tmpfs_t, { dir file })
 
 piranha_pulse_initrc_domtrans(piranha_web_t)
 

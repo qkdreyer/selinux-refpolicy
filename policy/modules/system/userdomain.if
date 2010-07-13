@@ -1076,6 +1076,10 @@ template(`userdom_unpriv_user_template', `
 
 	miscfiles_read_hwdata($1_usertype)
 
+	tunable_policy(`user_setrlimit',`
+		allow $1_usertype self:process setrlimit;
+	')
+
 	tunable_policy(`user_tcp_server',`
 		corenet_tcp_bind_all_unreserved_ports($1_usertype)
 		corenet_sendrecv_all_server_packets($1_usertype)
@@ -2532,7 +2536,7 @@ interface(`userdom_dontaudit_read_user_tmp_files',`
 		type user_tmp_t;
 	')
 
-	dontaudit $1 user_tmp_t:file read_file_perms;
+	dontaudit $1 user_tmp_t:file read_inherited_file_perms;
 ')
 
 ########################################

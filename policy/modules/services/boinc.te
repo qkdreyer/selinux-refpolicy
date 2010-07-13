@@ -80,6 +80,7 @@ dev_read_sysfs(boinc_t)
 
 domain_read_all_domains_state(boinc_t)
 
+files_dontaudit_getattr_boot_dirs(boinc_t)
 files_read_etc_files(boinc_t)
 files_read_usr_files(boinc_t)
 

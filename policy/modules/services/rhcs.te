@@ -13,6 +13,7 @@ policy_module(rhcs, 1.1.0)
 gen_tunable(fenced_can_network_connect, false)
 
 attribute cluster_domain;
+attribute cluster_pid;
 attribute cluster_tmpfs;
 
 rhcs_domain_template(dlm_controld)

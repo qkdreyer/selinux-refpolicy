@@ -30,6 +30,13 @@ gen_tunable(allow_httpd_mod_auth_pam, false)
 
 ## <desc>
 ## <p>
+## Allow httpd daemon to change system limits.
+## </p>
+## </desc>
+gen_tunable(httpd_setrlimit, false)
+
+## <desc>
+## <p>
 ## Allow httpd to use built in scripting (usually php)
 ## </p>
 ## </desc>
@@ -392,6 +399,10 @@ miscfiles_read_certs(httpd_t)
 seutil_dontaudit_search_config(httpd_t)
 
 userdom_use_unpriv_users_fds(httpd_t)
+
+tunable_policy(`httpd_setrlimit',`
+	allow httpd_t self:process setrlimit;
+')
 
 tunable_policy(`allow_httpd_anon_write',`
 	miscfiles_manage_public_files(httpd_t)

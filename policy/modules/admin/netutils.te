@@ -70,6 +70,8 @@ corenet_tcp_bind_generic_node(netutils_t)
 
 dev_read_sysfs(netutils_t)
 dev_read_usbmon_dev(netutils_t)
+dev_write_usbmon_dev(netutils_t)
+dev_rw_generic_usb_dev(netutils_t)
 
 fs_getattr_xattr_fs(netutils_t)
 

@@ -6,18 +6,25 @@ policy_module(ssh, 2.2.0)
 #
 
 ## <desc>
-## <p>
-## allow host key based authentication
-## </p>
+##	<p>
+##	Allow host key based authentication.
+##	</p>
 ## </desc>
 gen_tunable(allow_ssh_keysign, false)
 
 ## <desc>
-## <p>
-## Allow ssh logins as sysadm_r:sysadm_t
-## </p>
+##	<p>
+##	Allow ssh logins as sysadm_r:sysadm_t.
+##	</p>
 ## </desc>
 gen_tunable(ssh_sysadm_login, false)
+
+## <desc>
+##	<p>
+##	Allow sshd to forward port connections.
+##	</p>
+## </desc>
+gen_tunable(sshd_forward_ports, false)
 
 attribute ssh_server;
 attribute ssh_agent_type;
@@ -289,8 +296,14 @@ corenet_tcp_sendrecv_xserver_port(sshd_t)
 userdom_read_user_home_content_files(sshd_t)
 userdom_read_user_home_content_symlinks(sshd_t)
 userdom_search_admin_dir(sshd_t)
-# Fix me
+# Fix me. Interface should only be called by user domains.
 userdom_manage_tmp_role(system_r, sshd_t)
+
+tunable_policy(`sshd_forward_ports', `
+	corenet_tcp_bind_all_unreserved_ports(sshd_t)
+	corenet_tcp_connect_all_ports(sshd_t)
+	corenet_sendrecv_all_packets(sshd_t)
+')
 
 tunable_policy(`ssh_sysadm_login',`
 	userdom_signal_all_users(sshd_t)

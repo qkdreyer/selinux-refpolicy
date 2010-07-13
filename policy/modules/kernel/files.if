@@ -3187,6 +3187,24 @@ interface(`files_list_mnt',`
 	allow $1 mnt_t:dir list_dir_perms;
 ')
 
+######################################
+## <summary>
+##  Do not audit attempts to list mnt directories.
+## </summary>
+## <param name="domain">
+##  <summary>
+##  Domain to not audit.
+##  </summary>
+## </param>
+#
+interface(`files_dontaudit_list_mnt',`
+	gen_require(`
+		type mnt_t;
+	')
+
+	dontaudit $1 mnt_t:dir list_dir_perms;
+')
+
 ########################################
 ## <summary>
 ##	Mount filesystems on mnt directories.

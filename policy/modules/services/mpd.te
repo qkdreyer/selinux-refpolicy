@@ -93,6 +93,9 @@ corenet_tcp_sendrecv_soundd_port(mpd_t)
 corenet_tcp_sendrecv_http_port(mpd_t)
 corenet_tcp_sendrecv_pulseaudio_port(mpd_t)
 corenet_tcp_sendrecv_mpd_port(mpd_t)
+corenet_tcp_connect_http_cache_port(mpd_t)
+corenet_tcp_sendrecv_http_cache_port(mpd_t)
+corenet_sendrecv_http_cache_client_packets(mpd_t)
 
 dev_read_sysfs(mpd_t)
 

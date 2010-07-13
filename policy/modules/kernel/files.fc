@@ -53,6 +53,7 @@ ifdef(`distro_suse',`
 /etc/smartd\.conf.*									--	gen_context(system_u:object_r:etc_runtime_t,s0)
 
 /etc/sysctl\.conf(\.old)?							--	gen_context(system_u:object_r:system_conf_t,s0)
+/etc/sysconfig/ebtables.*							--	gen_context(system_u:object_r:system_conf_t,s0)
 /etc/sysconfig/ip6?tables.*							--	gen_context(system_u:object_r:system_conf_t,s0)
 /etc/sysconfig/ipvsadm.*							--	gen_context(system_u:object_r:system_conf_t,s0)
 /etc/sysconfig/system-config-firewall.* 			--	gen_context(system_u:object_r:system_conf_t,s0)

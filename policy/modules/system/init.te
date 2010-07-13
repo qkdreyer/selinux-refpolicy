@@ -197,10 +197,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	dovecot_dontaudit_unlink_lib_files(initrc_t)
-')
-
-optional_policy(`
 	nscd_socket_use(init_t)
 ')
 
@@ -530,6 +526,10 @@ ifdef(`distro_redhat',`
 	')
 
 	optional_policy(`
+		dovecot_dontaudit_unlink_lib_files(initrc_t)
+	')
+
+	optional_policy(`
 		gnome_manage_gconf_config(initrc_t)
 	')
 
@@ -845,6 +845,7 @@ optional_policy(`
 
 optional_policy(`
 	virt_manage_cache(initrc_t)
+	virt_manage_lib_files(initrc_t)
 ')
 
 optional_policy(`

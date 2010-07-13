@@ -285,8 +285,14 @@ allow dovecot_deliver_t dovecot_t:process signull;
 allow dovecot_deliver_t dovecot_etc_t:file read_file_perms;
 allow dovecot_deliver_t dovecot_var_run_t:dir list_dir_perms;
 
+allow dovecot_deliver_t dovecot_cert_t:dir search_dir_perms;
+
+can_exec(dovecot_deliver_t, dovecot_deliver_exec_t)
+
 kernel_read_all_sysctls(dovecot_deliver_t)
 kernel_read_system_state(dovecot_deliver_t)
+
+corecmd_exec_bin(dovecot_deliver_t)
 
 files_read_etc_files(dovecot_deliver_t)
 files_read_etc_runtime_files(dovecot_deliver_t)

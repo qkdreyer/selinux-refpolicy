@@ -165,7 +165,6 @@ files_lock_filetrans(ftpd_t, ftpd_lock_t, file)
 
 manage_dirs_pattern(ftpd_t, ftpd_tmp_t, ftpd_tmp_t)
 manage_files_pattern(ftpd_t, ftpd_tmp_t, ftpd_tmp_t)
-files_tmp_filetrans(ftpd_t, ftpd_tmp_t, { file dir })
 
 manage_dirs_pattern(ftpd_t, ftpd_tmpfs_t, ftpd_tmpfs_t)
 manage_files_pattern(ftpd_t, ftpd_tmpfs_t, ftpd_tmpfs_t)
@@ -284,11 +283,15 @@ tunable_policy(`ftp_home_dir',`
 	userdom_read_user_home_content_files(ftpd_t)
 	userdom_manage_user_home_content(ftpd_t)
 
+	userdom_manage_user_tmp_files(ftpd_t)
+	userdom_tmp_filetrans_user_tmp(ftpd_t, file)
+
 	auth_read_all_dirs_except_shadow(ftpd_t)
 	auth_read_all_files_except_shadow(ftpd_t)
 	auth_read_all_symlinks_except_shadow(ftpd_t)
 ',`
-   userdom_user_home_dir_filetrans_pattern(ftpd_t, { dir file lnk_file })
+	userdom_user_home_dir_filetrans_pattern(ftpd_t, { dir file lnk_file })
+	files_tmp_filetrans(ftpd_t, ftpd_tmp_t, { file dir })
 ')
 
 tunable_policy(`ftp_home_dir && use_nfs_home_dirs',`
