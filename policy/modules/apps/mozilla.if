@@ -126,6 +126,26 @@ interface(`mozilla_manage_user_home_content',`
 
 ########################################
 ## <summary>
+##	Relabel mozilla home directory content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`mozilla_relabel_user_home_content',`
+	gen_require(`
+		type mozilla_home_t;
+	')
+
+	relabel_files_pattern($1, mozilla_home_t, mozilla_home_t)
+	relabel_lnk_files_pattern($1, mozilla_home_t, mozilla_home_t)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
 ##	Dontaudit attempts to write mozilla home directory content
 ## </summary>
 ## <param name="domain">
@@ -221,6 +241,48 @@ interface(`mozilla_rw_tcp_sockets',`
 
 ########################################
 ## <summary>
+##	Manage Mozilla tmp content.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`mozilla_manage_tmp_content',`
+	gen_require(`
+		type mozilla_tmp_t;
+	')
+
+	manage_dirs_pattern($1, mozilla_tmp_t, mozilla_tmp_t)
+	manage_files_pattern($1, mozilla_tmp_t, mozilla_tmp_t)
+	manage_sock_files_pattern($1, mozilla_tmp_t, mozilla_tmp_t)
+	files_search_tmp($1)
+')
+
+########################################
+## <summary>
+##	Relabel Mozilla tmp content.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`mozilla_relabel_tmp_content',`
+	gen_require(`
+		type mozilla_tmp_t;
+	')
+
+	relabel_dirs_pattern($1, mozilla_tmp_t, mozilla_tmp_t)
+	relabel_files_pattern($1, mozilla_tmp_t, mozilla_tmp_t)
+	relabel_sock_files_pattern($1, mozilla_tmp_t, mozilla_tmp_t)
+	files_search_tmp($1)
+')
+
+########################################
+## <summary>
 ##	Read Mozilla tmpfs files.
 ## </summary>
 ## <param name="domain">
@@ -235,6 +297,44 @@ interface(`mozilla_read_tmpfs_files',`
 	')
 
 	allow $1 mozilla_tmpfs_t:file read_file_perms;
+	fs_search_tmpfs($1)
+')
+
+########################################
+## <summary>
+##	Manage Mozilla tmpfs content.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`mozilla_manage_tmpfs_content',`
+	gen_require(`
+		type mozilla_tmpfs_t;
+	')
+
+	manage_files_pattern($1, mozilla_tmpfs_t, mozilla_tmpfs_t)
+	fs_search_tmpfs($1)
+')
+
+########################################
+## <summary>
+##	Relabel Mozilla tmpfs content.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`mozilla_relabel_tmpfs_content',`
+	gen_require(`
+		type mozilla_tmpfs_t;
+	')
+
+	relabel_files_pattern($1, mozilla_tmpfs_t, mozilla_tmpfs_t)
 	fs_search_tmpfs($1)
 ')
 

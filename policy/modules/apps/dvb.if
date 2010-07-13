@@ -81,3 +81,43 @@ interface(`dvb_domtrans_dvbd',`
 	domtrans_pattern($1, dvbd_exec_t, dvbd_t)
 	corecmd_search_bin($1)
 ')
+
+########################################
+## <summary>
+##	Manage DVB gnome home content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`dvb_manage_home_content',`
+	gen_require(`
+		type dvbd_config_home_t;
+	')
+
+	manage_dirs_pattern($1, dvbd_config_home_t, dvbd_config_home_t)
+	manage_files_pattern($1, dvbd_config_home_t, dvbd_config_home_t)
+	gnome_search_generic_config_dirs($1)
+')
+
+########################################
+## <summary>
+##	Relabel DVB gnome home content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`dvb_relabel_home_content',`
+	gen_require(`
+		type dvbd_config_home_t;
+	')
+
+	relabel_dirs_pattern($1, dvbd_config_home_t, dvbd_config_home_t)
+	relabel_files_pattern($1, dvbd_config_home_t, dvbd_config_home_t)
+	gnome_search_generic_config_dirs($1)
+')

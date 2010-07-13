@@ -4611,3 +4611,171 @@ interface(`userdom_delete_user_tmp_files',`
 	allow $1 user_tmp_t:file delete_file_perms;
 	files_search_tmp($1)
 ')
+
+########################################
+## <summary>
+##	Manage user bin content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_manage_user_bin_content',`
+	gen_require(`
+		type home_bin_t;
+	')
+
+	manage_dirs_pattern($1, home_bin_t, home_bin_t)
+	manage_files_pattern($1, home_bin_t, home_bin_t)
+	manage_lnk_files_pattern($1, home_bin_t, home_bin_t)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
+##	Relabel user bin content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_relabel_user_bin_content',`
+	gen_require(`
+		type home_bin_t;
+	')
+
+	relabel_dirs_pattern($1, home_bin_t, home_bin_t)
+	relabel_files_pattern($1, home_bin_t, home_bin_t)
+	relabel_lnk_files_pattern($1, home_bin_t, home_bin_t)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
+##	Manage user certificate content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_manage_user_cert_content',`
+	gen_require(`
+		type home_cert_t;
+	')
+
+	manage_dirs_pattern($1, home_cert_t, home_cert_t)
+	manage_files_pattern($1, home_cert_t, home_cert_t)
+	manage_lnk_files_pattern($1, home_cert_t, home_cert_t)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
+##	Relabel user certificate content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_relabel_user_cert_content',`
+	gen_require(`
+		type home_cert_t;
+	')
+
+	relabel_dirs_pattern($1, home_cert_t, home_cert_t)
+	relabel_files_pattern($1, home_cert_t, home_cert_t)
+	relabel_lnk_files_pattern($1, home_cert_t, home_cert_t)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
+##	Manage user audio content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_manage_user_audio_content',`
+	gen_require(`
+		type home_audio_t;
+	')
+
+	manage_dirs_pattern($1, home_audio_t, home_audio_t)
+	manage_files_pattern($1, home_audio_t, home_audio_t)
+	manage_lnk_files_pattern($1, home_audio_t, home_audio_t)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
+##	Relabel user audio content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_relabel_user_audio_content',`
+	gen_require(`
+		type home_audio_t;
+	')
+
+	relabel_dirs_pattern($1, home_audio_t, home_audio_t)
+	relabel_files_pattern($1, home_audio_t, home_audio_t)
+	relabel_lnk_files_pattern($1, home_audio_t, home_audio_t)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
+##	Manage user video content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_manage_user_video_content',`
+	gen_require(`
+		type home_video_t;
+	')
+
+	manage_dirs_pattern($1, home_video_t, home_video_t)
+	manage_files_pattern($1, home_video_t, home_video_t)
+	manage_lnk_files_pattern($1, home_video_t, home_video_t)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
+##	Relabel user video content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_relabel_user_video_content',`
+	gen_require(`
+		type home_video_t;
+	')
+
+	relabel_dirs_pattern($1, home_video_t, home_video_t)
+	relabel_files_pattern($1, home_video_t, home_video_t)
+	relabel_lnk_files_pattern($1, home_video_t, home_video_t)
+	userdom_search_user_home_dirs($1)
+')

@@ -238,6 +238,48 @@ interface(`nsplugin_read_home',`
 
 ########################################
 ## <summary>
+##	Manage nsplugin home content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`nsplugin_manage_home_content',`
+	gen_require(`
+		type nsplugin_home_t;
+	')
+
+	manage_dirs_pattern($1, nsplugin_home_t, nsplugin_home_t)
+	manage_files_pattern($1, nsplugin_home_t, nsplugin_home_t)
+	manage_lnk_files_pattern($1, nsplugin_home_t, nsplugin_home_t)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
+##	Relabel nsplugin home content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`nsplugin_relabel_home_content',`
+	gen_require(`
+		type nsplugin_home_t;
+	')
+
+	relabel_dirs_pattern($1, nsplugin_home_t, nsplugin_home_t)
+	relabel_files_pattern($1, nsplugin_home_t, nsplugin_home_t)
+	relabel_lnk_files_pattern($1, nsplugin_home_t, nsplugin_home_t)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
 ##	Exec nsplugin rw files.
 ## </summary>
 ## <param name="domain">
@@ -411,6 +453,44 @@ interface(`nsplugin_read_tmpfs_files',`
 	')
 
 	allow $1 nsplugin_tmpfs_t:file read_file_perms;
+	fs_search_tmpfs($1)
+')
+
+########################################
+## <summary>
+##	Manage nsplugin tmpfs content.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`nsplugin_manage_tmpfs_content',`
+	gen_require(`
+		type nsplugin_tmpfs_t;
+	')
+
+	manage_files_pattern($1, nsplugin_tmpfs_t, nsplugin_tmpfs_t)
+	fs_search_tmpfs($1)
+')
+
+########################################
+## <summary>
+##	Relabel nsplugin tmpfs content.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`nsplugin_relabel_tmpfs_content',`
+	gen_require(`
+		type nsplugin_tmpfs_t;
+	')
+
+	relabel_files_pattern($1, nsplugin_tmpfs_t, nsplugin_tmpfs_t)
 	fs_search_tmpfs($1)
 ')
 

@@ -251,6 +251,48 @@ interface(`gnome_read_generic_cache_files',`
 
 ########################################
 ## <summary>
+##	Manage generic cache home content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`gnome_manage_generic_cache_content',`
+	gen_require(`
+		type cache_home_t;
+	')
+
+	manage_dirs_pattern($1, cache_home_t, cache_home_t)
+	manage_files_pattern($1, cache_home_t, cache_home_t)
+	manage_lnk_files_pattern($1, cache_home_t, cache_home_t)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
+##	Relabel generic cache home content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`gnome_relabel_generic_cache_content',`
+	gen_require(`
+		type cache_home_t;
+	')
+
+	relabel_dirs_pattern($1, cache_home_t, cache_home_t)
+	relabel_files_pattern($1, cache_home_t, cache_home_t)
+	relabel_lnk_files_pattern($1, cache_home_t, cache_home_t)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
 ##	Set attributes of cache home dir (.cache)
 ## </summary>
 ## <param name="domain">
@@ -341,6 +383,48 @@ interface(`gnome_manage_generic_config_files',`
 	')
 
 	manage_files_pattern($1, config_home_t, config_home_t)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
+##	Manage generic conf home content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`gnome_manage_generic_config_content',`
+	gen_require(`
+		type config_home_t;
+	')
+
+	manage_dirs_pattern($1, config_home_t, config_home_t)
+	manage_files_pattern($1, config_home_t, config_home_t)
+	manage_lnk_files_pattern($1, config_home_t, config_home_t)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
+##	Relabel generic conf home content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`gnome_relabel_generic_config_content',`
+	gen_require(`
+		type config_home_t;
+	')
+
+	relabel_dirs_pattern($1, config_home_t, config_home_t)
+	relabel_files_pattern($1, config_home_t, config_home_t)
+	relabel_lnk_files_pattern($1, config_home_t, config_home_t)
 	userdom_search_user_home_dirs($1)
 ')
 
@@ -440,6 +524,50 @@ interface(`gnome_read_generic_data_files',`
 
 ########################################
 ## <summary>
+##	Manage generic data home content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`gnome_manage_generic_data_content',`
+	gen_require(`
+		type data_home_t;
+	')
+
+	manage_dirs_pattern($1, data_home_t, data_home_t)
+	manage_files_pattern($1, data_home_t, data_home_t)
+	manage_lnk_files_pattern($1, data_home_t, data_home_t)
+	userdom_search_user_home_dirs($1)
+	gnome_search_gconf($1)
+')
+
+########################################
+## <summary>
+##	Relabel generic data home content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`gnome_relabel_generic_data_content',`
+	gen_require(`
+		type data_home_t;
+	')
+
+	relabel_dirs_pattern($1, data_home_t, data_home_t)
+	relabel_files_pattern($1, data_home_t, data_home_t)
+	relabel_lnk_files_pattern($1, data_home_t, data_home_t)
+	userdom_search_user_home_dirs($1)
+	gnome_search_gconf($1)
+')
+
+########################################
+## <summary>
 ##	Manage gnome bookmark home files.
 ## </summary>
 ## <param name="domain">
@@ -454,6 +582,25 @@ interface(`gnome_manage_bookmark_home_files',`
 	')
 
 	allow $1 gnome_bookmark_home_t:file manage_file_perms;
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
+##	Relabel gnome bookmark home files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`gnome_relabel_bookmark_home_files',`
+	gen_require(`
+		type gnome_bookmark_home_t;
+	')
+
+	allow $1 gnome_bookmark_home_t:file relabel_file_perms;
 	userdom_search_user_home_dirs($1)
 ')
 
@@ -600,6 +747,47 @@ interface(`gnome_read_gconf_home_files',`
 
 ########################################
 ## <summary>
+##	Manage gconf home content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`gnome_manage_gconf_home_files',`
+	gen_require(`
+		type gconf_home_t;
+	')
+
+	manage_dirs_pattern($1, gconf_home_t, gconf_home_t)
+	manage_files_pattern($1, gconf_home_t, gconf_home_t)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
+##	Relabel gconf home content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`gnome_relabel_gconf_home_files',`
+	gen_require(`
+		type gconf_home_t;
+	')
+
+	relabel_dirs_pattern($1, gconf_home_t, gconf_home_t)
+	relabel_files_pattern($1, gconf_home_t, gconf_home_t)
+	userdom_search_user_home_dirs($1)
+')
+
+
+########################################
+## <summary>
 ##	search gconf homedir (.local)
 ## </summary>
 ## <param name="user_domain">
@@ -691,6 +879,46 @@ interface(`gnome_read_gstreamer_home_files',`
 	')
 
 	read_files_pattern($1, gstreamer_home_t, gstreamer_home_t)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
+##	Manage gstreamer home content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`gnome_manage_gstreamer_home_content',`
+	gen_require(`
+		type gstreamer_home_t;
+	')
+
+	manage_dirs_pattern($1, gstreamer_home_t, gstreamer_home_t)
+	manage_files_pattern($1, gstreamer_home_t, gstreamer_home_t)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
+##	Relabel gstreamer home content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`gnome_relabel_gstreamer_home_content',`
+	gen_require(`
+		type gstreamer_home_t;
+	')
+
+	relabel_dirs_pattern($1, gstreamer_home_t, gstreamer_home_t)
+	relabel_files_pattern($1, gstreamer_home_t, gstreamer_home_t)
 	userdom_search_user_home_dirs($1)
 ')
 

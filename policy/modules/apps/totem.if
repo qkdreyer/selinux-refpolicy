@@ -94,6 +94,84 @@ interface(`totem_read_tmpfs_files',`
 
 ########################################
 ## <summary>
+##	Manage Totem tmp content.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`totem_manage_tmp_content',`
+	gen_require(`
+		type totem_tmp_t;
+	')
+
+	manage_files_pattern($1, totem_tmp_t, totem_tmp_t)
+	manage_sock_files_pattern($1, totem_tmp_t, totem_tmp_t)
+	userdom_search_user_tmp_dirs($1)
+')
+
+########################################
+## <summary>
+##	Relabel Totem tmpfs content.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`totem_relabel_tmp_content',`
+	gen_require(`
+		type totem_tmp_t;
+	')
+
+	relabel_files_pattern($1, totem_tmp_t, totem_tmp_t)
+	relabel_sock_files_pattern($1, totem_tmp_t, totem_tmp_t)
+	userdom_search_user_tmp_dirs($1)
+')
+
+########################################
+## <summary>
+##	Manage Totem tmpfs content.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`totem_manage_tmpfs_content',`
+	gen_require(`
+		type totem_tmpfs_t;
+	')
+
+	manage_files_pattern($1, totem_tmpfs_t, totem_tmpfs_t)
+	fs_search_tmpfs($1)
+')
+
+########################################
+## <summary>
+##	Relabel Totem tmpfs content.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`totem_relabel_tmpfs_content',`
+	gen_require(`
+		type totem_tmpfs_t;
+	')
+
+	relabel_files_pattern($1, totem_tmpfs_t, totem_tmpfs_t)
+	fs_search_tmpfs($1)
+')
+
+########################################
+## <summary>
 ##	Read and write inherited Totem
 ##	tmpfs files.
 ## </summary>

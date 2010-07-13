@@ -23,7 +23,6 @@ allow dvbd_t self:tcp_socket { bind getattr listen create setopt };
 
 manage_dirs_pattern(dvbd_t, dvbd_config_home_t, dvbd_config_home_t)
 manage_files_pattern(dvbd_t, dvbd_config_home_t, dvbd_config_home_t)
-userdom_user_home_dir_filetrans(dvbd_t, dvbd_config_home_t, { dir file })
 
 corenet_all_recvfrom_unlabeled(dvbd_t)
 corenet_all_recvfrom_netlabel(dvbd_t)

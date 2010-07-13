@@ -63,6 +63,7 @@ interface(`openoffice_role_template',`
 	domain_entry_file($1_openoffice_t, openoffice_exec_t)
 	domain_interactive_fd($1_openoffice_t)
 
+	# Bad
 	userdom_unpriv_usertype($1, $1_openoffice_t)
 	userdom_exec_user_home_content_files($1_openoffice_t)
 
@@ -78,7 +79,6 @@ interface(`openoffice_role_template',`
 
 	fs_dontaudit_rw_tmpfs_files($1_openoffice_t)
 
-	allow $3 $1_openoffice_t:process { signal sigkill };
 	allow $1_openoffice_t $3:unix_stream_socket connectto;
 
 	optional_policy(`
@@ -94,6 +94,7 @@ interface(`openoffice_role_template',`
 	')
 
 	optional_policy(`
+	# bad
 		xserver_role($2, $1_openoffice_t)
 	')
 ')

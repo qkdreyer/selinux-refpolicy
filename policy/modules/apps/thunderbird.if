@@ -100,6 +100,48 @@ interface(`thunderbird_dontaudit_rw_inherited_home_files',`
 
 ########################################
 ## <summary>
+##	Manage Thunderbird home content.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`thunderbird_manage_home_content',`
+	gen_require(`
+		type thunderbird_home_t;
+	')
+
+	manage_dirs_pattern($1, thunderbird_home_t, thunderbird_home_t)
+	manage_files_pattern($1, thunderbird_home_t, thunderbird_home_t)
+	manage_lnk_files_pattern($1, thunderbird_home_t, thunderbird_home_t)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
+##	Relabel Thunderbird home content.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`thunderbird_relabel_home_content',`
+	gen_require(`
+		type thunderbird_home_t;
+	')
+
+	relabel_dirs_pattern($1, thunderbird_home_t, thunderbird_home_t)
+	relabel_files_pattern($1, thunderbird_home_t, thunderbird_home_t)
+	relabel_lnk_files_pattern($1, thunderbird_home_t, thunderbird_home_t)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
 ##	Write Thunderbird tmp files.
 ## </summary>
 ## <param name="domain">
@@ -114,6 +156,48 @@ interface(`thunderbird_write_tmp_files',`
 	')
 
 	allow $1 thunderbird_tmp_t:file write_file_perms;
+	files_search_tmp($1)
+')
+
+########################################
+## <summary>
+##	Manage Thunderbird tmp content.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`thunderbird_manage_tmp_content',`
+	gen_require(`
+		type thunderbird_tmp_t;
+	')
+
+	manage_dirs_pattern($1, thunderbird_tmp_t, thunderbird_tmp_t)
+	manage_files_pattern($1, thunderbird_tmp_t, thunderbird_tmp_t)
+	manage_sock_files_pattern($1, thunderbird_tmp_t, thunderbird_tmp_t)
+	files_search_tmp($1)
+')
+
+########################################
+## <summary>
+##	Relabel Thunderbird tmp content.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`thunderbird_relabel_tmp_content',`
+	gen_require(`
+		type thunderbird_tmp_t;
+	')
+
+	relabel_dirs_pattern($1, thunderbird_tmp_t, thunderbird_tmp_t)
+	relabel_files_pattern($1, thunderbird_tmp_t, thunderbird_tmp_t)
+	relabel_sock_files_pattern($1, thunderbird_tmp_t, thunderbird_tmp_t)
 	files_search_tmp($1)
 ')
 
@@ -152,6 +236,44 @@ interface(`thunderbird_read_tmpfs_files', `
 	')
 
 	allow $1 thunderbird_tmpfs_t:file read_file_perms;
+	fs_search_tmpfs($1)
+')
+
+########################################
+## <summary>
+##	Manage Thunderbird tmpfs content.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`thunderbird_manage_tmpfs_content',`
+	gen_require(`
+		type thunderbird_tmpfs_t;
+	')
+
+	manage_files_pattern($1, thunderbird_tmpfs_t, thunderbird_tmpfs_t)
+	fs_search_tmpfs($1)
+')
+
+########################################
+## <summary>
+##	Relabel Thunderbird tmpfs content.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`thunderbird_relabel_tmpfs_content',`
+	gen_require(`
+		type thunderbird_tmpfs_t;
+	')
+
+	relabel_files_pattern($1, thunderbird_tmpfs_t, thunderbird_tmpfs_t)
 	fs_search_tmpfs($1)
 ')
 
