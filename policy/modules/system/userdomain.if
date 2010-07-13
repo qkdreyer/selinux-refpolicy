@@ -150,7 +150,8 @@ template(`userdom_base_user_template',`
 #
 interface(`userdom_ro_home_role',`
 	gen_require(`
-		type user_home_t, user_home_dir_t;
+		attribute user_home_type;
+		type user_home_dir_t;
 	')
 
 	##############################
@@ -161,12 +162,12 @@ interface(`userdom_ro_home_role',`
 	type_member $2 user_home_dir_t:dir user_home_dir_t;
 
 	allow $2 user_home_dir_t:dir list_dir_perms;
-	allow $2 user_home_t:dir list_dir_perms;
-	allow $2 user_home_t:file entrypoint;
-	read_files_pattern($2, { user_home_t user_home_dir_t }, user_home_t)
-	read_lnk_files_pattern($2, { user_home_t user_home_dir_t }, user_home_t)
-	read_fifo_files_pattern($2, { user_home_t user_home_dir_t }, user_home_t)
-	read_sock_files_pattern($2, { user_home_t user_home_dir_t }, user_home_t)
+	allow $2 user_home_type:dir list_dir_perms;
+	allow $2 user_home_type:file entrypoint;
+	read_files_pattern($2, { user_home_type user_home_dir_t }, user_home_type)
+	read_lnk_files_pattern($2, { user_home_type user_home_dir_t }, user_home_type)
+	read_fifo_files_pattern($2, { user_home_type user_home_dir_t }, user_home_type)
+	read_sock_files_pattern($2, { user_home_type user_home_dir_t }, user_home_type)
 	files_list_home($2)
 ')
 
@@ -1412,6 +1413,7 @@ interface(`userdom_user_home_content',`
 
 	allow $1 user_home_t:filesystem associate;
 	files_type($1)
+	files_poly_member($1)
 	ubac_constrained($1)
 
 	files_poly_member($1)

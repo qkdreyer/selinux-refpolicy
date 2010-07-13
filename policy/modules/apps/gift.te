@@ -1,4 +1,4 @@
-policy_module(gift, 2.1.0)
+policy_module(gift, 2.1.1)
 
 ########################################
 #
@@ -18,9 +18,9 @@ typealias gift_home_t alias { auditadm_gift_home_t secadm_gift_home_t };
 userdom_user_home_content(gift_home_t)
 
 type gift_tmpfs_t;
-userdom_user_tmpfs_content(gift_tmpfs_t)
 typealias gift_tmpfs_t alias { user_gift_tmpfs_t staff_gift_tmpfs_t sysadm_gift_tmpfs_t };
 typealias gift_tmpfs_t alias { auditadm_gift_tmpfs_t secadm_gift_tmpfs_t };
+userdom_user_tmpfs_content(gift_tmpfs_t)
 
 type giftd_t;
 type giftd_exec_t;

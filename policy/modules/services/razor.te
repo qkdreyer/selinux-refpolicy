@@ -1,4 +1,4 @@
-policy_module(razor, 2.1.0)
+policy_module(razor, 2.1.1)
 
 ########################################
 #
@@ -45,8 +45,7 @@ ifdef(`distro_redhat',`
 	type razor_tmp_t;
 	typealias razor_tmp_t alias { user_razor_tmp_t staff_razor_tmp_t sysadm_razor_tmp_t };
 	typealias razor_tmp_t alias { auditadm_razor_tmp_t secadm_razor_tmp_t };
-	files_tmp_file(razor_tmp_t)
-	ubac_constrained(razor_tmp_t)
+	userdom_user_tmp_content(razor_t, razor_tmp_t)
 
 	type razor_var_lib_t;
 	files_type(razor_var_lib_t)

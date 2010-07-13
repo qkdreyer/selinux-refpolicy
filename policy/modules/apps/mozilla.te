@@ -1,4 +1,4 @@
-policy_module(mozilla, 2.2.1)
+policy_module(mozilla, 2.2.2)
 
 ########################################
 #
@@ -29,9 +29,9 @@ type mozilla_tmp_t;
 userdom_user_tmp_content(mozilla_t, mozilla_tmp_t)
 
 type mozilla_tmpfs_t;
-userdom_user_tmpfs_content(mozilla_tmpfs_t)
 typealias mozilla_tmpfs_t alias { user_mozilla_tmpfs_t staff_mozilla_tmpfs_t sysadm_mozilla_tmpfs_t };
 typealias mozilla_tmpfs_t alias { auditadm_mozilla_tmpfs_t secadm_mozilla_tmpfs_t };
+userdom_user_tmpfs_content(mozilla_tmpfs_t)
 
 ########################################
 #

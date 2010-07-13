@@ -1,4 +1,4 @@
-policy_module(thunderbird, 2.1.0)
+policy_module(thunderbird, 2.1.1)
 
 ########################################
 #
@@ -29,9 +29,9 @@ type thunderbird_tmp_t;
 userdom_user_tmp_content(thunderbird_t, thunderbird_tmp_t)
 
 type thunderbird_tmpfs_t;
-userdom_user_tmpfs_content(thunderbird_tmpfs_t)
 typealias thunderbird_tmpfs_t alias { user_thunderbird_tmpfs_t staff_thunderbird_tmpfs_t sysadm_thunderbird_tmpfs_t };
 typealias thunderbird_tmpfs_t alias { auditadm_thunderbird_tmpfs_t secadm_thunderbird_tmpfs_t };
+userdom_user_tmpfs_content(thunderbird_tmpfs_t)
 
 ########################################
 #
