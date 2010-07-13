@@ -22,7 +22,7 @@ type totem_home_t;
 userdom_user_home_content(totem_home_t)
 
 type totem_tmp_t;
-userdom_user_tmp_content(totem_t, totem_tmp_t)
+userdom_user_tmp_content(totem_tmp_t)
 
 type totem_tmpfs_t;
 userdom_user_tmpfs_content(totem_tmpfs_t)

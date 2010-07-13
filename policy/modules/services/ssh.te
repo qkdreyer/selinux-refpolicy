@@ -296,8 +296,11 @@ corenet_tcp_sendrecv_xserver_port(sshd_t)
 userdom_read_user_home_content_files(sshd_t)
 userdom_read_user_home_content_symlinks(sshd_t)
 userdom_search_admin_dir(sshd_t)
-# Fix me. Interface should only be called by user domains.
-userdom_manage_tmp_role(system_r, sshd_t)
+
+# should probably be generic instead of all	
+userdom_manage_all_tmp_content(sshd_t)
+userdom_relabel_all_tmp_content(sshd_t)
+userdom_tmp_filetrans_user_tmp(sshd_t, { dir file lnk_file sock_file fifo_file })
 
 tunable_policy(`sshd_forward_ports', `
 	corenet_tcp_bind_all_unreserved_ports(sshd_t)

@@ -19,7 +19,7 @@ ubac_constrained(wine_t)
 role system_r types wine_t;
 
 type wine_tmp_t;
-userdom_user_tmp_content(wine_t, wine_tmp_t)
+userdom_user_tmp_content(wine_tmp_t)
 
 ########################################
 #

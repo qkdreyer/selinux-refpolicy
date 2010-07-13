@@ -155,7 +155,7 @@ template(`ssh_server_template', `
 	allow $1_t self:unix_stream_socket create_stream_socket_perms;
 	allow $1_t self:shm create_shm_perms;
 
-	allow $1_t $1_devpts_t:chr_file { rw_chr_file_perms setattr getattr relabelfrom };
+	allow $1_t $1_devpts_t:chr_file { rw_chr_file_perms setattr_chr_file_perms getattr_chr_file_perms relabelfrom };
 	term_create_pty($1_t, $1_devpts_t)
 
 	manage_files_pattern($1_t, $1_tmpfs_t, $1_tmpfs_t)
@@ -287,7 +287,7 @@ template(`ssh_role_template',`
 	ubac_constrained($1_ssh_agent_t)
 	role $2 types $1_ssh_agent_t;
 
-	userdom_user_tmp_content($1_ssh_agent_t, ssh_agent_tmp_t)
+	userdom_user_tmp_content(ssh_agent_tmp_t)
 
 	##############################
 	#

@@ -26,7 +26,7 @@ typealias mozilla_home_t alias { auditadm_mozilla_home_t secadm_mozilla_home_t }
 userdom_user_home_content(mozilla_home_t)
 
 type mozilla_tmp_t;
-userdom_user_tmp_content(mozilla_t, mozilla_tmp_t)
+userdom_user_tmp_content(mozilla_tmp_t)
 
 type mozilla_tmpfs_t;
 typealias mozilla_tmpfs_t alias { user_mozilla_tmpfs_t staff_mozilla_tmpfs_t sysadm_mozilla_tmpfs_t };

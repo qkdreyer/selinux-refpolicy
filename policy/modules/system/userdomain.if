@@ -10,7 +10,6 @@
 ##	is the prefix for user_t).
 ##	</summary>
 ## </param>
-## <rolebase/>
 #
 template(`userdom_base_user_template',`
 
@@ -133,160 +132,335 @@ template(`userdom_base_user_template',`
 
 #######################################
 ## <summary>
-##	Allow a home directory for which the
-##	role has read-only access.
+##	Read all user home content.
 ## </summary>
-## <param name="role">
-##	<summary>
-##	The user role
-##	</summary>
-## </param>
-## <param name="userdomain">
-##	<summary>
-##	The user domain
-##	</summary>
-## </param>
-## <rolebase/>
-#
-interface(`userdom_ro_home_role',`
-	gen_require(`
-		attribute user_home_type;
-		type user_home_dir_t;
-	')
-
-	##############################
-	#
-	# Domain access to home dir
-	#
-
-	type_member $2 user_home_dir_t:dir user_home_dir_t;
-
-	allow $2 user_home_dir_t:dir list_dir_perms;
-	allow $2 user_home_type:dir list_dir_perms;
-	allow $2 user_home_type:file entrypoint;
-	read_files_pattern($2, { user_home_type user_home_dir_t }, user_home_type)
-	read_lnk_files_pattern($2, { user_home_type user_home_dir_t }, user_home_type)
-	read_fifo_files_pattern($2, { user_home_type user_home_dir_t }, user_home_type)
-	read_sock_files_pattern($2, { user_home_type user_home_dir_t }, user_home_type)
-	files_list_home($2)
-')
-
-#######################################
-## <summary>
-##	Allow a home directory for which the
-##	role has full access.
-## </summary>
-## <param name="role">
-##	<summary>
-##	The user role
-##	</summary>
-## </param>
-## <param name="userdomain">
-##	<summary>
-##	The user domain
-##	</summary>
-## </param>
-## <rolebase/>
-#
-interface(`userdom_manage_home_role',`
-	gen_require(`
-		type user_home_t, user_home_dir_t;
-		attribute user_home_type;
-	')
-
-	##############################
-	#
-	# Domain access to home dir
-	#
-
-	# TODO: split these up into:
-	# 1. userdom_manage_generic_home_role (for restricted users)
-	# 2. userdom_relabel_generic_home_role (for restricted users)
-	# 3. userdom_manage_all_home_role (for common users)
-	# 4. userdom_relabel_all_home_role (for common users)
-	type_member $2 user_home_dir_t:dir user_home_dir_t;
-
-	allow $2 user_home_t:dir mounton;
-	allow $2 user_home_t:file entrypoint;
-
-	allow $2 user_home_type:dir_file_class_set { relabelto relabelfrom };
-	allow $2 user_home_dir_t:lnk_file read_lnk_file_perms;
-	manage_dirs_pattern($2, { user_home_dir_t user_home_type }, user_home_type)
-	manage_files_pattern($2, { user_home_dir_t user_home_type }, user_home_type)
-	manage_lnk_files_pattern($2, { user_home_dir_t user_home_type }, user_home_type)
-	manage_sock_files_pattern($2, { user_home_dir_t user_home_type }, user_home_type)
-	manage_fifo_files_pattern($2, { user_home_dir_t user_home_type }, user_home_type)
-	relabel_dirs_pattern($2, { user_home_dir_t user_home_type }, user_home_type)
-	relabel_files_pattern($2, { user_home_dir_t user_home_type }, user_home_type)
-	relabel_lnk_files_pattern($2, { user_home_dir_t user_home_type }, user_home_type)
-	relabel_sock_files_pattern($2, { user_home_dir_t user_home_type }, user_home_type)
-	relabel_fifo_files_pattern($2, { user_home_dir_t user_home_type }, user_home_type)
-	filetrans_pattern($2, user_home_dir_t, user_home_t, { dir file lnk_file sock_file fifo_file })
-	files_list_home($2)
-
-	allow $2 user_home_dir_t:dir { manage_dir_perms relabel_dir_perms };
-
-	tunable_policy(`use_nfs_home_dirs',`
-		fs_mount_nfs($2)
-		fs_mounton_nfs($2)
-		fs_manage_nfs_dirs($2)
-		fs_manage_nfs_files($2)
-		fs_manage_nfs_symlinks($2)
-		fs_manage_nfs_named_sockets($2)
-		fs_manage_nfs_named_pipes($2)
-	')
-
-	tunable_policy(`use_samba_home_dirs',`
-		fs_mount_cifs($2)
-		fs_mounton_cifs($2)
-		fs_manage_cifs_dirs($2)
-		fs_manage_cifs_files($2)
-		fs_manage_cifs_symlinks($2)
-		fs_manage_cifs_named_sockets($2)
-		fs_manage_cifs_named_pipes($2)
-	')
-')
-
-#######################################
-## <summary>
-##	Manage user temporary files
-## </summary>
-## <param name="role">
-##	<summary>
-##	Role allowed access.
-##	</summary>
-## </param>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolebase/>
 #
-interface(`userdom_manage_tmp_role',`
+interface(`userdom_ro_all_home',`
 	gen_require(`
-		type user_tmp_t;
+		attribute user_home_type;
+		type user_home_dir_t;
+	')
+
+	type_member $1 user_home_dir_t:dir user_home_dir_t;
+
+	allow $1 user_home_dir_t:dir list_dir_perms;
+	allow $1 user_home_type:dir list_dir_perms;
+	allow $1 user_home_type:file entrypoint;
+	read_files_pattern($1, { user_home_type user_home_dir_t }, user_home_type)
+	read_lnk_files_pattern($1, { user_home_type user_home_dir_t }, user_home_type)
+	read_fifo_files_pattern($1, { user_home_type user_home_dir_t }, user_home_type)
+	read_sock_files_pattern($1, { user_home_type user_home_dir_t }, user_home_type)
+	files_list_home($1)
+
+	tunable_policy(`use_nfs_home_dirs',`
+		fs_list_nfs($1)
+		fs_read_nfs_files($1)
+		fs_read_nfs_symlinks($1)
+		fs_read_nfs_named_sockets($1)
+		fs_read_nfs_named_pipes($1)
+	')
+
+	tunable_policy(`use_samba_home_dirs',`
+		fs_list_cifs($1)
+		fs_read_cifs_files($1)
+		fs_read_cifs_symlinks($1)
+		fs_read_cifs_named_sockets($1)
+		fs_read_cifs_named_pipes($1)
+	')
+')
+
+#######################################
+## <summary>
+##	Read generic user home content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_ro_generic_home',`
+	gen_require(`
+		type user_home_t, user_home_dir_t;
+	')
+
+	type_member $1 user_home_dir_t:dir user_home_dir_t;
+
+	allow $1 user_home_dir_t:dir list_dir_perms;
+	allow $1 user_home_type:dir list_dir_perms;
+	allow $1 user_home_type:file entrypoint;
+	read_files_pattern($1, { user_home_t user_home_dir_t }, user_home_t)
+	read_lnk_files_pattern($1, { user_home_t user_home_dir_t }, user_home_t)
+	read_fifo_files_pattern($1, { user_home_t user_home_dir_t }, user_home_t)
+	read_sock_files_pattern($1, { user_home_t user_home_dir_t }, user_home_t)
+	files_list_home($1)
+
+	tunable_policy(`use_nfs_home_dirs',`
+		fs_list_nfs($1)
+		fs_read_nfs_files($1)
+		fs_read_nfs_symlinks($1)
+		fs_read_nfs_named_sockets($1)
+		fs_read_nfs_named_pipes($1)
+	')
+
+	tunable_policy(`use_samba_home_dirs',`
+		fs_list_cifs($1)
+		fs_read_cifs_files($1)
+		fs_read_cifs_symlinks($1)
+		fs_read_cifs_named_sockets($1)
+		fs_read_cifs_named_pipes($1)
+	')
+')
+
+#######################################
+## <summary>
+##	Manage all user home.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_manage_all_home',`
+	gen_require(`
+		type user_home_dir_t;
+		attribute user_home_type;
+	')
+
+	# Clean me up.
+	allow $1 user_home_type:dir mounton;
+	allow $1 user_home_type:file entrypoint;
+
+	manage_dirs_pattern($1, { user_home_dir_t user_home_type }, user_home_type)
+	manage_files_pattern($1, { user_home_dir_t user_home_type }, user_home_type)
+	manage_lnk_files_pattern($1, { user_home_dir_t user_home_type }, user_home_type)
+	manage_sock_files_pattern($1, { user_home_dir_t user_home_type }, user_home_type)
+	manage_fifo_files_pattern($1, { user_home_dir_t user_home_type }, user_home_type)
+	files_list_home($1)
+
+	# clean me up
+	type_member $1 user_home_dir_t:dir user_home_dir_t;
+	allow $1 user_home_dir_t:lnk_file read_lnk_file_perms;
+
+	tunable_policy(`use_nfs_home_dirs',`
+		fs_mount_nfs($1)
+		fs_mounton_nfs($1)
+		fs_manage_nfs_dirs($1)
+		fs_manage_nfs_files($1)
+		fs_manage_nfs_symlinks($1)
+		fs_manage_nfs_named_sockets($1)
+		fs_manage_nfs_named_pipes($1)
+	')
+
+	tunable_policy(`use_samba_home_dirs',`
+		fs_mount_cifs($1)
+		fs_mounton_cifs($1)
+		fs_manage_cifs_dirs($1)
+		fs_manage_cifs_files($1)
+		fs_manage_cifs_symlinks($1)
+		fs_manage_cifs_named_sockets($1)
+		fs_manage_cifs_named_pipes($1)
+	')
+')
+
+#######################################
+## <summary>
+##	Relabel all user home.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_relabel_all_home',`
+	gen_require(`
+		type user_home_dir_t;
+		attribute user_home_type;
+	')
+
+	relabel_dirs_pattern($1, { user_home_dir_t user_home_type }, user_home_type)
+	relabel_files_pattern($1, { user_home_dir_t user_home_type }, user_home_type)
+	relabel_lnk_files_pattern($1, { user_home_dir_t user_home_type }, user_home_type)
+	relabel_sock_files_pattern($1, { user_home_dir_t user_home_type }, user_home_type)
+	relabel_fifo_files_pattern($1, { user_home_dir_t user_home_type }, user_home_type)
+	files_list_home($1)
+
+	# clean me up
+	allow $1 user_home_dir_t:lnk_file read_lnk_file_perms;
+	allow $1 user_home_dir_t:dir { manage_dir_perms relabel_dir_perms };
+')
+
+#######################################
+## <summary>
+##	Manage generic user home.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_manage_generic_home',`
+	gen_require(`
+		type user_home_dir_t, user_home_t;
+	')
+
+	# Clean me up.
+	allow $1 user_home_t:dir mounton;
+	allow $1 user_home_t:file entrypoint;
+
+	manage_dirs_pattern($1, { user_home_dir_t user_home_t }, user_home_t)
+	manage_files_pattern($1, { user_home_dir_t user_home_t }, user_home_t)
+	manage_lnk_files_pattern($1, { user_home_dir_t user_home_t }, user_home_t)
+	manage_sock_files_pattern($1, { user_home_dir_t user_home_t }, user_home_t)
+	manage_fifo_files_pattern($1, { user_home_dir_t user_home_t }, user_home_t)
+	files_list_home($1)
+
+	# clean me up
+	type_member $1 user_home_dir_t:dir user_home_dir_t;
+	allow $1 user_home_dir_t:lnk_file read_lnk_file_perms;
+
+	tunable_policy(`use_nfs_home_dirs',`
+		fs_mount_nfs($1)
+		fs_mounton_nfs($1)
+		fs_manage_nfs_dirs($1)
+		fs_manage_nfs_files($1)
+		fs_manage_nfs_symlinks($1)
+		fs_manage_nfs_named_sockets($1)
+		fs_manage_nfs_named_pipes($1)
+	')
+
+	tunable_policy(`use_samba_home_dirs',`
+		fs_mount_cifs($1)
+		fs_mounton_cifs($1)
+		fs_manage_cifs_dirs($1)
+		fs_manage_cifs_files($1)
+		fs_manage_cifs_symlinks($1)
+		fs_manage_cifs_named_sockets($1)
+		fs_manage_cifs_named_pipes($1)
+	')
+')
+
+#######################################
+## <summary>
+##	Relabel generic user home.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_relabel_generic_home',`
+	gen_require(`
+		type user_home_dir_t, user_home_t;
+	')
+
+	relabel_dirs_pattern($1, { user_home_dir_t user_home_t }, user_home_t)
+	relabel_files_pattern($1, { user_home_dir_t user_home_t }, user_home_t)
+	relabel_lnk_files_pattern($1, { user_home_dir_t user_home_t }, user_home_t)
+	relabel_sock_files_pattern($1, { user_home_dir_t user_home_t }, user_home_t)
+	relabel_fifo_files_pattern($1, { user_home_dir_t user_home_t }, user_home_t)
+	files_list_home($1)
+
+	# clean me up
+	allow $1 user_home_dir_t:lnk_file read_lnk_file_perms;
+	allow $1 user_home_dir_t:dir { manage_dir_perms relabel_dir_perms };
+')
+
+#######################################
+## <summary>
+##	Manage all user temporary content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_manage_all_tmp_content',`
+	gen_require(`
 		attribute user_tmp_type;
 	')
 
-	# TODO: split these up into:
-	# 1. userdom_manage_generic_tmp_role (for restricted users)
-	# 2. userdom_relabel_generic_tmp_role (for restricted users)
-	# 3. userdom_manage_all_tmp_role (for common users)
-	# 4. userdom_relabel_all_tmp_role (for common users)
-	files_poly_member_tmp($2, user_tmp_t)
+	manage_dirs_pattern($1, user_tmp_type, user_tmp_type)
+	manage_files_pattern($1, user_tmp_type, user_tmp_type)
+	manage_lnk_files_pattern($1, user_tmp_type, user_tmp_type)
+	manage_sock_files_pattern($1, user_tmp_type, user_tmp_type)
+	manage_fifo_files_pattern($1, user_tmp_type, user_tmp_type)
+')
 
-	manage_dirs_pattern($2, user_tmp_type, user_tmp_type)
-	manage_files_pattern($2, user_tmp_type, user_tmp_type)
-	manage_lnk_files_pattern($2, user_tmp_type, user_tmp_type)
-	manage_sock_files_pattern($2, user_tmp_type, user_tmp_type)
-	manage_fifo_files_pattern($2, user_tmp_type, user_tmp_type)
-	files_tmp_filetrans($2, user_tmp_t, { dir file lnk_file sock_file fifo_file })
-	relabel_files_pattern($2, user_tmp_type, user_tmp_type)
-	relabel_dirs_pattern($2, user_tmp_type, user_tmp_type)
-	relabel_lnk_files_pattern($2, user_tmp_type, user_tmp_type)
-	relabel_sock_files_pattern($2, user_tmp_type, user_tmp_type)
-	relabel_fifo_files_pattern($2, user_tmp_type, user_tmp_type)
+#######################################
+## <summary>
+##	Relabel all user temporary content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_relabel_all_tmp_content',`
+	gen_require(`
+		attribute user_tmp_type;
+	')
+
+	relabel_dirs_pattern($1, user_tmp_type, user_tmp_type)
+	relabel_files_pattern($1, user_tmp_type, user_tmp_type)
+	relabel_lnk_files_pattern($1, user_tmp_type, user_tmp_type)
+	relabel_sock_files_pattern($1, user_tmp_type, user_tmp_type)
+	relabel_fifo_files_pattern($1, user_tmp_type, user_tmp_type)
+')
+
+#######################################
+## <summary>
+##	Manage generic user tmpfs content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_manage_generic_tmp_content',`
+	gen_require(`
+		type user_tmp_t;
+	')
+
+	manage_dirs_pattern($1, user_tmp_t, user_tmp_t)
+	manage_files_pattern($1, user_tmp_t, user_tmp_t)
+	manage_lnk_files_pattern($1, user_tmp_t, user_tmp_t)
+	manage_sock_files_pattern($1, user_tmp_t, user_tmp_t)
+	manage_fifo_files_pattern($1, user_tmp_t, user_tmp_t)
+')
+
+#######################################
+## <summary>
+##	Relabel generic user temporary content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_relabel_generic_tmp_content',`
+	gen_require(`
+		type user_tmp_t;
+	')
+
+	relabel_dirs_pattern($1, user_tmp_t, user_tmp_t)
+	relabel_files_pattern($1, user_tmp_t, user_tmp_t)
+	relabel_lnk_files_pattern($1, user_tmp_t, user_tmp_t)
+	relabel_sock_files_pattern($1, user_tmp_t, user_tmp_t)
+	relabel_fifo_files_pattern($1, user_tmp_t, user_tmp_t)
 ')
 
 #######################################
@@ -350,44 +524,90 @@ interface(`userdom_exec_user_tmp_files',`
 
 #######################################
 ## <summary>
-##	Role access for the user tmpfs type
-##	that the user has full access.
+##	Manage all user tmpfs content.
 ## </summary>
-## <param name="role">
-##	<summary>
-##	Role allowed access.
-##	</summary>
-## </param>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
-## <rolecap/>
 #
-interface(`userdom_manage_tmpfs_role',`
+interface(`userdom_manage_all_tmpfs_content',`
 	gen_require(`
-		type user_tmpfs_t;
 		attribute user_tmpfs_type;
 	')
 
-	# TODO: split these up into:
-	# 1. userdom_manage_generic_tmpfs_role (for restricted users)
-	# 2. userdom_relabel_generic_tmpfs_role (for restricted users)
-	# 3. userdom_manage_all_tmpfs_role (for common users)
-	# 4. userdom_relabel_all_tmpfs_role (for common users)
+	manage_dirs_pattern($1, user_tmpfs_type, user_tmpfs_type)
+	manage_files_pattern($1, user_tmpfs_type, user_tmpfs_type)
+	manage_lnk_files_pattern($1, user_tmpfs_type, user_tmpfs_type)
+	manage_sock_files_pattern($1, user_tmpfs_type, user_tmpfs_type)
+	manage_fifo_files_pattern($1, user_tmpfs_type, user_tmpfs_type)
+')
 
-	manage_dirs_pattern($2, user_tmpfs_type, user_tmpfs_type)
-	manage_files_pattern($2, user_tmpfs_type, user_tmpfs_type)
-	manage_lnk_files_pattern($2, user_tmpfs_type, user_tmpfs_type)
-	manage_sock_files_pattern($2, user_tmpfs_type, user_tmpfs_type)
-	manage_fifo_files_pattern($2, user_tmpfs_type, user_tmpfs_type)
-	fs_tmpfs_filetrans($2, user_tmpfs_t, { dir file lnk_file sock_file fifo_file })
-	relabel_dirs_pattern($2, user_tmpfs_type, user_tmpfs_type)
-	relabel_files_pattern($2, user_tmpfs_type, user_tmpfs_type)
-	relabel_lnk_files_pattern($2, user_tmpfs_type, user_tmpfs_type)
-	relabel_sock_files_pattern($2, user_tmpfs_type, user_tmpfs_type)
-	relabel_fifo_files_pattern($2, user_tmpfs_type, user_tmpfs_type)
+#######################################
+## <summary>
+##	Relabel all user tmpfs content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_relabel_all_tmpfs_content',`
+	gen_require(`
+		attribute user_tmpfs_type;
+	')
+
+	relabel_dirs_pattern($1, user_tmpfs_type, user_tmpfs_type)
+	relabel_files_pattern($1, user_tmpfs_type, user_tmpfs_type)
+	relabel_lnk_files_pattern($1, user_tmpfs_type, user_tmpfs_type)
+	relabel_sock_files_pattern($1, user_tmpfs_type, user_tmpfs_type)
+	relabel_fifo_files_pattern($1, user_tmpfs_type, user_tmpfs_type)
+')
+
+#######################################
+## <summary>
+##	Manage generic user tmpfs content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_manage_generic_tmpfs_content',`
+	gen_require(`
+		type user_tmpfs_t;
+	')
+
+	manage_dirs_pattern($1, user_tmpfs_t, user_tmpfs_t)
+	manage_files_pattern($1, user_tmpfs_t, user_tmpfs_t)
+	manage_lnk_files_pattern($1, user_tmpfs_t, user_tmpfs_t)
+	manage_sock_files_pattern($1, user_tmpfs_t, user_tmpfs_t)
+	manage_fifo_files_pattern($1, user_tmpfs_t, user_tmpfs_t)
+')
+
+#######################################
+## <summary>
+##	Relabel generic user tmpfs content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`userdom_relabel_generic_tmpfs_content',`
+	gen_require(`
+		type user_tmpfs_t;
+	')
+
+	relabel_dirs_pattern($1, user_tmpfs_t, user_tmpfs_t)
+	relabel_files_pattern($1, user_tmpfs_t, user_tmpfs_t)
+	relabel_lnk_files_pattern($1, user_tmpfs_t, user_tmpfs_t)
+	relabel_sock_files_pattern($1, user_tmpfs_t, user_tmpfs_t)
+	relabel_fifo_files_pattern($1, user_tmpfs_t, user_tmpfs_t)
 ')
 
 #######################################
@@ -769,9 +989,23 @@ template(`userdom_login_user_template', `
 
 	userdom_base_user_template($1)
 
-	userdom_manage_home_role($1_r, $1_usertype)
-	userdom_manage_tmp_role($1_r, $1_usertype)
-	userdom_manage_tmpfs_role($1_r, $1_usertype)
+	# should probably be generic instead of all, because this also includes restricted users.
+	# in common user template use all.
+	userdom_manage_all_home($1_usertype)
+	userdom_relabel_all_home($1_usertype)
+	userdom_user_home_dir_filetrans_user_home_content($1_usertype, { file dir lnk_file fifo_file sock_file })
+
+	# should probably be generic instead of all, because this also includes restricted users.
+	# in common user template use all.
+	userdom_manage_all_tmp_content($1_usertype)
+	userdom_relabel_all_tmp_content($1_usertype)
+	userdom_tmp_filetrans_user_tmp($1_usertype, { dir file lnk_file sock_file fifo_file })
+
+	# should probably be generic instead of all, because this also includes restricted users.
+	# in common user template use all.
+	userdom_manage_all_tmpfs_content($1_usertype)
+	userdom_relabel_all_tmpfs_content($1_usertype)
+	userdom_tmpfs_filetrans_user_tmpfs($1_usertype, { dir file lnk_file sock_file fifo_file })
 
 	ifelse(`$1',`unconfined',`',`
 		gen_tunable(allow_$1_exec_content, true)
@@ -1416,7 +1650,6 @@ interface(`userdom_user_home_content',`
 	files_poly_member($1)
 	ubac_constrained($1)
 
-	files_poly_member($1)
 	typeattribute $1  user_home_type;
 ')
 
@@ -2762,12 +2995,6 @@ interface(`userdom_manage_user_tmp_sockets',`
 ##	Make the specified type usable 
 ##	temporary user content.
 ## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain using the temporary user
-##	content.
-##	</summary>
-##	</param>
 ## <param name="type">
 ##	<summary>
 ##	Type to be used as temporary user
@@ -2780,11 +3007,10 @@ interface(`userdom_user_tmp_content',`
 		attribute user_tmp_type;
 	')
 
-	files_tmp_file($2)
-	files_poly_member_tmp($1, $2)
-	ubac_constrained($2)
+	files_tmp_file($1)
+	ubac_constrained($1)
 
-	typeattribute $2 user_tmp_type;
+	typeattribute $1 user_tmp_type;
 ')
 
 ########################################
@@ -2840,7 +3066,34 @@ interface(`userdom_tmp_filetrans_user_tmp',`
 		type user_tmp_t;
 	')
 
+	files_poly_member_tmp($1, user_tmp_t)
+
 	files_tmp_filetrans($1, user_tmp_t, $2)
+')
+
+########################################
+## <summary>
+##	Create user shared memory objects
+##	with an automatic type transition to
+##	the user shared memory type.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+## <param name="object_class">
+##	<summary>
+##	The class of the object to be created.
+##	</summary>
+## </param>
+#
+interface(`userdom_tmpfs_filetrans_user_tmpfs',`
+	gen_require(`
+		type user_tmpfs_t;
+	')
+
+	fs_tmpfs_filetrans($1, user_tmpfs_t, $2)
 ')
 
 ########################################

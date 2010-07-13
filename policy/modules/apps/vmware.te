@@ -30,7 +30,7 @@ type vmware_host_pid_t alias vmware_var_run_t;
 files_pid_file(vmware_host_pid_t)
 
 type vmware_host_tmp_t;
-userdom_user_tmp_content(vmware_host_t, vmware_host_tmp_t)
+userdom_user_tmp_content(vmware_host_tmp_t)
 
 type vmware_log_t;
 typealias vmware_log_t alias { user_vmware_log_t staff_vmware_log_t sysadm_vmware_log_t };
@@ -48,7 +48,7 @@ type vmware_sys_conf_t;
 files_type(vmware_sys_conf_t)
 
 type vmware_tmp_t;
-userdom_user_tmp_content(vmware_t, vmware_tmp_t)
+userdom_user_tmp_content(vmware_tmp_t)
 typealias vmware_tmp_t alias { user_vmware_tmp_t staff_vmware_tmp_t sysadm_vmware_tmp_t };
 typealias vmware_tmp_t alias { auditadm_vmware_tmp_t secadm_vmware_tmp_t };
 

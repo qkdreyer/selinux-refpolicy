@@ -20,7 +20,7 @@ userdom_user_home_content(wireshark_home_t)
 type wireshark_tmp_t;
 typealias wireshark_tmp_t alias { user_wireshark_tmp_t staff_wireshark_tmp_t sysadm_wireshark_tmp_t };
 typealias wireshark_tmp_t alias { auditadm_wireshark_tmp_t secadm_wireshark_tmp_t };
-userdom_user_tmp_content(wireshark_t, wireshark_tmp_t)
+userdom_user_tmp_content(wireshark_tmp_t)
 
 type wireshark_tmpfs_t;
 typealias wireshark_tmpfs_t alias { user_wireshark_tmpfs_t staff_wireshark_tmpfs_t sysadm_wireshark_tmpfs_t };

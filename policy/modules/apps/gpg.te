@@ -39,7 +39,7 @@ application_domain(gpg_agent_t, gpg_agent_exec_t)
 ubac_constrained(gpg_agent_t)
 
 type gpg_agent_tmp_t;
-userdom_user_tmp_content(gpg_agent_t, gpg_agent_tmp_t)
+userdom_user_tmp_content(gpg_agent_tmp_t)
 typealias gpg_agent_tmp_t alias { user_gpg_agent_tmp_t staff_gpg_agent_tmp_t sysadm_gpg_agent_tmp_t };
 typealias gpg_agent_tmp_t alias { auditadm_gpg_agent_tmp_t secadm_gpg_agent_tmp_t };
 
@@ -64,7 +64,7 @@ application_domain(gpg_pinentry_t, pinentry_exec_t)
 ubac_constrained(gpg_pinentry_t)
 
 type gpg_pinentry_tmp_t;
-userdom_user_tmp_content(gpg_pinentry_t, gpg_pinentry_tmp_t)
+userdom_user_tmp_content(gpg_pinentry_tmp_t)
 
 type gpg_pinentry_tmpfs_t;
 userdom_user_tmpfs_content(gpg_pinentry_tmpfs_t)

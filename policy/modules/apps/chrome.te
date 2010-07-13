@@ -10,7 +10,7 @@ type chrome_sandbox_exec_t;
 application_domain(chrome_sandbox_t, chrome_sandbox_exec_t)
 
 type chrome_sandbox_tmp_t;
-userdom_user_tmp_content(chrome_sandbox_t, chrome_sandbox_tmp_t)
+userdom_user_tmp_content(chrome_sandbox_tmp_t)
 
 type chrome_sandbox_tmpfs_t;
 userdom_user_tmpfs_content(chrome_sandbox_tmpfs_t)

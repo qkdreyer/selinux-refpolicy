@@ -25,7 +25,7 @@ role system_r types java_t;
 type java_tmp_t;
 typealias java_tmp_t alias { staff_javaplugin_tmp_t user_javaplugin_tmp_t sysadm_javaplugin_tmp_t };
 typealias java_tmp_t alias { auditadm_tmp_javaplugin_t secadm_javaplugin_tmp_t };
-userdom_user_tmp_content(java_t, java_tmp_t)
+userdom_user_tmp_content(java_tmp_t)
 
 type java_tmpfs_t;
 typealias java_tmpfs_t alias { staff_javaplugin_tmpfs_t user_javaplugin_tmpfs_t sysadm_javaplugin_tmpfs_t };

@@ -20,7 +20,7 @@ userdom_user_home_content(tvtime_home_t)
 type tvtime_tmp_t;
 typealias tvtime_tmp_t alias { user_tvtime_tmp_t staff_tvtime_tmp_t sysadm_tvtime_tmp_t };
 typealias tvtime_tmp_t alias { auditadm_tvtime_tmp_t secadm_tvtime_tmp_t };
-userdom_user_tmp_content(tvtime_t, tvtime_tmp_t)
+userdom_user_tmp_content(tvtime_tmp_t)
 
 type tvtime_tmpfs_t;
 typealias tvtime_tmpfs_t alias { user_tvtime_tmpfs_t staff_tvtime_tmpfs_t sysadm_tvtime_tmpfs_t };

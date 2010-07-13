@@ -52,8 +52,7 @@ ifdef(`distro_redhat',`
 	type pyzor_tmp_t;
 	typealias pyzor_tmp_t alias { user_pyzor_tmp_t staff_pyzor_tmp_t sysadm_pyzor_tmp_t };
 	typealias pyzor_tmp_t alias { auditadm_pyzor_tmp_t secadm_pyzor_tmp_t };
-	files_tmp_file(pyzor_tmp_t)
-	ubac_constrained(pyzor_tmp_t)
+	userdom_user_tmp_content(pyzor_tmp_t)
 
 	type pyzor_var_lib_t;
 	typealias pyzor_var_lib_t alias { user_pyzor_var_lib_t staff_pyzor_var_lib_t sysadm_pyzor_var_lib_t };

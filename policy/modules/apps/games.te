@@ -48,7 +48,7 @@ type games_srv_var_run_t;
 files_pid_file(games_srv_var_run_t)
 
 type games_tmp_t;
-userdom_user_tmp_content(games_t, games_tmp_t)
+userdom_user_tmp_content(games_tmp_t)
 typealias games_tmp_t alias { user_games_tmp_t staff_games_tmp_t sysadm_games_tmp_t };
 typealias games_tmp_t alias { auditadm_games_tmp_t secadm_games_tmp_t };
 

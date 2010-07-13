@@ -30,7 +30,7 @@ type nsplugin_rw_t;
 userdom_user_home_content(nsplugin_rw_t)
 
 type nsplugin_tmp_t;
-userdom_user_tmp_content(nsplugin_t, nsplugin_tmp_t)
+userdom_user_tmp_content(nsplugin_tmp_t)
 
 type nsplugin_tmpfs_t;
 userdom_user_tmpfs_content(nsplugin_tmpfs_t)

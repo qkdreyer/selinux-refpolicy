@@ -12,7 +12,7 @@ application_domain(seahorsed_t, seahorsed_exec_t)
 ubac_constrained(seahorsed_t)
 
 type seahorsed_tmp_t;
-userdom_user_tmp_content(seahorsed_t, seahorsed_tmp_t)
+userdom_user_tmp_content(seahorsed_tmp_t)
 
 type seahorsed_tmpfs_t;
 userdom_user_tmpfs_content(seahorsed_tmpfs_t)

@@ -25,9 +25,9 @@ application_domain(irc_t, irc_exec_t)
 ubac_constrained(irc_t)
 
 type irc_tmp_t;
-userdom_user_tmp_content(irc_t, irc_tmp_t)
 typealias irc_tmp_t alias { user_irc_tmp_t staff_irc_tmp_t sysadm_irc_tmp_t };
 typealias irc_tmp_t alias { auditadm_irc_tmp_t secadm_irc_tmp_t };
+userdom_user_tmp_content(irc_tmp_t)
 
 ########################################
 #

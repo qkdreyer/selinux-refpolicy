@@ -23,14 +23,14 @@ typealias uml_rw_t alias { auditadm_uml_rw_t secadm_uml_rw_t };
 userdom_user_home_content(uml_rw_t)
 
 type uml_tmp_t;
-userdom_user_tmp_content(uml_t, uml_tmp_t)
 typealias uml_tmp_t alias { user_uml_tmp_t staff_uml_tmp_t sysadm_uml_tmp_t };
 typealias uml_tmp_t alias { auditadm_uml_tmp_t secadm_uml_tmp_t };
+userdom_user_tmp_content(uml_tmp_t)
 
 type uml_tmpfs_t;
-userdom_user_tmpfs_content(uml_tmpfs_t)
 typealias uml_tmpfs_t alias { user_uml_tmpfs_t staff_uml_tmpfs_t sysadm_uml_tmpfs_t };
 typealias uml_tmpfs_t alias { auditadm_uml_tmpfs_t secadm_uml_tmpfs_t };
+userdom_user_tmpfs_content(uml_tmpfs_t)
 
 type uml_devpts_t;
 typealias uml_devpts_t alias { user_uml_devpts_t staff_uml_devpts_t sysadm_uml_devpts_t };

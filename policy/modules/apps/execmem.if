@@ -51,8 +51,16 @@ template(`execmem_role_template',`
 	role $2 types $1_execmem_t;
 
 	userdom_unpriv_usertype($1, $1_execmem_t)
-	userdom_manage_tmp_role($2, $1_execmem_t)
-	userdom_manage_tmpfs_role($2, $1_execmem_t)
+
+	# should probably be generic instead of all
+	userdom_manage_all_tmp_content($1_execmem_t)
+	userdom_relabel_all_tmp_content($1_execmem_t)
+	userdom_tmp_filetrans_user_tmp($1_execmem_t, { dir file lnk_file sock_file fifo_file })
+
+	# should probably be generic instead of all
+	userdom_manage_all_tmpfs_content($1_execmem_t)
+	userdom_relabel_all_tmpfs_content($1_execmem_t)
+	userdom_tmpfs_filetrans_user_tmpfs($1_execmem_t, { dir file lnk_file sock_file fifo_file })
 
 	allow $1_execmem_t self:process { execmem execstack };
 	allow $3 $1_execmem_t:process { getattr ptrace noatsecure signal_perms };

@@ -15,7 +15,7 @@ files_type(podsleuth_cache_t)
 ubac_constrained(podsleuth_cache_t)
 
 type podsleuth_tmp_t;
-userdom_user_tmp_content(podsleuth_t, podsleuth_tmp_t)
+userdom_user_tmp_content(podsleuth_tmp_t)
 
 type podsleuth_tmpfs_t;
 userdom_user_tmpfs_content(podsleuth_tmpfs_t)

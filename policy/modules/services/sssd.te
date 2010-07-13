@@ -83,7 +83,10 @@ logging_send_audit_msgs(sssd_t)
 
 miscfiles_read_localization(sssd_t)
 
-userdom_manage_tmp_role(system_r, sssd_t)
+# should probably be generic instead of all	
+userdom_manage_all_tmp_content(sssd_t)
+userdom_relabel_all_tmp_content(sssd_t)
+userdom_tmp_filetrans_user_tmp(sssd_t, { dir file lnk_file sock_file fifo_file })
 
 optional_policy(`
 	dbus_system_bus_client(sssd_t)

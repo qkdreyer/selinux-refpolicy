@@ -62,7 +62,7 @@ ifdef(`distro_redhat',`
 	type spamassassin_tmp_t;
 	typealias spamassassin_tmp_t alias { user_spamassassin_tmp_t staff_spamassassin_tmp_t sysadm_spamassassin_tmp_t };
 	typealias spamassassin_tmp_t alias { auditadm_spamassassin_tmp_t secadm_spamassassin_tmp_t };
-	userdom_user_tmp_content(spamassassin_t, spamassassin_tmp_t)
+	userdom_user_tmp_content(spamassassin_tmp_t)
 
 	type spamc_t;
 	type spamc_exec_t;
@@ -74,7 +74,7 @@ ifdef(`distro_redhat',`
 	type spamc_tmp_t;
 	typealias spamc_tmp_t alias { user_spamc_tmp_t staff_spamc_tmp_t sysadm_spamc_tmp_t };
 	typealias spamc_tmp_t alias { auditadm_spamc_tmp_t secadm_spamc_tmp_t };
-	userdom_user_tmp_content(spamc_t, spamc_tmp_t)
+	userdom_user_tmp_content(spamc_tmp_t)
 ')
 
 type spamd_t;

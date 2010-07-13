@@ -27,7 +27,7 @@ application_domain(tp_butterfly_t, tp_butterfly_exec_t)
 ubac_constrained(tp_butterfly_t)
 
 type tp_butterfly_tmp_t;
-userdom_user_tmp_content(tp_butterfly_t, tp_butterfly_tmp_t)
+userdom_user_tmp_content(tp_butterfly_tmp_t)
 
 ########################################
 #
@@ -40,7 +40,7 @@ application_domain(tp_gabble_t, tp_gabble_exec_t)
 ubac_constrained(tp_gabble_t)
 
 type tp_gabble_tmp_t;
-userdom_user_tmp_content(tp_gabble_t, tp_gabble_tmp_t)
+userdom_user_tmp_content(tp_gabble_tmp_t)
 
 type tp_gabble_cache_home_t;
 userdom_user_home_content(tp_gabble_cache_home_t)
@@ -56,7 +56,7 @@ application_domain(tp_haze_t, tp_haze_exec_t)
 ubac_constrained(tp_haze_t)
 
 type tp_haze_tmp_t;
-userdom_user_tmp_content(tp_haze_t, tp_haze_tmp_t)
+userdom_user_tmp_content(tp_haze_tmp_t)
 
 ########################################
 #
@@ -95,7 +95,7 @@ application_domain(tp_salut_t, tp_salut_exec_t)
 ubac_constrained(tp_salut_t)
 
 type tp_salut_tmp_t;
-userdom_user_tmp_content(tp_salut_t, tp_salut_tmp_t)
+userdom_user_tmp_content(tp_salut_tmp_t)
 
 ########################################
 #
@@ -128,7 +128,7 @@ application_domain(tp_sunshine_t, tp_sunshine_exec_t)
 ubac_constrained(tp_sunshine_t)
 
 type tp_sunshine_tmp_t;
-userdom_user_tmp_content(tp_sunshine_t, tp_sunshine_tmp_t)
+userdom_user_tmp_content(tp_sunshine_tmp_t)
 
 ########################################
 #
