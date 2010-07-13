@@ -122,6 +122,7 @@ userdom_write_user_home_content_files(pulseaudio_t)
 userdom_setattr_user_home_content_dirs(pulseaudio_t)
 userdom_setattr_user_tmp_dirs(pulseaudio_t)
 userdom_stream_connect(pulseaudio_t)
+userdom_delete_user_tmpfs_files(pulseaudio_t)
 userdom_read_user_tmpfs_files(pulseaudio_t)
 
 optional_policy(`
