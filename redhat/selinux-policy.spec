@@ -20,7 +20,7 @@
 Summary: SELinux policy configuration
 Name: selinux-policy
 Version: 3.8.6
-Release: 1.15%{?dist}
+Release: 3.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -423,6 +423,10 @@ exit 0
 %endif
 
 %changelog
+* Tue Jul 13 2010 Dominick Grift <domg472@gmail.com> 3.8.6-3.1
+- Merge branch Fedora (v3.8.6-3)
+- Merge branch refpolicy.
+
 * Sat Jul 10 2010 Dominick Grift <domg472@gmail.com> 3.8.6-1.15
 - Change root default context.
 - Fix userdom restricted x user template to work:
