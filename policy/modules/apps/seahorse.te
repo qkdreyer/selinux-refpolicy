@@ -103,7 +103,7 @@ optional_policy(`
 ')
 
 optional_policy(`
-	ssh_manage_user_home_files(seahorsed_t)
+	ssh_manage_user_home_content(seahorsed_t)
 	ssh_create_user_home(seahorsed_t)
 ') 
 

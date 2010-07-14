@@ -434,7 +434,49 @@ interface(`nsplugin_stream_connect',`
 	')
 
 	stream_connect_pattern($1, nsplugin_tmp_t, nsplugin_tmp_t, nsplugin_t)
-	files_search_tmp($1)
+	userdom_search_user_tmp_dirs($1)
+')
+
+########################################
+## <summary>
+##	Manage nsplugin tmp content.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`nsplugin_manage_tmp_content',`
+	gen_require(`
+		type nsplugin_tmp_t;
+	')
+
+	manage_dirs_pattern($1, nsplugin_tmp_t, nsplugin_tmp_t)
+	manage_files_pattern($1, nsplugin_tmp_t, nsplugin_tmp_t)
+	manage_sock_files_pattern($1, nsplugin_tmp_t, nsplugin_tmp_t)
+	userdom_search_user_tmp_dirs($1)
+')
+
+########################################
+## <summary>
+##	Relabel nsplugin tmp content.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`nsplugin_relabel_tmp_content',`
+	gen_require(`
+		type nsplugin_tmp_t;
+	')
+
+	relabel_dirs_pattern($1, nsplugin_tmp_t, nsplugin_tmp_t)
+	relabel_files_pattern($1, nsplugin_tmp_t, nsplugin_tmp_t)
+	relabel_sock_files_pattern($1, nsplugin_tmp_t, nsplugin_tmp_t)
+	userdom_search_user_tmp_dirs($1)
 ')
 
 ########################################

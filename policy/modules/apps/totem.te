@@ -32,7 +32,7 @@ userdom_user_tmpfs_content(totem_tmpfs_t)
 # Policy
 #
 
-allow totem_t self:process { signal signull };
+allow totem_t self:process { setsched signal signull };
 allow totem_t self:fifo_file rw_fifo_file_perms;
 
 manage_files_pattern(totem_t, totem_tmp_t, totem_tmp_t)
@@ -146,6 +146,8 @@ optional_policy(`
 	gnome_manage_generic_config_files(totem_t)
 	gnome_manage_bookmark_home_files(totem_t)
 	gnome_create_bookmark_home_files(totem_t)
+	gnome_manage_gstreamer_home_content(totem_t)
+	gnome_filetrans_gstreamer_home_content(totem_t, dir)
 ')
 
 optional_policy(`

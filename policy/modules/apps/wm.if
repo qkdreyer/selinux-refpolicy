@@ -121,12 +121,38 @@ template(`wm_role_template',`
 	')
 
 	optional_policy(`
+		# Not sure why i needed this but i did for xguest.
+		mozilla_sigkill($1_wm_t)
+		mozilla_signull($1_wm_t)
+		mozilla_read_tmpfs_files($1_wm_t)
+		mozilla_delete_tmpfs_files($1_wm_t)
+	')
+
+	optional_policy(`
+		nsplugin_signull($1_wm_t)
+		nsplugin_read_tmpfs_files($1_wm_t)
+		nsplugin_delete_tmpfs_files($1_wm_t)
+	')
+
+	optional_policy(`
 		pulseaudio_rw_home_files($1_wm_t)
 		pulseaudio_signull($1_wm_t)
 		pulseaudio_stream_connect($1_wm_t)
 		pulseaudio_search_home_dirs($1_wm_t)
 		pulseaudio_read_tmpfs_files($1_wm_t)
 		pulseaudio_write_tmp_sockets($1_wm_t)
+	')
+
+	optional_policy(`
+		thunderbird_signull($1_wm_t)
+		thunderbird_read_tmpfs_files($1_wm_t)
+		thunderbird_delete_tmpfs_files($1_wm_t)
+	')
+
+	optional_policy(`
+		totem_signull($1_wm_t)
+		totem_read_tmpfs_files($1_wm_t)
+		totem_delete_tmpfs_files($1_wm_t)
 	')
 
 	optional_policy(`
@@ -222,6 +248,46 @@ interface(`wm_read_user_home_files',`
 
 ########################################
 ## <summary>
+##	Manage wm home content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`wm_manage_user_home_content',`
+	gen_require(`
+		type wm_home_t;
+	')
+
+	manage_dirs_pattern($1, wm_home_t, wm_home_t)
+	manage_files_pattern($1, wm_home_t, wm_home_t)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
+##	Relabel wm home content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`wm_relabel_user_home_content',`
+	gen_require(`
+		type wm_home_t;
+	')
+
+	relabel_dirs_pattern($1, wm_home_t, wm_home_t)
+	relabel_files_pattern($1, wm_home_t, wm_home_t)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
 ##	Stream connect to Windows manager.
 ## </summary>
 ## <param name="role_prefix">
@@ -242,7 +308,7 @@ interface(`wm_stream_connect',`
 	')
 
 	stream_connect_pattern($2, wm_tmp_t, wm_tmp_t, $1_wm_t)
-	files_search_tmp($2)
+	userdom_search_user_tmp_dirs($2)
 ')
 
 ########################################
@@ -289,6 +355,48 @@ interface(`wm_sigchld',`
 
 ########################################
 ## <summary>
+##	Manage wm temporary content.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`wm_manage_tmp_content',`
+	gen_require(`
+		type wm_tmp_t;
+	')
+
+	manage_dirs_pattern($1, wm_tmp_t, wm_tmp_t)
+	manage_files_pattern($1, wm_tmpfs_t, wm_tmpfs_t)
+	manage_sock_files_pattern($1, wm_tmp_t, wm_tmp_t)
+	userdom_search_user_tmp_dirs($1)
+')
+
+########################################
+## <summary>
+##	Relabel wm temporary content.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`wm_relabel_tmp_content',`
+	gen_require(`
+		type wm_tmp_t;
+	')
+
+	relabel_dirs_pattern($1, wm_tmp_t, wm_tmp_t)
+	relabel_files_pattern($1, wm_tmpfs_t, wm_tmpfs_t)
+	relabel_sock_files_pattern($1, wm_tmp_t, wm_tmp_t)
+	userdom_search_user_tmp_dirs($1)
+')
+
+########################################
+## <summary>
 ##	Read wm tmpfs files.
 ## </summary>
 ## <param name="domain">
@@ -303,6 +411,44 @@ interface(`wm_read_tmpfs_files',`
 	')
 
 	allow $1 wm_tmpfs_t:file read_file_perms;
+	fs_search_tmpfs($1)
+')
+
+########################################
+## <summary>
+##	Manage wm tmpfs content.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`wm_manage_tmpfs_content',`
+	gen_require(`
+		type wm_tmpfs_t;
+	')
+
+	manage_files_pattern($1, wm_tmpfs_t, wm_tmpfs_t)
+	fs_search_tmpfs($1)
+')
+
+########################################
+## <summary>
+##	Relabel wm tmpfs content.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`wm_relabel_tmpfs_content',`
+	gen_require(`
+		type wm_tmpfs_t;
+	')
+
+	relabel_files_pattern($1, wm_tmpfs_t, wm_tmpfs_t)
 	fs_search_tmpfs($1)
 ')
 

@@ -54,6 +54,33 @@ interface(`totem_domtrans',`
 
 ########################################
 ## <summary>
+##	Execute a domain transition to run
+##	Totem, and allow the specified role
+##	the Totem domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed to transition.
+##	</summary>
+## </param>
+## <param name="role">
+##	<summary>
+##	The role to be allowed the Totem domain.
+##	</summary>
+## </param>
+## <rolecap/>
+#
+interface(`totem_run',`
+	gen_require(`
+		type totem_t;
+	')
+
+	totem_domtrans($1)
+	role $2 types totem_t;
+')
+
+########################################
+## <summary>
 ##	Send and receive messages from
 ##	Totem over dbus.
 ## </summary>
@@ -262,4 +289,41 @@ interface(`totem_sigkill',`
 	')
 
 	allow $1 totem_t:process sigkill;
+')
+
+########################################
+## <summary>
+##	Read Totem state.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`totem_read_state',`
+	gen_require(`
+		type totem_t;
+	')
+
+	ps_process_pattern($1, totem_t)
+')
+
+########################################
+## <summary>
+##	Trace Totem process.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`totem_ptrace',`
+	gen_require(`
+		type totem_t;
+	')
+
+	allow $1 totem_t:process ptrace;
+	kernel_search_proc($1)
 ')

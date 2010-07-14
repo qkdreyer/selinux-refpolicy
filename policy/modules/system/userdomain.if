@@ -738,6 +738,18 @@ template(`userdom_common_user_template',`
 
 	allow $1_usertype unpriv_userdomain:fd use;
 
+	userdom_manage_all_home($1_usertype)
+	userdom_relabel_all_home($1_usertype)
+	userdom_user_home_dir_filetrans_user_home_content($1_usertype, { file dir lnk_file fifo_file sock_file })
+
+	userdom_manage_all_tmp_content($1_usertype)
+	userdom_relabel_all_tmp_content($1_usertype)
+	userdom_tmp_filetrans_user_tmp($1_usertype, { dir file lnk_file sock_file fifo_file })
+
+	userdom_manage_all_tmpfs_content($1_usertype)
+	userdom_relabel_all_tmpfs_content($1_usertype)
+	userdom_tmpfs_filetrans_user_tmpfs($1_usertype, { dir file lnk_file sock_file fifo_file })
+
 	kernel_read_system_state($1_usertype)
 	kernel_read_network_state($1_usertype)
 	kernel_read_net_sysctls($1_usertype)
@@ -814,10 +826,6 @@ template(`userdom_common_user_template',`
 
 	optional_policy(`
 		canna_stream_connect($1_usertype)
-	')
-
-	optional_policy(`
-		chrome_role($1_r, $1_usertype)
 	')
 
 	optional_policy(`
@@ -989,22 +997,16 @@ template(`userdom_login_user_template', `
 
 	userdom_base_user_template($1)
 
-	# should probably be generic instead of all, because this also includes restricted users.
-	# in common user template use all.
-	userdom_manage_all_home($1_usertype)
-	userdom_relabel_all_home($1_usertype)
+	userdom_manage_generic_home($1_usertype)
+	userdom_relabel_generic_home($1_usertype)
 	userdom_user_home_dir_filetrans_user_home_content($1_usertype, { file dir lnk_file fifo_file sock_file })
 
-	# should probably be generic instead of all, because this also includes restricted users.
-	# in common user template use all.
-	userdom_manage_all_tmp_content($1_usertype)
-	userdom_relabel_all_tmp_content($1_usertype)
+	userdom_manage_generic_tmp_content($1_usertype)
+	userdom_relabel_generic_tmp_content($1_usertype)
 	userdom_tmp_filetrans_user_tmp($1_usertype, { dir file lnk_file sock_file fifo_file })
 
-	# should probably be generic instead of all, because this also includes restricted users.
-	# in common user template use all.
-	userdom_manage_all_tmpfs_content($1_usertype)
-	userdom_relabel_all_tmpfs_content($1_usertype)
+	userdom_manage_generic_tmpfs_content($1_usertype)
+	userdom_relabel_generic_tmpfs_content($1_usertype)
 	userdom_tmpfs_filetrans_user_tmpfs($1_usertype, { dir file lnk_file sock_file fifo_file })
 
 	ifelse(`$1',`unconfined',`',`
@@ -1157,6 +1159,11 @@ template(`userdom_restricted_user_template',`
 	optional_policy(`
 		loadkeys_run($1_t, $1_r)
 	')
+
+	optional_policy(`
+		ssh_manage_user_home_content($1_t)
+		ssh_relabel_user_home_content($1_t)
+	')
 ')
 
 #######################################
@@ -1190,6 +1197,15 @@ template(`userdom_restricted_xwindows_user_template',`
 	dev_read_video_dev($1_usertype)
 	dev_write_video_dev($1_usertype)
 	dev_rw_wireless($1_usertype)
+
+	userdom_manage_user_audio_content($1_t)
+	userdom_relabel_user_audio_content($1_t)
+	userdom_manage_user_bin_content($1_t)
+	userdom_relabel_user_bin_content($1_t)
+	userdom_manage_user_cert_content($1_t)
+	userdom_relabel_user_cert_content($1_t)
+	userdom_manage_user_video_content($1_t)
+	userdom_relabel_user_video_content($1_t)
 
 	tunable_policy(`user_rw_noexattrfile',`
 		dev_rw_usbfs($1_t)
@@ -1230,6 +1246,9 @@ template(`userdom_restricted_xwindows_user_template',`
 		gnome_read_gconf_config($1_t)
 		gnome_search_gconf($1_t)
 
+		gnome_manage_all_config($1_t)
+		gnome_relabel_all_config($1_t)
+
 		optional_policy(`
 			gnomeclock_dbus_chat($1_t)
 		')
@@ -1246,6 +1265,12 @@ template(`userdom_restricted_xwindows_user_template',`
 
 	optional_policy(`
 		pulseaudio_role($1_r, $1_usertype)
+		pulseaudio_manage_home_content($1_t)
+		pulseaudio_relabel_home_content($1_t)
+		pulseaudio_manage_tmp_content($1_t)
+		pulseaudio_relabel_tmp_content($1_t)
+		pulseaudio_manage_tmpfs_content($1_t)
+		pulseaudio_relabel_tmpfs_content($1_t)
 	')
 
 	optional_policy(`
@@ -1257,15 +1282,34 @@ template(`userdom_restricted_xwindows_user_template',`
 	')
 
 	optional_policy(`
+		# local mail maybe?
+		mta_manage_mail_home($1_t)
+		mta_relabel_mail_home($1_t)
+	')
+
+	optional_policy(`
 		udev_read_db($1_usertype)
 	')
 
 	optional_policy(`
 		wm_role_template($1, $1_r, $1_t)
+		wm_manage_user_home_content($1_t)
+		wm_relabel_user_home_content($1_t)
+		wm_manage_tmp_content($1_t)
+		wm_relabel_tmp_content($1_t)
+		wm_manage_tmpfs_content($1_t)
+		wm_relabel_tmpfs_content($1_t)
 	')
 
 	optional_policy(`
 		xserver_restricted_role($1_r, $1_t)
+		# not sure about this.
+		xserver_manage_home_fonts($1_t)
+		xserver_relabel_home_fonts($1_t)
+		xserver_manage_user_iceauth($1_t)
+		xserver_relabel_user_iceauth($1_t)
+		xserver_manage_xdm_home_content($1_t)
+		xserver_relabel_xdm_home_content($1_t)
 	')
 ')
 
@@ -1326,6 +1370,10 @@ template(`userdom_unpriv_user_template', `
 
 	optional_policy(`
 		cdrecord_role($1_r, $1_t)
+	')
+
+	optional_policy(`
+		chrome_role($1_r, $1_usertype)
 	')
 
 	optional_policy(`

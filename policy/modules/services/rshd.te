@@ -68,8 +68,8 @@ seutil_read_default_contexts(rshd_t)
 userdom_search_user_home_content(rshd_t)
 
 # should probably be generic instead of all	
-userdom_manage_all_tmp_content(rshd_t)
-userdom_relabel_all_tmp_content(rshd_t)
+userdom_manage_generic_tmp_content(rshd_t)
+userdom_relabel_generic_tmp_content(rshd_t)
 userdom_tmp_filetrans_user_tmp(rshd_t, { dir file lnk_file sock_file fifo_file })
 
 tunable_policy(`use_nfs_home_dirs',`

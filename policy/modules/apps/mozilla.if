@@ -41,6 +41,14 @@ interface(`mozilla_role',`
 	')
 
 	optional_policy(`
+		thunderbird_run(mozilla_t, $1)
+	')
+
+	optional_policy(`
+		totem_run(mozilla_t, $1)
+	')
+
+	optional_policy(`
 		nsplugin_role($1, mozilla_t)
 	')
 ')
@@ -119,6 +127,7 @@ interface(`mozilla_manage_user_home_content',`
 		type mozilla_home_t;
 	')
 
+	manage_dirs_pattern($1, mozilla_home_t, mozilla_home_t)
 	manage_files_pattern($1, mozilla_home_t, mozilla_home_t)
 	manage_lnk_files_pattern($1, mozilla_home_t, mozilla_home_t)
 	userdom_search_user_home_dirs($1)
@@ -139,6 +148,7 @@ interface(`mozilla_relabel_user_home_content',`
 		type mozilla_home_t;
 	')
 
+	relabel_dirs_pattern($1, mozilla_home_t, mozilla_home_t)
 	relabel_files_pattern($1, mozilla_home_t, mozilla_home_t)
 	relabel_lnk_files_pattern($1, mozilla_home_t, mozilla_home_t)
 	userdom_search_user_home_dirs($1)
@@ -392,4 +402,22 @@ interface(`mozilla_signull',`
 	')
 
 	allow $1 mozilla_t:process signull;
+')
+
+########################################
+## <summary>
+##	Send kill signals to Mozilla.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`mozilla_sigkill',`
+	gen_require(`
+		type mozilla_t;
+	')
+
+	allow $1 mozilla_t:process sigkill;
 ')

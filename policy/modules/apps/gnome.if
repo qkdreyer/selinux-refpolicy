@@ -112,6 +112,27 @@ interface(`gnome_manage_all_config',`
 
 ########################################
 ## <summary>
+##	Relabel gnome homedir content (.config)
+## </summary>
+## <param name="user_domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`gnome_relabel_all_config',`
+	gen_require(`
+		attribute gnome_home_type;
+	')
+
+	allow $1 gnome_home_type:dir relabel_dir_perms;
+	allow $1 gnome_home_type:file relabel_file_perms;
+	allow $1 gnome_home_type:lnk_file relabel_lnk_file_perms;
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
 ##	Send general signals to all gconf domains.
 ## </summary>
 ## <param name="domain">
@@ -726,27 +747,6 @@ interface(`gnome_exec_gconf',`
 
 ########################################
 ## <summary>
-##	Read gconf home files
-## </summary>
-## <param name="domain">
-##	<summary>
-##	Domain allowed access.
-##	</summary>
-## </param>
-#
-interface(`gnome_read_gconf_home_files',`
-	gen_require(`
-		type gconf_home_t;
-		type data_home_t;
-	')
-
-	allow $1 gconf_home_t:dir list_dir_perms;
-	read_files_pattern($1, gconf_home_t, gconf_home_t)
-	userdom_search_user_home_dirs($1)
-')
-
-########################################
-## <summary>
 ##	Manage gconf home content.
 ## </summary>
 ## <param name="domain">
@@ -755,7 +755,7 @@ interface(`gnome_read_gconf_home_files',`
 ##	</summary>
 ## </param>
 #
-interface(`gnome_manage_gconf_home_files',`
+interface(`gnome_manage_gconf_home_content',`
 	gen_require(`
 		type gconf_home_t;
 	')
@@ -775,7 +775,7 @@ interface(`gnome_manage_gconf_home_files',`
 ##	</summary>
 ## </param>
 #
-interface(`gnome_relabel_gconf_home_files',`
+interface(`gnome_relabel_gconf_home_content',`
 	gen_require(`
 		type gconf_home_t;
 	')
@@ -826,6 +826,26 @@ interface(`gnome_append_gconf_home_files',`
 
 ########################################
 ## <summary>
+##	Read gconf home files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`gnome_read_gconf_home_files',`
+	gen_require(`
+		type gconf_home_t;
+	')
+
+	allow $1 gconf_home_t:dir list_dir_perms;
+	read_files_pattern($1, gconf_home_t, gconf_home_t)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
 ##	manage gconf home files
 ## </summary>
 ## <param name="domain">
@@ -842,6 +862,32 @@ interface(`gnome_manage_gconf_home_files',`
 	allow $1 gconf_home_t:dir list_dir_perms;
 	manage_files_pattern($1, gconf_home_t, gconf_home_t)
 	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
+##	Create objects in a user home directory
+##	with an automatic type transition to
+##	the Gstreamer home file type.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+## <param name="object_class">
+##	<summary>
+##	The class of the object to be created.
+##	</summary>
+## </param>
+#
+interface(`gnome_filetrans_gstreamer_home_content',`
+	gen_require(`
+		type gstreamer_home_t;
+	')
+
+	userdom_user_home_dir_filetrans($1, gstreamer_home_t, $2)
+	files_search_home($1)
 ')
 
 ########################################

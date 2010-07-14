@@ -86,10 +86,58 @@ optional_policy(`
 
 optional_policy(`
 	mozilla_role(xguest_r, xguest_t)
+	mozilla_manage_user_home_content(xguest_t)
+	mozilla_relabel_user_home_content(xguest_t)
+	mozilla_manage_tmp_content(xguest_t)
+	mozilla_relabel_tmp_content(xguest_t)
+	mozilla_manage_tmpfs_content(xguest_t)
+	mozilla_relabel_tmpfs_content(xguest_t)
 ')
 
 optional_policy(`
 	nsplugin_role(xguest_r, xguest_t)
+	nsplugin_manage_home_content(xguest_t)
+	nsplugin_relabel_home_content(xguest_t)
+	nsplugin_manage_tmp_content(xguest_t)
+	nsplugin_relabel_tmp_content(xguest_t)
+	nsplugin_manage_tmpfs_content(xguest_t)
+	nsplugin_relabel_tmpfs_content(xguest_t)
+')
+
+optional_policy(`
+	# not sure about this
+	procmail_manage_user_content_files(xguest_t)
+	procmail_relabel_user_content_files(xguest_t)
+')
+
+optional_policy(`
+	thunderbird_manage_home_content(xguest_t)
+	thunderbird_relabel_home_content(xguest_t)
+	thunderbird_manage_tmp_content(xguest_t)
+	thunderbird_relabel_tmp_content(xguest_t)
+	thunderbird_manage_tmpfs_content(xguest_t)
+	thunderbird_relabel_tmpfs_content(xguest_t)
+	thunderbird_stream_connect(xguest_t)
+	thunderbird_read_state(xguest_t)
+	thunderbird_ptrace(xguest_t)
+
+	optional_policy(`
+		thunderbird_dbus_chat(xguest_t)
+	')
+')
+
+optional_policy(`
+	totem_manage_tmp_content(xguest_t)
+	totem_relabel_tmp_content(xguest_t)
+	totem_manage_tmpfs_content(xguest_t)
+	totem_relabel_tmpfs_content(xguest_t)
+	totem_stream_connect(xguest_t)
+	totem_read_state(xguest_t)
+	totem_ptrace(xguest_t)
+
+	optional_policy(`
+		totem_dbus_chat(xguest_t)
+	')
 ')
 
 optional_policy(`

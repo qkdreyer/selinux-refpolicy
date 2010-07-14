@@ -7,7 +7,15 @@ policy_module(mozilla, 2.2.2)
 
 ## <desc>
 ## <p>
-##	Allow Mozilla to read all user home
+##	Allow Mozilla to execute anonymous memory (execmem))
+##	files.
+## </p>
+## </desc>
+gen_tunable(mozilla_execmem, false)
+
+## <desc>
+## <p>
+##	Allow Mozilla to read all user home.
 ##	files.
 ## </p>
 ## </desc>
@@ -55,7 +63,7 @@ manage_dirs_pattern(mozilla_t, mozilla_home_t, mozilla_home_t)
 manage_files_pattern(mozilla_t, mozilla_home_t, mozilla_home_t)
 manage_lnk_files_pattern(mozilla_t, mozilla_home_t, mozilla_home_t)
 userdom_user_home_dir_filetrans(mozilla_t, mozilla_home_t, dir)
-userdom_user_home_content_filetrans(mozilla_t, mozilla_home_t, file)
+userdom_user_home_content_filetrans(mozilla_t, mozilla_home_t, { file dir })
 
 dontaudit mozilla_t mozilla_tmp_t:file relabelfrom;
 manage_dirs_pattern(mozilla_t, mozilla_tmp_t, mozilla_tmp_t)
@@ -165,6 +173,10 @@ ifndef(`enable_mls',`
 	fs_read_removable_symlinks(mozilla_t)
 ')
 
+tunable_policy(`mozilla_execmem',`
+	allow mozilla_t self:process execmem;
+')
+
 tunable_policy(`mozilla_read_content',`
 	userdom_list_user_home_content(mozilla_t)
 	userdom_read_all_user_home_content_files(mozilla_t)
@@ -248,7 +260,8 @@ optional_policy(`
 
 optional_policy(`
 	nsplugin_manage_rw(mozilla_t)
-	nsplugin_manage_home_files(mozilla_t)
+	nsplugin_signull(mozilla_t)
+	nsplugin_manage_home_content(mozilla_t)
 	nsplugin_read_tmpfs_files(mozilla_t)
 	nsplugin_delete_tmpfs_files(mozilla_t)
 ')
@@ -269,7 +282,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	thunderbird_domtrans(mozilla_t)
 	thunderbird_delete_tmpfs_files(mozilla_t)
 	thunderbird_read_tmpfs_files(mozilla_t)
 	thunderbird_signull(mozilla_t)
@@ -282,7 +294,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	totem_domtrans(mozilla_t)
 	totem_signull(mozilla_t)
 	totem_sigkill(mozilla_t)
 	totem_read_tmpfs_files(mozilla_t)

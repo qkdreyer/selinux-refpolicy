@@ -298,8 +298,8 @@ userdom_read_user_home_content_symlinks(sshd_t)
 userdom_search_admin_dir(sshd_t)
 
 # should probably be generic instead of all	
-userdom_manage_all_tmp_content(sshd_t)
-userdom_relabel_all_tmp_content(sshd_t)
+userdom_manage_generic_tmp_content(sshd_t)
+userdom_relabel_generic_tmp_content(sshd_t)
 userdom_tmp_filetrans_user_tmp(sshd_t, { dir file lnk_file sock_file fifo_file })
 
 tunable_policy(`sshd_forward_ports', `

@@ -1401,6 +1401,52 @@ interface(`xserver_append_xdm_home_files',`
 
 ########################################
 ## <summary>
+##	Manage xdm user content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`xserver_manage_xdm_home_content',`
+	gen_require(`
+		type xdm_home_t;
+	')
+
+	allow $1 xdm_home_t:file manage_file_perms;
+	userdom_search_user_home_dirs($1)
+
+	tunable_policy(`use_nfs_home_dirs',`
+		fs_manage_nfs_files($1)
+	')
+
+	tunable_policy(`use_samba_home_dirs',`
+		fs_manage_cifs_files($1)
+	')
+')
+
+########################################
+## <summary>
+##	Relabel xdm user content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`xserver_relabel_xdm_home_content',`
+	gen_require(`
+		type xdm_home_t;
+	')
+
+	allow $1 xdm_home_t:file relabel_file_perms;
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
 ##	Manage the xdm_spool files
 ## </summary>
 ## <param name="domain">
@@ -1540,6 +1586,44 @@ template(`xserver_read_user_iceauth',`
 
 ########################################
 ## <summary>
+##	Manage user Iceauthority content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+template(`xserver_manage_user_iceauth',`
+	gen_require(`
+		type iceauth_home_t;
+	')
+
+	allow $1 iceauth_home_t:file manage_file_perms;
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
+##	Relabel user Iceauthority content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+template(`xserver_relabel_user_iceauth',`
+	gen_require(`
+		type iceauth_home_t;
+	')
+
+	allow $1 iceauth_home_t:file relabel_file_perms;
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
 ##	Read user homedir fonts.
 ## </summary>
 ## <param name="domain">
@@ -1650,7 +1734,7 @@ interface(`xserver_run_xauth',`
 ')
 ########################################
 ## <summary>
-##	Read user homedir fonts.
+##	Manage user font content.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
@@ -1667,5 +1751,27 @@ interface(`xserver_manage_home_fonts',`
 	manage_files_pattern($1, user_fonts_t, user_fonts_t)
 	manage_lnk_files_pattern($1, user_fonts_t, user_fonts_t)
 	manage_files_pattern($1, user_fonts_config_t, user_fonts_config_t)
+	userdom_search_user_home_dirs($1)
+')
+
+########################################
+## <summary>
+##	Relabel user font content.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`xserver_relabel_home_fonts',`
+	gen_require(`
+		type user_fonts_t, user_fonts_config_t;
+	')
+
+	relabel_dirs_pattern($1, user_fonts_t, user_fonts_t)
+	relabel_files_pattern($1, user_fonts_t, user_fonts_t)
+	relabel_lnk_files_pattern($1, user_fonts_t, user_fonts_t)
+	relabel_files_pattern($1, user_fonts_config_t, user_fonts_config_t)
 	userdom_search_user_home_dirs($1)
 ')

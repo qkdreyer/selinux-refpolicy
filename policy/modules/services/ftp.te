@@ -422,5 +422,5 @@ tunable_policy(`use_nfs_home_dirs',`
 ')
 
  tunable_policy(`sftpd_write_ssh_home',`
-	ssh_manage_user_home_files(sftpd_t)
+	ssh_manage_user_home_content(sftpd_t)
  ')

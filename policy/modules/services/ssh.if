@@ -702,7 +702,7 @@ interface(`ssh_dontaudit_read_server_keys',`
 ##  </summary>
 ## </param>
 #
-interface(`ssh_manage_user_home_files',`
+interface(`ssh_manage_user_home_content',`
 	gen_require(`
 		type ssh_home_t;
 	')
@@ -722,7 +722,7 @@ interface(`ssh_manage_user_home_files',`
 ##  </summary>
 ## </param>
 #
-interface(`ssh_manage_user_home_content',`
+interface(`ssh_relabel_user_home_content',`
 	gen_require(`
 		type ssh_home_t;
 	')

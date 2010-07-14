@@ -618,8 +618,8 @@ userdom_manage_user_tmp_files(xdm_t)
 userdom_manage_user_tmp_sockets(xdm_t)
 
 # should probably be generic instead of all	
-userdom_manage_all_tmpfs_content(xdm_t)
-userdom_relabel_all_tmpfs_content(xdm_t)
+userdom_manage_generic_tmpfs_content(xdm_t)
+userdom_relabel_generic_tmpfs_content(xdm_t)
 userdom_tmpfs_filetrans_user_tmpfs(xdm_t, { dir file lnk_file sock_file fifo_file })
 
 xserver_rw_session(xdm_t, xdm_tmpfs_t)

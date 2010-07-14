@@ -211,6 +211,7 @@ optional_policy(`
 
 optional_policy(`
 	mozilla_domtrans(thunderbird_t)
+	mozilla_manage_user_home_content(thunderbird_t)
 	mozilla_read_tmpfs_files(thunderbird_t)
 	mozilla_delete_tmpfs_files(thunderbird_t)
 	mozilla_signull(thunderbird_t)

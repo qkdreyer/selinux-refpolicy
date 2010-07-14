@@ -59,6 +59,33 @@ interface(`thunderbird_domtrans',`
 
 ########################################
 ## <summary>
+##	Execute a domain transition to run
+##	Thunderbird, and allow the specified role
+##	the Thunderbird domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed to transition.
+##	</summary>
+## </param>
+## <param name="role">
+##	<summary>
+##	The role to be allowed the Thunderbird domain.
+##	</summary>
+## </param>
+## <rolecap/>
+#
+interface(`thunderbird_run',`
+	gen_require(`
+		type thunderbird_t;
+	')
+
+	thunderbird_domtrans($1)
+	role $2 types thunderbird_t;
+')
+
+########################################
+## <summary>
 ##	Send DBus messages to and from
 ##	Thunderbird.
 ## </summary>
@@ -177,7 +204,7 @@ interface(`thunderbird_manage_tmp_content',`
 	manage_dirs_pattern($1, thunderbird_tmp_t, thunderbird_tmp_t)
 	manage_files_pattern($1, thunderbird_tmp_t, thunderbird_tmp_t)
 	manage_sock_files_pattern($1, thunderbird_tmp_t, thunderbird_tmp_t)
-	files_search_tmp($1)
+	userdom_search_user_tmp_dirs($1)
 ')
 
 ########################################
@@ -198,7 +225,7 @@ interface(`thunderbird_relabel_tmp_content',`
 	relabel_dirs_pattern($1, thunderbird_tmp_t, thunderbird_tmp_t)
 	relabel_files_pattern($1, thunderbird_tmp_t, thunderbird_tmp_t)
 	relabel_sock_files_pattern($1, thunderbird_tmp_t, thunderbird_tmp_t)
-	files_search_tmp($1)
+	userdom_search_user_tmp_dirs($1)
 ')
 
 ########################################
@@ -217,7 +244,7 @@ interface(`thunderbird_stream_connect',`
 	')
 
 	stream_connect_pattern($1, thunderbird_tmp_t, thunderbird_tmp_t, thunderbird_t)
-	files_search_tmp($1)
+	userdom_search_user_tmp_dirs($1)
 ')
 
 ########################################
@@ -312,4 +339,41 @@ interface(`thunderbird_signull',`
 	')
 
 	allow $1 thunderbird_t:process signull;
+')
+
+########################################
+## <summary>
+##	Read Thunderbird state.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`thunderbird_read_state',`
+	gen_require(`
+		type thunderbird_t;
+	')
+
+	ps_process_pattern($1, thunderbird_t)
+')
+
+########################################
+## <summary>
+##	Trace Thunderbird process.
+## </summary>
+## <param name="domain">
+## 	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`thunderbird_ptrace',`
+	gen_require(`
+		type thunderbird_t;
+	')
+
+	allow $1 thunderbird_t:process ptrace;
+	kernel_search_proc($1)
 ')
