@@ -73,7 +73,8 @@ interface(`gnome_domtrans_gconfd',`
 
 ########################################
 ## <summary>
-##	Dontaudit search gnome homedir content (.config)
+##	Do not audit attempts to search all
+##	Gnome home content.
 ## </summary>
 ## <param name="user_domain">
 ##	<summary>

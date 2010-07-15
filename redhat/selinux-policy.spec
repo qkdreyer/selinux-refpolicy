@@ -19,8 +19,8 @@
 %define CHECKPOLICYVER 2.0.21-1
 Summary: SELinux policy configuration
 Name: selinux-policy
-Version: 3.8.6
-Release: 3.1%{?dist}
+Version: 3.8.7
+Release: 1.1%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: refpolicy-%{version}.tar.gz
@@ -423,6 +423,12 @@ exit 0
 %endif
 
 %changelog
+* Thu Jul 15 2010 Dominick Grift <domg472@gmail.com> 3.8.7-1.1
+- Merge branch Fedora v3.8.7-1
+- Merge branch refpolicy
+- Modify access to user content.
+- Various fixes.
+
 * Tue Jul 13 2010 Dominick Grift <domg472@gmail.com> 3.8.6-3.1
 - Merge branch Fedora (v3.8.6-3)
 - Merge branch refpolicy.
