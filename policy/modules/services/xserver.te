@@ -702,8 +702,7 @@ optional_policy(`
 
 optional_policy(`
 	gnome_read_gconf_config(xdm_t)
-	gnome_manage_gconf_home_files(xdm_t)
-	gnome_read_all_config(xdm_t)
+	gnome_manage_all_config(xdm_t)
 ')
 
 optional_policy(`
@@ -761,6 +760,10 @@ optional_policy(`
 
 optional_policy(`
 	seutil_sigchld_newrole(xdm_t)
+')
+
+optional_policy(`
+	ssh_signull(xdm_t)
 ')
 
 optional_policy(`

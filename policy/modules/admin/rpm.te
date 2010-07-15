@@ -217,10 +217,6 @@ optional_policy(`
 	optional_policy(`
 		networkmanager_dbus_chat(rpm_t)
 	')
-
-	optional_policy(`
-		dbus_system_domain(rpm_t, debuginfo_exec_t)
-	')
 ')
 
 optional_policy(`

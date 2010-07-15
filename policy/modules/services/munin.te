@@ -186,6 +186,7 @@ optional_policy(`
 # local policy for disk plugins
 #
 
+allow disk_munin_plugin_t self:capability { sys_admin sys_rawio };
 allow disk_munin_plugin_t self:tcp_socket create_stream_socket_perms;
 
 rw_files_pattern(disk_munin_plugin_t, munin_var_lib_t, munin_var_lib_t)
@@ -202,7 +203,7 @@ fs_getattr_all_fs(disk_munin_plugin_t)
 dev_read_sysfs(disk_munin_plugin_t)
 dev_read_urand(disk_munin_plugin_t)
 
-storage_getattr_fixed_disk_dev(disk_munin_plugin_t)
+storage_raw_read_fixed_disk(disk_munin_plugin_t)
 
 sysnet_read_config(disk_munin_plugin_t)
 

@@ -296,6 +296,24 @@ interface(`virt_manage_pid_files',`
 
 ########################################
 ## <summary>
+##	Do not audit attempts to write virt daemon unnamed pipes.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain to not audit.
+##	</summary>
+## </param>
+#
+interface(`virt_dontaudit_write_pipes',`
+	gen_require(`
+		type virtd_t;
+	')
+
+	dontaudit $1 virtd_t:fifo_file write;
+')
+
+########################################
+## <summary>
 ##	Search virt lib directories.
 ## </summary>
 ## <param name="domain">
@@ -555,7 +573,7 @@ interface(`virt_admin',`
 ## </param>
 ## <param name="role">
 ##	<summary>
-##	The role to be allowed the sandbox domain.
+##	The role to be allowed the svirt domain.
 ##	</summary>
 ## </param>
 ## <rolecap/>

@@ -127,7 +127,7 @@ interface(`vpn_dbus_chat',`
 
 ########################################
 ## <summary>
-##	Relabelfrom from vpnc socket.
+##	Relabel from vpnc socket.
 ## </summary>
 ## <param name="domain">
 ##	<summary>

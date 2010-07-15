@@ -143,6 +143,7 @@ ifdef(`distro_gentoo',`
 /usr/lib(64)?/ipsec/.*													--	gen_context(system_u:object_r:bin_t,s0)
 /usr/lib(64)?/mailman/bin(/.*)?												gen_context(system_u:object_r:bin_t,s0)
 /usr/lib(64)?/mailman/mail(/.*)?											gen_context(system_u:object_r:bin_t,s0)
+/usr/lib(64)?/mediawiki/math/texvc.*										gen_context(system_u:object_r:bin_t,s0)
 /usr/lib(64)?/misc/sftp-server											--	gen_context(system_u:object_r:bin_t,s0)
 /usr/lib(64)?/nagios/plugins(/.*)?											gen_context(system_u:object_r:bin_t,s0)
 /usr/lib(64)?/netsaint/plugins(/.*)?										gen_context(system_u:object_r:bin_t,s0)
@@ -276,6 +277,7 @@ ifdef(`distro_redhat',`
 /usr/share/texmf/web2c/mktexdir											--	gen_context(system_u:object_r:bin_t,s0)
 /usr/share/texmf/web2c/mktexnam											--	gen_context(system_u:object_r:bin_t,s0)
 /usr/share/texmf/web2c/mktexupd											--	gen_context(system_u:object_r:bin_t,s0)
+/usr/share/texmf/texconfig/tcfmgr										--	gen_context(system_u:object_r:bin_t,s0)
 ')
 
 ifdef(`distro_suse',`

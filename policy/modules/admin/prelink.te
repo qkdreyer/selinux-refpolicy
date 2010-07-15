@@ -71,6 +71,7 @@ corecmd_mmap_all_executables(prelink_t)
 corecmd_read_bin_symlinks(prelink_t)
 
 dev_read_urand(prelink_t)
+dev_getattr_all_chr_files(prelink_t)
 
 files_list_all(prelink_t)
 files_getattr_all_files(prelink_t)

@@ -49,7 +49,7 @@ userdom_user_home_dir_filetrans(gift_t, gift_home_t, dir)
 
 domtrans_pattern(gift_t, giftd_exec_t, giftd_t)
 
-kernel_read_system_state(giftd_t)
+kernel_read_system_state(gift_t)
 
 corenet_all_recvfrom_unlabeled(gift_t)
 corenet_all_recvfrom_netlabel(gift_t)

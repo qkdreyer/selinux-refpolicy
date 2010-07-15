@@ -77,3 +77,7 @@ sysnet_etc_filetrans_config(denyhosts_t)
 optional_policy(`
 	cron_system_entry(denyhosts_t, denyhosts_exec_t)
 ')
+
+optional_policy(`
+	gnome_dontaudit_search_config(denyhosts_t)
+')

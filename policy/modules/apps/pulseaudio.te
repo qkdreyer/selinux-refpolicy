@@ -11,7 +11,6 @@ init_daemon_domain(pulseaudio_t, pulseaudio_exec_t)
 application_domain(pulseaudio_t, pulseaudio_exec_t)
 ubac_constrained(pulseaudio_t)
 role system_r types pulseaudio_t;
-ubac_constrained(pulseaudio_t)
 
 type pulseaudio_home_t;
 userdom_user_home_content(pulseaudio_home_t)

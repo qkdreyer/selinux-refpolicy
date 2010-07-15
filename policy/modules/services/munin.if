@@ -34,6 +34,7 @@ template(`munin_plugin_template',`
 	files_tmp_filetrans($1_munin_plugin_t, $1_munin_plugin_tmp_t, { dir file })
 
 	domtrans_pattern(munin_t, $1_munin_plugin_exec_t, $1_munin_plugin_t)
+	allow munin_t $1_munin_plugin_t:process signal;
 
 	allow $1_munin_plugin_t munin_exec_t:file read_file_perms;
 	allow $1_munin_plugin_t munin_t:tcp_socket rw_socket_perms;

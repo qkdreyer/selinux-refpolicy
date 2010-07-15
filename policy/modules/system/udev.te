@@ -112,6 +112,7 @@ files_exec_etc_files(udev_t)
 files_dontaudit_search_isid_type_dirs(udev_t)
 files_getattr_generic_locks(udev_t)
 files_search_mnt(udev_t)
+files_list_tmp(udev_t)
 
 fs_getattr_all_fs(udev_t)
 fs_list_inotifyfs(udev_t)

@@ -158,15 +158,16 @@ tunable_policy(`virt_use_fusefs',`
 tunable_policy(`virt_use_nfs',`
 	fs_manage_nfs_dirs(svirt_t)
 	fs_manage_nfs_files(svirt_t)
-	fs_read_nfs_symlinks(virtd_t)
+	fs_manage_nfs_named_sockets(svirt_t)
+	fs_read_nfs_symlinks(svirt_t)
 ')
 
 tunable_policy(`virt_use_samba',`
 	fs_manage_cifs_dirs(svirt_t)
 	fs_manage_cifs_files(svirt_t)
-	fs_read_cifs_symlinks(virtd_t)
+	fs_manage_cifs_named_sockets(svirt_t)
+	fs_read_cifs_symlinks(svirt_t)
 ')
-
 
 tunable_policy(`virt_use_sysfs',`
 	dev_rw_sysfs(svirt_t)

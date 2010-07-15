@@ -484,6 +484,7 @@ optional_policy(`
 ')
 
 optional_policy(`
+	mysql_tcp_connect(spamd_t)
 	mysql_search_db(spamd_t)
 	mysql_stream_connect(spamd_t)
 ')
@@ -493,6 +494,7 @@ optional_policy(`
 ')
 
 optional_policy(`
+	postgresql_tcp_connect(spamd_t)
 	postgresql_stream_connect(spamd_t)
 ')
 
@@ -517,10 +519,6 @@ optional_policy(`
 optional_policy(`
 	sendmail_stub(spamd_t)
 	mta_read_config(spamd_t)
-')
-
-optional_policy(`
-	milter_manage_spamass_state(spamd_t)
 ')
 
 optional_policy(`

@@ -238,8 +238,6 @@ files_tmp_filetrans(gpg_agent_t, gpg_agent_tmp_t, { file sock_file dir })
 
 files_read_usr_files(gpg_agent_t)
 
-fs_list_inotifyfs(gpg_agent_t)
-
 stream_connect_pattern(gpg_t, gpg_agent_tmp_t, gpg_agent_tmp_t, gpg_agent_t)
 
 corecmd_read_bin_symlinks(gpg_agent_t)

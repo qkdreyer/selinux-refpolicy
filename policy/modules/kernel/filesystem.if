@@ -767,6 +767,32 @@ interface(`fs_dontaudit_rw_cgroup_files',`
 
 ########################################
 ## <summary>
+##	Relabel all objects from filesystems that
+##	do not support extended attributes.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`fs_relabelfrom_noxattr_fs',`
+	gen_require(`
+		attribute noxattrfs;
+	')
+
+	allow $1 noxattrfs:dir list_dir_perms;
+	relabelfrom_dirs_pattern($1, noxattrfs, noxattrfs)
+	relabelfrom_files_pattern($1, noxattrfs, noxattrfs)
+	relabelfrom_lnk_files_pattern($1, noxattrfs, noxattrfs)
+	relabelfrom_fifo_files_pattern($1, noxattrfs, noxattrfs)
+	relabelfrom_sock_files_pattern($1, noxattrfs, noxattrfs)
+	relabelfrom_blk_files_pattern($1, noxattrfs, noxattrfs)
+	relabelfrom_chr_files_pattern($1, noxattrfs, noxattrfs)
+')
+
+########################################
+## <summary>
 ##	Do not audit attempts to read
 ##	CIFS or SMB directories.
 ## </summary>

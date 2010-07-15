@@ -734,23 +734,28 @@ interface(`ssh_relabel_user_home_content',`
 
 ########################################
 ## <summary>
-##	Create Secure Shell home directory 
-##	content.
+##	Create objects in a user home directory
+##	with an automatic type transition to
+##	the SSH home file type.
 ## </summary>
 ## <param name="domain">
 ##	<summary>
 ##	Domain allowed access.
 ##	</summary>
 ## </param>
+## <param name="object_class">
+##	<summary>
+##	The class of the object to be created.
+##	</summary>
+## </param>
 #
-interface(`ssh_create_user_home',`
+interface(`ssh_filetrans_ssh_home_content',`
 	gen_require(`
 		type home_ssh_t;
 	')
 
-	create_dirs_pattern($1, home_ssh_t, home_ssh_t)
-	create_files_pattern($1, home_ssh_t, home_ssh_t)
-	userdom_user_home_dir_filetrans($1, home_ssh_t, { dir file })
+	userdom_user_home_dir_filetrans($1, home_ssh_t, $2)
+	files_search_home($1)
 ')
 
 #######################################
@@ -768,8 +773,26 @@ interface(`ssh_delete_tmp',`
 		type sshd_tmp_t;
 	')
 
-	files_search_tmp($1)
 	delete_files_pattern($1, sshd_tmp_t, sshd_tmp_t)
+	files_search_tmp($1)
+')
+
+########################################
+## <summary>
+##	Send a null signals to sshd processes.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`ssh_signull',`
+	gen_require(`
+		type sshd_t;
+	')
+
+	allow $1 sshd_t:process signull;
 ')
 
 ########################################

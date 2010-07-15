@@ -234,6 +234,10 @@ optional_policy(`
 ')
 
 optional_policy(`
+	virt_dontaudit_write_pipes(insmod_t)
+')
+
+optional_policy(`
 	dev_rw_xserver_misc(insmod_t)
 
 	xserver_getattr_log(insmod_t)

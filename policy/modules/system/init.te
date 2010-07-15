@@ -556,6 +556,7 @@ ifdef(`distro_redhat',`
 		sysnet_manage_dhcpc_state(initrc_t)
 		sysnet_relabelfrom_dhcpc_state(initrc_t)
 		sysnet_relabelfrom_net_conf(initrc_t)
+		sysnet_relabelto_net_conf(initrc_t)
 	')
 
 	optional_policy(`
