@@ -59,8 +59,10 @@ allow cgred_t self:unix_dgram_socket { write create connect };
 
 allow cgred_t cgrules_etc_t:file read_file_perms;
 
+# rc script creates pid file 
+manage_files_pattern(cgred_t, cgred_var_run_t, cgred_var_run_t)
 manage_sock_files_pattern(cgred_t, cgred_var_run_t, cgred_var_run_t)
-files_pid_filetrans(cgred_t, cgred_var_run_t, sock_file)
+files_pid_filetrans(cgred_t, cgred_var_run_t, { file sock_file })
 
 kernel_read_system_state(cgred_t)
 
