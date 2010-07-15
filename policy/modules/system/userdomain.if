@@ -12,7 +12,6 @@
 ## </param>
 #
 template(`userdom_base_user_template',`
-
 	gen_require(`
 		attribute userdomain;
 		type user_devpts_t, user_tty_device_t;
@@ -831,7 +830,7 @@ template(`userdom_common_user_template',`
 	optional_policy(`
 		dbus_system_bus_client($1_usertype)
 
-		allow $1_usertype $1_usertype:dbus  send_msg;
+		allow $1_usertype $1_usertype:dbus send_msg;
 
 		optional_policy(`
 			avahi_dbus_chat($1_usertype)
@@ -854,15 +853,6 @@ template(`userdom_common_user_template',`
 			devicekit_dbus_chat($1_usertype)
 			devicekit_dbus_chat_power($1_usertype)
 			devicekit_dbus_chat_disk($1_usertype)
-		')
-
-		optional_policy(`
-			evolution_dbus_chat($1_usertype)
-			evolution_alarm_dbus_chat($1_usertype)
-		')
-
-		optional_policy(`
-			gnome_dbus_chat_gconfdefault($1_usertype)
 		')
 
 		optional_policy(`
@@ -892,6 +882,10 @@ template(`userdom_common_user_template',`
 	')
 
 	optional_policy(`
+		gpm_stream_connect($1_usertype)
+	')
+
+	optional_policy(`
 		inetd_use_fds($1_usertype)
 		inetd_rw_tcp_sockets($1_usertype)
 	')
@@ -915,16 +909,13 @@ template(`userdom_common_user_template',`
 	')
 
 	optional_policy(`
+		mta_role($1_r, $1_t)
 		mta_rw_spool($1_usertype)
 		mta_manage_queue($1_usertype)
 	')
 
 	optional_policy(`
 		mutt_role($1_r, $1_t)
-	')
-
-	optional_policy(`
-		nsplugin_role($1_r, $1_usertype)
 	')
 
 	optional_policy(`
@@ -971,7 +962,15 @@ template(`userdom_common_user_template',`
 	')
 
 	optional_policy(`
+		screen_role_template($1, $1_r, $1_t)
+	')
+
+	optional_policy(`
 		seunshare_role_template($1, $1_r, $1_t)
+	')
+
+	optional_policy(`
+		ssh_role_template($1, $1_r, $1_t)
 	')
 
 	optional_policy(`
@@ -1191,11 +1190,14 @@ template(`userdom_restricted_xwindows_user_template',`
 
 	dev_read_sound($1_usertype)
 	dev_write_sound($1_usertype)
+
+	# Which one is it?
 	dev_dontaudit_read_rand($1_usertype)
 	dev_read_rand($1_usertype)
 
 	dev_read_video_dev($1_usertype)
 	dev_write_video_dev($1_usertype)
+
 	dev_rw_wireless($1_usertype)
 
 	userdom_manage_user_audio_content($1_t)
@@ -1248,10 +1250,6 @@ template(`userdom_restricted_xwindows_user_template',`
 
 		gnome_manage_all_config($1_t)
 		gnome_relabel_all_config($1_t)
-
-		optional_policy(`
-			gnomeclock_dbus_chat($1_t)
-		')
 	')
 
 	# Seems like a bad idea.
@@ -1347,6 +1345,9 @@ template(`userdom_unpriv_user_template', `
 	# Local policy
 	#
 
+	fs_exec_noxattr($1_t)
+
+	# This is bad
 	corenet_tcp_bind_xserver_port($1_t)
 	corenet_sendrecv_xserver_server_packets($1_t)
 	corenet_tcp_bind_all_nodes($1_usertype)
@@ -1389,16 +1390,26 @@ template(`userdom_unpriv_user_template', `
 	')
 
 	optional_policy(`
+		evolution_role($1_r, $1_t)
+
+		optional_policy(`
+			evolution_dbus_chat($1_usertype)
+			evolution_alarm_dbus_chat($1_usertype)
+		')
+	')
+
+	optional_policy(`
 		games_role($1_r, $1_t)
 		games_rw_data($1_usertype)
 	')
 
 	optional_policy(`
-		gpg_role($1_r, $1_usertype)
+		gnome_dbus_chat_gconfdefault($1_usertype)
+		gnomeclock_dbus_chat($1_t)
 	')
 
 	optional_policy(`
-		gpm_stream_connect($1_usertype)
+		gpg_role($1_r, $1_usertype)
 	')
 
 	optional_policy(`
@@ -1426,6 +1437,10 @@ template(`userdom_unpriv_user_template', `
 	')
 
 	optional_policy(`
+		nsplugin_role($1_r, $1_usertype)
+	')
+
+	optional_policy(`
 		wine_role_template($1, $1_r, $1_t)
 	')
 
@@ -1442,6 +1457,10 @@ template(`userdom_unpriv_user_template', `
 	')
 
 	optional_policy(`
+		spamassassin_role($1_r, $1_t)
+	')
+
+	optional_policy(`
 		telepathy_role($1_r, $1_t)
 	')
 
@@ -1454,8 +1473,16 @@ template(`userdom_unpriv_user_template', `
 	')
 
 	optional_policy(`
+		tvtime_role($1_r, $1_t)
+	')
+
+	optional_policy(`
 		vino_role($1_r, $1_t)
 	')
+
+	optional_policy(`
+		xserver_role($1_r, $1_t)
+'	)
 ')
 
 #######################################
@@ -1574,13 +1601,6 @@ template(`userdom_admin_user_template',`
 	modutils_domtrans_depmod($1_t)
 	seutil_manage_src_policy($1_t)
 	seutil_manage_bin_policy($1_t)
-
-	userdom_manage_user_home_content_dirs($1_t)
-	userdom_manage_user_home_content_files($1_t)
-	userdom_manage_user_home_content_symlinks($1_t)
-	userdom_manage_user_home_content_pipes($1_t)
-	userdom_manage_user_home_content_sockets($1_t)
-	userdom_user_home_dir_filetrans_user_home_content($1_t, { dir file lnk_file fifo_file sock_file })
 
 	tunable_policy(`user_rw_noexattrfile',`
 		fs_manage_noxattr_fs_files($1_t)

@@ -134,26 +134,30 @@ userdom_getattr_all_user_home_content_files(thunderbird_t)
 userdom_dontaudit_read_user_home_content_files(thunderbird_t)
 
 tunable_policy(`thunderbird_read_content',`
+	userdom_list_user_tmp(thunderbird_t)
+	userdom_read_user_tmp_files(thunderbird_t)
 	userdom_list_user_home_content(thunderbird_t)
 	userdom_read_all_user_home_content_files(thunderbird_t)
+
+	ifndef(`enable_mls',`
+		fs_search_removable(thunderbird_t)
+		fs_read_removable_files(thunderbird_t)
+		fs_read_removable_symlinks(thunderbird_t)
+	')
 ')
 
 tunable_policy(`use_nfs_home_dirs',`
+	files_list_home(thunderbird_t)
 	fs_manage_nfs_dirs(thunderbird_t)
 	fs_manage_nfs_files(thunderbird_t)
 	fs_manage_nfs_symlinks(thunderbird_t)
 ')
 
 tunable_policy(`use_samba_home_dirs',`
+	files_list_home(thunderbird_t)
 	fs_manage_cifs_dirs(thunderbird_t)
 	fs_manage_cifs_files(thunderbird_t)
 	fs_manage_cifs_symlinks(thunderbird_t)
-')
-
-ifndef(`enable_mls',`
-	fs_search_removable(thunderbird_t)
-	fs_read_removable_files(thunderbird_t)
-	fs_read_removable_symlinks(thunderbird_t)
 ')
 
 optional_policy(`

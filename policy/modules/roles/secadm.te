@@ -59,10 +59,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	screen_role_template(secadm, secadm_r, secadm_t)
-')
-
-optional_policy(`
 	su_role_template(secadm, secadm_r, secadm_t)
 ')
 

@@ -79,116 +79,6 @@ ifndef(`enable_mls',`
 	logging_stream_connect_syslog(sysadm_t)
 ')
 
-ifndef(`distro_redhat',`
-	optional_policy(`
-		apache_role(sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		auth_role(sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		bluetooth_role(sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		cdrecord_role(sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		cron_admin_role(sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		dbus_role_template(sysadm, sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		evolution_role(sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		games_role(sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		gift_role(sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		gnome_role(sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		gpg_role(sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		irc_role(sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		java_role(sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		lockdev_role(sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		mozilla_role(sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		mplayer_role(sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		pyzor_role(sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		razor_role(sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		rssh_role(sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		spamassassin_role(sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		thunderbird_role(sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		tvtime_role(sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		uml_role(sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		userhelper_role_template(sysadm, sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		vmware_role(sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		wireshark_role(sysadm_r, sysadm_t)
-	')
-
-	optional_policy(`
-		xserver_role(sysadm_r, sysadm_t)
-	')
-')
-
 tunable_policy(`allow_ptrace',`
 	domain_ptrace_all_domains(sysadm_t)
 ')
@@ -274,10 +164,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	evolution_role(sysadm_r, sysadm_t)
-')
-
-optional_policy(`
 	firstboot_run(sysadm_t, sysadm_r)
 ')
 
@@ -320,7 +206,6 @@ optional_policy(`
 
 optional_policy(`
 	lpd_run_checkpc(sysadm_t, sysadm_r)
-	lpd_role(sysadm_r, sysadm_t)
 ')
 
 optional_policy(`
@@ -336,10 +221,6 @@ optional_policy(`
 optional_policy(`
 	mount_run(sysadm_t, sysadm_r)
 	mount_run_showmount(sysadm_t, sysadm_r)
-')
-
-optional_policy(`
-	mta_role(sysadm_r, sysadm_t)
 ')
 
 optional_policy(`
@@ -407,10 +288,6 @@ optional_policy(`
 ')
 
 optional_policy(`
-	screen_role_template(sysadm, sysadm_r, sysadm_t)
-')
-
-optional_policy(`
 	secadm_role_change(sysadm_r)
 ')
 
@@ -421,10 +298,6 @@ optional_policy(`
 
 optional_policy(`
 	shutdown_run(sysadm_t, sysadm_r)
-')
-
-optional_policy(`
-	ssh_role_template(sysadm, sysadm_r, sysadm_t)
 ')
 
 optional_policy(`
