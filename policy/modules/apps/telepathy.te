@@ -146,11 +146,11 @@ corenet_raw_sendrecv_generic_node(tp_domains)
 corenet_tcp_bind_generic_node(tp_domains)
 corenet_tcp_sendrecv_generic_if(tp_domains)
 corenet_tcp_sendrecv_generic_node(tp_domains)
-corenet_tcp_sendrecv_generic_port(tp_domains)
+corenet_tcp_sendrecv_all_ports(tp_domains)
 corenet_udp_bind_generic_node(tp_domains)
 corenet_udp_sendrecv_generic_if(tp_domains)
 corenet_udp_sendrecv_generic_node(tp_domains)
-corenet_udp_sendrecv_generic_port(tp_domains)
+corenet_udp_sendrecv_all_ports(tp_domains)
 
 fs_search_auto_mountpoints(tp_domains)
 
